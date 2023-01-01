@@ -1,5 +1,5 @@
 import { Round } from "../types/prizes";
-import { supabaseQuery } from "./supabaseClient";
+import { supabaseQuery } from "./supabase-client";
 
 const ROUND_TABLE = "evaluations";
 
