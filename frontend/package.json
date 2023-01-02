@@ -10,13 +10,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.2",
+    "@mui/x-date-pickers": "^5.0.12",
     "@plasmicapp/loader-nextjs": "^1.0.204",
     "@supabase/supabase-js": "^2.1.2",
+    "dayjs": "^1.11.7",
+    "formik": "^2.2.9",
+    "formik-mui": "^5.0.0-alpha.0",
+    "formik-mui-x-date-pickers": "^0.0.1",
+    "lodash": "^4.17.21",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-use": "^17.4.0",
-    "serve": "^14.0.1"
+    "serve": "^14.0.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
