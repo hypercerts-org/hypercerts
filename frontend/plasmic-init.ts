@@ -1,7 +1,14 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { ClientGrid } from "./components/client-grid";
 import { HypercertCreateForm } from "./components/hypercert-create";
-import { FormField, FormError, FormTextField, FormDatePicker, FormSelect } from "./components/forms";
+import {
+  FormField,
+  FormError,
+  FormTextField,
+  FormSelect,
+  FormDatePicker,
+  FormDropZone,
+} from "./components/forms";
 
 const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
 const PLASMIC_PROJECT_API_TOKEN = process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
@@ -92,7 +99,7 @@ PLASMIC.registerComponent(FormTextField, {
     fieldName: "string",
     label: "string",
     placeholder: "string",
-    multiline: "boolean",
+    rows: "number",
   },
   importPath: "./components/forms",
 });
@@ -116,6 +123,17 @@ PLASMIC.registerComponent(FormDatePicker, {
   props: {
     fieldName: "string",
     label: "string",
+    showUndefined: "boolean",
+    defaultUndefined: "boolean",
+  },
+  importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(FormDropZone, {
+  name: "FormDropZone",
+  props: {
+    fieldName: "string",
+    children: "slot",
   },
   importPath: "./components/forms",
 });

@@ -24,6 +24,7 @@
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-use": "^17.4.0",
     "serve": "^14.0.1",
     "yup": "^0.32.11"
