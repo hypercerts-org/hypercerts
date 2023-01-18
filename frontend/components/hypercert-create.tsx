@@ -127,6 +127,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         validateOnMount={true}
         validate={(values) => {
           // TODO: updateQueryString(values);
+          console.log(values);
         }}
         initialValues={{
           ...DEFAULT_FORM_DATA,
@@ -136,7 +137,8 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         onSubmit={async (values, { setSubmitting }) => {
           setTimeout(() => {
             console.log("!!!");
-            alert(JSON.stringify(values, null, 2));
+            console.log(values);
+            //alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 400);
         }}
