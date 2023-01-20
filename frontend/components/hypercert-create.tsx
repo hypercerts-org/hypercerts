@@ -155,8 +155,8 @@ const ValidationSchema = Yup.object().shape({
     .max(NAME_MAX_LENGTH, `Name must be at most ${NAME_MAX_LENGTH} characters`)
     .required("Required"),
   description: Yup.string()
-    .min(DESCRIPTION_MIN_LENGTH, `Name must be at least ${DESCRIPTION_MIN_LENGTH} characters`)
-    .max(DESCRIPTION_MAX_LENGTH, `Name must be at most ${DESCRIPTION_MAX_LENGTH} characters`)
+    .min(DESCRIPTION_MIN_LENGTH, `Description must be at least ${DESCRIPTION_MIN_LENGTH} characters`)
+    .max(DESCRIPTION_MAX_LENGTH, `Description must be at most ${DESCRIPTION_MAX_LENGTH} characters`)
     .required("Required"),
   externalLink: Yup.string()
     .required("Required")
