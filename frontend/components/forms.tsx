@@ -15,6 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 //import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Dropzone from 'react-dropzone'
+import dayjs from "dayjs";
 
 /**
  * Constants
@@ -192,9 +193,11 @@ export interface FormDatePickerProps {
   defaultUndefined?: boolean;  // Set undefined by default
 }
 
+export const DATE_INDEFINITE = "indefinite";
+export type DateIndefinite = "indefinite";
 export function FormDatePicker(props: FormDatePickerProps) {
   const { className, fieldName, label, showUndefined, defaultUndefined } = props;
-  const [ dateUndefined, setDateUndefined ] = React.useState<boolean>(defaultUndefined ?? false);
+  const [ dateUndefined, setDateUndefinedRaw ] = React.useState<boolean>(!!defaultUndefined);
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -207,6 +210,25 @@ export function FormDatePicker(props: FormDatePickerProps) {
     formikProps.touched[fieldName] &&
     !!formikProps.errors[fieldName];
   const errorMessage = hasError ? formikProps.errors[fieldName] : undefined; 
+
+  // Setter for the checkbox
+  const setDateUndefined = (v: boolean) => {
+    setDateUndefinedRaw(v);
+    if (v) {
+      formikProps?.setFieldValue(fieldName, DATE_INDEFINITE, true);
+    } else {
+      formikProps?.setFieldValue(fieldName, dayjs(), true);
+    }
+  };
+
+  // The data can be set from form initial values (e.g. from query string)
+  // so we check for that here and set the checkbox state if so
+  const fromFormData = formikProps?.values[fieldName];
+  React.useEffect(() => {
+    if (fromFormData === DATE_INDEFINITE) {
+      setDateUndefined(true);
+    }
+  }, [fromFormData]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -230,15 +252,10 @@ export function FormDatePicker(props: FormDatePickerProps) {
         }}
         control={
           <Checkbox
-            defaultChecked={defaultUndefined}
+            checked={dateUndefined}
             value={dateUndefined}
             onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
               setDateUndefined(evt.target.checked);
-              if (evt.target.checked) {
-                formikProps?.setFieldValue(fieldName, null, true);
-              } else {
-                formikProps?.setFieldValue(fieldName, new Date(), true);
-              }
             }}
           />
         }
