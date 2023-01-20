@@ -15,10 +15,11 @@ const PLASMIC_PROJECT_API_TOKEN = process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISS
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
+    // Hypercerts DApp
     {
       id: PLASMIC_PROJECT_ID,
       token: PLASMIC_PROJECT_API_TOKEN,
-    }
+    },
   ],
   // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
@@ -73,6 +74,7 @@ PLASMIC.registerComponent(HypercertCreateForm, {
       },
     },
   },
+  providesData: true,
   importPath: "./components/hypercert-create",
 });
 
@@ -137,4 +139,3 @@ PLASMIC.registerComponent(FormDropZone, {
   },
   importPath: "./components/forms",
 });
-
