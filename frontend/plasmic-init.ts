@@ -1,8 +1,8 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import { ClientGrid } from "./components/client-grid";
-import { DappContext, DEFAULT_TEST_DATA } from "./components/dapp-context";
+import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import {
   FormField,
@@ -25,7 +25,7 @@ export const PLASMIC = initPlasmicLoader({
   // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
   preview: true,
-})
+});
 
 /**
  * Plasmic component registration
@@ -39,7 +39,7 @@ PLASMIC.registerComponent(ClientGrid, {
     method: {
       type: "choice",
       defaultValue: "getRounds",
-      options: [ "getRounds" ],
+      options: ["getRounds"],
     },
     children: {
       type: "slot",
@@ -70,41 +70,47 @@ PLASMIC.registerComponent(ClientGrid, {
   importPath: "./components/client-grid",
 });
 
-PLASMIC.registerComponent(dynamic(() => import("./components/dapp-context"), { ssr: false }), {
-  name: "DappContext",
-  description: "This must wrap anything that uses wallet functionality",
-  props: {
-    children: {
-      type: "slot",
-      defaultValue: {
-        type: "text",
-        value: "Placeholder",
+PLASMIC.registerComponent(
+  dynamic(() => import("./components/dapp-context"), { ssr: false }),
+  {
+    name: "DappContext",
+    description: "This must wrap anything that uses wallet functionality",
+    props: {
+      children: {
+        type: "slot",
+        defaultValue: {
+          type: "text",
+          value: "Placeholder",
+        },
       },
-    },
-    notConnected: {
-      type: "slot",
-      defaultValue: {
-        type: "text",
-        value: "Placeholder",
+      notConnected: {
+        type: "slot",
+        defaultValue: {
+          type: "text",
+          value: "Placeholder",
+        },
       },
+      showIfNotConnected: "boolean",
+      testData: {
+        type: "object",
+        defaultValue: DEFAULT_TEST_DATA,
+      },
+      useTestData: "boolean",
     },
-    showIfNotConnected: "boolean",
-    testData: {
-      type: "object",
-      defaultValue: DEFAULT_TEST_DATA,
-    },
-    useTestData: "boolean",
-  },
-  providesData: true,
-  importPath: "./components/dapp-context",
-});
+    providesData: true,
+    importPath: "./components/dapp-context",
+  }
+);
 
-PLASMIC.registerComponent(dynamic(() => import("./components/connect-wallet"), { ssr: false }), {
-  name: "ConnectWallet",
-  description: "The connect wallet button",
-  props: {},
-  importPath: "./components/connect-wallet",
-});
+PLASMIC.registerComponent(
+  dynamic(() => import("./components/connect-wallet"), { ssr: false }),
+  {
+    name: "ConnectWallet",
+    description: "The connect wallet button",
+    props: {},
+    importPath: "./components/connect-wallet",
+  }
+);
 
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
