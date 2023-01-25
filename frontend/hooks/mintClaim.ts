@@ -15,13 +15,7 @@ import { BigNumber } from "ethers";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 
-export const useMintClaim = ({
-  onComplete,
-  enabled,
-}: {
-  onComplete?: () => void;
-  enabled: boolean;
-}) => {
+export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [cidUri, setCidUri] = useState<string>();
   const [units, setUnits] = useState<number>();
 
@@ -38,12 +32,10 @@ export const useMintClaim = ({
     metaData: HypercertMetadata,
     units: number
   ) => {
-    if (enabled) {
-      setUnits(units);
-      setStep("uploading");
-      const cid = await storeMetadata(metaData);
-      setCidUri(cid);
-    }
+    setUnits(units);
+    setStep("uploading");
+    const cid = await storeMetadata(metaData);
+    setCidUri(cid);
   };
 
   const parseError = useParseBlockchainError();
@@ -101,7 +93,6 @@ export const useMintClaim = ({
       setStep("complete");
       onComplete?.();
     },
-    enabled,
   });
 
   useEffect(() => {

@@ -3784,10 +3784,10 @@
   resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-protocol/-/hypercerts-protocol-0.0.8.tgz#2de0a98d8b5558963ef1c1990fead88ee91dbcfa"
   integrity sha512-nhKpEaDI7YUYjPQ0KBIyZDZtm5DJ6BE/DW6B72xja9SeHQojWLOoQWBLUCZX9SAoCSf2i/txn0O2YkIX2zrpFw==
 
-"@network-goods/hypercerts-sdk@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-sdk/-/hypercerts-sdk-0.0.14.tgz#c49ad04c51d19084a234d528e56e9bca906b5642"
-  integrity sha512-V1vDZYQHDzRKBiG5WKkZJL0V9MqFeA4WnVxuEgYnGka7YQquHJ2y+BvtCXV4rQdDL+eHeGrfgJyXKSqHFiJWdw==
+"@network-goods/hypercerts-sdk@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-sdk/-/hypercerts-sdk-0.0.16.tgz#370c9690427f729c32a63631a66be539124db3cf"
+  integrity sha512-QkXlx8cwrMg3wNU77/3AQKO1tKzTJq+I3FkX5F6jGVD2xOsE7UJFAKdlvCZ8eR5YNPZJYVms0f3obdYah3Jq8g==
   dependencies:
     "@graphprotocol/client-add-source-name" latest
     "@graphprotocol/client-auto-pagination" latest
