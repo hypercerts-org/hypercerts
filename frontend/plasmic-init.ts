@@ -1,5 +1,8 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
+import dynamic from "next/dynamic";
+import CircularProgress from '@mui/material/CircularProgress';
 import { ClientGrid } from "./components/client-grid";
+import { DappContext, DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import {
   FormField,
@@ -9,9 +12,7 @@ import {
   FormDatePicker,
   FormDropZone,
 } from "./components/forms";
-
-const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
-const PLASMIC_PROJECT_API_TOKEN = process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
+import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -26,12 +27,18 @@ export const PLASMIC = initPlasmicLoader({
   preview: true,
 })
 
+/**
+ * Plasmic component registration
+ * https://docs.plasmic.app/learn/code-components-ref/
+ */
+
 PLASMIC.registerComponent(ClientGrid, {
   name: "ClientGrid",
+  description: "Calls a client method and shows the results",
   props: {
     method: {
       type: "choice",
-      defaultValue: "text",
+      defaultValue: "getRounds",
       options: [ "getRounds" ],
     },
     children: {
@@ -48,7 +55,7 @@ PLASMIC.registerComponent(ClientGrid, {
         value: "Loading...",
       },
     },
-    forceLoading: "boolean",
+    testLoading: "boolean",
     count: "number",
   },
   defaultStyles: {
@@ -63,8 +70,45 @@ PLASMIC.registerComponent(ClientGrid, {
   importPath: "./components/client-grid",
 });
 
+PLASMIC.registerComponent(dynamic(() => import("./components/dapp-context"), { ssr: false }), {
+  name: "DappContext",
+  description: "This must wrap anything that uses wallet functionality",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    notConnected: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    showIfNotConnected: "boolean",
+    testData: {
+      type: "object",
+      defaultValue: DEFAULT_TEST_DATA,
+    },
+    useTestData: "boolean",
+  },
+  providesData: true,
+  importPath: "./components/dapp-context",
+});
+
+PLASMIC.registerComponent(dynamic(() => import("./components/connect-wallet"), { ssr: false }), {
+  name: "ConnectWallet",
+  description: "The connect wallet button",
+  props: {},
+  importPath: "./components/connect-wallet",
+});
+
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
+  description: "Create a hypercert",
   props: {
     children: {
       type: "slot",
@@ -80,6 +124,7 @@ PLASMIC.registerComponent(HypercertCreateForm, {
 
 PLASMIC.registerComponent(FormError, {
   name: "FormError",
+  description: "Displays the error associated with fieldName",
   props: {
     fieldName: "string",
   },
@@ -88,6 +133,7 @@ PLASMIC.registerComponent(FormError, {
 
 PLASMIC.registerComponent(FormField, {
   name: "FormField",
+  description: "General purpose form field that accepts an arbitrary input",
   props: {
     fieldName: "string",
     children: "slot",
@@ -97,6 +143,7 @@ PLASMIC.registerComponent(FormField, {
 
 PLASMIC.registerComponent(FormTextField, {
   name: "FormTextField",
+  description: "Textfield for forms",
   props: {
     fieldName: "string",
     label: "string",
@@ -108,6 +155,7 @@ PLASMIC.registerComponent(FormTextField, {
 
 PLASMIC.registerComponent(FormSelect, {
   name: "FormSelect",
+  description: "Select box for forms",
   props: {
     fieldName: "string",
     label: "string",
@@ -122,6 +170,7 @@ PLASMIC.registerComponent(FormSelect, {
 
 PLASMIC.registerComponent(FormDatePicker, {
   name: "FormDatePicker",
+  description: "Date picker for forms",
   props: {
     fieldName: "string",
     label: "string",
@@ -133,9 +182,17 @@ PLASMIC.registerComponent(FormDatePicker, {
 
 PLASMIC.registerComponent(FormDropZone, {
   name: "FormDropZone",
+  description: "DropZone for forms",
   props: {
     fieldName: "string",
     children: "slot",
   },
   importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(CircularProgress, {
+  name: "CircularProgress",
+  description: "Circular loading widget",
+  props: {},
+  importPath: "@mui/material/CircularProgress",
 });
