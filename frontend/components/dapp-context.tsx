@@ -1,13 +1,10 @@
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 
 import React, { ReactNode } from "react";
-import { PlasmicCanvasContext } from '@plasmicapp/loader-nextjs';
+import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { QueryClient } from "@tanstack/query-core";
 import { QueryClientProvider } from "@tanstack/react-query";
-import {
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import {
   configureChains,
   createClient,
@@ -15,21 +12,20 @@ import {
   useAccount,
   useNetwork,
   Chain,
-} from 'wagmi';
-import { mainnet, goerli, sepolia, optimism, hardhat } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-import { DataProvider } from '@plasmicapp/loader-nextjs';
-import { DEFAULT_CHAIN_ID } from '../lib/config';
+} from "wagmi";
+import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import { DEFAULT_CHAIN_ID } from "../lib/config";
+import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
 const queryClient = new QueryClient({});
 const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
-const { provider, webSocketProvider, chains } = configureChains(
-  ALL_CHAINS,
-  [publicProvider()]
-);
+const { provider, webSocketProvider, chains } = configureChains(ALL_CHAINS, [
+  publicProvider(),
+]);
 
 const { connectors } = getDefaultWallets({
   appName: "Hypercerts",
@@ -42,7 +38,6 @@ const wagmiClient = createClient({
   webSocketProvider,
   connectors,
 });
-
 
 export interface DappContextData {
   myAddress?: string;
@@ -59,12 +54,12 @@ export const DEFAULT_TEST_DATA: DappContextData = {
 };
 
 export interface DappContextProps {
-  className?: string;           // Plasmic CSS class
-  children?:  ReactNode;        // Shown by default or if wallet is connected
-  notConnected?:  ReactNode;    // Shown if wallet is not connected and `showIfNotConnected` is true
+  className?: string; // Plasmic CSS class
+  children?: ReactNode; // Shown by default or if wallet is connected
+  notConnected?: ReactNode; // Shown if wallet is not connected and `showIfNotConnected` is true
   showIfNotConnected?: boolean; // Show `notConnected` if wallet is not connected
-  testData?: DappContextData;   // Test data for
-  useTestData?: boolean;        //
+  testData?: DappContextData; // Test data for
+  useTestData?: boolean; //
 }
 
 export function DappContext(props: DappContextProps) {
@@ -80,17 +75,18 @@ export function DappContext(props: DappContextProps) {
   const inEditor = React.useContext(PlasmicCanvasContext);
   const { address } = useAccount();
   const { chain, chains } = useNetwork();
-  const data: DappContextData = useTestData && testData && inEditor
-    ? testData
-    : {
-      myAddress: address,
-      chain,
-      chains,
-      defaultChainId: DEFAULT_CHAIN_ID,
-    };
+  const data: DappContextData =
+    useTestData && testData && inEditor
+      ? testData
+      : {
+          myAddress: address,
+          chain,
+          chains,
+          defaultChainId: DEFAULT_CHAIN_ID,
+        };
 
   if (showIfNotConnected && !data.myAddress && notConnected) {
-    return (<div className={className}> { notConnected } </div>);
+    return <div className={className}> {notConnected} </div>;
   }
 
   return (
@@ -99,7 +95,9 @@ export function DappContext(props: DappContextProps) {
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider chains={chains}>
             <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
-              {children}
+              <ContractInteractionDialogProvider>
+                {children}
+              </ContractInteractionDialogProvider>
             </DataProvider>
           </RainbowKitProvider>
         </WagmiConfig>
