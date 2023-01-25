@@ -1,4 +1,4 @@
-import { formatAddress } from "../utils/formatting";
+import { formatAddress } from "../lib/formatting";
 
 export const headerLinkLabels = {
   airdrop: "Airdrop",
