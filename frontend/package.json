@@ -17,6 +17,7 @@
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
     "@network-goods/hypercerts-sdk": "0.0.16",
+    "@openzeppelin/merkle-tree": "^1.0.2",
     "@plasmicapp/loader-nextjs": "^1.0.204",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "@supabase/supabase-js": "^2.1.2",

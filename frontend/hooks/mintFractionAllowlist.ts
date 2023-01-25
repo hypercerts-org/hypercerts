@@ -1,44 +1,50 @@
-import { useEffect, useState } from "react";
-import {
-  HypercertMetadata,
-  storeMetadata,
-} from "@network-goods/hypercerts-sdk";
-import { useContractModal } from "../components/contract-interaction-dialog-context";
+import { BigNumber, BigNumberish } from "ethers";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { mintInteractionLabels } from "../content/chainInteractions";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { CONTRACT_ADDRESS } from "../lib/config";
-import { BigNumber } from "ethers";
-import { mintInteractionLabels } from "../content/chainInteractions";
+// import { HyperCertMinterFactory } from "@network-goods/hypercerts-sdk";
+import { CONTRACT_ADDRESS } from "../constants";
+import { useEffect, useState } from "react";
+import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { useToast } from "./toast";
 
-export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
+export const mintFractionAllowlist = ({
+  onComplete,
+  enabled,
+}: {
+  onComplete?: () => void;
+  enabled: boolean;
+}) => {
+  const { setStep, showModal } = useContractModal();
+
+  const parseBlockchainError = useParseBlockchainError();
   const toast = useToast();
 
-  const [cidUri, setCidUri] = useState<string>();
-  const [units, setUnits] = useState<number>();
+  const [_claimId, setClaimId] = useState<BigNumber>();
+  const [_units, setUnits] = useState<BigNumber>();
+  const [_proof, setProof] = useState<`0x{string}`[]>();
 
   const stepDescriptions = {
-    uploading: "Uploading metadata to ipfs",
-    writing: "Minting hypercert on-chain",
+    initial: "Initializing interaction",
+    writing: "Minting fraction",
     complete: "Done minting",
   };
 
-  const { setStep, showModal } = useContractModal();
-  const parseBlockchainError = useParseBlockchainError();
-
-  const initializeWrite = async (
-    metaData: HypercertMetadata,
-    units: number
+  const write = (
+    proof: string[],
+    claimId: BigNumberish,
+    units: BigNumberish
   ) => {
-    setUnits(units);
-    setStep("uploading");
-    const cid = await storeMetadata(metaData);
-    setCidUri(cid);
+    setClaimId(BigNumber.from(claimId));
+    setUnits(BigNumber.from(units));
+    setProof(proof as `0x{string}`[]);
+    setStep("initial");
+    showModal({ stepDescriptions });
   };
 
   const parseError = useParseBlockchainError();
@@ -50,14 +56,15 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    args: [BigNumber.from(units || 0), cidUri!, 2],
+    args: [_proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
-    functionName: "mintClaim",
+    functionName: "mintClaimFromAllowlist",
     onError: (error) => {
       parseError(error, "the fallback");
       toast({
         description: parseBlockchainError(
           error,
+
           mintInteractionLabels.toastError
         ),
         status: "error",
@@ -71,15 +78,19 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       });
       setStep("writing");
     },
-    enabled: !!cidUri && units !== undefined,
+    enabled:
+      enabled &&
+      _proof !== undefined &&
+      _claimId !== undefined &&
+      _units !== undefined,
   });
 
   const {
     data,
-    writeAsync,
     error: writeError,
     isError: isWriteError,
     isLoading: isLoadingContractWrite,
+    writeAsync,
   } = useContractWrite(config);
 
   const {
@@ -99,26 +110,18 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   });
 
   useEffect(() => {
-    const perform = async () => {
-      if (isReadyToWrite && writeAsync) {
-        await writeAsync();
-      }
-    };
-    perform();
+    if (isReadyToWrite) {
+      writeAsync?.();
+    }
   }, [isReadyToWrite]);
 
   return {
-    write: async (metaData: HypercertMetadata, units: number) => {
-      showModal({ stepDescriptions });
-      setStep("preparing");
-      await initializeWrite(metaData, units);
-    },
+    write,
     isLoading:
       isLoadingPrepareContractWrite ||
       isLoadingContractWrite ||
       isLoadingWaitForTransaction,
     isError: isPrepareError || isWriteError || isWaitError,
     error: prepareError || writeError || waitError,
-    isReadyToWrite,
   };
 };
