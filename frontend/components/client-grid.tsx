@@ -10,7 +10,7 @@ export interface ClientGridProps {
   method?: string;           // Which method to call off the client
   children?: ReactNode;     // ReactNode per element
   loadingChildren?: ReactNode; // ReactNode to show when loading
-  forceLoading?: boolean;   // Always show the loading state
+  testLoading?: boolean;   // Always show the loading state
   count?: number;           // Limit to `count` results
 }
 export function ClientGrid(props: ClientGridProps) {
@@ -19,7 +19,7 @@ export function ClientGrid(props: ClientGridProps) {
     method,
     children,
     loadingChildren,
-    forceLoading,
+    testLoading: forceLoading,
     count,
   } = props;
 

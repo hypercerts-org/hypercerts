@@ -1,0 +1,111 @@
+import '@rainbow-me/rainbowkit/styles.css';
+
+import React, { ReactNode } from "react";
+import { PlasmicCanvasContext } from '@plasmicapp/loader-nextjs';
+import { QueryClient } from "@tanstack/query-core";
+import { QueryClientProvider } from "@tanstack/react-query";
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import {
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useAccount,
+  useNetwork,
+  Chain,
+} from 'wagmi';
+import { mainnet, goerli, sepolia, optimism, hardhat } from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+import { DataProvider } from '@plasmicapp/loader-nextjs';
+import { DEFAULT_CHAIN_ID } from '../lib/config';
+
+const DAPP_CONTEXT_NAME = "DappContext";
+
+const queryClient = new QueryClient({});
+const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
+const { provider, webSocketProvider, chains } = configureChains(
+  ALL_CHAINS,
+  [publicProvider()]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: "Hypercerts",
+  chains,
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  provider,
+  webSocketProvider,
+  connectors,
+});
+
+
+export interface DappContextData {
+  myAddress?: string;
+  defaultChainId?: string;
+  chain?: Chain;
+  chains?: Chain[];
+}
+
+export const DEFAULT_TEST_DATA: DappContextData = {
+  myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f",
+  defaultChainId: "5",
+  chain: goerli,
+  chains: ALL_CHAINS,
+};
+
+export interface DappContextProps {
+  className?: string;           // Plasmic CSS class
+  children?:  ReactNode;        // Shown by default or if wallet is connected
+  notConnected?:  ReactNode;    // Shown if wallet is not connected and `showIfNotConnected` is true
+  showIfNotConnected?: boolean; // Show `notConnected` if wallet is not connected
+  testData?: DappContextData;   // Test data for
+  useTestData?: boolean;        //
+}
+
+export function DappContext(props: DappContextProps) {
+  const {
+    className,
+    children,
+    notConnected,
+    showIfNotConnected,
+    testData,
+    useTestData,
+  } = props;
+
+  const inEditor = React.useContext(PlasmicCanvasContext);
+  const { address } = useAccount();
+  const { chain, chains } = useNetwork();
+  const data: DappContextData = useTestData && testData && inEditor
+    ? testData
+    : {
+      myAddress: address,
+      chain,
+      chains,
+      defaultChainId: DEFAULT_CHAIN_ID,
+    };
+
+  if (showIfNotConnected && !data.myAddress && notConnected) {
+    return (<div className={className}> { notConnected } </div>);
+  }
+
+  return (
+    <div className={className}>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains}>
+            <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
+              {children}
+            </DataProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
+    </div>
+  );
+}
+
+export default DappContext;

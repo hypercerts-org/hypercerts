@@ -18,8 +18,10 @@
     "@mui/x-date-pickers": "^5.0.12",
     "@network-goods/hypercerts-sdk": "^0.0.14",
     "@plasmicapp/loader-nextjs": "^1.0.204",
+    "@rainbow-me/rainbowkit": "^0.8.1",
     "@supabase/supabase-js": "^2.1.2",
     "dayjs": "^1.11.7",
+    "ethers": "^5.7.2",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
     "formik-mui-x-date-pickers": "^0.0.1",
@@ -32,6 +34,7 @@
     "react-dropzone": "^14.2.3",
     "react-use": "^17.4.0",
     "serve": "^14.0.1",
+    "wagmi": "^0.10.15",
     "yup": "^0.32.11"
   },
   "devDependencies": {
