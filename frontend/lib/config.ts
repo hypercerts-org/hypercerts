@@ -1,4 +1,3 @@
-
 export const requireEnv = (value: string | undefined, identifier: string) => {
   if (!value) {
     throw new Error(`Required env var ${identifier} does not exist`);
@@ -26,5 +25,11 @@ export const CONTRACT_ADDRESS = requireEnv(
   "NEXT_PUBLIC_CONTRACT_ADDRESS"
 ) as `0x${string}`;
 
+export const SHEET_BEST_ENDPOINT = requireEnv(
+  process.env.NEXT_PUBLIC_SHEET_BEST_ENDPOINT,
+  "NEXT_PUBLIC_SHEET_BEST_ENDPOINT"
+);
+
 export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
-export const PLASMIC_PROJECT_API_TOKEN = process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
+export const PLASMIC_PROJECT_API_TOKEN =
+  process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";

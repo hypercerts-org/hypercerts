@@ -1,6 +1,6 @@
-import { SHEET_BEST_ENDPOINT } from "../constants";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "./toast";
+import { SHEET_BEST_ENDPOINT } from "../lib/config";
 
 export const useImpactScopes = () => {
   const toast = useToast();

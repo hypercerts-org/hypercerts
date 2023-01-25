@@ -7,12 +7,12 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { CONTRACT_ADDRESS } from "../constants";
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { verifyFractionClaim } from "../lib/verify-fraction-claim";
 import { useToast } from "./toast";
+import { CONTRACT_ADDRESS } from "../lib/config";
 
 export const useBatchMintHyperCertificateAllowlistEntry = ({
   onComplete,

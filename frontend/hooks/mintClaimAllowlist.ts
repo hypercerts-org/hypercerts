@@ -2,12 +2,10 @@ import { BigNumber } from "ethers";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import {
-  useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { CONTRACT_ADDRESS, SHEET_BEST_ENDPOINT } from "../constants";
 import {
   HypercertMetadata,
   storeData,
@@ -18,8 +16,10 @@ import { useEffect, useState } from "react";
 import _ from "lodash";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "./toast";
+import { supabase } from "../lib/supabase-client";
+import { CONTRACT_ADDRESS } from "../lib/config";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[]
@@ -120,7 +120,7 @@ export const useMintClaimAllowlist = ({
     write,
   } = useContractWrite(config);
 
-  const { mutateAsync: addEligibility } = useSheetsAddEligibility();
+  const { mutateAsync: addEligibility } = useAddEligibility();
   const {
     isLoading: isLoadingWaitForTransaction,
     isError: isWaitError,
@@ -172,43 +172,32 @@ export const useMintClaimAllowlist = ({
   };
 };
 
-export const useSheetsAddEligibility = () => {
-  const url = `${SHEET_BEST_ENDPOINT}/tabs/MintEligibility`;
-
+export const useAddEligibility = () => {
   return useMutation(
-    ["add-sheets-eligibility"],
-    ({ claimId, addresses }: { claimId: string; addresses: string[] }) => {
-      const pairs = addresses.map((address) => ({ claim: claimId, address }));
-      return fetch(url, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pairs),
-      });
+    async ({
+      claimId,
+      addresses,
+    }: {
+      claimId: string;
+      addresses: string[];
+    }) => {
+      const pairs = addresses.map((address) => ({ claimId: claimId, address }));
+      return supabase
+        .from("eligibility")
+        .insert(pairs)
+        .then((data) => data.data);
     }
   );
 };
 
-export const useClaimEligibility = () => {
-  const { address } = useAccount();
-
-  return useQuery(
-    ["sheets", "claim-eligibility", address],
-    () =>
-      fetch(
-        `${SHEET_BEST_ENDPOINT}/tabs/MintEligibility/address/${address}`
-      ).then(
-        async (res) =>
-          (await res.json()) as { address: string; claim: string }[]
-      ),
-    {
-      cacheTime: Infinity,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      enabled: !!address,
+export const useRemoveEligibility = () => {
+  return useMutation(
+    async ({ claimIds, address }: { claimIds: string[]; address: string }) => {
+      return supabase
+        .from("eligibility")
+        .delete()
+        .is("address", address)
+        .in("claimId", claimIds);
     }
   );
 };

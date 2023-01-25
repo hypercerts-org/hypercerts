@@ -7,11 +7,11 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 // import { HyperCertMinterFactory } from "@network-goods/hypercerts-sdk";
-import { CONTRACT_ADDRESS } from "../constants";
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { useToast } from "./toast";
+import { CONTRACT_ADDRESS } from "../lib/config";
 
 export const mintFractionAllowlist = ({
   onComplete,
