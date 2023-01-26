@@ -15,3 +15,10 @@ Check back soon for more.
   - [on Fleek](https://hypercerts.on.fleek.co/)
   - [on Vercel](https://hypercerts.vercel.app)
   - [on Netlify](https://hypercerts.netlify.app/)
+
+## Setup
+
+1. Run `yarn install` in the root directory, which will install dependencies for all apps in the workspace
+2. Make sure the environment variables are set for `./frontend`. Take a look at `./frontend/.env.local.example` for the complete list.
+2. Run `yarn build` to build all apps
+
