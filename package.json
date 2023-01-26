@@ -1,5 +1,17 @@
 {
+  "workspaces": [
+    "docs/",
+    "frontend/"
+  ],
+  "scripts": {
+    "build": "turbo run build && yarn copy:docs",
+    "copy:docs": "mkdir -p ./frontend/out/docs/ && cp -r ./docs/build/* ./frontend/out/docs/",
+    "dev:frontend": "turbo run dev --filter=frontend --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
   "devDependencies": {
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "turbo": "^1.7.0"
   }
 }
