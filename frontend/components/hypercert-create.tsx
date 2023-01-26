@@ -33,6 +33,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   description: "",
   externalLink: "",
   logoUrl: "",
+  image: null,
   impactScopes: [] as string[],
   impactTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   impactTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
@@ -53,6 +54,7 @@ interface HypercertCreateFormData {
   name: string;
   description: string;
   externalLink: string;
+  image: File | null;
   logoUrl: string;
   impactScopes: string[];
   impactTimeStart?: string;
@@ -341,7 +343,7 @@ const formatValuesToMetaData = (
   const metaData = {
     name: val.name,
     description: val.description,
-    // image,
+    image: "",
     properties: claimData,
   };
 
