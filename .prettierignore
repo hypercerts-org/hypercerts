@@ -1,1 +1,15 @@
-frontend/.next
+# Dependencies
+pnp.*
+.yarn/
+.yarnrc.yml
+
+# Frameworks
+.turbo/
+.next/
+.docusaurus/
+
+# IDE
+.vscode/
+
+# Other
+data/
