@@ -16,9 +16,30 @@ Check back soon for more.
   - [on Vercel](https://hypercerts.vercel.app)
   - [on Netlify](https://hypercerts.netlify.app/)
 
-## Setup
+## Setup and build
 
-1. Run `yarn install` in the root directory, which will install dependencies for all apps in the workspace
-2. Make sure the environment variables are set for `./frontend`. Take a look at `./frontend/.env.local.example` for the complete list.
-2. Run `yarn build` to build all apps
+First, make sure the environment variables are set for `./frontend`.
+Take a look at `./frontend/.env.local.example` for the complete list.
+You can either set these yourself (e.g. in CI/CD) or copy the file to `.env.local` and populate it.
 
+
+Then the do a turbo build of all apps, run the following
+
+```bash
+yarn install
+yarn build
+```
+
+The resulting static site can be found in `./frontend/out/`.
+
+## Run
+
+### Running the frontend dev server
+
+```bash
+yarn dev:frontend
+```
+
+### Running the prod server
+
+If you've already run the build, you can use `yarn serve:build` to serve those files
