@@ -13,6 +13,7 @@ import {
   FormDropZone,
 } from "./components/forms";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
+import { HypercertMetadataFetcher } from "./components/hypercert-metadata-fetcher";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -111,6 +112,31 @@ PLASMIC.registerComponent(
     importPath: "./components/connect-wallet",
   }
 );
+
+PLASMIC.registerComponent(HypercertMetadataFetcher, {
+  name: "HypercertMetadataFetcher",
+  description: "Client-side fetch metadata from IPFS",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    loading: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    ignoreLoading: "boolean",
+    cid: "string",
+  },
+  providesData: true,
+  importPath: "./components/hypercert-metadata-fetcher",
+});
 
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
