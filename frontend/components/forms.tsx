@@ -198,6 +198,16 @@ export type DateIndefinite = "indefinite";
 export function FormDatePicker(props: FormDatePickerProps) {
   const { className, fieldName, label, showUndefined, defaultUndefined } = props;
   const [ dateUndefined, setDateUndefinedRaw ] = React.useState<boolean>(!!defaultUndefined);
+  const formikProps = React.useContext(FormContext);
+
+  // The data can be set from form initial values (e.g. from query string)
+  // so we check for that here and set the checkbox state if so
+  const fromFormData = formikProps?.values[fieldName ?? ""];
+  React.useEffect(() => {
+    if (fromFormData === DATE_INDEFINITE) {
+      setDateUndefined(true);
+    }
+  }, [fromFormData]);
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -205,7 +215,6 @@ export function FormDatePicker(props: FormDatePickerProps) {
   }
 
   // Retrieve the FormikProps in a workaround context to get the errors
-  const formikProps = React.useContext(FormContext);
   const hasError = formikProps && 
     formikProps.touched[fieldName] &&
     !!formikProps.errors[fieldName];
@@ -220,15 +229,6 @@ export function FormDatePicker(props: FormDatePickerProps) {
       formikProps?.setFieldValue(fieldName, dayjs(), true);
     }
   };
-
-  // The data can be set from form initial values (e.g. from query string)
-  // so we check for that here and set the checkbox state if so
-  const fromFormData = formikProps?.values[fieldName];
-  React.useEffect(() => {
-    if (fromFormData === DATE_INDEFINITE) {
-      setDateUndefined(true);
-    }
-  }, [fromFormData]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

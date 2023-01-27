@@ -22,11 +22,6 @@ export function ClientGrid(props: ClientGridProps) {
     testLoading: forceLoading,
     count,
   } = props;
-
-  if (!method) {
-    return <>Invalid method</>;
-  }
-
   const client = useContext(ClientContext);
   const results = useAsync(async () => {
     switch (method) {
@@ -37,7 +32,9 @@ export function ClientGrid(props: ClientGridProps) {
     }
   }, []);
 
-  if (results.loading || !results.value || forceLoading) {
+  if (!method) {
+    return <>Invalid method</>;
+  } else if (results.loading || !results.value || forceLoading) {
     return <>loadingChildren</>;
   }
 

@@ -4,6 +4,7 @@ import { supabaseQuery } from "./supabase-client";
 const ROUND_TABLE = "evaluations";
 
 export type ClientConfig = {
+  // eslint-disable-line
 };
 
 export default class Client {

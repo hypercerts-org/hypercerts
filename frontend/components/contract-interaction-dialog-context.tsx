@@ -11,9 +11,9 @@ interface IContractInteractionModalProvider {
 
 const ContractInteractionDialogContext =
   React.createContext<IContractInteractionModalProvider>({
-    showModal: () => {},
-    setStep: () => {},
-    hideModal: () => {},
+    showModal: () => {}, // eslint-disable-line
+    setStep: () => {}, // eslint-disable-line
+    hideModal: () => {}, // eslint-disable-line
   });
 
 export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({

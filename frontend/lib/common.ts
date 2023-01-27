@@ -12,7 +12,7 @@ import {
  */
 export function ensure<T>(x: T | null | undefined, msg: string): T {
   if (x === null || x === undefined) {
-    debugger;
+    debugger; // eslint-disable-line
     throw new NullOrUndefinedValueError(
       `Value must not be undefined or null${msg ? `- ${msg}` : ""}`
     );
@@ -32,7 +32,7 @@ export function assert<T>(
   msg = "Assertion failed"
 ): asserts cond {
   if (!cond) {
-    debugger;
+    debugger; // eslint-disable-line
     throw new AssertionError(msg);
   }
 }
