@@ -218,6 +218,7 @@ PLASMIC.registerComponent(FormDropZone, {
   props: {
     fieldName: "string",
     children: "slot",
+    accept: "string",
   },
   importPath: "./components/forms",
 });

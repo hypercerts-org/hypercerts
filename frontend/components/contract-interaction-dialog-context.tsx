@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useContext, useState } from "react";
-import { Dialog, DialogTitle, Typography } from "@mui/material";
+import { Box, Dialog, DialogTitle, Typography } from "@mui/material";
 
 type StepDescriptions = Record<string, string>;
 
@@ -47,15 +47,18 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
       {children}
       <Dialog open={showContractModal} onClose={onCloseModal}>
         <DialogTitle>Contract interaction</DialogTitle>
-        {Object.keys(stepDescriptions).map((key) => (
-          <Typography
-            key={key}
-            fontWeight={key === step ? 700 : 400}
-            color={key === step ? "green" : undefined}
-          >
-            {stepDescriptions[key]}
-          </Typography>
-        ))}
+
+        <Box sx={{ px: 3, pb: 3 }}>
+          {Object.keys(stepDescriptions).map((key) => (
+            <Typography
+              key={key}
+              fontWeight={key === step ? 700 : 400}
+              color={key === step ? "green" : undefined}
+            >
+              {stepDescriptions[key]}
+            </Typography>
+          ))}
+        </Box>
       </Dialog>
     </ContractInteractionDialogContext.Provider>
   );
