@@ -7,26 +7,27 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import {
+  getData,
   HypercertMetadata,
   storeData,
   storeMetadata,
 } from "@network-goods/hypercerts-sdk";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
-import _ from "lodash";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "./toast";
 import { supabase } from "../lib/supabase-client";
 import { CONTRACT_ADDRESS } from "../lib/config";
+import _ from "lodash";
 
 const generateAndStoreTree = async (
-  pairs: { address: string; fraction: number }[]
+  pairs: { address: string; fraction: number }[],
 ) => {
   const tree = StandardMerkleTree.of(
     pairs.map((p) => [p.address, p.fraction]),
-    ["address", "uint256"]
+    ["address", "uint256"],
   );
   const cid = await storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as `0x{string}` };
@@ -34,17 +35,15 @@ const generateAndStoreTree = async (
 
 export const useMintClaimAllowlist = ({
   onComplete,
-  enabled,
 }: {
   onComplete?: () => void;
-  enabled: boolean;
 }) => {
   const toast = useToast();
   const [cidUri, setCidUri] = useState<string>();
-  const [units, setUnits] = useState<number>();
+  const [_units, setUnits] = useState<number>();
   const [merkleRoot, setMerkleRoot] = useState<`0x{string}`>();
   const [pairs, setPairs] = useState<{ address: string; fraction: number }[]>(
-    []
+    [],
   );
 
   const stepDescriptions = {
@@ -58,24 +57,48 @@ export const useMintClaimAllowlist = ({
   const { setStep, showModal } = useContractModal();
   const parseBlockchainError = useParseBlockchainError();
 
-  const initializeWrite = async (
-    metaData: HypercertMetadata,
-    units: number,
-    pairs: { address: string; fraction: number }[]
-  ) => {
-    if (enabled) {
-      setUnits(units);
-      setStep("storeTree");
+  const initializeWrite = async ({
+    metaData,
+    allowlistUrl,
+    pairs,
+  }: {
+    metaData: HypercertMetadata;
+    allowlistUrl?: string;
+    pairs?: { address: string; fraction: number }[];
+  }) => {
+    setStep("storeTree");
+    setStep("uploading");
+    if (pairs) {
+      // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
-      setStep("uploading");
       const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
       setCidUri(cid);
       setMerkleRoot(root);
       setPairs(pairs);
+      setUnits(_.sum(pairs.map((x) => x.fraction)));
       await addEligibility({
         claimId: "A",
         addresses: pairs.map(({ address }) => address),
       });
+    }
+    if (allowlistUrl) {
+      // Download existing tree to determine total number of units
+      setCidUri(allowlistUrl);
+      const treeResponse = await getData(allowlistUrl);
+
+      if (!treeResponse) {
+        throw new Error("Could not fetch json tree dump for allowlist");
+      }
+
+      const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
+
+      let totalUnits = 0;
+      // Find the proof
+      for (const [, v] of tree.entries()) {
+        totalUnits += parseInt(v[1], 10);
+      }
+
+      setUnits(totalUnits);
     }
   };
 
@@ -87,7 +110,8 @@ export const useMintClaimAllowlist = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    args: [BigNumber.from(units || 0), merkleRoot!, cidUri!, 2],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    args: [BigNumber.from(_units || 0), merkleRoot!, cidUri!, 2],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
     onError: (error) => {
@@ -96,7 +120,7 @@ export const useMintClaimAllowlist = ({
         description: parseBlockchainError(
           error,
 
-          mintInteractionLabels.toastError
+          mintInteractionLabels.toastError,
         ),
         status: "error",
       });
@@ -109,7 +133,7 @@ export const useMintClaimAllowlist = ({
       });
       setStep("writing");
     },
-    enabled: !!cidUri && units !== undefined && merkleRoot !== undefined,
+    enabled: !!cidUri && _units !== undefined && merkleRoot !== undefined,
   });
 
   const {
@@ -127,13 +151,12 @@ export const useMintClaimAllowlist = ({
     error: waitError,
   } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess: async (x) => {
+    onSuccess: async () => {
       toast({
         description: mintInteractionLabels.toastSuccess("Success"),
         status: "success",
       });
       setStep("storingEligibility");
-      console.log(data, x);
       await addEligibility({
         claimId: "A",
         addresses: pairs.map(({ address }) => address),
@@ -147,20 +170,25 @@ export const useMintClaimAllowlist = ({
     if (isReadyToWrite && write) {
       write();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, write]);
 
   return {
-    write: async (
-      metaData: HypercertMetadata,
-      pairs: { address: string; fraction: number }[]
-    ) => {
+    write: async ({
+      metaData,
+      allowlistUrl,
+      pairs,
+    }: {
+      metaData: HypercertMetadata;
+      allowlistUrl?: string;
+      pairs?: { address: string; fraction: number }[];
+    }) => {
       showModal({ stepDescriptions });
       setStep("preparing");
-      await initializeWrite(
+      await initializeWrite({
         metaData,
-        _.sum(pairs.map((p) => p.fraction)),
-        pairs
-      );
+        pairs,
+        allowlistUrl,
+      });
     },
     isLoading:
       isLoadingPrepareContractWrite ||
@@ -186,7 +214,7 @@ export const useAddEligibility = () => {
         .from("eligibility")
         .insert(pairs)
         .then((data) => data.data);
-    }
+    },
   );
 };
 
@@ -198,6 +226,6 @@ export const useRemoveEligibility = () => {
         .delete()
         .is("address", address)
         .in("claimId", claimIds);
-    }
+    },
   );
 };

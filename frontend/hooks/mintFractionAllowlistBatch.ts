@@ -45,7 +45,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     setStep("proofs");
 
     const results = await Promise.all(
-      claimIds.map((claimId) => verifyFractionClaim(claimId, address))
+      claimIds.map((claimId) => verifyFractionClaim(claimId, address)),
     );
 
     setClaimIds(results.map((x) => BigNumber.from(x.claimIDContract)));
@@ -62,6 +62,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [_proofs!, _claimIds!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "batchMintClaimsFromAllowlists",
@@ -71,7 +72,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
         description: parseBlockchainError(
           error,
 
-          mintInteractionLabels.toastError
+          mintInteractionLabels.toastError,
         ),
         status: "error",
       });
@@ -117,7 +118,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     if (isReadyToWrite) {
       writeAsync?.();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeAsync]);
 
   return {
     write,

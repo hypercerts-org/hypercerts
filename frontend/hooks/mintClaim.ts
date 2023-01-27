@@ -33,7 +33,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
 
   const initializeWrite = async (
     metaData: HypercertMetadata,
-    units: number
+    units: number,
   ) => {
     setUnits(units);
     setStep("uploading");
@@ -50,6 +50,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [BigNumber.from(units || 0), cidUri!, 2],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",
@@ -58,7 +59,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       toast({
         description: parseBlockchainError(
           error,
-          mintInteractionLabels.toastError
+          mintInteractionLabels.toastError,
         ),
         status: "error",
       });
@@ -105,7 +106,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       }
     };
     perform();
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeAsync]);
 
   return {
     write: async (metaData: HypercertMetadata, units: number) => {

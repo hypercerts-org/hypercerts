@@ -13,7 +13,7 @@ import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
 
-export const mintFractionAllowlist = ({
+export const useMintFractionAllowlist = ({
   onComplete,
   enabled,
 }: {
@@ -38,7 +38,7 @@ export const mintFractionAllowlist = ({
   const write = (
     proof: string[],
     claimId: BigNumberish,
-    units: BigNumberish
+    units: BigNumberish,
   ) => {
     setClaimId(BigNumber.from(claimId));
     setUnits(BigNumber.from(units));
@@ -56,6 +56,7 @@ export const mintFractionAllowlist = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [_proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaimFromAllowlist",
@@ -65,7 +66,7 @@ export const mintFractionAllowlist = ({
         description: parseBlockchainError(
           error,
 
-          mintInteractionLabels.toastError
+          mintInteractionLabels.toastError,
         ),
         status: "error",
       });
@@ -113,7 +114,7 @@ export const mintFractionAllowlist = ({
     if (isReadyToWrite) {
       writeAsync?.();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeAsync]);
 
   return {
     write,
