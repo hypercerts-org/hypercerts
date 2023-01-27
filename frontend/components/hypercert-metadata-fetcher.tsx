@@ -22,7 +22,7 @@ export function HypercertMetadataFetcher(props: HypercertMetadataFetcherProps) {
     const querystring = window.location.search.replace("?", "");
     const q = qs.parse(querystring ?? "");
     const metadataCid = cid ?? q[QUERYSTRING_SELECTOR] as string;
-    if (!!metadataCid) {
+    if (metadataCid) {
       sdk.getMetadata(metadataCid).then(m => {
         console.log(m);
         setMetadata(m);

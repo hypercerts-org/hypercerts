@@ -29,7 +29,7 @@ export function ensure<T>(x: T | null | undefined, msg: string): T {
  */
 export function assert<T>(
   cond: T,
-  msg: string = "Assertion failed"
+  msg = "Assertion failed"
 ): asserts cond {
   if (!cond) {
     debugger;
