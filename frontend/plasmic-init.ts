@@ -14,6 +14,7 @@ import {
 } from "./components/forms";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { HypercertMetadataFetcher } from "./components/hypercert-metadata-fetcher";
+import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -100,7 +101,7 @@ PLASMIC.registerComponent(
     },
     providesData: true,
     importPath: "./components/dapp-context",
-  }
+  },
 );
 
 PLASMIC.registerComponent(
@@ -110,7 +111,7 @@ PLASMIC.registerComponent(
     description: "The connect wallet button",
     props: {},
     importPath: "./components/connect-wallet",
-  }
+  },
 );
 
 PLASMIC.registerComponent(HypercertMetadataFetcher, {
@@ -228,4 +229,14 @@ PLASMIC.registerComponent(CircularProgress, {
   description: "Circular loading widget",
   props: {},
   importPath: "@mui/material/CircularProgress",
+});
+
+PLASMIC.registerComponent(ClaimAllFractionsButton, {
+  name: "ClaimAllFractionsButton",
+  description: "Button that will claim all fractions upon clicking",
+  props: {
+    text: "string",
+    className: "string",
+  },
+  importPath: "./components/claim-all-fractions-button",
 });

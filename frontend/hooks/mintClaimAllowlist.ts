@@ -211,7 +211,7 @@ export const useAddEligibility = () => {
     }) => {
       const pairs = addresses.map((address) => ({ claimId: claimId, address }));
       return supabase
-        .from("eligibility")
+        .from("allowlistCache")
         .insert(pairs)
         .then((data) => data.data);
     },
@@ -222,7 +222,7 @@ export const useRemoveEligibility = () => {
   return useMutation(
     async ({ claimIds, address }: { claimIds: string[]; address: string }) => {
       return supabase
-        .from("eligibility")
+        .from("allowlistCache")
         .delete()
         .is("address", address)
         .in("claimId", claimIds);
