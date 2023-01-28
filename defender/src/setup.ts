@@ -6,9 +6,9 @@ const setup = async () => {
     throw new Error("No contract address specified");
   }
 
-  const autoTaskId = await createTask("add cache entries on allowlist mint");
+  const autoTask = await createTask("add cache entries on allowlist mint");
 
-  if (!autoTaskId) {
+  if (!autoTask) {
     throw new Error("Could not create auto task");
   }
 
@@ -16,7 +16,7 @@ const setup = async () => {
     "Create mint claim",
     contractAddress,
     "a",
-    autoTaskId,
+    autoTask.autotaskId,
   );
 };
 

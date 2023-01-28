@@ -1,6 +1,6 @@
 import { AutotaskClient } from "defender-autotask-client";
 import { apiKey, apiSecret } from "./config.js";
-import { WebhookTrigger } from "defender-autotask-client/lib/models/autotask.js";
+import { SentinelTrigger } from "defender-autotask-client/lib/models/autotask.js";
 
 const credentials = {
   apiKey,
@@ -15,15 +15,14 @@ export const createTask = async (name: string) => {
       "./build/relay/",
     ),
     paused: false,
-    trigger: { type: "webhook" } as WebhookTrigger,
+    trigger: { type: "sentinel" } as SentinelTrigger,
   };
 
   return await client
     .create(config)
     .then((res) => {
-      console.log(`Created autotask: `);
-      console.log(res);
-      return res.autotaskId;
+      console.log(`Created autotask: `, res.autotaskId);
+      return res;
     })
     .catch((error) => {
       console.error(error);

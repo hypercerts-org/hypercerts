@@ -321,7 +321,7 @@ export interface FormDropZoneProps {
 }
 
 export function FormDropZone(props: FormDropZoneProps) {
-  const { className, fieldName, children, accept = "" } = props;
+  const { className, fieldName, children, accept } = props;
   const formikProps = React.useContext(FormContext);
 
   // Developer error messages surfaced to the UI
@@ -338,7 +338,7 @@ export function FormDropZone(props: FormDropZoneProps) {
           onDrop={(acceptedFiles: any) => {
             formikProps?.setFieldValue(fieldName, acceptedFiles[0]);
           }}
-          accept={{ [accept]: [] }}
+          accept={accept ? { [accept]: [] } : {}}
         >
           {({ getRootProps, getInputProps }) => (
             <div {...getRootProps()} className={className}>

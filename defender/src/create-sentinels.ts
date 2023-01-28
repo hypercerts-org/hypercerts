@@ -1,7 +1,5 @@
-import * as protocol from "@network-goods/hypercerts-protocol";
 import { SentinelClient } from "defender-sentinel-client";
-
-const { HypercertMinterABI } = protocol;
+import { abi } from "./HypercertMinterABI.js";
 
 const credentials = {
   apiKey: process.env.ADMIN_API_KEY,
@@ -18,23 +16,23 @@ export const createMintClaimSentinel = async (
   await client
     .create({
       type: "BLOCK",
-      network: "mumbai",
+      network: "goerli",
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
       addresses: [address],
-      abi: JSON.stringify(HypercertMinterABI),
+      abi: abi,
       paused: false,
       eventConditions: [],
       functionConditions: [
-        { functionSignature: "createAllowlist(uint256,bytes32,string,enum)" },
+        { functionSignature: "createAllowlist(uint256,bytes32,string,uint8)" },
       ],
-      txCondition: "success",
       alertTimeoutMs: 0,
       notificationChannels: [notificationID],
+      autotaskTrigger: autotaskID,
     })
     .then((res) => {
-      console.log(`Created sentinel: `);
-      console.log(res);
+      console.log(`Created sentinel`, res.name);
+      return res;
     })
     .catch((error) => {
       console.error(error);
