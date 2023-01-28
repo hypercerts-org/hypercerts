@@ -1,6 +1,6 @@
-import { createTask } from "./create-autotasks";
-import { createMintClaimSentinel } from "./create-sentinels";
-import { contractAddress } from "./config";
+import { createTask } from "./create-autotasks.js";
+import { contractAddress } from "./config.js";
+import { createMintClaimSentinel } from "./create-sentinels.js";
 const setup = async () => {
   if (!contractAddress) {
     throw new Error("No contract address specified");
@@ -8,14 +8,16 @@ const setup = async () => {
 
   const autoTaskId = await createTask("add cache entries on allowlist mint");
 
-  if (autoTaskId) {
-    await createMintClaimSentinel(
-      "Create mint claim",
-      contractAddress,
-      "a",
-      autoTaskId,
-    );
+  if (!autoTaskId) {
+    throw new Error("Could not create auto task");
   }
+
+  await createMintClaimSentinel(
+    "Create mint claim",
+    contractAddress,
+    "a",
+    autoTaskId,
+  );
 };
 
 setup();

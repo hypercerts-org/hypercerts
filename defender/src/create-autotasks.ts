@@ -1,14 +1,14 @@
 import { AutotaskClient } from "defender-autotask-client";
-import { WebhookTrigger } from "defender-autotask-client/lib/models/autotask";
-import { apiKey, apiSecret } from "./config";
+import { apiKey, apiSecret } from "./config.js";
+import { WebhookTrigger } from "defender-autotask-client/lib/models/autotask.js";
 
 const credentials = {
   apiKey,
   apiSecret,
 };
 
-const client = new AutotaskClient(credentials);
 export const createTask = async (name: string) => {
+  const client = new AutotaskClient(credentials);
   const config = {
     name,
     encodedZippedCode: await client.getEncodedZippedCodeFromFolder(

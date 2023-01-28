@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "\"NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node ./src/setup.ts\"",
@@ -22,5 +23,9 @@
     "dotenv": "^16.0.3",
     "rollup": "^3.11.0",
     "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4"
   }
 }

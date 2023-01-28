@@ -5,7 +5,7 @@ import typescript from "@rollup/plugin-typescript";
 import builtins from "builtin-modules";
 
 const config = {
-  input: "src/auto-tasks/addAllowlistEntriesToCache.ts",
+  input: "src/auto-tasks/addAllowlistEntriesToCache.js",
   output: {
     file: "build/relay/index.js",
     format: "cjs",
