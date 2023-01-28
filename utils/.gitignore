@@ -1,4 +1,5 @@
 # ignore local storage artifacts
+__pycache__/
 .DS_Store
 *.csv
 *.sql

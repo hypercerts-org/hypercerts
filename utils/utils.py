@@ -5,7 +5,8 @@ def datify(u):
     return datetime.fromtimestamp(u).strftime('%Y-%m-%d') if u else "Indefinite"
 
 def shorten_address(a):
-    if isinstance(str, a):
-        return a[:7]
+    # todo: build more robust handling
+    if isinstance(a, str):
+        return a[:5] + "..." + a[-3:]
     else:
         return "unknown"

@@ -7,7 +7,7 @@ This script takes a round ID and API_KEY (your API_KEY for querying TheGraph pro
 
 ## create_hypercerts_metadata.py
 This script takes as arguments:
-1. The path of a csv file created by `GetGrantsData.py` 
+1. The path of a csv file created by `get_grants_data.py` 
 2. A directory for exporting hypercerts metadata (as a json), eg, `../metadata/myround`
 It tranforms the data in the csv file into a metadata file (ready for uploading on IPFS) that stores all required hypercerts properties
 

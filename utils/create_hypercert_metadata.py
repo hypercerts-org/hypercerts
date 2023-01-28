@@ -2,32 +2,25 @@ from datetime import datetime
 import json
 import pandas as pd
 import sys
-from utils import datify
+from utils import datify, shorten_address
+
 
 OUT_DIR = "metadata/"
 
 def mapper(data):
 
     round_mapping = {
-        "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0": {
-            "name": "Climate Solutions",
-            "color": "0AAD72"
-        },
-        "0xd95a1969c41112cee9a2c931e849bcef36a16f4c": {
-            "name" : "Open Source Software",
-            "color": "00A9B7"
-        },
-        "0xe575282b376e3c9886779a841a2510f1dd8c2ce4": {
-            "name": "Ethereum Infrastructure",
-            "color": "FCB53B"
-        }
+        "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0": "Climate Solutions",
+        "0xd95a1969c41112cee9a2c931e849bcef36a16f4c": "Open Source Software",
+        "0xe575282b376e3c9886779a841a2510f1dd8c2ce4": "Ethereum Infrastructure"
     }
+
+    version          = "1.0.0"
 
     work_start_date  = 1663819200
     impact_end_date  = 0
-    collection       = "Gitcoin Alpha Round"
-    allowlist        = "ipfs://bafkreiaxdog4clqiitnarc4rrzpgdlcjsg6k2nr2n2t4thwklccza34ubi"
-    default_image    = "ipfs://bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi"
+    default_impact   = "all"
+    default_image    = "ipfs://bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi"    
 
     app_data         = data['application']
     project_data     = app_data['project']
@@ -41,32 +34,45 @@ def mapper(data):
     project_date     = int(str(project_data.get('createdAt', '1673829248'))[:10])
     project_icon     = "ipfs://" + project_data.get('logoImg', 'bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4')
     project_banner   = "ipfs://" + project_data.get('bannerImg', 'bafkreigkmcufguhakp4nbucca6d2rt7nw7ourdnkqfbs2gvsue4j4ohsly')
-    project_github   = project_data.get('projectGithub')
-    project_twitter  = project_data.get('projectTwitter')
 
-    project_funding  = answer_data[1].get('answer')
-    project_teamsize = answer_data[2].get('answer')
-
+    funding_platform = "Gitcoin Grants"
+    funding_round    = "Alpha Round"
     round_contract   = app_data['round']
-    round_name       = round_mapping[round_contract]['name']
-    #bg_color         = round_mapping[round_contract]['color']
+    matching_pool    = round_mapping[round_contract]
+
+    # todo: link work scopes to pre-assigned values
+    work_scope       = project_name[:35]
 
     return {
         "name": project_name,
         "description": project_descr,
         "external_url": project_url,
-        "image": default_image,        
-        #"background_color": bg_color,    
-        "properties": {
+        "image": project_icon,
+        "version": version,           
+        "properties": [
+           {
+                "trait_type": "Funding Platform", 
+                "value": funding_platform
+            },
+            {
+                "trait_type": "Funding Round", 
+                "value": funding_round
+            },
+            {   
+                "trait_type": "Matching Pool", 
+                "value": matching_pool
+            }
+        ],
+        "hypercert": {
             "impact_scope": {
                 "name": "Impact Scope",
-                "value": [round_name],
-                "display_value": round_name
+                "value": [default_impact],
+                "display_value": default_impact.title()
             },
             "work_scope": {
                 "name": "Work Scope",
-                "value": [project_name],
-                "display_value": project_name
+                "value": [work_scope],
+                "display_value": work_scope.title()
             },
             "work_timeframe": {
                 "name": "Work Timeframe",
@@ -80,21 +86,14 @@ def mapper(data):
             },
             "contributors": {
                 "name": "Contributors",
-                "value": project_address,
-                "display_value": project_address
+                "value": [project_address],
+                "display_value": shorten_address(project_address)
             },
             "rights": {
                 "name": "Rights",
-                "value": ["public-display", "-transfers"],
+                "value": ["public display", "-transfers"],
                 "display_value": "Public display"
             },
-        },
-        "hidden_properties": {
-            "version": "1.0.0",
-            "collection": collection,
-            "icon": project_icon,
-            "banner": project_banner,
-            "allowlist": allowlist
         }
     }
 
