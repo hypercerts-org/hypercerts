@@ -1,0 +1,6 @@
+# ignore local storage artifacts
+.DS_Store
+*.csv
+*.sql
+*.pickle
+metadata/

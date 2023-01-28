@@ -4,6 +4,10 @@ import requests
 import pandas as pd
 import sys
 
+
+# Directory for keeping csv files returned by the module
+OUT_DIR = 'csv/'
+
 # Gitcoin Round Manager subgraph ID on The Graph
 SUBGRAPH = "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr"
 ROUNDS = {
@@ -37,7 +41,7 @@ def get_round_data(round_id, api_key):
     }
     }
     '''
-    #Query TheGraph API for the round's data by POST request
+    # Query TheGraph API for the round's data by POST request
     response = requests.post(url, json={'query': query})
     data = response.json()
 
@@ -107,10 +111,10 @@ def dataframe_to_sql(df, file_path):
 
 
 def main(round_name, api_key):
-    #Get the current time
+    # Get the current time
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
 
-    #Pull the Data from TheGraph and save it to a dataframe
+    # Pull the Data from TheGraph and save it to a dataframe
     round_id = ROUNDS.get(round_name)
     df = get_round_data(round_id, api_key)
 
@@ -119,13 +123,9 @@ def main(round_name, api_key):
     df['recipient'] = df['ipfs_data'].apply(lambda x: x["application"]["recipient"])
     df['title'] = df['ipfs_data'].apply(lambda x: x["application"]["project"]["title"])
    
-    #Construct names for files that will be saved
-    csv_file_name = '{}_{}_data.csv'.format(current_time, round_name)
-    sql_file_name = '{}_{}_data.sql'.format(current_time, round_name) 
-
-    # Save The Data 
+    # Save the data as a CSV file
+    csv_file_name = '{}{}_{}_data.csv'.format(OUT_DIR, current_time, round_name)
     df.to_csv(csv_file_name, index=False)
-    dataframe_to_sql(df, sql_file_name)
 
 
 if __name__ == "__main__":
@@ -140,5 +140,4 @@ if __name__ == "__main__":
             main(round_name, api_key)
             print("\n\nDone!")        
     else:
-        print("Enter API key followed by a Round ID")
-
+        print("Enter API key followed by a valid round name")
