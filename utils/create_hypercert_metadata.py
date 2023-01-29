@@ -6,6 +6,21 @@ from utils import datify, shorten_address
 
 
 OUT_DIR = "metadata/"
+with open("canonical_project_list.json", "r") as j:
+    PROJECTS_DB = json.load(j)
+
+
+def verify_project(project_round, project_title, project_address):
+    """
+    Verify if a project is active in a given Gitcoin Round
+    """
+    list_of_active_projects = PROJECTS_DB.get(project_round)
+    if list_of_active_projects:
+        for p in list_of_active_projects:
+            if p['title'] == project_title and p['address'] == project_address:
+                return True
+    return False
+
 
 def mapper(data):
 
@@ -42,6 +57,9 @@ def mapper(data):
 
     # todo: link work scopes to pre-assigned values
     work_scope       = project_name[:35]
+
+    if not verify_project(matching_pool, project_name, project_address):
+        return None
 
     return {
         "name": project_name,
@@ -108,19 +126,20 @@ def get_metadata(data):
 
 
 def parse_csv(csv_path, out_dir):
+    counter = 0
     df = pd.read_csv(csv_path)
-
-    for _, row in df.iterrows():
-        project_name = row['title']
+    for _, row in df.iterrows():        
         metadata = get_metadata(eval(row['ipfs_data']))
-        
-        filename = project_name.replace("/","-")
-        filename = filename if filename[0] != '.' else filename[1:]
-        out_path = f"{out_dir}/{filename}.json"
-        out_file = open(out_path, "w")
-        json.dump(metadata, out_file, indent=4)
-                
-        out_file.close()
+        if metadata:
+            project_name = metadata['name']
+            filename = project_name.replace("/","-").replace(":", "-")
+            filename = filename if filename[0] != '.' else filename[1:]
+            out_path = f"{out_dir}/{filename}.json"
+            out_file = open(out_path, "w")
+            json.dump(metadata, out_file, indent=4)                
+            out_file.close()
+            counter += 1
+    print(f"Created metadata for {counter} projects.")
 
 
 if __name__ == "__main__":
