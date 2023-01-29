@@ -35,10 +35,11 @@ def create_project_allowlist(dataframe, project_title, min_usd, func):
            .query("title == @project_title")
            .sort_values(by='usd', ascending=False)
            .reset_index(drop=True)
-            .dropna()
+           .dropna()
            .copy())
     dff['price'] = 0.0
     dff['fractions'] = dff['usd'].apply(lambda amt: func(amt, min_usd))
+    dff = dff[dff['fractions'] > 0]
     dff.rename(columns={'donor': 'address'}, inplace=True)
     dff.index.name='index'
     dff.drop(columns=['title', 'usd'], inplace=True)    
