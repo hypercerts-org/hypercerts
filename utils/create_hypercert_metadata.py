@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 import pandas as pd
 import sys
-from utils import datify, shorten_address
+from utils import create_project_filename, datify, shorten_address
 
 
 OUT_DIR = "metadata/"
@@ -160,9 +160,7 @@ def parse_csv(csv_path, out_dir):
         metadata = get_metadata(eval(row['ipfs_data']))
         if metadata:
             process_overrides(metadata, workscope_overrides_dict)
-            project_name = metadata['name']
-            filename = project_name.replace("/","-").replace(":", "-")
-            filename = filename if filename[0] != '.' else filename[1:]
+            filename = create_project_filename(metadata['name'])
             out_path = f"{out_dir}/{filename}.json"
             out_file = open(out_path, "w")
             json.dump(metadata, out_file, indent=4)                

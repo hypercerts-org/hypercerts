@@ -10,3 +10,8 @@ def shorten_address(a):
         return a[:5] + "..." + a[-3:]
     else:
         return "unknown"
+
+def create_project_filename(project_name):
+    filename = project_name.replace("/","-").replace(":", "-")
+    filename = filename if filename[0] != '.' else filename[1:]
+    return filename
