@@ -116,6 +116,33 @@ def mapper(data):
     }
 
 
+def ingest_workscope_overrides(csv_path='csv/workscope_overrides.csv'):
+    """
+    Override default work scopes using cleaner ones prepared by the team
+    Note: this is very brittle solution powered by a Notion DB!
+    """
+    override_data = pd.read_csv(csv_path)
+    overrides = {}
+    for _, row in override_data.iterrows():
+        project = row['project']
+        workscope = row['work_scope']
+        if workscope != project:
+            overrides.update({project:workscope})
+    return overrides
+
+
+def process_overrides(metadata, overrides):
+    project_name = metadata['name']
+    new_workscope = overrides.get(project_name)
+    if new_workscope:
+        print("Updating work scope for", project_name)
+        metadata['hypercert']['work_scope'].update(
+            {
+                'value': [new_workscope],
+                'display_value': new_workscope
+            })
+
+
 def get_metadata(data):
     try:
         return mapper(data)
@@ -128,9 +155,11 @@ def get_metadata(data):
 def parse_csv(csv_path, out_dir):
     counter = 0
     df = pd.read_csv(csv_path)
+    workscope_overrides_dict = ingest_workscope_overrides()
     for _, row in df.iterrows():        
         metadata = get_metadata(eval(row['ipfs_data']))
         if metadata:
+            process_overrides(metadata, workscope_overrides_dict)
             project_name = metadata['name']
             filename = project_name.replace("/","-").replace(":", "-")
             filename = filename if filename[0] != '.' else filename[1:]
