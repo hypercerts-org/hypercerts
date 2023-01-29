@@ -7,10 +7,8 @@ const credentials = {
 };
 
 export const client = new SentinelClient(credentials);
-export const createMintClaimSentinel = async (
-  name: string,
+export const createAllowlistCreatedSentinel = async (
   address: string,
-  notificationID: string,
   autotaskID: string,
 ) => {
   await client
@@ -18,16 +16,18 @@ export const createMintClaimSentinel = async (
       type: "BLOCK",
       network: "goerli",
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
-      name,
+      name: "AllowlistCreated",
       addresses: [address],
       abi: abi,
       paused: false,
-      eventConditions: [],
+      eventConditions: [
+        { eventSignature: "AllowlistCreated(uint256,bytes32)" },
+      ],
       functionConditions: [
-        { functionSignature: "createAllowlist(uint256,bytes32,string,uint8)" },
+        // { functionSignature: "createAllowlist(uint256,bytes32,string,uint8)" },
       ],
       alertTimeoutMs: 0,
-      notificationChannels: [notificationID],
+      notificationChannels: [],
       autotaskTrigger: autotaskID,
     })
     .then((res) => {

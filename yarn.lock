@@ -4511,7 +4511,7 @@
   resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-protocol/-/hypercerts-protocol-0.0.9.tgz#515ce10092515ee25036fdd627719954da2d7621"
   integrity sha512-C4CtUQf3F0sj48IgaNb/E5KanhxIeLA4e9fBR1xKcdf+DicZBxCYlWfzp4jyiEn7oo27Un0fZXhRgj4D4ZQH1A==
 
-"@network-goods/hypercerts-sdk@0.0.17":
+"@network-goods/hypercerts-sdk@0.0.17", "@network-goods/hypercerts-sdk@^0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-sdk/-/hypercerts-sdk-0.0.17.tgz#fd51c470badb12c9e75c4502cbc0a37781ce9129"
   integrity sha512-5c6H0N5MMzgVee8LXLc3VOZDp0K3k9K4bPUBsEjANEvj7uSZeebYEOLNYr8vG2ZEd+kWYY3+N03mgaUTMmdaxg==
@@ -9186,6 +9186,11 @@ defender-autotask-client@^1.38.0:
     jszip "^3.5.0"
     lodash "^4.17.19"
     node-fetch "^2.6.0"
+
+defender-autotask-utils@^1.38.0:
+  version "1.38.0"
+  resolved "https://registry.yarnpkg.com/defender-autotask-utils/-/defender-autotask-utils-1.38.0.tgz#7314260975f8f57db3a37d86203f18d6b4d7fbc5"
+  integrity sha512-2cBNgp3aNV0zqYicKto46Ou6kbLfsTBdSzDQDPkh/z6IH+wllh3o9kyuM0IY4ycuTMMoY14rHn710QhFXKv+OA==
 
 defender-base-client@1.38.0:
   version "1.38.0"
