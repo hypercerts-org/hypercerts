@@ -16,3 +16,23 @@ This script converts hypercerts metadata exported by `create_hypercerts_metadata
 This script has option arguments:
 1. The path to the metadata directory (deftaults to `metadata`)
 2. The name out the output file (defaults to `minting_urls.txt`)
+
+## allowlist.py
+This script ingests a list of CSV files generated from Dune Analytics queries. It generates a unique allowlist (exported as a CSV file) for each project. An allowlist contains the following information:
+| index | address | price | fractions | 
+| -------- | -------- | -------- | -------- | 
+| 0     | 0x... | 0.0 | 20 |
+| 1     | 0x... | 0.0 | 15 |
+| 99    | 0x... | 0.0 | 1 |
+
+The queries used to generate the allowlists can be viewed here:
+
+- ETH Infra: https://dune.com/queries/1934656
+- Climate: https://dune.com/queries/1934689
+- OSS: https://dune.com/queries/1934969
+
+The `allowlist.py` module makes assumptions about how amounts donated to each project translate into hypercert fractions. The current assumptions award a fraction for every $1 donated using a `floor` function. For example:
+
+- $5.60 donated --> 5 fractions
+- $5.20 donated --> 5 fractions
+- $0.52 donated --> 0 fractions
