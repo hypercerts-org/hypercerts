@@ -1,7 +1,7 @@
 ---
 title: Merging and splitting hypercerts
 id: merging-splitting
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Merging and splitting hypercerts
