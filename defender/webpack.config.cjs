@@ -2,10 +2,12 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/auto-tasks/on-allowlist-created.ts",
+  entry: {
+    'batch-mint-claims-from-allowlists': "./src/auto-tasks/batch-mint-claims-from-allowlists.ts",
+    'on-allowlist-created': "./src/auto-tasks/on-allowlist-created.ts"
+  },
   target: "node",
-  mode: "development",
-  devtool: "cheap-module-source-map",
+  mode: "production",
   module: {
     rules: [{ test: /\.tsx?$/, use: "ts-loader", exclude: /node_modules/ }],
   },
@@ -29,8 +31,9 @@ module.exports = {
     new webpack.IgnorePlugin({ resourceRegExp: /dotenv/ }),
   ],
   output: {
-    filename: "index.js",
-    path: path.resolve(__dirname, "build", "relay", "on-allowlist-created"),
+    filename: "[name]/index.js",
+    path: path.resolve(__dirname, "build", "relay"),
+    sourceMapFilename: '[file].map',
     library: { type: "commonjs2" },
   },
 };

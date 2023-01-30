@@ -2,8 +2,8 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -15,9 +15,9 @@
     "noImplicitAny": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": false,
-    "target": "es6"
+    "target": "es6",
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*"]
