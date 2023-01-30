@@ -21,41 +21,42 @@ def create_url(metadata):
     url += safe_url_attr('description', metadata['description'])
     url += safe_url_attr('name', metadata['name'])
 
-    work_time_start = datify(metadata['properties']['work_timeframe']['value'][0])
+    work_time_start = datify(metadata['hypercert']['work_timeframe']['value'][0])
     url += safe_url_attr('workTimeStart', work_time_start)
 
-    work_time_end = datify(metadata['properties']['work_timeframe']['value'][1])
+    work_time_end = datify(metadata['hypercert']['work_timeframe']['value'][1])
     url += safe_url_attr('workTimeEnd', work_time_end)
 
-    impact_time_start = datify(metadata['properties']['impact_timeframe']['value'][0])
+    impact_time_start = datify(metadata['hypercert']['impact_timeframe']['value'][0])
     url += safe_url_attr('impactTimeStart', impact_time_start)
 
-    impact_time_end = datify(metadata['properties']['impact_timeframe']['value'][1]).lower()
+    impact_time_end = datify(metadata['hypercert']['impact_timeframe']['value'][1]).lower()
     url += safe_url_attr('impactTimeEnd', impact_time_end)
 
-    for idx, right in enumerate(metadata['properties']['rights']['value']):
+    for idx, right in enumerate(metadata['hypercert']['rights']['value']):
         url += safe_url_attr(f"rights[{idx}]", right)
     
-    for idx, work_scope in enumerate(metadata['properties']['work_scope']['value']):
+    for idx, work_scope in enumerate(metadata['hypercert']['work_scope']['value']):
         url += safe_url_attr(f"workScopes[{idx}]", work_scope)
 
-    for idx, impact_scope in enumerate(metadata['properties']['impact_scope']['value']):
+    for idx, impact_scope in enumerate(metadata['hypercert']['impact_scope']['value']):
         url += safe_url_attr(f"impactScopes[{idx}]", impact_scope)
-    
-    contributors = metadata['properties']['contributors']['value']
-    url += safe_url_attr('contributors', contributors)
+
+    for idx, contributor in enumerate(metadata['hypercert']['contributors']['value']):
+        url += safe_url_attr(f"contributors[{idx}]", contributor)
 
     allowlist_url = metadata['hidden_properties']['allowlist']
     url += safe_url_attr('allowlistUrl', allowlist_url)
     
-    url += safe_url_attr('fractions', "10000")
+    url += safe_url_attr('fractions', "100000")
 
     return url
 
 
 def create_urls(metadata_dir, out_filename):
     grants_metadata = []
-    for file in os.scandir(metadata_dir):
+    files = [f for f in os.scandir(metadata_dir) if f.name[-5:] == ".json"]
+    for file in files:
         with open(file, 'r') as f:
             grants_metadata.append(json.loads(f.read()))
 

@@ -4,6 +4,7 @@ __pycache__/
 *.csv
 *.sql
 *.pickle
+*.txt
 allowlists/
 csv/
 metadata/
