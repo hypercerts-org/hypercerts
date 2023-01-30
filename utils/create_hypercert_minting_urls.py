@@ -4,11 +4,13 @@ import urllib.parse
 import os
 import json
 
-from utils import datify
+from utils import create_project_filename, datify
 
 
 METADATA_DIR = "metadata"
+METADATA_URL = "ipfs://bafybeifmds64eaiapzbtr3h7b4ahp5q7fnpgkzlyurmi2fcrlfjkc5chpq/"
 OUT_FILENAME = 'minting_urls.txt'
+MD_FILENAME  = 'project_urls.md'
 
 
 def safe_url_attr(name, value):
@@ -55,6 +57,30 @@ def create_url(metadata):
     return url
 
 
+def create_markdown(metadata, minting_url):
+
+    def parse_url(cid_with_fname):
+        url_base = "https://nftstorage.link/ipfs/"
+        cid_with_fname = cid_with_fname.replace("ipfs://", "")
+        cid_with_fname = urllib.parse.quote(cid_with_fname)
+        return url_base + cid_with_fname
+
+    name = metadata['name']
+    fname = create_project_filename(name)    
+    metadata_json = parse_url(f"{METADATA_URL}{fname}.json")
+    allowlist_csv = parse_url(metadata['hidden_properties']['allowlist'])
+    
+    return "\n".join([
+        f"## {name}",
+        f"- Gitcoin [Grant]({metadata['hidden_properties']['gitcoin_grant_url']})",
+        f"- Auto-generated [metadata]({metadata_json})",
+        f"- Allowlist [CSV file]({allowlist_csv})",
+        f"- Custom hypercert minting [url]({minting_url})",
+        "",
+        "***"
+    ])
+
+
 def create_urls(metadata_dir, out_filename):
     grants_metadata = []
     files = [f for f in os.scandir(metadata_dir) if f.name[-5:] == ".json"]
@@ -70,6 +96,12 @@ def create_urls(metadata_dir, out_filename):
     with open(out_filename, 'w') as f:
         for url in urls:
             f.write(f"{url}\n")
+
+    with open(MD_FILENAME, 'w') as f:
+        docstrings = []
+        for metadata, url in zip(grants_metadata, urls):
+            docstrings.append(create_markdown(metadata, url))
+        f.write("\n".join(docstrings))
 
     
 
