@@ -20,6 +20,8 @@ def create_url(metadata):
 
     url += safe_url_attr('description', metadata['description'])
     url += safe_url_attr('name', metadata['name'])
+    url += safe_url_attr('externalLink', metadata['external_url'])
+    url += safe_url_attr('logoUrl', metadata['hidden_properties']['project_icon'])
 
     work_time_start = datify(metadata['hypercert']['work_timeframe']['value'][0])
     url += safe_url_attr('workTimeStart', work_time_start)
