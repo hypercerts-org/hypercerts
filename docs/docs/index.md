@@ -16,7 +16,7 @@ Hypercerts are implemented as a new token standard for tracking and rewarding po
 - a set of rights you get by owning a hypercert
 The hypercert itself is an ERC-1155 semi-fungible token with the information above stored as metadata on IPFS. Here’s an example.
 
-![hypercert design example](/hypercerts/docs/static/img/hypercert_example.png)
+![hypercert design example](https://raw.githubusercontent.com/network-goods/hypercerts/main/docs/static/img/hypercert_example.png)
 
 ## Why should you care?
 We spend trillions of dollars every year on public goods via governmental agencies, foundations, private donations and corporate spendings; however, we don’t effectively track this work – leaving us in the dark, hoping that it actually has the intended positive impact.
