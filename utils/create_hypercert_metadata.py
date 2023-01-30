@@ -25,7 +25,7 @@ def verify_project(project_round, project_title, project_address):
     return False
 
 
-def mapper(data):
+def mapper(data, project_id):
 
     round_mapping = {
         "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0": "Climate Solutions",
@@ -58,6 +58,7 @@ def mapper(data):
     funding_round    = "Alpha Round"
     round_contract   = app_data['round']
     matching_pool    = round_mapping[round_contract]
+    grant_page_url   = f"https://grant-explorer.gitcoin.co/#/round/1/{round_contract}/{project_id}-{round_contract}"
 
     # todo: link work scopes to pre-assigned values
     work_scope       = project_name[:35]
@@ -120,7 +121,8 @@ def mapper(data):
         "hidden_properties": {
             "allowlist": allowlist_url,
             "project_banner": project_banner,
-            "project_icon": project_icon
+            "project_icon": project_icon,
+            "gitcoin_grant_url": grant_page_url
         }
     }
 
@@ -153,8 +155,13 @@ def process_overrides(metadata, overrides):
 
 
 def get_metadata(data):
-    try:
-        return mapper(data)
+    if isinstance(data['ipfs_data'], str):
+        ipfs_data = eval(data['ipfs_data'])
+    else:
+        ipfs_data = data['ipfs_data']
+    project_id = data['project_id']    
+    try:        
+        return mapper(ipfs_data, project_id)
     except Exception as e:
         print(data)
         print(e)
@@ -166,7 +173,7 @@ def parse_csv(csv_path, out_dir):
     df = pd.read_csv(csv_path)
     workscope_overrides_dict = ingest_workscope_overrides()
     for _, row in df.iterrows():        
-        metadata = get_metadata(eval(row['ipfs_data']))
+        metadata = get_metadata(row)
         if metadata:
             process_overrides(metadata, workscope_overrides_dict)
             filename = create_project_filename(metadata['name'])
