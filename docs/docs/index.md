@@ -4,66 +4,34 @@ id: intro
 sidebar_position: 1
 ---
 
-# Introduction to hypercert
+# Introduction
+## What is a hypercert?
 
 > *Hypercerts are a tool to build scalable retrospective reward systems for impact.*
 
+Hypercerts are implemented as a new token standard for tracking and rewarding positive impact. Each hypercert represents a unique impact claim capturing the following information:
+- a scope of work and its corresponding scope of impact
+- a set of time frames for both the work and its impact
+- a set of contributors – the organization or people behind the work
+- a set of rights you get by owning a hypercert
+The hypercert itself is an ERC-1155 semi-fungible token with the information above stored as metadata on IPFS. Here’s an example.
 
-Hypercerts are like carbon credits, but on any impact vector. While carbon credits are not perfect, they allow to reward projects for positive outcomes retrospectively, i.e. when these outcomes are observable. Hypercerts enable this for other impact areas, such as education, healthcare, AI safety and open source software.
+![hypercert design example](https://raw.githubusercontent.com/protocol/hypercerts/main/docs/static/img/hypercert_example.png)
 
-# Why retrospective funding based on hypercerts is needed
-* We currently don't have strong incentives for high-risk/high-potential public goods as many Impact Entrepreneurs are financed by grants that are based on costs instead of rewards that are increasing in the impact created.
-* Impact entrepreneurs jump from grant to grant, wasting their energy on raising money as they don't have recurring income streams to sustain and scale their operations.
-* Too much talent is wasted in profitable, low-impact work – we need to change the reward systems to attract more of that talent to building public goods.
+## Why should you care?
+We spend trillions of dollars every year on public goods via governmental agencies, foundations, private donations and corporate spendings; however, we don’t effectively track this work – leaving us in the dark, hoping that it actually has the intended positive impact.
+Instead…
 
-## Some Benefits for Stakeholders
-* **Contributors** use hypercerts to increase their impact's visibility, tangibility, and fundability. Contributions from multiple contributors become accountable easily.
-* **Funders** use hypercerts to increase transparency, reduce transaction costs, and increase visibility as well as managability of their portfolio.
-  * **Prospective Funders** use hypercerts to rapidly fund contributors early. Tracability and evaluations reduce transaction costs when exchanging impact in the form of hypercerts with retrospective funders.
-  * **Retrospective Funders** use hypercerts to buy evaluated impact with minimal transaction costs and under minimal uncertainty, knowing their funding enables a thriving impact ecosystem with low barriers of entry.
+- We should start by tracking this work, this is what hypercerts are for.
+- We should evaluate how impactful that work was, this is what the open evaluation system of hypercerts supports.
+- We should reward the work that was exceptionally impactful, this is what the public display of hypercerts and retrospective funding is for.
 
-## Potential Dynamics in a hypercert Ecosystem with Retrospective Funding
+Doing this would unfold powerful incentives. Retrospective funding 1) provides incentives for creators to take on public goods projects with a potentially high, but uncertain, impact, 2) enables feedback loops to learn from successes and failures, and 3) attracts more talent to the public goods sector by improving performance-based compensation.
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS0LrA1Boo3T7_sderpS2GtcmfxCl3A_zRqUqPODPyWp-kLclLlFyGEFCCChcsdkG0ry-yVLlqXM73b/embed?start=false&loop=false&delayms=3000" frameborder="0"  width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" class="slides"></iframe>
+While we are excited about the prospects of retrospective funding, hypercerts do not impose any specific funding mechanisms, but start with tracking of the work that is supposed to be impactful. As a database for many funding mechanisms this facilitates experimentation and interoperability between funding mechanisms.
 
-<p>
-&nbsp;
-</p>
+## Background
+Curious? Head over to [background](background) to dive deeper into the world of hypercerts!
 
-
-## How hypercerts work
-
-Each hypercert represents an impact claim described by these dimensions:
-* **Scope of Work**: What work has been or will be done?
-* **Time of Work**: When has the work been done or will it be done?
-* **Scope of Impact**: What has the work impacted or will impact?
-* **Time of Impact**: When has this impact occured or will occur?
-* **Rights**: What are the rights of the owners of the hypercert?
-
-These dimensions create the public goods hyperspace. Each hypercert is a claim to a subset of that space. This also means for example that a hypercert for a specific work doesn't need to include every impact that this work has had or will have. Itemizing impact increases transparency, reduces transaction costs and allows traceability.
-
-### Fractions
-Typical scenarios in impact funding require multiple contributors and funders working together. But it doesn't happen often enough. With hypercerts we want to make this easier. That is why hypercerts are semi-fungible and one of the first implementations of [EIP-3525](https://eips.ethereum.org/EIPS/eip-3525). Each hypercert can be split into multiple fractions of different sizes. Each of these fractions is an NFT ([EIP-721](https://eips.ethereum.org/EIPS/eip-721)) and hence compatible with other applications.
-
-### Application
-
-Check out the [user scenarios](/scenarios) to see how hypercerts can be used.
-
-### Concepts/Background
-Curious? Head over to [background](background)!
-
-
-# Project Status 
-
-- [x] Create theory & introduce concept ([Background](background))
-- [x] Set up launch team at [Protocol Labs](https://protocol.ai/)
-- [x] Create v0.2 of [hypercerts Protocol](https://github.com/Network-Goods/hypercerts-protocol)
-- [x] Pilot application
-- [ ] Rollout and application to various funding scenarios
-- [ ] Creating the tools for an open evaluation ecosystem for hypercerts
-- [ ] Building application for additional scenarios on top of the hypercert protocol
-- [ ] Developing the hypercert protocol further
-- [ ] ...
-
-> 💞 Want to work or interface with hypercerts at your project? Let's talk and revolutionize impact funding together! 
+> Want to work or interface with hypercerts at your project? Let's talk and change impact funding together!
 [hypercerts@protocol.ai](mailto:hypercerts@protocol.ai)
