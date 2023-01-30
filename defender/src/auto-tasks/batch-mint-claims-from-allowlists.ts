@@ -5,6 +5,7 @@ import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 import { abi } from "../HypercertMinterABI.js";
 import { contractAddress } from "../config.js";
+import fetch from "node-fetch";
 
 const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
 export const getData = async (cid: string) => {
@@ -15,8 +16,31 @@ export const getData = async (cid: string) => {
 };
 
 export async function handler(event: AutotaskEvent) {
+  const { SUPABASE_ANON_KEY, SUPABASE_URL, SUPABASE_EMAIL, SUPABASE_PASSWORD } =
+    event.secrets;
+
+  // TODO: Add authentication
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    global: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fetch: (...args) => fetch(...args),
+    },
+  });
+
+  const { error } = await client.auth.signInWithPassword({
+    email: SUPABASE_EMAIL,
+    password: SUPABASE_PASSWORD,
+    options: {},
+  });
+
+  if (error) {
+    console.log("Supabase authentication error", error.message);
+    throw new Error(error.message);
+  } else {
+    console.log("Logged in successfully to supabase");
+  }
   console.log("Event", event);
-  const { SUPABASE_ANON_KEY, SUPABASE_URL } = event.secrets;
   const match = event.request.body as SentinelTriggerEvent;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -44,9 +68,6 @@ export async function handler(event: AutotaskEvent) {
     (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,
   );
   console.log("Formatted claim ids", formattedClaimIds);
-
-  // TODO: Add authentication
-  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const deleteResult = await client
     .from("allowlistCache")

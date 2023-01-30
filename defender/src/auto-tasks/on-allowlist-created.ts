@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
 import axios from "axios";
+import fetch from "node-fetch";
 
 import { createClient } from "@supabase/supabase-js";
 import { abi } from "../HypercertMinterABI.js";
@@ -15,9 +16,32 @@ export const getData = async (cid: string) => {
 };
 
 export async function handler(event: AutotaskEvent) {
-  console.log(event);
   const { SUPABASE_ANON_KEY, SUPABASE_URL, SUPABASE_EMAIL, SUPABASE_PASSWORD } =
     event.secrets;
+
+  // TODO: Add authentication
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    global: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fetch: (...args) => fetch(...args),
+    },
+  });
+
+  const { error } = await client.auth.signInWithPassword({
+    email: SUPABASE_EMAIL,
+    password: SUPABASE_PASSWORD,
+    options: {},
+  });
+
+  if (error) {
+    console.log("Supabase authentication error", error.message);
+    throw new Error(error.message);
+  } else {
+    console.log("Logged in successfully to supabase");
+  }
+
+  console.log(event);
   const match = event.request.body as SentinelTriggerEvent;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -68,23 +92,6 @@ export async function handler(event: AutotaskEvent) {
     claimId: `${contractAddress}-${tokenId}`,
   }));
   console.log("pairs", pairs);
-
-  // TODO: Add authentication
-  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  // const { error } = await client.auth.signInWithPassword({
-  //   email: SUPABASE_EMAIL,
-  //   password: SUPABASE_PASSWORD,
-  //   options: {},
-  // });
-  //
-  // if (error) {
-  //   console.log("Supabase authentication error", error.message);
-  //   throw new Error(error.message);
-  //   return;
-  // } else {
-  //   console.log("Logged in successfully to supabase");
-  // }
 
   const addResult = await client
     .from("allowlistCache")

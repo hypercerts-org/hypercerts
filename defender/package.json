@@ -28,6 +28,8 @@
     "defender-autotask-utils": "^1.38.0",
     "defender-sentinel-client": "^1.38.0",
     "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.0",
+    "react-toastify": "^9.1.1",
     "rollup": "^3.11.0",
     "ts-node": "^10.9.1"
   },
