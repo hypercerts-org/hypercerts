@@ -9,6 +9,9 @@ OUT_DIR = "metadata/"
 with open("canonical_project_list.json", "r") as j:
     PROJECTS_DB = json.load(j)
 
+# IMPORTANT: make sure this is updated once the Gitcoin Round is locked
+ALLOWLIST_BASE_URL = "ipfs://bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm/"
+
 
 def verify_project(project_round, project_title, project_address):
     """
@@ -49,6 +52,7 @@ def mapper(data):
     project_date     = int(str(project_data.get('createdAt', '1673829248'))[:10])
     project_icon     = "ipfs://" + project_data.get('logoImg', 'bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4')
     project_banner   = "ipfs://" + project_data.get('bannerImg', 'bafkreigkmcufguhakp4nbucca6d2rt7nw7ourdnkqfbs2gvsue4j4ohsly')
+    allowlist_url    = ALLOWLIST_BASE_URL + create_project_filename(project_name) + ".csv"
 
     funding_platform = "Gitcoin Grants"
     funding_round    = "Alpha Round"
@@ -112,6 +116,11 @@ def mapper(data):
                 "value": ["public display", "-transfers"],
                 "display_value": "Public display"
             },
+        },
+        "hidden_properties": {
+            "allowlist": allowlist_url,
+            "project_banner": project_banner,
+            "project_icon": project_icon
         }
     }
 
