@@ -27,7 +27,6 @@ const setup = async () => {
     ),
   ]);
 
-  // TODO: Seems like you have to use the direct address, proxies don't work
   if (!contractAddress) {
     throw new Error("No contract address specified");
   }

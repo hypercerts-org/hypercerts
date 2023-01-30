@@ -7,7 +7,8 @@ module.exports = {
     'on-allowlist-created': "./src/auto-tasks/on-allowlist-created.ts"
   },
   target: "node",
-  mode: "production",
+  mode: "development",
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [{ test: /\.tsx?$/, use: "ts-loader", exclude: /node_modules/ }],
   },
