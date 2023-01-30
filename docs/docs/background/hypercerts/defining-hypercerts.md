@@ -6,31 +6,6 @@ sidebar_position: 1
 
 # Defining hypercerts
 
-| Definition: A hypercert is a semi-fungible token that accounts for work that is supposed to be impactful and represents all or parts of that impact. A hypercert has the following fields (one for each dimension):
-1. Set of contributors
-> An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
-
-2. Scope of work
-> A conjunction of potentially-negated work scope tags, where an empty string means “all”:
-<scope-of-work> ::= <scope-atom> AND <scope-of-work> | " "
-<scope-atom> ::= <scope-tag> | NOT <scope-tag>
-
-3. Time of work
-> A date range, from the start to the end of the work being claimed by this hypercert.
-
-4. Scope of impact
-> A conjunction of potentially-negated impact scope tags, where an empty string means “all”:
-<scope-of-impact> ::= <scope-atom> AND <scope-of-impact> | " "
-<scope-atom> ::= <scope-tag> | NOT <scope-tag>
-
-5. Time of impact
-> Date ranges from the start to the end of the impact.
-
-6. Rights of the owners
-> An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert. |
-
-|------|
-
 Importantly a hypercert does not specify the “size” of the impact, e.g. a hypercert does not state “5 tons of CO2 removed from the atmosphere.” Instead the hypercert only defines the work, e.g. “200 trees protected” (scope of work) in 2022 (time of work). The size of the impact is then left to the evaluations of the “CO2 in the atmosphere” (scope of impact) in 2022 (time of impact) that point towards the covered region of the hypercert. For instance: This allows a self evaluation to claim that 5 tons of CO2 were removed in a given year as well as one or multiple evaluations from independent auditors to confirm or challenge how much CO2 has been removed. An evaluator could detect that some of the trees were not healthy and hence only 4 tons of CO2 were removed. Allowing for multiple evaluation is a defining characteristic of the open evaluation system.
 
 In the simplest cases of hypercerts, the scope of work and impact as well as the time of impact are not restricted and no rights are transferred to owners of the hypercerts, i.e. the hypercerts just define the who (set of contributors) and when (time of work) of the claimed work. Scope of work and impact would be set to all, time of impact to “indefinite” and the rights to only “public display of support”. The latter is always included as the hypercert is a public record, such that owners will always automatically display their support of the work.

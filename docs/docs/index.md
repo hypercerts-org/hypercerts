@@ -5,11 +5,10 @@ sidebar_position: 1
 ---
 
 # Start here
-## What is a hypercert?
 
-> *Hypercerts are a tool to build scalable retrospective reward systems for impact.*
+### Hypercerts are a new token standard for tracking and rewarding positive impact.
 
-Hypercerts are implemented as a new token standard for tracking and rewarding positive impact. Each hypercert represents a unique impact claim capturing the following information:
+Each hypercert represents a unique impact claim capturing the following information:
 - a scope of work and its corresponding scope of impact
 - a set of time frames for both the work and its impact
 - a set of contributors – the organization or people behind the work
@@ -18,7 +17,7 @@ The hypercert itself is an ERC-1155 semi-fungible token with the information abo
 
 ![hypercert design example](https://raw.githubusercontent.com/network-goods/hypercerts/main/docs/static/img/hypercert_example.png)
 
-## Why should you care?
+### Why should you care?
 We spend trillions of dollars every year on public goods via governmental agencies, foundations, private donations and corporate spendings; however, we don’t effectively track this work – leaving us in the dark, hoping that it actually has the intended positive impact.
 Instead…
 
@@ -30,7 +29,7 @@ Doing this would unfold powerful incentives. Retrospective funding 1) provides i
 
 While we are excited about the prospects of retrospective funding, hypercerts do not impose any specific funding mechanisms, but start with tracking of the work that is supposed to be impactful. As a database for many funding mechanisms this facilitates experimentation and interoperability between funding mechanisms.
 
-## Background
+### Background
 Curious? Head over to [background](background) to dive deeper into the world of hypercerts!
 
 > Want to work or interface with hypercerts at your project? Let's talk and change impact funding together!
