@@ -1,7 +1,7 @@
 ---
 title: Papers, Articles, Presentations
 id: papers
-sidebar_position: 2
+sidebar_position: 20
 ---
 
 # Background
@@ -34,9 +34,9 @@ sidebar_position: 2
 ## Other resources
 
 Overview of some previous writings on impact certificates, retrospective funding and impact markets:
-* Christiano, Paul (2014) Certificates of impact, Rational Altruist, [https://rationalaltruist.com/2014/11/15/certificates-of-impact/](https://rationalaltruist.com/2014/11/15/certificates-of-impact/) 
-* Christiano, Paul & Katja Grace (2015) The Impact Purchase, [https://impactpurchase.org/why-certificates/](https://impactpurchase.org/why-certificates/) 
+* Christiano, Paul (2014) Certificates of impact, Rational Altruist, [https://rationalaltruist.com/2014/11/15/certificates-of-impact/](https://rationalaltruist.com/2014/11/15/certificates-of-impact/)
+* Christiano, Paul & Katja Grace (2015) The Impact Purchase, [https://impactpurchase.org/why-certificates/](https://impactpurchase.org/why-certificates/)
 * Optimism & Buterin, Vitalik (2021) Retroactive Public Goods Funding, [https://medium.com/ethereum-optimism/retroactive-public-goods-funding-33c9b7d00f0c](https://medium.com/ethereum-optimism/retroactive-public-goods-funding-33c9b7d00f0c)
-* Cotton-Barratt, Owen (2021), Impact Certificates and Impact Markets, Funding the Commons November 2021, [https://youtu.be/ZiDV56o5M7Q](https://youtu.be/ZiDV56o5M7Q) 
-* Drescher, Denis (2022) Towards Impact Markets, [https://forum.effectivealtruism.org/posts/7kqL4G5badqjskYQs/toward-impact-markets-1](https://forum.effectivealtruism.org/posts/7kqL4G5badqjskYQs/toward-impact-markets-1) 
-* Ofer & Cotton-Barratt, Owen (2022) Impact markets may incentivize predictably net-negative projects, [https://forum.effectivealtruism.org/posts/74rz7b8fztCsKotL6](https://forum.effectivealtruism.org/posts/74rz7b8fztCsKotL6) 
+* Cotton-Barratt, Owen (2021), Impact Certificates and Impact Markets, Funding the Commons November 2021, [https://youtu.be/ZiDV56o5M7Q](https://youtu.be/ZiDV56o5M7Q)
+* Drescher, Denis (2022) Towards Impact Markets, [https://forum.effectivealtruism.org/posts/7kqL4G5badqjskYQs/toward-impact-markets-1](https://forum.effectivealtruism.org/posts/7kqL4G5badqjskYQs/toward-impact-markets-1)
+* Ofer & Cotton-Barratt, Owen (2022) Impact markets may incentivize predictably net-negative projects, [https://forum.effectivealtruism.org/posts/74rz7b8fztCsKotL6](https://forum.effectivealtruism.org/posts/74rz7b8fztCsKotL6)
