@@ -73,7 +73,11 @@ export const useMintFractionAllowlistBatch = ({
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [_proofs!, (claimIds || []).map((x) => BigNumber.from(x)), _units!],
+    args: [
+      _proofs!,
+      (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
+      _units!,
+    ],
     abi: HyperCertMinterFactory.abi,
     functionName: "batchMintClaimsFromAllowlists",
     onError: (error) => {
@@ -142,10 +146,10 @@ export const useMintFractionAllowlistBatch = ({
 };
 
 export const useGetAllEligibility = (address: string) => {
-  return useQuery(["get-all-eligibility"], async () => {
+  return useQuery(["get-all-eligibility", address], async () => {
     return supabase
       .from("allowlistCache")
-      .select()
+      .select("*")
       .eq("address", address)
       .then((res) => res.data?.map((x) => x.claimId as string) || []);
   });

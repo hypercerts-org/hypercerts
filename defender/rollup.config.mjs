@@ -2,15 +2,15 @@ import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+
 import builtins from "builtin-modules";
 
-const config = {
-  input: "src/auto-tasks/addAllowlistEntriesToCache.ts",
+const createConfig = (fileName) => ({
+  input: `src/auto-tasks/${fileName}.ts`,
   output: {
-    file: "build/relay/index.js",
+    file: `build/relay/${fileName}/index.js`,
     format: "cjs",
     exports: "auto",
-    inlineDynamicImports: true
   },
   plugins: [
     typescript({
@@ -20,7 +20,9 @@ const config = {
       downlevelIteration: true,
     }),
     resolve({ preferBuiltins: true }),
-    commonjs(),
+    commonjs({
+      ignoreDynamicRequires: true,
+    }),
     json({ compact: true }),
   ],
   external: [
@@ -28,8 +30,17 @@ const config = {
     "ethers",
     "web3",
     "axios",
+    "crypto",
     /^defender-relay-client(\/.*)?$/,
   ],
-};
 
-export default config;
+})
+
+const files = [
+  'on-allowlist-created',
+  'batch-mint-claims-from-allowlists',
+]
+
+const configs = files.map(file => createConfig(file));
+
+export default configs;

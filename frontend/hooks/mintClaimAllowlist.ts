@@ -76,10 +76,6 @@ export const useMintClaimAllowlist = ({
       setMerkleRoot(root);
       setPairs(pairs);
       setUnits(_.sum(pairs.map((x) => x.fraction)));
-      await addEligibility({
-        claimId: "A",
-        addresses: pairs.map(({ address }) => address),
-      });
     }
     if (allowlistUrl) {
       // Download existing tree to determine total number of units

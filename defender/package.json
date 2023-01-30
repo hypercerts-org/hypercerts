@@ -21,6 +21,8 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
     "@supabase/supabase-js": "^2.4.1",
+    "axios": "^1.2.6",
+    "crypto": "^1.0.1",
     "defender-autotask-client": "^1.38.0",
     "defender-autotask-utils": "^1.38.0",
     "defender-sentinel-client": "^1.38.0",

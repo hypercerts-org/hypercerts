@@ -1,6 +1,6 @@
 import { createTask } from "./create-autotasks.js";
 import { apiKey, apiSecret, contractAddress } from "./config.js";
-import { createAllowlistCreatedSentinel } from "./create-sentinels.js";
+import { createSentinel } from "./create-sentinels.js";
 import { AutotaskClient } from "defender-autotask-client";
 import { SentinelClient } from "defender-sentinel-client";
 
@@ -32,13 +32,42 @@ const setup = async () => {
     throw new Error("No contract address specified");
   }
 
-  const autoTask = await createTask("add cache entries on allowlist mint");
-
-  if (!autoTask) {
-    throw new Error("Could not create auto task");
+  // On allowlist created
+  const autoTaskOnAllowlistCreated = await createTask(
+    "add cache entries on allowlist mint",
+    "on-allowlist-created",
+  );
+  if (!autoTaskOnAllowlistCreated) {
+    throw new Error("Could not create autoTask for on-allowlist-created");
   }
+  await createSentinel({
+    name: "AllowlistCreated",
+    address: contractAddress,
+    eventConditions: [{ eventSignature: "AllowlistCreated(uint256,bytes32)" }],
+    autotaskID: autoTaskOnAllowlistCreated.autotaskId,
+  });
 
-  await createAllowlistCreatedSentinel(contractAddress, autoTask.autotaskId);
+  // On batch minted
+  const autoTaskOnBatchMintClaimsFromAllowlists = await createTask(
+    "remove cache entries on batch mint",
+    "batch-mint-claims-from-allowlists",
+  );
+  if (!autoTaskOnBatchMintClaimsFromAllowlists) {
+    throw new Error(
+      "Could not create autoTask for batch-mint-claims-from-allowlists",
+    );
+  }
+  await createSentinel({
+    name: "batchMintClaimsFromAllowlists",
+    address: contractAddress,
+    autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
+    functionConditions: [
+      {
+        functionSignature:
+          "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
+      },
+    ],
+  });
 };
 
 setup();

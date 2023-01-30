@@ -7,12 +7,12 @@ const credentials = {
   apiSecret,
 };
 
-export const createTask = async (name: string) => {
+export const createTask = async (name: string, file: string) => {
   const client = new AutotaskClient(credentials);
   const config = {
     name,
     encodedZippedCode: await client.getEncodedZippedCodeFromFolder(
-      "./build/relay/",
+      `./build/relay/${file}`,
     ),
     paused: false,
     trigger: { type: "sentinel" } as SentinelTrigger,
