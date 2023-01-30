@@ -132,7 +132,7 @@ export const useMintFractionAllowlistBatch = ({
     if (isReadyToWrite) {
       writeAsync?.();
     }
-  }, [isReadyToWrite, writeAsync]);
+  }, [isReadyToWrite]);
 
   return {
     write,
@@ -150,7 +150,7 @@ export const useGetAllEligibility = (address: string) => {
     return supabase
       .from("allowlistCache")
       .select("*")
-      .eq("address", address)
+      .eq("address", address.toLowerCase())
       .then((res) => res.data?.map((x) => x.claimId as string) || []);
   });
 };

@@ -16,9 +16,7 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useMutation } from "@tanstack/react-query";
 import { useToast } from "./toast";
-import { supabase } from "../lib/supabase-client";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
 
@@ -106,8 +104,14 @@ export const useMintClaimAllowlist = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [BigNumber.from(_units || 0), merkleRoot!, cidUri!, 2],
+    args: [
+      BigNumber.from(_units || 0),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      merkleRoot!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      cidUri!,
+      transferRestrictions.AllowAll,
+    ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
     onError: (error) => {
@@ -140,7 +144,6 @@ export const useMintClaimAllowlist = ({
     write,
   } = useContractWrite(config);
 
-  const { mutateAsync: addEligibility } = useAddEligibility();
   const {
     isLoading: isLoadingWaitForTransaction,
     isError: isWaitError,
@@ -153,10 +156,6 @@ export const useMintClaimAllowlist = ({
         status: "success",
       });
       setStep("storingEligibility");
-      await addEligibility({
-        claimId: "A",
-        addresses: pairs.map(({ address }) => address),
-      });
       setStep("complete");
       onComplete?.();
     },
@@ -166,7 +165,7 @@ export const useMintClaimAllowlist = ({
     if (isReadyToWrite && write) {
       write();
     }
-  }, [isReadyToWrite, write]);
+  }, [isReadyToWrite]);
 
   return {
     write: async ({
@@ -196,32 +195,8 @@ export const useMintClaimAllowlist = ({
   };
 };
 
-export const useAddEligibility = () => {
-  return useMutation(
-    async ({
-      claimId,
-      addresses,
-    }: {
-      claimId: string;
-      addresses: string[];
-    }) => {
-      const pairs = addresses.map((address) => ({ claimId: claimId, address }));
-      return supabase
-        .from("allowlistCache")
-        .insert(pairs)
-        .then((data) => data.data);
-    },
-  );
-};
-
-export const useRemoveEligibility = () => {
-  return useMutation(
-    async ({ claimIds, address }: { claimIds: string[]; address: string }) => {
-      return supabase
-        .from("allowlistCache")
-        .delete()
-        .is("address", address)
-        .in("claimId", claimIds);
-    },
-  );
-};
+const transferRestrictions = {
+  AllowAll: 0,
+  FromCreatorOnly: 1,
+  DisallowAll: 2,
+} as const;

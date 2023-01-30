@@ -4,7 +4,6 @@ import axios from "axios";
 
 import { createClient } from "@supabase/supabase-js";
 import { abi } from "../HypercertMinterABI.js";
-import { contractAddress } from "../config.js";
 
 const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
 export const getData = async (cid: string) => {
@@ -15,14 +14,23 @@ export const getData = async (cid: string) => {
 };
 
 export async function handler(event: AutotaskEvent) {
-  console.log("Event", event);
+  // console.log("Event", event);
   const { SUPABASE_ANON_KEY, SUPABASE_URL } = event.secrets;
   const match = event.request.body as SentinelTriggerEvent;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const tokenId = match.matchReasons[0].params.tokenID as string;
+  console.log("TokenId", tokenId);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const fromAddress = match.transaction.from;
   console.log("From address", fromAddress);
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const contractAddress = match.matchedAddresses[0];
 
   const tx = await ethers
     .getDefaultProvider("goerli")
@@ -34,16 +42,10 @@ export async function handler(event: AutotaskEvent) {
     value: tx.value,
   });
 
-  const claimIds = decodedData.args["claimIDs"] as string[];
-  console.log("claimIds", claimIds);
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const contractAddress = match.matchedAddresses[0];
-  const formattedClaimIds = claimIds.map(
-    (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,
-  );
-  console.log("Formatted claim ids", formattedClaimIds);
+  const claimId = decodedData.args["claimID"] as string;
+  const formattedClaimId = `${contractAddress}-${claimId
+    .toString()
+    .toLowerCase()}`;
 
   // TODO: Add authentication
   const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -52,8 +54,7 @@ export async function handler(event: AutotaskEvent) {
     .from("allowlistCache")
     .delete()
     .eq("address", fromAddress)
-    .in("claimId", formattedClaimIds)
+    .eq("claimId", formattedClaimId)
     .select();
-
-  console.log("delete result", deleteResult);
+  console.log("Deleted", deleteResult);
 }
