@@ -23,12 +23,12 @@ The goal will be specific to the impact area, e.g. prevent existential risks fro
 </thead>
 <tbody>
   <tr>
-    <td class="tg-fymr">1. Contributors</td>
+    <td class="tg-fymr">Contributors</td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky">People or organizations who do the work</td>
   </tr>
   <tr>
-    <td class="tg-fymr" rowspan="2">2. Funders</td>
+    <td class="tg-fymr" rowspan="2">Funders</td>
     <td class="tg-0pky">Prospective funders</td>
     <td class="tg-0pky">People or organizations who fund work before it is done</td>
   </tr>
@@ -37,7 +37,7 @@ The goal will be specific to the impact area, e.g. prevent existential risks fro
     <td class="tg-0pky">People or organizations who fund work after it is done</td>
   </tr>
   <tr>
-    <td class="tg-fymr" rowspan="2">3. Evaluators</td>
+    <td class="tg-fymr" rowspan="2">Evaluators</td>
     <td class="tg-0pky">Scouts</td>
     <td class="tg-0pky">People or organizations who evaluate the potential impact of work before it is done</td>
   </tr>
@@ -46,7 +46,7 @@ The goal will be specific to the impact area, e.g. prevent existential risks fro
     <td class="tg-0pky">People or organizations who evaluate the impact of work after it is done</td>
   </tr>
   <tr>
-    <td class="tg-fymr">4. Beneficiaries</td>
+    <td class="tg-fymr">Beneficiaries</td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky">People or objects that are impacted by the work</td>
   </tr>
