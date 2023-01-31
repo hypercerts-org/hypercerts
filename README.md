@@ -6,6 +6,7 @@ Check back soon for more.
 
 - `/docs`: contains the documentation (Docusaurus)
 - `/frontend`: contains the frontend application (Next.js)
+- `/utils`: various scripts for operations
 - [SDK](https://github.com/Network-Goods/hypercerts-sdk)
 - [Smart contracts](https://github.com/Network-Goods/hypercerts-protocol)
 
