@@ -48,7 +48,7 @@ export const useMintClaimAllowlist = ({
     complete: "Done minting",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseBlockchainError = useParseBlockchainError();
 
   const initializeWrite = async ({
@@ -75,7 +75,11 @@ export const useMintClaimAllowlist = ({
       const treeResponse = await getData(allowlistUrl);
 
       if (!treeResponse) {
-        throw new Error("Could not fetch json tree dump for allowlist");
+        toast("Could not fetch json tree dump for allowlist", {
+          type: "error",
+        });
+        hideModal();
+        return;
       }
 
       const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
