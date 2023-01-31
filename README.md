@@ -13,9 +13,9 @@ Check back soon for more.
 ## Links
 
 - Hypercerts Dapp
-  - [on Fleek](https://hypercerts.on.fleek.co/)
-  - [on Vercel](https://hypercerts.vercel.app)
-  - [on Netlify](https://hypercerts.netlify.app/)
+  - [on Fleek](https://hypercerts.on.fleek.co/) - Production build on mainnet
+  - [on Vercel](https://hypercerts.vercel.app) - Staging build on Goerli
+  - [on Netlify](https://hypercerts.netlify.app/) - Staging build on Goerli
 
 ## Setup and build
 
