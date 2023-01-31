@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@network-goods/hypercerts-protocol": "^0.0.9",
-    "@network-goods/hypercerts-sdk": "^0.0.17",
+    "@network-goods/hypercerts-sdk": "0.0.18",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
