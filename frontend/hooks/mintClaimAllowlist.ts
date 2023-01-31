@@ -7,26 +7,25 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import {
+  getData,
   HypercertMetadata,
   storeData,
   storeMetadata,
 } from "@network-goods/hypercerts-sdk";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
-import _ from "lodash";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "./toast";
-import { supabase } from "../lib/supabase-client";
 import { CONTRACT_ADDRESS } from "../lib/config";
+import _ from "lodash";
+import { toast } from "react-toastify";
 
 const generateAndStoreTree = async (
-  pairs: { address: string; fraction: number }[]
+  pairs: { address: string; fraction: number }[],
 ) => {
   const tree = StandardMerkleTree.of(
     pairs.map((p) => [p.address, p.fraction]),
-    ["address", "uint256"]
+    ["address", "uint256"],
   );
   const cid = await storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as `0x{string}` };
@@ -34,49 +33,67 @@ const generateAndStoreTree = async (
 
 export const useMintClaimAllowlist = ({
   onComplete,
-  enabled,
 }: {
   onComplete?: () => void;
-  enabled: boolean;
 }) => {
-  const toast = useToast();
   const [cidUri, setCidUri] = useState<string>();
-  const [units, setUnits] = useState<number>();
+  const [_units, setUnits] = useState<number>();
   const [merkleRoot, setMerkleRoot] = useState<`0x{string}`>();
-  const [pairs, setPairs] = useState<{ address: string; fraction: number }[]>(
-    []
-  );
 
   const stepDescriptions = {
-    storeTree: "Generating and storing merkle tree",
     uploading: "Uploading metadata to ipfs",
+    preparing: "Preparing contract write",
     writing: "Minting hypercert on-chain",
     storingEligibility: "Storing eligibility",
     complete: "Done minting",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseBlockchainError = useParseBlockchainError();
 
-  const initializeWrite = async (
-    metaData: HypercertMetadata,
-    units: number,
-    pairs: { address: string; fraction: number }[]
-  ) => {
-    if (enabled) {
-      setUnits(units);
-      setStep("storeTree");
+  const initializeWrite = async ({
+    metaData,
+    allowlistUrl,
+    pairs,
+  }: {
+    metaData: HypercertMetadata;
+    allowlistUrl?: string;
+    pairs?: { address: string; fraction: number }[];
+  }) => {
+    setStep("uploading");
+    if (pairs) {
+      // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
-      setStep("uploading");
       const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
       setCidUri(cid);
       setMerkleRoot(root);
-      setPairs(pairs);
-      await addEligibility({
-        claimId: "A",
-        addresses: pairs.map(({ address }) => address),
-      });
+      setUnits(_.sum(pairs.map((x) => x.fraction)));
     }
+    if (allowlistUrl) {
+      // Download existing tree to determine total number of units
+      setCidUri(allowlistUrl);
+      const treeResponse = await getData(allowlistUrl);
+
+      if (!treeResponse) {
+        toast("Could not fetch json tree dump for allowlist", {
+          type: "error",
+        });
+        hideModal();
+        return;
+      }
+
+      const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
+
+      let totalUnits = 0;
+      // Find the proof
+      for (const [, v] of tree.entries()) {
+        totalUnits += parseInt(v[1], 10);
+      }
+
+      setMerkleRoot(tree.root as `0x{string}`);
+      setUnits(totalUnits);
+    }
+    setStep("Preparing");
   };
 
   const {
@@ -87,29 +104,26 @@ export const useMintClaimAllowlist = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    args: [BigNumber.from(units || 0), merkleRoot!, cidUri!, 2],
+    args: [
+      BigNumber.from(_units || 0),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      merkleRoot!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      cidUri!,
+      transferRestrictions.AllowAll,
+    ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
     onError: (error) => {
-      parseBlockchainError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
-          error,
-
-          mintInteractionLabels.toastError
-        ),
-        status: "error",
+      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+        type: "error",
       });
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
-    enabled: !!cidUri && units !== undefined && merkleRoot !== undefined,
+    enabled: !!cidUri && _units !== undefined && merkleRoot !== undefined,
   });
 
   const {
@@ -120,24 +134,17 @@ export const useMintClaimAllowlist = ({
     write,
   } = useContractWrite(config);
 
-  const { mutateAsync: addEligibility } = useAddEligibility();
   const {
     isLoading: isLoadingWaitForTransaction,
     isError: isWaitError,
     error: waitError,
   } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess: async (x) => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
+    onSuccess: async () => {
+      toast(mintInteractionLabels.toastSuccess, {
+        type: "success",
       });
       setStep("storingEligibility");
-      console.log(data, x);
-      await addEligibility({
-        claimId: "A",
-        addresses: pairs.map(({ address }) => address),
-      });
       setStep("complete");
       onComplete?.();
     },
@@ -150,17 +157,21 @@ export const useMintClaimAllowlist = ({
   }, [isReadyToWrite]);
 
   return {
-    write: async (
-      metaData: HypercertMetadata,
-      pairs: { address: string; fraction: number }[]
-    ) => {
+    write: async ({
+      metaData,
+      allowlistUrl,
+      pairs,
+    }: {
+      metaData: HypercertMetadata;
+      allowlistUrl?: string;
+      pairs?: { address: string; fraction: number }[];
+    }) => {
       showModal({ stepDescriptions });
-      setStep("preparing");
-      await initializeWrite(
+      await initializeWrite({
         metaData,
-        _.sum(pairs.map((p) => p.fraction)),
-        pairs
-      );
+        pairs,
+        allowlistUrl,
+      });
     },
     isLoading:
       isLoadingPrepareContractWrite ||
@@ -172,32 +183,8 @@ export const useMintClaimAllowlist = ({
   };
 };
 
-export const useAddEligibility = () => {
-  return useMutation(
-    async ({
-      claimId,
-      addresses,
-    }: {
-      claimId: string;
-      addresses: string[];
-    }) => {
-      const pairs = addresses.map((address) => ({ claimId: claimId, address }));
-      return supabase
-        .from("eligibility")
-        .insert(pairs)
-        .then((data) => data.data);
-    }
-  );
-};
-
-export const useRemoveEligibility = () => {
-  return useMutation(
-    async ({ claimIds, address }: { claimIds: string[]; address: string }) => {
-      return supabase
-        .from("eligibility")
-        .delete()
-        .is("address", address)
-        .in("claimId", claimIds);
-    }
-  );
-};
+const transferRestrictions = {
+  AllowAll: 0,
+  FromCreatorOnly: 1,
+  DisallowAll: 2,
+} as const;

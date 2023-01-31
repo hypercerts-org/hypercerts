@@ -28,7 +28,7 @@ const MISSING_FIELDNAME_ERROR = "Missing required `fieldName` prop";
  *   to Formik state (e.g. when using DatePicker from formik-mui)
  */
 export const FormContext = React.createContext<FormikProps<any> | undefined>(
-  undefined
+  undefined,
 );
 
 /**
@@ -204,8 +204,11 @@ export interface FormDatePickerProps {
 export const DATE_INDEFINITE = "indefinite";
 export type DateIndefinite = "indefinite";
 export function FormDatePicker(props: FormDatePickerProps) {
-  const { className, fieldName, label, showUndefined, defaultUndefined } = props;
-  const [ dateUndefined, setDateUndefinedRaw ] = React.useState<boolean>(!!defaultUndefined);
+  const { className, fieldName, label, showUndefined, defaultUndefined } =
+    props;
+  const [dateUndefined, setDateUndefinedRaw] = React.useState<boolean>(
+    !!defaultUndefined,
+  );
   const formikProps = React.useContext(FormContext);
 
   // The data can be set from form initial values (e.g. from query string)
@@ -318,7 +321,7 @@ export interface FormDropZoneProps {
 }
 
 export function FormDropZone(props: FormDropZoneProps) {
-  const { className, fieldName, children, accept = "*" } = props;
+  const { className, fieldName, children, accept } = props;
   const formikProps = React.useContext(FormContext);
 
   // Developer error messages surfaced to the UI
@@ -335,7 +338,7 @@ export function FormDropZone(props: FormDropZoneProps) {
           onDrop={(acceptedFiles: any) => {
             formikProps?.setFieldValue(fieldName, acceptedFiles[0]);
           }}
-          accept={{ [accept]: [] }}
+          accept={accept ? { [accept]: [] } : {}}
         >
           {({ getRootProps, getInputProps }) => (
             <div {...getRootProps()} className={className}>
