@@ -11,7 +11,7 @@ Check back soon for more.
 
 ## Links
 
-- Hypercerts Dapp - see `/frontend`
+- Hypercerts Dapp
   - [on Fleek](https://hypercerts.on.fleek.co/)
   - [on Vercel](https://hypercerts.vercel.app)
   - [on Netlify](https://hypercerts.netlify.app/)
@@ -22,15 +22,14 @@ First, make sure the environment variables are set for `./frontend`.
 Take a look at `./frontend/.env.local.example` for the complete list.
 You can either set these yourself (e.g. in CI/CD) or copy the file to `.env.local` and populate it.
 
-
-Then the do a turbo build of all apps, run the following
+Then the do a turbo build of all apps, run the following:
 
 ```bash
 yarn install
 yarn build
 ```
 
-The resulting static site can be found in `./frontend/out/`.
+The resulting static site can be found in `./build/`.
 
 ## Run
 
