@@ -10,10 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
+import { toast } from "react-toastify";
 
-export const mintFractionAllowlist = ({
+export const useMintFractionAllowlist = ({
   onComplete,
   enabled,
 }: {
@@ -23,7 +23,6 @@ export const mintFractionAllowlist = ({
   const { setStep, showModal } = useContractModal();
 
   const parseBlockchainError = useParseBlockchainError();
-  const toast = useToast();
 
   const [_claimId, setClaimId] = useState<BigNumber>();
   const [_units, setUnits] = useState<BigNumber>();
@@ -38,7 +37,7 @@ export const mintFractionAllowlist = ({
   const write = (
     proof: string[],
     claimId: BigNumberish,
-    units: BigNumberish
+    units: BigNumberish,
   ) => {
     setClaimId(BigNumber.from(claimId));
     setUnits(BigNumber.from(units));
@@ -56,26 +55,18 @@ export const mintFractionAllowlist = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [_proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaimFromAllowlist",
     onError: (error) => {
       parseError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
-          error,
-
-          mintInteractionLabels.toastError
-        ),
-        status: "error",
+      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+        type: "error",
       });
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
     enabled:
@@ -90,7 +81,7 @@ export const mintFractionAllowlist = ({
     error: writeError,
     isError: isWriteError,
     isLoading: isLoadingContractWrite,
-    writeAsync,
+    write: writeSync,
   } = useContractWrite(config);
 
   const {
@@ -100,10 +91,7 @@ export const mintFractionAllowlist = ({
   } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastFractionSuccess, { type: "success" });
       setStep("complete");
       onComplete?.();
     },
@@ -111,7 +99,7 @@ export const mintFractionAllowlist = ({
 
   useEffect(() => {
     if (isReadyToWrite) {
-      writeAsync?.();
+      writeSync?.();
     }
   }, [isReadyToWrite]);
 

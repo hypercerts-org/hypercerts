@@ -5,8 +5,9 @@ export const burnInteractionLabels = {
 };
 
 export const mintInteractionLabels = {
-  toastSuccess: (transactionHash: string) =>
-    `Certificate ${transactionHash} successfully minted`,
+  toastSuccess: `Certificate successfully minted`,
+  toastFractionSuccess: "Successfully minted your share of the hypcert",
+  toastBatchSuccess: "Successfully minted all available fractions",
   toastError: "Something went wrong while minting the certificate",
 };
 

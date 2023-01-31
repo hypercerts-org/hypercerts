@@ -1,14 +1,18 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   PlasmicComponent,
   ComponentRenderData,
   PlasmicRootProvider,
-  extractPlasmicQueryData
-} from '@plasmicapp/loader-nextjs';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Error from 'next/error';
-import { useRouter } from 'next/router';
-import { PLASMIC } from '../plasmic-init';
+  extractPlasmicQueryData,
+} from "@plasmicapp/loader-nextjs";
+import { GetStaticPaths, GetStaticProps } from "next";
+import Error from "next/error";
+import { useRouter } from "next/router";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { PLASMIC } from "../plasmic-init";
 
 /**
  * Use fetchPages() to fetch list of pages that have been created in Plasmic
@@ -17,9 +21,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const pages = await PLASMIC.fetchPages();
   return {
     paths: pages.map((page) => ({
-      params: { catchall: page.path.substring(1).split('/') }
+      params: { catchall: page.path.substring(1).split("/") },
     })),
-    fallback: 'blocking'
+    fallback: "blocking",
   };
 };
 
@@ -31,12 +35,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   // Convert the catchall param into a path string
   const plasmicPath =
-    typeof catchall === 'string' ? catchall : Array.isArray(catchall) ? `/${catchall.join('/')}` : '/';
+    typeof catchall === "string"
+      ? catchall
+      : Array.isArray(catchall)
+      ? `/${catchall.join("/")}`
+      : "/";
   const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath);
   if (!plasmicData) {
     // This is some non-Plasmic catch-all page
     return {
-      props: {}
+      props: {},
     };
   }
 
@@ -45,9 +53,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   // Cache the necessary data fetched for the page.
   const queryCache = await extractPlasmicQueryData(
-    <PlasmicRootProvider loader={PLASMIC} prefetchedData={plasmicData} pageParams={pageMeta.params}>
+    <PlasmicRootProvider
+      loader={PLASMIC}
+      prefetchedData={plasmicData}
+      pageParams={pageMeta.params}
+    >
       <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
+    </PlasmicRootProvider>,
   );
 
   // Pass the data in as props.
@@ -56,14 +68,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     // Using incremental static regeneration, will invalidate this page
     // after 300s (no deploy webhooks needed)
-    revalidate: 300
+    revalidate: 300,
   };
 };
 
 /**
  * Actually render the page!
  */
-export default function CatchallPage(props: { plasmicData?: ComponentRenderData; queryCache?: Record<string, any> }) {
+export default function CatchallPage(props: {
+  plasmicData?: ComponentRenderData;
+  queryCache?: Record<string, any>;
+}) {
   const { plasmicData, queryCache } = props;
   const router = useRouter();
   if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
@@ -83,6 +98,7 @@ export default function CatchallPage(props: { plasmicData?: ComponentRenderData;
         // pageMeta.displayName contains the name of the component you fetched.
       }
       <PlasmicComponent component={pageMeta.displayName} />
+      <ToastContainer theme="dark" position="top-right" />
     </PlasmicRootProvider>
   );
 }

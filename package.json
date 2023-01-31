@@ -7,7 +7,8 @@
   "private": true,
   "workspaces": [
     "docs",
-    "frontend"
+    "frontend",
+    "defender"
   ],
   "scripts": {
     "build": "turbo run build && yarn copy",

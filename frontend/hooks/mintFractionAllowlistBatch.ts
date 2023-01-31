@@ -11,21 +11,22 @@ import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { verifyFractionClaim } from "../lib/verify-fraction-claim";
-import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../lib/supabase-client";
+import { toast } from "react-toastify";
 
-export const useBatchMintHyperCertificateAllowlistEntry = ({
+export const useMintFractionAllowlistBatch = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const { address } = useAccount();
 
+  const { data: claimIds } = useGetAllEligibility(address || "");
   const parseBlockchainError = useParseBlockchainError();
-  const toast = useToast();
 
-  const [_claimIds, setClaimIds] = useState<BigNumber[]>();
   const [_units, setUnits] = useState<BigNumber[]>();
   const [_proofs, setProofs] = useState<`0x{string}`[][]>();
 
@@ -36,19 +37,27 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     complete: "Done minting",
   };
 
-  const write = async (claimIds: string[]) => {
+  const write = async () => {
     showModal({ stepDescriptions });
     setStep("initial");
+
     if (!address) {
       throw new Error("No address found for current user");
     }
+    if (!claimIds) {
+      throw new Error("No claim ids found for the current user");
+    }
+
     setStep("proofs");
 
+    if (!claimIds.length) {
+      hideModal();
+    }
+
     const results = await Promise.all(
-      claimIds.map((claimId) => verifyFractionClaim(claimId, address))
+      claimIds.map((claimId) => verifyFractionClaim(claimId, address)),
     );
 
-    setClaimIds(results.map((x) => BigNumber.from(x.claimIDContract)));
     setUnits(results.map((x) => BigNumber.from(x.units)));
     setProofs(results.map((x) => x.proof as `0x{string}`[]));
   };
@@ -62,30 +71,35 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    args: [_proofs!, _claimIds!, _units!],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    args: [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      _proofs!,
+      (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      _units!,
+    ],
     abi: HyperCertMinterFactory.abi,
     functionName: "batchMintClaimsFromAllowlists",
     onError: (error) => {
       parseError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
+      toast(
+        parseBlockchainError(
           error,
 
-          mintInteractionLabels.toastError
+          mintInteractionLabels.toastError,
         ),
-        status: "error",
-      });
+        {
+          type: "error",
+        },
+      );
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
     enabled:
-      _proofs !== undefined && _claimIds !== undefined && _units !== undefined,
+      _proofs !== undefined && _units !== undefined && !!claimIds?.length,
   });
 
   const {
@@ -93,7 +107,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     error: writeError,
     isError: isWriteError,
     isLoading: isLoadingContractWrite,
-    writeAsync,
+    write: writeSync,
   } = useContractWrite(config);
 
   const {
@@ -104,10 +118,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     hash: data?.hash,
     onSuccess: () => {
       // TODO: Remove key value pairs from sheet.best
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastBatchSuccess, { type: "success" });
       setStep("complete");
       onComplete?.();
     },
@@ -115,7 +126,7 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
 
   useEffect(() => {
     if (isReadyToWrite) {
-      writeAsync?.();
+      writeSync?.();
     }
   }, [isReadyToWrite]);
 
@@ -128,4 +139,14 @@ export const useBatchMintHyperCertificateAllowlistEntry = ({
     isError: isPrepareError || isWriteError || isWaitError,
     error: prepareError || writeError || waitError,
   };
+};
+
+export const useGetAllEligibility = (address: string) => {
+  return useQuery(["get-all-eligibility", address], async () => {
+    return supabase
+      .from("allowlistCache")
+      .select("*")
+      .eq("address", address.toLowerCase())
+      .then((res) => res.data?.map((x) => x.claimId as string) || []);
+  });
 };

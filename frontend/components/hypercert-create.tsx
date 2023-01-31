@@ -5,7 +5,7 @@ import { Formik, FormikProps } from "formik";
 import _ from "lodash";
 import qs from "qs";
 import * as Yup from "yup";
-import { DateIndefinite, DATE_INDEFINITE, FormContext } from "./forms";
+import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
 import { isAddress } from "ethers/lib/utils";
@@ -14,6 +14,9 @@ import {
   validateMetaData,
 } from "@network-goods/hypercerts-sdk";
 import { useAccount } from "wagmi";
+import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
+import { useRouter } from "next/router";
+import { useContractModal } from "./contract-interaction-dialog-context";
 
 /**
  * Constants
@@ -84,7 +87,7 @@ const isValidUrl = (
   opts: {
     emptyAllowed?: boolean;
     ipfsAllowed?: boolean;
-  }
+  },
 ) => {
   // Check empty, null, or undefined
   if (opts.emptyAllowed && !value) {
@@ -123,11 +126,10 @@ const formDataToQueryString = (values: Record<string, any>) => {
     }
   };
   ["impactTimeStart", "impactTimeEnd", "workTimeStart", "workTimeEnd"].forEach(
-    formatDate
+    formatDate,
   );
   const filteredValues = _.pickBy(values);
-  const formattedQueryString = qs.stringify(filteredValues);
-  return formattedQueryString;
+  return qs.stringify(filteredValues);
 };
 
 /**
@@ -138,9 +140,7 @@ const formDataToQueryString = (values: Record<string, any>) => {
 const queryStringToFormData = (query?: string) => {
   const rawValues = qs.parse(query ?? "");
   const parseValue = (v: any) => {
-    const result = v === DATE_INDEFINITE ? DATE_INDEFINITE : dayjs(v as string);
-    //console.log(`${v} => ${result}`);
-    return result;
+    return v === DATE_INDEFINITE ? DATE_INDEFINITE : dayjs(v as string);
   };
   const values = {
     ...rawValues,
@@ -164,11 +164,11 @@ const ValidationSchema = Yup.object().shape({
   description: Yup.string()
     .min(
       DESCRIPTION_MIN_LENGTH,
-      `Description must be at least ${DESCRIPTION_MIN_LENGTH} characters`
+      `Description must be at least ${DESCRIPTION_MIN_LENGTH} characters`,
     )
     .max(
       DESCRIPTION_MAX_LENGTH,
-      `Description must be at most ${DESCRIPTION_MAX_LENGTH} characters`
+      `Description must be at most ${DESCRIPTION_MAX_LENGTH} characters`,
     )
     .required("Required"),
   externalLink: Yup.string()
@@ -177,13 +177,13 @@ const ValidationSchema = Yup.object().shape({
       isValidUrl(value, {
         emptyAllowed: true,
         ipfsAllowed: true,
-      })
+      }),
     ),
   logoUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
     isValidUrl(value, {
       emptyAllowed: true,
       ipfsAllowed: false,
-    })
+    }),
   ),
   impactScopes: Yup.array().min(1, "Please choose at least 1 item"),
   impactTimeEnd: Yup.date().when(
@@ -191,9 +191,9 @@ const ValidationSchema = Yup.object().shape({
     (impactTimeStart, impactTimeInfinite) => {
       return Yup.date().min(
         impactTimeInfinite ? 0 : impactTimeStart,
-        "End date must be after start date"
+        "End date must be after start date",
       );
-    }
+    },
   ),
   workScopes: Yup.array().min(1, "Please choose at least 1 item"),
   workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
@@ -207,7 +207,7 @@ const ValidationSchema = Yup.object().shape({
       isValidUrl(value, {
         emptyAllowed: true,
         ipfsAllowed: true,
-      })
+      }),
   ),
   rights: Yup.array().min(1),
 });
@@ -237,10 +237,12 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
 export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
   const { className, children } = props;
   const { address } = useAccount();
+  const { push } = useRouter();
+  const { hideModal } = useContractModal();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
   // Load the querystring into React state only once on initial page load
   React.useEffect(() => {
@@ -249,8 +251,17 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
     }
   }, [initialQuery]);
 
-  const { write } = useMintClaim({
-    onComplete: () => console.log("Minted hypercert!"),
+  const onComplete = () => {
+    hideModal();
+    push("/hypercerts/dashboard");
+  };
+
+  const { write: mintClaim } = useMintClaim({
+    onComplete,
+  });
+
+  const { write: mintClaimAllowlist } = useMintClaimAllowlist({
+    onComplete,
   });
 
   return (
@@ -273,18 +284,28 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          setTimeout(() => {
-            const { valid, errors, metaData } = formatValuesToMetaData(
-              values,
-              address!
-            );
-            if (valid) {
-              write(metaData, 100);
+          if (!address) {
+            console.log("User not connected");
+            return;
+          }
+          const { valid, errors, metaData } = formatValuesToMetaData(
+            values,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            address!,
+          );
+          if (valid) {
+            if (values.allowlistUrl) {
+              mintClaimAllowlist({
+                metaData,
+                allowlistUrl: values.allowlistUrl,
+              });
             } else {
-              setErrors(errors);
+              mintClaim(metaData, 100);
             }
-            setSubmitting(false);
-          }, 400);
+          } else {
+            setErrors(errors);
+          }
+          setSubmitting(false);
         }}
       >
         {(formikProps: FormikProps<HypercertCreateFormData>) => (
@@ -301,14 +322,14 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
 
 const formatValuesToMetaData = (
   val: HypercertCreateFormData,
-  address: string
+  address: string,
 ) => {
   // Split contributor names and addresses. Addresses are stored on-chain, while names will be stored on IPFS.
   const contributorNamesAndAddresses = val.contributors
     .split(",")
     .map((name) => name.trim());
   const contributorAddresses = contributorNamesAndAddresses.filter((x) =>
-    isAddress(x)
+    isAddress(x),
   );
 
   // Mint certificate using contract

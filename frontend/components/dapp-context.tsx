@@ -18,6 +18,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
@@ -97,6 +98,7 @@ export function DappContext(props: DappContextProps) {
             <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
               <ContractInteractionDialogProvider>
                 {children}
+                <ReactQueryDevtools initialIsOpen={false} />
               </ContractInteractionDialogProvider>
             </DataProvider>
           </RainbowKitProvider>
