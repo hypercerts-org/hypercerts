@@ -21,7 +21,7 @@ export const createTask = async (name: string, file: string) => {
   return await client
     .create(config)
     .then((res) => {
-      console.log(`Created autotask: `, res.autotaskId);
+      console.log("Created autotask", name, "with id", res.autotaskId);
       return res;
     })
     .catch((error) => {

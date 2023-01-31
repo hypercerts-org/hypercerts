@@ -1,8 +1,10 @@
-import { createTask } from "./create-autotasks.js";
-import { apiKey, apiSecret, contractAddress } from "./config.js";
-import { createSentinel } from "./create-sentinels.js";
 import { AutotaskClient } from "defender-autotask-client";
 import { SentinelClient } from "defender-sentinel-client";
+
+import { apiKey, apiSecret, contractAddress } from "./config.js";
+
+import { createTask } from "./create-autotask.js";
+import { createSentinel } from "./create-sentinel.js";
 
 const credentials = {
   apiKey,
@@ -64,6 +66,25 @@ const setup = async () => {
       {
         functionSignature:
           "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
+      },
+    ],
+  });
+
+  // On single minted from allowlist
+  const autoTaskOnMintClaimFromAllowlist = await createTask(
+    "remove cache entry on mint claim from allowlist",
+    "mint-claim-from-allowlist",
+  );
+  if (!autoTaskOnMintClaimFromAllowlist) {
+    throw new Error("Could not create autoTask for mint-claim-from-allowlist");
+  }
+  await createSentinel({
+    name: "mintClaimFromAllowlist",
+    address: contractAddress,
+    autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
+    functionConditions: [
+      {
+        functionSignature: "mintClaimFromAllowlist(bytes32[],uint256,uint256)",
       },
     ],
   });

@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "deploy": "yarn build:autotask && yarn setup",
+    "deploy": "yarn build && yarn setup",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "\"NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts\"",
-    "build:autotask": "rollup -c",
-    "build:webpack": "webpack"
+    "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -17,10 +16,6 @@
     "@network-goods/hypercerts-protocol": "^0.0.9",
     "@network-goods/hypercerts-sdk": "^0.0.17",
     "@openzeppelin/merkle-tree": "^1.0.2",
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^11.0.0",
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
     "crypto": "^1.0.1",
@@ -29,8 +24,6 @@
     "defender-sentinel-client": "^1.38.0",
     "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
-    "react-toastify": "^9.1.1",
-    "rollup": "^3.11.0",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {

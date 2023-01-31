@@ -4,7 +4,8 @@ const webpack = require("webpack");
 module.exports = {
   entry: {
     'batch-mint-claims-from-allowlists': "./src/auto-tasks/batch-mint-claims-from-allowlists.ts",
-    'on-allowlist-created': "./src/auto-tasks/on-allowlist-created.ts"
+    'on-allowlist-created': "./src/auto-tasks/on-allowlist-created.ts",
+    'mint-claim-from-allowlist': "./src/auto-tasks/mint-claim-from-allowlist.ts"
   },
   target: "node",
   mode: "development",
