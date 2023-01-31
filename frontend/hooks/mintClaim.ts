@@ -14,11 +14,9 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { BigNumber } from "ethers";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useToast } from "./toast";
+import { toast } from "react-toastify";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
-  const toast = useToast();
-
   const [cidUri, setCidUri] = useState<string>();
   const [units, setUnits] = useState<number>();
 
@@ -56,20 +54,13 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     functionName: "mintClaim",
     onError: (error) => {
       parseError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
-          error,
-          mintInteractionLabels.toastError,
-        ),
-        status: "error",
+      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+        type: "error",
       });
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastSuccess, { type: "success" });
       setStep("writing");
     },
     enabled: !!cidUri && units !== undefined,
@@ -90,10 +81,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastSuccess, { type: "success" });
       setStep("complete");
       onComplete?.();
     },

@@ -11,10 +11,10 @@ import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { verifyFractionClaim } from "../lib/verify-fraction-claim";
-import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase-client";
+import { toast } from "react-toastify";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
@@ -26,7 +26,6 @@ export const useMintFractionAllowlistBatch = ({
 
   const { data: claimIds } = useGetAllEligibility(address || "");
   const parseBlockchainError = useParseBlockchainError();
-  const toast = useToast();
 
   const [_units, setUnits] = useState<BigNumber[]>();
   const [_proofs, setProofs] = useState<`0x{string}`[][]>();
@@ -74,29 +73,29 @@ export const useMintFractionAllowlistBatch = ({
     address: CONTRACT_ADDRESS,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       _proofs!,
       (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       _units!,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "batchMintClaimsFromAllowlists",
     onError: (error) => {
       parseError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
+      toast(
+        parseBlockchainError(
           error,
 
           mintInteractionLabels.toastError,
         ),
-        status: "error",
-      });
+        {
+          type: "error",
+        },
+      );
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
     enabled:
@@ -108,7 +107,7 @@ export const useMintFractionAllowlistBatch = ({
     error: writeError,
     isError: isWriteError,
     isLoading: isLoadingContractWrite,
-    writeAsync,
+    write: writeSync,
   } = useContractWrite(config);
 
   const {
@@ -119,10 +118,7 @@ export const useMintFractionAllowlistBatch = ({
     hash: data?.hash,
     onSuccess: () => {
       // TODO: Remove key value pairs from sheet.best
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastBatchSuccess, { type: "success" });
       setStep("complete");
       onComplete?.();
     },
@@ -130,7 +126,7 @@ export const useMintFractionAllowlistBatch = ({
 
   useEffect(() => {
     if (isReadyToWrite) {
-      writeAsync?.();
+      writeSync?.();
     }
   }, [isReadyToWrite]);
 

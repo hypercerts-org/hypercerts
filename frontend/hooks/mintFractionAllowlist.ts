@@ -10,8 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
+import { toast } from "react-toastify";
 
 export const useMintFractionAllowlist = ({
   onComplete,
@@ -23,7 +23,6 @@ export const useMintFractionAllowlist = ({
   const { setStep, showModal } = useContractModal();
 
   const parseBlockchainError = useParseBlockchainError();
-  const toast = useToast();
 
   const [_claimId, setClaimId] = useState<BigNumber>();
   const [_units, setUnits] = useState<BigNumber>();
@@ -62,21 +61,12 @@ export const useMintFractionAllowlist = ({
     functionName: "mintClaimFromAllowlist",
     onError: (error) => {
       parseError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
-          error,
-
-          mintInteractionLabels.toastError,
-        ),
-        status: "error",
+      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+        type: "error",
       });
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
     enabled:
@@ -91,7 +81,7 @@ export const useMintFractionAllowlist = ({
     error: writeError,
     isError: isWriteError,
     isLoading: isLoadingContractWrite,
-    writeAsync,
+    write: writeSync,
   } = useContractWrite(config);
 
   const {
@@ -101,10 +91,7 @@ export const useMintFractionAllowlist = ({
   } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
+      toast(mintInteractionLabels.toastFractionSuccess, { type: "success" });
       setStep("complete");
       onComplete?.();
     },
@@ -112,9 +99,9 @@ export const useMintFractionAllowlist = ({
 
   useEffect(() => {
     if (isReadyToWrite) {
-      writeAsync?.();
+      writeSync?.();
     }
-  }, [isReadyToWrite, writeAsync]);
+  }, [isReadyToWrite]);
 
   return {
     write,

@@ -15,6 +15,8 @@ import {
 } from "@network-goods/hypercerts-sdk";
 import { useAccount } from "wagmi";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
+import { useRouter } from "next/router";
+import { useContractModal } from "./contract-interaction-dialog-context";
 
 /**
  * Constants
@@ -235,6 +237,8 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
 export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
   const { className, children } = props;
   const { address } = useAccount();
+  const { push } = useRouter();
+  const { hideModal } = useContractModal();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -247,12 +251,17 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
     }
   }, [initialQuery]);
 
+  const onComplete = () => {
+    hideModal();
+    push("/hypercerts/dashboard");
+  };
+
   const { write: mintClaim } = useMintClaim({
-    onComplete: () => console.log("Minted hypercert!"),
+    onComplete,
   });
 
   const { write: mintClaimAllowlist } = useMintClaimAllowlist({
-    onComplete: () => console.log("Minted hypercert!"),
+    onComplete,
   });
 
   return (

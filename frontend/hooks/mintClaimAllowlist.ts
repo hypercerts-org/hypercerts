@@ -16,9 +16,9 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
-import { useToast } from "./toast";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
+import { toast } from "react-toastify";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
@@ -36,17 +36,13 @@ export const useMintClaimAllowlist = ({
 }: {
   onComplete?: () => void;
 }) => {
-  const toast = useToast();
   const [cidUri, setCidUri] = useState<string>();
   const [_units, setUnits] = useState<number>();
   const [merkleRoot, setMerkleRoot] = useState<`0x{string}`>();
-  const [pairs, setPairs] = useState<{ address: string; fraction: number }[]>(
-    [],
-  );
 
   const stepDescriptions = {
-    storeTree: "Generating and storing merkle tree",
     uploading: "Uploading metadata to ipfs",
+    preparing: "Preparing contract write",
     writing: "Minting hypercert on-chain",
     storingEligibility: "Storing eligibility",
     complete: "Done minting",
@@ -64,7 +60,6 @@ export const useMintClaimAllowlist = ({
     allowlistUrl?: string;
     pairs?: { address: string; fraction: number }[];
   }) => {
-    setStep("storeTree");
     setStep("uploading");
     if (pairs) {
       // Handle manual creation of proof and merkle tree
@@ -72,7 +67,6 @@ export const useMintClaimAllowlist = ({
       const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
       setCidUri(cid);
       setMerkleRoot(root);
-      setPairs(pairs);
       setUnits(_.sum(pairs.map((x) => x.fraction)));
     }
     if (allowlistUrl) {
@@ -92,8 +86,10 @@ export const useMintClaimAllowlist = ({
         totalUnits += parseInt(v[1], 10);
       }
 
+      setMerkleRoot(tree.root as `0x{string}`);
       setUnits(totalUnits);
     }
+    setStep("Preparing");
   };
 
   const {
@@ -115,22 +111,12 @@ export const useMintClaimAllowlist = ({
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
     onError: (error) => {
-      parseBlockchainError(error, "the fallback");
-      toast({
-        description: parseBlockchainError(
-          error,
-
-          mintInteractionLabels.toastError,
-        ),
-        status: "error",
+      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+        type: "error",
       });
       console.error(error);
     },
     onSuccess: () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
-      });
       setStep("writing");
     },
     enabled: !!cidUri && _units !== undefined && merkleRoot !== undefined,
@@ -151,9 +137,8 @@ export const useMintClaimAllowlist = ({
   } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess: async () => {
-      toast({
-        description: mintInteractionLabels.toastSuccess("Success"),
-        status: "success",
+      toast(mintInteractionLabels.toastSuccess, {
+        type: "success",
       });
       setStep("storingEligibility");
       setStep("complete");
@@ -178,7 +163,6 @@ export const useMintClaimAllowlist = ({
       pairs?: { address: string; fraction: number }[];
     }) => {
       showModal({ stepDescriptions });
-      setStep("preparing");
       await initializeWrite({
         metaData,
         pairs,

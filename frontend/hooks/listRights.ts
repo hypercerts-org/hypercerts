@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useToast } from "./toast";
 import { SHEET_BEST_ENDPOINT } from "../lib/config";
+import { toast } from "react-toastify";
 
 export const useRights = () => {
-  const toast = useToast();
   const searchParams = new URLSearchParams();
   searchParams.set("_format", "list");
 
@@ -20,11 +19,8 @@ export const useRights = () => {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
       onError: () => {
-        toast({
-          status: "error",
-          description: "Could not fetch Rights collections",
-        });
+        toast("Could not fetch Rights collections", { type: "error" });
       },
-    }
+    },
   );
 };
