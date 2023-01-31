@@ -15,12 +15,9 @@ export const getData = async (cid: string) => {
 };
 
 export async function handler(event: AutotaskEvent) {
-  // console.log("Event", event);
-  const { SUPABASE_ANON_KEY, SUPABASE_URL, SUPABASE_EMAIL, SUPABASE_PASSWORD } =
-    event.secrets;
+  const { SUPABASE_URL, SUPABASE_SECRET_API_KEY } = event.secrets;
 
-  // TODO: Add authentication
-  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  const client = createClient(SUPABASE_URL, SUPABASE_SECRET_API_KEY, {
     global: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -28,18 +25,6 @@ export async function handler(event: AutotaskEvent) {
     },
   });
 
-  const { error } = await client.auth.signInWithPassword({
-    email: SUPABASE_EMAIL,
-    password: SUPABASE_PASSWORD,
-    options: {},
-  });
-
-  if (error) {
-    console.log("Supabase authentication error", error.message);
-    throw new Error(error.message);
-  } else {
-    console.log("Logged in successfully to supabase");
-  }
   const match = event.request.body as SentinelTriggerEvent;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
