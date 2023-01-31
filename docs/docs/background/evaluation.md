@@ -8,8 +8,6 @@ A key design element is that hypercerts themselves do not make a claim about the
 
 ![hypercert evaluations](https://raw.githubusercontent.com/network-goods/hypercerts/main/docs/static/img/hypercert-evaluations.png)
 
-test
-
 The open evaluation system is also used to provide additional information, e.g. an evaluator or the project itself provides information about the health of the trees. This information can then be used transparently by other evaluators to evaluate the impact on CO2 in the atmosphere.
 
 An important feature is that the evaluations do not directly point at a hypercert, but rather at an area in the impact space. In practice this area will mostly be the exact same area that a hypercert claims, such that it can be considered an evaluation of the hypercert, but it does not have to. This feature ensures that, if hypercerts are merged or split, previous evaluations will continue to be linked appropriately.
