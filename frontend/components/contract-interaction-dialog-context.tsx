@@ -1,5 +1,12 @@
 import React, { PropsWithChildren, useContext, useState } from "react";
-import { Box, Dialog, DialogTitle, Typography } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  Step,
+  StepLabel,
+  Stepper,
+} from "@mui/material";
 
 type StepDescriptions = Record<string, string>;
 
@@ -21,7 +28,7 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [showContractModal, setShowContractModal] = useState(false);
   const [stepDescriptions, setStepDescriptions] = useState<StepDescriptions>(
-    {}
+    {},
   );
   const [step, setStep] = useState<string>();
 
@@ -45,19 +52,26 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
       }}
     >
       {children}
-      <Dialog open={showContractModal} onClose={onCloseModal}>
+      <Dialog
+        open={showContractModal}
+        onClose={() => {
+          console.log("Manual closing of dialog disabled");
+        }}
+        disableEscapeKeyDown={true}
+      >
         <DialogTitle>Contract interaction</DialogTitle>
 
         <Box sx={{ px: 3, pb: 3 }}>
-          {Object.keys(stepDescriptions).map((key) => (
-            <Typography
-              key={key}
-              fontWeight={key === step ? 700 : 400}
-              color={key === step ? "green" : undefined}
-            >
-              {stepDescriptions[key]}
-            </Typography>
-          ))}
+          <Stepper
+            orientation="vertical"
+            activeStep={step ? Object.keys(stepDescriptions).indexOf(step) : 0}
+          >
+            {Object.keys(stepDescriptions).map((key) => (
+              <Step key={key} classes={{}}>
+                <StepLabel>{stepDescriptions[key]}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </Box>
       </Dialog>
     </ContractInteractionDialogContext.Provider>
