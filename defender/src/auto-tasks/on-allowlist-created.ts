@@ -1,15 +1,20 @@
 import { ethers } from "ethers";
 import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
-import axios from "axios";
 import fetch from "node-fetch";
 
 import { createClient } from "@supabase/supabase-js";
 import { abi } from "../HypercertMinterABI.js";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import axios from "axios";
 
-const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
+const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
+  const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
+  const cid = cidOrIpfsUri.replace("ipfs://", "");
+  return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
+};
+
 export const getData = async (cid: string) => {
-  const nftStorageGatewayLink = NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
+  const nftStorageGatewayLink = getIpfsGatewayUri(cid);
   console.log(`Getting metadata ${cid} at ${nftStorageGatewayLink}`);
 
   return axios.get(nftStorageGatewayLink).then((result) => result.data);
