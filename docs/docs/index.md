@@ -25,7 +25,7 @@ The hypercert itself is an ERC-1155 semi-fungible token with the information abo
 - **Link:** ipns://ipfs.tech/
 
 #### Hypercert dimensions
-- **Contributors:** 0xb794f5ea0ba39494ce839613fffba74279579268
+- **Contributors:** 0xb794f5ea0ba39494ce839613fffba74279579268 *(example Ethereum address)*
 - **Scope of work:** IPFS ∧ ¬ go-ipfs
 - **Time of work:** 2013-01-01 --> 2013-12-31
 - **Scope of impact:** All
