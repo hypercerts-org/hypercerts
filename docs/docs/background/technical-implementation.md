@@ -7,7 +7,7 @@ sidebar_position: 6
 ## Hypercerts as a semi-fungible token
 In order to make the token identifiable, traceable, and transferable, hypercerts are represented as [ERC-1155 tokens](https://eips.ethereum.org/EIPS/eip-1155). The ERC-1155 standard enables a single deployed contract to store many hypercerts, facilitating simpler creation, transfers, as well as splitting and merging of hypercerts within a single namespace. As a semi-fungible token, each unique token represents a fraction of ownership of a hypercert. Hypercerts are then represented as a group of tokens, where the total ownership sums to 100%. In order to easily identify which hypercert a token belongs to, we utilize the upper 128 bits of a 256-bit token ID to identify the hypercert. All tokens within the same hypercert group should share the same [ERC-1155 Metadata](https://eips.ethereum.org/EIPS/eip-1155#metadata).
 
-![hypercert id](docs/static/img/hypercert_id.png)
+![hypercert id](../docs/static/img/hypercert_id.png)
 
 For illustrative purposes, let us assume that token IDs are just 2 bytes long, where the first byte represents the hypercert ID and the last byte represents which fraction of ownership. Alice could create a new hypercert token 0x2301, representing 100% of hypercert 0x23. If Alice wanted to transfer 20% to Bob, Alice could perform a split operation by minting token 0x2302 and transferring 20% of value to it, such that tokens 0x2301 and 0x2302 represent 80% and 20% ownership respectively of hypercert 0x23.  Then Alice transfers token 0x2302 to Bob. Similarly, they could merge these 2 tokens together, back to form a token that represented 100% ownership. In this case, the value of 0x2301 would be transferred to 0x2302, and then 0x2301 is subsequently burned.
 
