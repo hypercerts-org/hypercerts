@@ -3,6 +3,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
 import _ from "lodash";
+import html2canvas from "html2canvas";
 import qs from "qs";
 import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
@@ -22,6 +23,7 @@ import { useContractModal } from "./contract-interaction-dialog-context";
  * Constants
  */
 const FORM_SELECTOR = "currentForm";
+const IMAGE_SELECTOR = "hypercertimage";
 export const NAME_MIN_LENGTH = 2;
 export const NAME_MAX_LENGTH = 50;
 
@@ -307,6 +309,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting, setErrors }) => {
+          const image = await exportAsImage(IMAGE_SELECTOR);
           if (!address) {
             console.log("User not connected");
             return;
@@ -315,6 +318,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             values,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address!,
+            image
           );
           if (valid) {
             if (values.allowlistUrl) {
@@ -332,7 +336,13 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         }}
       >
         {(formikProps: FormikProps<HypercertCreateFormData>) => (
-          <DataProvider name={FORM_SELECTOR} data={formikProps.values}>
+          <DataProvider 
+            name={FORM_SELECTOR}
+            data={{
+              ...formikProps.values,
+              isSubmitting: formikProps.isSubmitting,
+            }}
+          >
             <FormContext.Provider value={formikProps}>
               <form onSubmit={formikProps.handleSubmit}>{children}</form>
             </FormContext.Provider>
@@ -346,6 +356,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
 const formatValuesToMetaData = (
   val: HypercertCreateFormData,
   address: string,
+  image?: string,
 ) => {
   // Split contributor names and addresses. Addresses are stored on-chain, while names will be stored on IPFS.
   const contributorNamesAndAddresses = val.contributors
@@ -388,9 +399,26 @@ const formatValuesToMetaData = (
   const metaData = {
     name: val.name,
     description: val.description,
-    image: "",
+    image: image ?? "",
     properties: claimData,
   };
 
   return { ...validateMetaData(metaData), metaData };
 };
+
+const exportAsImage = async (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) {
+    return;
+  }
+  const canvas = await html2canvas(el, {
+    backgroundColor: null,
+    useCORS: true,
+    imageTimeout: 0,
+  });
+  const image = canvas.toDataURL("image/png", 1.0);
+  console.log(image);
+  return image;
+  // downloadImage(image, imageFileName);
+};
+

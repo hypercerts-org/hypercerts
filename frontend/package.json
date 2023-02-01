@@ -31,6 +31,7 @@
     "formik-mui": "^5.0.0-alpha.0",
     "formik-mui-x-date-pickers": "^0.0.1",
     "graphql": "^16.6.0",
+    "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
     "next": "latest",
     "qs": "^6.11.0",
