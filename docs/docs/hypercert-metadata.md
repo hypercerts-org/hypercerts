@@ -1,4 +1,3 @@
-
 ---
 title: Metadata
 id: metadata
