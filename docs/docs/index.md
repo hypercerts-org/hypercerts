@@ -19,17 +19,17 @@ The hypercert itself is an ERC-1155 semi-fungible token with the information abo
 ![hypercert design example](https://raw.githubusercontent.com/network-goods/hypercerts/main/docs/static/img/hypercert_example.png)
 
 #### Supplementary information
-Title of hypercert: Invention of the InterPlanetary Filesystem (IPFS)
-Description: The InterPlanetary File System (IPFS) is a set of composable, peer-to-peer protocols for addressing, routing, and transferring content-addressed data in a decentralized file system.
-Link: ipns://ipfs.tech/
+- Title of hypercert: Invention of the InterPlanetary Filesystem (IPFS)
+- Description: The InterPlanetary File System (IPFS) is a set of composable, peer-to-peer protocols for addressing, routing, and transferring content-addressed data in a decentralized file system.
+- Link: ipns://ipfs.tech/
 
 #### Hypercert dimensions
-Contributors: Juan Benet
-Scope of work: IPFS ∧ ¬ go-ipfs
-Time of work: 2013-01-01 --> 2013-12-31
-Scope of impact: All
-Time of impact: 2013-01-01 --> indefinite
-Rights: Public display
+- Contributors: Juan Benet
+- Scope of work: IPFS ∧ ¬ go-ipfs
+- Time of work: 2013-01-01 --> 2013-12-31
+- Scope of impact: All
+- Time of impact: 2013-01-01 --> indefinite
+- Rights: Public display
 
 ### Why should you care?
 We spend trillions of dollars every year on public goods via governmental agencies, foundations, private donations and corporate spendings; however, we don’t effectively track this work – leaving us in the dark, hoping that it actually has the intended positive impact.
