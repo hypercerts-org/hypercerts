@@ -36,16 +36,19 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   description: "",
   externalLink: "",
   logoUrl: "",
-  image: null,
-  impactScopes: [] as string[],
+  //logoImage: null,
+  bannerUrl: "",
+  //bannerImage: null,
+  impactScopes: [ "all" ] as string[],
   impactTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   impactTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
-  workScopes: [] as string[],
+  workScopes: "",
   workTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   workTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
+  rights: [ "Public Display" ] as string[],
   contributors: "",
   allowlistUrl: "",
-  rights: [] as string[],
+  agreeTermsConditions: false,
 
   prev_hypercert: "",
   creators: [],
@@ -57,17 +60,20 @@ interface HypercertCreateFormData {
   name: string;
   description: string;
   externalLink: string;
-  image: File | null;
   logoUrl: string;
+  //logoImage: File | null;
+  bannerUrl: string;
+  //bannerImage: File | null;
   impactScopes: string[];
   impactTimeStart?: string;
   impactTimeEnd?: string | DateIndefinite;
-  workScopes: string[];
+  workScopes: string;
   workTimeStart?: string;
   workTimeEnd?: string;
+  rights: string[];
   contributors: string;
   allowlistUrl: string;
-  rights: string[];
+  agreeTermsConditions: boolean;
 
   prev_hypercert: string;
   creators: string[];
@@ -172,7 +178,6 @@ const ValidationSchema = Yup.object().shape({
     )
     .required("Required"),
   externalLink: Yup.string()
-    .required("Required")
     .test("valid uri", "Please enter a valid URL", (value) =>
       isValidUrl(value, {
         emptyAllowed: true,
@@ -180,6 +185,12 @@ const ValidationSchema = Yup.object().shape({
       }),
     ),
   logoUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
+    isValidUrl(value, {
+      emptyAllowed: true,
+      ipfsAllowed: false,
+    }),
+  ),
+  bannerUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
     isValidUrl(value, {
       emptyAllowed: true,
       ipfsAllowed: false,
@@ -195,10 +206,13 @@ const ValidationSchema = Yup.object().shape({
       );
     },
   ),
-  workScopes: Yup.array().min(1, "Please choose at least 1 item"),
+  workScopes: Yup.string()
+    .min(NAME_MIN_LENGTH, `Work scopes must be at least ${NAME_MIN_LENGTH} characters`)
+    .required("Required"),
   workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
     return Yup.date().min(workTimeStart, "End date must be after start date");
   }),
+  rights: Yup.array().min(1),
   contributors: Yup.string().required("Required"),
   allowlistUrl: Yup.string().test(
     "valid uri",
@@ -209,7 +223,7 @@ const ValidationSchema = Yup.object().shape({
         ipfsAllowed: true,
       }),
   ),
-  rights: Yup.array().min(1),
+  agreeTermsConditions: Yup.boolean().oneOf([true], "You must agree to the terms and conditions")
 });
 
 /**
@@ -326,19 +340,14 @@ const formatValuesToMetaData = (
 ) => {
   // Split contributor names and addresses. Addresses are stored on-chain, while names will be stored on IPFS.
   const contributorNamesAndAddresses = val.contributors
-    .split(",")
+    .split(/[,\n]/)
+    .filter(i => !!i)
     .map((name) => name.trim());
   const contributorAddresses = contributorNamesAndAddresses.filter((x) =>
     isAddress(x),
   );
 
   // Mint certificate using contract
-  const workTimeStart = val.workTimeStart
-    ? new Date(val.workTimeStart).getTime() / 1000
-    : 0;
-  const workTimeEnd = val.workTimeEnd
-    ? new Date(val.workTimeEnd).getTime() / 1000
-    : 0;
   const impactTimeStart = val.impactTimeStart
     ? new Date(val.impactTimeStart).getTime() / 1000
     : 0;
@@ -346,6 +355,12 @@ const formatValuesToMetaData = (
     val.impactTimeEnd !== "indefinite" && val.impactTimeEnd !== undefined
       ? new Date(val.impactTimeEnd).getTime() / 1000
       : 0;
+  const workTimeStart = val.workTimeStart
+    ? new Date(val.workTimeStart).getTime() / 1000
+    : 0;
+  const workTimeEnd = val.workTimeEnd
+    ? new Date(val.workTimeEnd).getTime() / 1000
+    : 0;
 
   const claimData = {
     contributors: _.uniq([address, ...contributorAddresses]),
