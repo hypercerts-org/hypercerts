@@ -10,10 +10,7 @@ import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
 import { isAddress } from "ethers/lib/utils";
-import {
-  validateClaimData,
-  validateMetaData,
-} from "@network-goods/hypercerts-sdk";
+import { formatHypercertData } from "@network-goods/hypercerts-sdk";
 import { useAccount } from "wagmi";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
@@ -31,6 +28,8 @@ export const DESCRIPTION_MIN_LENGTH = 20;
 export const DESCRIPTION_MAX_LENGTH = 500;
 
 export const DEFAULT_NUM_FRACTIONS = "10000";
+export const DEFAULT_HYPERCERT_VERSION = "0.0.1";
+
 //const DEFAULT_TIME = dayjs().format("YYYY-MM-DD");
 const DEFAULT_TIME = dayjs();
 const DEFAULT_FORM_DATA: HypercertCreateFormData = {
@@ -41,13 +40,13 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   //logoImage: null,
   bannerUrl: "",
   //bannerImage: null,
-  impactScopes: [ "all" ] as string[],
+  impactScopes: ["all"] as string[],
   impactTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   impactTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
   workScopes: "",
   workTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   workTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
-  rights: [ "Public Display" ] as string[],
+  rights: ["Public Display"] as string[],
   contributors: "",
   allowlistUrl: "",
   agreeTermsConditions: false,
@@ -188,24 +187,29 @@ const ValidationSchema = Yup.object().shape({
       `Description must be at most ${DESCRIPTION_MAX_LENGTH} characters`,
     )
     .required("Required"),
-  externalLink: Yup.string()
-    .test("valid uri", "Please enter a valid URL", (value) =>
+  externalLink: Yup.string().test(
+    "valid uri",
+    "Please enter a valid URL",
+    (value) =>
       isValidUrl(value, {
         emptyAllowed: true,
         ipfsAllowed: true,
       }),
-    ),
+  ),
   logoUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
     isValidUrl(value, {
       emptyAllowed: true,
       ipfsAllowed: false,
     }),
   ),
-  bannerUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
-    isValidUrl(value, {
-      emptyAllowed: true,
-      ipfsAllowed: false,
-    }),
+  bannerUrl: Yup.string().test(
+    "valid uri",
+    "Please enter a valid URL",
+    (value) =>
+      isValidUrl(value, {
+        emptyAllowed: true,
+        ipfsAllowed: false,
+      }),
   ),
   impactScopes: Yup.array().min(1, "Please choose at least 1 item"),
   impactTimeEnd: Yup.date().when(
@@ -218,7 +222,10 @@ const ValidationSchema = Yup.object().shape({
     },
   ),
   workScopes: Yup.string()
-    .min(NAME_MIN_LENGTH, `Work scopes must be at least ${NAME_MIN_LENGTH} characters`)
+    .min(
+      NAME_MIN_LENGTH,
+      `Work scopes must be at least ${NAME_MIN_LENGTH} characters`,
+    )
     .required("Required"),
   workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
     return Yup.date().min(workTimeStart, "End date must be after start date");
@@ -234,7 +241,10 @@ const ValidationSchema = Yup.object().shape({
         ipfsAllowed: true,
       }),
   ),
-  agreeTermsConditions: Yup.boolean().oneOf([true], "You must agree to the terms and conditions")
+  agreeTermsConditions: Yup.boolean().oneOf(
+    [true],
+    "You must agree to the terms and conditions",
+  ),
 });
 
 /**
@@ -314,20 +324,24 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             console.log("User not connected");
             return;
           }
-          const { valid, errors, metaData } = formatValuesToMetaData(
+          const {
+            valid,
+            errors,
+            data: metaData,
+          } = formatValuesToMetaData(
             values,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address!,
-            image
+            image,
           );
           if (valid) {
             if (values.allowlistUrl) {
-              mintClaimAllowlist({
+              await mintClaimAllowlist({
                 metaData,
                 allowlistUrl: values.allowlistUrl,
               });
             } else {
-              mintClaim(metaData, 100);
+              await mintClaim(metaData, 100);
             }
           } else {
             setErrors(errors);
@@ -336,7 +350,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         }}
       >
         {(formikProps: FormikProps<HypercertCreateFormData>) => (
-          <DataProvider 
+          <DataProvider
             name={FORM_SELECTOR}
             data={{
               ...formikProps.values,
@@ -361,49 +375,48 @@ const formatValuesToMetaData = (
   // Split contributor names and addresses. Addresses are stored on-chain, while names will be stored on IPFS.
   const contributorNamesAndAddresses = val.contributors
     .split(/[,\n]/)
-    .filter(i => !!i)
+    .filter((i) => !!i)
     .map((name) => name.trim());
   const contributorAddresses = contributorNamesAndAddresses.filter((x) =>
     isAddress(x),
   );
 
   // Mint certificate using contract
-  const impactTimeStart = val.impactTimeStart
+  const impactTimeframeStart = val.impactTimeStart
     ? new Date(val.impactTimeStart).getTime() / 1000
     : 0;
-  const impactTimeEnd =
+  const impactTimeframeEnd =
     val.impactTimeEnd !== "indefinite" && val.impactTimeEnd !== undefined
       ? new Date(val.impactTimeEnd).getTime() / 1000
       : 0;
-  const workTimeStart = val.workTimeStart
+  const workTimeframeStart = val.workTimeStart
     ? new Date(val.workTimeStart).getTime() / 1000
     : 0;
-  const workTimeEnd = val.workTimeEnd
+  const workTimeframeEnd = val.workTimeEnd
     ? new Date(val.workTimeEnd).getTime() / 1000
     : 0;
 
-  const claimData = {
-    contributors: _.uniq([address, ...contributorAddresses]),
-    workTimeframe: [workTimeStart, workTimeEnd],
-    impactTimeframe: [impactTimeStart, impactTimeEnd],
-    workScopes: val.workScopes[0] || "",
-    impactScopes: val.impactScopes[0] || "",
-    rightsIds: val.rights.map((right) => right),
-  };
-  const claimDataValidationResult = validateClaimData(claimData);
-
-  if (!claimDataValidationResult.valid) {
-    return { ...claimDataValidationResult, metaData: undefined };
-  }
-
-  const metaData = {
+  return formatHypercertData({
     name: val.name,
     description: val.description,
+    external_url: val.externalLink,
     image: image ?? "",
-    properties: claimData,
-  };
-
-  return { ...validateMetaData(metaData), metaData };
+    contributors: _.uniq(
+      [address, ...contributorAddresses].filter((x) => isAddress(x)),
+    ) as `0x${string}`[],
+    workTimeframeStart,
+    workTimeframeEnd,
+    impactTimeframeStart,
+    impactTimeframeEnd,
+    workScope: val.workScopes.split(",").map((x) => x.trim()),
+    impactScope: val.impactScopes,
+    rights: val.rights,
+    version: DEFAULT_HYPERCERT_VERSION,
+    properties: [],
+    excludedImpactScope: [],
+    excludedRights: [],
+    excludedWorkScope: [],
+  });
 };
 
 const exportAsImage = async (id: string) => {
@@ -421,4 +434,3 @@ const exportAsImage = async (id: string) => {
   return image;
   // downloadImage(image, imageFileName);
 };
-
