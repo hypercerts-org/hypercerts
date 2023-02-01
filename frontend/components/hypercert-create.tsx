@@ -50,6 +50,9 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   allowlistUrl: "",
   agreeTermsConditions: false,
 
+  backgroundColor: "",
+  backgroundVectorArt: "",
+
   prev_hypercert: "",
   creators: [],
   uri: "",
@@ -74,6 +77,9 @@ interface HypercertCreateFormData {
   contributors: string;
   allowlistUrl: string;
   agreeTermsConditions: boolean;
+
+  backgroundColor: string;
+  backgroundVectorArt: string;
 
   prev_hypercert: string;
   creators: string[];
