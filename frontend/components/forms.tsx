@@ -136,10 +136,11 @@ export interface FormSelectProps {
   label?: string; // Label to show
   optionValues?: any; // e.g. ["val1", "val2"]
   multiple?: boolean; // Allow multi-select
+  disabled?: boolean; // Disable select
 }
 
 export function FormSelect(props: FormSelectProps) {
-  const { className, fieldName, label, optionValues, multiple } = props;
+  const { className, fieldName, label, optionValues, multiple, disabled } = props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -155,6 +156,7 @@ export function FormSelect(props: FormSelectProps) {
           sx={{ m: 1, minWidth: 120 }}
           className={className}
           error={meta.touched && !!meta.error}
+          disabled={disabled}
         >
           <InputLabel>{label}</InputLabel>
           <Select
@@ -347,6 +349,37 @@ export function FormDropZone(props: FormDropZoneProps) {
             </div>
           )}
         </Dropzone>
+      )}
+    </Field>
+  );
+}
+
+/**
+ * Formik-wrapped Checkbox
+ * - Just the checkbox. For labels, group in Plasmic
+ */
+export interface FormCheckboxProps {
+  className?: string; // Plasmic CSS class
+  fieldName?: string; // Formik field name
+  defaultChecked?: boolean; // Default checked
+  disabled?: boolean;  // Disabled
+}
+
+export function FormCheckbox(props: FormCheckboxProps) {
+  const { className, fieldName, defaultChecked, disabled } = props;
+
+  if (!fieldName) {
+    return <div>{MISSING_FIELDNAME_ERROR}</div>;
+  }
+
+  return (
+    <Field name={fieldName}>
+      {({ field, meta }: FieldProps) => (
+        <Checkbox
+          {...field}
+          defaultChecked={defaultChecked}
+          disabled={disabled}
+        />
       )}
     </Field>
   );

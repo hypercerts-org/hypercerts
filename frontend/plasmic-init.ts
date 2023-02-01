@@ -11,6 +11,7 @@ import {
   FormSelect,
   FormDatePicker,
   FormDropZone,
+  FormCheckbox,
 } from "./components/forms";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { HypercertMetadataFetcher } from "./components/hypercert-metadata-fetcher";
@@ -197,6 +198,7 @@ PLASMIC.registerComponent(FormSelect, {
       defaultValue: ["a", "b"],
     },
     multiple: "boolean",
+    disabled: "boolean",
   },
   importPath: "./components/forms",
 });
@@ -220,6 +222,17 @@ PLASMIC.registerComponent(FormDropZone, {
     fieldName: "string",
     children: "slot",
     accept: "string",
+  },
+  importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(FormCheckbox, {
+  name: "FormCheckbox",
+  description: "Checkbox for forms",
+  props: {
+    fieldName: "string",
+    defaultChecked: "boolean",
+    disabled: "boolean",
   },
   importPath: "./components/forms",
 });
