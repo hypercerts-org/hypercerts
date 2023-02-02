@@ -9,8 +9,16 @@ sidebar_position: 1
 *Definition:* A hypercert is a semi-fungible token that accounts for work that is supposed to be impactful and represents all or parts of that impact. A hypercert has the following fields (one for each dimension):
 1. **Set of contributors:** An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
 2. **Scope of work:** A conjunction of potentially-negated work scope tags, where an empty string means “all”:
+```
+<scope-of-work> ::= <scope-atom> AND <scope-of-work> | " "
+<scope-atom> ::= <scope-tag> | NOT <scope-tag>
+```
 3. **Time of work:** A date range, from the start to the end of the work being claimed by this hypercert.
 4. **Scope of impact:** A conjunction of potentially-negated impact scope tags, where an empty string means “all”:
+```
+<scope-of-impact> ::= <scope-atom> AND <scope-of-impact> | " "
+<scope-atom> ::= <scope-tag> | NOT <scope-tag>
+```
 5. **Time of impact:** Date ranges from the start to the end of the impact.
 6. **Rights of the owners:** An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert.
 
