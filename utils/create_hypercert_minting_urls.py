@@ -7,8 +7,10 @@ import json
 from utils import create_project_filename, datify
 
 
+# REMEMBER TO UPDATE THIS ONCE A NEW ALLOWLIST IS GENERATED
+METADATA_URL = "ipfs://bafybeigdkmhtpj6atanls7x2mikr4tcljv7eekyqnaadyzgq6fg5noqaey/"
+
 METADATA_DIR = "metadata"
-METADATA_URL = "ipfs://bafybeifmds64eaiapzbtr3h7b4ahp5q7fnpgkzlyurmi2fcrlfjkc5chpq/"
 OUT_FILENAME = 'minting_urls.txt'
 MD_FILENAME  = 'project_urls.md'
 
@@ -17,24 +19,35 @@ def safe_url_attr(name, value):
     return urllib.parse.quote(name, safe='') + '=' + urllib.parse.quote(value, safe='') + '&'
 
 
+def parse_url(cid_with_fname):
+        url_base = "https://nftstorage.link/ipfs/"
+        cid_with_fname = cid_with_fname.replace("ipfs://", "")
+        cid_with_fname = urllib.parse.quote(cid_with_fname)
+        return url_base + cid_with_fname
+
+
 def create_url(metadata):
     url = 'https://hypercerts.vercel.app/hypercerts/create?'
 
     url += safe_url_attr('description', metadata['description'])
     url += safe_url_attr('name', metadata['name'])
     url += safe_url_attr('externalLink', metadata['external_url'])
-    url += safe_url_attr('logoUrl', metadata['hidden_properties']['project_icon'])
 
-    work_time_start = datify(metadata['hypercert']['work_timeframe']['value'][0])
+    url += safe_url_attr('logoUrl', parse_url(metadata['hidden_properties']['project_icon']))
+    url += safe_url_attr('bannerUrl', parse_url(metadata['hidden_properties']['project_banner']))
+    url += safe_url_attr('backgroundColor', metadata['hidden_properties']['bg_color'])
+    url += safe_url_attr('backgroundVectorArt', metadata['hidden_properties']['vector'])
+
+    work_time_start = datify(metadata['hypercert']['work_timeframe']['start_value'])
     url += safe_url_attr('workTimeStart', work_time_start)
 
-    work_time_end = datify(metadata['hypercert']['work_timeframe']['value'][1])
+    work_time_end = datify(metadata['hypercert']['work_timeframe']['end_value'])
     url += safe_url_attr('workTimeEnd', work_time_end)
 
-    impact_time_start = datify(metadata['hypercert']['impact_timeframe']['value'][0])
+    impact_time_start = datify(metadata['hypercert']['impact_timeframe']['start_value'])
     url += safe_url_attr('impactTimeStart', impact_time_start)
 
-    impact_time_end = datify(metadata['hypercert']['impact_timeframe']['value'][1]).lower()
+    impact_time_end = datify(metadata['hypercert']['impact_timeframe']['end_value']).lower()
     url += safe_url_attr('impactTimeEnd', impact_time_end)
 
     for idx, right in enumerate(metadata['hypercert']['rights']['value']):
@@ -58,12 +71,6 @@ def create_url(metadata):
 
 
 def create_markdown(metadata, minting_url):
-
-    def parse_url(cid_with_fname):
-        url_base = "https://nftstorage.link/ipfs/"
-        cid_with_fname = cid_with_fname.replace("ipfs://", "")
-        cid_with_fname = urllib.parse.quote(cid_with_fname)
-        return url_base + cid_with_fname
 
     name = metadata['name']
     fname = create_project_filename(name)    
