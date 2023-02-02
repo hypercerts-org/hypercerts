@@ -16,10 +16,9 @@ import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
-import _, { isNumber } from "lodash";
+import _ from "lodash";
 import { toast } from "react-toastify";
 import { parseCsv } from "../lib/parse-csv";
-import { isAddress } from "ethers/lib/utils";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
