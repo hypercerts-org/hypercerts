@@ -77,17 +77,16 @@ export const useMintClaimAllowlist = ({
           async (data) => {
             const text = await data.text();
             const results = parseCsv(text);
-            return results
-              .map((row) => ({
-                address: row["address"],
-                fraction: parseInt(row["fractions"], 10),
-              }))
-              .filter((x) => isAddress(x.address) && isNumber(x.fraction));
+            return results.map((row) => ({
+              address: row["address"],
+              fraction: parseInt(row["fractions"], 10),
+            }));
           },
         );
         const { cid: merkleCID, root } = await generateAndStoreTree(
           pairsFromCsv,
         );
+        console.log(pairsFromCsv);
         const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
         setCidUri(cid);
         setMerkleRoot(root);
