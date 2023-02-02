@@ -319,11 +319,14 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          const image = await exportAsImage(IMAGE_SELECTOR);
           if (!address) {
             console.log("User not connected");
             return;
           }
+
+          console.log("Form values:");
+          console.log(values);
+          const image = await exportAsImage(IMAGE_SELECTOR);
           const {
             valid,
             errors,
@@ -358,7 +361,17 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             }}
           >
             <FormContext.Provider value={formikProps}>
-              <form onSubmit={formikProps.handleSubmit}>{children}</form>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log("Submitting form...");
+                  console.log("Form errors:");
+                  console.log(formikProps.errors);
+                  formikProps.handleSubmit();
+                }}
+              >
+                {children}
+              </form>
             </FormContext.Provider>
           </DataProvider>
         )}
