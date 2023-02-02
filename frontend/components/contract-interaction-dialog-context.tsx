@@ -3,9 +3,11 @@ import {
   Box,
   Dialog,
   DialogTitle,
+  DialogContentText,
   Step,
   StepLabel,
   Stepper,
+  DialogContent,
 } from "@mui/material";
 
 type StepDescriptions = Record<string, string>;
@@ -58,8 +60,13 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
           console.log("Manual closing of dialog disabled");
         }}
         disableEscapeKeyDown={true}
+        fullWidth={true}
       >
         <DialogTitle>Contract interaction</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>Please keep this tab open until completion</DialogContentText>
+        </DialogContent>
 
         <Box sx={{ px: 3, pb: 3 }}>
           <Stepper
