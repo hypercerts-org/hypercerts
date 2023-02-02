@@ -179,3 +179,4 @@ Additional `rights` including the potential for certain types of transfers to be
 ## Optional hidden properties
 
 Creators may wish to add other fields in their metadata that are not a part of the hypercert claim and are not for display on third-party marketplaces like OpenSea. These can be added by creating a `hidden_properties` field in the metadata.
+
