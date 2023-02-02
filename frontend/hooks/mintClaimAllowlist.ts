@@ -7,7 +7,6 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import {
-  getData,
   HypercertMetadata,
   storeData,
   storeMetadata,
@@ -17,8 +16,10 @@ import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
-import _ from "lodash";
+import _, { isNumber } from "lodash";
 import { toast } from "react-toastify";
+import { parseCsv } from "../lib/parse-csv";
+import { isAddress } from "ethers/lib/utils";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
@@ -70,28 +71,35 @@ export const useMintClaimAllowlist = ({
       setUnits(_.sum(pairs.map((x) => x.fraction)));
     }
     if (allowlistUrl) {
-      // Download existing tree to determine total number of units
-      setCidUri(allowlistUrl);
-      const treeResponse = await getData(allowlistUrl);
-
-      if (!treeResponse) {
-        toast("Could not fetch json tree dump for allowlist", {
-          type: "error",
-        });
+      // fetch csv file
+      try {
+        const pairsFromCsv = await fetch(allowlistUrl, { method: "GET" }).then(
+          async (data) => {
+            const text = await data.text();
+            const results = parseCsv(text);
+            return results
+              .map((row) => ({
+                address: row["address"],
+                fraction: parseInt(row["fractions"], 10),
+              }))
+              .filter((x) => isAddress(x.address) && isNumber(x.fraction));
+          },
+        );
+        const { cid: merkleCID, root } = await generateAndStoreTree(
+          pairsFromCsv,
+        );
+        const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
+        setCidUri(cid);
+        setMerkleRoot(root);
+        setUnits(_.sum(pairsFromCsv.map((x) => x.fraction)));
+      } catch (e) {
+        console.error(e);
+        toast(
+          "Something went wrong while generating merkle tree from the CSV file",
+          { type: "error" },
+        );
         hideModal();
-        return;
       }
-
-      const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
-
-      let totalUnits = 0;
-      // Find the proof
-      for (const [, v] of tree.entries()) {
-        totalUnits += parseInt(v[1], 10);
-      }
-
-      setMerkleRoot(tree.root as `0x{string}`);
-      setUnits(totalUnits);
     }
     setStep("Preparing");
   };
@@ -147,6 +155,9 @@ export const useMintClaimAllowlist = ({
       setStep("storingEligibility");
       setStep("complete");
       onComplete?.();
+    },
+    onError: async () => {
+      toast(mintInteractionLabels.toastRejected);
     },
   });
 
