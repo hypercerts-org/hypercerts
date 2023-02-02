@@ -86,7 +86,6 @@ export const useMintClaimAllowlist = ({
         const { cid: merkleCID, root } = await generateAndStoreTree(
           pairsFromCsv,
         );
-        console.log(pairsFromCsv);
         const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
         setCidUri(cid);
         setMerkleRoot(root);
