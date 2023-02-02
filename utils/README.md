@@ -45,7 +45,8 @@ The `allowlist.py` module makes assumptions about how amounts donated to each pr
 2. Review `canonical_project_list.json` to ensure that all projects are correctly listed for each round
 3. Review the projects and workscopes on the Notion page; download the CSV of workscopes to override
 4. Review the Dune queries to make sure that there is a query for all projects; if OK, then download the CSV versions of the queries
-5. Run `allowlist.py` to generate an allowlist csv for each project
+5. Run `allowlist.py` to generate an allowlist csv for each project (this requires having an API key to run sanctions checks on wallets)
 6. Bulk upload the allowlist CSVs to a nft.storage; copy the CID
 7. Update the `ALLOWLIST_BASE_URL` field's CID in `create_hypercerts_metadata.py`; then execute the script
-8. Run `create_hypercert_minting_url.py`
+8. Bulk upload the allowlist JSONs to a nft.storage; copy the CID
+9. Update the `METADATA_URL` amd run `create_hypercert_minting_url.py`
