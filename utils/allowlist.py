@@ -1,15 +1,19 @@
 import math
+import os
 import pandas as pd
 import requests
 import asyncio
 import aiohttp
-from utils import create_project_filename 
+from dotenv import load_dotenv
 
 from aiolimiter import AsyncLimiter
+from utils import create_project_filename 
 
 limiter = AsyncLimiter(4500)
 
-CHAINALYSIS_API_KEY='ask jason'
+load_dotenv()
+CHAINALYSIS_API_KEY = os.environ['CHAINALYSIS_API_KEY']
+
 OUT_DIR = 'allowlists/'
 DUNE_EXPORTS = [
     'csv/eth_infra_allowlist.csv',  # https://dune.com/queries/1934656
@@ -21,6 +25,10 @@ DUNE_EXPORTS = [
 # Functions for assigning hypercert fractions based on contribution amounts
 
 def floor(amt, min_amt):
+    return int(math.floor(amt/min_amt))
+
+def buffered_floor(amt, min_amt, buffer=.05):
+    amt = amt if amt > min_amt else amt * (1+buffer)
     return int(math.floor(amt/min_amt))
 
 def ceil(amt, min_amt):
@@ -43,6 +51,7 @@ async def remove_sanctioned(df, address):
 
             resp = await session.get(url, headers=headers)
             content = await resp.json()
+            print("OK")
 
             is_sanctioned = len(content['identifications']) != 0
             if is_sanctioned:
@@ -91,7 +100,7 @@ async def main():
     await batch_create_allowlists(
         paths=DUNE_EXPORTS,
         min_usd=1.0,
-        fraction_func=floor
+        fraction_func=buffered_floor
     )
 
 asyncio.run(main())
