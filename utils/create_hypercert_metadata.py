@@ -2,15 +2,17 @@ from datetime import datetime
 import json
 import pandas as pd
 import sys
-from utils import create_project_filename, datify, shorten_address
+from utils import build_scope, create_project_filename, datify, shorten_address
 
 
 OUT_DIR = "metadata/"
-with open("canonical_project_list.json", "r") as j:
-    PROJECTS_DB = json.load(j)
+with open("canonical_project_list.json", "r") as project_db:
+    PROJECTS_DB = json.load(project_db)
+with open("round_config.json") as round_config:
+    ROUND_CONFIG = json.load(round_config)    
 
 # IMPORTANT: make sure this is updated once the Gitcoin Round is locked
-ALLOWLIST_BASE_URL = "ipfs://bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm/"
+ALLOWLIST_BASE_URL = "ipfs://bafybeied77wecju3mh4ixvgrphhzkfyqwelafsqv2mnpxw57nxselsqnky/"
 
 
 def verify_project(project_round, project_title, project_address):
@@ -27,12 +29,7 @@ def verify_project(project_round, project_title, project_address):
 
 def mapper(data, project_id):
 
-    round_mapping = {
-        "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0": "Climate Solutions",
-        "0xd95a1969c41112cee9a2c931e849bcef36a16f4c": "Open Source Software",
-        "0xe575282b376e3c9886779a841a2510f1dd8c2ce4": "Ethereum Infrastructure"
-    }
-
+    
     version          = "1.0.0"
 
     work_start_date  = 1663819200
@@ -57,7 +54,10 @@ def mapper(data, project_id):
     funding_platform = "Gitcoin Grants"
     funding_round    = "Alpha Round"
     round_contract   = app_data['round']
-    matching_pool    = round_mapping[round_contract]
+    round_data       = ROUND_CONFIG[round_contract]
+    matching_pool    = round_data['name']
+    bg_color         = round_data['color']
+    bg_vector        = round_data['vector']
     grant_page_url   = f"https://grant-explorer.gitcoin.co/#/round/1/{round_contract}/{project_id}-{round_contract}"
 
     # todo: link work scopes to pre-assigned values
@@ -87,24 +87,24 @@ def mapper(data, project_id):
             }
         ],
         "hypercert": {
-            "impact_scope": {
-                "name": "Impact Scope",
-                "value": [default_impact],
-                "display_value": default_impact.title()
-            },
-            "work_scope": {
-                "name": "Work Scope",
-                "value": [work_scope],
-                "display_value": work_scope.title()
-            },
+            "impact_scope": build_scope(
+                name="Impact Scope",
+                include_list=[default_impact]
+            ),
+            "work_scope": build_scope(
+                name="Work Scope",
+                include_list=[work_scope]
+            ),
             "work_timeframe": {
                 "name": "Work Timeframe",
-                "value": [work_start_date, project_date],
+                "start_value": work_start_date,
+                "end_value": project_date,
                 "display_value": f"{datify(work_start_date)} → {datify(project_date)}"
             },
             "impact_timeframe": {
                 "name": "Impact Timeframe",
-                "value": [project_date, impact_end_date],
+                "start_value": project_date,
+                "end_value": impact_end_date,
                 "display_value": f"{datify(project_date)} → {datify(impact_end_date)}"
             },
             "contributors": {
@@ -112,17 +112,19 @@ def mapper(data, project_id):
                 "value": [project_address],
                 "display_value": shorten_address(project_address)
             },
-            "rights": {
-                "name": "Rights",
-                "value": ["public display", "-transfers"],
-                "display_value": "Public display"
-            },
+            "rights": build_scope(
+                name="Rights",
+                include_list=["Public Display"],
+                exclude_list=["Transfers"]
+            ),
         },
         "hidden_properties": {
             "allowlist": allowlist_url,
             "project_banner": project_banner,
             "project_icon": project_icon,
-            "gitcoin_grant_url": grant_page_url
+            "gitcoin_grant_url": grant_page_url,
+            "bg_color": bg_color,
+            "vector": bg_vector
         }
     }
 
