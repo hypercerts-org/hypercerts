@@ -10,6 +10,11 @@ export const DEFAULT_CHAIN_ID = requireEnv(
   "NEXT_PUBLIC_DEFAULT_CHAIN_ID"
 );
 
+export const CONTRACT_ADDRESS = requireEnv(
+  process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+  "NEXT_PUBLIC_CONTRACT_ADDRESS"
+) as `0x${string}`;
+
 export const SUPABASE_URL = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   "NEXT_PUBLIC_SUPABASE_URL"
@@ -18,16 +23,6 @@ export const SUPABASE_URL = requireEnv(
 export const SUPABASE_ANON_KEY = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   "NEXT_PUBLIC_SUPABASE_ANON_KEY"
-);
-
-export const CONTRACT_ADDRESS = requireEnv(
-  process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-  "NEXT_PUBLIC_CONTRACT_ADDRESS"
-) as `0x${string}`;
-
-export const SHEET_BEST_ENDPOINT = requireEnv(
-  process.env.NEXT_PUBLIC_SHEET_BEST_ENDPOINT,
-  "NEXT_PUBLIC_SHEET_BEST_ENDPOINT"
 );
 
 export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
