@@ -9,6 +9,7 @@ export const mintInteractionLabels = {
   toastFractionSuccess: "Successfully minted your share of the hypcert",
   toastBatchSuccess: "Successfully minted all available fractions",
   toastError: "Something went wrong while minting the certificate",
+  toastRejected: "User rejected the contract interaction",
 };
 
 export const mergeInteractionLabels = {
