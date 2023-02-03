@@ -4,8 +4,9 @@ id: impact-space
 sidebar_position: 7
 ---
 
-### Consistency
 Every hypercert represents a claim in the impact space, which itself represents all possible claims. Above we illustrated the impact space with two dimensions, scope and time of work. The complete impact space is spanned by the six dimensions introduced in the definition of hypercerts.
+
+### Consistency of the impact space
 
 Every point in the impact space should either be claimed or not be claimed. No point must be claimed twice, or equivalently:
 - If the impact of some work is represented in one hypercert, it must not be part of any other hypercert.

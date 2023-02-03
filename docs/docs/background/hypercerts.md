@@ -4,18 +4,7 @@ id: functions-definition
 sidebar_position: 4
 ---
 
-### Functions
-
-#### 1. Identifiability
-Hypercerts clearly define the work that is supposed to be impactful by creating a record of who (set of contributors) claims to do or have done what (scope of work) in what time period (time of work). They also allow the creation of multiple records of the same work to identify separate impacts that this work had or will have (scope of impact) over specified time periods (time of impact).
-
-#### 2. Traceability
-As these records are public and logically monotonic (immutable, except to split or merge hypercerts), records are durable and permanent.
-
-#### 3. Transferability
-The records are a digital object that can be owned and ownership can be transferred (under specific conditions). As hypercerts can be created as fractionalizable, it is also possible to transfer only a specified fraction of the hypercert. Each hypercert defines the rights over the defined work that owners have, such as rights to retrospective rewards, rights to public display of the support (“bragging rights”) or rights to passive income from intellectual property.
-
-### Definition
+### Defining hypercerts
 A hypercert is a semi-fungible token that accounts for work that is supposed to be impactful and represents all or parts of that impact. A hypercert has the following fields (one for each dimension):
 1. **Set of contributors:** An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
 2. **Scope of work:** A conjunction of potentially-negated work scope tags, where an empty string means “all”:
@@ -62,3 +51,17 @@ Table 2 illustrates a use case for limiting the scope of impact. Suppose contrib
 | **Rights**              | Public display of support  | Public display of support  | Public display of support  |
 
 Importantly a hypercert does not specify the “size” of the impact, e.g. a hypercert does not state “5 tons of CO2 removed from the atmosphere.” Instead the hypercert only defines the work, e.g. “200 trees protected” (scope of work) in 2022 (time of work). The size of the impact is then left to the evaluations of the “CO2 in the atmosphere” (scope of impact) in 2022 (time of impact) that point towards the covered region of the hypercert. For instance: This allows a self evaluation to claim that 5 tons of CO2 were removed in a given year as well as one or multiple evaluations from independent auditors to confirm or challenge how much CO2 has been removed. An evaluator could detect that some of the trees were not healthy and hence only 4 tons of CO2 were removed. Allowing for multiple evaluation is a defining characteristic of the open evaluation system.
+
+### Functions of hypercerts
+
+#### 1. Identifiability
+Hypercerts clearly define the work that is supposed to be impactful by creating a record of who (set of contributors) claims to do or have done what (scope of work) in what time period (time of work). They also allow the creation of multiple records of the same work to identify separate impacts that this work had or will have (scope of impact) over specified time periods (time of impact).
+
+#### 2. Traceability
+As these records are public and logically monotonic (immutable, except to split or merge hypercerts), records are durable and permanent.
+
+#### 3. Transferability
+The records are a digital object that can be owned and ownership can be transferred (under specific conditions). As hypercerts can be created as fractionalizable, it is also possible to transfer only a specified fraction of the hypercert. Each hypercert defines the rights over the defined work that owners have, such as rights to retrospective rewards, rights to public display of the support (“bragging rights”) or rights to passive income from intellectual property.
+
+### Transferability restrictions
+Hypercerts are generally transferable. However, there are some use cases, in which minters of hypercerts want to restrict how their hypercerts can be transferred. The protocol allows the minter to restrict who can transfer the hypercert and/or to whom the hypercert can be transferred. For instance, by specifying that only the original owner can transfer the hypercert, any future owner is prohibited from selling it, i.e. a secondary market would not exist for this hypercert.
