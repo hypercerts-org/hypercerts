@@ -1,6 +1,6 @@
 ---
 title: Definition and functions
-id: hypercert-definition
+id: functions-definition
 sidebar_position: 4
 ---
 

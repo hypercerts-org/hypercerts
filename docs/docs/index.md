@@ -20,7 +20,7 @@ The hypercert itself is an ERC-1155 semi-fungible token with the information abo
 
 ### Hypercert example
 #### Graphic representation
-![hypercert design example](https://raw.githubusercontent.com/network-goods/hypercerts/main/docs/static/img/hypercert_example.png)
+![hypercert design example](../static/img/hypercert_example.png)
 
 #### Supplementary information (metadata)
 - **Title of hypercert:** Invention of the InterPlanetary Filesystem (IPFS)

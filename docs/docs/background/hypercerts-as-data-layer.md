@@ -33,6 +33,6 @@ By serving as a single, open, shared, decentralized database hypercerts lower th
 
 Hypercerts don’t solve this coordination problem by themselves, but build the basis for different decision and funding mechanisms as shown in figure 2. Quadratic voting, bargaining solutions, DAO-style votes, milestone bounties, and simple unconditional grants all have their strengths, among others. Hypercerts do not lock in any particular decision-making scheme for funders.
 
-![Hypercerts as a data layer for an IFS](https://raw.githubusercontent.com/protocol/hypercerts-docs/main/static/img/hypercert_data_layer.png)
+![Hypercerts as a data layer for an IFS](../../static/img/hypercert_data_layer.png)
 
 Looking farther into the future: If a large majority of funding across an entire IFS ends up flowing through hypercerts, funders have created the transparency that enables each of them to make the best decisions given the funding decision of everyone else.

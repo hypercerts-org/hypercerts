@@ -1,6 +1,6 @@
 ---
 title: Consistency of the impact space
-id: consistency
+id: impact-space
 sidebar_position: 7
 ---
 
