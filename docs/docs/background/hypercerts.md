@@ -4,20 +4,18 @@ id: functions-definition
 sidebar_position: 4
 ---
 
-# Functions and definition of hypercerts
+### Functions
 
-## Functions
-
-### 1. Identifiability
+#### 1. Identifiability
 Hypercerts clearly define the work that is supposed to be impactful by creating a record of who (set of contributors) claims to do or have done what (scope of work) in what time period (time of work). They also allow the creation of multiple records of the same work to identify separate impacts that this work had or will have (scope of impact) over specified time periods (time of impact).
 
-### 2. Traceability
+#### 2. Traceability
 As these records are public and logically monotonic (immutable, except to split or merge hypercerts), records are durable and permanent.
 
-### 3. Transferability
+#### 3. Transferability
 The records are a digital object that can be owned and ownership can be transferred (under specific conditions). As hypercerts can be created as fractionalizable, it is also possible to transfer only a specified fraction of the hypercert. Each hypercert defines the rights over the defined work that owners have, such as rights to retrospective rewards, rights to public display of the support (“bragging rights”) or rights to passive income from intellectual property.
 
-## Definition
+### Definition
 A hypercert is a semi-fungible token that accounts for work that is supposed to be impactful and represents all or parts of that impact. A hypercert has the following fields (one for each dimension):
 1. **Set of contributors:** An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
 2. **Scope of work:** A conjunction of potentially-negated work scope tags, where an empty string means “all”:
@@ -36,7 +34,7 @@ A hypercert is a semi-fungible token that accounts for work that is supposed to 
 
 Implementing hypercerts as a semi-fungible token allows multiple contributors and funders to own parts of hypercerts. For instance the original contributors can award 10% of a hypercert to a funder, while keeping 90%, which they can award to other funders later. This is why hypercerts are fractionalizable.
 
-## Examples
+### Examples
 In the simplest cases of hypercerts, the scope of work and impact as well as the time of impact are not restricted and no rights are transferred to owners of the hypercerts, i.e. the hypercerts just define the who (set of contributors) and when (time of work) of the claimed work. Scope of work and impact would be set to all, time of impact to “indefinite” and the rights to only “public display of support”. The latter is always included as the hypercert is a public record, such that owners will always automatically display their support of the work.
 
 Take for example hypercert 1 below: It represents all work that contributor 1 has performed in 2013 with all the impact that the work had from the beginning of the work; the hypercert doesn’t give any additional rights to the owners of the hypercert.

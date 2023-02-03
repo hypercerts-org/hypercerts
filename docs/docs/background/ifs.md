@@ -4,7 +4,7 @@ id: ifs
 sidebar_position: 2
 ---
 
-## An IFS consists of
+### An IFS consists of
 - **Actors:** Contributors, funders, evaluators, and beneficiaries
 - **Funding mechanisms:** Grants, bounties, retrospective funding, etc.
 - **Coordination mechanisms:** Roadmapping, communication forums, etc.
@@ -12,7 +12,7 @@ sidebar_position: 2
 
 The goal will be specific to the impact area, e.g. prevent existential risks from artificial intelligence (AI) would be the goal for the impact area “AI safety.” To achieve these goals, skilled contributors must work with high effort on promising projects. Additionally, for those projects that create impact continuously, sufficient income streams are necessary to cover both their ongoing operating expenses and contributors’ upside incentives.
 
-## Actors in IFSs
+### Actors in IFSs
 <table class="tg">
 <thead>
   <tr>
@@ -53,7 +53,7 @@ The goal will be specific to the impact area, e.g. prevent existential risks fro
 </tbody>
 </table>
 
-## Guiding questions for designing IFSs
+### Guiding questions for designing IFSs
 1. **Projects:** How can we improve the chances that the most promising projects are worked on?
 2. **Talent & resources:** How can we attract top talent to contribute to the most promising projects and provide them with the necessary resources?
 3. **Effort:** How can we reward contributors for their impact on outcomes?
