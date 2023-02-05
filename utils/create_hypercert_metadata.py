@@ -12,7 +12,7 @@ with open("round_config.json") as round_config:
     ROUND_CONFIG = json.load(round_config)    
 
 # IMPORTANT: make sure this is updated once the Gitcoin Round is locked
-ALLOWLIST_BASE_URL = "ipfs://bafybeied77wecju3mh4ixvgrphhzkfyqwelafsqv2mnpxw57nxselsqnky/"
+ALLOWLIST_BASE_URL = "ipfs://bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm/"
 
 
 def verify_project(project_round, project_title, project_address):
