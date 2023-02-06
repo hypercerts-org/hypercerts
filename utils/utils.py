@@ -32,8 +32,7 @@ def build_scope(name, include_list, exclude_list=[]):
 
     return {
         "name": name,
-        "includes": include_list,
+        "value": include_list,
         "excludes": exclude_list,
-        "value": array_value,
         "display_value": display_value
     }

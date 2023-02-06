@@ -8,7 +8,7 @@ from utils import create_project_filename, datify
 
 
 # REMEMBER TO UPDATE THIS ONCE A NEW ALLOWLIST IS GENERATED
-METADATA_URL = "ipfs://bafybeiasfw44yvzomhndmwxjfbyybsq4ynb5lr44krkjxxdtbfr2osrray/"
+METADATA_URL = "ipfs://bafybeifup7umb3ybxgdpyuieamgfhralogwrvncocsxi2zfej53qp3yn5a/"
 
 METADATA_DIR = "metadata"
 OUT_FILENAME = 'minting_urls.txt'
