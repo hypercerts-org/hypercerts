@@ -1,12 +1,15 @@
 # hypercerts
 
-Check back soon for more.
+Hypercerts are a tool to build scalable retrospective reward systems for impact.
+For more details, check out our [website](https://hypercerts.vercel.app/).
 
 ## Organization
 
-- `/docs`: contains the documentation (Docusaurus)
-- `/frontend`: contains the frontend application (Next.js)
+- `/defender`: OpenZeppelin Defender integration
+- `/docs`: documentation (Docusaurus)
+- `/frontend`: frontend application (Next.js)
 - `/utils`: various scripts for operations
+- [The Graph](https://github.com/Network-Goods/hypercerts-graph)
 - [SDK](https://github.com/Network-Goods/hypercerts-sdk)
 - [Smart contracts](https://github.com/Network-Goods/hypercerts-protocol)
 
@@ -15,7 +18,6 @@ Check back soon for more.
 - Hypercerts Dapp
   - [on Fleek](https://hypercerts.on.fleek.co/) - Production build on mainnet
   - [on Vercel](https://hypercerts.vercel.app) - Staging build on Goerli
-  - [on Netlify](https://hypercerts.netlify.app/) - Staging build on Goerli
 
 ## Setup and build
 
