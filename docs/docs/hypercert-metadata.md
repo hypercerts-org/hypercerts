@@ -74,7 +74,6 @@ Here is an example of hypercert dimensions for work on IPFS with minimal bounds:
         "name": "Rights",
         "value": ["Public Display"],
         "display_value": "Public Display"
-
     }
 }
 ````
