@@ -144,6 +144,7 @@ PLASMIC.registerComponent(HypercertFetcher, {
       },
     },
     ignoreLoading: "boolean",
+    useQueryString: "boolean",
     byClaimId: "string",
     byMetadataUri: "string",
   },
@@ -266,6 +267,7 @@ PLASMIC.registerComponent(SupabaseQuery, {
       defaultValue: [],
     },
   },
+  providesData: true,
   importPath: "./components/supabase-query",
 });
 
