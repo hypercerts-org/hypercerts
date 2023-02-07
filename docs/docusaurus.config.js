@@ -113,12 +113,12 @@ const config = {
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/ProtoResearch",
+                href: "https://twitter.com/hypercerts",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Protocol Labs. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Hypercerts Foundation. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
