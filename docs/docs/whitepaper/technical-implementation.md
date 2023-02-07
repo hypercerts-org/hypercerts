@@ -9,6 +9,10 @@ In order to make the token identifiable, traceable, and transferable, hypercerts
 
 ![hypercert id](../../static/img/hypercert_id.png)
 
+<img src="../../static/img/hypercert_id.png"
+     alt="hypercert id"
+     max-width:200px>
+
 For illustrative purposes, let us assume that token IDs are just 2 bytes long, where the first byte represents the hypercert ID and the last byte represents which fraction of ownership. Alice could create a new hypercert token 0x2301, representing 100% of hypercert 0x23. If Alice wanted to transfer 20% to Bob, Alice could perform a split operation by minting token 0x2302 and transferring 20% of value to it, such that tokens 0x2301 and 0x2302 represent 80% and 20% ownership respectively of hypercert 0x23.  Then Alice transfers token 0x2302 to Bob. Similarly, they could merge these 2 tokens together, back to form a token that represented 100% ownership. In this case, the value of 0x2301 would be transferred to 0x2302, and then 0x2301 is subsequently burned.
 
 Alice can also choose to split or merge hypercerts along some dimension of the impact space. For example, Alice may split hypercert 0x23 into two new hypercerts — 0x24 representing work done before the year 2000, and 0x25 representing work done after 2000. The original hypercert 0x23 is burned and the two new hypercerts store a reference to the previous hypercert. When the history of splits and merges are indexed, we can easily trace through the provenance of any individual hypercert.
