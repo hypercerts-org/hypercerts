@@ -1,13 +1,13 @@
 ---
 title: Glossary
 id: glossary
-sidebar_position: 10
+sidebar_position: 19
 ---
 
 # Glossary for Hypercerts
 
 > 📖 **Purpose of this glossary**
-> 
+>
 > Consistent terms and wording make learning faster. The systemic benefits of hypercerts depend on its indepentend adoption by projects across the globe. A clear vocabulary makes it easier to exchange thoughts and collaboratively improve hypercerts and the world around us.
 
 | Term | Description | Instead of | Protocol Entity* |
