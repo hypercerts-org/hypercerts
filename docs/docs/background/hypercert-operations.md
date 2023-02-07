@@ -5,16 +5,16 @@ sidebar_position: 5
 ---
 
 ### Merging hypercerts
-Besides the fungible dimension, hypercerts can be merged and split on any of the six dimensions as shown in box 1. Let us take the hypercert 1 from table 2 from above and focus only on two of the dimensions, scope of work and time of work. These two dimensions create a simplified impact space. Figure 4 shows how work on IPFS (InterPlanetary File System) could have been minted over time in separate hypercerts, one for each quarter of work.
+Besides the fungible dimension, hypercerts can be merged and split on any of the six dimensions as shown in box 1. Let us take the hypercert 1 from the section "Hypercerts definition" and focus only on two of the dimensions, scope of work and time of work. These two dimensions create a simplified impact space. The figure below shows how work on IPFS (InterPlanetary File System) could have been minted over time in separate hypercerts, one for each quarter of work.
 
 ![minting hypercerts example](../../static/img/creating.png)
 
-In figure 4 we created five hypercerts, one for each quarter of work. As the resulting work of all of these together is IPFS 0.1, the merged hypercert in total is more meaningful and more valuable than just the five individual hypercerts. In this case the proverb is true, the whole is greater than the sum of its parts. Hence, we want to merge them as shown in figure 5.
+We created five hypercerts, one for each quarter of work. As the resulting work of all of these together is IPFS 0.1, the merged hypercert in total is more meaningful and more valuable than just the five individual hypercerts. In this case the proverb is true, the whole is greater than the sum of its parts. Hence, we want to merge them as shown in the next figure.
 
 ![merging hypercerts example](../../static/img/merging.png)
 
 ### Splitting hypercerts
-Conversely, splitting can increase the meaningfulness and value of hypercerts as well. We can split the work on IPFS 0.1 into the conceptual work “invention of IPFS” and the implementation via “go-ipfs 0.1” as shown in figure 6.
+Conversely, splitting can increase the meaningfulness and value of hypercerts as well. We can split the work on IPFS 0.1 into the conceptual work “invention of IPFS” and the implementation via “go-ipfs 0.1” as shown in the next figure.
 
 ![splitting hypercerts examples](../../static/img/splitting.png)
 

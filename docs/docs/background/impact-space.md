@@ -12,7 +12,7 @@ Every point in the impact space should either be claimed or not be claimed. No p
 - If the impact of some work is represented in one hypercert, it must not be part of any other hypercert.
 - Hypercerts must not overlap with each other.
 
-Table 4 shows two hypercerts that were illustrated in figure 4, but now with all six fields. The two hypercerts can represent the exact same work by the same contributor, but they do not overlap because of the difference in the time of work.
+The table below shows two hypercerts that were illustrated in the section on "Hypercerts operations", but now with all six fields. The two hypercerts can represent the exact same work by the same contributor, but they do not overlap because of the difference in the time of work.
 
 |                         | **Hypercert 7**          | **Hypercert 8**          |
 |-------------------------|--------------------------|--------------------------|

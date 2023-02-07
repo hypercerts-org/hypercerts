@@ -12,13 +12,13 @@ In addition, contributors are able to receive fair compensation by providing out
 
 The crucial aspect for this to work: funders need to retrospectively fund impact, and send credible signals that they will do so in the future. Based on these signals contributors form expectations about future retrospective rewards and can start working today to receive them in the future.
 
-Hypercerts facilitate retrospective funding as the impact claims are identifiable, traceable and transferable. Contributors can sell parts of their hypercerts to prospective funders to receive the necessary funding for their project (“activity” in figure 9). The project delivers impact to a larger group (“beneficiaries”), which retrospectively buys the hypercerts from the prospective funder, and from the contributors if they retained some fraction of their hypercerts (the latter is not represented in figure 9).
+Hypercerts facilitate retrospective funding as the impact claims are identifiable, traceable and transferable. Contributors can sell parts of their hypercerts to prospective funders to receive the necessary funding for their project (“activity” in the figure below). The project delivers impact to a larger group (“beneficiaries”), which retrospectively buys the hypercerts from the prospective funder, and from the contributors if they retained some fraction of their hypercerts (the latter is not represented in the figure).
 
 ![Retrospective funding with hypercerts](../../static/img/retrospective_funding.png)
 
 ### Increasing rewards
 
-Retrospective funding allows us to increase rewards as more impact is created because impact is easier to observe, measure and prove retrospectively. Increasing rewards – as shown in figure 10 – incentivizes contributors to put in their highest effort to produce impact and enables contributors to be rewarded for their talent. Moreover, prospective funders are incentivized to select, fund and support the projects with the highest expected impact, if they also receive retrospective rewards.
+Retrospective funding allows us to increase rewards as more impact is created because impact is easier to observe, measure and prove retrospectively. Increasing rewards – as shown in the next figure – incentivizes contributors to put in their highest effort to produce impact and enables contributors to be rewarded for their talent. Moreover, prospective funders are incentivized to select, fund and support the projects with the highest expected impact, if they also receive retrospective rewards.
 
 ![Increasing rewards](../../static/img/increasing_rewards.png)
 
@@ -28,9 +28,9 @@ In some cases we do not expect the retrospective evaluation to be any different 
 
 ### Impact evaluations
 
-The relevance of impact evaluations will depend on how much their signals influence the funding decisions of retrospective funders (see figure 1 in chapter 2). This is a critical difference to many impact reports today: If a project was funded by a grant, the funders as well as the project want to receive a positive evaluation. If, however, the funding decisions of the retrospective funders are outstanding, they are interested in truthful signals about the impact. Hence, funders value improvements in evaluation methodologies and can fund independent evaluators. Evaluators in turn would build up a reputation for their evaluation methodologies and improve the strength of their signals to retrospective funders.
+The relevance of impact evaluations will depend on how much their signals influence the funding decisions of retrospective funders (see the potential dynamics in the section on "IFSs"). This is a critical difference to many impact reports today: If a project was funded by a grant, the funders as well as the project want to receive a positive evaluation. If, however, the funding decisions of the retrospective funders are outstanding, they are interested in truthful signals about the impact. Hence, funders value improvements in evaluation methodologies and can fund independent evaluators. Evaluators in turn would build up a reputation for their evaluation methodologies and improve the strength of their signals to retrospective funders.
 
-Impact evaluators can take on a range of forms ranging forms, such as 
+Impact evaluators can take on a range of forms ranging forms, such as
 - Voting by relevant communities or beneficiaries
 - Expert panels
 - Professional evaluators similar to financial rating agencies
