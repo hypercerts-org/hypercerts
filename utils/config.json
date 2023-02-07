@@ -4,7 +4,7 @@
 	"path_to_allowlist_directory": "allowlists/",
 	"path_to_minting_urls": "minting_urls.txt",
 	"path_to_project_urls_markdown": "project_urls.md",
-	"hypercert_dapp_base_url": "https://hypercerts.vercel.app/hypercerts/create?",
+	"hypercert_dapp_base_url": "https://hypercerts.vercel.app/app/create?",
 	"hosted_cid_base_url": "https://cloudflare-ipfs.com/ipfs/",
 	"ipfs_cids": {
 		"allowlist_base": "bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm",
