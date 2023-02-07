@@ -6,6 +6,11 @@ sidebar_position: 10
 
 # Introduction
 
+:::info
+
+You can read the draft whitepaper (v0) as a pdf [here](../../static/pdf/hypercerts_whitepaper_v0.pdf).
+
+:::
 
 #### The world faces unprecedented challenges, from climate change to safe artificial intelligence, that require billions to trillions of dollars of public goods funding.
 
