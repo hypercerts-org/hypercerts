@@ -22,6 +22,7 @@
     		"csv/oss_allowlist.csv"
     	],
 		"path_to_workscope_overrides": "csv/workscope_overrides.csv",
+		"path_to_multisig_data": "csv/safe_multisig_list.csv",
 		"platform_name": "Gitcoin Grants",
     	"round_name":  "Alpha Round",
 		"default_dimensions": {
