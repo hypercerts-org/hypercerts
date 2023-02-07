@@ -13,7 +13,7 @@ Creating a hypercert is similar to creating an NFT on sites like OpenSea or Zora
 In this article, we’ll walk through the steps one by one and explain exactly what you need to do to create your first hypercert.
 
 There are typically two ways of creating a hypercert:
-1. As a project affiliated with a specific funding network (e.g., Gitcoin Grants): In this case, you should receive a custom URL from the funding network that pre-populates most of your hypercert fields. You will still be able to change most of these, so you should review and adjust them as needed to better describe your hypercert. Guidance on how to do so (for Gitcoin Grants projects) is provided at the [end of this doc](#Create-a-hypercert-for-a-Gitcoin-Grant).
+1. As a project affiliated with a specific funding network (e.g., Gitcoin Grants): In this case, you should receive a custom URL from the funding network that pre-populates most of your hypercert fields. You will still be able to change most of these, so you should review and adjust them as needed to better describe your hypercert. Guidance on how to do so (for Gitcoin Grants projects) is provided at the end of this doc.
 2. As a project not affiliated with a specific funding network: In this case, you will be creating a hypercert from scratch and filling in each field on your own. Read on below.
 
 ## Who can create a hypercert?
@@ -28,7 +28,7 @@ Critically, if the work was done by more that one person, then each person shoul
 
 ## What do I need to create a hypercert?
 
-You will need to prepare all of the information required in the form builder (see [Step-by-step instructions for creating a hypercert](#Step-by-step-instructions) below). This includes important metadata, such as a description of the project and the dimensions of your impact claim, as well as a project artwork. You may also want to include an allowlist of wallets that are approved to claim one or more fractions of the hypercert.
+You will need to prepare all of the information required in the form builder (see **Step-by-step instructions for creating a hypercert** below). This includes important metadata, such as a description of the project and the dimensions of your impact claim, as well as a project artwork. You may also want to include an allowlist of wallets that are approved to claim one or more fractions of the hypercert.
 
 In addition to the information regarding the hypercert itself, you’ll need a crypto wallet to mint your hypercert. “Minting” a hypercert is the process of writing an impact claim to the blockchain. This establishes its immutable record of authenticity and ownership. 
 
@@ -165,7 +165,7 @@ The following guidance is only for projects that receive a custom URL that pre-p
 
 It explains the default settings in the form and recommends fields that the creator may choose to update or edit.
 
-*Note: Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [here](/whitepaper/retrospective-funding.md).*
+*Note: Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it* **link to be added**.
 
 #### Name of Hypercert
 This field is set by default to the name of your project on Gitcoin Grants. You can edit this to be more specific. Given that your project may create numerous hypercerts over time, consider giving each hypercert a name that represents a more discrete phase or output.
