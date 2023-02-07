@@ -15,6 +15,7 @@ import {
 } from "./components/forms";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
+import { SupabaseQuery } from "./components/supabase-query";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 
 export const PLASMIC = initPlasmicLoader({
@@ -32,6 +33,8 @@ export const PLASMIC = initPlasmicLoader({
 
 /**
  * Plasmic component registration
+ * 
+ * For more details see:
  * https://docs.plasmic.app/learn/code-components-ref/
  */
 
@@ -58,7 +61,10 @@ PLASMIC.registerComponent(ClientGrid, {
         value: "Loading...",
       },
     },
-    testLoading: "boolean",
+    testLoading: {
+      type: "boolean",
+      editOnly: true,
+    },
     count: "number",
   },
   defaultStyles: {
@@ -97,8 +103,12 @@ PLASMIC.registerComponent(
       testData: {
         type: "object",
         defaultValue: DEFAULT_TEST_DATA,
+        editOnly: true,
       },
-      useTestData: "boolean",
+      useTestData: {
+        type: "boolean",
+        editOnly: true,
+      },
     },
     providesData: true,
     importPath: "./components/dapp-context",
@@ -243,6 +253,20 @@ PLASMIC.registerComponent(CircularProgress, {
   description: "Circular loading widget",
   props: {},
   importPath: "@mui/material/CircularProgress",
+});
+
+PLASMIC.registerComponent(SupabaseQuery, {
+  name: "SupabaseQuery",
+  props: {
+    children: "slot",
+    tableName: "string",
+    columns: "string",
+    filters: {
+      type: "object",
+      defaultValue: [],
+    },
+  },
+  importPath: "./components/supabase-query",
 });
 
 PLASMIC.registerComponent(ClaimAllFractionsButton, {
