@@ -5,14 +5,15 @@ import sys
 from utils import build_scope, create_project_filename, datify, shorten_address
 
 
-OUT_DIR = "metadata/"
-with open("canonical_project_list.json", "r") as project_db:
-    PROJECTS_DB = json.load(project_db)
-with open("round_config.json") as round_config:
-    ROUND_CONFIG = json.load(round_config)    
+with open("config.json") as config_file:
+    CONFIG = json.load(config_file)    
 
-# IMPORTANT: make sure this is updated once the Gitcoin Round is locked
-ALLOWLIST_BASE_URL = "ipfs://bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm/"
+OUT_DIR     = CONFIG["path_to_metadata_directory"]
+IPFS_CIDS   = CONFIG["ipfs_cids"]
+SETTINGS    = CONFIG["gitcoin_settings"]
+ROUNDS      = SETTINGS["matching_pool_settings"]
+with open(SETTINGS["path_to_project_list"]) as projects_file:
+    PROJECTS_DB = json.load(projects_file)
 
 
 def verify_project(project_round, project_title, project_address):
@@ -29,13 +30,15 @@ def verify_project(project_round, project_title, project_address):
 
 def mapper(data, project_id):
 
-    
-    version          = "1.0.0"
 
-    work_start_date  = 1663819200
-    impact_end_date  = 0
-    default_impact   = "all"
-    default_image    = "ipfs://bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi"    
+    version          = CONFIG["version"]
+
+    default_dims     = SETTINGS["default_dimensions"]
+    work_start_date  = default_dims["work_start_date"]
+    default_end_date = default_dims["work_end_date"]
+    impact_end_date  = default_dims["impact_end_date"]
+    default_impact   = default_dims["impact_scope"]
+    default_image    = "ipfs://" + IPFS_CIDS["default_artwork"]    
 
     app_data         = data['application']
     project_data     = app_data['project']
@@ -46,19 +49,19 @@ def mapper(data, project_id):
     project_descr    = project_data['description']
     project_url      = project_data['website']
 
-    project_date     = int(str(project_data.get('createdAt', '1673829248'))[:10])
-    project_icon     = "ipfs://" + project_data.get('logoImg', 'bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4')
-    project_banner   = "ipfs://" + project_data.get('bannerImg', 'bafkreigkmcufguhakp4nbucca6d2rt7nw7ourdnkqfbs2gvsue4j4ohsly')
-    allowlist_url    = ALLOWLIST_BASE_URL + create_project_filename(project_name) + ".csv"
+    project_date     = int(str(project_data.get('createdAt', default_end_date))[:10])
+    project_icon     = "ipfs://" + project_data.get('logoImg', IPFS_CIDS["default_icon"])
+    project_banner   = "ipfs://" + project_data.get('bannerImg', IPFS_CIDS["default_banner"])
+    allowlist_url    = "ipfs://" + IPFS_CIDS["allowlist_base"] + "/" + create_project_filename(project_name) + ".csv"
 
-    funding_platform = "Gitcoin Grants"
-    funding_round    = "Alpha Round"
+    funding_platform = SETTINGS["platform_name"]
+    funding_round    = SETTINGS["round_name"]
     round_contract   = app_data['round']
-    round_data       = ROUND_CONFIG[round_contract]
+    round_data       = ROUNDS[round_contract]
     matching_pool    = round_data['name']
     bg_color         = round_data['color']
     bg_vector        = round_data['vector']
-    grant_page_url   = f"https://grant-explorer.gitcoin.co/#/round/1/{round_contract}/{project_id}-{round_contract}"
+    grant_page_url   = f"{SETTINGS['grant_explorer_base_url']}{round_contract}/{project_id}-{round_contract}"
 
     # todo: link work scopes to pre-assigned values
     work_scope       = project_name[:35]
@@ -129,11 +132,12 @@ def mapper(data, project_id):
     }
 
 
-def ingest_workscope_overrides(csv_path='csv/workscope_overrides.csv'):
+def ingest_workscope_overrides():
     """
     Override default work scopes using cleaner ones prepared by the team
     Note: this is very brittle solution powered by a Notion DB!
     """
+    csv_path = SETTINGS["path_to_workscope_overrides"]
     override_data = pd.read_csv(csv_path)
     overrides = {}
     for _, row in override_data.iterrows():
@@ -170,7 +174,7 @@ def get_metadata(data):
         return None
 
 
-def parse_csv(csv_path, out_dir):
+def parse_csv(csv_path):
     counter = 0
     df = pd.read_csv(csv_path)
     workscope_overrides_dict = ingest_workscope_overrides()
@@ -179,7 +183,7 @@ def parse_csv(csv_path, out_dir):
         if metadata:
             process_overrides(metadata, workscope_overrides_dict)
             filename = create_project_filename(metadata['name'])
-            out_path = f"{out_dir}/{filename}.json"
+            out_path = f"{OUT_DIR}/{filename}.json"
             out_file = open(out_path, "w")
             json.dump(metadata, out_file, indent=4)                
             out_file.close()
@@ -190,5 +194,4 @@ def parse_csv(csv_path, out_dir):
 if __name__ == "__main__":
 
     csv_path = sys.argv[1]
-    out_dir = sys.argv[2] if len(sys.argv) == 3 else OUT_DIR
-    parse_csv(csv_path, out_dir)
+    parse_csv(csv_path)

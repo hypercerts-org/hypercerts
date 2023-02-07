@@ -1,10 +1,11 @@
+import asyncio
+import aiohttp
+from dotenv import load_dotenv
+import json
 import math
 import os
 import pandas as pd
 import requests
-import asyncio
-import aiohttp
-from dotenv import load_dotenv
 
 from aiolimiter import AsyncLimiter
 from utils import create_project_filename 
@@ -14,12 +15,11 @@ limiter = AsyncLimiter(4500)
 load_dotenv()
 CHAINALYSIS_API_KEY = os.environ['CHAINALYSIS_API_KEY']
 
-OUT_DIR = 'allowlists/'
-DUNE_EXPORTS = [
-    'csv/eth_infra_allowlist.csv',  # https://dune.com/queries/1934656
-    'csv/climate_allowlist.csv',    # https://dune.com/queries/1934689
-    'csv/oss_allowlist.csv'         # https://dune.com/queries/1934969
-]
+with open("config.json") as config_file:
+    CONFIG = json.load(config_file)
+
+OUT_DIR = CONFIG["path_to_allowlist_directory"]
+DUNE_EXPORTS = CONFIG["gitcoin_settings"]["path_to_dune_snapshots"]
 
 
 # Functions for assigning hypercert fractions based on contribution amounts
