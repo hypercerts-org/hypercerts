@@ -10,11 +10,21 @@ const DATAPROVIDER_NAME = "hypercertData";
 // The querystring key to retrieve the claim ID
 const QUERYSTRING_SELECTOR = "claimId";
 
+/**
+ * Fetches all data related to a hypercert
+ * including the claim, fractions, and metadata
+ * 
+ * The claimId can be specified either by prop or query string (see QUERYSTRING_SELECTOR)
+ * `useQueryString` will determine if we prefer the querystring or the prop
+ * - If true, try the query string first, if missing use prop
+ * - If false, try the prop first, if missing use querystring
+ */
 export interface HypercertFetcherProps {
   className?: string;       // Plasmic CSS class
   children?: ReactNode;     // Show after done loading
   loading?: ReactNode;      // Show during loading if !ignoreLoading
   ignoreLoading?: boolean;  // Skip the loading visual
+  useQueryString?: boolean; // Forces us to try the query string first
   byClaimId?: string;       // Fetch by claimId
   byMetadataUri?: string;   // Fetch by metadataUri; If both are specified, byMetadataUri will override the URI in the claim
 }
@@ -24,7 +34,7 @@ export type HypercertData = ClaimByIdQuery & Partial<ClaimTokensByClaimQuery> & 
 }
 
 export function HypercertFetcher(props: HypercertFetcherProps) {
-  const { className, children, loading, ignoreLoading, byClaimId, byMetadataUri } = props;
+  const { className, children, loading, ignoreLoading, useQueryString, byClaimId, byMetadataUri } = props;
   const [data, setData] = React.useState<HypercertData | undefined>();
 
   React.useEffect(() => {
@@ -32,7 +42,10 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
       const newData: HypercertData = {};
       const querystring = window.location.search.replace("?", "");
       const q = qs.parse(querystring ?? "");
-      const claimId = byClaimId ?? q[QUERYSTRING_SELECTOR] as string;
+      const qClaimId = q[QUERYSTRING_SELECTOR] as string;
+      const claimId = useQueryString
+        ? (qClaimId ?? byClaimId)
+        : (byClaimId ?? qClaimId);
       // Get the claim
       if (claimId) {
         const result = await sdk.claimById(claimId);
@@ -43,12 +56,14 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
       // Get the fraction tokens
       if (claimId) {
         const result = await sdk.fractionsByClaim(claimId);
-        console.log(result.claimTokens);
         console.log(`ClaimTokens ${claimId}:`);
+        console.log(result.claimTokens);
         newData.claimTokens = result.claimTokens
       }
       // Get the metadata
-      const metadataUri = byMetadataUri ?? newData?.claim?.uri;
+      const metadataUri = useQueryString
+        ? (newData?.claim?.uri ?? byMetadataUri)
+        : (byMetadataUri ?? newData?.claim?.uri);
       if (metadataUri) {
         const result = await sdk.getMetadata(metadataUri);
         console.log(`Metadata ${metadataUri}:`);
@@ -57,8 +72,9 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
       }
       setData(newData);
     })());
-  }, [ byClaimId, byMetadataUri ]);
+  }, [ useQueryString, byClaimId, byMetadataUri ]);
 
+  // Show lwhen oading
   if (!ignoreLoading && !!loading && !data) {
     return (<div className={className}> {loading} </div>);
   }
