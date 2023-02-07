@@ -10,7 +10,7 @@ In order to make the token identifiable, traceable, and transferable, hypercerts
 ![hypercert id](../../static/img/hypercert_id.png)
 
 <picture>
-  <img src="../../static/img/hypercert_id.png"
+  <img src="https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/269/9/269-9-101L/Whatever-WORDS-BRAND-Poster.jpg"
       alt="hypercert id">
 </picture>
 
