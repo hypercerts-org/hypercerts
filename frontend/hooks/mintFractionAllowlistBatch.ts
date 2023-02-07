@@ -143,10 +143,15 @@ export const useMintFractionAllowlistBatch = ({
 
 export const useGetAllEligibility = (address: string) => {
   return useQuery(["get-all-eligibility", address], async () => {
-    return supabase
+    const { data, error }= await supabase
       .from("allowlistCache")
       .select("*")
-      .eq("address", address.toLowerCase())
-      .then((res) => res.data?.map((x) => x.claimId as string) || []);
+      .eq("address", address.toLowerCase());
+    if (error) {
+      console.error("Supabase error:");
+      console.error(error);
+    }
+    const claimIds = data?.map(x => x.claimId as string);
+    return claimIds ?? [];
   });
 };
