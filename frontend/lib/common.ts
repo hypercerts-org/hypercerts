@@ -45,3 +45,5 @@ export function assert<T>(
 export function assertNever(_x: never): never {
   throw new AssertionError("Unexpected branch taken");
 }
+
+export function spawn(_promise: Promise<any>) {} // eslint-disable-line

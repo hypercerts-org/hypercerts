@@ -14,7 +14,7 @@ import {
   FormCheckbox,
 } from "./components/forms";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
-import { HypercertMetadataFetcher } from "./components/hypercert-metadata-fetcher";
+import { HypercertFetcher } from "./components/hypercert-fetcher";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 
 export const PLASMIC = initPlasmicLoader({
@@ -115,8 +115,8 @@ PLASMIC.registerComponent(
   },
 );
 
-PLASMIC.registerComponent(HypercertMetadataFetcher, {
-  name: "HypercertMetadataFetcher",
+PLASMIC.registerComponent(HypercertFetcher, {
+  name: "HypercertFetcher",
   description: "Client-side fetch metadata from IPFS",
   props: {
     children: {
@@ -134,7 +134,8 @@ PLASMIC.registerComponent(HypercertMetadataFetcher, {
       },
     },
     ignoreLoading: "boolean",
-    cid: "string",
+    byClaimId: "string",
+    byMetadataUri: "string",
   },
   providesData: true,
   importPath: "./components/hypercert-metadata-fetcher",
