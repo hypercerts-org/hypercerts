@@ -288,7 +288,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
 
   const onComplete = () => {
     hideModal();
-    push("/hypercerts/dashboard");
+    push("/app/dashboard");
   };
 
   const { write: mintClaim } = useMintClaim({
