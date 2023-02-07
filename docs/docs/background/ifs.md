@@ -12,7 +12,7 @@ sidebar_position: 2
 
 The goal will be specific to the impact area, e.g. prevent existential risks from artificial intelligence (AI) would be the goal for the impact area “AI safety.” To achieve these goals, skilled contributors must work with high effort on promising projects. Additionally, for those projects that create impact continuously, sufficient income streams are necessary to cover both their ongoing operating expenses and contributors’ upside incentives.
 
-### Actors in IFSs
+#### Actors in IFSs
 <table class="tg">
 <thead>
   <tr>

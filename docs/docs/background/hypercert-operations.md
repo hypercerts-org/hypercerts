@@ -1,5 +1,5 @@
 ---
-title: Hypercert operations
+title: Hypercerts operations
 id: operations
 sidebar_position: 5
 ---
