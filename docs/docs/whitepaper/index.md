@@ -8,7 +8,7 @@ sidebar_position: 10
 
 :::note
 
-You can read the draft whitepaper (v0) as a pdf [here](../../static/pdf/hypercerts_whitepaper_v0.pdf). The content is similar to the following pages.
+If you prefer to read the draft whitepaper (v0) as a pdf, you can find it [here](../../static/pdf/hypercerts_whitepaper_v0.pdf). The content is mostly identical to the following pages.
 
 :::
 
