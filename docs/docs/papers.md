@@ -1,10 +1,10 @@
 ---
-title: Papers, Articles, Presentations
+title: Additional information
 id: papers
 sidebar_position: 20
 ---
 
-# Background
+# Papers, Articles, Presentations
 
 ## Writings
 
