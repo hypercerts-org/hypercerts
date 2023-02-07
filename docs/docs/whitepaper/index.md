@@ -1,7 +1,7 @@
 ---
-title: Introduction
-id: intro
-sidebar_position: 1
+title: Whitepaper
+id: whitepaper
+sidebar_position: 10
 ---
 
 # Introduction
