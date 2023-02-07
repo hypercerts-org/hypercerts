@@ -11,7 +11,7 @@
 		"default_artwork": "bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi",
 		"default_icon": "bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4",
 		"default_banner": "bafkreigkmcufguhakp4nbucca6d2rt7nw7ourdnkqfbs2gvsue4j4ohsly",
-		"hypercert_metadata_base": "bafybeifup7umb3ybxgdpyuieamgfhralogwrvncocsxi2zfej53qp3yn5a"
+		"hypercert_metadata_base": "bafybeicltzdgldgufzolh25umccbdelnxczhhtx7ecszjdtfnaemt7koum"
 	},
 	"gitcoin_settings": {
 		"path_to_project_list": "canonical_project_list.json",
@@ -29,7 +29,7 @@
 			"work_end_date": 1673829248,
 			"impact_scope": "all",
 			"impact_end_date": 0,
-			"right": ["Public Display"]
+			"rights": "Public Display"
 		},
 		"subgraph_id": "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr",
 		"grant_explorer_base_url": "https://grant-explorer.gitcoin.co/#/round/1/",

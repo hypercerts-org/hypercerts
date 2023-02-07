@@ -38,6 +38,7 @@ def mapper(data, project_id):
     default_end_date = default_dims["work_end_date"]
     impact_end_date  = default_dims["impact_end_date"]
     default_impact   = default_dims["impact_scope"]
+    default_rights   = default_dims["rights"]
     default_image    = "ipfs://" + IPFS_CIDS["default_artwork"]    
 
     app_data         = data['application']
@@ -115,11 +116,11 @@ def mapper(data, project_id):
                 "value": [project_address],
                 "display_value": shorten_address(project_address)
             },
-            "rights": build_scope(
-                name="Rights",
-                include_list=["Public Display"],
-                exclude_list=["Transfers"]
-            ),
+            "rights": {
+                "name": "Rights",
+                "value": [default_rights],
+                "display_value": default_rights
+            },
         },
         "hidden_properties": {
             "allowlist": allowlist_url,
