@@ -13,6 +13,8 @@ METADATA_DIR = CONFIG["path_to_metadata_directory"]
 OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 
+MAX_URL_LEN = 2048
+
 
 def safe_url_attr(name, value):
     return urllib.parse.quote(name, safe='') + '=' + urllib.parse.quote(value, safe='') + '&'
@@ -28,7 +30,6 @@ def parse_url(cid_with_fname):
 def create_url(metadata):
     url = CONFIG["hypercert_dapp_base_url"]
 
-    url += safe_url_attr('description', metadata['description'])
     url += safe_url_attr('name', metadata['name'])
     url += safe_url_attr('externalLink', metadata['external_url'])
 
@@ -67,6 +68,9 @@ def create_url(metadata):
     # TODO: review fractions calculations
     url += safe_url_attr('fractions', "100000")
 
+    url += safe_url_attr('description', metadata['description'])
+    url = url[:MAX_URL_LEN]
+
     return url
 
 
@@ -74,15 +78,19 @@ def create_markdown(metadata, minting_url):
 
     name = metadata['name']
     fname = create_project_filename(name)    
-    metadata_json = parse_url(f"{METADATA_URL}{fname}.json")
+    metadata_json = parse_url(f"{METADATA_URL}/{fname}.json")
     allowlist_csv = parse_url(metadata['hidden_properties']['allowlist'])
+    if len(minting_url) >= MAX_URL_LEN:
+        flag = "[NOTE: DESCRIPTION TRUNCATED]"
+    else:
+        flag = ""
     
     return "\n".join([
         f"## {name}",
         f"- Gitcoin [Grant]({metadata['hidden_properties']['gitcoin_grant_url']})",
         f"- Auto-generated [metadata]({metadata_json})",
         f"- Allowlist [CSV file]({allowlist_csv})",
-        f"- Custom hypercert minting [url]({minting_url})",
+        f"- Custom hypercert minting [URL]({minting_url}) {flag}",
         "",
         "***"
     ])
