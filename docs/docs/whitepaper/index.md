@@ -6,7 +6,7 @@ sidebar_position: 10
 
 # Introduction
 
-:::info
+:::note
 
 You can read the draft whitepaper (v0) as a pdf [here](../../static/pdf/hypercerts_whitepaper_v0.pdf).
 
