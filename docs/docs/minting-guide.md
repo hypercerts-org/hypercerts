@@ -4,9 +4,11 @@ id: minting-guide
 sidebar_position: 11
 ---
 
-# Getting started
+# Hypercerts Minting Guide
 
-## How to create a hypercert
+## Getting started
+
+### How to create a hypercert
 
 Creating a hypercert is similar to creating an NFT on sites like OpenSea or Zora. 
 
@@ -16,7 +18,7 @@ There are typically two ways of creating a hypercert:
 1. As a project affiliated with a specific funding network (e.g., Gitcoin Grants): In this case, you should receive a custom URL from the funding network that pre-populates most of your hypercert fields. You will still be able to change most of these, so you should review and adjust them as needed to better describe your hypercert. Guidance on how to do so (for Gitcoin Grants projects) is provided at the end of this doc.
 2. As a project not affiliated with a specific funding network: In this case, you will be creating a hypercert from scratch and filling in each field on your own. Read on below.
 
-## Who can create a hypercert?
+### Who can create a hypercert?
 
 Anyone doing work that is intended to have a positive impact can create a hypercert. Your hypercert can be as simple as "I did X on this date and want to claim all future impact from it".
 
@@ -26,7 +28,7 @@ Critically, if the work was done by more that one person, then each person shoul
 
 *Note: In the future, the approval of each contributor will be verified on-chain.*
 
-## What do I need to create a hypercert?
+### What do I need to create a hypercert?
 
 You will need to prepare all of the information required in the form builder (see **Step-by-step instructions for creating a hypercert** below). This includes important metadata, such as a description of the project and the dimensions of your impact claim, as well as a project artwork. You may also want to include an allowlist of wallets that are approved to claim one or more fractions of the hypercert.
 
@@ -36,13 +38,13 @@ Next, choose a blockchain on which to mint your hypercert. The hypercerts protoc
 
 Finally, go ahead and create your hypercert.
 
-## How much does it cost to create a hypercert?
+### How much does it cost to create a hypercert?
 
 You will need enough Ethereum in your wallet to cover gas fees. In our simulations, the gas fee for minting a hypercert on Ethereum Mainnet ranged from 2,707,282 to 7,515,075 gwei (0.0027 to 0.0075 ETH). Minting costs are significantly cheaper on Optimism (i.e., below 0.0005 ETH or less than $1).
 
 The protocol currently does not offer gas-free or "lazy" minting.
 
-# Step-by-step instructions
+## Step-by-step instructions
 
 First, go to the [Create Hypercert](https://hypercerts.vercel.app/hypercerts/create) site with a wallet-enabled browser or follow the custom URL you received to access a prepopulated form.
 
@@ -123,7 +125,6 @@ Just like the work scope, multiple impact scope tags are [logically conjunctive]
 
 The impact time period is another way to limit the impact that a hypercert represents, e.g. inventing a new medical treatment has a positive impact over many years, but we might want to capture the positive impact separately for each year.
 
-
 By default the `impact start date` is the same as the `work start date` and the `impact end date` is "`indefinite`", i.e., the impact is not restricted time-wise. We strongly recommend keeping it that way.
 
 ### Set of Contributors
@@ -159,7 +160,7 @@ By default this is set to `Public Display`, i.e., the owners are allowed to publ
 
 *Note: In the future, additional rights can be included for different hypercerts.*
 
-# Create a hypercert for a Gitcoin Grant
+## Create a hypercert for a Gitcoin Grant
 
 The following guidance is only for projects that receive a custom URL that pre-populates the hypercerts form based on their Gitcoin Grants' data.
 
