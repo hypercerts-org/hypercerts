@@ -223,6 +223,7 @@ PLASMIC.registerComponent(FormDatePicker, {
     label: "string",
     showUndefined: "boolean",
     defaultUndefined: "boolean",
+    disabled: "boolean",
   },
   importPath: "./components/forms",
 });
