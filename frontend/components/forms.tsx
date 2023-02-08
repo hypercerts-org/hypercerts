@@ -221,21 +221,6 @@ export function FormDatePicker(props: FormDatePickerProps) {
   );
   const formikProps = React.useContext(FormContext);
 
-  // Setter for the checkbox
-  const setDateUndefined = React.useCallback(
-    (v: boolean) => {
-      setDateUndefinedRaw(v);
-      if (!fieldName) {
-        return;
-      } else if (v) {
-        formikProps?.setFieldValue(fieldName, DATE_INDEFINITE, true);
-      } else {
-        formikProps?.setFieldValue(fieldName, dayjs(), true);
-      }
-    },
-    [fieldName, formikProps, setDateUndefinedRaw],
-  );
-
   // The data can be set from form initial values (e.g. from query string)
   // so we check for that here and set the checkbox state if so
   const fromFormData = formikProps?.values[fieldName ?? ""];
@@ -243,12 +228,23 @@ export function FormDatePicker(props: FormDatePickerProps) {
     if (fromFormData === DATE_INDEFINITE) {
       setDateUndefined(true);
     }
-  }, [fromFormData, setDateUndefined]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromFormData]);
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
     return <div>{MISSING_FIELDNAME_ERROR}</div>;
   }
+
+  // Setter for the checkbox
+  const setDateUndefined = (v: boolean) => {
+    setDateUndefinedRaw(v);
+    if (v) {
+      formikProps?.setFieldValue(fieldName, DATE_INDEFINITE, true);
+    } else {
+      formikProps?.setFieldValue(fieldName, dayjs(), true);
+    }
+  };
 
   // Retrieve the FormikProps in a workaround context to get the errors
   const hasError =
