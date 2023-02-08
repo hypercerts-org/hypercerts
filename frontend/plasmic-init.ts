@@ -1,6 +1,7 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import CircularProgress from "@mui/material/CircularProgress";
+import Tooltip from '@mui/material/Tooltip';
 import { ClientGrid } from "./components/client-grid";
 import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { HypercertCreateForm } from "./components/hypercert-create";
@@ -248,6 +249,14 @@ PLASMIC.registerComponent(FormCheckbox, {
     disabled: "boolean",
   },
   importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(Tooltip, {
+  name: "Tooltip",
+  props: {
+    title: "string"
+  },
+  importPath: "@mui/material/Tooltip",
 });
 
 PLASMIC.registerComponent(CircularProgress, {
