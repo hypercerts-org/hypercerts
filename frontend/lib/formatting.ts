@@ -21,7 +21,7 @@ export const formatContributors = (contributors: string[]) => {
 
 export const formatFractionPercentage = (
   fractionUnits: string,
-  totalUnits: string
+  totalUnits: string,
 ) => {
   const totalUnitsParsed = parseInt(totalUnits, 10);
   if (totalUnitsParsed === 0) {
@@ -46,13 +46,16 @@ export const formatTime = (startTime: number, endTime?: number) => {
   }
 
   return `${new Date(startTime * 1000).toDateString()} until ${new Date(
-    endTime * 1000
+    endTime * 1000,
   ).toDateString()}`;
 };
 
-export const getOpenSeaFractionUrl = (tokenId: string, contractAddress: string) => {
+export const getOpenSeaFractionUrl = (
+  tokenId: string,
+  contractAddress: string,
+) => {
   return `https://testnets.opensea.io/assets/goerli/${contractAddress}/${BigNumber.from(
-    tokenId
+    tokenId,
   ).toNumber()}`;
 };
 

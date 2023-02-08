@@ -94,7 +94,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       }
     };
     perform();
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeAsync]);
 
   return {
     write: async (metaData: HypercertMetadata, units: number) => {

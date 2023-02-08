@@ -1,20 +1,17 @@
-import { 
-  NullOrUndefinedValueError,
-  AssertionError,
-} from "./errors";
+import { NullOrUndefinedValueError, AssertionError } from "./errors";
 
 /**
  * Assert that value should not be `null` or `undefined`
- * 
- * @param x 
- * @param msg 
- * @returns 
+ *
+ * @param x
+ * @param msg
+ * @returns
  */
 export function ensure<T>(x: T | null | undefined, msg: string): T {
   if (x === null || x === undefined) {
     debugger; // eslint-disable-line
     throw new NullOrUndefinedValueError(
-      `Value must not be undefined or null${msg ? `- ${msg}` : ""}`
+      `Value must not be undefined or null${msg ? `- ${msg}` : ""}`,
     );
   } else {
     return x;
@@ -23,14 +20,11 @@ export function ensure<T>(x: T | null | undefined, msg: string): T {
 
 /**
  * Custom assertion so that we can trigger the debugger
- * 
- * @param cond 
- * @param msg 
+ *
+ * @param cond
+ * @param msg
  */
-export function assert<T>(
-  cond: T,
-  msg = "Assertion failed"
-): asserts cond {
+export function assert<T>(cond: T, msg = "Assertion failed"): asserts cond {
   if (!cond) {
     debugger; // eslint-disable-line
     throw new AssertionError(msg);
@@ -39,8 +33,8 @@ export function assert<T>(
 
 /**
  * Used for exhaustive checking
- * 
- * @param _x 
+ *
+ * @param _x
  */
 export function assertNever(_x: never): never {
   throw new AssertionError("Unexpected branch taken");

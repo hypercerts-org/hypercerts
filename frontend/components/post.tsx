@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { PostData } from '../types/postdata'
+import Link from "next/link";
+import { PostData } from "../types/postdata";
 
 export default function Post({ title, body, id }: PostData) {
   return (
@@ -8,5 +8,5 @@ export default function Post({ title, body, id }: PostData) {
       <p>{body}</p>
       <Link href={`/post/${id}`}>Read more...</Link>
     </article>
-  )
+  );
 }
