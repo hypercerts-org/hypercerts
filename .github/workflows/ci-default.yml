@@ -6,12 +6,12 @@ on:
   # A push occurs to one of the matched branches.
   push:
     branches:
-      - master
+      - main 
   # Or when a pull request event occurs for a pull request against one of the
   # matched branches.
   pull_request:
     branches:
-      - master
+      - main 
 
 # Cancel in progress jobs on new pushes.
 concurrency:
@@ -41,6 +41,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
+      - name: Install
+        run: |
+          yarn install
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
       - name: Lint
         run: |
           yarn lint
@@ -49,10 +54,5 @@ jobs:
       - name: Test
         run: |
           yarn test 
-        # Always run this step so that all linting errors can be seen at once.
-        if: always()
-      - name: Build
-        run: |
-          yarn build 
         # Always run this step so that all linting errors can be seen at once.
         if: always()
