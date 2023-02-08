@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
 import _ from "lodash";
 import html2canvas from "html2canvas";
+import { toast } from "react-toastify";
 import qs from "qs";
 import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
@@ -153,7 +154,7 @@ const queryStringToFormData = (query?: string) => {
   const values = {
     ...rawValues,
     // we need to parse dates to match the expected types
-    impactTimeStart: parseValue(rawValues["impactTimeStart"]),
+    //impactTimeStart: parseValue(rawValues["impactTimeStart"]),
     impactTimeEnd: parseValue(rawValues["impactTimeEnd"]),
     workTimeStart: parseValue(rawValues["workTimeStart"]),
     workTimeEnd: parseValue(rawValues["workTimeEnd"]),
@@ -307,12 +308,14 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
         onSubmit={async (values, { setSubmitting, setErrors }) => {
           if (!address) {
             console.log("User not connected");
+            toast("Please connect your wallet", { type: "error" });
             return;
           }
 
           console.log("Form values:");
           console.log(values);
           const image = await exportAsImage(IMAGE_SELECTOR);
+          console.log(image);
           const {
             valid,
             errors,
@@ -435,7 +438,6 @@ const exportAsImage = async (id: string) => {
     imageTimeout: 0,
   });
   const image = canvas.toDataURL("image/png", 1.0);
-  console.log(image);
   return image;
   // downloadImage(image, imageFileName);
 };
