@@ -65,7 +65,9 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
         <DialogTitle>Contract interaction</DialogTitle>
 
         <DialogContent>
-          <DialogContentText>Please keep this tab open until completion</DialogContentText>
+          <DialogContentText>
+            Please keep this tab open until completion
+          </DialogContentText>
         </DialogContent>
 
         <Box sx={{ px: 3, pb: 3 }}>

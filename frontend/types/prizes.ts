@@ -1,4 +1,3 @@
-
 export type EvaluationType = "quadratic-voting" | null;
 
 export interface Link {
@@ -11,7 +10,7 @@ export interface Evaluator {
   details: {
     credits: number;
     __type__: string;
-  }
+  };
 }
 
 export interface Outcome {
@@ -22,7 +21,7 @@ export interface Outcome {
     title: string;
     __type__: string;
     description: string;
-  }
+  };
 }
 
 export interface TimePeriod {

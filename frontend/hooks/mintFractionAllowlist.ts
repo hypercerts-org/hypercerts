@@ -101,7 +101,7 @@ export const useMintFractionAllowlist = ({
     if (isReadyToWrite) {
       writeSync?.();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeSync]);
 
   return {
     write,

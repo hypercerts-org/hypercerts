@@ -140,7 +140,8 @@ export interface FormSelectProps {
 }
 
 export function FormSelect(props: FormSelectProps) {
-  const { className, fieldName, label, optionValues, multiple, disabled } = props;
+  const { className, fieldName, label, optionValues, multiple, disabled } =
+    props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -207,12 +208,33 @@ export interface FormDatePickerProps {
 export const DATE_INDEFINITE = "indefinite";
 export type DateIndefinite = "indefinite";
 export function FormDatePicker(props: FormDatePickerProps) {
-  const { className, fieldName, label, showUndefined, defaultUndefined, disabled } =
-    props;
+  const {
+    className,
+    fieldName,
+    label,
+    showUndefined,
+    defaultUndefined,
+    disabled,
+  } = props;
   const [dateUndefined, setDateUndefinedRaw] = React.useState<boolean>(
     !!defaultUndefined,
   );
   const formikProps = React.useContext(FormContext);
+
+  // Setter for the checkbox
+  const setDateUndefined = React.useCallback(
+    (v: boolean) => {
+      setDateUndefinedRaw(v);
+      if (!fieldName) {
+        return;
+      } else if (v) {
+        formikProps?.setFieldValue(fieldName, DATE_INDEFINITE, true);
+      } else {
+        formikProps?.setFieldValue(fieldName, dayjs(), true);
+      }
+    },
+    [fieldName, formikProps, setDateUndefinedRaw],
+  );
 
   // The data can be set from form initial values (e.g. from query string)
   // so we check for that here and set the checkbox state if so
@@ -221,7 +243,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
     if (fromFormData === DATE_INDEFINITE) {
       setDateUndefined(true);
     }
-  }, [fromFormData]);
+  }, [fromFormData, setDateUndefined]);
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -234,16 +256,6 @@ export function FormDatePicker(props: FormDatePickerProps) {
     formikProps.touched[fieldName] &&
     !!formikProps.errors[fieldName];
   const errorMessage = hasError ? formikProps.errors[fieldName] : undefined;
-
-  // Setter for the checkbox
-  const setDateUndefined = (v: boolean) => {
-    setDateUndefinedRaw(v);
-    if (v) {
-      formikProps?.setFieldValue(fieldName, DATE_INDEFINITE, true);
-    } else {
-      formikProps?.setFieldValue(fieldName, dayjs(), true);
-    }
-  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -366,7 +378,7 @@ export interface FormCheckboxProps {
   className?: string; // Plasmic CSS class
   fieldName?: string; // Formik field name
   defaultChecked?: boolean; // Default checked
-  disabled?: boolean;  // Disabled
+  disabled?: boolean; // Disabled
 }
 
 export function FormCheckbox(props: FormCheckboxProps) {
@@ -377,8 +389,8 @@ export function FormCheckbox(props: FormCheckboxProps) {
   }
 
   return (
-    <Field name={fieldName}>
-      {({ field, meta }: FieldProps) => (
+    <Field name={fieldName} className={className}>
+      {({ field }: FieldProps) => (
         <Checkbox
           {...field}
           defaultChecked={defaultChecked}

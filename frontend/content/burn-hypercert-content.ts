@@ -24,6 +24,6 @@ export const burnFractionModal = {
     confirmButton: "Done",
   },
   error: {
-    noWalletConnected: 'Connect a wallet before burning hypercerts'
-  }
+    noWalletConnected: "Connect a wallet before burning hypercerts",
+  },
 };

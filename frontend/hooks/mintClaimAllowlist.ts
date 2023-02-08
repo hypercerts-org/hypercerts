@@ -162,7 +162,7 @@ export const useMintClaimAllowlist = ({
     if (isReadyToWrite && write) {
       write();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, write]);
 
   return {
     write: async ({

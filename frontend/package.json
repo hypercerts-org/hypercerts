@@ -10,7 +10,7 @@
     "export": "next export",
     "prestart": "npm run export",
     "start": "serve out",
-    "lint": "tsc --noEmit && eslint --ignore-path .gitignore --max-warnings 0 --cache --fix . && prettier --loglevel warn --write . && next lint"
+    "lint": "tsc --noEmit && eslint --ignore-path .gitignore --max-warnings 0 --cache --fix . && prettier --ignore-path .gitignore --loglevel warn --write . && next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",

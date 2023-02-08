@@ -1,4 +1,3 @@
-
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "./config";
 
@@ -9,9 +8,9 @@ export interface SupabaseQueryArgs {
   columns?: string[];
 }
 
-export async function supabaseQuery(args: SupabaseQueryArgs) : Promise<any[]> {
+export async function supabaseQuery(args: SupabaseQueryArgs): Promise<any[]> {
   const { table, columns } = args;
-  const { data, error, status } = await supabase.from(table).select(columns?.join(","));
+  const { data, error } = await supabase.from(table).select(columns?.join(","));
   if (error) {
     throw error;
   }

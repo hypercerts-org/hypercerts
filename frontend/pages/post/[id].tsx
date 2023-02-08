@@ -1,40 +1,40 @@
-import Link from 'next/link'
-import Head from 'next/head'
-import React from 'react'
-import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
-import { ParsedUrlQuery } from 'querystring'
-import { PostData, PostDataProps } from '../../types/postdata'
-import { GetPosts, GetPost } from '../../lib/postdata_api'
+import Link from "next/link";
+import Head from "next/head";
+import React from "react";
+import { GetStaticProps, GetStaticPaths, NextPage } from "next";
+import { ParsedUrlQuery } from "querystring";
+import { PostData, PostDataProps } from "../../types/postdata";
+import { GetPosts, GetPost } from "../../lib/postdata_api";
 
 interface Params extends ParsedUrlQuery {
-  id: string
+  id: string;
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const postList: PostData[] = await GetPosts()
+  const postList: PostData[] = await GetPosts();
   return {
     paths: postList.map((post) => {
       return {
         params: {
           id: post.id.toString(),
         },
-      }
+      };
     }),
     fallback: false,
-  }
-}
+  };
+};
 
 export const getStaticProps: GetStaticProps<PostDataProps, Params> = async (
-  context
+  context,
 ) => {
-  const { id } = context.params! as Params
-  const postData: PostData = await GetPost(id)
+  const { id } = context.params as Params;
+  const postData: PostData = await GetPost(id);
   return {
     props: {
       postData,
     },
-  }
-}
+  };
+};
 
 const Post: NextPage<PostDataProps> = ({ postData }: PostDataProps) => {
   return (
@@ -49,7 +49,7 @@ const Post: NextPage<PostDataProps> = ({ postData }: PostDataProps) => {
 
       <Link href="/">Go back to home</Link>
     </main>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;
