@@ -53,10 +53,6 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
 
   backgroundColor: "",
   backgroundVectorArt: "",
-
-  prev_hypercert: "",
-  creators: [],
-  uri: "",
   fractions: DEFAULT_NUM_FRACTIONS,
 };
 
@@ -81,10 +77,6 @@ interface HypercertCreateFormData {
 
   backgroundColor: string;
   backgroundVectorArt: string;
-
-  prev_hypercert: string;
-  creators: string[];
-  uri: string;
   fractions: string;
 }
 
@@ -213,10 +205,10 @@ const ValidationSchema = Yup.object().shape({
   ),
   impactScopes: Yup.array().min(1, "Please choose at least 1 item"),
   impactTimeEnd: Yup.date().when(
-    ["impactTimeStart", "impactTimeInfinite"],
-    (impactTimeStart, impactTimeInfinite) => {
+    ["workTimeStart"],
+    (workTimeStart) => {
       return Yup.date().min(
-        impactTimeInfinite ? 0 : impactTimeStart,
+        workTimeStart,
         "End date must be after start date",
       );
     },
@@ -227,9 +219,10 @@ const ValidationSchema = Yup.object().shape({
       `Work scopes must be at least ${NAME_MIN_LENGTH} characters`,
     )
     .required("Required"),
-  workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
-    return Yup.date().min(workTimeStart, "End date must be after start date");
-  }),
+  workTimeEnd: Yup.date()
+    .when("workTimeStart", (workTimeStart) => {
+      return Yup.date().min(workTimeStart, "End date must be after start date");
+    }),
   rights: Yup.array().min(1),
   contributors: Yup.string().required("Required"),
   allowlistUrl: Yup.string().test(
@@ -238,7 +231,7 @@ const ValidationSchema = Yup.object().shape({
     (value) =>
       isValidUrl(value, {
         emptyAllowed: true,
-        ipfsAllowed: true,
+        ipfsAllowed: false,
       }),
   ),
   agreeTermsConditions: Yup.boolean().oneOf(

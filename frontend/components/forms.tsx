@@ -252,6 +252,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
         component={DatePicker}
         name={fieldName}
         label={label}
+        disabled={disabled}
         textField={{
           variant: "outlined",
           error: hasError,
@@ -270,6 +271,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
           <Checkbox
             checked={dateUndefined}
             value={dateUndefined}
+            disabled={disabled}
             onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
               setDateUndefined(evt.target.checked);
             }}
