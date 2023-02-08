@@ -8,7 +8,8 @@ with open("config.json") as config_file:
 
 SETTINGS      = CONFIG["gitcoin_settings"]
 PROJECTS_PATH = SETTINGS["path_to_project_list"]
-MULTISIG_PATH = SETTINGS["path_to_multisig_data"] # https://dune.com/queries/1949707
+MULTISIG_PATH = SETTINGS["path_to_safe_multisig_contract_data"] # https://dune.com/queries/1949707
+SPLITS_PATH   = SETTINGS["path_to_splits_contract_data"]       # https://dune.com/queries/1979620
 
 
 def run_multisig_scan():
