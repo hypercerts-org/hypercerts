@@ -201,12 +201,13 @@ export interface FormDatePickerProps {
   label?: string; // Label to show
   showUndefined?: boolean; // Show a checkbox that allows date to be undefined
   defaultUndefined?: boolean; // Set undefined by default
+  disabled?: boolean; // disable this
 }
 
 export const DATE_INDEFINITE = "indefinite";
 export type DateIndefinite = "indefinite";
 export function FormDatePicker(props: FormDatePickerProps) {
-  const { className, fieldName, label, showUndefined, defaultUndefined } =
+  const { className, fieldName, label, showUndefined, defaultUndefined, disabled } =
     props;
   const [dateUndefined, setDateUndefinedRaw] = React.useState<boolean>(
     !!defaultUndefined,
@@ -255,6 +256,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
           variant: "outlined",
           error: hasError,
           helperText: errorMessage,
+          disabled,
           style: {
             ...(showUndefined && dateUndefined ? { display: "none" } : {}),
           },

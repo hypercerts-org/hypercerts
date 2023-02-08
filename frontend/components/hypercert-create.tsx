@@ -41,7 +41,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   bannerUrl: "",
   //bannerImage: null,
   impactScopes: ["all"] as string[],
-  impactTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
+  //impactTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
   impactTimeEnd: DEFAULT_TIME.format("YYYY-MM-DD"),
   workScopes: "",
   workTimeStart: DEFAULT_TIME.format("YYYY-MM-DD"),
@@ -69,7 +69,7 @@ interface HypercertCreateFormData {
   bannerUrl: string;
   //bannerImage: File | null;
   impactScopes: string[];
-  impactTimeStart?: string;
+  //impactTimeStart?: string;
   impactTimeEnd?: string | DateIndefinite;
   workScopes: string;
   workTimeStart?: string;
@@ -395,9 +395,15 @@ const formatValuesToMetaData = (
   );
 
   // Mint certificate using contract
+  // NOTE: we are fixing the impactTimeStart to be the same as workTimeStart
+  const impactTimeframeStart = val.workTimeStart
+    ? new Date(val.workTimeStart).getTime() / 1000
+    : 0;
+  /**
   const impactTimeframeStart = val.impactTimeStart
     ? new Date(val.impactTimeStart).getTime() / 1000
     : 0;
+  */
   const impactTimeframeEnd =
     val.impactTimeEnd !== "indefinite" && val.impactTimeEnd !== undefined
       ? new Date(val.impactTimeEnd).getTime() / 1000
