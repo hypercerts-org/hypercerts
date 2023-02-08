@@ -1,0 +1,40 @@
+name: Bug Report
+description: Create a bug report for the Hypercerts protocol
+labels: ['type:bug']
+body:
+  - type: markdown
+    attributes:
+      value: If you leave out sections there is a high likelihood it will be moved to the [GitHub Discussions](https://github.com/Network-Goods/hypercerts/discussions).
+  - type: dropdown
+    attributes:
+      label: Which area(s) of Hypercerts are affected? (leave empty if unsure)
+      multiple: true
+      options:
+        - 'Smart Contracts'
+        - 'SDK'
+        - 'Frontend Dapp'
+        - 'Docs'
+        - 'The Graph integration'
+        - 'OpenZeppelin Defender integration'
+        - 'Other'
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior, please provide a clear description of how to reproduce the issue. Screenshots can be provided in the issue body below.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: Before posting the issue go through the steps you've written down to make sure the steps provided are detailed and clear. Contributors should be able to follow the steps provided in order to reproduce the bug.
