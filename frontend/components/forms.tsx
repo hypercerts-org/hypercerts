@@ -228,6 +228,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
     if (fromFormData === DATE_INDEFINITE) {
       setDateUndefined(true);
     }
+    // NOTE: These changes lead to an infinite loop https://github.com/Network-Goods/hypercerts/pull/213/files
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fromFormData]);
 
