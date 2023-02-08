@@ -254,7 +254,8 @@ PLASMIC.registerComponent(FormCheckbox, {
 PLASMIC.registerComponent(Tooltip, {
   name: "Tooltip",
   props: {
-    title: "string"
+    title: "string",
+    children: "slot",
   },
   importPath: "@mui/material/Tooltip",
 });
