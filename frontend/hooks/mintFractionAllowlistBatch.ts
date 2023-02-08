@@ -128,7 +128,7 @@ export const useMintFractionAllowlistBatch = ({
     if (isReadyToWrite) {
       writeSync?.();
     }
-  }, [isReadyToWrite]);
+  }, [isReadyToWrite, writeSync]);
 
   return {
     write,
@@ -143,7 +143,7 @@ export const useMintFractionAllowlistBatch = ({
 
 export const useGetAllEligibility = (address: string) => {
   return useQuery(["get-all-eligibility", address], async () => {
-    const { data, error }= await supabase
+    const { data, error } = await supabase
       .from("allowlistCache")
       .select("*")
       .eq("address", address.toLowerCase());
@@ -151,7 +151,7 @@ export const useGetAllEligibility = (address: string) => {
       console.error("Supabase error:");
       console.error(error);
     }
-    const claimIds = data?.map(x => x.claimId as string);
+    const claimIds = data?.map((x) => x.claimId as string);
     return claimIds ?? [];
   });
 };

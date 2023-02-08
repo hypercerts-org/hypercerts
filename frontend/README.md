@@ -9,7 +9,6 @@ See `.env.local.example` to see which variables need to be set.
 
 The easiest way to get started is to copy this into `.env.local` and modify the file directly, which `next` will automatically load when running the dev server below.
 
-
 ## Run
 
 ```

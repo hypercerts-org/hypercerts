@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "deploy": "yarn build && yarn setup",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts",
     "build": "webpack"
   },

@@ -7,12 +7,12 @@ import {
 
 export const useFractionsByOwner = (owner: string) =>
   useQuery(["graph", "fractions", "owner", owner], () =>
-    fractionsByOwner(owner)
+    fractionsByOwner(owner),
   );
 
 export const useFractionsByClaim = (claimId: string) =>
   useQuery(["graph", "fractions", "claim", claimId], () =>
-    fractionsByClaim(claimId)
+    fractionsByClaim(claimId),
   );
 
 export const useFractionById = (fractionId: string) =>

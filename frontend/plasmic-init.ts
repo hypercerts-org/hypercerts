@@ -1,7 +1,7 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import CircularProgress from "@mui/material/CircularProgress";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import { ClientGrid } from "./components/client-grid";
 import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { HypercertCreateForm } from "./components/hypercert-create";
@@ -34,7 +34,7 @@ export const PLASMIC = initPlasmicLoader({
 
 /**
  * Plasmic component registration
- * 
+ *
  * For more details see:
  * https://docs.plasmic.app/learn/code-components-ref/
  */

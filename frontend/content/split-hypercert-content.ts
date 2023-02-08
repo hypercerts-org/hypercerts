@@ -24,6 +24,6 @@ export const splitFractionModal = {
     confirmButton: "Done",
   },
   error: {
-    noWalletConnected: 'To split hypercerts, a wallet needs to be connected'
-  }
+    noWalletConnected: "To split hypercerts, a wallet needs to be connected",
+  },
 };
