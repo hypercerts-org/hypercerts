@@ -28,20 +28,6 @@ const config = {
     locales: ["en"],
   },
 
-  plugins: [
-    [
-      "docusaurus-plugin-remote-content",
-      {
-        // options here
-        name: "contracts", // used by CLI, must be path safe
-        sourceBaseUrl:
-          "https://raw.githubusercontent.com/Network-Goods/hypercerts-protocol/main/docs/", // the base url for the markdown (gets prepended to all of the documents when fetching)
-        outDir: "docs/contracts", // the base directory to output to.
-        documents: ["index.md"], // the file names to download
-      },
-    ],
-  ],
-
   presets: [
     [
       "classic",

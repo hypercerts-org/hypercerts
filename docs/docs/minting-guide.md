@@ -1,5 +1,5 @@
 ---
-title: Minting Guide
+title: Minting guide
 id: minting-guide
 sidebar_position: 2
 ---
