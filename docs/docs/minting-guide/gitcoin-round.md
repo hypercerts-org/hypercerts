@@ -10,7 +10,7 @@ The following guidance is only for projects that receive a custom URL that pre-p
 
 It explains the default settings in the form and recommends fields that the creator may choose to update or edit.
 
-*Note: Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it* **link to be added**.
+*Note: Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [here](whitepaper/retrospective-funding.md).*
 
 #### Name of Hypercert
 This field is set by default to the name of your project on Gitcoin Grants. You can edit this to be more specific. Given that your project may create numerous hypercerts over time, consider giving each hypercert a name that represents a more discrete phase or output.
