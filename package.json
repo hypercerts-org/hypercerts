@@ -6,9 +6,10 @@
   "license": "Apache-2.0",
   "private": true,
   "workspaces": [
+    "cors-proxy",
+    "defender",
     "docs",
-    "frontend",
-    "defender"
+    "frontend"
   ],
   "scripts": {
     "build": "turbo run build && yarn copy",
