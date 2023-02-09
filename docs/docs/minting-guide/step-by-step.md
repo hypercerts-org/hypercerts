@@ -3,8 +3,7 @@ title: Step-by-step
 id: step-by-step
 sidebar_position: 3
 ---
-
-## Step-by-step instructions
+# Step-by-step instructions
 
 First, go to the [Create Hypercert](https://hypercerts.vercel.app/hypercerts/create) site with a wallet-enabled browser or follow the custom URL you received to access a prepopulated form.
 

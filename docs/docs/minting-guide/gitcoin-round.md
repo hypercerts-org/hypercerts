@@ -4,7 +4,7 @@ id: gitcoin-round
 sidebar_position: 5
 ---
 
-## Create a hypercert for a Gitcoin Grant
+# Create a hypercert for a Gitcoin Grant
 
 The following guidance is only for projects that receive a custom URL that pre-populates the hypercerts form based on their Gitcoin Grants' data.
 
