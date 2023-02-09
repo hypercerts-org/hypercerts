@@ -128,7 +128,6 @@ export const useMintFractionAllowlistBatch = ({
     if (isReadyToWrite) {
       writeSync?.();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReadyToWrite]);
 
   return {

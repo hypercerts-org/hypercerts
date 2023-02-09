@@ -94,7 +94,6 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       }
     };
     perform();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReadyToWrite]);
 
   return {
