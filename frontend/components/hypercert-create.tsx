@@ -28,7 +28,7 @@ export const NAME_MAX_LENGTH = 50;
 export const DESCRIPTION_MIN_LENGTH = 20;
 export const DESCRIPTION_MAX_LENGTH = 500;
 
-export const DEFAULT_NUM_FRACTIONS = "10000";
+export const DEFAULT_NUM_FRACTIONS = 10000;
 export const DEFAULT_HYPERCERT_VERSION = "0.0.1";
 
 //const DEFAULT_TIME = dayjs().format("YYYY-MM-DD");
@@ -51,10 +51,9 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   contributors: "",
   allowlistUrl: "",
   agreeTermsConditions: false,
-
+  // Hidden
   backgroundColor: "",
   backgroundVectorArt: "",
-  fractions: DEFAULT_NUM_FRACTIONS,
 };
 
 interface HypercertCreateFormData {
@@ -75,10 +74,9 @@ interface HypercertCreateFormData {
   contributors: string;
   allowlistUrl: string;
   agreeTermsConditions: boolean;
-
+  // Hidden
   backgroundColor: string;
   backgroundVectorArt: string;
-  fractions: string;
 }
 
 /**
@@ -333,7 +331,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
                 allowlistUrl: values.allowlistUrl,
               });
             } else {
-              await mintClaim(metaData, 100);
+              await mintClaim(metaData, DEFAULT_NUM_FRACTIONS);
             }
           } else {
             setErrors(errors);
