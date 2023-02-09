@@ -3,15 +3,16 @@ title: Gitcoin Alpha Round
 id: gitcoin-round
 sidebar_position: 5
 ---
+# Hypercerts Minting Guide
 
-# Create a hypercert for a Gitcoin Grant
+## Create a hypercert for a Gitcoin Grant
 
 The following guidance is only for projects that receive a custom URL that pre-populates the hypercerts form based on their Gitcoin Grants' data.
 
 It explains the default settings in the form and recommends fields that the creator may choose to update or edit.
 
 :::note
-Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [here](whitepaper/retrospective-funding.md).*
+Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [in the whitepaper](whitepaper/retrospective-funding.md).*
 :::
 
 #### Name of Hypercert
