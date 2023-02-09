@@ -94,7 +94,8 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       }
     };
     perform();
-  }, [isReadyToWrite, writeAsync]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReadyToWrite]);
 
   return {
     write: async (metaData: HypercertMetadata, units: number) => {
