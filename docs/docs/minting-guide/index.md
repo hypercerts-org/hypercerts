@@ -6,6 +6,8 @@ sidebar_position: 2
 
 # Hypercerts Minting Guide
 
+## Getting started
+
 ### How to create a hypercert
 
 Creating a hypercert is similar to creating an NFT on sites like OpenSea or Zora.
