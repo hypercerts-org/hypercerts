@@ -1,7 +1,7 @@
 ---
 title: Minting Guide
 id: minting-guide
-sidebar_position: 11
+sidebar_position: 2
 ---
 
 # Hypercerts Minting Guide
@@ -10,7 +10,7 @@ sidebar_position: 11
 
 ### How to create a hypercert
 
-Creating a hypercert is similar to creating an NFT on sites like OpenSea or Zora. 
+Creating a hypercert is similar to creating an NFT on sites like OpenSea or Zora.
 
 In this article, we’ll walk through the steps one by one and explain exactly what you need to do to create your first hypercert.
 
@@ -22,9 +22,9 @@ There are typically two ways of creating a hypercert:
 
 Anyone doing work that is intended to have a positive impact can create a hypercert. Your hypercert can be as simple as "I did X on this date and want to claim all future impact from it".
 
-It can also represent something more, such as a phase in an ongoing team project, an invention or discovery, a research publication, or an important software release. 
+It can also represent something more, such as a phase in an ongoing team project, an invention or discovery, a research publication, or an important software release.
 
-Critically, if the work was done by more that one person, then each person should be listed as a contributor to the hypercert and approve the creation of the hypercert. 
+Critically, if the work was done by more that one person, then each person should be listed as a contributor to the hypercert and approve the creation of the hypercert.
 
 *Note: In the future, the approval of each contributor will be verified on-chain.*
 
@@ -32,7 +32,7 @@ Critically, if the work was done by more that one person, then each person shoul
 
 You will need to prepare all of the information required in the form builder (see **Step-by-step instructions for creating a hypercert** below). This includes important metadata, such as a description of the project and the dimensions of your impact claim, as well as a project artwork. You may also want to include an allowlist of wallets that are approved to claim one or more fractions of the hypercert.
 
-In addition to the information regarding the hypercert itself, you’ll need a crypto wallet to mint your hypercert. “Minting” a hypercert is the process of writing an impact claim to the blockchain. This establishes its immutable record of authenticity and ownership. 
+In addition to the information regarding the hypercert itself, you’ll need a crypto wallet to mint your hypercert. “Minting” a hypercert is the process of writing an impact claim to the blockchain. This establishes its immutable record of authenticity and ownership.
 
 Next, choose a blockchain on which to mint your hypercert. The hypercerts protocol is available on Ethereum, Goerli (testnet), and Optimism. Each of these blockchains has different gas fees associated with transactions on their networks. To reduce gas fees we recommend Optimism for most projects.
 
@@ -52,7 +52,7 @@ Although the site works on mobile, it is easier to use on desktop because the br
 
 Next, connect your wallet. You will be prompted to switch to the Ethereum or Optimism network.
 
-Once you've connected, you will see an empty form for creating a hypercert. 
+Once you've connected, you will see an empty form for creating a hypercert.
 
 ### General fields
 
@@ -65,7 +65,7 @@ Names are restricted to 100 characters but may include emojis (:smile:), accents
 
 #### Project Description
 
-Enter a human readable description of the hypercert. This is the place to share more details about the work and the team or individual behind the work. 
+Enter a human readable description of the hypercert. This is the place to share more details about the work and the team or individual behind the work.
 
 The description field supports [Markdown syntax](https://www.markdownguide.org/cheat-sheet/) and has a limit of 10,000 characters.
 
@@ -97,7 +97,7 @@ Images stored on IPFS should be referenced through a hosted URL service, e.g., `
 
 #### Work Scope
 
-One or multiple tags describe the work that the hypercert represents. This work scope will be used to identify the work that is included in the hypercerts and the work that is not included. 
+One or multiple tags describe the work that the hypercert represents. This work scope will be used to identify the work that is included in the hypercerts and the work that is not included.
 
 Multiple tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction), e.g. `Planting trees` ∧ `Germany` means that the hypercert includes the planting of trees only in Germany, but not planting trees anywhere else or any other work in Germany that wasn't planting trees.
 
@@ -107,7 +107,7 @@ We recommend just a short form of the project name as a single tag. In most case
 
 #### Start and End Date of Work
 
-The work time period defines when the work was done that the hypercert represents, i.e., only the work in this time period is included in the hypercert. 
+The work time period defines when the work was done that the hypercert represents, i.e., only the work in this time period is included in the hypercert.
 
 The time period of work doesn't need to be the start and end date of a project, but it can be. One project can be splitted up into multiple hypercerts, e.g. all hypercerts can have the same `work scope`, but different time periods of work. Of course, the time periods are not allowed to overlap.
 
@@ -115,9 +115,9 @@ The time period of work doesn't need to be the start and end date of a project, 
 
 #### Impact Scope
 
-The impact scope can be used to limit the impact that a hypercert represents, e.g. for the work scope `Planting trees` a hypercert can represent *only* the impact on biodiversity by including the impact scope tag `Biodiversity`. This would exclude all other impacts, including the impact on CO2 in the atmosphere, which can be useful if that impact is already captured by a carbon credit. 
+The impact scope can be used to limit the impact that a hypercert represents, e.g. for the work scope `Planting trees` a hypercert can represent *only* the impact on biodiversity by including the impact scope tag `Biodiversity`. This would exclude all other impacts, including the impact on CO2 in the atmosphere, which can be useful if that impact is already captured by a carbon credit.
 
-By default this is set to "`all`" and we strongly recommend keeping it that way. 
+By default this is set to "`all`" and we strongly recommend keeping it that way.
 
 Just like the work scope, multiple impact scope tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction).
 
@@ -131,7 +131,7 @@ By default the `impact start date` is the same as the `work start date` and the 
 
 Provide a list of contributors, one per line, or comma-separated.
 
-The list should include *all* contributors that performed the described work. 
+The list should include *all* contributors that performed the described work.
 
 Contributors are generally itemized as wallet addresses or ENS names, but can also be names / pseudonyms. Groups of contributors can be represented by a multisig or name of an organization.
 
@@ -144,7 +144,7 @@ The allowlist allocates fractions of the hypercert to specific wallet addresses.
 The allowlist is implemented as a CSV file specifying `index,address,price,fractions` headers.
 
 |index | address | price | fractions |
-| -------- | -------- | -------- | -------- | 
+| -------- | -------- | -------- | -------- |
 |0|0x5dee7b340764c49a827c60d2b8729e49405fbefc|0.0|100|
 |1|0x1e2dbb9ca3f6d48e085384a821b7259abfdc7d65|0.0|50|
 |...|...|...|...|
@@ -156,7 +156,7 @@ The `price` field is denominated in ETH. This should remain at 0.0 for all hyper
 
 This field define the rights that owners of the hypercert have over the work being claimed by this hypercert.
 
-By default this is set to `Public Display`, i.e., the owners are allowed to publicly display the hypercert and show their support of the work. 
+By default this is set to `Public Display`, i.e., the owners are allowed to publicly display the hypercert and show their support of the work.
 
 *Note: In the future, additional rights can be included for different hypercerts.*
 
@@ -180,12 +180,12 @@ The project description should refer to **past work**, not future work that you 
 This field is set to the first external URL provided for your project on Gitcoin Grants. You can update this.
 
 #### Logo
-This field is set to the icon artwork provided for your project on Gitcoin Grants. If there was an error accessing your icon, you will see a generic icon. 
+This field is set to the icon artwork provided for your project on Gitcoin Grants. If there was an error accessing your icon, you will see a generic icon.
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
 #### Background Banner Image
-This field is set to the banner artwork provided for your project on Gitcoin Grants. If there was an error accessing your banner, you will see a generic Gitcoin banner. 
+This field is set to the banner artwork provided for your project on Gitcoin Grants. If there was an error accessing your banner, you will see a generic Gitcoin banner.
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
@@ -194,14 +194,14 @@ This field is set by default to a **shortened version** of the name of your proj
 
 #### Work Start/End Dates
 
-The start date has been set by default to the `2022-09-22` for all projects on Gitcoin Grants. This date coincides with the end of Gitcoin Grants Round 15. 
+The start date has been set by default to the `2022-09-22` for all projects on Gitcoin Grants. This date coincides with the end of Gitcoin Grants Round 15.
 
-The end date references the last update to your grant page on Gitcoin Grants. 
+The end date references the last update to your grant page on Gitcoin Grants.
 
 You may edit or update these fields, however, the end date may not extend beyond `2023-01-31` (the close of the funding round) as all hypercerts will be retrospective in this round.
 
 #### Impact Scope
-This field is set by default to `all`. 
+This field is set by default to `all`.
 
 Updates are currently disabled on the frontend because funding decisions on Gitcoin Grants were not specific to an impact scope or impact time period.
 
