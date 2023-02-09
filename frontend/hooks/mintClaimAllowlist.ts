@@ -162,7 +162,8 @@ export const useMintClaimAllowlist = ({
     if (isReadyToWrite && write) {
       write();
     }
-  }, [isReadyToWrite, write]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReadyToWrite]);
 
   return {
     write: async ({

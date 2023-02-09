@@ -439,5 +439,4 @@ const exportAsImage = async (id: string) => {
   });
   const image = canvas.toDataURL("image/png", 1.0);
   return image;
-  // downloadImage(image, imageFileName);
 };
