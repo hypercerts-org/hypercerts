@@ -6,7 +6,7 @@ sidebar_position: 1
 
 # Start here
 
-#### Hypercerts are a new token standard for tracking and rewarding positive impact.
+### Hypercerts are a new token standard for tracking and rewarding positive impact.
 
 Each hypercert represents a unique impact claim capturing the following information:
 - a scope of work and its corresponding scope of impact
