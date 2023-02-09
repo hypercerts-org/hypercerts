@@ -1,7 +1,7 @@
 ---
 title: Step-by-step
 id: step-by-step
-sidebar_position: 1
+sidebar_position: 3
 ---
 
 ## Step-by-step instructions

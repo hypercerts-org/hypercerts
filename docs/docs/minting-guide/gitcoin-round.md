@@ -1,7 +1,7 @@
 ---
 title: Gitcoin Alpha Round
 id: gitcoin-round
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 ## Create a hypercert for a Gitcoin Grant
