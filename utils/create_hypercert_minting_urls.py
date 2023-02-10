@@ -80,12 +80,12 @@ def create_markdown(metadata, minting_url, num_fractions):
         flag = ""
     
     return "|".join([
-        name,
+        name.replace("|","∙"),
         "∙".join([
-            f"[Gitcoin Page]({metadata['hidden_properties']['gitcoin_grant_url']})",
-            f"[Minting URL]({minting_url})",
+            f"[Gitcoin]({metadata['hidden_properties']['gitcoin_grant_url']})",
+            f"[Hypercert]({minting_url})",
         ]),
-        f"[{num_fractions} fractions]({allowlist_csv})",
+        f"[{num_fractions}]({allowlist_csv})",
         flag
     ])
 
