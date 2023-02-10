@@ -12,6 +12,7 @@ METADATA_URL = CONFIG["ipfs_cids"]["hypercert_metadata_base"]
 METADATA_DIR = CONFIG["path_to_metadata_directory"]
 OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
+CID_HOST_URL = CONFIG["hosted_cid_base_url"]
 
 MAX_URL_LEN = 2048
 
@@ -20,11 +21,9 @@ def safe_url_attr(name, value):
     return urllib.parse.quote(name, safe='') + '=' + urllib.parse.quote(value, safe='') + '&'
 
 
-def parse_url(cid_with_fname):
-        url_base = CONFIG["hosted_cid_base_url"]
-        cid_with_fname = cid_with_fname.replace("ipfs://", "")
+def cid_to_url(cid_with_fname):
         cid_with_fname = urllib.parse.quote(cid_with_fname)
-        return url_base + cid_with_fname
+        return CID_HOST_URL + cid_with_fname
 
 
 def create_url(metadata):
@@ -33,8 +32,8 @@ def create_url(metadata):
     url += safe_url_attr('name', metadata['name'])
     url += safe_url_attr('externalLink', metadata['external_url'])
 
-    url += safe_url_attr('logoUrl', parse_url(metadata['hidden_properties']['project_icon']))
-    url += safe_url_attr('bannerUrl', parse_url(metadata['hidden_properties']['project_banner']))
+    url += safe_url_attr('logoUrl', metadata['hidden_properties']['project_icon'])
+    url += safe_url_attr('bannerUrl', metadata['hidden_properties']['project_banner'])
     url += safe_url_attr('backgroundColor', metadata['hidden_properties']['bg_color'])
     url += safe_url_attr('backgroundVectorArt', metadata['hidden_properties']['vector'])
 
@@ -44,8 +43,8 @@ def create_url(metadata):
     work_time_end = datify(metadata['hypercert']['work_timeframe']['end_value'])
     url += safe_url_attr('workTimeEnd', work_time_end)
 
-    impact_time_start = datify(metadata['hypercert']['impact_timeframe']['start_value'])
-    url += safe_url_attr('impactTimeStart', impact_time_start)
+    #impact_time_start = datify(metadata['hypercert']['impact_timeframe']['start_value'])
+    #url += safe_url_attr('impactTimeStart', impact_time_start)
 
     impact_time_end = datify(metadata['hypercert']['impact_timeframe']['end_value']).lower()
     url += safe_url_attr('impactTimeEnd', impact_time_end)
@@ -53,20 +52,17 @@ def create_url(metadata):
     for idx, right in enumerate(metadata['hypercert']['rights']['value']):
         url += safe_url_attr(f"rights[{idx}]", right)
     
-    for idx, work_scope in enumerate(metadata['hypercert']['work_scope']['value']):
-        url += safe_url_attr(f"workScopes[{idx}]", work_scope)
+    work_scopes = ",".join(metadata['hypercert']['work_scope']['value'])
+    url += safe_url_attr("workScopes", work_scopes)
 
     for idx, impact_scope in enumerate(metadata['hypercert']['impact_scope']['value']):
         url += safe_url_attr(f"impactScopes[{idx}]", impact_scope)
 
-    for idx, contributor in enumerate(metadata['hypercert']['contributors']['value']):
-        url += safe_url_attr(f"contributors[{idx}]", contributor)
+    contributors = ",".join(metadata['hypercert']['contributors']['value'])
+    url += safe_url_attr("contributors", contributors)
 
-    allowlist_url = metadata['hidden_properties']['allowlist']
+    allowlist_url = cid_to_url(metadata['hidden_properties']['allowlist'])
     url += safe_url_attr('allowlistUrl', allowlist_url)
-    
-    # TODO: review fractions calculations
-    url += safe_url_attr('fractions', "100000")
 
     url += safe_url_attr('description', metadata['description'])
     url = url[:MAX_URL_LEN]
@@ -78,8 +74,8 @@ def create_markdown(metadata, minting_url):
 
     name = metadata['name']
     fname = create_project_filename(name)    
-    metadata_json = parse_url(f"{METADATA_URL}/{fname}.json")
-    allowlist_csv = parse_url(metadata['hidden_properties']['allowlist'])
+    metadata_json = cid_to_url(f"{METADATA_URL}/{fname}.json")
+    allowlist_csv = cid_to_url(metadata['hidden_properties']['allowlist'])
     if len(minting_url) >= MAX_URL_LEN:
         flag = "[NOTE: DESCRIPTION TRUNCATED]"
     else:

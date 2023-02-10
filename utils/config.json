@@ -5,7 +5,7 @@
 	"path_to_minting_urls": "minting_urls.txt",
 	"path_to_project_urls_markdown": "project_urls.md",
 	"hypercert_dapp_base_url": "https://hypercerts.vercel.app/app/create?",
-	"hosted_cid_base_url": "https://cloudflare-ipfs.com/ipfs/",
+	"hosted_cid_base_url": "https://ipfs.io/ipfs/",
 	"ipfs_cids": {
 		"allowlist_base": "bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm",
 		"default_artwork": "bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi",
@@ -24,6 +24,7 @@
 		"path_to_workscope_overrides": "csv/workscope_overrides.csv",
 		"path_to_safe_multisig_contract_data": "csv/safe_multisig_list.csv",
 		"path_to_splits_contract_data": "csv/0xSplits_list.csv",
+		"hosted_cid_base_url": "https://gitcoin.mypinata.cloud/ipfs/",
 		"platform_name": "Gitcoin Grants",
     	"round_name":  "Alpha Round",
 		"default_dimensions": {

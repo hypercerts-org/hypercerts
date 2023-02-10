@@ -8,10 +8,12 @@ from utils import build_scope, create_project_filename, datify, shorten_address
 with open("config.json") as config_file:
     CONFIG = json.load(config_file)    
 
-OUT_DIR     = CONFIG["path_to_metadata_directory"]
-IPFS_CIDS   = CONFIG["ipfs_cids"]
-SETTINGS    = CONFIG["gitcoin_settings"]
-ROUNDS      = SETTINGS["matching_pool_settings"]
+OUT_DIR      = CONFIG["path_to_metadata_directory"]
+IPFS_CIDS    = CONFIG["ipfs_cids"]
+SETTINGS     = CONFIG["gitcoin_settings"]
+IMG_URL_BASE = SETTINGS["hosted_cid_base_url"]
+ROUNDS       = SETTINGS["matching_pool_settings"]
+
 with open(SETTINGS["path_to_project_list"]) as projects_file:
     PROJECTS_DB = json.load(projects_file)
 
@@ -39,7 +41,7 @@ def mapper(data, project_id):
     impact_end_date  = default_dims["impact_end_date"]
     default_impact   = default_dims["impact_scope"]
     default_rights   = default_dims["rights"]
-    default_image    = "ipfs://" + IPFS_CIDS["default_artwork"]    
+    default_image    = IMG_URL_BASE + IPFS_CIDS["default_artwork"]    
 
     app_data         = data['application']
     project_data     = app_data['project']
@@ -51,9 +53,9 @@ def mapper(data, project_id):
     project_url      = project_data['website']
 
     project_date     = int(str(project_data.get('createdAt', default_end_date))[:10])
-    project_icon     = "ipfs://" + project_data.get('logoImg', IPFS_CIDS["default_icon"])
-    project_banner   = "ipfs://" + project_data.get('bannerImg', IPFS_CIDS["default_banner"])
-    allowlist_url    = "ipfs://" + IPFS_CIDS["allowlist_base"] + "/" + create_project_filename(project_name) + ".csv"
+    project_icon     = IMG_URL_BASE + project_data.get('logoImg', IPFS_CIDS["default_icon"])
+    project_banner   = IMG_URL_BASE + project_data.get('bannerImg', IPFS_CIDS["default_banner"])
+    allowlist_url    = IPFS_CIDS["allowlist_base"] + "/" + create_project_filename(project_name) + ".csv"
 
     funding_platform = SETTINGS["platform_name"]
     funding_round    = SETTINGS["round_name"]
