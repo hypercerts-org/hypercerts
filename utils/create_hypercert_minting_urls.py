@@ -14,59 +14,54 @@ OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 CID_HOST_URL = CONFIG["hosted_cid_base_url"]
 
-MAX_URL_LEN = 2048
+MAXLEN_DESCR = 1500
+
+
+def url_parse(val):
+    return urllib.parse.quote(val, safe='')
 
 
 def safe_url_attr(name, value):
-    return urllib.parse.quote(name, safe='') + '=' + urllib.parse.quote(value, safe='') + '&'
+    parser = lambda k,v: url_parse(k) + '=' + url_parse(v)
+    if isinstance(value, set):
+        url_field = "&".join([parser(f"{name}[{i}]", x) for (i, x) in enumerate(value)])
+    else:
+        url_field = parser(name, value)
+    return url_field
 
 
 def cid_to_url(cid_with_fname):
-        cid_with_fname = urllib.parse.quote(cid_with_fname)
-        return CID_HOST_URL + cid_with_fname
+    return CID_HOST_URL + url_parse(cid_with_fname)
 
 
 def create_url(metadata):
-    url = CONFIG["hypercert_dapp_base_url"]
-
-    url += safe_url_attr('name', metadata['name'])
-    url += safe_url_attr('externalLink', metadata['external_url'])
-
-    url += safe_url_attr('logoUrl', metadata['hidden_properties']['project_icon'])
-    url += safe_url_attr('bannerUrl', metadata['hidden_properties']['project_banner'])
-    url += safe_url_attr('backgroundColor', metadata['hidden_properties']['bg_color'])
-    url += safe_url_attr('backgroundVectorArt', metadata['hidden_properties']['vector'])
-
-    work_time_start = datify(metadata['hypercert']['work_timeframe']['start_value'])
-    url += safe_url_attr('workTimeStart', work_time_start)
-
-    work_time_end = datify(metadata['hypercert']['work_timeframe']['end_value'])
-    url += safe_url_attr('workTimeEnd', work_time_end)
-
-    #impact_time_start = datify(metadata['hypercert']['impact_timeframe']['start_value'])
-    #url += safe_url_attr('impactTimeStart', impact_time_start)
-
-    impact_time_end = datify(metadata['hypercert']['impact_timeframe']['end_value']).lower()
-    url += safe_url_attr('impactTimeEnd', impact_time_end)
-
-    for idx, right in enumerate(metadata['hypercert']['rights']['value']):
-        url += safe_url_attr(f"rights[{idx}]", right)
     
-    work_scopes = ",".join(metadata['hypercert']['work_scope']['value'])
-    url += safe_url_attr("workScopes", work_scopes)
+    base_url = CONFIG["hypercert_dapp_base_url"]
+    params = dict(
+        name = metadata['name'],
+        description = metadata['description'][:MAXLEN_DESCR],
 
-    for idx, impact_scope in enumerate(metadata['hypercert']['impact_scope']['value']):
-        url += safe_url_attr(f"impactScopes[{idx}]", impact_scope)
+        externalLink = metadata['external_url'],
+        logoUrl = metadata['hidden_properties']['project_icon'],
+        bannerUrl = metadata['hidden_properties']['project_banner'],
+        backgroundColor = metadata['hidden_properties']['bg_color'],
+        backgroundVectorArt = metadata['hidden_properties']['vector'],
 
-    contributors = ",".join(metadata['hypercert']['contributors']['value'])
-    url += safe_url_attr("contributors", contributors)
-
-    allowlist_url = cid_to_url(metadata['hidden_properties']['allowlist'])
-    url += safe_url_attr('allowlistUrl', allowlist_url)
-
-    url += safe_url_attr('description', metadata['description'])
-    url = url[:MAX_URL_LEN]
-
+        workScopes = ",".join(metadata['hypercert']['work_scope']['value']),
+        workTimeStart = datify(metadata['hypercert']['work_timeframe']['start_value']),
+        workTimeEnd = datify(metadata['hypercert']['work_timeframe']['end_value']),
+        
+        impactScopes = set(metadata['hypercert']['impact_scope']['value']),
+        #impactTimeStart = datify(metadata['hypercert']['impact_timeframe']['start_value']),
+        impactTimeEnd = datify(metadata['hypercert']['impact_timeframe']['end_value']),
+        
+        contributors = ",".join(metadata['hypercert']['contributors']['value']),
+        rights = set(metadata['hypercert']['rights']['value']),    
+        allowlistUrl = cid_to_url(metadata['hidden_properties']['allowlist'])
+    )
+    
+    params = "&".join([safe_url_attr(k,v) for (k,v) in params.items()])
+    url = base_url + params
     return url
 
 
@@ -76,7 +71,7 @@ def create_markdown(metadata, minting_url):
     fname = create_project_filename(name)    
     metadata_json = cid_to_url(f"{METADATA_URL}/{fname}.json")
     allowlist_csv = cid_to_url(metadata['hidden_properties']['allowlist'])
-    if len(minting_url) >= MAX_URL_LEN:
+    if len(metadata['description']) >= MAXLEN_DESCR:
         flag = "[NOTE: DESCRIPTION TRUNCATED]"
     else:
         flag = ""
