@@ -38,3 +38,8 @@ iframe.slides {
 svg[id*=mermaid]{
   height: auto !important;
 }
+
+dd,
+dt {
+  line-height: 3;
+}

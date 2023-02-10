@@ -7,8 +7,8 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Hypercerts",
-  tagline: "Impact in hyperspace",
-  url: "https://Network-Goods.github.io/",
+  tagline: "Accounting and rewarding impact with hypercerts",
+  url: "https://hypercerts-org.github.io/",
   baseUrl: "/docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -17,8 +17,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "Network-Goods", // Usually your GitHub org/user name.
-  projectName: "hypercerts-docs", // Usually your repo name.
+  organizationName: "Hypercerts Foundation", // Usually your GitHub org/user name.
+  projectName: "hypercerts", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -67,7 +67,7 @@ const config = {
             label: "Docs",
           },
           {
-            href: "https://github.com/Network-Goods/hypercerts-protocol",
+            href: "https://github.com/Network-Goods/hypercerts",
             label: "GitHub",
             position: "right",
           },
