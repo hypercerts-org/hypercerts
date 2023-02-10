@@ -26,7 +26,7 @@ export const NAME_MIN_LENGTH = 2;
 export const NAME_MAX_LENGTH = 50;
 
 export const DESCRIPTION_MIN_LENGTH = 20;
-export const DESCRIPTION_MAX_LENGTH = 500;
+export const DESCRIPTION_MAX_LENGTH = 1500;
 
 export const DEFAULT_NUM_FRACTIONS = 10000;
 export const DEFAULT_HYPERCERT_VERSION = "0.0.1";
