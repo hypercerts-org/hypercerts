@@ -7,24 +7,66 @@ sidebar_position: 19
 # Glossary for Hypercerts
 
 <dl>
-  <dt><strong>Lower cost</strong></dt>
-  <dd>The new version of this product costs significantly less than the previous one!</dd>
-  <dt><strong>Easier to use</strong></dt>
-  <dd>We've changed the product so that it's much easier to use!</dd>
-  <dt><strong>Safe for kids</strong></dt>
-  <dd>You can leave your kids alone in a room with this product and they
-      won't get hurt (not a guarantee).</dd>
+  <dt><strong>Contributor</strong></dt>
+  <dd>An individual or group of individuals who performs the work described in a hypercert.</dd>
+  <dt><strong>Evaluator</strong></dt>
+  <dd>An individual, group of individuals, or algorithm that evaluates the impact of work. There are two types: Scouts evaluate the potential impact before it is done, auditors evaluate the impact after it is done.</dd>
+  <dt><strong>Scout</strong></dt>
+  <dd>An individual, group of individuals, or algorithm that evaluates the potential impact of work before it is done.</dd>
+  <dt><strong>Auditor</strong></dt>
+  <dd>An individual, group of individuals, or algorithm that evaluates the impact of work after it is done.</dd>
+  <dt><strong>Impact Funding System (IFS)</strong></dt>
+  <dd>A system of actors (contributors, evaluators, funders) that interact according to a set of rules (funding mechanisms, coordination mechanisms) to maximize the domain-specific impact.
+  </dd>
+  <dt><strong>Fraction</strong></dt>
+  <dd>A token that represents a quantified proportion of a hypercert.</dd>
+  <dt><strong>Hypercert</strong></dt>
+  <dd>A token that (1) accounts for work that is supposed to be impactful, (2) represents the – potentially explicitly specified – impact of this work, and (3) assigns right over this work to its owners. If a hypercert is split into multiple fractions, the hypercert refers to the sum of all of its fractions. Hypercert also refers to the *hypercert standard* that defines the token and data standard for hypercerts.</dd>
+  <dt><strong>Hypercert standard</strong></dt>
+  <dd></dd>
+  <dt><strong>Funder</strong></dt>
+  <dd></dd>
+  <dt><strong>Minting a hypercert</strong></dt>
+  <dd></dd>
+  <dt><strong>Claiming a hypercert</strong></dt>
+  <dd></dd>
+  <dt><strong>Creating a hypercert</strong></dt>
+  <dd></dd>
+  <dt><strong>Token</strong></dt>
+  <dd></dd>
+  <dt><strong>Retrospective funder</strong></dt>
+  <dd></dd>
+  <dt><strong>Prospective funder</strong></dt>
+  <dd></dd>
+  <dt><strong>Project</strong></dt>
+  <dd></dd>
+  <dt><strong>Impact evaluation</strong></dt>
+  <dd></dd>
+  <dt><strong>Allowlist</strong></dt>
+  <dd></dd>
+  <dt><strong>Dimensions of the impact space</strong></dt>
+  <dd></dd>
+  <dt><strong>Impact space</strong></dt>
+  <dd></dd>
+  <dt><strong>Impact scope</strong></dt>
+  <dd></dd>
+  <dt><strong>Work scope</strong></dt>
+  <dd></dd>
+  <dt><strong>Time of impact</strong></dt>
+  <dd></dd>
+  <dt><strong>Time of work</strong></dt>
+  <dd></dd>
+  <dt><strong>Rights</strong></dt>
+  <dd></dd>
+  <dt><strong>Set of contributors</strong></dt>
+  <dd></dd>
+  <dt><strong>Impact</strong></dt>
+  <dd></dd>
+  <dt><strong>Work</strong></dt>
+  <dd></dd>
+  <dt><strong></strong></dt>
+  <dd></dd>
 </dl>
-
-* **Contributor**: The parties contributing to a unit of impact claimed by a *hypercert*.
-* Evaluator
-* Scout
-* Auditor
-* Impact Funding System (IFS)
-* Fraction
-* Funder
-*
-
 
 
 | Term | Description | Instead of | Protocol Entity* |
