@@ -209,7 +209,10 @@ const ValidationSchema = Yup.object().shape({
         return Yup.string().oneOf([DATE_INDEFINITE]);
       default:
         return Yup.date().when("workTimeStart", (workTimeStart) => {
-          return Yup.date().min(workTimeStart, "End date must be after start date");
+          return Yup.date().min(
+            workTimeStart,
+            "End date must be after start date",
+          );
         });
     }
   }),
