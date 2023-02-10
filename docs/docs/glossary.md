@@ -7,9 +7,9 @@ sidebar_position: 19
 # Glossary for Hypercerts
 
 <dl>
-  <dt style="color:red;"><strong>Allowlist</strong></dt>
+  <dt><strong>Allowlist</strong></dt>
   <dd>A list that allocates – mostly at the time of minting a hypercert – fractions of hypercerts to new owners. Based on allowlists designated new owners can claim their fractions. </dd>
-  <dt style="color:red;"><strong>Auditor</strong></dt>
+  <dt><strong>Auditor</strong></dt>
   <dd>Individual, organization, or algorithm that evaluates the impact of work after it is done.</dd>
   <dt><strong>Beneficiaries</strong></dt>
   <dd>People or objects that are impacted by work.</dd>
