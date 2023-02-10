@@ -110,13 +110,10 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+      mermaid: {
+        theme: {light: 'neutral', dark: 'forest'},
+      },
     }),
 };
 
-module.exports = {
-  themeConfig: {
-    mermaid: {
-      theme: {light: 'neutral', dark: 'forest'},
-    },
-  },
-};
+module.exports = config;
