@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 def datify(u):
-    return datetime.fromtimestamp(u).strftime('%Y-%m-%d') if u else "Indefinite"
+    return datetime.fromtimestamp(u).strftime('%Y-%m-%d') if u else "indefinite"
 
 def shorten_address(a):
     # todo: build more robust handling
