@@ -203,8 +203,15 @@ const ValidationSchema = Yup.object().shape({
       }),
   ),
   impactScopes: Yup.array().min(1, "Please choose at least 1 item"),
-  impactTimeEnd: Yup.date().when(["workTimeStart"], (workTimeStart) => {
-    return Yup.date().min(workTimeStart, "End date must be after start date");
+  impactTimeEnd: Yup.lazy((val: any) => {
+    switch (typeof val) {
+      case "string":
+        return Yup.string().oneOf([DATE_INDEFINITE]);
+      default:
+        return Yup.date().when("workTimeStart", (workTimeStart) => {
+          return Yup.date().min(workTimeStart, "End date must be after start date");
+        });
+    }
   }),
   workScopes: Yup.string()
     .min(
