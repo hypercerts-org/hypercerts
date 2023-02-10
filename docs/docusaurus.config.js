@@ -113,4 +113,10 @@ const config = {
     }),
 };
 
-module.exports = config;
+module.exports = {
+  themeConfig: {
+    mermaid: {
+      theme: {light: 'neutral', dark: 'forest'},
+    },
+  },
+};
