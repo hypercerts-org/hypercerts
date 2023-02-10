@@ -38,3 +38,7 @@ iframe.slides {
 svg[id*=mermaid]{
   height: auto !important;
 }
+
+dt {
+  margin-top: 20px;
+}
