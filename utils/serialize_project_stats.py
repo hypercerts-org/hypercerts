@@ -3,6 +3,7 @@ import json
 import os
 import pandas as pd
 import requests
+from utils import create_project_filename
 
 
 load_dotenv()
@@ -11,10 +12,17 @@ API_KEY = os.environ['OPTIMISM_ETHERSCAN_API_KEY']
 with open("config.json") as config_file:
     CONFIG = json.load(config_file)
 
+ALLOWLIST_DIR = CONFIG["path_to_allowlist_directory"]
 SETTINGS      = CONFIG["gitcoin_settings"]
 PROJECTS_PATH = SETTINGS["path_to_project_list"]
 MULTISIG_PATH = SETTINGS["path_to_safe_multisig_contract_data"] # https://dune.com/queries/1949707
 SPLITS_PATH   = SETTINGS["path_to_splits_contract_data"]       # https://dune.com/queries/1979620
+
+
+def count_fractions(project_name):
+    allowlist_path = ALLOWLIST_DIR + create_project_filename(project_name) + ".csv"
+    num_fractions = int(pd.read_csv(allowlist_path)['fractions'].sum())
+    return num_fractions
 
 
 def optimism_scan(address):
@@ -34,7 +42,7 @@ def optimism_scan(address):
     return -1
 
 
-def run_multisig_scan(check_optimism=False):
+def run_multisig_scan():
     
     process_dune_export = lambda path: list(pd.read_csv(path)['address'].str.lower())
     safes = process_dune_export(MULTISIG_PATH)
@@ -54,7 +62,9 @@ def run_multisig_scan(check_optimism=False):
                 addr_type = 'wallet'
             grant.update({"type": addr_type})
             grant.update({"multisig": addr_type != 'wallet'})
-            grant.update({"optimism": optimism_scan(addr)})
+            #grant.update({"optimism": optimism_scan(addr)})
+            grant.update({"fractions": count_fractions(grant['title'])})
+    
     
     out_file = open(PROJECTS_PATH, "w")
     json.dump(projects_db, out_file, indent=4)                
@@ -62,4 +72,4 @@ def run_multisig_scan(check_optimism=False):
 
 
 if __name__ == "__main__":
-    run_multisig_scan(check_optimism=True)
+    run_multisig_scan()

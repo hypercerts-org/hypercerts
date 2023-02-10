@@ -14,7 +14,10 @@ OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 CID_HOST_URL = CONFIG["hosted_cid_base_url"]
 
-MAXLEN_DESCR = 1500
+with open(CONFIG["gitcoin_settings"]["path_to_project_list"]) as projects_file:
+    PROJECTS_DB = json.load(projects_file)
+
+MAXLEN_DESCR = 1400
 
 
 def url_parse(val):
@@ -65,49 +68,44 @@ def create_url(metadata):
     return url
 
 
-def create_markdown(metadata, minting_url):
+def create_markdown(metadata, minting_url, num_fractions):
 
     name = metadata['name']
     fname = create_project_filename(name)    
     metadata_json = cid_to_url(f"{METADATA_URL}/{fname}.json")
     allowlist_csv = cid_to_url(metadata['hidden_properties']['allowlist'])
     if len(metadata['description']) >= MAXLEN_DESCR:
-        flag = "[NOTE: DESCRIPTION TRUNCATED]"
+        flag = f"Description length"
     else:
         flag = ""
     
-    return "\n".join([
-        f"## {name}",
-        f"- Gitcoin [Grant]({metadata['hidden_properties']['gitcoin_grant_url']})",
-        f"- Auto-generated [metadata]({metadata_json})",
-        f"- Allowlist [CSV file]({allowlist_csv})",
-        f"- Custom hypercert minting [URL]({minting_url}) {flag}",
-        "",
-        "***"
+    return "|".join([
+        name,
+        "∙".join([
+            f"[Gitcoin Page]({metadata['hidden_properties']['gitcoin_grant_url']})",
+            f"[Minting URL]({minting_url})",
+        ]),
+        f"[{num_fractions} fractions]({allowlist_csv})",
+        flag
     ])
 
 
 def create_urls():
-    grants_metadata = []
-    files = [f for f in os.scandir(METADATA_DIR) if f.name[-5:] == ".json"]
-    for file in files:
-        with open(file, 'r') as f:
-            grants_metadata.append(json.loads(f.read()))
-
-    urls = []
-    for metadata in grants_metadata:
-        url = create_url(metadata)
-        urls.append(url) 
-
-    with open(OUT_FILENAME, 'w') as f:
-        for url in urls:
-            f.write(f"{url}\n")
 
     with open(MD_FILENAME, 'w') as f:
-        docstrings = []
-        for metadata, url in zip(grants_metadata, urls):
-            docstrings.append(create_markdown(metadata, url))
-        f.write("\n".join(docstrings))
+        for matching_pool, grants_list in PROJECTS_DB.items():
+            f.write(f"# {matching_pool}\n")
+            f.write("| Num | Project | Project Links | Fractions | Flags |\n")
+            f.write("| --- | ------- | ------------- | --------- | ----- |\n")
+            for i, grant in enumerate(grants_list):
+                fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
+                metadata = json.load(open(fname))
+                url = create_url(metadata)
+                markdown = create_markdown(metadata, url, grant['fractions'])
+                num = str(i+1).zfill(2)
+                f.write(f"{num}|{markdown}|\n")
+            f.write("\n\n")
+    f.close()
 
     
 if __name__ == "__main__":
