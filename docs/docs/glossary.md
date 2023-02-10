@@ -52,17 +52,9 @@ sidebar_position: 19
   <dd>An ordered list of all contributors, who claim to do or have done the work described by a hypercert. One of the axis of the impact space and part of the required fields in the hypercerts data standard.</dd>
   <dt><strong>Scope of impact</strong></dt>
   <dd>A conjunction of potentially-negated impact scope tags, where an empty string means “all”:
-  ```
-  <scope-of-impact> ::= <scope-atom> AND <scope-of-impact> | " "
-  <scope-atom> ::= <scope-tag> | NOT <scope-tag>
-  ```
   One of the axis of the impact space and part of the required fields in the hypercerts data standard.</dd>
   <dt><strong>Scope of work</strong></dt>
   <dd>A conjunction of potentially-negated work scope tags, where an empty string means “all”:
-  ```
-  <scope-of-work> ::= <scope-atom> AND <scope-of-work> | " "
-  <scope-atom> ::= <scope-tag> | NOT <scope-tag>
-  ```
   One of the axis of the impact space and part of the required fields in the hypercerts data standard.</dd>
   <dt><strong>Scout</strong></dt>
   <dd>Individual, organization, or algorithm that evaluates the potential impact of work before it is done.</dd>
