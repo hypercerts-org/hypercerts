@@ -106,8 +106,12 @@ const config = {
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Hypercerts Foundation. Built with Docusaurus.`,
       },
+      prism: {
+        theme: lightCodeTheme,
+        darkTheme: darkCodeTheme,
+      },
       mermaid: {
-        theme: {light: 'neutral', dark: 'forest'},
+        theme: {light: 'neutral', dark: 'dark'},
       },
     }),
 };
