@@ -250,7 +250,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
     formikProps &&
     formikProps.touched[fieldName] &&
     !!formikProps.errors[fieldName];
-  const errorMessage = hasError ? formikProps.errors[fieldName] : undefined;
+  const errorMessage = hasError ? formikProps.errors[fieldName] as string : undefined;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -270,22 +270,32 @@ export function FormDatePicker(props: FormDatePickerProps) {
           },
         }}
       />
-      <FormControlLabel
-        style={{
-          ...(showUndefined ? {} : { display: "none" }),
-        }}
-        control={
-          <Checkbox
-            checked={dateUndefined}
-            value={dateUndefined}
-            disabled={disabled}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-              setDateUndefined(evt.target.checked);
-            }}
-          />
+      <FormControl
+        error={hasError}
+      >
+        <FormControlLabel
+          style={{
+            ...(showUndefined ? {} : { display: "none" }),
+          }}
+          control={
+            <Checkbox
+              checked={dateUndefined}
+              value={dateUndefined}
+              disabled={disabled}
+              onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                setDateUndefined(evt.target.checked);
+              }}
+            />
+          }
+          label="Indefinite End Date"
+        />
+        { 
+          // We need to show the error message here if the TextField above is hidden
+          hasError && dateUndefined
+            ? (<FormHelperText>{errorMessage}</FormHelperText>)
+            : <></>
         }
-        label="Indefinite End Date"
-      />
+      </FormControl>
     </LocalizationProvider>
   );
 
