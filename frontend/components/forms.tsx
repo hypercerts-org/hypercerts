@@ -250,7 +250,9 @@ export function FormDatePicker(props: FormDatePickerProps) {
     formikProps &&
     formikProps.touched[fieldName] &&
     !!formikProps.errors[fieldName];
-  const errorMessage = hasError ? formikProps.errors[fieldName] as string : undefined;
+  const errorMessage = hasError
+    ? (formikProps.errors[fieldName] as string)
+    : undefined;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -270,9 +272,7 @@ export function FormDatePicker(props: FormDatePickerProps) {
           },
         }}
       />
-      <FormControl
-        error={hasError}
-      >
+      <FormControl error={hasError}>
         <FormControlLabel
           style={{
             ...(showUndefined ? {} : { display: "none" }),
@@ -289,11 +289,13 @@ export function FormDatePicker(props: FormDatePickerProps) {
           }
           label="Indefinite End Date"
         />
-        { 
+        {
           // We need to show the error message here if the TextField above is hidden
-          hasError && dateUndefined
-            ? (<FormHelperText>{errorMessage}</FormHelperText>)
-            : <></>
+          hasError && dateUndefined ? (
+            <FormHelperText>{errorMessage}</FormHelperText>
+          ) : (
+            <></>
+          )
         }
       </FormControl>
     </LocalizationProvider>
