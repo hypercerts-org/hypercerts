@@ -1,0 +1,38 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org/
+      - run: yarn global add npm
+      - name: Compare package version to published version
+        run: |
+          echo "::set-output name=npm_version::$(npm view @protocol/hypercerts-protocol version)"
+          echo "::set-output name=package_version::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,"]//g' | tr -d '[[:space:]]')"
+        id: get-versions
+      - name: print outpouts package vs published versions
+        run: |
+          echo ${{steps.get-versions.outputs.npm_version}}
+          echo ${{steps.get-versions.outputs.package_version}}
+          echo ${{steps.get-versions.outputs.package_version > steps.get-versions.outputs.npm_version}}
+      - run: yarn install
+        if: steps.get-versions.outputs.package_version > steps.get-versions.outputs.npm_version
+      - run: yarn build
+        if: steps.get-versions.outputs.package_version > steps.get-versions.outputs.npm_version
+      - run: yarn test
+        if: steps.get-versions.outputs.package_version > steps.get-versions.outputs.npm_version
+      - name: publishing
+        if: steps.get-versions.outputs.package_version > steps.get-versions.outputs.npm_version
+        run: |
+          echo '//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}' > .npmrc
+          npm publish --access public --scope {hypercerts-npm-org} --otp ${{ secrets.NPM_TOKEN }}
