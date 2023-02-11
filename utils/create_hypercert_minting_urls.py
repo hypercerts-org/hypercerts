@@ -26,7 +26,7 @@ def url_parse(val):
 
 def safe_url_attr(name, value):
     parser = lambda k,v: url_parse(k) + '=' + url_parse(v)
-    if isinstance(value, set):
+    if isinstance(value, list):
         url_field = "&".join([parser(f"{name}[{i}]", x) for (i, x) in enumerate(value)])
     else:
         url_field = parser(name, value)
@@ -49,17 +49,18 @@ def create_url(metadata):
         bannerUrl = metadata['hidden_properties']['project_banner'],
         backgroundColor = metadata['hidden_properties']['bg_color'],
         backgroundVectorArt = metadata['hidden_properties']['vector'],
+        properties = json.dumps(metadata['properties']),
 
         workScopes = ",".join(metadata['hypercert']['work_scope']['value']),
         workTimeStart = datify(metadata['hypercert']['work_timeframe']['start_value']),
         workTimeEnd = datify(metadata['hypercert']['work_timeframe']['end_value']),
         
-        impactScopes = set(metadata['hypercert']['impact_scope']['value']),
+        impactScopes = metadata['hypercert']['impact_scope']['value'],
         #impactTimeStart = datify(metadata['hypercert']['impact_timeframe']['start_value']),
         impactTimeEnd = datify(metadata['hypercert']['impact_timeframe']['end_value']),
         
         contributors = ",".join(metadata['hypercert']['contributors']['value']),
-        rights = set(metadata['hypercert']['rights']['value']),    
+        rights = metadata['hypercert']['rights']['value'],    
         allowlistUrl = cid_to_url(metadata['hidden_properties']['allowlist'])
     )
     
