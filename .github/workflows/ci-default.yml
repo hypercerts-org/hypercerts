@@ -1,5 +1,15 @@
 # NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
 name: ci-default
+env:
+  NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
+  GRAPH_URL: ${{ vars.GRAPH_URL }}
+  NEXT_PUBLIC_DEFAULT_CHAIN_ID: ${{ vars.NEXT_PUBLIC_DEFAULT_CHAIN_ID }}
+  NEXT_PUBLIC_CONTRACT_ADDRESS: ${{ vars.NEXT_PUBLIC_CONTRACT_ADDRESS }}
+  NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ vars.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+  NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+  PLASMIC_PROJECT_ID: ${{ vars.PLASMIC_PROJECT_ID }}
+  PLASMIC_PROJECT_API_TOKEN: ${{ vars.PLASMIC_PROJECT_API_TOKEN }}
 
 # Trigger the workflow when:
 on:
@@ -11,7 +21,9 @@ on:
   # matched branches.
   pull_request:
     branches:
-      - main 
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Cancel in progress jobs on new pushes.
 concurrency:
@@ -19,9 +31,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  lint-and-test:
     # NOTE: This name appears in GitHub's Checks API.
     name: test
+    environment: testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -40,10 +53,16 @@ jobs:
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
+          cache: "yarn"
           node-version: "18.x"
       - name: Install
         run: |
-          yarn install
+          yarn install --immutable
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: Build
+        run: |
+          yarn build 
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Lint

@@ -1,46 +1,37 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules/
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+**/node_modules/
+.pnp/
+.pnp.*
 npm-debug.log*
+.pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 
-# local env files
+# testing
+coverage/
+.eslintcache
+
+# builds
+build/
+.turbo/
+
+# files
+.DS_Store
+*.pem
+*.env
 .env*.local
+*.log
+coverage.json
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/.gitignore
-/.idea/hypercerts.iml
-/.idea/modules.xml
-/.idea/vcs.xml
-/.idea/codeStyles/codeStyleConfig.xml
-/.idea/codeStyles/Project.xml
-/.idea/prettier.xml
-
-# turbo
-.turbo/
-
-# linters
-.eslintcache
-/defender/build
-/defender/.env
-/.idea/jsLibraryMappings.xml
+.idea/
