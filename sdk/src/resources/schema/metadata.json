@@ -1,0 +1,60 @@
+{
+  "$id": "schema/metadata.json",
+  "title": "Hypercert metadata",
+  "description": "Claim data for hypercert. ERC1155 Metadata compliant",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Identifies the asset to which this token represents"
+    },
+    "description": {
+      "type": "string",
+      "description": "Describes the asset to which this token represents"
+    },
+    "external_url": {
+      "type": "string",
+      "description": "An url pointing to the external website of the project"
+    },
+    "image": {
+      "type": "string",
+      "description": "A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of Hypercert schema used to describe this hypercert"
+    },
+    "ref": {
+      "type": "string",
+      "description": "Describes the asset to which this token represents"
+    },
+    "allowList": {
+      "type": "string",
+      "description": "A CID pointer to the merke tree proof json on ipfs"
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trait_type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hypercert": {
+      "$ref": "claimdata.json#"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "image",
+    "properties"
+  ]
+}
