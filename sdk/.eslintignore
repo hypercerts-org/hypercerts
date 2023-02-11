@@ -1,0 +1,15 @@
+# directories
+.yarn/
+**/cache
+**/dist
+**/node_modules
+**/types
+
+# files
+*.env
+*.log
+.pnp.*
+coverage.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

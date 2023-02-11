@@ -1,0 +1,35 @@
+query ClaimsByOwner($owner: Bytes = "") {
+    claims(where: { owner: $owner }) {
+        contract
+        tokenID
+        creator
+        id
+        owner
+        totalUnits
+        uri
+    }
+}
+
+query RecentClaims($first: Int = 10) {
+    claims(orderDirection: desc, orderBy: creation, first: $first) {
+        contract
+        tokenID
+        creator
+        id
+        owner
+        totalUnits
+        uri
+    }
+}
+
+query ClaimById($id: ID!) {
+    claim(id: $id) {
+        contract
+        tokenID
+        creator
+        id
+        owner
+        totalUnits
+        uri
+    }
+}
