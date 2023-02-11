@@ -48,8 +48,12 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     isSuccess: isReadyToWrite,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [BigNumber.from(units || 0), cidUri!, 2],
+    args: [
+      BigNumber.from(units || 0),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      cidUri!,
+      transferRestrictions.FromCreatorOnly,
+    ],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",
     onError: (error) => {
@@ -111,3 +115,9 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     isReadyToWrite,
   };
 };
+
+export const transferRestrictions = {
+  AllowAll: 0,
+  DisallowAll: 1,
+  FromCreatorOnly: 2,
+} as const;

@@ -19,6 +19,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { parseCsv } from "../lib/parse-csv";
+import { transferRestrictions } from "./mintClaim";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
@@ -115,7 +116,7 @@ export const useMintClaimAllowlist = ({
       merkleRoot!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
-      transferRestrictions.AllowAll,
+      transferRestrictions.FromCreatorOnly,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
@@ -190,9 +191,3 @@ export const useMintClaimAllowlist = ({
     isReadyToWrite,
   };
 };
-
-const transferRestrictions = {
-  AllowAll: 0,
-  FromCreatorOnly: 1,
-  DisallowAll: 2,
-} as const;

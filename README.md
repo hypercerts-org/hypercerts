@@ -2,17 +2,18 @@
 [![ci-default](https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml/badge.svg)](https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml)
 
 Hypercerts are a tool to build scalable retrospective reward systems for impact.
-For more details, check out our [website](https://hypercerts.vercel.app/).
+For more details, check out our [website](https://hypercerts.org/).
 
 ## Organization
 
+- `/contracts`: Smart contracts (Foundry+Hardhat)
+- `/cors-proxy`: CORS proxy for Cloudflare Workers
 - `/defender`: OpenZeppelin Defender integration
 - `/docs`: documentation (Docusaurus)
 - `/frontend`: frontend application (Next.js)
+- `/graph`: The Graph integration
+- `/sdk`: Hypercerts SDK
 - `/utils`: various scripts for operations
-- [The Graph](https://github.com/Network-Goods/hypercerts-graph)
-- [SDK](https://github.com/Network-Goods/hypercerts-sdk)
-- [Smart contracts](https://github.com/Network-Goods/hypercerts-protocol)
 
 ## Links
 
