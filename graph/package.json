@@ -1,0 +1,19 @@
+{
+  "name": "@network-goods/hypercerts-graph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "coverage": "graph test -- -c",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ bitbeckers/hypercerts-dev",
+    "create-local": "graph create --node http://localhost:8020/ bitbeckers/hypercerts-dev",
+    "remove-local": "graph remove --node http://localhost:8020/ bitbeckers/hypercerts-dev",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 bitbeckers/hypercerts-dev",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.37.1",
+    "@graphprotocol/graph-ts": "0.28.1"
+  },
+  "devDependencies": { "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts" }
+}

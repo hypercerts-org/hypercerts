@@ -1,0 +1,1 @@
+Graph deployment: https://thegraph.com/hosted-service/subgraph/bitbeckers/hypercerts-dev
