@@ -1,0 +1,11 @@
+{
+  "filter_paths": "(lib/|test/)",
+  "solc_remaps": [
+    "ds-test/=lib/forge-std/lib/ds-test/src/",
+    "forge-std/=lib/forge-std/src/",
+    "murky/=lib/murky/src/",
+    "oz-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+    "oz-contracts/=lib/murky/lib/openzeppelin-contracts/",
+    "prb-test/=lib/prb-test/src/"
+  ]
+}

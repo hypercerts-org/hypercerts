@@ -1,0 +1,42 @@
+name: Static Analysis
+
+on:
+  push:
+    branches:
+      - "main"
+      - "dev"
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
+
+jobs:
+  analyze:
+    name: Slither
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Copy config"
+        run: |
+          mv ./.env.github .env
+          echo "::debug::$(less .env)"
+
+      - name: Run Slither
+        uses: crytic/slither-action@v0.2.0
+        id: slither
+        with:
+          sarif: results.sarif
+          fail-on: none
+          node-version: 16
+          solc-version: 0.8.17
+          target: ./
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.slither.outputs.sarif }}
