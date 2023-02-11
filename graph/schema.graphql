@@ -1,0 +1,24 @@
+type Allowlist @entity {
+  id: String!
+  root: Bytes!
+  claim: Claim!
+}
+
+type Claim @entity {
+  id: String!
+  creation: BigInt!
+  tokenID: BigInt!
+  contract: String!
+  uri: String
+  creator: Bytes
+  owner: Bytes
+  totalUnits: BigInt
+}
+
+type ClaimToken @entity {
+  id: String!
+  tokenID: BigInt!
+  claim: Claim!
+  owner: Bytes!
+  units: BigInt!
+}
