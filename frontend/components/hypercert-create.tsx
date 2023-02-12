@@ -206,7 +206,7 @@ const ValidationSchema = Yup.object().shape({
   impactTimeEnd: Yup.lazy((val: any) => {
     switch (typeof val) {
       case "string":
-        return Yup.string().oneOf([DATE_INDEFINITE]);
+        return Yup.string();
       default:
         return Yup.date().when("workTimeStart", (workTimeStart) => {
           return Yup.date().min(
@@ -441,8 +441,10 @@ const exportAsImage = async (id: string) => {
     return;
   }
   const canvas = await html2canvas(el, {
+    logging: true,
     backgroundColor: null,
-    useCORS: true,
+    //useCORS: true,
+    proxy: "https://cors-proxy.hypercerts.workers.dev/",
     imageTimeout: 0,
   });
   const image = canvas.toDataURL("image/png", 1.0);
