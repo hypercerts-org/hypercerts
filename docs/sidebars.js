@@ -16,11 +16,11 @@ const sidebars = {
   mySidebar: [
     {
       type: 'doc',
-      id: 'intro ',
+      id: 'intro',
     },
     {
       type: 'doc',
-      id: 'further-resources ',
+      id: 'further-resources',
     },
   ],
 };
