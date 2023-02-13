@@ -1,6 +1,6 @@
 ---
-title: Minting guide
-id: minting-guide
+title: Getting Started
+id: minting-guide-start
 sidebar_position: 3
 ---
 

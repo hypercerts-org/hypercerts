@@ -11,7 +11,7 @@
 
 // @ts-check
 
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig}
 const sidebars = {
   mySidebar: [
     {
@@ -20,5 +20,82 @@ const sidebars = {
     },
   ],
 };
+*/
+
+const sidebars = {
+  mySidebar: [
+    {
+      type: 'doc',
+      id: 'intro ',
+    },
+    {
+      type: 'category',
+      label: 'Vision & Whitepaper',
+      items: [
+        {
+          type: 'doc',
+          id: 'whitepaper-intro',
+        },
+        {
+          type: 'doc',
+          id: 'ifs',
+        },
+        {
+          type: 'doc',
+          id: 'definition',
+        },
+        {
+          type: 'doc',
+          id: 'impact-space',
+        },
+        {
+          type: 'doc',
+          id: 'evaluation',
+        },
+        {
+          type: 'doc',
+          id: 'retrospective-funding',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Minting Guide',
+      items: [
+        {
+          type: 'doc',
+          id: 'minting-guide-start',
+        },
+        {
+          type: 'doc',
+          id: 'step-by-step',
+        },
+        {
+          type: 'doc',
+          id: 'gitcoin-round',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Implementation',
+      items: [
+        {
+          type: 'doc',
+          id: 'token-standard',
+        },
+        {
+          type: 'doc',
+          id: 'metadata',
+        },
+        {
+          type: 'doc',
+          id: 'glossary',
+        },
+      ],
+    },
+  ],
+};
+
 
 module.exports = sidebars;
