@@ -1,7 +1,7 @@
 ---
 title: Glossary of Terms
 id: glossary
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # Glossary for Hypercerts

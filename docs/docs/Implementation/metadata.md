@@ -1,7 +1,7 @@
 ---
 title: Metadata Standard
 id: metadata
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Hypercert Metadata Structure

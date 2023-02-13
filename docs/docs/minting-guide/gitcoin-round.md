@@ -1,7 +1,7 @@
 ---
 title: Gitcoin Alpha Round Instructions
 id: gitcoin-round
-sidebar_position: 5
+sidebar_position: 3
 ---
 # Hypercerts Minting Guide
 

@@ -1,7 +1,7 @@
 ---
 title: Vision & Whitepaper
-id: whitepaper
-sidebar_position: 2
+id: whitepaper-intro
+sidebar_position: 1
 ---
 
 # Vision & Whitepaper

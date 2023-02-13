@@ -1,7 +1,7 @@
 ---
 title: Token Standard
 id: token-standard
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 ### Hypercerts as a semi-fungible token
