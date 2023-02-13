@@ -22,16 +22,6 @@ const sidebars = {
       type: 'doc',
       id: 'further-resources',
     },
-    {
-      type: 'category',
-      label: 'Vision & Whitepaper',
-      items: [
-        {
-          type: 'doc',
-          id: 'whitepaper-intro',
-        },
-      ],
-    },
   ],
 };
 
