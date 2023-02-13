@@ -22,7 +22,6 @@ const sidebars = {
       type: 'category',
       label: 'Vision & Whitepaper',
       collapsed: false,
-      collapsible: false,
       items: [
         {
           type: 'doc',
@@ -54,7 +53,6 @@ const sidebars = {
       type: 'category',
       label: 'Minting Guide',
       collapsed: false,
-      collapsible: false,
       items: [
         {
           type: 'doc',
@@ -74,7 +72,6 @@ const sidebars = {
       type: 'category',
       label: 'Implementation',
       collapsed: false,
-      collapsible: false,
       items: [
         {
           type: 'doc',
