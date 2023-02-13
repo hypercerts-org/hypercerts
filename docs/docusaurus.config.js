@@ -53,9 +53,6 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       docs: {
-          sidebarCollapsible: false,
-      },
-      {
         sidebar: {
           hideable: true,
           autoCollapseCategories: false,
