@@ -22,6 +22,20 @@ const sidebars = {
       type: 'doc',
       id: 'further-resources',
     },
+    {
+      type: 'category',
+      label: 'Docusaurus',
+      items: [
+        {
+          type: 'doc',
+          id: 'whitepaper/whitepaper-intro',
+        },
+        {
+          type: 'doc',
+          id: 'whitepaper/ifs',
+        },
+      ],
+    },
   ],
 };
 
