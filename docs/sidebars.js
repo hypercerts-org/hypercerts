@@ -21,15 +21,4 @@ const sidebars = {
   ],
 };
 
-
-/** const sidebars = {
-  mySidebar: [
-    {
-      type: 'doc',
-      id: 'intro ',
-    },
-  ],
-};
-*/
-
 module.exports = sidebars;
