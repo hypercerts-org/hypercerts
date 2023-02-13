@@ -55,7 +55,6 @@ const config = {
       docs: {
         sidebar: {
           hideable: true,
-          autoCollapseCategories: true,
         },
       },
       navbar: {
@@ -75,7 +74,7 @@ const config = {
           {
           type: 'dropdown',
           label: 'Community',
-          position: 'left',
+          position: 'right',
           items: [
             {
               label: 'Twitter',
