@@ -1,5 +1,5 @@
 ---
-title: Hypercerts a New Primitive for Impact Funding Systems
+title: 'Hypercerts: a New Primitive for Impact Funding Systems'
 id: definition
 sidebar_position: 3
 ---
