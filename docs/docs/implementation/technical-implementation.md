@@ -1,7 +1,7 @@
 ---
-title: Technical implementation
-id: technical
-sidebar_position: 6
+title: Token Standard
+id: token-standard
+sidebar_position: 2
 ---
 
 ### Hypercerts as a semi-fungible token

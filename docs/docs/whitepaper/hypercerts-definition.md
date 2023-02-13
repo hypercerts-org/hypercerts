@@ -1,7 +1,7 @@
 ---
-title: Hypercerts definition
+title: Hypercerts: a New Primitive for Impact Funding Systems
 id: definition
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 ### Defining hypercerts

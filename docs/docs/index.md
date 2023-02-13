@@ -1,10 +1,10 @@
 ---
-title: Start here
+title: What are hypercerts?
 id: intro
 sidebar_position: 1
 ---
 
-# Start here
+# What are hypercerts?
 
 ### Hypercerts are a new token standard for tracking and rewarding positive impact.
 

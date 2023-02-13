@@ -1,8 +1,10 @@
 ---
-title: Impact Funding Systems (IFSs)
+title: The Need for Interoperable Impact Funding Systems (IFSs)
 id: ifs
 sidebar_position: 2
 ---
+
+# The Need for Interoperable Impact Funding Systems (IFSs)
 
 ### An IFS consists of
 - **Actors:** Contributors, funders, evaluators, and beneficiaries

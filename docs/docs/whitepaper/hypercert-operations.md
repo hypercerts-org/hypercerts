@@ -1,7 +1,7 @@
 ---
-title: Hypercerts operations
+title: Splitting, Merging, and Other Hypercert Operations
 id: operations
-sidebar_position: 5
+sidebar_position: 7
 ---
 
 ### Merging hypercerts

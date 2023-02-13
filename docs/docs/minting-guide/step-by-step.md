@@ -1,5 +1,5 @@
 ---
-title: Step-by-step
+title: Step-by-step Instructions
 id: step-by-step
 sidebar_position: 3
 ---

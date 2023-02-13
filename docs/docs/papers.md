@@ -1,6 +1,6 @@
 ---
-title: Further resources
-id: papers
+title: Further Resources
+id: further-resources
 sidebar_position: 20
 ---
 

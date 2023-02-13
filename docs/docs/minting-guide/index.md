@@ -1,7 +1,7 @@
 ---
 title: Minting guide
 id: minting-guide
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Hypercerts Minting Guide
