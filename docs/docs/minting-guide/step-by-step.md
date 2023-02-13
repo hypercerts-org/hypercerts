@@ -1,7 +1,7 @@
 ---
 title: Step-by-step Instructions
 id: step-by-step
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Hypercerts Minting Guide
