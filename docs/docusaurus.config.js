@@ -55,6 +55,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: true,
+          autoCollapseCategories: true,
         },
       },
       navbar: {
@@ -81,7 +82,7 @@ const config = {
               href: 'https://twitter.com/hypercerts',
             },
             {
-              type: 'Telegram Group',
+              label: 'Telegram Group',
               href: 'https://t.me/+YF9AYb6zCv1mNDJi',
             },
           ],
