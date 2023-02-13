@@ -1,7 +1,6 @@
 ---
 title: What are hypercerts?
 id: intro
-sidebar_position: 1
 ---
 
 # What are hypercerts?

@@ -1,7 +1,6 @@
 ---
 title: Further Resources
 id: further-resources
-sidebar_position: 20
 ---
 
 # Papers, Articles, Presentations

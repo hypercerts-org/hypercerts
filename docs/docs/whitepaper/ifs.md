@@ -1,7 +1,6 @@
 ---
 title: The Need for Interoperable Impact Funding Systems (IFSs)
 id: ifs
-sidebar_position: 2
 ---
 
 # The Need for Interoperable Impact Funding Systems (IFSs)
