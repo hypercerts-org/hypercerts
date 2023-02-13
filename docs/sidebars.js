@@ -36,7 +36,7 @@ const sidebars = {
         },
         {
           type: 'doc',
-          id: 'definition',
+          id: 'hypercerts-intro',
         },
         {
           type: 'doc',
@@ -49,42 +49,6 @@ const sidebars = {
         {
           type: 'doc',
           id: 'retrospective-funding',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Minting Guide',
-      items: [
-        {
-          type: 'doc',
-          id: 'minting-guide-start',
-        },
-        {
-          type: 'doc',
-          id: 'step-by-step',
-        },
-        {
-          type: 'doc',
-          id: 'gitcoin-round',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Implementation',
-      items: [
-        {
-          type: 'doc',
-          id: 'token-standard',
-        },
-        {
-          type: 'doc',
-          id: 'metadata',
-        },
-        {
-          type: 'doc',
-          id: 'glossary',
         },
       ],
     },
