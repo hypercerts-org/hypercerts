@@ -24,7 +24,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Docusaurus',
+      label: 'Vision & Whitepaper',
       items: [
         {
           type: 'doc',
@@ -33,6 +33,58 @@ const sidebars = {
         {
           type: 'doc',
           id: 'whitepaper/ifs',
+        },
+        {
+          type: 'doc',
+          id: 'whitepaper/hypercerts-intro',
+        },
+        {
+          type: 'doc',
+          id: 'whitepaper/impact-space',
+        },
+        {
+          type: 'doc',
+          id: 'whitepaper/evaluation',
+        },
+        {
+          type: 'doc',
+          id: 'whitepaper/retrospective-funding',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Minting Guide',
+      items: [
+        {
+          type: 'doc',
+          id: 'minting-guide/minting-guide-start',
+        },
+        {
+          type: 'doc',
+          id: 'minting-guide/step-by-step',
+        },
+        {
+          type: 'doc',
+          id: 'minting-guide/gitcoin-round',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Implementation',
+      items: [
+        {
+          type: 'doc',
+          id: 'implementation/token-standard',
+        },
+        {
+          type: 'doc',
+          id: 'implementation/metadata',
+        },
+        {
+          type: 'doc',
+          id: 'implementation/glossary',
         },
       ],
     },

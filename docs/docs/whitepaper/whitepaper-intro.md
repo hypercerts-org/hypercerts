@@ -1,5 +1,5 @@
 ---
-title: Vision & Whitepaper
+title: Introduction
 id: whitepaper-intro
 ---
 
