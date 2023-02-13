@@ -55,7 +55,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: true,
-          autoCollapseCategories: false,
+          autoCollapseCategories: true,
         },
       },
       navbar: {
@@ -71,6 +71,21 @@ const config = {
             href: "https://github.com/Network-Goods/hypercerts",
             label: "GitHub",
             position: "right",
+          },
+          {
+          type: 'dropdown',
+          label: 'Community',
+          position: 'left',
+          items: [
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/hypercerts',
+            },
+            {
+              type: 'Telegram Group',
+              href: 'https://t.me/+YF9AYb6zCv1mNDJi',
+            },
+          ],
           },
           {
             type: "docsVersionDropdown",
