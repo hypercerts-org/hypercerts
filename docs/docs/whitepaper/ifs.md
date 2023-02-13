@@ -64,7 +64,6 @@ Markets have been proven very powerful in answering these questions if they are 
 ### Example dynamics between actors in an IFS
 In order for impact funding systems to be most effective, they should be interoperable regarding (1) funding mechanisms, (2) funding sources and (3) evaluations. In the diagram below you see a potential dynamic between the actors of an IFS. In that scenario hypercerts can account for the prospective funding (steps 2-3) as well as for the retrospective funding (steps 8-9) from different funders. Evaluations are made public and can be discovered through the hypercerts for all funders (steps 5-7). Retrospective funders can reward not only the contributors but also the prospective funders (steps 10-11).
 
-%%{init: {'theme':'dark'}}%%
 ```mermaid
 sequenceDiagram
     autonumber
