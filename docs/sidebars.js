@@ -30,26 +30,6 @@ const sidebars = {
           type: 'doc',
           id: 'whitepaper-intro',
         },
-        {
-          type: 'doc',
-          id: 'ifs',
-        },
-        {
-          type: 'doc',
-          id: 'hypercerts-intro',
-        },
-        {
-          type: 'doc',
-          id: 'impact-space',
-        },
-        {
-          type: 'doc',
-          id: 'evaluation',
-        },
-        {
-          type: 'doc',
-          id: 'retrospective-funding',
-        },
       ],
     },
   ],
