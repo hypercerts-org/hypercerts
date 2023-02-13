@@ -11,7 +11,7 @@
 
 // @ts-check
 
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig}
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   mySidebar: [
     {
@@ -20,9 +20,9 @@ const sidebars = {
     },
   ],
 };
-*/
 
-const sidebars = {
+
+/** const sidebars = {
   mySidebar: [
     {
       type: 'doc',
@@ -30,6 +30,6 @@ const sidebars = {
     },
   ],
 };
-
+*/
 
 module.exports = sidebars;
