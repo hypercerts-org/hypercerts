@@ -19,10 +19,6 @@ const sidebars = {
       id: 'intro',
     },
     {
-      type: 'doc',
-      id: 'further-resources',
-    },
-    {
       type: 'category',
       label: 'Vision & Whitepaper',
       items: [
@@ -87,6 +83,10 @@ const sidebars = {
           id: 'implementation/glossary',
         },
       ],
+    },
+    {
+      type: 'doc',
+      id: 'further-resources',
     },
   ],
 };
