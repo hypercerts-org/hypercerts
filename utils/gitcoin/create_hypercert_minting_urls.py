@@ -50,6 +50,7 @@ def create_url(metadata):
         bannerUrl = metadata['hidden_properties']['project_banner'],
         backgroundColor = metadata['hidden_properties']['bg_color'],
         backgroundVectorArt = metadata['hidden_properties']['vector'],
+        metadataProperties = json.dumps(metadata['properties']),
 
         workScopes = ",".join(metadata['hypercert']['work_scope']['value']),
         workTimeStart = datify(metadata['hypercert']['work_timeframe']['start_value']),
