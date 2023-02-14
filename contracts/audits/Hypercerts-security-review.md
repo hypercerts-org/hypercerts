@@ -225,7 +225,10 @@ Multiple methods are missing input/data validation or it is incomplete.
 1. The `splitValue` method in `SemiFungible1155` has the `maxIndex[_typeID] += len;` code so should also do a `notMaxItem` check for the index
 2. The `createAllowlist` method accepts a `units` argument which should be the maximum units mintable through the allowlist - this should be enforced with a check on minting claims from allowlist
 3. The `_createAllowlist` of `AllowlistMinter` should revert when `merkleRoot == ""`
+
+
 4. The `_mintClaim` and `_batchMintClaims` methods in `SemiFungible1155` should revert when `_units == 0` or `_units[i] == 0` respectively
+bitbeckers: not sure on this one. It's a user error without any impact and adding the check infers cost on all users
 
 ## Recommendations
 

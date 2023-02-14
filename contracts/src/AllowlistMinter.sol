@@ -27,6 +27,7 @@ contract AllowlistMinter is IAllowlist {
     }
 
     function _createAllowlist(uint256 claimID, bytes32 merkleRoot) internal {
+        if (merkleRoot == "") revert Errors.Invalid();
         if (merkleRoots[claimID] != "") revert Errors.DuplicateEntry();
 
         merkleRoots[claimID] = merkleRoot;

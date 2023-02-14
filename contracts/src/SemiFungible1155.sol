@@ -130,6 +130,7 @@ contract SemiFungible1155 is Upgradeable1155 {
     /// @dev Mint a new token for an existing type
     function _mintClaim(address _account, uint256 _typeID, uint256 _units) internal returns (uint256 tokenID) {
         if (!isBaseType(_typeID)) revert Errors.NotAllowed();
+ 
         _notMaxItem(maxIndex[_typeID]);
 
         unchecked {
