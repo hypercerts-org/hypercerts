@@ -42,9 +42,9 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256 units,
         string memory _uri,
         TransferRestrictions restrictions
-    ) external whenNotPaused {
+    ) external override whenNotPaused {
         // This enables us to release this restriction in the future
-        if(msg.sender != account) revert Errors.NotAllowed();
+        if (msg.sender != account) revert Errors.NotAllowed();
         uint256 claimID = _mintValue(account, units, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
@@ -58,11 +58,11 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256[] calldata fractions,
         string memory _uri,
         TransferRestrictions restrictions
-    ) external whenNotPaused {
+    ) external override whenNotPaused {
         // This enables us to release this restriction in the future
-        if(msg.sender != account) revert Errors.NotAllowed();
+        if (msg.sender != account) revert Errors.NotAllowed();
         //Using sum to compare units and fractions (sanity check)
-        if(_getSum(fractions) != units) revert Errors.Invalid();
+        if (_getSum(fractions) != units) revert Errors.Invalid();
 
         uint256 claimID = _mintValue(account, fractions, _uri);
         typeRestrictions[claimID] = restrictions;
@@ -121,29 +121,33 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Split a claimtokens value into parts with summed value equal to the original
     /// @dev see {IHypercertToken}
-    function splitValue(address _account, uint256 _tokenID, uint256[] calldata _values) external whenNotPaused {
+    function splitValue(
+        address _account,
+        uint256 _tokenID,
+        uint256[] calldata _values
+    ) external override whenNotPaused {
         _splitValue(_account, _tokenID, _values);
     }
 
     /// @notice Merge the value of tokens belonging to the same claim
     /// @dev see {IHypercertToken}
-    function mergeValue(address _account, uint256[] calldata _fractionIDs) external whenNotPaused {
+    function mergeValue(address _account, uint256[] calldata _fractionIDs) external override whenNotPaused {
         _mergeValue(_account, _fractionIDs);
     }
 
     /// @notice Burn a claimtoken
     /// @dev see {IHypercertToken}
-    function burnValue(address _account, uint256 _tokenID) external whenNotPaused {
+    function burnValue(address _account, uint256 _tokenID) external override whenNotPaused {
         _burnValue(_account, _tokenID);
     }
 
     /// @dev see {IHypercertToken}
-    function unitsOf(uint256 tokenID) external view returns (uint256 units) {
+    function unitsOf(uint256 tokenID) external view override returns (uint256 units) {
         units = _unitsOf(tokenID);
     }
 
     /// @dev see {IHypercertToken}
-    function unitsOf(address account, uint256 tokenID) external view returns (uint256 units) {
+    function unitsOf(address account, uint256 tokenID) external view override returns (uint256 units) {
         units = _unitsOf(account, tokenID);
     }
 
@@ -161,7 +165,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @dev see { IHypercertMetadata}
     function uri(uint256 tokenID) public view override(IHypercertToken, SemiFungible1155) returns (string memory _uri) {
-        _uri = super.uri(tokenID);
+        _uri = SemiFungible1155.uri(tokenID);
     }
 
     /// TRANSFER RESTRICTIONS
