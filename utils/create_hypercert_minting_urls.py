@@ -1,3 +1,4 @@
+import csv
 import json
 import os
 import urllib.parse
@@ -12,6 +13,7 @@ METADATA_URL = CONFIG["ipfs_cids"]["hypercert_metadata_base"]
 METADATA_DIR = CONFIG["path_to_metadata_directory"]
 OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
+CSV_FILENAME = MD_FILENAME.replace(".md", ".csv")
 CID_HOST_URL = CONFIG["hosted_cid_base_url"]
 
 with open(CONFIG["gitcoin_settings"]["path_to_project_list"]) as projects_file:
@@ -68,7 +70,7 @@ def create_url(metadata):
     return url
 
 
-def create_markdown(metadata, minting_url, num_fractions):
+def create_markdown_row(metadata, minting_url, num_fractions):
 
     name = metadata['name']
     fname = create_project_filename(name)    
@@ -90,7 +92,7 @@ def create_markdown(metadata, minting_url, num_fractions):
     ])
 
 
-def create_urls():
+def create_markdown_export():
 
     with open(MD_FILENAME, 'w') as f:
         for matching_pool, grants_list in PROJECTS_DB.items():
@@ -101,12 +103,37 @@ def create_urls():
                 fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
                 metadata = json.load(open(fname))
                 url = create_url(metadata)
-                markdown = create_markdown(metadata, url, grant['fractions'])
+                markdown = create_markdown_row(metadata, url, grant['fractions'])
                 num = str(i+1).zfill(2)
                 f.write(f"{num}|{markdown}|\n")
             f.write("\n\n")
     f.close()
 
+
+def create_csv_export():
+    with open(CSV_FILENAME, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Num", "Round", "Project", "Gitcoin Page", "Hypercert URL", "Fractions", "Project Wallet Address",  "Wallet Type", "OpETH Balance"])
+        for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
+            for i, grant in enumerate(grants_list):
+                num = round((round_num+1) + ((i+1)/100),2)
+                fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
+                metadata = json.load(open(fname))
+                url = create_url(metadata)
+                writer.writerow([
+                    num,
+                    matching_pool,
+                    grant['title'].replace(",", ""),
+                    metadata['hidden_properties']['gitcoin_grant_url'],
+                    url,
+                    grant['fractions'],
+                    f"https://etherscan.io/address/{grant['address']}",
+                    grant['type'],
+                    grant['optimism']
+                ])
+    f.close()           
+
     
 if __name__ == "__main__":
-    create_urls()
+    #create_markdown_export()
+    create_csv_export()
