@@ -29,12 +29,10 @@ contract SemiFungible1155 is
     /// @dev Bitmask used to expose only upper 128 bits of uint256
     uint256 internal constant TYPE_MASK = type(uint256).max << 128;
 
-    // uint256 internal constant TYPE_MASK = uint256(uint128(int128(~0))) << 128;
-
     /// @dev Bitmask used to expose only lower 128 bits of uint256
     uint256 internal constant NF_INDEX_MASK = type(uint256).max >> 128;
 
-    // uint256 internal constant NF_INDEX_MASK = uint128(int128(~0));
+    uint256 internal constant FRACTION_LIMIT = 253;
 
     /// @dev Mapping of `tokenID` to address of `owner`
     mapping(uint256 => address) internal owners;
@@ -197,7 +195,7 @@ contract SemiFungible1155 is
     /// @dev Split the units of `_tokenID` owned by `account` across `_values`
     /// @dev `_values` must sum to total `units` held at `_tokenID`
     function _splitValue(address _account, uint256 _tokenID, uint256[] calldata _values) internal {
-        if (_values.length > 253 || _values.length < 2) revert Errors.ArraySize();
+        if (_values.length > FRACTION_LIMIT || _values.length < 2) revert Errors.ArraySize();
         if (tokenValues[_tokenID] != _getSum(_values)) revert Errors.NotAllowed();
 
         // Current token
@@ -257,7 +255,7 @@ contract SemiFungible1155 is
     /// @dev Merge the units of `_fractionIDs`.
     /// @dev Base type of `_fractionIDs` must be identical for all tokens.
     function _mergeValue(address _account, uint256[] memory _fractionIDs) internal {
-        if (_fractionIDs.length > 253 || _fractionIDs.length < 2) {
+        if (_fractionIDs.length > FRACTION_LIMIT || _fractionIDs.length < 2) {
             revert Errors.ArraySize();
         }
         uint256 len = _fractionIDs.length - 1;
