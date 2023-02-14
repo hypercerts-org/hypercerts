@@ -5,7 +5,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import {
   ClaimByIdQuery,
   ClaimTokensByClaimQuery,
-} from "@network-goods/hypercerts-sdk/lib/.graphclient";
+} from "@hypercerts-org/hypercerts-sdk/lib/.graphclient";
 import { spawn } from "../lib/common";
 
 // The name used to pass data into the Plasmic DataProvider

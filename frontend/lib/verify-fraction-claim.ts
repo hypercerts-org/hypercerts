@@ -1,4 +1,8 @@
-import { claimById, getData, getMetadata } from "@network-goods/hypercerts-sdk";
+import {
+  claimById,
+  getData,
+  getMetadata,
+} from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 export const verifyFractionClaim = async (claimId: string, address: string) => {

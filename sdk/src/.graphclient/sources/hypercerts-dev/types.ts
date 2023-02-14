@@ -81,6 +81,8 @@ export type Allowlist_filter = {
   claim_?: InputMaybe<Claim_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Allowlist_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Allowlist_filter>>>;
 };
 
 export type Allowlist_orderBy =
@@ -187,6 +189,8 @@ export type ClaimToken_filter = {
   units_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<ClaimToken_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<ClaimToken_filter>>>;
 };
 
 export type ClaimToken_orderBy =
@@ -303,6 +307,8 @@ export type Claim_filter = {
   totalUnits_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Claim_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Claim_filter>>>;
 };
 
 export type Claim_orderBy =

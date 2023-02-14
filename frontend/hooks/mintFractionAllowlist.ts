@@ -6,7 +6,6 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-// import { HyperCertMinterFactory } from "@network-goods/hypercerts-sdk";
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";

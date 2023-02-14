@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   HypercertMetadata,
   storeMetadata,
-} from "@network-goods/hypercerts-sdk";
+} from "@hypercerts-org/hypercerts-sdk";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import {

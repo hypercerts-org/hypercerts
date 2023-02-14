@@ -10,7 +10,7 @@ import {
   HypercertMetadata,
   storeData,
   storeMetadata,
-} from "@network-goods/hypercerts-sdk";
+} from "@hypercerts-org/hypercerts-sdk";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -18,7 +18,7 @@ import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import { parseCsv } from "../lib/parse-csv";
+import { parseCsv } from "../lib/parsing";
 import { transferRestrictions } from "./mintClaim";
 
 const generateAndStoreTree = async (
