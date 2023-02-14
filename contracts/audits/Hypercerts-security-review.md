@@ -298,6 +298,8 @@ I recommend the following change for simplicity:
 
 The `_beforeValueTransfer` hook in `SemiFungible1155` has the `getBaseType(_to) > 0` check which always evaluates to `true` so it can be removed.
 
+`bitbeckers: is this correct? When I send uint256(1) , getBaseType(uint256(1)) == 0?`
+
 # [I-09] Incomplete or wrong NatSpec docs
 
 The NatSpec docs on the external methods are incomplete - missing `@param`, `@return` and other descriptive documentation about the protocol functionality. Also part of the NatSpec of `IAllowlist` is copy-pasted from `IHypercertToken`, same for `AllowlistMinter`. Make sure to write descriptive docs for each method and contract which will help users, developers and auditors.
