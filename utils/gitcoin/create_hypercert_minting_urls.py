@@ -11,7 +11,6 @@ with open("config.json") as config_file:
 
 METADATA_URL = CONFIG["ipfs_cids"]["hypercert_metadata_base"]
 METADATA_DIR = CONFIG["path_to_metadata_directory"]
-OUT_FILENAME = CONFIG["path_to_minting_urls"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 CSV_FILENAME = MD_FILENAME.replace(".md", ".csv")
 CID_HOST_URL = CONFIG["hosted_cid_base_url"]
@@ -135,5 +134,5 @@ def create_csv_export():
 
     
 if __name__ == "__main__":
-    #create_markdown_export()
+    create_markdown_export()
     create_csv_export()
