@@ -260,6 +260,27 @@ PLASMIC.registerComponent(Tooltip, {
   importPath: "./components/widgets",
 });
 
+PLASMIC.registerComponent(Tooltip, {
+  name: "Accordion",
+  props: {
+    summary: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  importPath: "./components/widgets",
+});
+
 PLASMIC.registerComponent(CircularProgress, {
   name: "CircularProgress",
   description: "Circular loading widget",
