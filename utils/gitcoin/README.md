@@ -1,49 +1,49 @@
 # Gitcoin-Helpers
 
-Scripts which may be helpful when working with Gitcoin Data and Protocol. Contributions welcome!
+Scripts which may be helpful when working with Gitcoin Data and Allo Protocol. Contributions welcome!
 
 # Setup
 
 1. Set environment variables in a `.env` file. You'll need the following API keys:
 
-- CHAINALYSIS_API_KEY
-- THEGRAPH_API_KEY
-- OPTIMISM_ETHERSCAN_API_KEY
+    - CHAINALYSIS_API_KEY
+    - THEGRAPH_API_KEY
+    - OPTIMISM_ETHERSCAN_API_KEY
 
 2. Check you have installed the necessary requirements in `requirements.txt`
 
 3. Download the necessary Dune snapshots as CSV files and move them to the appopriate directory.
 
-- ETH Infra: https://dune.com/queries/1934656
-- Climate: https://dune.com/queries/1934689
-- OSS: https://dune.com/queries/1934969
-- Safe Multisigs: https://dune.com/queries/1949707
-- OxSplits: https://dune.com/queries/1979620
+    - ETH Infra: https://dune.com/queries/1934656
+    - Climate: https://dune.com/queries/1934689
+    - OSS: https://dune.com/queries/1934969
+    - Safe Multisigs: https://dune.com/queries/1949707
+    - OxSplits: https://dune.com/queries/1979620
 
 4. Using the Dune datasets, configure `projects.json` so there is an array containing the project title and address for each grants round. For example:
 
-```
-{
-    "Ethereum Infrastructure": [
-        {
-            "title": "Otterscan",
-            "address": "0xb7081Fd06E7039D198D10A8b72B824e60C1B1E16"
-        },
-        {
-            "title": "BuidlGuidl",
-            "address": "0x97843608a00e2bbc75ab0c1911387e002565dede"
-        }
-    ]
-}	
-```
+    ```
+    {
+        "Ethereum Infrastructure": [
+            {
+                "title": "Otterscan",
+                "address": "0xb7081Fd06E7039D198D10A8b72B824e60C1B1E16"
+            },
+            {
+                "title": "BuidlGuidl",
+                "address": "0x97843608a00e2bbc75ab0c1911387e002565dede"
+            }
+        ]
+    }	
+    ```
 
 5. Review the `config.json` to ensure that all directories, filenames, and other settings are correct.
 
 # Organization
-- '/data/dune': snapshots of on-chain data taken using Dune Analytics and exported as CSV files (requires paid API)
-- '/data/allowlists': CSV files containing the addresses donating to each Gitcoin Grant (one CSV per project); to be stored on IPFS
-- '/data/metadata': JSON files containing hypercert metatdata and minting parameters for each Gitcion Grant (one JSON per project)
-- '/data/projects': local versions of project data from Round Manager graphs; work-scope overrides; exports of relevant project data
+- `/data/dune`: snapshots of on-chain data taken using Dune Analytics and exported as CSV files (requires paid API)
+- `/data/allowlists`: CSV files containing the addresses donating to each Gitcoin Grant (one CSV per project); to be stored on IPFS
+- `/data/metadata`: JSON files containing hypercert metatdata and minting parameters for each Gitcion Grant (one JSON per project)
+- `/data/projects`: local versions of project data from Round Manager graphs; work-scope overrides; exports of relevant project data
 
 # Modules
 
