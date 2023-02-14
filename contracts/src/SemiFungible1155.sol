@@ -130,7 +130,7 @@ contract SemiFungible1155 is Upgradeable1155 {
     /// @dev Mint a new token for an existing type
     function _mintClaim(address _account, uint256 _typeID, uint256 _units) internal returns (uint256 tokenID) {
         if (!isBaseType(_typeID)) revert Errors.NotAllowed();
- 
+
         _notMaxItem(maxIndex[_typeID]);
 
         unchecked {
@@ -400,7 +400,7 @@ contract SemiFungible1155 is Upgradeable1155 {
     /**
      * @dev calculate the sum of the elements of an array
      */
-    function _getSum(uint256[] memory array) private pure returns (uint256 sum) {
+    function _getSum(uint256[] memory array) internal pure returns (uint256 sum) {
         uint256 len = array.length;
         for (uint256 i; i < len; ) {
             if (array[i] == 0) revert Errors.NotAllowed();

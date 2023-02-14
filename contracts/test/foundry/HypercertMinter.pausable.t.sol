@@ -123,6 +123,6 @@ contract HypercertMinterPausableTest is PRBTest, StdCheats, StdUtils, PausableTe
 
         // Unpause releases blocked methods
         changePrank(alice);
-        hypercertMinter.mintClaim(owner, 1, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+        hypercertMinter.mintClaim(alice, 1, _uri, IHypercertToken.TransferRestrictions.AllowAll);
     }
 }
