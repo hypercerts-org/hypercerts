@@ -3,7 +3,7 @@
 	"path_to_metadata_directory": "data/metadata/",
 	"path_to_allowlist_directory": "data/allowlists/",
 	"path_to_project_urls_markdown": "data/projects/project_urls.md",
-	"hypercert_dapp_base_url": "https://hypercerts.vercel.app/app/create?",
+	"hypercert_dapp_base_url": "https://hypercerts.pages.dev/app/create?",
 	"hosted_cid_base_url": "https://cloudflare-ipfs.com/ipfs/",
 	"ipfs_cids": {
 		"allowlist_base": "bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm",
