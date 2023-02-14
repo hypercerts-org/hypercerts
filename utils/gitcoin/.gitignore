@@ -1,0 +1,9 @@
+# ignore local storage artifacts
+.env
+__pycache__/
+.DS_Store
+*.csv
+*.sql
+*.pickle
+*.ipynb
+data/metadata/
