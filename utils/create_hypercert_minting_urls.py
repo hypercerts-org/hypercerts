@@ -127,7 +127,7 @@ def create_csv_export():
                     metadata['hidden_properties']['gitcoin_grant_url'],
                     url,
                     grant['fractions'],
-                    grant['address'],
+                    f"https://etherscan.io/address/{grant['address']}",
                     grant['type'],
                     grant['optimism']
                 ])
