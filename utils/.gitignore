@@ -6,6 +6,7 @@ __pycache__/
 *.sql
 *.pickle
 *.txt
+*.ipynb
 allowlists/
-csv/
-metadata/
+gitcoin/csv/
+gitcoin/metadata/
