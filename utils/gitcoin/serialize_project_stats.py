@@ -15,8 +15,9 @@ with open("config.json") as config_file:
 ALLOWLIST_DIR = CONFIG["path_to_allowlist_directory"]
 SETTINGS      = CONFIG["gitcoin_settings"]
 PROJECTS_PATH = SETTINGS["path_to_project_list"]
-MULTISIG_PATH = SETTINGS["path_to_safe_multisig_contract_data"] # https://dune.com/queries/1949707
-SPLITS_PATH   = SETTINGS["path_to_splits_contract_data"]       # https://dune.com/queries/1979620
+ORIGINAL_PATH = SETTINGS["path_to_original_project_mapping_data"]
+MULTISIG_PATH = SETTINGS["path_to_safe_multisig_contract_data"]
+SPLITS_PATH   = SETTINGS["path_to_splits_contract_data"]   
 
 
 def count_fractions(project_name):
@@ -42,13 +43,14 @@ def optimism_scan(address):
     return -1
 
 
-def run_multisig_scan():
+def run_multisig_scan(optimism_snapshot=False):
     
     process_dune_export = lambda path: list(pd.read_csv(path)['address'].str.lower())
     safes = process_dune_export(MULTISIG_PATH)
     splits = process_dune_export(SPLITS_PATH)
 
-    with open(PROJECTS_PATH) as j:
+    path = PROJECTS_PATH if os.path.exists(PROJECTS_PATH) else ORIGINAL_PATH
+    with open(path) as j:
         projects_db = json.load(j)
 
     for group, grant_list in projects_db.items():
@@ -62,7 +64,8 @@ def run_multisig_scan():
                 addr_type = 'wallet'
             grant.update({"type": addr_type})
             grant.update({"multisig": addr_type != 'wallet'})
-            #grant.update({"optimism": optimism_scan(addr)})
+            if optimism_snapshot:
+                grant.update({"optimism": optimism_scan(addr)})
             grant.update({"fractions": count_fractions(grant['title'])})
     
     
@@ -72,4 +75,4 @@ def run_multisig_scan():
 
 
 if __name__ == "__main__":
-    run_multisig_scan()
+    run_multisig_scan(optimism_snapshot=False)

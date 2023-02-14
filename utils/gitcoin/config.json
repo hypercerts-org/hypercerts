@@ -1,9 +1,8 @@
 {
 	"version": "1.0.0",
-	"path_to_metadata_directory": "metadata/",
-	"path_to_allowlist_directory": "allowlists/",
-	"path_to_minting_urls": "minting_urls.txt",
-	"path_to_project_urls_markdown": "project_urls.md",
+	"path_to_metadata_directory": "data/metadata/",
+	"path_to_allowlist_directory": "data/allowlists/",
+	"path_to_project_urls_markdown": "data/projects/project_urls.md",
 	"hypercert_dapp_base_url": "https://hypercerts.vercel.app/app/create?",
 	"hosted_cid_base_url": "https://cloudflare-ipfs.com/ipfs/",
 	"ipfs_cids": {
@@ -14,16 +13,17 @@
 		"hypercert_metadata_base": "bafybeicltzdgldgufzolh25umccbdelnxczhhtx7ecszjdtfnaemt7koum"
 	},
 	"gitcoin_settings": {
-		"path_to_project_list": "canonical_project_list.json",
-		"path_to_round_csv_dir": "csv/",
+		"path_to_project_list": "data/projects/canonical_project_data.json",
+		"path_to_original_project_mapping_data": "data/dune/projects.json",
+		"path_to_round_csv_dir": "data/projects/",
 		"path_to_dune_snapshots": [
-    		"csv/eth_infra_allowlist.csv", 
-    		"csv/climate_allowlist.csv",   
-    		"csv/oss_allowlist.csv"
+    		"data/dune/Donors_Climate.csv", 
+    		"data/dune/Donors_EthInfra.csv",   
+    		"data/dune/Donors_OSS.csv"
     	],
-		"path_to_workscope_overrides": "csv/workscope_overrides.csv",
-		"path_to_safe_multisig_contract_data": "csv/safe_multisig_list.csv",
-		"path_to_splits_contract_data": "csv/0xSplits_list.csv",
+		"path_to_workscope_overrides": "data/projects/Notion_WorkscopeOverrides.csv",
+		"path_to_safe_multisig_contract_data": "data/dune/Addresses_SafeMultisigs.csv",
+		"path_to_splits_contract_data": "data/dune/Addresses_0xSplits.csv",
 		"hosted_cid_base_url": "https://gitcoin.mypinata.cloud/ipfs/",
 		"platform_name": "Gitcoin Grants",
     	"round_name":  "Alpha Round",
@@ -45,12 +45,12 @@
 	        "0xd95a1969c41112cee9a2c931e849bcef36a16f4c": {
 	                "name": "Open Source Software",
 	                "color": "blue",
-	                "vector": "octagonals"
+	                "vector": "contours"
 	        },
 	        "0xe575282b376e3c9886779a841a2510f1dd8c2ce4": {
 	                "name": "Ethereum Infrastructure",
 	                "color": "purple",
-	                "vector": "contours"
+	                "vector": "octagonals"
 	        }
 		}
 	}		

@@ -77,7 +77,7 @@ async def create_project_allowlist(dataframe, project_title, min_usd, func):
     dff.index.name='index'
     dff.drop(columns=['title', 'usd'], inplace=True)
 
-    await asyncio.gather(*[remove_sanctioned(dff, address) for address in dff['address']])
+    #await asyncio.gather(*[remove_sanctioned(dff, address) for address in dff['address']])
 
     return dff
 
