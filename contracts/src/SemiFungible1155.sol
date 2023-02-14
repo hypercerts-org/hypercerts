@@ -27,10 +27,14 @@ contract SemiFungible1155 is
     uint256 internal typeCounter;
 
     /// @dev Bitmask used to expose only upper 128 bits of uint256
-    uint256 internal constant TYPE_MASK = uint256(uint128(int128(~0))) << 128;
+    uint256 internal constant TYPE_MASK = type(uint256).max << 128;
+
+    // uint256 internal constant TYPE_MASK = uint256(uint128(int128(~0))) << 128;
 
     /// @dev Bitmask used to expose only lower 128 bits of uint256
-    uint256 internal constant NF_INDEX_MASK = uint128(int128(~0));
+    uint256 internal constant NF_INDEX_MASK = type(uint256).max >> 128;
+
+    // uint256 internal constant NF_INDEX_MASK = uint128(int128(~0));
 
     /// @dev Mapping of `tokenID` to address of `owner`
     mapping(uint256 => address) internal owners;
