@@ -228,9 +228,9 @@ contract SemiFungible1155 is Upgradeable1155 {
             }
         }
 
-        _mintBatch(_account, toIDs, amounts, "");
-
         tokenValues[_tokenID] = valueLeft;
+
+        _mintBatch(_account, toIDs, amounts, "");
 
         emit BatchValueTransfer(typeIDs, fromIDs, toIDs, values);
     }
