@@ -228,7 +228,8 @@ Multiple methods are missing input/data validation or it is incomplete.
 
 
 4. The `_mintClaim` and `_batchMintClaims` methods in `SemiFungible1155` should revert when `_units == 0` or `_units[i] == 0` respectively
-bitbeckers: not sure on this one. It's a user error without any impact and adding the check infers cost on all users
+
+`bitbeckers: not sure on this one. It's a user error without any impact and adding the check infers cost on all users`
 
 ## Recommendations
 
@@ -240,7 +241,11 @@ The comment in the end of `SemiFungible1155` assumes constant values are saved i
 
 # [L-02] Missing event and incorrect event argument
 
-The `_mergeValue` method in `SemiFungible1155` does not emit an event while `_splitValue` does - consider emitting one for off-chain monitoring. Also the `TransferSingle` event emission in `_createTokenType` has a value of 1 for the `amount` argument but it does not actually transfer or mint a token so the value should be 0.
+The `_mergeValue` method in `SemiFungible1155` does not emit an event while `_splitValue` does - consider emitting one for off-chain monitoring. 
+
+`bitbeckers: events are emitted during Burn at the end of the merge method`
+
+Also the `TransferSingle` event emission in `_createTokenType` has a value of 1 for the `amount` argument but it does not actually transfer or mint a token so the value should be 0.
 
 # [L-03] Prefer two-step pattern for role transfers
 

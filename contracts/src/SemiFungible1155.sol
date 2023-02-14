@@ -99,7 +99,9 @@ contract SemiFungible1155 is Upgradeable1155 {
         tokenValues[typeID] = units;
 
         _setURI(typeID, _uri);
-        emit TransferSingle(_account, address(0), address(0), typeID, 1);
+
+        //Event emitted for indexing purposes
+        emit TransferSingle(_account, address(0), address(0), typeID, 0);
     }
 
     /// @dev Mint a new token type and the initial value
