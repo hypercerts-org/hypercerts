@@ -43,7 +43,9 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         string memory _uri,
         TransferRestrictions restrictions
     ) external whenNotPaused {
-        uint256 claimID = _mintValue(msg.sender, units, _uri);
+        // This enables us to release this restriction in the future
+        if(msg.sender != account) revert Errors.NotAllowed();
+        uint256 claimID = _mintValue(account, units, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
@@ -57,9 +59,14 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         string memory _uri,
         TransferRestrictions restrictions
     ) external whenNotPaused {
-        uint256 claimID = _mintValue(msg.sender, fractions, _uri);
+        // This enables us to release this restriction in the future
+        if(msg.sender != account) revert Errors.NotAllowed();
+        //Using sum to compare units and fractions (sanity check)
+        if(_getSum(fractions) != units) revert Errors.Invalid();
+
+        uint256 claimID = _mintValue(account, fractions, _uri);
         typeRestrictions[claimID] = restrictions;
-        emit ClaimStored(claimID, _uri, units);
+        emit ClaimStored(claimID, _uri, _ge units);
     }
 
     /// @notice Mint a semi-fungible token representing a fraction of the claim
