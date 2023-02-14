@@ -187,8 +187,6 @@ contract SemiFungible1155 is Upgradeable1155 {
         // Prepare batch processing, we want to skip the first entry
         uint256 len = _values.length - 1;
 
-        maxIndex[_typeID] += len;
-
         uint256[] memory typeIDs = new uint256[](len);
         uint256[] memory fromIDs = new uint256[](len);
         uint256[] memory toIDs = new uint256[](len);
@@ -202,11 +200,11 @@ contract SemiFungible1155 is Upgradeable1155 {
             _valuesCache[0] = swapValue;
 
             for (uint256 i; i < len; ) {
-                _notMaxItem(currentID);
+                _notMaxItem(maxIndex[_typeID]);
 
                 typeIDs[i] = _typeID;
                 fromIDs[i] = _tokenID;
-                toIDs[i] = ++currentID;
+                toIDs[i] = _typeID + ++maxIndex[_typeID];
                 amounts[i] = 1;
                 values[i] = _valuesCache[i];
 
