@@ -1,4 +1,4 @@
-import { HypercertMinterABI } from "@network-goods/hypercerts-sdk";
+import { HypercertMinterABI } from "@hypercerts-org/hypercerts-sdk";
 import { useContract, useProvider } from "wagmi";
 import { CONTRACT_ADDRESS } from "../lib/config";
 

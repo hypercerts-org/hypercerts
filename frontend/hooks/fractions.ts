@@ -3,7 +3,7 @@ import {
   fractionsByClaim,
   fractionsByOwner,
   fractionById,
-} from "@network-goods/hypercerts-sdk";
+} from "@hypercerts-org/hypercerts-sdk";
 
 export const useFractionsByOwner = (owner: string) =>
   useQuery(["graph", "fractions", "owner", owner], () =>

@@ -14,3 +14,15 @@ export const parseCsv = (csv: string) => {
       );
     });
 };
+
+export const parseListFromString = (input: string) => {
+  return (
+    input
+      // Split on either new lines or commas
+      .split(/[,\n]/)
+      // Cleanup
+      .map((i) => i.trim())
+      // Filter out non-truthy values
+      .filter((i) => !!i)
+  );
+};

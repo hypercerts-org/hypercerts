@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.0.21
+
+* Change interface for `formatHypercertData()` to allow arbitrary strings for contributors
+
 ## 0.0.20
 
 * Use numbers and not date for `formatHypercertData()` timeframes

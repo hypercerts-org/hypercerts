@@ -42,7 +42,7 @@ export const formatHypercertData = ({
   workTimeframeEnd: number;
   impactTimeframeStart: number;
   impactTimeframeEnd: number;
-  contributors: `0x${string}`[];
+  contributors: string[];
   rights: string[];
   excludedRights: string[];
 }): { data: HypercertMetadata | null; valid: boolean; errors: Record<string, string> } => {

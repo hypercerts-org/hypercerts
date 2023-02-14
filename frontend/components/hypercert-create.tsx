@@ -11,11 +11,12 @@ import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
 import { isAddress } from "ethers/lib/utils";
-import { formatHypercertData } from "@network-goods/hypercerts-sdk";
+import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk";
 import { useAccount } from "wagmi";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
+import { parseListFromString } from "../lib/parsing";
 
 /**
  * Constants
@@ -385,14 +386,13 @@ const formatValuesToMetaData = (
   address: string,
   image?: string,
 ) => {
-  // Split contributor names and addresses. Addresses are stored on-chain, while names will be stored on IPFS.
-  const contributorNamesAndAddresses = val.contributors
-    .split(/[,\n]/)
-    .filter((i) => !!i)
-    .map((name) => name.trim());
-  const contributorAddresses = contributorNamesAndAddresses.filter((x) =>
-    isAddress(x),
-  );
+  // Split contributor names and addresses.
+  // - make sure addresses are always lower case
+  const contributorNamesAndAddresses = parseListFromString(
+    val.contributors,
+  ).map((x) => (isAddress(x) ? x.toLowerCase() : x));
+  // Split the work scopes
+  const workScopes = parseListFromString(val.workScopes);
 
   // Mint certificate using contract
   // NOTE: we are fixing the impactTimeStart to be the same as workTimeStart
@@ -431,14 +431,12 @@ const formatValuesToMetaData = (
     description: val.description,
     external_url: val.externalLink,
     image: image ?? "",
-    contributors: _.uniq(
-      [address, ...contributorAddresses].filter((x) => isAddress(x)),
-    ) as `0x${string}`[],
+    contributors: contributorNamesAndAddresses,
     workTimeframeStart,
     workTimeframeEnd,
     impactTimeframeStart,
     impactTimeframeEnd,
-    workScope: val.workScopes.split(",").map((x) => x.trim()),
+    workScope: workScopes,
     impactScope: val.impactScopes,
     rights: val.rights,
     version: DEFAULT_HYPERCERT_VERSION,

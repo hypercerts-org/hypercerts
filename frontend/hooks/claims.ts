@@ -1,4 +1,4 @@
-import { firstClaims, getMetadata } from "@network-goods/hypercerts-sdk";
+import { firstClaims, getMetadata } from "@hypercerts-org/hypercerts-sdk";
 import { useQuery } from "@tanstack/react-query";
 
 export const useClaimMetadata = (cid?: string | null) =>
