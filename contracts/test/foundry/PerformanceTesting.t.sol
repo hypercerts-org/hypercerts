@@ -177,7 +177,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
         vm.assume(!isContract(account) && account != address(0) && account != address(this));
 
         changePrank(account);
-        hypercertMinter.mintClaim(alice, value, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+        hypercertMinter.mintClaim(account, value, _uri, IHypercertToken.TransferRestrictions.AllowAll);
     }
 
     // Mint Hypercert with multiple fractions
