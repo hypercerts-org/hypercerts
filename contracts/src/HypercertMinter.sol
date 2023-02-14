@@ -66,7 +66,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
         uint256 claimID = _mintValue(account, fractions, _uri);
         typeRestrictions[claimID] = restrictions;
-        emit ClaimStored(claimID, _uri, _ge units);
+        emit ClaimStored(claimID, _uri, units);
     }
 
     /// @notice Mint a semi-fungible token representing a fraction of the claim
