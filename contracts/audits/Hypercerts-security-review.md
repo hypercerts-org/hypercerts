@@ -259,6 +259,8 @@ A compromised or a malicious owner can call `pause` and then `renounceOwnership`
 
 The `_beforeTokenTransfer` hook in `SemiFungible1155` is not needed as it only checks if a base type token is getting transferred but the system in its current state does not actually ever mint such a token, so this check is not needed and only wastes gas. Remove the `_beforeTokenTransfer` hook override in `SemiFungible1155`.
 
+`bitbeckers: safeTransfer methods are still exposed, imo 'NotAllowed' is a better error than 'Non-existing token' for the user`
+
 # [I-02] Unused import, local variable and custom errors
 
 The `IERC1155ReceiverUpgradeable` import in `SemiFungible1155` is not actually used and should be removed, same for the `_typeID` local variable in `SemiFungible1155::mergeValue`, same for the `ToZeroAddress`, `MaxValue` and `FractionalBurn` custom errors.
