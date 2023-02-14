@@ -100,12 +100,13 @@ This script converts hypercerts metadata exported by `create_hypercerts_metadata
 
 # Recommended workflow
 
-1. Run `get_grants_data.py` to pull all the grant data from the round
-2. Review `canonical_project_list.json` to ensure that all projects are correctly listed for each round
-3. Review the projects and workscopes on the Notion page; download the CSV of workscopes to override
-4. Review the Dune queries to make sure that there is a query for all projects; if OK, then download the CSV versions of the queries
-5. Run `allowlist.py` to generate an allowlist csv for each project (this requires having an API key to run sanctions checks on wallets)
-6. Bulk upload the allowlist CSVs to a nft.storage; copy the CID
-7. Update the `ALLOWLIST_BASE_URL` field's CID in `create_hypercerts_metadata.py`; then execute the script
-8. Bulk upload the allowlist JSONs to a nft.storage; copy the CID
-9. Update the `METADATA_URL` amd run `create_hypercert_minting_url.py`
+1. Complete the setup instructions and download the necessary CSV snapshots from Dune Analytics
+2. Review `/data/dune/projects.json` to ensure that all projects are correctly listed for each round
+3. Run `bash initialize.sh` to pull all the grant data from the round, generate (and sanction screen) the allowlists, and serialize project stats
+4. Bulk upload the allowlist CSVs to a nft.storage; copy the CID
+5. Update the `allowlist_base` property in `config.json` with the new CID base
+6. Run `bash create_metadata.sh` to generate metadata jsons for all projects
+7. Bulk upload the metadata JSONs to a nft.storage; copy the CID
+8. Update the `hypercert_metadata_base` property in `config.json` with the new CID base
+9. Run `python create_hypercert_minting_url.py`
+10. View the complete URL sets and datasets in `/data/projects/project_urls.md` and `/data/projects/project_urls.csv`
