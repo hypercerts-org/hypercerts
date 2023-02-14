@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity 0.8.16;
 
 import { IHypercertToken } from "./interfaces/IHypercertToken.sol";
 import { SemiFungible1155 } from "./SemiFungible1155.sol";
