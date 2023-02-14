@@ -3,14 +3,26 @@
 // https://github.com/enjin/erc-1155/blob/master/contracts/ERC1155MixedFungibleMintable.sol
 pragma solidity ^0.8.16;
 
-import { Upgradeable1155 } from "./Upgradeable1155.sol";
+import { ERC1155Upgradeable } from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import { ERC1155BurnableUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
+import { ERC1155URIStorageUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
+import { OwnableUpgradeable } from "oz-upgradeable/access/OwnableUpgradeable.sol";
+import { Initializable } from "oz-upgradeable/proxy/utils/Initializable.sol";
+import { UUPSUpgradeable } from "oz-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import { Errors } from "./libs/Errors.sol";
 
 /// @title Contract for minting semi-fungible EIP1155 tokens
 /// @author bitbeckers
 /// @notice Extends { Upgradeable1155 } token with semi-fungible properties and the concept of `units`
 /// @dev Adds split bit strategy as described in [EIP-1155](https://eips.ethereum.org/EIPS/eip-1155#non-fungible-tokens)
-contract SemiFungible1155 is Upgradeable1155 {
+contract SemiFungible1155 is
+    Initializable,
+    ERC1155Upgradeable,
+    ERC1155BurnableUpgradeable,
+    ERC1155URIStorageUpgradeable,
+    OwnableUpgradeable,
+    UUPSUpgradeable
+{
     /// @dev Counter used to generate next typeID.
     uint256 internal typeCounter;
 
@@ -38,10 +50,14 @@ contract SemiFungible1155 is Upgradeable1155 {
     /// @dev Emitted on transfer of `values` between `fromTokenIDs` to `toTokenIDs` of `claimIDs`
     event BatchValueTransfer(uint256[] claimIDs, uint256[] fromTokenIDs, uint256[] toTokenIDs, uint256[] values);
 
-    /// @dev Init method. Underlying { Upgradeable1155 } is `Initializable`
+    /// @dev see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }
     // solhint-disable-next-line func-name-mixedcase
     function __SemiFungible1155_init() public virtual onlyInitializing {
-        __Upgradeable1155_init();
+        __ERC1155_init("");
+        __ERC1155Burnable_init();
+        __ERC1155URIStorage_init();
+        __Ownable_init();
+        __UUPSUpgradeable_init();
     }
 
     /// @dev Get index of fractional token at `_id` by returning lower 128 bit values
@@ -366,16 +382,14 @@ contract SemiFungible1155 is Upgradeable1155 {
         }
     }
 
-    function _authorizeUpgrade(address newImplementation) internal virtual override onlyOwner {
-        // solhint-disable-previous-line no-empty-blocks
-    }
-
     /// METADATA
 
     /// @dev see { openzeppelin-contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol }
     /// @dev Always returns the URI for the basetype so that it's managed in one place.
-    function uri(uint256 tokenID) public view virtual override returns (string memory _uri) {
-        _uri = Upgradeable1155.uri(getBaseType(tokenID));
+    function uri(
+        uint256 tokenID
+    ) public view virtual override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable) returns (string memory _uri) {
+        _uri = ERC1155URIStorageUpgradeable.uri(tokenID);
     }
 
     /// UTILS
@@ -415,6 +429,13 @@ contract SemiFungible1155 is Upgradeable1155 {
         array[0] = element;
 
         return array;
+    }
+
+    // UUPS PROXY
+
+    /// @dev see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol }
+    function _authorizeUpgrade(address newImplementation) internal virtual override onlyOwner {
+        // solhint-disable-previous-line no-empty-blocks
     }
 
     /**
