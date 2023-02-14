@@ -54,6 +54,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   // Hidden
   backgroundColor: "",
   backgroundVectorArt: "",
+  metadataProperties: "",
 };
 
 interface HypercertCreateFormData {
@@ -77,6 +78,7 @@ interface HypercertCreateFormData {
   // Hidden
   backgroundColor: string;
   backgroundVectorArt: string;
+  metadataProperties: string;
 }
 
 /**
@@ -313,17 +315,14 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
           ...queryStringToFormData(initialQuery),
         }}
         enableReinitialize
-        onSubmit={async (values, { setSubmitting, setErrors }) => {
+        onSubmit={async (values, { setSubmitting }) => {
           if (!address) {
             console.log("User not connected");
             toast("Please connect your wallet", { type: "error" });
             return;
           }
 
-          console.log("Form values:");
-          console.log(values);
           const image = await exportAsImage(IMAGE_SELECTOR);
-          console.log(image);
           const {
             valid,
             errors,
@@ -334,6 +333,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             address!,
             image,
           );
+          console.log(`Metadata(valid=${valid}): `, metaData);
           if (valid) {
             if (values.allowlistUrl) {
               await mintClaimAllowlist({
@@ -344,7 +344,10 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
               await mintClaim(metaData, DEFAULT_NUM_FRACTIONS);
             }
           } else {
-            setErrors(errors);
+            toast("Error creating hypercert. Please contact the team.", {
+              type: "error",
+            });
+            console.error("SDK formatting errors: ", errors);
           }
           setSubmitting(false);
         }}
@@ -362,8 +365,8 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   console.log("Submitting form...");
-                  console.log("Form errors:");
-                  console.log(formikProps.errors);
+                  console.log("Form values: ", formikProps.values);
+                  console.log("Form errors: ", formikProps.errors);
                   formikProps.handleSubmit();
                 }}
               >
@@ -412,6 +415,17 @@ const formatValuesToMetaData = (
     ? new Date(val.workTimeEnd).getTime() / 1000
     : 0;
 
+  let properties = [];
+  if (val.metadataProperties) {
+    try {
+      properties = JSON.parse(val.metadataProperties);
+    } catch (e) {
+      console.warn(
+        `Unable to parse metadataProperties: ${val.metadataProperties}`,
+      );
+    }
+  }
+
   return formatHypercertData({
     name: val.name,
     description: val.description,
@@ -428,7 +442,7 @@ const formatValuesToMetaData = (
     impactScope: val.impactScopes,
     rights: val.rights,
     version: DEFAULT_HYPERCERT_VERSION,
-    properties: [],
+    properties: properties,
     excludedImpactScope: [],
     excludedRights: [],
     excludedWorkScope: [],
