@@ -37,14 +37,14 @@ contract AllowlistMinter is IAllowlist {
     function _processClaim(bytes32[] calldata proof, uint256 claimID, uint256 amount) internal {
         if (merkleRoots[claimID].length == 0) revert Errors.DoesNotExist();
 
-        bytes32 node = _calculateLeaf(msg.sender, amount);
+        bytes32 leaf = _calculateLeaf(msg.sender, amount);
 
-        if (hasBeenClaimed[claimID][node]) revert Errors.DuplicateEntry();
+        if (hasBeenClaimed[claimID][leaf]) revert Errors.AlreadyClaimed();
 
-        if (!MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], node)) revert Errors.Invalid();
-        hasBeenClaimed[claimID][node] = true;
+        if (!MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf)) revert Errors.Invalid();
+        hasBeenClaimed[claimID][leaf] = true;
 
-        emit LeafClaimed(claimID, node);
+        emit LeafClaimed(claimID, leaf);
     }
 
     function _calculateLeaf(address account, uint256 amount) internal pure returns (bytes32 leaf) {

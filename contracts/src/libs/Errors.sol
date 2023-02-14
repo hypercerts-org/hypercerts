@@ -3,6 +3,7 @@ pragma solidity ^0.8.16;
 
 /// @author bitbeckers
 library Errors {
+    error AlreadyClaimed();
     error ArraySize();
     error DoesNotExist();
     error DuplicateEntry();
