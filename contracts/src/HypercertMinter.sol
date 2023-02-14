@@ -72,6 +72,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     /// @notice Mint a semi-fungible token representing a fraction of the claim
     /// @dev Calls AllowlistMinter to verify `proof`.
     /// @dev Mints the `amount` of units for the hypercert stored under `claimID`
+    //TODO should check on units against max be in AllowlistContract?
     function mintClaimFromAllowlist(
         address account,
         bytes32[] calldata proof,
@@ -85,6 +86,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     /// @notice Mint semi-fungible tokens representing a fraction of the claims in `claimIDs`
     /// @dev Calls AllowlistMinter to verify `proofs`.
     /// @dev Mints the `amount` of units for the hypercert stored under `claimIDs`
+    //TODO should check on units against max be in AllowlistContract?
     function batchMintClaimsFromAllowlists(
         address account,
         bytes32[][] calldata proofs,
