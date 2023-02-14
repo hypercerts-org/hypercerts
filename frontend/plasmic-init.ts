@@ -1,7 +1,6 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import CircularProgress from "@mui/material/CircularProgress";
-import Tooltip from "@mui/material/Tooltip";
 import { ClientGrid } from "./components/client-grid";
 import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { HypercertCreateForm } from "./components/hypercert-create";
@@ -18,6 +17,7 @@ import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
+import { Tooltip } from "./components/widgets";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -257,7 +257,7 @@ PLASMIC.registerComponent(Tooltip, {
     title: "string",
     children: "slot",
   },
-  importPath: "@mui/material/Tooltip",
+  importPath: "./components/widgets",
 });
 
 PLASMIC.registerComponent(CircularProgress, {
