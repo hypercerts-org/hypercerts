@@ -105,7 +105,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Register a claim and the whitelist for minting token(s) belonging to that claim
     /// @dev Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`
-    /// @dev Calls AlloslistMinter to store the `merkleRoot` as proof to authorize claims
+    /// @dev Calls AllowlistMinter to store the `merkleRoot` as proof to authorize claims
     function createAllowlist(
         address account,
         uint256 units,

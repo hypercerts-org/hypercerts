@@ -395,7 +395,7 @@ contract SemiFungible1155 is
     /// UTILS
 
     /**
-     * @dev Check is value is below max item index
+     * @dev Check if value is below max item index
      */
     function _notMaxItem(uint256 tokenID) private pure {
         uint128 _count = uint128(tokenID);
@@ -403,7 +403,7 @@ contract SemiFungible1155 is
     }
 
     /**
-     * @dev Check is value is below max type index
+     * @dev Check if value is below max type index
      */
     function _notMaxType(uint256 tokenID) private pure {
         uint128 _count = uint128(tokenID >> 128);
