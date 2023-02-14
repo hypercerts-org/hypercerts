@@ -424,12 +424,10 @@ contract SemiFungible1155 is Upgradeable1155 {
      * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
      * Assuming 30 available slots (slots cost space, cost gas)
      * 1. typeCounter
-     * 2. TYPE_MASK
-     * 3. NF_INDEX_MASK
-     * 4. owners
-     * 5. creators
-     * 6. tokenValues
-     * 7. maxIndex
+     * 2. owners
+     * 3. creators
+     * 4. tokenValues
+     * 5. maxIndex
      */
-    uint256[23] private __gap;
+    uint256[25] private __gap;
 }

@@ -210,8 +210,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
      * variables without shifting down storage in the inheritance chain.
      * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
      * Assuming 30 available slots (slots cost space, cost gas)
-     * 1. name
-     * 2. typeRestrictions
+     * 1. typeRestrictions
      */
-    uint256[28] private __gap;
+    uint256[29] private __gap;
 }
