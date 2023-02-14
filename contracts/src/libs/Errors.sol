@@ -6,12 +6,9 @@ library Errors {
     error ArraySize();
     error DoesNotExist();
     error DuplicateEntry();
-    error FractionalBurn();
     error Invalid();
-    error MaxValue();
     error NotAllowed();
     error NotApprovedOrOwner();
-    error ToZeroAddress();
     error TransfersNotAllowed();
     error TypeMismatch();
 }

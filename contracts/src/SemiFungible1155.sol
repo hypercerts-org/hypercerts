@@ -4,8 +4,6 @@
 pragma solidity ^0.8.16;
 
 import { Upgradeable1155 } from "./Upgradeable1155.sol";
-import { IERC1155ReceiverUpgradeable } from "oz-upgradeable/token/ERC1155/IERC1155ReceiverUpgradeable.sol";
-
 import { Errors } from "./libs/Errors.sol";
 
 /// @title Contract for minting semi-fungible EIP1155 tokens
@@ -245,7 +243,6 @@ contract SemiFungible1155 is Upgradeable1155 {
         uint256 len = _fractionIDs.length - 1;
 
         uint256 target = _fractionIDs[len];
-        uint256 _typeID = getBaseType(target);
 
         uint256 _totalValue;
         uint256[] memory fromIDs = new uint256[](len);
