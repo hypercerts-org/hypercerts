@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x94a04Ce2e537eaf2Bdabd629dE503797e7021E87"
       abi: HypercertMinter
-      startBlock: 8100246
+      startBlock: 8385407
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -42,5 +42,5 @@ dataSources:
         - event: ValueTransfer(uint256,uint256,uint256,uint256)
           handler: handleValueTransfer
         - event: BatchValueTransfer(uint256[],uint256[],uint256[],uint256[])
-          handler: handleValueTransfer
+          handler: handleBatchValueTransfer
       file: ./src/hypercert-minter.ts
