@@ -14,7 +14,7 @@ export function getOrCreateAllowlist(
   let id = getID(claimID, contract);
   let list = Allowlist.load(id);
 
-  log.debug("Created claimID: {}", [id]);
+  log.debug("Created allowlistID: {}", [id]);
 
   if (list == null) {
     list = new Allowlist(id);
@@ -60,6 +60,8 @@ export function getOrCreateClaimToken(
   let fraction = ClaimToken.load(id);
 
   if (fraction == null) {
+    log.debug("Creating claimToken: {}", [id]);
+
     let owner = minterContract.ownerOf(tokenID);
 
     fraction = new ClaimToken(id);

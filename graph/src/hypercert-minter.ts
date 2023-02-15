@@ -78,6 +78,20 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
 export function handleURI(event: URIEvent): void {}
 
 export function handleValueTransfer(event: ValueTransferEvent): void {
+  log.debug("Received ValueTransferEvent claimID: {}", [
+    event.params.claimID.toString(),
+  ]);
+  log.debug("Received ValueTransferEvent fromTokenID: {}", [
+    event.params.fromTokenID.toString(),
+  ]);
+  log.debug("Received ValueTransferEvent toTokenID: {}", [
+    event.params.toTokenID.toString(),
+  ]);
+
+  log.debug("Received ValueTransferEvent value: {}", [
+    event.params.value.toString(),
+  ]);
+
   let from = getOrCreateClaimToken(
     event.params.claimID,
     event.params.fromTokenID,
@@ -90,6 +104,10 @@ export function handleValueTransfer(event: ValueTransferEvent): void {
   );
 
   let value = event.params.value;
+
+  log.debug("Got from: {}", [from.id]);
+  log.debug("Got to: {}", [to.id]);
+  log.debug("Transfering value: {}", [value.toString()]);
 
   // New mint
   if (from.tokenID.isZero() && !to.tokenID.isZero()) {
@@ -128,6 +146,9 @@ export function handleBatchValueTransfer(event: BatchValueTransfer): void {
     let to = getOrCreateClaimToken(claimIDs[i], toIDs[i], event.address);
 
     let value = values[i];
+
+    log.debug("Got from: {}", [from.id]);
+    log.debug("Got to: {}", [to.id]);
 
     // New mint
     if (from.tokenID.isZero() && !to.tokenID.isZero()) {
