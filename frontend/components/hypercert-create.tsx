@@ -10,7 +10,6 @@ import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
-import { isAddress } from "ethers/lib/utils";
 import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk";
 import { useAccount } from "wagmi";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
@@ -220,16 +219,39 @@ const ValidationSchema = Yup.object().shape({
     }
   }),
   workScopes: Yup.string()
+    .required("Required")
     .min(
       NAME_MIN_LENGTH,
       `Work scopes must be at least ${NAME_MIN_LENGTH} characters`,
     )
-    .required("Required"),
+    .test("no duplicates", "Please remove duplicate items", (value) => {
+      if (!value) {
+        return true;
+      }
+      const items = parseListFromString(value, { lowercase: "all" });
+      const dedup = parseListFromString(value, {
+        lowercase: "all",
+        deduplicate: true,
+      });
+      return _.isEqual(items, dedup);
+    }),
   workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
     return Yup.date().min(workTimeStart, "End date must be after start date");
   }),
   rights: Yup.array().min(1),
-  contributors: Yup.string().required("Required"),
+  contributors: Yup.string()
+    .required("Required")
+    .test("no duplicates", "Please remove duplicate items", (value) => {
+      if (!value) {
+        return true;
+      }
+      const items = parseListFromString(value, { lowercase: "all" });
+      const dedup = parseListFromString(value, {
+        lowercase: "all",
+        deduplicate: true,
+      });
+      return _.isEqual(items, dedup);
+    }),
   allowlistUrl: Yup.string().test(
     "valid uri",
     "Please enter a valid URL",
@@ -336,6 +358,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
           );
           console.log(`Metadata(valid=${valid}): `, metaData);
           if (valid) {
+            //return; // Used for testing
             if (values.allowlistUrl) {
               await mintClaimAllowlist({
                 metaData,
@@ -388,9 +411,9 @@ const formatValuesToMetaData = (
 ) => {
   // Split contributor names and addresses.
   // - make sure addresses are always lower case
-  const contributorNamesAndAddresses = parseListFromString(
-    val.contributors,
-  ).map((x) => (isAddress(x) ? x.toLowerCase() : x));
+  const contributorNamesAndAddresses = parseListFromString(val.contributors, {
+    lowercase: "addresses",
+  });
   // Split the work scopes
   const workScopes = parseListFromString(val.workScopes);
 
