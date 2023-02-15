@@ -9,7 +9,6 @@ from utils import create_project_filename, datify
 with open("config.json") as config_file:
     CONFIG = json.load(config_file)
 
-METADATA_URL = CONFIG["ipfs_cids"]["hypercert_metadata_base"]
 METADATA_DIR = CONFIG["path_to_metadata_directory"]
 MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 CSV_FILENAME = MD_FILENAME.replace(".md", ".csv")
@@ -70,13 +69,12 @@ def create_url(metadata):
     return url
 
 
-def create_markdown_row(metadata, minting_url, num_fractions):
+def create_markdown_row(grant_data, hypercert_metadata, minting_url):
 
-    name = metadata['name']
+    name = grant_data['title']
     fname = create_project_filename(name)    
-    metadata_json = cid_to_url(f"{METADATA_URL}/{fname}.json")
-    allowlist_csv = cid_to_url(metadata['hidden_properties']['allowlist'])
-    if len(metadata['description']) >= MAXLEN_DESCR:
+    allowlist_csv = cid_to_url(hypercert_metadata['hidden_properties']['allowlist'])
+    if len(hypercert_metadata['description']) >= MAXLEN_DESCR:
         flag = f"Description length"
     else:
         flag = ""
@@ -84,10 +82,10 @@ def create_markdown_row(metadata, minting_url, num_fractions):
     return "|".join([
         name.replace("|","∙"),
         "∙".join([
-            f"[Gitcoin]({metadata['hidden_properties']['gitcoin_grant_url']})",
+            f"[Gitcoin]({grant_data['projectGrantPage']})",
             f"[Hypercert]({minting_url})",
         ]),
-        f"[{num_fractions}]({allowlist_csv})",
+        f"[{grant_data['fractionsTotalSupply']}]({allowlist_csv})",
         flag
     ])
 
@@ -103,7 +101,7 @@ def create_markdown_export():
                 fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
                 metadata = json.load(open(fname))
                 url = create_url(metadata)
-                markdown = create_markdown_row(metadata, url, grant['fractions'])
+                markdown = create_markdown_row(grant, metadata, url)
                 num = str(i+1).zfill(2)
                 f.write(f"{num}|{markdown}|\n")
             f.write("\n\n")
@@ -113,7 +111,8 @@ def create_markdown_export():
 def create_csv_export():
     with open(CSV_FILENAME, 'w') as f:
         writer = csv.writer(f)
-        writer.writerow(["Num", "Round", "Project", "Gitcoin Page", "Hypercert URL", "Fractions", "Project Wallet Address",  "Wallet Type", "OpETH Balance"])
+        writer.writerow(["Num", "Round", "Project", "Gitcoin Page", "Hypercert URL", "Fractions", 
+                         "Project Wallet Address",  "Wallet Type", "OpETH Balance"])
         for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
             for i, grant in enumerate(grants_list):
                 num = round((round_num+1) + ((i+1)/100),2)
@@ -124,16 +123,92 @@ def create_csv_export():
                     num,
                     matching_pool,
                     grant['title'].replace(",", ""),
-                    metadata['hidden_properties']['gitcoin_grant_url'],
+                    grant['projectGrantPage'],
                     url,
-                    grant['fractions'],
+                    grant['fractionsTotalSupply'],
                     f"https://etherscan.io/address/{grant['address']}",
-                    grant['type'],
-                    grant['optimism']
+                    grant['addressType'],
+                    #grant['optimismAddressFound'],
+                    grant['optimismBalanceEth']
                 ])
     f.close()           
+
+
+def create_html_export():
+
+    header = '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    th {
+        text-align: left;
+    }
+    </style>
+    </head>
+    <body>
+    <table>
+        <tr>
+          <th>Num</th>
+          <th>Round</th>
+          <th>Project</th>
+          <th>Logo</th>
+          <th>Banner</th>
+          <th>Hypercert URL</th>
+          <th>Fractions</th>
+          <th>Project Wallet Address</th>
+          <th>Wallet Type</th>
+          <th>OpETH Balance</th>
+        </tr>
+      '''
+
+    footer = "</table></body></html>"
+
+    td = lambda row: f"<td>{row}</td>"
+    body = []
+
+    for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
+        for i, grant in enumerate(grants_list):
+            num = round((round_num+1) + ((i+1)/100),2)
+            fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
+            metadata = json.load(open(fname))
+            
+            grantName = grant['title']
+            grantPage = grant['projectGrantPage']
+            url = create_url(metadata)
+            logo = grant['projectLogoUrl']
+            banner = grant['projectBannerUrl']
+            address = grant['address']
+            row = "\n".join([
+                "<tr>",
+                td(num),
+                td(matching_pool),
+                td(f'<a href="{grantPage}">{grantName}</a>'),
+                td(f'<img src="{logo}" width="40" height="40"'),
+                td(f'<img src="{banner}" style="width: 320px; height: 214px; object-fit: cover; object-position: 100% 0;">'),
+                td(f'<a href="{url}">Hypercert URL</a>'),
+                td(grant['fractionsTotalSupply']),
+                td(f'<a href="https://etherscan.io/address/{address}">{address[:5]}...{address[-3:]}</a>'),
+                td(grant['addressType']),
+                td(grant['optimismBalanceEth']),
+                "</tr>"
+            ])
+            body.append(row)
+    html = header + "\n".join(body) + footer
+
+    with open("data/projects/project_urls.html", "w") as f:
+        f.write(html)
+
 
     
 if __name__ == "__main__":
     create_markdown_export()
     create_csv_export()
+    create_html_export()

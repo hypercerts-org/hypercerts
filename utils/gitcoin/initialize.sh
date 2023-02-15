@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir -p data/donorlists
 mkdir -p data/allowlists
 mkdir -p data/metadata
 

@@ -12,19 +12,44 @@ API_KEY = os.environ['OPTIMISM_ETHERSCAN_API_KEY']
 with open("config.json") as config_file:
     CONFIG = json.load(config_file)
 
+DONORLIST_DIR = CONFIG["path_to_donorlist_directory"]
 ALLOWLIST_DIR = CONFIG["path_to_allowlist_directory"]
+METADATA_DIR  = CONFIG["path_to_metadata_directory"]
 SETTINGS      = CONFIG["gitcoin_settings"]
 PROJECTS_PATH = SETTINGS["path_to_project_list"]
 ORIGINAL_PATH = SETTINGS["path_to_original_project_mapping_data"]
-MULTISIG_PATH = SETTINGS["path_to_safe_multisig_contract_data"]
-SPLITS_PATH   = SETTINGS["path_to_splits_contract_data"]   
+
+process_dune_export = lambda path: list(pd.read_csv(path)['address'].str.lower())
+SAFES_LIST  = process_dune_export(SETTINGS["path_to_safe_multisig_contract_data"])
+SPLITS_LIST = process_dune_export(SETTINGS["path_to_splits_contract_data"])
 
 
-def count_fractions(project_name):
-    allowlist_path = ALLOWLIST_DIR + create_project_filename(project_name) + ".csv"
-    num_fractions = int(pd.read_csv(allowlist_path)['fractions'].sum())
-    return num_fractions
+def serialize_donor_stats(project_name):
 
+    fname = create_project_filename(project_name) + ".csv"
+    donorlist_df = pd.read_csv(DONORLIST_DIR + fname)
+    allowlist_df = pd.read_csv(ALLOWLIST_DIR + fname)
+    
+    return dict(
+        fundingTotalDollars=round(donorlist_df['usd'].sum()),
+        donorsTotal=len(donorlist_df),
+        fractionsTotalSupply=round(allowlist_df['fractions'].sum()),
+        hypercertEligibleDonors=len(allowlist_df)
+    )
+
+
+def serialize_project_info(project_name):
+
+    fname = create_project_filename(project_name) + ".json"
+    metadata = json.load(open(METADATA_DIR + fname))
+
+    return dict(
+        projectWebsite=metadata['external_url'],
+        projectGrantPage=metadata['hidden_properties']['gitcoin_grant_url'],
+        projectLogoUrl=metadata['hidden_properties']['project_icon'],
+        projectBannerUrl=metadata['hidden_properties']['project_banner']
+    )
+    
 
 def optimism_scan(address):
 
@@ -33,21 +58,36 @@ def optimism_scan(address):
                         "&action=balancemulti",
                         f"&address={address}",
                         "&tag=latest",
-                        f"&apikey={API_KEY}"])
+                        f"&apikey={API_KEY}"])    
+    
     response = requests.get(query, headers={"Accept": "application/json"})
     data = response.json()
-
-    if data['message'] == 'OK':   
-        balance = data['result'][0]['balance']
-        return float(balance) / 1000000000000000000. # WEI to ETH
-    return -1
-
-
-def run_multisig_scan(optimism_snapshot=False):
+    has_address = data['message'] == 'OK'
+    balance = float(data['result'][0]['balance']) / 1000000000000000000. if has_address else 0
     
-    process_dune_export = lambda path: list(pd.read_csv(path)['address'].str.lower())
-    safes = process_dune_export(MULTISIG_PATH)
-    splits = process_dune_export(SPLITS_PATH)
+    return dict(
+        optimismAddressFound=has_address,
+        optimismBalanceEth=balance,
+    )
+
+
+def multisig_scan(address):
+
+    addr = address.lower()
+    if addr in SAFES_LIST:
+        addr_type = 'safe'
+    elif addr in SPLITS_LIST:
+        addr_type = 'split'
+    else:
+        addr_type = 'wallet'
+    
+    return dict(
+        addressType=addr_type,
+        isMultisig=addr_type!='wallet'
+    )
+
+
+def run_stats(project_checks, address_checks):
 
     path = PROJECTS_PATH if os.path.exists(PROJECTS_PATH) else ORIGINAL_PATH
     with open(path) as j:
@@ -55,19 +95,10 @@ def run_multisig_scan(optimism_snapshot=False):
 
     for group, grant_list in projects_db.items():
         for grant in grant_list:
-            addr = grant['address'].lower()
-            if addr in safes:
-                addr_type = 'safe'
-            elif addr in splits:
-                addr_type = 'split'
-            else:
-                addr_type = 'wallet'
-            grant.update({"type": addr_type})
-            grant.update({"multisig": addr_type != 'wallet'})
-            if optimism_snapshot:
-                grant.update({"optimism": optimism_scan(addr)})
-            grant.update({"fractions": count_fractions(grant['title'])})
-    
+            for pcheck in project_checks:
+                grant.update(pcheck(grant['title']))
+            for acheck in address_checks:
+                grant.update(acheck(grant['address']))
     
     out_file = open(PROJECTS_PATH, "w")
     json.dump(projects_db, out_file, indent=4)                
@@ -75,4 +106,7 @@ def run_multisig_scan(optimism_snapshot=False):
 
 
 if __name__ == "__main__":
-    run_multisig_scan(optimism_snapshot=False)
+    run_stats(
+         project_checks=[serialize_project_info, serialize_donor_stats],
+         address_checks=[multisig_scan, optimism_scan]
+    )
