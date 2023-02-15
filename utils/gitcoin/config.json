@@ -1,6 +1,7 @@
 {
 	"version": "1.0.0",
 	"path_to_metadata_directory": "data/metadata/",
+	"path_to_donorlist_directory": "data/donorlists/",
 	"path_to_allowlist_directory": "data/allowlists/",
 	"path_to_project_urls_markdown": "data/projects/project_urls.md",
 	"hypercert_dapp_base_url": "https://hypercerts.pages.dev/app/create?",
