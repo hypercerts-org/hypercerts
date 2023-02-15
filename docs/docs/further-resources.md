@@ -1,7 +1,6 @@
 ---
-title: Further resources
-id: papers
-sidebar_position: 20
+title: Further Resources
+id: further-resources
 ---
 
 # Papers, Articles, Presentations

@@ -1,7 +1,7 @@
 ---
-title: Metadata
+title: Metadata Standard
 id: metadata
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Hypercert Metadata Structure
@@ -14,9 +14,9 @@ The following are standard ERC-1155 metadata fields.
 
 ## ERC-1155 fields
 
-| Property | Description | 
-| -------- | -------- | 
-| `name`     | Name or title of the hypercert. Given that a project  may create numerous hypercerts over time, consider giving the hypercert a name that represents a discrete phase or output.| 
+| Property | Description |
+| -------- | -------- |
+| `name`     | Name or title of the hypercert. Given that a project  may create numerous hypercerts over time, consider giving the hypercert a name that represents a discrete phase or output.|
 | `description` | A human readable description of the hypercert. Markdown is supported. Additional external URLs can be added.|
 | `image` | A URI pointing to a resource with mime type image/* that represents the hypercert's artwork, i.e., `ipfs://<CID>`. We recommend images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.|
 | `external_url` | [optional] A URL that can be displayed next to the hypercert on webpages like OpenSea and links users to a page that has more information about the project or impact claim.|
@@ -26,9 +26,9 @@ In order to perform hypercert-specific operations, including split and merge fun
 
 ## Required Hypercert dimensions
 
-| Property | Description | 
-| -------- | -------- | 
-| `work_scope` | An *ordered list* of work scope tags. Work scopes may also be excluded from the claim. The `¬` prefix will be displayed next to any work scope that is explicitly excluded from the claim. | 
+| Property | Description |
+| -------- | -------- |
+| `work_scope` | An *ordered list* of work scope tags. Work scopes may also be excluded from the claim. The `¬` prefix will be displayed next to any work scope that is explicitly excluded from the claim. |
 | `work_timeframe` | Date range from the start to the end of the work in the form of a [UTC timestamp](https://www.utctime.net/utc-timestamp). |
 | `impact_scope` | An *ordered list* of impact scope tags. Impact scopes may also be excluded from the claim. The `¬` prefix will be displayed next to any impact scope that is explicitly excluded from the claim. The default claim is to  "all" impact, giving the owner rights to claim all potential impact created by the work that is represented by the hypercert. |
 | `impact_timeframe` | Date range from the start to the end of the impact in the form of a [UTC timestamp](https://www.utctime.net/utc-timestamp). The default claim is from the start date of work until `indefinite` (i.e., the impact may occur at any point in time in the future).|
@@ -171,7 +171,7 @@ Here are some additional guidelines for defining hypercert dimensions.
 - It is recommended to browse the `impact_scope` and `work_scope` tags that have already been created and are in use by your or other projects. (We are building a  catalog to be available at [hypercerts.org](https://hypercerts.org).) Picking established tags can make it easier for users to discover, curate, and interact with your hypercert. In the long-run, we expect different ontologies to emerge in domains like climate solutions, open source software, etc, and picking more established tags  will help prevent overlapping or duplicate claims.
 -  Tags for work scopes and impact scopes are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction), e.g. `Planting trees` ∧ `Germany` means that the hypercert includes the planting of trees only in Germany, but not planting trees anywhere else or any other work in Germany that wasn't planting trees.
 - Scopes that are explicitly excluded from the hypercert claim are enumerated separately and displayed with the `¬` prefix in the tag. Excluded scopes are not currently displayed on hypercert artwork.
-- The order of tags matters only for display purposes. The hypercert artwork will only display a limited number of tags in the `impact_scope` and `work_scope` arrays due to image size and stylistic constraints. 
+- The order of tags matters only for display purposes. The hypercert artwork will only display a limited number of tags in the `impact_scope` and `work_scope` arrays due to image size and stylistic constraints.
 - A `contributor` can be identified using any human-readable string. The base case is to set the `contributors` to the wallet address used to create the hypercert. A multisig wallet can be used to represent a group of contributors.
 
 
