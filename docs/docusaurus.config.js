@@ -40,7 +40,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           remarkPlugins: [require("mdx-mermaid")],
-          editUrl: "https://github.com/Network-Goods/hypercerts-docs",
+          editUrl: "https://github.com/Network-Goods/hypercerts",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -55,6 +55,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: true,
+          autoCollapseCategories: false,
         },
       },
       navbar: {
@@ -72,6 +73,21 @@ const config = {
             position: "right",
           },
           {
+          type: 'dropdown',
+          label: 'Community',
+          position: 'right',
+          items: [
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/hypercerts',
+            },
+            {
+              label: 'Telegram Group',
+              href: 'https://t.me/+YF9AYb6zCv1mNDJi',
+            },
+          ],
+          },
+          {
             type: "docsVersionDropdown",
             position: "left",
             dropdownActiveClassDisabled: true,
@@ -80,30 +96,6 @@ const config = {
       },
       footer: {
         style: "dark",
-        links: [
-          {
-            title: "Docs",
-            items: [
-              {
-                label: "Docs",
-                to: "/",
-              },
-            ],
-          },
-          {
-            title: "Community",
-            items: [
-              {
-                label: "Telegram",
-                href: "https://t.me/+YF9AYb6zCv1mNDJi",
-              },
-              {
-                label: "Twitter",
-                href: "https://twitter.com/hypercerts",
-              },
-            ],
-          },
-        ],
         copyright: `Copyright © ${new Date().getFullYear()} Hypercerts Foundation. Built with Docusaurus.`,
       },
       prism: {
