@@ -50,6 +50,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   rights: ["Public Display"] as string[],
   contributors: "",
   allowlistUrl: "",
+  agreeContributorsConsent: false,
   agreeTermsConditions: false,
   // Hidden
   backgroundColor: "",
@@ -74,6 +75,7 @@ interface HypercertCreateFormData {
   rights: string[];
   contributors: string;
   allowlistUrl: string;
+  agreeContributorsConsent: boolean;
   agreeTermsConditions: boolean;
   // Hidden
   backgroundColor: string;
@@ -136,7 +138,7 @@ const formDataToQueryString = (values: Record<string, any>) => {
   );
   const filteredValues = _.chain(values)
     .pickBy()
-    .omit(["agreeTermsConditions"])
+    .omit(["agreeContributorsConsent", "agreeTermsConditions"])
     .value();
   return qs.stringify(filteredValues);
 };
@@ -260,6 +262,10 @@ const ValidationSchema = Yup.object().shape({
         emptyAllowed: true,
         ipfsAllowed: false,
       }),
+  ),
+  agreeContributorsConsent: Yup.boolean().oneOf(
+    [true],
+    "You must get the consent of contributors before creating",
   ),
   agreeTermsConditions: Yup.boolean().oneOf(
     [true],
