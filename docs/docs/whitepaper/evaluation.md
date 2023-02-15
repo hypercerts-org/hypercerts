@@ -1,7 +1,7 @@
 ---
-title: Open evaluation system
+title: Open Impact Evaluations
 id: evaluation
-sidebar_position: 8
+sidebar_position: 5
 ---
 
 A key design element is that hypercerts themselves do not make a claim about the size of the impact, but only account for the work that is supposed to be impactful. The figure below shows this contrast in a simplified illustration of the example that we introduced above. The open evaluation system allows multiple evaluations to point at the same area of the impact space that a hypercert claims. The evaluations can include self-evaluation from the contributors themselves. Funders observe these and make their funding decisions based on this richer set of information.
