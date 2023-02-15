@@ -17,7 +17,7 @@ import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
-import { Tooltip } from "./components/widgets";
+import { Tooltip, Accordion } from "./components/widgets";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -260,7 +260,7 @@ PLASMIC.registerComponent(Tooltip, {
   importPath: "./components/widgets",
 });
 
-PLASMIC.registerComponent(Tooltip, {
+PLASMIC.registerComponent(Accordion, {
   name: "Accordion",
   props: {
     summary: {
