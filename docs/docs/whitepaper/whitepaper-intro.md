@@ -7,7 +7,7 @@ id: whitepaper-intro
 
 :::note
 
-If you prefer to read the draft whitepaper (v0) as a pdf, you can find it [here](../../static/pdf/hypercerts_whitepaper_v0.pdf). The content is mostly identical to the following pages.
+If you prefer to read the draft whitepaper (v0) as a pdf, you can find it [here](../../static/pdf/docs/static/pdf/2023-02-14_hypercerts_a_new_primitive_for_impact_funding_systems_v0.pdf). The content is mostly identical to the following pages.
 
 :::
 
