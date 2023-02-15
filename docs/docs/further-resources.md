@@ -7,7 +7,7 @@ id: further-resources
 
 ## Writings
 
-* Feb 14, 2023, Whitepaper draft by [@hypercerts](http://twitter.com/hypercerts): [Hypercerts: A new primitive for impact funding systems (draft v0)](../static/pdf/docs/static/pdf/2023-02-14_hypercerts_a_new_primitive_for_impact_funding_systems_v0.pdf)
+* Feb XX, 2023, Whitepaper draft by [@hypercerts](http://twitter.com/hypercerts): [Hypercerts: A new primitive for impact funding systems (draft v0)](../static/pdf/hypercerts_whitepaper_v0.pdf)
 * Aug 24, 2022, Blogpost by [@holkeb](https://twitter.com/holkeb): [Hypercerts: A new primitive for public goods funding](https://protocol.ai/blog/hypercert-new-primitive/)
 * Jun 2022, Tech report (draft) by [@davidad](https://twitter.com/davidad): [Hypercerts; an Interoperable Datalayer for Impact-Funding Mechanisms](../static/pdf/hypercerts_Tech_Report_draft.pdf)
 
