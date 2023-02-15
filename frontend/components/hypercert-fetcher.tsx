@@ -62,15 +62,11 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
         // Get the claim
         if (claimId) {
           const result = await sdk.claimById(claimId);
-          console.log(`Claim ${claimId}:`);
-          console.log(result.claim);
           newData.claim = result.claim;
         }
         // Get the fraction tokens
         if (claimId) {
           const result = await sdk.fractionsByClaim(claimId);
-          console.log(`ClaimTokens ${claimId}:`);
-          console.log(result.claimTokens);
           newData.claimTokens = result.claimTokens;
         }
         // Get the metadata
@@ -79,10 +75,12 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           : byMetadataUri ?? newData?.claim?.uri;
         if (metadataUri) {
           const result = await sdk.getMetadata(metadataUri);
-          console.log(`Metadata ${metadataUri}:`);
-          console.log(result);
           newData.metadata = result;
         }
+        console.log(
+          `Hypercert name='${newData.metadata?.name}' claimId=${claimId}, metadataUri=${metadataUri}: `,
+          newData,
+        );
         setData(newData);
       })(),
     );
