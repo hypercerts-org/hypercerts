@@ -1,7 +1,7 @@
 ---
-title: Retrospective funding
+title: Retrospective Impact Funding
 id: retrospective-funding
-sidebar_position: 9
+sidebar_position: 6
 ---
 
 ### Introducing retrospective funding

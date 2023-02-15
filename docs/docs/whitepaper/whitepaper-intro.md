@@ -1,10 +1,9 @@
 ---
-title: Whitepaper
-id: whitepaper
-sidebar_position: 10
+title: Introduction
+id: whitepaper-intro
 ---
 
-# Introduction
+# Vision & Whitepaper
 
 :::note
 
