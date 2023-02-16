@@ -41,7 +41,7 @@ contract SemiFungible1155UnitsTest is PRBTest, StdCheats, StdUtils {
         assertEq(semiFungible.balanceOf(alice, baseID + tokenID), 1);
 
         // Block 'regular' transfer of base type ID token
-        vm.expectRevert(SemiFungible1155Helper.NotAllowed.selector);
+        vm.expectRevert("ERC1155: insufficient balance for transfer");
         semiFungible.safeTransferFrom(alice, bob, baseID, 1, "");
 
         // Transfer ownership of fractional token

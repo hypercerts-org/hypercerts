@@ -321,26 +321,6 @@ contract SemiFungible1155 is
     /// TRANSFERS
 
     // The following functions are overrides required by Solidity.
-    function _beforeTokenTransfer(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) internal virtual override {
-        uint256 len = ids.length;
-
-        for (uint256 i; i < len; ) {
-            if (isBaseType(ids[i]) && from != address(0)) revert Errors.NotAllowed();
-            unchecked {
-                ++i;
-            }
-        }
-
-        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
-    }
-
     function _afterTokenTransfer(
         address operator,
         address from,
