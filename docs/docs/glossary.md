@@ -14,7 +14,7 @@ sidebar_position: 19
   <dt><strong>Beneficiaries</strong></dt>
   <dd>People or objects that are impacted by work.</dd>
   <dt><strong>Claiming a fraction</strong></dt>
-  <dd>Transferring the ownership of a fraction of a hypercert from a previous owner to oneself after the previous owner specified the new owners and their respective fractions in an allowlist.</dd>
+  <dd>Transferring the ownership of a fraction of a hypercert to a (new) owner. Generally 'claiming' implies minting a new token that represents said fraction by the new owner.</dd>
   <dt><strong>Contributor</strong></dt>
   <dd>Individual or organization that performs the work described in a hypercert.</dd>
   <dt><strong>Creating a hypercert</strong></dt>
@@ -22,11 +22,11 @@ sidebar_position: 19
   <dt><strong>Evaluator</strong></dt>
   <dd>Individual, organization, or algorithm that evaluates the impact of work. There are two types: Scouts evaluate the potential impact before it is done, auditors evaluate the impact after it is done.</dd>
   <dt><strong>Fraction</strong></dt>
-  <dd>A token that represents a quantified proportion of a hypercert.</dd>
+  <dd>A token that represents a quantified proportion of a hypercert denominated in units.</dd>
   <dt><strong>Funder</strong></dt>
   <dd>Individual, organization, or algorithm that funds work. There are two types: Prospective funders fund work before the work is done, retrospective funders fund the work after the work is done.</dd>
   <dt><strong>Hypercert</strong></dt>
-  <dd>A token that (1) accounts for work that is supposed to be impactful, (2) represents the – potentially explicitly specified – impact of this work, and (3) assigns right over this work to its owners. If a hypercert is split into multiple fractions, the hypercert refers to the sum of all of its fractions. Hypercert also refers to the hypercert standard that defines the token and data standard for hypercerts.</dd>
+  <dd>A token that (1) accounts for work by specified contributors that is supposed to be impactful, (2) represents the – potentially explicitly specified – impact of this work, and (3) assigns right over this work to its owners. If a hypercert is split into multiple fractions, the hypercert refers to the sum of all of its fractions. Hypercert also refers to the hypercert standard that defines the token and data standard for hypercerts.</dd>
   <dt><strong>Hypercerts standard</strong></dt>
   <dd>A token and data standard for hypercerts. The token standard builds on the [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) token. The first 128 bits of the 256-bit token ID identifies the hypercert, the latter 128 bits identifies the specific fraction. The data standard requires that the following fields are defined on the metadata of the token: (1) set of contributors, (2) scope of work, (3) time of work, (4) scope of impact, (5) time of impact, (6) rights.</dd>
   <dt><strong>Impact</strong></dt>
@@ -39,7 +39,7 @@ sidebar_position: 19
   <dt><strong>Impact space</strong></dt>
   <dd>A geometrical space representing all possible work with its associated impact and rights. The space is spanned by the six fields specified in the hypercerts data standard: (1) set of contributors, (2) scope of work, (3) time of work, (4) scope of impact, (5) time of impact, (6) rights.</dd>
   <dt><strong>Minting a hypercert</strong></dt>
-  <dd>Creating a new record for a hypercert on a blockchain.</dd>
+  <dd>Creating a new record for a hypercert on a blockchain. The properties of the hypercert – e.g. the scope of work – are retrievable via this record.</dd>
   <dt><strong>Project</strong></dt>
   <dd>Work by one or more contributors to achieve a goal. A project does not need to be represented by one hypercert, but can be represented by multiple hypercerts or one hypercert can represent multiple projects or parts thereof.</dd>
   <dt><strong>Prospective funder</strong></dt>
@@ -62,6 +62,8 @@ sidebar_position: 19
   <dd>Date ranges from the start to the end of the impact being claimed by a hypercert. One of the axis of the impact space and part of the required fields in the hypercerts data standard.</dd>
   <dt><strong>Time of work</strong></dt>
   <dd>A date range, from the start to the end of the work being claimed by a hypercert. One of the axis of the impact space and part of the required fields in the hypercerts data standard.</dd>
+  <dt><strong>Unit</strong></dt>
+  <dd>The smallest possible fraction of a claim. Generally units are grouped in fractions.</dd>
   <dt><strong>Work</strong></dt>
   <dd>Activities that produce impact.</dd>
 </dl>
