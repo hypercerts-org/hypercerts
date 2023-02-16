@@ -25,10 +25,13 @@ A token that represents a quantified proportion of a hypercert denominated in un
 Individual, organization, or algorithm that funds work. There are two types: Prospective funders fund work before the work is done, retrospective funders fund the work after the work is done.
 
 ### Hypercert
-A token that (1) accounts for work by specified contributors that is supposed to be impactful, (2) represents the – potentially explicitly specified – impact of this work, and (3) assigns right over this work to its owners. If a hypercert is split into multiple fractions, the hypercert refers to the sum of all of its fractions. Hypercert also refers to the hypercert standard that defines the token and data standard for hypercerts.
+A token that (1) accounts for work by specified contributors that is supposed to be impactful, (2) represents the – potentially explicitly specified – impact of this work, and (3) assigns right over this work to its owners. If a hypercert is split into multiple fractions, the hypercert refers to the sum of all of its fractions. The term `hypercert` may also refer to an implementation of the hypercert interface and standard.
+
+### Hypercerts interface
+The hypercerts [contract interface](https://github.com/hypercerts-org/hypercerts/blob/main/contracts/src/interfaces/IHypercertToken.sol), which declares the required functionality for a hypercert token. The current interface includes functions for minting, burning, splitting, and merging of hypercert tokens.
 
 ### Hypercerts implementation
-An implementation that builds on top of the [hypercerts interface](https://github.com/hypercerts-org/hypercerts/blob/main/contracts/src/interfaces/IHypercertToken.sol) and conforms to the hypercerts standard. For instance, our initial implementation uses an [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) token. The first 128 bits of the 256-bit token ID identifies the hypercert, the latter 128 bits identifies the specific fraction. Other implementations are possible (e.g., based on ERC-721) as long as they also conform to the data standard and use the hypercerts interface to support capabilities like splitting and merging of values.
+An implementation that builds on top of the hypercerts and conforms to the hypercerts standard. For instance, our initial implementation uses an [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) token. The first 128 bits of the 256-bit token ID identifies the hypercert, the latter 128 bits identifies the specific fraction. Other implementations are possible (e.g., based on ERC-721) as long as they also conform to the data standard and use the hypercerts interface to support capabilities like splitting and merging of values.
 
 ### Hypercerts standard
 A data standard for hypercerts. It requires the following fields to be defined in the metadata of the token: (1) set of contributors, (2) scope of work, (3) time of work, (4) scope of impact, (5) time of impact, (6) rights.
@@ -44,6 +47,9 @@ A system of actors (contributors, evaluators, funders) that interact according t
 
 ### Impact space
 A geometrical space representing all possible work with its associated impact and rights. The space is spanned by the six fields specified in the hypercerts data standard: (1) set of contributors, (2) scope of work, (3) time of work, (4) scope of impact, (5) time of impact, (6) rights.
+
+### Merging hypercerts
+Placeholder. Needs text.
 
 ### Minting a hypercert
 Creating a new record for a hypercert on a blockchain. The properties of the hypercert – e.g. the scope of work – are retrievable via this record.
@@ -70,6 +76,9 @@ One of the axis of the impact space and part of the required fields in the hyper
 ### Scope of work
 A conjunction of potentially-negated work scope tags, where an empty string means “all”:
 One of the axis of the impact space and part of the required fields in the hypercerts data standard.
+
+### Splitting hypercerts
+Placeholder. Needs text.
 
 ### Time of impact
 Date ranges from the start to the end of the impact being claimed by a hypercert. One of the axis of the impact space and part of the required fields in the hypercerts data standard.
