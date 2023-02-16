@@ -6,6 +6,9 @@ import {
   useMintFractionAllowlistBatch,
 } from "../hooks/mintFractionAllowlistBatch";
 
+const LOCALSTORAGE_KEY = "claimAllFractionsTime";
+const DELAY = 5 * 60 * 1000; // 5 minutes
+
 export const ClaimAllFractionsButton = ({
   text = "Claim all fractions",
   className,
@@ -20,12 +23,21 @@ export const ClaimAllFractionsButton = ({
   const { write } = useMintFractionAllowlistBatch({
     onComplete: () => {
       console.log("Minted all of them");
+      // Store the current time
+      window.localStorage.setItem(LOCALSTORAGE_KEY, `${Date.now()}`);
       router.reload();
     },
   });
+
+  // Check if we need to wait (been less than DELAY since last claim)
+  const lastClaimStr = localStorage.getItem(LOCALSTORAGE_KEY);
+  const needToWait = lastClaimStr
+    ? Date.now() < parseInt(lastClaimStr) + DELAY
+    : false;
+
   return (
     <Button
-      disabled={!claimIds?.length}
+      disabled={!claimIds?.length || needToWait}
       className={className}
       onClick={() => write()}
       variant="outlined"
