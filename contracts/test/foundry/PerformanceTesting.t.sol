@@ -57,10 +57,10 @@ contract PerformanceTestHelper is Merkle {
         return fractions;
     }
 
-    function generateData(address account, uint256 size, uint256 value) public pure returns (bytes32[] memory data) {
+    function generateData(uint256 size, uint256 value) public pure returns (bytes32[] memory data) {
         data = new bytes32[](size);
         for (uint256 i = 0; i < size; i++) {
-            data[i] = keccak256(bytes.concat(keccak256(abi.encode(account, value))));
+            data[i] = keccak256(bytes.concat(keccak256(abi.encode(address(uint160(i + 1)), value))));
         }
     }
 
@@ -96,7 +96,7 @@ contract PerformanceTestHelper is Merkle {
         units = new uint256[](size);
 
         for (uint256 i = 0; i < size; i++) {
-            users[i] = address(uint160(i + 1));
+            users[i] = address(1);
             units[i] = 100 * size * (i + 1);
         }
 
@@ -128,7 +128,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
     function setUp() public {
         alice = address(1);
         hypercertMinter = new HypercertMinter();
-        bytes32[] memory data = generateData(alice, 12, 200000);
+        bytes32[] memory data = generateData(12, 10000);
         rootHash = getRoot(data);
         proof = getProof(data, 6);
 
@@ -149,7 +149,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
                 units[i] = dataset.units[index];
                 hypercertMinter.createAllowlist(
                     alice,
-                    10000,
+                    dataset.units[index],
                     dataset.root,
                     _uri,
                     IHypercertToken.TransferRestrictions.AllowAll
@@ -223,7 +223,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
     }
 
     function testBatchMintAllowlistLoad() public {
-        changePrank(allowlistUser);
+        changePrank(alice);
         hypercertMinter.batchMintClaimsFromAllowlists(alice, proofs, ids, units);
     }
 }

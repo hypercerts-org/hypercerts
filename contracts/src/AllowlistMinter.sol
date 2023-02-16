@@ -16,6 +16,8 @@ contract AllowlistMinter is IAllowlist {
 
     mapping(uint256 => bytes32) internal merkleRoots;
     mapping(uint256 => mapping(bytes32 => bool)) public hasBeenClaimed;
+    mapping(uint256 => uint256) internal maxUnits;
+    mapping(uint256 => uint256) internal minted;
 
     function isAllowedToClaim(
         bytes32[] calldata proof,
@@ -26,11 +28,12 @@ contract AllowlistMinter is IAllowlist {
         isAllowed = MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf);
     }
 
-    function _createAllowlist(uint256 claimID, bytes32 merkleRoot) internal {
-        if (merkleRoot == "") revert Errors.Invalid();
+    function _createAllowlist(uint256 claimID, bytes32 merkleRoot, uint256 units) internal {
+        if (merkleRoot == "" || units == 0) revert Errors.Invalid();
         if (merkleRoots[claimID] != "") revert Errors.DuplicateEntry();
 
         merkleRoots[claimID] = merkleRoot;
+        maxUnits[claimID] = units;
         emit AllowlistCreated(claimID, merkleRoot);
     }
 
@@ -40,8 +43,10 @@ contract AllowlistMinter is IAllowlist {
         bytes32 leaf = _calculateLeaf(msg.sender, amount);
 
         if (hasBeenClaimed[claimID][leaf]) revert Errors.AlreadyClaimed();
-
-        if (!MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf)) revert Errors.Invalid();
+        if (
+            !MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf) ||
+            (minted[claimID] + amount) > maxUnits[claimID]
+        ) revert Errors.Invalid();
         hasBeenClaimed[claimID][leaf] = true;
 
         emit LeafClaimed(claimID, leaf);

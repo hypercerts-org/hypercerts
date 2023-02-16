@@ -7,6 +7,8 @@ import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 
 import { AllowlistMinter } from "../../src/AllowlistMinter.sol";
+import { Errors } from "../../src/libs/Errors.sol";
+
 import { Merkle } from "murky/Merkle.sol";
 
 contract MerkleHelper is AllowlistMinter, Merkle {
@@ -23,18 +25,27 @@ contract MerkleHelper is AllowlistMinter, Merkle {
     function generateData(uint256 size, uint256 value) public view returns (bytes32[] memory data) {
         data = new bytes32[](size);
         for (uint256 i = 0; i < size; i++) {
-            data[i] = _calculateLeaf(msg.sender, value);
+            address user = address(uint160(i + 1));
+            data[i] = _calculateLeaf(user, value);
         }
     }
 
-    function processClaim(bytes32[] calldata proof, uint256 claimID, uint256 amount) public returns (bool processed) {
+    function processClaim(bytes32[] calldata proof, uint256 claimID, uint256 amount) public {
         _processClaim(proof, claimID, amount);
-        processed = true;
     }
 
-    function createAllowlist(uint256 claimID, bytes32 root) public returns (bool created) {
-        _createAllowlist(claimID, root);
-        created = true;
+    function createAllowlist(uint256 claimID, bytes32 root, uint256 units) public {
+        _createAllowlist(claimID, root, units);
+    }
+
+    function _getSum(uint256[] memory array) public pure returns (uint256 sum) {
+        uint256 len = array.length;
+        for (uint256 i; i < len; ) {
+            sum += array[i];
+            unchecked {
+                ++i;
+            }
+        }
     }
 }
 
@@ -73,34 +84,65 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
 
         uint256 claimID = 1;
 
-        assertTrue(merkle.createAllowlist(claimID, root));
+        merkle.createAllowlist(claimID, root, merkle._getSum(units));
 
-        assertTrue(merkle.isAllowedToClaim(proof, claimID, data[0]));
+        merkle.isAllowedToClaim(proof, claimID, data[0]);
     }
 
     function testBasicAllowlist() public {
-        bytes32[] memory data = merkle.generateData(4, 10_000);
+        uint256 size = 4;
+        uint256 units = 10_000;
+        bytes32[] memory data = merkle.generateData(size, units);
         bytes32 root = merkle.getRoot(data);
         bytes32[] memory proof = merkle.getProof(data, 2);
 
         uint256 claimID = 1;
 
-        assertTrue(merkle.createAllowlist(claimID, root));
+        merkle.createAllowlist(claimID, root, size * units);
 
-        assertTrue(merkle.isAllowedToClaim(proof, claimID, data[2]));
+        merkle.isAllowedToClaim(proof, claimID, data[2]);
+    }
+
+    function testLimitCheckUnits() public {
+        uint256 size = 4;
+        uint256 units = 10_000;
+        bytes32[] memory data = merkle.generateData(size, units);
+        bytes32 root = merkle.getRoot(data);
+
+        uint256 claimID = 1;
+
+        merkle.createAllowlist(claimID, root, size * units);
+
+        changePrank(address(1));
+        bytes32[] memory proof = merkle.getProof(data, 0);
+        merkle.processClaim(proof, claimID, units);
+
+        changePrank(address(2));
+        proof = merkle.getProof(data, 1);
+        merkle.processClaim(proof, claimID, units);
+
+        changePrank(address(3));
+        proof = merkle.getProof(data, 2);
+        merkle.processClaim(proof, claimID, units);
+
+        changePrank(address(4));
+        proof = merkle.getProof(data, 3);
+        vm.expectRevert(Errors.Invalid.selector);
+        merkle.processClaim(proof, claimID, units + 1);
     }
 
     function testBasicAllowlistFuzz(uint256 size) public {
         size = bound(size, 4, 5_000);
+        uint256 units = 10_000;
         bytes32[] memory data = merkle.generateData(size, 10_000);
         bytes32 root = merkle.getRoot(data);
         bytes32[] memory proof = merkle.getProof(data, 2);
 
         uint256 claimID = 1;
 
-        assertTrue(merkle.createAllowlist(claimID, root));
+        merkle.createAllowlist(claimID, root, size * units);
 
-        assertTrue(merkle.isAllowedToClaim(proof, claimID, data[2]));
+        merkle.isAllowedToClaim(proof, claimID, data[2]);
     }
 
     function testProcessClaimFuzz(uint256 size) public {
@@ -112,12 +154,14 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
 
         uint256 claimID = 1;
 
-        assertTrue(merkle.createAllowlist(claimID, root));
+        merkle.createAllowlist(claimID, root, size * value);
 
-        assertTrue(merkle.isAllowedToClaim(proof, claimID, data[2]));
+        changePrank(address(3));
 
-        assertTrue(merkle.processClaim(proof, claimID, value));
+        merkle.isAllowedToClaim(proof, claimID, data[2]);
 
-        assertTrue(merkle.hasBeenClaimed(claimID, data[2]));
+        merkle.processClaim(proof, claimID, value);
+
+        merkle.hasBeenClaimed(claimID, data[2]);
     }
 }
