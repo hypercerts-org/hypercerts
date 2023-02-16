@@ -181,6 +181,17 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         bytes memory data
     ) internal virtual override(SemiFungible1155) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+
+        // By-pass transfer restrictions for minting and burning
+        if (from == address(0)) {
+            // Minting
+            return;
+        } else if (to == address(0)) {
+            // Burning
+            return;
+        }
+
+        // Transfer case, where to and from are non-zero
         uint256 len = ids.length;
         for (uint256 i; i < len; ) {
             uint256 typeID = getBaseType(ids[i]);

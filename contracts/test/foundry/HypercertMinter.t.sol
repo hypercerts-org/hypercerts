@@ -111,4 +111,32 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
             IHypercertToken.TransferRestrictions.AllowAll
         );
     }
+
+    function testClaimTenFractionsDisallowAll() public {
+        uint256[] memory fractions = buildFractions(10);
+        uint256 totalUnits = getSum(fractions);
+        vm.expectEmit(true, true, true, true);
+        emit ClaimStored(1 << 128, _uri, totalUnits);
+        hypercertMinter.mintClaimWithFractions(
+            alice,
+            totalUnits,
+            fractions,
+            _uri,
+            IHypercertToken.TransferRestrictions.DisallowAll
+        );
+    }
+
+    function testClaimTenFractionsFromCreatorOnly() public {
+        uint256[] memory fractions = buildFractions(10);
+        uint256 totalUnits = getSum(fractions);
+        vm.expectEmit(true, true, true, true);
+        emit ClaimStored(1 << 128, _uri, totalUnits);
+        hypercertMinter.mintClaimWithFractions(
+            alice,
+            totalUnits,
+            fractions,
+            _uri,
+            IHypercertToken.TransferRestrictions.FromCreatorOnly
+        );
+    }
 }
