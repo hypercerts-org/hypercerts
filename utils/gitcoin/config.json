@@ -7,10 +7,10 @@
 	"hypercert_dapp_base_url": "https://hypercerts.pages.dev/app/create?",
 	"hosted_cid_base_url": "https://cloudflare-ipfs.com/ipfs/",
 	"ipfs_cids": {
-		"allowlist_base": "bafybeigcogqgin67mtssk5fhprxvvysk74lmki4i6eqk6iuurlvu4vzopm",
+		"allowlist_base": "bafybeigyqkmmmm6o7wjsqxn5mzincl4vb2fm4vctpbgvdmuoced55c4yke",
 		"default_artwork": "bafkreicchjbpbb2hfcg5mtmlz3zktf2wt5dnux2rzx33ta7b6bhrozlbgi",
-		"default_icon": "bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4",
-		"default_banner": "bafkreigkmcufguhakp4nbucca6d2rt7nw7ourdnkqfbs2gvsue4j4ohsly",
+		"default_banner": "bafkreifn5av7znw7c6fgwq7g5k4be56tutofdgqiatwm2edekewvdf5xqm",
+		"default_icon": "bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4",		
 		"hypercert_metadata_base": "bafybeicltzdgldgufzolh25umccbdelnxczhhtx7ecszjdtfnaemt7koum"
 	},
 	"gitcoin_settings": {
@@ -26,7 +26,7 @@
 		"path_to_safe_multisig_contract_data": "data/dune/Addresses_SafeMultisigs.csv",
 		"path_to_splits_contract_data": "data/dune/Addresses_0xSplits.csv",
 		"hosted_cid_base_url": "https://gitcoin.mypinata.cloud/ipfs/",
-		"resized_banner_base_url": "https://nftstorage.link/ipfs/bafybeie56eftit7aminzb7mtadxeyfgmyjhmcvtpzsbijydkcfen2tow4u/",
+		"resized_banner_base_url": "https://nftstorage.link/ipfs/bafybeif7mbvvgtmy5dwkcvmsw5c53p2xsy3bp5q23pnjrulqehgetmaqhu/",
 		"platform_name": "Gitcoin Grants",
     	"round_name":  "Alpha Round",
 		"default_dimensions": {

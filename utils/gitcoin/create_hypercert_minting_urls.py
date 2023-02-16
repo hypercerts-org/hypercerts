@@ -14,6 +14,8 @@ MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
 CSV_FILENAME = MD_FILENAME.replace(".md", ".csv")
 CID_HOST_URL = CONFIG["hosted_cid_base_url"]
 
+RESIZED_BANNER_URL = CONFIG["gitcoin_settings"]["resized_banner_base_url"]
+
 with open(CONFIG["gitcoin_settings"]["path_to_project_list"]) as projects_file:
     PROJECTS_DB = json.load(projects_file)
 
@@ -40,13 +42,14 @@ def cid_to_url(cid_with_fname):
 def create_url(metadata):
     
     base_url = CONFIG["hypercert_dapp_base_url"]
+    name = metadata['name']
     params = dict(
-        name = metadata['name'],
+        name = name,
         description = metadata['description'][:MAXLEN_DESCR],
 
         externalLink = metadata['external_url'],
         logoUrl = metadata['hidden_properties']['project_icon'],
-        bannerUrl = metadata['hidden_properties']['project_banner'],
+        bannerUrl = "".join([RESIZED_BANNER_URL, create_project_filename(name), ".png"]),
         backgroundColor = metadata['hidden_properties']['bg_color'],
         backgroundVectorArt = metadata['hidden_properties']['vector'],
         metadataProperties = json.dumps(metadata['properties']),

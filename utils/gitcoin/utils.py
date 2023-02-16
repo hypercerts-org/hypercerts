@@ -13,6 +13,7 @@ def shorten_address(a):
 
 def create_project_filename(project_name):
     filename = project_name.replace("/","-").replace(":", "-")
+    filename = filename.replace(" ","_")
     filename = filename if filename[0] != '.' else filename[1:]
     return filename
 
