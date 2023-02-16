@@ -2,7 +2,6 @@ import { BigNumber } from "ethers";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import {
-  useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
@@ -15,6 +14,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase-client";
 import { toast } from "react-toastify";
+import { useAccountLowerCase } from "./account";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
@@ -22,9 +22,9 @@ export const useMintFractionAllowlistBatch = ({
   onComplete?: () => void;
 }) => {
   const { setStep, showModal, hideModal } = useContractModal();
-  const { address } = useAccount();
+  const { address } = useAccountLowerCase();
 
-  const { data: claimIds } = useGetAllEligibility(address || "");
+  const { data: claimIds } = useGetAllEligibility(address ?? "");
   const parseBlockchainError = useParseBlockchainError();
 
   const [_units, setUnits] = useState<BigNumber[]>();

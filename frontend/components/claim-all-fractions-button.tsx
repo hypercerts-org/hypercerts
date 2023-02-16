@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+import { useAccountLowerCase } from "../hooks/account";
 import {
   useGetAllEligibility,
   useMintFractionAllowlistBatch,
@@ -13,9 +13,10 @@ export const ClaimAllFractionsButton = ({
   text: string;
   className?: string;
 }) => {
-  const { address } = useAccount();
+  const { address } = useAccountLowerCase();
+
   const router = useRouter();
-  const { data: claimIds } = useGetAllEligibility(address || "");
+  const { data: claimIds } = useGetAllEligibility(address ?? "");
   const { write } = useMintFractionAllowlistBatch({
     onComplete: () => {
       console.log("Minted all of them");

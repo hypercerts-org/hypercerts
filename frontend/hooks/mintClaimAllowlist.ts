@@ -76,7 +76,7 @@ export const useMintClaimAllowlist = ({
             const text = await data.text();
             const results = parseCsv(text);
             return results.map((row) => ({
-              address: row["address"],
+              address: row["address"].toLowerCase(),
               fraction: parseInt(row["fractions"], 10),
             }));
           },
