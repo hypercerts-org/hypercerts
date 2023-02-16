@@ -26,6 +26,7 @@
 		"path_to_safe_multisig_contract_data": "data/dune/Addresses_SafeMultisigs.csv",
 		"path_to_splits_contract_data": "data/dune/Addresses_0xSplits.csv",
 		"hosted_cid_base_url": "https://gitcoin.mypinata.cloud/ipfs/",
+		"resized_banner_base_url": "https://nftstorage.link/ipfs/bafybeie56eftit7aminzb7mtadxeyfgmyjhmcvtpzsbijydkcfen2tow4u/",
 		"platform_name": "Gitcoin Grants",
     	"round_name":  "Alpha Round",
 		"default_dimensions": {

@@ -12,6 +12,7 @@ OUT_DIR      = CONFIG["path_to_metadata_directory"]
 IPFS_CIDS    = CONFIG["ipfs_cids"]
 SETTINGS     = CONFIG["gitcoin_settings"]
 IMG_URL_BASE = SETTINGS["hosted_cid_base_url"]
+BANNER_URL   = SETTINGS["resized_banner_base_url"]
 ROUNDS       = SETTINGS["matching_pool_settings"]
 
 with open(SETTINGS["path_to_project_list"]) as projects_file:
@@ -54,7 +55,7 @@ def mapper(data, project_id):
 
     project_date     = int(str(project_data.get('createdAt', default_end_date))[:10])
     project_icon     = IMG_URL_BASE + project_data.get('logoImg', IPFS_CIDS["default_icon"])
-    project_banner   = IMG_URL_BASE + project_data.get('bannerImg', IPFS_CIDS["default_banner"])
+    project_banner   = BANNER_URL + create_project_filename(project_name) + ".png"
     allowlist_url    = IPFS_CIDS["allowlist_base"] + "/" + create_project_filename(project_name) + ".csv"
 
     funding_platform = SETTINGS["platform_name"]
