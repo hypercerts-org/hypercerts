@@ -302,20 +302,14 @@ contract SemiFungible1155 is
     /// @dev Not allowed to burn base type.
     /// @dev `_tokenID` must hold all value declared at base type
     function _burnValue(address _account, uint256 _tokenID) internal {
-        uint256 _typeID = getBaseType(_tokenID);
+        if (_account != _msgSender() && !isApprovedForAll(_account, _msgSender())) revert Errors.NotApprovedOrOwner();
 
-        uint256[] memory fromIDs = _getSingletonArray(_tokenID);
-        uint256[] memory toIDs = _getSingletonArray(0);
-        uint256[] memory amounts = _getSingletonArray(tokenValues[_tokenID]);
-
-        _beforeValueTransfer(_msgSender(), _account, fromIDs, toIDs, amounts, "");
+        uint256 value = tokenValues[_tokenID];
 
         delete tokenValues[_tokenID];
 
-        emit ValueTransfer(_typeID, _typeID, 0, tokenValues[_typeID]);
-        emit ValueTransfer(_typeID, _tokenID, 0, tokenValues[_tokenID]);
-
         _burn(_account, _tokenID, 1);
+        emit ValueTransfer(getBaseType(_tokenID), _tokenID, 0, value);
     }
 
     /// TRANSFERS
@@ -356,7 +350,7 @@ contract SemiFungible1155 is
             uint256 _to = toIDs[i];
 
             if (isBaseType(_from)) revert Errors.NotAllowed();
-            if (getBaseType(_to) > 0 && getBaseType(_from) != getBaseType(_to)) revert Errors.TypeMismatch();
+            if (getBaseType(_from) != getBaseType(_to)) revert Errors.TypeMismatch();
             if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors.NotApprovedOrOwner();
             unchecked {
                 ++i;
