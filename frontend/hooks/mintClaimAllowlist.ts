@@ -24,10 +24,8 @@ import { transferRestrictions } from "./mintClaim";
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
 ) => {
-  const tree = StandardMerkleTree.of(
-    pairs.map((p) => [p.address, p.fraction]),
-    ["address", "uint256"],
-  );
+  const tuples = pairs.map((p) => [p.address, p.fraction]);
+  const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as `0x{string}` };
 };

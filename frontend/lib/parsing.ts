@@ -4,11 +4,11 @@ import { assertNever } from "./common";
 
 export const parseCsv = (csv: string) => {
   const [headersRaw, ...rest] = csv.split("\n");
-  const headers = headersRaw.split(",");
+  const headers = headersRaw.split(",").map((x) => x.trim());
   return rest
-    .filter((row) => row !== "")
+    .filter((row) => row.trim() !== "")
     .map((row) => {
-      const values = row.split(",");
+      const values = row.split(",").map((x) => x.trim());
       return values.reduce(
         (result, value, currentIndex) => ({
           ...result,
