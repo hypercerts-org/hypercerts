@@ -1,7 +1,7 @@
 ---
-title: Minting guide
-id: minting-guide
-sidebar_position: 2
+title: Getting Started
+id: minting-guide-start
+sidebar_position: 1
 ---
 
 # Hypercerts Minting Guide
