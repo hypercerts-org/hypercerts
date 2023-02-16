@@ -11,11 +11,11 @@ import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
 import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk";
-import { useAccount } from "wagmi";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { parseListFromString } from "../lib/parsing";
+import { useAccountLowerCase } from "../hooks/account";
 
 /**
  * Constants
@@ -297,7 +297,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
 
 export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
   const { className, children } = props;
-  const { address } = useAccount();
+  const { address } = useAccountLowerCase();
   const { push } = useRouter();
   const { hideModal } = useContractModal();
 

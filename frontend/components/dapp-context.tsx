@@ -9,7 +9,6 @@ import {
   configureChains,
   createClient,
   WagmiConfig,
-  useAccount,
   useNetwork,
   Chain,
 } from "wagmi";
@@ -19,6 +18,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useAccountLowerCase } from "../hooks/account";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
@@ -48,7 +48,7 @@ export interface DappContextData {
 }
 
 export const DEFAULT_TEST_DATA: DappContextData = {
-  myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f",
+  myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f".toLowerCase(),
   defaultChainId: "5",
   chain: goerli,
   chains: ALL_CHAINS,
@@ -74,7 +74,7 @@ export function DappContext(props: DappContextProps) {
   } = props;
 
   const inEditor = React.useContext(PlasmicCanvasContext);
-  const { address } = useAccount();
+  const { address } = useAccountLowerCase();
   const { chain, chains } = useNetwork();
   const data: DappContextData =
     useTestData && testData && inEditor
