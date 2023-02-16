@@ -19,6 +19,8 @@ SETTINGS      = CONFIG["gitcoin_settings"]
 PROJECTS_PATH = SETTINGS["path_to_project_list"]
 ORIGINAL_PATH = SETTINGS["path_to_original_project_mapping_data"]
 
+RESIZED_BANNER_URL = SETTINGS["resized_banner_base_url"]
+
 process_dune_export = lambda path: list(pd.read_csv(path)['address'].str.lower())
 SAFES_LIST  = process_dune_export(SETTINGS["path_to_safe_multisig_contract_data"])
 SPLITS_LIST = process_dune_export(SETTINGS["path_to_splits_contract_data"])
@@ -40,14 +42,15 @@ def serialize_donor_stats(project_name):
 
 def serialize_project_info(project_name):
 
-    fname = create_project_filename(project_name) + ".json"
-    metadata = json.load(open(METADATA_DIR + fname))
+    fname = create_project_filename(project_name)
+    metadata = json.load(open(METADATA_DIR + fname + ".json"))
 
     return dict(
         projectWebsite=metadata['external_url'],
         projectGrantPage=metadata['hidden_properties']['gitcoin_grant_url'],
         projectLogoUrl=metadata['hidden_properties']['project_icon'],
-        projectBannerUrl=metadata['hidden_properties']['project_banner']
+        projectBannerUrl="".join([RESIZED_BANNER_URL, create_project_filename(fname), '.png']),
+        projectBannerUrlOriginal=metadata['hidden_properties']['project_banner']
     )
     
 

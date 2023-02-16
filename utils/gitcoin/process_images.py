@@ -69,7 +69,7 @@ if __name__ == "__main__":
     for matching_pool, grants_list in PROJECTS_DB.items():
         for grant in grants_list:
             name = grant['title']
-            uri = grant['projectBannerUrl']
+            uri = grant['projectBannerUrlOriginal']
             images.append(getsizes(uri, name))
 
     outpath = IMG_DIR + "image_data.json"
