@@ -1,6 +1,7 @@
 {
-  "name": "@network-goods/hypercerts-graph",
-  "license": "UNLICENSED",
+  "name": "@hypercerts-org/hypercerts-graph",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
   "scripts": {
     "codegen": "graph codegen",
     "coverage": "graph test -- -c",
@@ -15,5 +16,7 @@
     "@graphprotocol/graph-cli": "0.37.1",
     "@graphprotocol/graph-ts": "0.28.1"
   },
-  "devDependencies": { "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts" }
+  "devDependencies": {
+    "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts"
+  }
 }

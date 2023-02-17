@@ -1,5 +1,5 @@
 {
-  "name": "cors-proxy",
+  "name": "@hypercerts-org/cors-proxy",
   "version": "0.0.0",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230115.0",
