@@ -20,8 +20,11 @@ coverage/
 .eslintcache
 
 # builds
+out/
 build/
 .turbo/
+.next/
+.docusaurus/
 
 # files
 .DS_Store
@@ -35,3 +38,4 @@ coverage.json
 *.tsbuildinfo
 next-env.d.ts
 .idea/
+.vscode/

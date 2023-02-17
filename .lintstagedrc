@@ -1,0 +1,9 @@
+{
+  "**/*.{js,jsx,ts,tsx}": [
+    "eslint --ignore-path .gitignore",
+    "prettier --write --ignore-path .gitignore"
+  ],
+  "**/*.json": [
+    "prettier --write --ignore-path .gitignore"
+  ]
+}

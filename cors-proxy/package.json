@@ -9,7 +9,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "wrangler dev --port 3000",
+    "dev": "wrangler dev --port 3000",
     "deploy": "wrangler publish",
     "lint": "tsc --noEmit && eslint --ignore-path ../.gitignore --max-warnings 0 --cache --fix . && prettier --ignore-path ../.gitignore --loglevel warn --write .",
     "test": "vitest --run"
