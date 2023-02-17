@@ -105,10 +105,10 @@ contract HypercertMinterPausableTest is PRBTest, StdCheats, StdUtils, PausableTe
         hypercertMinter.createAllowlist(owner, 10, proofs[0], _uri, IHypercertToken.TransferRestrictions.AllowAll);
 
         vm.expectRevert("Pausable: paused");
-        hypercertMinter.splitValue(alice, 1, fractions);
+        hypercertMinter.splitFraction(alice, 1, fractions);
 
         vm.expectRevert("Pausable: paused");
-        hypercertMinter.burnValue(alice, 1);
+        hypercertMinter.burnFraction(alice, 1);
 
         vm.expectEmit(true, false, false, false);
 

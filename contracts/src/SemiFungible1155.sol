@@ -120,33 +120,37 @@ contract SemiFungible1155 is
         emit TransferSingle(_account, address(0), address(0), typeID, 0);
     }
 
-    /// @dev Mint a new token type and the initial value
-    function _mintValue(address _account, uint256 _value, string memory _uri) internal returns (uint256 typeID) {
-        if (_value == 0) {
+    /// @dev Mint a new token type and the initial units
+    function _mintNewTypeWithToken(
+        address _account,
+        uint256 _units,
+        string memory _uri
+    ) internal returns (uint256 typeID) {
+        if (_units == 0) {
             revert Errors.NotAllowed();
         }
-        typeID = _createTokenType(_account, _value, _uri);
+        typeID = _createTokenType(_account, _units, _uri);
 
         uint256 tokenID = typeID + ++maxIndex[typeID]; //1 based indexing, 0 holds type data
 
-        tokenValues[tokenID] = _value;
+        tokenValues[tokenID] = _units;
 
         _mint(_account, tokenID, 1, "");
-        emit ValueTransfer(typeID, 0, tokenID, _value);
+        emit ValueTransfer(typeID, 0, tokenID, _units);
     }
 
     /// @dev Mint a new token type and the initial fractions
-    function _mintValue(
+    function _mintNewTypeWithTokens(
         address _account,
-        uint256[] calldata _values,
+        uint256[] calldata _fractions,
         string memory _uri
     ) internal returns (uint256 typeID) {
-        typeID = _mintValue(_account, _getSum(_values), _uri);
-        _splitValue(_account, typeID + maxIndex[typeID], _values);
+        typeID = _mintNewTypeWithToken(_account, _getSum(_fractions), _uri);
+        _splitTokenUnits(_account, typeID + maxIndex[typeID], _fractions);
     }
 
     /// @dev Mint a new token for an existing type
-    function _mintClaim(address _account, uint256 _typeID, uint256 _units) internal returns (uint256 tokenID) {
+    function _mintToken(address _account, uint256 _typeID, uint256 _units) internal returns (uint256 tokenID) {
         if (!isBaseType(_typeID)) revert Errors.NotAllowed();
 
         _notMaxItem(maxIndex[_typeID]);
@@ -163,7 +167,7 @@ contract SemiFungible1155 is
 
     /// @dev Mint new tokens for existing types
     /// @notice Enables batch claiming from multiple allowlists
-    function _batchMintClaims(
+    function _batchMintTokens(
         address _account,
         uint256[] calldata _typeIDs,
         uint256[] calldata _units
@@ -194,7 +198,7 @@ contract SemiFungible1155 is
 
     /// @dev Split the units of `_tokenID` owned by `account` across `_values`
     /// @dev `_values` must sum to total `units` held at `_tokenID`
-    function _splitValue(address _account, uint256 _tokenID, uint256[] calldata _values) internal {
+    function _splitTokenUnits(address _account, uint256 _tokenID, uint256[] calldata _values) internal {
         if (_values.length > FRACTION_LIMIT || _values.length < 2) revert Errors.ArraySize();
         if (tokenValues[_tokenID] != _getSum(_values)) revert Errors.NotAllowed();
 
@@ -233,7 +237,7 @@ contract SemiFungible1155 is
             }
         }
 
-        _beforeValueTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
+        _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
 
         for (uint256 i; i < len; ) {
             valueLeft -= values[i];
@@ -254,7 +258,7 @@ contract SemiFungible1155 is
 
     /// @dev Merge the units of `_fractionIDs`.
     /// @dev Base type of `_fractionIDs` must be identical for all tokens.
-    function _mergeValue(address _account, uint256[] memory _fractionIDs) internal {
+    function _mergeTokensUnits(address _account, uint256[] memory _fractionIDs) internal {
         if (_fractionIDs.length > FRACTION_LIMIT || _fractionIDs.length < 2) {
             revert Errors.ArraySize();
         }
@@ -282,7 +286,7 @@ contract SemiFungible1155 is
             }
         }
 
-        _beforeValueTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
+        _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
 
         for (uint256 i; i < len; ) {
             _totalValue += values[i];
@@ -301,7 +305,7 @@ contract SemiFungible1155 is
     /// @dev Burn the token at `_tokenID` owned by `_account`
     /// @dev Not allowed to burn base type.
     /// @dev `_tokenID` must hold all value declared at base type
-    function _burnValue(address _account, uint256 _tokenID) internal {
+    function _burnToken(address _account, uint256 _tokenID) internal {
         if (_account != _msgSender() && !isApprovedForAll(_account, _msgSender())) revert Errors.NotApprovedOrOwner();
 
         uint256 value = tokenValues[_tokenID];
@@ -335,7 +339,7 @@ contract SemiFungible1155 is
         }
     }
 
-    function _beforeValueTransfer(
+    function _beforeUnitTransfer(
         address operator,
         address from,
         uint256[] memory fromIDs,

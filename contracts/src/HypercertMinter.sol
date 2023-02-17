@@ -45,7 +45,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     ) external override whenNotPaused {
         // This enables us to release this restriction in the future
         if (msg.sender != account) revert Errors.NotAllowed();
-        uint256 claimID = _mintValue(account, units, _uri);
+        uint256 claimID = _mintNewTypeWithToken(account, units, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
@@ -64,7 +64,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         //Using sum to compare units and fractions (sanity check)
         if (_getSum(fractions) != units) revert Errors.Invalid();
 
-        uint256 claimID = _mintValue(account, fractions, _uri);
+        uint256 claimID = _mintNewTypeWithTokens(account, fractions, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
@@ -79,7 +79,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256 units
     ) external whenNotPaused {
         _processClaim(proof, claimID, units);
-        _mintClaim(account, claimID, units);
+        _mintToken(account, claimID, units);
     }
 
     /// @notice Mint semi-fungible tokens representing a fraction of the claims in `claimIDs`
@@ -98,7 +98,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
                 ++i;
             }
         }
-        _batchMintClaims(account, claimIDs, units);
+        _batchMintTokens(account, claimIDs, units);
     }
 
     /// @notice Register a claim and the whitelist for minting token(s) belonging to that claim
@@ -119,24 +119,24 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Split a claimtokens value into parts with summed value equal to the original
     /// @dev see {IHypercertToken}
-    function splitValue(
+    function splitFraction(
         address _account,
         uint256 _tokenID,
-        uint256[] calldata _values
-    ) external override whenNotPaused {
-        _splitValue(_account, _tokenID, _values);
+        uint256[] calldata _newFractions
+    ) external whenNotPaused {
+        _splitTokenUnits(_account, _tokenID, _newFractions);
     }
 
     /// @notice Merge the value of tokens belonging to the same claim
     /// @dev see {IHypercertToken}
-    function mergeValue(address _account, uint256[] calldata _fractionIDs) external override whenNotPaused {
-        _mergeValue(_account, _fractionIDs);
+    function mergeFractions(address _account, uint256[] calldata _fractionIDs) external whenNotPaused {
+        _mergeTokensUnits(_account, _fractionIDs);
     }
 
     /// @notice Burn a claimtoken
     /// @dev see {IHypercertToken}
-    function burnValue(address _account, uint256 _tokenID) external override whenNotPaused {
-        _burnValue(_account, _tokenID);
+    function burnFraction(address _account, uint256 _tokenID) external whenNotPaused {
+        _burnToken(_account, _tokenID);
     }
 
     /// @dev see {IHypercertToken}
