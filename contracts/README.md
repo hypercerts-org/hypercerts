@@ -1,18 +1,13 @@
-# hypercerts-protocol [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# hypercerts-protocol [![Foundry][foundry-badge]][foundry] 
 
-[gha]: https://github.com/bitbeckers/foundry-infinitoken-poc/actions
-[gha-badge]: https://github.com/bitbeckers/foundry-infinitoken-poc/actions/workflows/ci.yml/badge.svg
 [foundry]: https://getfoundry.sh/
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
-[license]: https://opensource.org/licenses/MIT
-[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
 ## Contracts
 
 ### IHypercertToken
 
-This interface is the requirements set for hypercert compliant tokens. This enables developer to use their own prefered
-token implementation or standard.
+This interface is the requirements set for hypercert-compliant tokens. This enables developer to use their own preferred token implementation or standard.
 
 ### HypercertMinter
 
@@ -21,7 +16,9 @@ Example implementation for a hypercert token that is an `ERC1155 NFT` under the 
 #### Goerli
 
 HypercertMinter (UUPS Proxy) is deployed to proxy address:
-[0x94a04Ce2e537eaf2Bdabd629dE503797e7021E87](https://goerli.etherscan.io/address/0x94a04Ce2e537eaf2Bdabd629dE503797e7021E87#code)
+[0xf3528EED298e943652A41ed04bb9A48cA4969fE0](https://goerli.etherscan.io/address/0xf3528EED298e943652A41ed04bb9A48cA4969fE0#code)
+and managed by
+[0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)
 
 ## Usage
 
@@ -32,7 +29,7 @@ Here's a list of the most frequently needed commands.
 Build the contracts:
 
 ```sh
-$ forge build
+forge build
 ```
 
 ### Clean
@@ -40,7 +37,7 @@ $ forge build
 Delete the build artifacts and cache directories:
 
 ```sh
-$ forge clean
+forge clean
 ```
 
 ### Compile
@@ -48,31 +45,57 @@ $ forge clean
 Compile the contracts:
 
 ```sh
-$ forge build
+forge build
 ```
 
 ### Validate
 
-Validate contract upgradeability agains deployment.
+Validate contract upgradeability against deployment.
 
 For example `goerli` deployment:
 
-`yarn validate:upgrade --network goerli --proxy 0xcC08266250930E98256182734913Bf1B36102072`
+```sh
+yarn hardhat validate-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS
+```
 
 ### Deploy
 
-Deployment of the contract to EVM compatible net is managed by
-[OpenZeppelin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades). Primarily because of proxy
-management and safety checks.
+Deployment of the contract to EVM compatible net is managed by 
+[OpenZeppelin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades).
+Primarily because of proxy management and safety checks.
 
-Run: `yarn hardhat deploy --network goerli`
+```sh
+yarn build:release
+yarn hardhat deploy --network goerli
+```
+
+### Transfer ownership
+
+To transfer ownership of the proxy contract for upgrades, run the following:
+
+```sh
+yarn hardhat transfer-owner --network goerli --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
+```
+
+This is typically done to transfer control to a multi-sig (i.e. Gnosis Safe).
+
+### Propose Upgrade
+
+Propose an upgrade via OpenZeppelin Defender.
+For more information, see this 
+[guide](https://docs.openzeppelin.com/defender/guide-upgrades)
+
+```sh
+yarn build:release
+yarn hardhat propose-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS --multisig OWNER_MULTISIG_ADDRESS
+```
 
 ### Format
 
 Format the contracts with Prettier:
 
 ```sh
-$ yarn prettier
+yarn prettier
 ```
 
 ### Gas Usage
@@ -80,7 +103,7 @@ $ yarn prettier
 Get a gas report:
 
 ```sh
-$ forge test --gas-report
+forge test --gas-report
 ```
 
 ### Lint
@@ -88,7 +111,7 @@ $ forge test --gas-report
 Lint the contracts:
 
 ```sh
-$ yarn lint
+yarn lint
 ```
 
 ### Test
@@ -98,10 +121,5 @@ $ yarn lint
 Solidity tests are executed using Foundry Run the tests:
 
 ```sh
-$ forge test
-
+forge test
 ```
-
-## License
-
-[MIT](./LICENSE.md) © Paul Razvan Berg
