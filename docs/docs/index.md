@@ -45,10 +45,7 @@ Doing this would unfold powerful incentives. Retrospective funding 1) provides i
 
 While we are excited about the prospects of retrospective funding, hypercerts do not impose any specific funding mechanisms, but start with tracking the work that is supposed to be impactful. As a database for many funding mechanisms this facilitates experimentation and interoperability between funding mechanisms.
 
-### Background
-Want to get started right away? Head to the [minting guideminting-guide/index.md).
+### Next
+Curious and want to learn more? Head over to the [whitepaper](whitepaper/whitepaper-intro.md) to dive deeper into the world of hypercerts.
 
-Curious and want to learn more? Head over to the [whitepaperwhitepaper/index.md) to dive deeper into the world of hypercerts.
-
-> Want to work or interface with hypercerts at your project? Let's talk and change impact funding together!
-[hypercerts@protocol.ai](mailto:hypercerts@protocol.ai)
+Or do you want to get started right away? Head to the [minting guide](minting-guide/minting-guide-start.md).
