@@ -17,7 +17,9 @@
     "copy:docs": "mkdir -p ./build/docs/ && cp -r ./docs/build/* ./build/docs/",
     "copy:frontend": "mkdir -p ./build/ && cp -r ./frontend/out/* ./build/",
     "copy:html": "find build/ -name '*.html' -type f | grep -v index.html | sed s/\\.html$// | xargs -I _ bash -c 'mkdir -p _ && cp -v _.html _/index.html'",
+    "dev:cors-proxy": "turbo run dev --filter=cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=hypercerts-frontend --parallel",
+    "format:staged": "lint-staged",
     "lint": "turbo run lint",
     "serve:build": "yarn serve build",
     "test": "turbo run test",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
     "turbo": "^1.7.0"
   },
