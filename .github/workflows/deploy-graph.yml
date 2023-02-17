@@ -9,6 +9,8 @@ on:
   push:
     branches:
       - main 
+    paths:
+      - graph/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -29,11 +31,8 @@ jobs:
           cache: "yarn"
           node-version: "18.x"
       - name: Install
-        run: |
-          yarn install --immutable
+        run: yarn install --immutable
       - name: Build the subgraph
-        run: |
-          yarn build:graph
+        run: yarn build:graph
       - name: Deploy the subgraph
-        run: |
-          yarn deploy:graph
+        run: yarn deploy:graph

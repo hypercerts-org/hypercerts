@@ -23,7 +23,7 @@ For more details, check out our [website](https://hypercerts.org/).
   - [on Fleek](https://hypercerts.on.fleek.co/) - Production build on mainnet
   - [on Cloudflare](https://testnet.hypercerts.org) - Staging build on Goerli
 - `/graph`: The Graph integration
-  - [via GitHub actions]()
+  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-graph.yml)
 - `/sdk`: Hypercerts SDK
   - Manually published to npm
 - `/utils`: various scripts for operations
