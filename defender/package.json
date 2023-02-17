@@ -1,5 +1,5 @@
 {
-  "name": "hypercerts-defender",
+  "name": "@hypercerts-org/hypercerts-defender",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",

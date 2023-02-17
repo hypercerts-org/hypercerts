@@ -23,3 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 /.idea
+
+# thegraph
+# See https://github.com/graphprotocol/graph-network-subgraph/blob/master/.gitignore
+tests/.bin

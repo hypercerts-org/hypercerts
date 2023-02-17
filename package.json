@@ -2,14 +2,15 @@
   "name": "hypercerts",
   "description": "Scalable retrospective reward systems for impact",
   "version": "0.0.0",
-  "author": "Hypercerts team",
+  "author": "Hypercerts Foundation",
   "license": "Apache-2.0",
   "private": true,
   "workspaces": [
     "cors-proxy",
     "defender",
     "docs",
-    "frontend"
+    "frontend",
+    "graph"
   ],
   "scripts": {
     "build": "turbo run build",
@@ -22,6 +23,7 @@
     "dev:frontend": "turbo run dev --filter=hypercerts-frontend --parallel",
     "format:staged": "lint-staged",
     "lint": "turbo run lint",
+    "postinstall": "rm -rf graph/node_modules && ln -s ../node_modules graph/node_modules",
     "serve:build": "yarn serve build",
     "test": "turbo run test",
     "prepare": "husky install"
