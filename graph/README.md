@@ -1,1 +1,1 @@
-Graph deployment: https://thegraph.com/hosted-service/subgraph/bitbeckers/hypercerts-dev
+Graph deployment: https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet

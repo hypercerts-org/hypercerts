@@ -1,0 +1,39 @@
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: deploy-graph
+env:
+  SUBGRAPH_ACCESS_TOKEN: ${{ secrets.SUBGRAPH_ACCESS_TOKEN }}
+
+# Trigger the workflow when:
+on:
+  # A push occurs to one of the matched branches.
+  push:
+    branches:
+      - main 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-graph:
+    # NOTE: This name appears in GitHub's Checks API.
+    name: deploy-graph
+    environment: testnet 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: "18.x"
+      - name: Install
+        run: |
+          yarn install --immutable
+      - name: Build the subgraph
+        run: |
+          yarn build:graph
+      - name: Deploy the subgraph
+        run: |
+          yarn deploy:graph
