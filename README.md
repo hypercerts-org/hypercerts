@@ -1,5 +1,9 @@
-# hypercerts
-[![ci-default](https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml/badge.svg)](https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml)
+# hypercerts [![License: Apache 2.0][license-badge]][license] [![Github Actions][gha-badge]][gha]
+
+[license]: https://opensource.org/license/apache-2-0/
+[license-badge]: https://img.shields.io/badge/License-Apache2.0-blue.svg
+[gha]: https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml
+[gha-badge]: https://github.com/Network-Goods/hypercerts/actions/workflows/ci-default.yml/badge.svg
 
 Hypercerts are a tool to build scalable retrospective reward systems for impact.
 For more details, check out our [website](https://hypercerts.org/).

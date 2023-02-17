@@ -1,5 +1,8 @@
 import { task } from "hardhat/config";
 
+/**
+ * Used to upgrade a contract directly via local keys
+ */
 task("upgrade", "Upgrade implementation contract and verify")
   .addParam("proxy", "Provider proxy address")
   .setAction(async ({ proxy }, { ethers, upgrades }) => {
@@ -33,3 +36,19 @@ task("upgrade", "Upgrade implementation contract and verify")
       console.error(message);
     }
   });
+
+/**
+ * Used to propose a multi-sig upgrade via OpenZeppelin Defender
+ */
+task("propose-upgrade", "Propose an upgrade to OpenZeppelin Defender")
+  .addParam("proxy", "Proxy contract address")
+  .addParam("multisig", "Owner multisig address")
+  .setAction(async ({ proxy, multisig }, { ethers, upgrades }) => {
+    const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
+    console.log("Proposing upgrade..");
+    const proposal = await defender.proposeUpgrade(proxy, HypercertMinter, {
+      multisig
+    });
+    console.log("Upgrade proposal created at: ", proposal.url);
+  });
+

@@ -1,6 +1,7 @@
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
+import "@openzeppelin/hardhat-defender";
 import "@openzeppelin/hardhat-upgrades";
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -20,24 +21,22 @@ function getRemappings() {
     .map((line) => line.trim().split("="));
 }
 
+function requireEnv(value: string | undefined, identifier: string) {
+  if (!value) {
+    throw new Error(`Required env var ${identifier} does not exist`);
+  }
+  return value;
+};
+
 const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || "./.env";
 dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
-const mnemonic: string | undefined = process.env.MNEMONIC;
-if (!mnemonic) {
-  throw new Error("Please set your MNEMONIC in a .env file");
-}
-
-const infuraApiKey: string | undefined = process.env.INFURA_API_KEY;
-if (!infuraApiKey) {
-  throw new Error("Please set your INFURA_API_KEY in a .env file");
-}
-
-const etherscanApiKey: string | undefined = process.env.ETHERSCAN_API_KEY;
-if (!etherscanApiKey) {
-  throw new Error("Please set your INFURA_API_KEY in a .env file");
-}
+const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
+const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
+const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
+const ozApiKey = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
+const ozSecretKey = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
 
 const chainIds = {
   goerli: 5,
@@ -66,6 +65,10 @@ const config: HardhatUserConfig = {
     runOnCompile: true,
     clear: true,
     flat: true,
+  },
+  defender: {
+    apiKey: ozApiKey,
+    apiSecret: ozSecretKey,
   },
   dodoc: {
     runOnCompile: true,
