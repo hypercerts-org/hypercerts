@@ -51,7 +51,7 @@ Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0
 
 ### How do I create a hypercert?
 
-We've created a step-by-step guide in the documents, which you can find [here](./minting-guide/minting-guide-start.md). 
+We've created a step-by-step guide in the documents, which you can find [here](https://hypercerts.pages.dev/docs/minting-guide/minting-guide-start). 
 
 ### How do I create a hypercert from a multisig?
 
