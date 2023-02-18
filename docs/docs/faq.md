@@ -23,7 +23,7 @@ In conclusion, the similarities between hypercerts and other types of tokens are
 
 No. A hypercert is a claim over a discrete piece of work and the impact that may result from that work. It has no opinion about the legitimacy or quality of the claim. 
 
-An impact evaluation is an opionated assessment about the legitimacy or quality of a claim.
+An impact evaluation is an opinionated assessment about the legitimacy or quality of a claim.
 
 For example, a hypercert might represent "Planting trees in the Amazon in 2022". An impact evaluation might point to that hypercert and assert the percent of trees that survived, the amount of CO2 removed by the trees, or the income change among people living around the project.
 
