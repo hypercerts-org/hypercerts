@@ -35,7 +35,7 @@ In addition to the main link (see next field) you can add further links in the m
 
 #### Link
 
-A valid URL for the project, begining with https://
+A valid URL for the project, beginning with https://
 
 This will be displayed next to the hypercert on webpages like OpenSea and should link users to a page that has more information about the project or impact claim.
 
@@ -71,7 +71,7 @@ We recommend just a short form of the project name as a single tag. In most case
 
 The work time period defines when the work was done that the hypercert represents, i.e., only the work in this time period is included in the hypercert.
 
-The time period of work doesn't need to be the start and end date of a project, but it can be. One project can be splitted up into multiple hypercerts, e.g. all hypercerts can have the same `work scope`, but different time periods of work. Of course, the time periods are not allowed to overlap.
+The time period of work doesn't need to be the start and end date of a project, but it can be. One project can be split up into multiple hypercerts, e.g. all hypercerts can have the same `work scope`, but different time periods of work. Of course, the time periods are not allowed to overlap.
 
 ### Impact scope fields
 
@@ -116,7 +116,7 @@ The `price` field is denominated in ETH. This should remain at 0.0 for all hyper
 
 #### Rights
 
-This field define the rights that owners of the hypercert have over the work being claimed by this hypercert.
+This field defines the rights that owners of the hypercert have over the work being claimed by this hypercert.
 
 By default this is set to `Public Display`, i.e., the owners are allowed to publicly display the hypercert and show their support of the work.
 
