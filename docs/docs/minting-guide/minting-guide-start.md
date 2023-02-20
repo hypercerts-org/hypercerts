@@ -24,7 +24,7 @@ Anyone doing work that is intended to have a positive impact can create a hyperc
 
 It can also represent something more, such as a phase in an ongoing team project, an invention or discovery, a research publication, or an important software release.
 
-Critically, if the work was done by more that one person, then each person should be listed as a contributor to the hypercert and approve the creation of the hypercert.
+Critically, if the work was done by more than one person, then each person should be listed as a contributor to the hypercert and approve the creation of the hypercert.
 
 *Note: In the future, the approval of each contributor will be verified on-chain.*
 

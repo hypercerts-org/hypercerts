@@ -9,7 +9,7 @@ sidebar_position: 3
 ## Main Terms
 
 ### Allowlist
-A list that determine how fractions of hypercerts will be allocated to new owners. The current implementation requires a project to specify an allowlist at the time of minting its hypercert. Based on allowlists, designated new owners are able to claim their fractions.
+A list that determines how fractions of hypercerts will be allocated to new owners. The current implementation requires a project to specify an allowlist at the time of minting its hypercert. Based on allowlists, designated new owners are able to claim their fractions.
 
 ### Claiming a fraction
 Transferring the ownership of a fraction of a hypercert to a (new) owner. Generally 'claiming' implies minting a new token that represents said fraction by the new owner.
