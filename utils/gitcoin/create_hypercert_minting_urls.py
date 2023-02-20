@@ -115,7 +115,7 @@ def create_csv_export():
     with open(CSV_FILENAME, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(["Num", "Round", "Project", "Gitcoin Page", "Hypercert URL", "Fractions", 
-                         "Project Wallet Address",  "Wallet Type", "OpETH Balance"])
+                         "Project Wallet Address",  "Wallet Type", "Has Optimism?", "OpETH Balance"])
         for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
             for i, grant in enumerate(grants_list):
                 num = round((round_num+1) + ((i+1)/100),2)
@@ -131,7 +131,7 @@ def create_csv_export():
                     grant['fractionsTotalSupply'],
                     f"https://etherscan.io/address/{grant['address']}",
                     grant['addressType'],
-                    #grant['optimismAddressFound'],
+                    grant['optimismAddressFound'],
                     grant['optimismBalanceEth']
                 ])
     f.close()           
