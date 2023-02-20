@@ -68,9 +68,10 @@ const config = {
             label: "Docs",
           },
           {
-            href: "https://github.com/Network-Goods/hypercerts",
-            label: "GitHub",
+            type: "doc",
+            docId: "about",
             position: "right",
+            label: "About",
           },
           {
           type: 'dropdown',
@@ -88,9 +89,9 @@ const config = {
           ],
           },
           {
-            type: "docsVersionDropdown",
-            position: "left",
-            dropdownActiveClassDisabled: true,
+            href: "https://github.com/Network-Goods/hypercerts",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
