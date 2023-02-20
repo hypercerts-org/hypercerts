@@ -11,11 +11,14 @@
         ".next/**"
       ]
     },
+    "deploy": {
+      "dependsOn": ["build"]
+    },
     "dev": {
       "cache": false
     },
     "lint": {
-      "outputs": []
+      "cache": false
     },
     "test": {
       "cache": false

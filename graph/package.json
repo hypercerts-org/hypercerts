@@ -1,19 +1,25 @@
 {
-  "name": "@network-goods/hypercerts-graph",
-  "license": "UNLICENSED",
+  "name": "@hypercerts-org/hypercerts-graph",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
   "scripts": {
-    "codegen": "graph codegen",
+    "auth": "graph auth --product hosted-service $SUBGRAPH_ACCESS_TOKEN",
     "coverage": "graph test -- -c",
-    "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ bitbeckers/hypercerts-dev",
-    "create-local": "graph create --node http://localhost:8020/ bitbeckers/hypercerts-dev",
-    "remove-local": "graph remove --node http://localhost:8020/ bitbeckers/hypercerts-dev",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 bitbeckers/hypercerts-dev",
+    "build": "yarn build:graph && yarn build:codegen",
+    "build:graph": "graph build",
+    "build:codegen": "graph codegen",
+    "deploy": "yarn auth && yarn deploy:hosted",
+    "deploy:hosted": "graph deploy --node https://api.thegraph.com/deploy/ hypercerts-admin/hypercerts-testnet",
+    "create-local": "graph create --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
+    "remove-local": "graph remove --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hypercerts-admin/hypercerts-testnet",
     "test": "graph test"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.37.1",
     "@graphprotocol/graph-ts": "0.28.1"
   },
-  "devDependencies": { "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts" }
+  "devDependencies": {
+    "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts"
+  }
 }

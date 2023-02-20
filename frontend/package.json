@@ -1,16 +1,16 @@
 {
-  "name": "hypercerts-frontend",
+  "name": "@hypercerts-org/hypercerts-frontend",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "dev": "next",
     "build": "next build && next export",
+    "start": "serve out",
+    "dev": "next",
+    "lint": "tsc --noEmit && eslint --ignore-path .gitignore --max-warnings 0 . && prettier --ignore-path .gitignore --loglevel warn --check . && next lint",
     "preexport": "npm run build",
     "export": "next export",
-    "prestart": "npm run export",
-    "start": "serve out",
-    "lint": "tsc --noEmit && eslint --ignore-path .gitignore --max-warnings 0 --cache --fix . && prettier --ignore-path .gitignore --loglevel warn --write . && next lint"
+    "prestart": "npm run export"
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",

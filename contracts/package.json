@@ -1,15 +1,15 @@
 {
-  "name": "@network-goods/hypercerts-protocol",
+  "name": "@hypercerts-org/hypercerts-protocol",
   "description": "EVM compatible protocol for managing impact claims",
   "version": "0.0.9",
   "author": {
-    "name": "PL,GC,RC",
-    "url": "https://github.com/Network-Goods/hypercerts-protocol"
+    "name": "Hypercerts Foundation",
+    "url": "https://github.com/hypercerts-org/hypercerts"
   },
-  "homepage": "https://hypercerts.xyz",
-  "bugs": "https://github.com/Network-Goods/hypercerts-protocol/issues/new",
+  "homepage": "https://hypercerts.org",
+  "bugs": "https://github.com/hypercerts-org/hypercerts/issues/new",
   "repository": {
-    "url": "https://github.com/Network-Goods/hypercerts-protocol",
+    "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
   "devDependencies": {

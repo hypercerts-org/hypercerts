@@ -1,0 +1,33 @@
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: deploy-cors-proxy
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+# Trigger the workflow when:
+on:
+  # A push occurs to one of the matched branches.
+  push:
+    branches:
+      - main 
+    paths:
+      - cors-proxy/**
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-cors-proxy:
+    # NOTE: This name appears in GitHub's Checks API.
+    name: deploy-cors-proxy
+    environment: testnet 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Publish
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: 'cors-proxy'
+          command: publish

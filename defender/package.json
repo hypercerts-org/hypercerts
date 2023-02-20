@@ -1,13 +1,13 @@
 {
-  "name": "hypercerts-defender",
+  "name": "@hypercerts-org/hypercerts-defender",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "webpack",
     "deploy": "yarn build && yarn setup",
-    "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts",
-    "build": "webpack"
+    "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts"
   },
   "author": "",
   "license": "ISC",
