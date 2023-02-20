@@ -1,6 +1,6 @@
 ---
 title: Frequently Asked Questions
-id: FAQ
+id: faq
 ---
 
 # FAQs
@@ -17,17 +17,17 @@ Second, hypercerts have specific metadata requirements and interpretation logic.
 
 Third, the hypercerts token interface is intended to support several functions that are not possible out of the box with other token standards, chiefly, atomic split and merge capabilities. We also expect other protocols to work with hypercerts for the purposes of prospective and retrospective funding, contributor verification, and impact evaluation.
 
-In conclusion, the similarities between hypercerts and other types of tokens are mostly superficial. For certain use cases, POAPs or a custom flavor of Impact NFT may be better suited for projects.
+For certain use cases, POAPs may be better suited for projects as hypercerts are focused on the funding aspect of impactful work.
 
 ### Are hypercerts the same as impact evaluations?
 
-No. A hypercert is a claim over a discrete piece of work and the impact that may result from that work. It has no opinion about the legitimacy or quality of the claim. 
+No. A hypercert is a claim over a discrete piece of work and the impact that may result from that work. It has no opinion about the legitimacy or quality of the claim.
 
 An impact evaluation is an opionated assessment about the legitimacy or quality of a claim.
 
 For example, a hypercert might represent "Planting trees in the Amazon in 2022". An impact evaluation might point to that hypercert and assert the percent of trees that survived, the amount of CO2 removed by the trees, or the income change among people living around the project.
 
-Over time, the expectation is that hypercerts that attract multiple, high quality, credibly neutral impact evaluations will be more valuable than ones that do not.
+Over time, the expectation is that hypercerts that attract multiple, high quality, credibly neutral impact evaluations will be more relevant than ones that do not.
 
 ### What can I do with my hypercert?
 
@@ -39,7 +39,7 @@ Currently, it is only possible to purchase a hypercert from a creator or project
 
 ### What chain(s) is hypercerts running on?
 
-The hypercerts smart contracts have been deployed on Optimism and Goerli Testnet. We plan to support various EVM chains in the near future.
+The hypercerts smart contracts have been deployed on Goerli Testnet. Deployment on Optimism will follow shortly. We plan to support various EVM chains in the near future.
 
 ### How do I bridge to Optimism?
 
@@ -47,11 +47,11 @@ There are various bridging services including the official [Optimism Bridge](htt
 
 ### How do I get Goerli (testnet) ETH?
 
-Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0.2 ETH per day to registered users. 
+Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0.2 ETH per day to registered users.
 
 ### How do I create a hypercert?
 
-We've created a step-by-step guide in the documents, which you can find [here](https://hypercerts.pages.dev/docs/minting-guide/minting-guide-start). 
+We've created a step-by-step guide in the documents, which you can find [here](minting-guide/minting-guide-start).
 
 ### How do I create a hypercert from a multisig?
 
@@ -67,12 +67,12 @@ The interface supports both ERC-1155s and 721s. Our current implementation makes
 
 ### What are the required fields to generate a hypercert?
 
-There are six required dimensions:
+There are six required fields:
 
 1. Set of contributors: An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
-2. Scope of work: A conjunction of potentially-negated work scope tags, where an empty string means “all”:
+2. Scope of work: A conjunction of potentially-negated work scope tags, where an empty string means “all”.
 3. Time of work: A date range, from the start to the end of the work being claimed by this hypercert.
-4. Scope of impact: A conjunction of potentially-negated impact scope tags, where an empty string means “all”:
+4. Scope of impact: A conjunction of potentially-negated impact scope tags, where an empty string means “all”.
 5. Time of impact: Date ranges from the start to the end of the impact.
 6. Rights of the owners: An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert.
 
@@ -109,9 +109,6 @@ For example:
 
 If you contributed less than $1 DAI to a project, then you will not be eligible to claim a hypercert fraction.
 
-### How do I burn or retire a hypercert?
+### How do I retire a hypercert?
 
-We don't yet have a frontend for burning hypercerts but you can do this by interacting directly with the smart contract on Etherscan. 
-
-
-
+We don't yet have a frontend for retiring hypercerts but you can do this by interacting directly with the smart contract on Etherscan.

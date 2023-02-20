@@ -89,7 +89,7 @@ const sidebars = {
     },
     {
       type: 'doc',
-      id: 'FAQ',
+      id: 'faq',
     },
     {
       type: 'doc',
