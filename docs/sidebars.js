@@ -89,6 +89,10 @@ const sidebars = {
     },
     {
       type: 'doc',
+      id: 'FAQ',
+    },
+    {
+      type: 'doc',
       id: 'further-resources',
     },
   ],
