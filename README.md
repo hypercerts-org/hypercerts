@@ -13,9 +13,9 @@ For more details, check out our [website](https://hypercerts.org/).
 - `/contracts`: Smart contracts (Foundry+Hardhat)
   - Deployed manually via hardhat tasks
 - `/cors-proxy`: CORS proxy for Cloudflare Workers
-  - Manually deployed
+  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-cors-proxy.yml)
 - `/defender`: OpenZeppelin Defender integration
-  - Manually deployed
+  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-defender.yml)
 - `/docs`: documentation (Docusaurus)
   - [on Fleek](https://hypercerts.on.fleek.co/docs/) - Production build on mainnet
   - [on Cloudflare](https://testnet.hypercerts.org/docs) - Staging build on Goerli
