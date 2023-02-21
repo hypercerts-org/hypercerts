@@ -1,0 +1,40 @@
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: deploy-defender
+env:
+  OPENZEPPELIN_DEFENDER_ADMIN_API_KEY: ${{ secrets.OPENZEPPELIN_DEFENDER_ADMIN_API_KEY }}
+  OPENZEPPELIN_DEFENDER_ADMIN_API_SECRET: ${{ secrets.OPENZEPPELIN_DEFENDER_ADMIN_API_SECRET }}
+  CONTRACT_ADDRESS: ${{ vars.CONTRACT_ADDRESS }}
+
+# Trigger the workflow when:
+on:
+  # A push occurs to one of the matched branches.
+  push:
+    branches:
+      - main 
+    paths:
+      - defender/**
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-defender:
+    # NOTE: This name appears in GitHub's Checks API.
+    name: deploy-defender
+    environment: testnet 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: "18.x"
+      - name: Install
+        run: yarn install --immutable
+      - name: Build the autotasks
+        run: yarn build:defender
+      - name: Deploy to OpenZeppelin Defender
+        run: yarn deploy:defender

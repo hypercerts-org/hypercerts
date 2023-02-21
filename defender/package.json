@@ -1,7 +1,9 @@
 {
   "name": "@hypercerts-org/hypercerts-defender",
+  "description": "Manages OpenZeppelin Defender integrations for Hypercerts",
   "version": "0.0.1",
-  "description": "",
+  "author": "Hypercerts Foundation",
+  "license": "Apache-2.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,8 +11,6 @@
     "deploy": "yarn build && yarn setup",
     "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@network-goods/hypercerts-protocol": "^0.0.9",
     "@network-goods/hypercerts-sdk": "0.0.18",
