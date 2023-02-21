@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 import json
 import os
-import pandas as pd
 import requests
 
 
@@ -88,7 +87,7 @@ def get_grants_for_all_rounds():
 
             # Retrieve the project's IPFS data
             ipfs_data = retrieve_ipfs_file(grant['pointer'])
-            
+
             # Store the data
             data.append({
                 'projectId': grant['projectId'],
