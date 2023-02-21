@@ -80,6 +80,14 @@ enum Allowlist_orderBy {
   id
   root
   claim
+  claim__id
+  claim__creation
+  claim__tokenID
+  claim__contract
+  claim__uri
+  claim__creator
+  claim__owner
+  claim__totalUnits
 }
 
 scalar BigDecimal
@@ -195,6 +203,14 @@ enum ClaimToken_orderBy {
   id
   tokenID
   claim
+  claim__id
+  claim__creation
+  claim__tokenID
+  claim__contract
+  claim__uri
+  claim__creator
+  claim__owner
+  claim__totalUnits
   owner
   units
 }

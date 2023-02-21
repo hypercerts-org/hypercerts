@@ -4,7 +4,7 @@ import metadata from "./res/mockMetadata.js";
 import data from "./res/mockData.js";
 
 import { HypercertMetadata } from "../src/types/metadata.js";
-import { getIpfsGatewayUri } from "../src/operator/index.js";
+import { getNftStorageGatewayUri } from "../src/operator/index.js";
 
 const mockMetadata = JSON.parse(`
 {
@@ -28,7 +28,7 @@ const mockData = JSON.parse(`{
 
 const mockMetadataCid = "bafkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-const mockDataCid = "bafkreif5otrkydrrjbp532a75hkm5goefxv5rqg35d2wqm6oveht4hqto4";
+const mockDataCid = "bafybeifenmt2wocehkcslpk5gfrbxviymzwgfra24unt3xgs76snqsry2i";
 
 describe("IPFS Client", () => {
   /**
@@ -54,13 +54,12 @@ describe("IPFS Client", () => {
 
   it("Smoke test - get data", async () => {
     const data = await getData(mockDataCid);
-
     expect(data).to.deep.equal(mockData);
   });
 
   it("Removes ipfs:// prefix if present to get CID", () => {
-    const uriFromCid = getIpfsGatewayUri(mockDataCid);
-    const uriFromIpfsLink = getIpfsGatewayUri(`ipfs://${mockDataCid}`);
+    const uriFromCid = getNftStorageGatewayUri(mockDataCid);
+    const uriFromIpfsLink = getNftStorageGatewayUri(`ipfs://${mockDataCid}`);
     expect(uriFromCid).to.eq(uriFromIpfsLink);
   });
 });

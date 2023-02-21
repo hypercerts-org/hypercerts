@@ -1,66 +1,89 @@
+import axios from "axios";
 // @ts-ignore
 import { NFTStorage, CIDString, Blob } from "nft.storage";
+// @ts-ignore
+import { Web3Storage, File } from "web3.storage";
 import { HypercertMetadata } from "../types/metadata.js";
-import axios from "axios";
+import { FetchError, MalformedDataError } from "../errors.js";
 
-// NFT.Storage
+// Storage keys
 const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN ?? "MISSING_TOKEN";
+const WEB3_STORAGE_TOKEN = process.env.WEB3_STORAGE_TOKEN ?? "MISSING_TOKEN";
 
-export const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
+const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
+export const getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
-  const cid = cidOrIpfsUri.replace("ipfs://", "");
-  return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
+  return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
 };
 
 const defaultNftStorageClient = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+const defaultWeb3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
 
+/**
+ * Stores NFT metadata into NFT.storage
+ * @param data
+ * @param targetClient
+ * @returns
+ */
 export const storeMetadata = async (data: HypercertMetadata, targetClient?: NFTStorage): Promise<CIDString> => {
   console.log("Storing metadata: ", data);
   const client = targetClient ?? defaultNftStorageClient;
-
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
-
-  return await client.storeBlob(blob);
+  const cid = await client.storeBlob(blob);
+  return cid;
 };
 
-//TODO handle returned errors from gateway
+/**
+ * Retrieves NFT metadata from NFT.storage
+ * @param cidOrIpfsUri
+ * @returns
+ */
 export const getMetadata = async (cidOrIpfsUri: string): Promise<HypercertMetadata | null> => {
-  const nftStorageGatewayLink = getIpfsGatewayUri(cidOrIpfsUri);
+  const nftStorageGatewayLink = getNftStorageGatewayUri(cidOrIpfsUri);
   console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-
-  return axios
-    .get<HypercertMetadata>(nftStorageGatewayLink)
-    .then((result) => result.data)
-    .catch((err) => {
-      console.error(err);
-      return null;
-    });
+  return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
 };
 
-export const storeData = async (data: any, targetClient?: NFTStorage): Promise<CIDString> => {
-  const client = targetClient ?? defaultNftStorageClient;
-
+/**
+ * Store arbitrary JSON data into web3.storage
+ * - Even though web3.storage takes a list of files, we'll assume we're only storing 1 JSON blob
+ * - Because we pay for storage quotas, this data is stored best effort.
+ * - If you are using our default keys, we may delete older data if we hit our storage quota
+ * @param data
+ * @param targetClient
+ * @returns
+ */
+export const storeData = async (data: any, targetClient?: Web3Storage): Promise<CIDString> => {
+  const client = targetClient ?? defaultWeb3StorageClient;
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+  const files = [new File([blob], "data.json")];
   console.log("Storing blob of: ", data);
-
-  return await client.storeBlob(blob);
+  const cid = await client.put(files);
+  return cid;
 };
 
-//TODO risky method?
-export const getData = async (cidOrIpfsUri: string) => {
-  const nftStorageGatewayLink = getIpfsGatewayUri(cidOrIpfsUri);
-  console.log(`Getting  data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-  return axios
-    .get(nftStorageGatewayLink)
-    .then((result) => result.data)
-    .catch((err) => {
-      console.error(err);
-      return null;
-    });
-};
+/**
+ * Get arbitrary data from web3.storage
+ * @param cidOrIpfsUri
+ * @returns
+ */
+export const getData = async (cidOrIpfsUri: string, targetClient?: Web3Storage) => {
+  const client = targetClient ?? defaultWeb3StorageClient;
+  const cid = getCid(cidOrIpfsUri);
 
-export const deleteMetadata = async (cid: string, targetClient?: NFTStorage) => {
-  console.log(`Deleting metadata: ${cid}`);
-  const client = targetClient ?? defaultNftStorageClient;
-  return client.delete(cid);
+  // Get the data
+  const res = await client.get(cid);
+  if (!res.ok) {
+    throw new FetchError(`Failed to get ${cidOrIpfsUri}`);
+  }
+
+  // Assert there's only 1 file
+  const files = await res.files();
+  if (files.length !== 1) {
+    throw new MalformedDataError(`Expected 1 file but got ${files.length}`);
+  }
+  const dataStr = await files[0].text();
+  const data = JSON.parse(dataStr);
+  console.log(`Getting data ${cidOrIpfsUri}: `, data);
+  return data;
 };
