@@ -204,7 +204,6 @@ contract SemiFungible1155 is
 
         // Current token
         uint256 _typeID = getBaseType(_tokenID);
-        uint256 currentID = _tokenID;
         uint256 valueLeft = tokenValues[_tokenID];
 
         // Prepare batch processing, we want to skip the first entry
