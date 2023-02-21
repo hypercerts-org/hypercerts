@@ -12,12 +12,9 @@ from aiolimiter import AsyncLimiter
 load_dotenv()
 CHAINALYSIS_API_KEY = os.environ['CHAINALYSIS_API_KEY']
 
-with open("config.json") as config_file:
-    CONFIG = json.load(config_file)
-
 # currently configured to update directly to the same directory
-IN_DIR  = CONFIG["path_to_allowlist_directory"]
-OUT_DIR = CONFIG["path_to_allowlist_directory"]
+CONFIG   = json.load(open("config/config.json"))
+ALLOWLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
 
 # Allow-listing modules
 
@@ -61,12 +58,12 @@ async def batch_screen_allowlists(in_dir, out_dir):
     allowlist_paths = [p for p in os.listdir(in_dir) if p[-4:] == '.csv']
     for p in allowlist_paths:
         df = await screen_allowlist(in_dir+p)
-        if df:
+        if not df.empty:
             df.to_csv(out_dir+p)
 
 
 async def main():
-    await batch_screen_allowlists(IN_DIR, OUT_DIR)
+    await batch_screen_allowlists(ALLOWLIST_DIR, ALLOWLIST_DIR)
 
 
 asyncio.run(main())
