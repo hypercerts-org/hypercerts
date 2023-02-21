@@ -9,7 +9,6 @@ describe("Interface spec", () => {
       storeData: expect.any(Function),
       getMetadata: expect.any(Function),
       getData: expect.any(Function),
-      deleteMetadata: expect.any(Function),
     });
   });
 

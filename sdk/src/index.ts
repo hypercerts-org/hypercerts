@@ -1,18 +1,9 @@
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
 import { formatHypercertData } from "./formatter.js";
-import { storeMetadata, storeData, getMetadata, getData, deleteMetadata } from "./operator/index.js";
+import { storeMetadata, storeData, getMetadata, getData } from "./operator/index.js";
 
-export {
-  validateMetaData,
-  validateClaimData,
-  storeMetadata,
-  storeData,
-  getMetadata,
-  getData,
-  deleteMetadata,
-  formatHypercertData,
-};
+export { validateMetaData, validateClaimData, storeMetadata, storeData, getMetadata, getData, formatHypercertData };
 
 // Graph
 import { execute } from "./.graphclient/index.js";

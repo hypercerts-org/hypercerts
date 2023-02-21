@@ -28,7 +28,8 @@
     "mime": "^3.0.0",
     "nft.storage": "^7.0.0",
     "ts-jest": "^29.0.3",
-    "ts-mocha": "^10.0.0"
+    "ts-mocha": "^10.0.0",
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",
