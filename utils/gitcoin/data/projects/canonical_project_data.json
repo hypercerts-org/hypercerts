@@ -676,7 +676,7 @@
             "projectLogoUrl": "https://gitcoin.mypinata.cloud/ipfs/bafybeib7enyumre4jrfh4gxbefm2lposmkqyx5li2qlcpujw4kypp2dp5a",
             "projectBannerUrl": "https://nftstorage.link/ipfs/bafybeif7mbvvgtmy5dwkcvmsw5c53p2xsy3bp5q23pnjrulqehgetmaqhu/basin_-_perpetual_place-based_climate_&_nature_finance.png",
             "projectBannerUrlOriginal": "https://gitcoin.mypinata.cloud/ipfs/bafybeic5q22qe6moyydeqqhtidgkn3hxc6glq5zg7k4ncfeksy5pzvkarq",
-            "ens": null,
+            "ens": "basinllc.eth",
             "safeData": {}
         },
         {
@@ -2956,11 +2956,11 @@
                     "0xF23eA0b5F14afcbe532A1df273F7B233EBe41C78": "aminlatifi.eth"
                 },
                 "safeUsers": {
-                    "aminlatifi.eth": 0.13043478260869565,
-                    "griff.eth": 0.06521739130434782,
-                    "divinecomedian.eth": 0.05434782608695652,
-                    "geleeroyale.eth": 0.043478260869565216,
-                    "mateodaza.eth": 0.03260869565217391
+                    "aminlatifi.eth": 0.12903225806451613,
+                    "griff.eth": 0.06451612903225806,
+                    "divinecomedian.eth": 0.053763440860215055,
+                    "geleeroyale.eth": 0.043010752688172046,
+                    "mateodaza.eth": 0.03225806451612903
                 }
             }
         },

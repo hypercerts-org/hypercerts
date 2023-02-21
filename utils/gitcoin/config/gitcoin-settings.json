@@ -1,0 +1,26 @@
+{
+	"defaultDims": {
+		"workTimeStart": 1663819200,
+		"workTimeEnd": 1673829248,
+		"impactScopes": "all",
+		"impactTimeEnd": 0,
+		"rights": "Public Display"
+	},
+	"properties": {
+		"platformName": "Gitcoin Grants",
+		"fundingRoundName": "Alpha Round"
+	},
+	"resources": {
+		"grantExplorerBaseUrl": "https://grant-explorer.gitcoin.co/#/round/1/",
+		"hostedCidBaseUrl": "https://gitcoin.mypinata.cloud/ipfs/",
+		"subgraphId": "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr"
+	},
+	"localPaths": {
+		"duneSnapshots": [
+			"../data/csv/Donors_Climate.csv", 
+			"../data/csv/Donors_EthInfra.csv",   
+			"../data/csv/Donors_OSS.csv"
+		],
+		"workScopeOverrides": "../data/csv/Notion_WorkscopeOverrides.csv"
+	}
+}
