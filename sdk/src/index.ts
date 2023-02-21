@@ -23,11 +23,11 @@ import { fractionsByOwner, fractionsByClaim, fractionById } from "./fractions.js
 export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fractionsByClaim, fractionById };
 
 // Protocol
-import * as protocol from "@network-goods/hypercerts-protocol";
-
+import * as protocol from "@hypercerts-org/hypercerts-protocol";
 const { HyperCertMinterFactory, HypercertMinterABI } = protocol;
+import { TransferRestrictions } from "./minting.js";
 
-export { HyperCertMinterFactory, HypercertMinterABI };
+export { HyperCertMinterFactory, HypercertMinterABI, TransferRestrictions };
 
 // Types
 import type { HypercertClaimdata } from "./types/claimdata.js";

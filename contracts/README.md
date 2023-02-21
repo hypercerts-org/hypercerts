@@ -1,4 +1,4 @@
-# hypercerts-protocol [![Foundry][foundry-badge]][foundry] 
+# hypercerts-protocol [![Foundry][foundry-badge]][foundry]
 
 [foundry]: https://getfoundry.sh/
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
@@ -7,7 +7,8 @@
 
 ### IHypercertToken
 
-This interface is the requirements set for hypercert-compliant tokens. This enables developer to use their own preferred token implementation or standard.
+This interface is the requirements set for hypercert-compliant tokens. This enables developer to use their own preferred
+token implementation or standard.
 
 ### HypercertMinter
 
@@ -60,9 +61,9 @@ yarn hardhat validate-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS
 
 ### Deploy
 
-Deployment of the contract to EVM compatible net is managed by 
-[OpenZeppelin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades).
-Primarily because of proxy management and safety checks.
+Deployment of the contract to EVM compatible net is managed by
+[OpenZeppelin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades). Primarily because of proxy
+management and safety checks.
 
 ```sh
 yarn build:release
@@ -81,8 +82,7 @@ This is typically done to transfer control to a multi-sig (i.e. Gnosis Safe).
 
 ### Propose Upgrade
 
-Propose an upgrade via OpenZeppelin Defender.
-For more information, see this 
+Propose an upgrade via OpenZeppelin Defender. For more information, see this
 [guide](https://docs.openzeppelin.com/defender/guide-upgrades)
 
 ```sh
@@ -122,4 +122,10 @@ Solidity tests are executed using Foundry Run the tests:
 
 ```sh
 forge test
+```
+
+#### Analyze storage gaps
+
+```sh
+forge inspect HypercertMinter storageLayout --pretty
 ```

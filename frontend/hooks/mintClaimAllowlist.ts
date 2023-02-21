@@ -8,25 +8,25 @@ import {
 } from "wagmi";
 import {
   HypercertMetadata,
-  storeData,
-  storeMetadata,
+  TransferRestrictions,
 } from "@hypercerts-org/hypercerts-sdk";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { parseCsv } from "../lib/parsing";
-import { transferRestrictions } from "./mintClaim";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
+import { useAccountLowerCase } from "./account";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
 ) => {
   const tuples = pairs.map((p) => [p.address, p.fraction]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
-  const cid = await storeData(JSON.stringify(tree.dump()));
+  const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as `0x{string}` };
 };
 
@@ -47,6 +47,7 @@ export const useMintClaimAllowlist = ({
     complete: "Done minting",
   };
 
+  const { address } = useAccountLowerCase();
   const { setStep, showModal, hideModal } = useContractModal();
   const parseBlockchainError = useParseBlockchainError();
 
@@ -63,7 +64,10 @@ export const useMintClaimAllowlist = ({
     if (pairs) {
       // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
-      const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
+      const cid = await hypercertsStorage.storeMetadata({
+        ...metaData,
+        allowList: merkleCID,
+      });
       setCidUri(cid);
       setMerkleRoot(root);
       setUnits(_.sum(pairs.map((x) => x.fraction)));
@@ -84,7 +88,10 @@ export const useMintClaimAllowlist = ({
         const { cid: merkleCID, root } = await generateAndStoreTree(
           pairsFromCsv,
         );
-        const cid = await storeMetadata({ ...metaData, allowList: merkleCID });
+        const cid = await hypercertsStorage.storeMetadata({
+          ...metaData,
+          allowList: merkleCID,
+        });
         setCidUri(cid);
         setMerkleRoot(root);
         setUnits(_.sum(pairsFromCsv.map((x) => x.fraction)));
@@ -109,12 +116,14 @@ export const useMintClaimAllowlist = ({
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     args: [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      address! as `0x${string}`,
       BigNumber.from(_units || 0),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       merkleRoot!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
-      transferRestrictions.FromCreatorOnly,
+      TransferRestrictions.FromCreatorOnly,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",

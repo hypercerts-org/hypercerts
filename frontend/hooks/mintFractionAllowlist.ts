@@ -8,9 +8,10 @@ import {
 } from "wagmi";
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
-import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import { toast } from "react-toastify";
+import { useAccountLowerCase } from "./account";
 
 export const useMintFractionAllowlist = ({
   onComplete,
@@ -20,6 +21,7 @@ export const useMintFractionAllowlist = ({
   enabled: boolean;
 }) => {
   const { setStep, showModal } = useContractModal();
+  const { address } = useAccountLowerCase();
 
   const parseBlockchainError = useParseBlockchainError();
 
@@ -55,7 +57,7 @@ export const useMintFractionAllowlist = ({
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [_proof!, _claimId!, _units!],
+    args: [address! as `0x${string}`, _proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaimFromAllowlist",
     onError: (error) => {

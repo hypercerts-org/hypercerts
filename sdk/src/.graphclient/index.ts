@@ -922,7 +922,7 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
   const additionalTypeDefs = [] as any[];
   const hypercertsDevHandler = new GraphqlHandler({
     name: "hypercerts-dev",
-    config: { endpoint: "https://api.thegraph.com/subgraphs/name/bitbeckers/hypercerts-dev" },
+    config: { endpoint: "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet" },
     baseDir,
     cache,
     pubsub,
