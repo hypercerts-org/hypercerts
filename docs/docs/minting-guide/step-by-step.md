@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ## Step-by-step instructions
 
-First, go to the [Create Hypercert](https://hypercerts.vercel.app/hypercerts/create) site with a wallet-enabled browser or follow the custom URL you received to access a prepopulated form.
+First, go to the [Create Hypercert](https://hypercerts.org/app/create) site with a wallet-enabled browser or follow the custom URL you received to access a prepopulated form.
 
 Although the site works on mobile, it is easier to use on desktop because the browser will display a dynamic preview of the hypercert while you fill out the Create form.
 
