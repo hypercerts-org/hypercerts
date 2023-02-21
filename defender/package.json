@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@hypercerts-org/hypercerts-protocol": "^0.0.10",
-    "@hypercerts-org/hypercerts-sdk": "^0.0.25",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
