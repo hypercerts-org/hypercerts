@@ -16,8 +16,8 @@ export const getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
   return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
 };
 
-const defaultNftStorageClient = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-const defaultWeb3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
+export const defaultNftStorageClient = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+export const defaultWeb3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
 
 /**
  * Stores NFT metadata into NFT.storage
@@ -38,7 +38,7 @@ export const storeMetadata = async (data: HypercertMetadata, targetClient?: NFTS
  * @param cidOrIpfsUri
  * @returns
  */
-export const getMetadata = async (cidOrIpfsUri: string): Promise<HypercertMetadata | null> => {
+export const getMetadata = async (cidOrIpfsUri: string): Promise<HypercertMetadata> => {
   const nftStorageGatewayLink = getNftStorageGatewayUri(cidOrIpfsUri);
   console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
   return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
@@ -67,7 +67,7 @@ export const storeData = async (data: any, targetClient?: Web3Storage): Promise<
  * @param cidOrIpfsUri
  * @returns
  */
-export const getData = async (cidOrIpfsUri: string, targetClient?: Web3Storage) => {
+export const getData = async (cidOrIpfsUri: string, targetClient?: Web3Storage): Promise<any> => {
   const client = targetClient ?? defaultWeb3StorageClient;
   const cid = getCid(cidOrIpfsUri);
 
