@@ -5,7 +5,34 @@ id: faq
 
 # FAQs
 
-## General
+### How do I create a hypercert?
+
+We've created a step-by-step guide in the documents, which you can find [here](minting-guide/minting-guide-start).
+
+### How do I create a hypercert from a multisig?
+
+If you are creating a hypercert on Optimism, then you will need an Optimism-based multisig. (Unfortunately, Safe wallets created on Ethereum won't work on Optimism.)
+
+### How do I claim a hypercert? Can I claim all of the ones I’m eligible for at once?
+
+After you connect your wallet, you will see a dashboard of hypercerts that you can claim. You can either claim them individually or in a batch transaction. Note that if you perform the batch transaction you will automatically claim _all_ hypercerts you are allow-listed for. (You still pay a gas fee for each claim, however.) If you don't want to claim _all_ at once, then you should claim them one-by-one.
+
+### What token standard do Hypercerts utilize?
+
+The interface supports both ERC-1155s and 721s. Our current implementation makes use of [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) (a semi-fungible token).
+
+### What are the required fields to generate a hypercert?
+
+There are six required fields:
+
+1. Set of contributors: An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
+2. Scope of work: A conjunction of potentially-negated work scope tags, where an empty string means “all”.
+3. Time of work: A date range, from the start to the end of the work being claimed by this hypercert.
+4. Scope of impact: A conjunction of potentially-negated impact scope tags, where an empty string means “all”.
+5. Time of impact: Date ranges from the start to the end of the impact.
+6. Rights of the owners: An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert.
+
+Hypercerts also need a name and description.
 
 ### How is a hypercert different than a POAP or Impact NFT?
 
@@ -48,35 +75,6 @@ There are various bridging services including the official [Optimism Bridge](htt
 ### How do I get Goerli (testnet) ETH?
 
 Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0.2 ETH per day to registered users.
-
-### How do I create a hypercert?
-
-We've created a step-by-step guide in the documents, which you can find [here](minting-guide/minting-guide-start).
-
-### How do I create a hypercert from a multisig?
-
-If you are creating a hypercert on Optimism, then you will need an Optimism-based multisig. (Unfortunately, Safe wallets created on Ethereum won't work on Optimism.)
-
-### How do I claim a hypercert? Can I claim all of the ones I’m eligible for at once?
-
-After you connect your wallet, you will see a dashboard of hypercerts that you can claim. You can either claim them individually or in a batch transaction. Note that if you perform the batch transaction you will automatically claim _all_ hypercerts you are allow-listed for. (You still pay a gas fee for each claim, however.) If you don't want to claim _all_ at once, then you should claim them one-by-one.
-
-### What token standard do Hypercerts utilize?
-
-The interface supports both ERC-1155s and 721s. Our current implementation makes use of [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) (a semi-fungible token).
-
-### What are the required fields to generate a hypercert?
-
-There are six required fields:
-
-1. Set of contributors: An ordered list of all contributors, who claim to do or have done the work described by this hypercert.
-2. Scope of work: A conjunction of potentially-negated work scope tags, where an empty string means “all”.
-3. Time of work: A date range, from the start to the end of the work being claimed by this hypercert.
-4. Scope of impact: A conjunction of potentially-negated impact scope tags, where an empty string means “all”.
-5. Time of impact: Date ranges from the start to the end of the impact.
-6. Rights of the owners: An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert.
-
-Hypercerts also need a name and description.
 
 ### How much gas will it cost to create or claim a hypercert?
 
