@@ -7,8 +7,8 @@ from utils import create_project_filename
 
 
 CONFIG   = json.load(open("config/config.json"))
-ALLOWLIST_DIR = CONFIG["localPaths"]["donorlistDirectory"]
-DONORLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
+ALLOWLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
+DONORLIST_DIR = CONFIG["localPaths"]["donorlistDirectory"]
 DUNE_EXPORTS = CONFIG["localPaths"]["duneSnapshots"]
 
 
