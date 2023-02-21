@@ -14,13 +14,5 @@
 		"grantExplorerBaseUrl": "https://grant-explorer.gitcoin.co/#/round/1/",
 		"hostedCidBaseUrl": "https://gitcoin.mypinata.cloud/ipfs/",
 		"subgraphId": "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr"
-	},
-	"localPaths": {
-		"duneSnapshots": [
-			"../data/csv/Donors_Climate.csv", 
-			"../data/csv/Donors_EthInfra.csv",   
-			"../data/csv/Donors_OSS.csv"
-		],
-		"workScopeOverrides": "../data/csv/Notion_WorkscopeOverrides.csv"
 	}
 }

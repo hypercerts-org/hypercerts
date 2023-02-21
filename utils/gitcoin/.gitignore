@@ -6,5 +6,6 @@ __pycache__/
 *.sql
 *.pickle
 *.ipynb
+.ipynb_checkpoints/
 data/metadata/
 data/images/
