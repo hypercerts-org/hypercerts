@@ -81,7 +81,7 @@ contract SemiFungible1155MintingTest is PRBTest, StdCheats, StdUtils, SemiFungib
         // uint256 id
         // uint256 value
         vm.expectEmit(true, true, true, true);
-        emit TransferSingle(alice, address(0), address(0), _baseID, 1);
+        emit TransferSingle(alice, address(0), address(0), _baseID, 0);
         uint256 baseID = semiFungible.mintValue(alice, 10000, _uri);
 
         assertEq(baseID, _baseID);
@@ -102,7 +102,7 @@ contract SemiFungible1155MintingTest is PRBTest, StdCheats, StdUtils, SemiFungib
         uint256 _baseID = 1 << 128;
 
         vm.expectEmit(true, true, true, true);
-        emit TransferSingle(alice, address(0), address(0), _baseID, 1);
+        emit TransferSingle(alice, address(0), address(0), _baseID, 0);
         uint256 baseID = semiFungible.mintValue(alice, value, _uri);
 
         assertEq(baseID, _baseID);

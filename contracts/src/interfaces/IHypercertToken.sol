@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity 0.8.16;
 
 /// @title Interface for hypercert token interactions
 /// @author bitbeckers
@@ -36,15 +36,15 @@ interface IHypercertToken {
 
     /// @dev Function called to split `tokenID` owned by `account` into units declared in `values`.
     /// @notice The sum of `values` must equal the current value of `_tokenID`.
-    function splitValue(address account, uint256 tokenID, uint256[] memory _values) external;
+    function splitFraction(address account, uint256 tokenID, uint256[] memory _values) external;
 
     /// @dev Function called to merge tokens within `tokenIDs`.
     /// @notice Tokens that have been merged are burned.
-    function mergeValue(address account, uint256[] memory tokenIDs) external;
+    function mergeFractions(address account, uint256[] memory tokenIDs) external;
 
     /// @dev Function to burn the token at `tokenID` for `account`
     /// @notice Operator must be allowed by `creator` and the token must represent the total amount of available units.
-    function burnValue(address account, uint256 tokenID) external;
+    function burnFraction(address account, uint256 tokenID) external;
 
     /// @dev Returns the `units` held by a (fractional) token at `claimID`
     /// @dev If `tokenID` is a base type, the total amount of `units` for the claim is returned.

@@ -61,6 +61,16 @@ contract BatchMintingHelper is Merkle, ERC1155HolderUpgradeable {
         root = getRoot(data);
         return MerkleDataSet(users, units, data, root);
     }
+
+    function _getSum(uint256[] memory array) public pure returns (uint256 sum) {
+        uint256 len = array.length;
+        for (uint256 i; i < len; ) {
+            sum += array[i];
+            unchecked {
+                ++i;
+            }
+        }
+    }
 }
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
@@ -206,7 +216,13 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             ids[i] = (i + 1) << 128;
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
-            minter.createAllowlist(user, 10000, dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+            minter.createAllowlist(
+                user,
+                _getSum(units),
+                dataset.root,
+                _uri,
+                IHypercertToken.TransferRestrictions.AllowAll
+            );
         }
 
         startHoax(user, 10 ether);

@@ -28,27 +28,27 @@ contract SemiFungible1155Helper is SemiFungible1155, PRBTest, StdCheats, StdUtil
     }
 
     function mintValue(address user, uint256 value, string memory uri) public returns (uint256 tokenID) {
-        return _mintValue(user, value, uri);
+        return _mintNewTypeWithToken(user, value, uri);
     }
 
     function mintValue(address user, uint256[] calldata values, string memory uri) public returns (uint256 tokenID) {
-        return _mintValue(user, values, uri);
+        return _mintNewTypeWithTokens(user, values, uri);
     }
 
     function mintClaim(address account, uint256 typeID, uint256 units) public returns (uint256 tokenID) {
-        return _mintClaim(account, typeID, units);
+        return _mintToken(account, typeID, units);
     }
 
     function splitValue(address user, uint256 tokenID, uint256[] calldata values) public {
-        _splitValue(user, tokenID, values);
+        _splitTokenUnits(user, tokenID, values);
     }
 
     function mergeValue(address account, uint256[] memory tokenIDs) public {
-        _mergeValue(account, tokenIDs);
+        _mergeTokensUnits(account, tokenIDs);
     }
 
     function burnValue(address account, uint256 tokenID) public {
-        _burnValue(account, tokenID);
+        _burnToken(account, tokenID);
     }
 
     function unitsOf(uint256 tokenID) public view returns (uint256) {

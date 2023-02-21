@@ -9,10 +9,10 @@ import { SemiFungible1155Helper } from "./SemiFungibleHelper.sol";
 
 contract Bitshifter {
     /// @dev Bitmask used to expose only upper 128 bits of uint256
-    uint256 public constant TYPE_MASK = uint256(type(uint128).max) << 128;
+    uint256 public constant TYPE_MASK = type(uint256).max << 128;
 
     /// @dev Bitmask used to expose only lower 128 bits of uint256
-    uint256 public constant NF_INDEX_MASK = type(uint128).max;
+    uint256 public constant NF_INDEX_MASK = type(uint256).max >> 128;
 
     /// @dev Get index of fractional token at `_id` by returning lower 128 bit values
     /// @dev Returns 0 if `_id` is a baseType

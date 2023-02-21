@@ -51,7 +51,7 @@ contract SemiFungible1155BurnTest is PRBTest, StdCheats, StdUtils, SemiFungible1
 
         uint256 baseID = semiFungible.mintValue(alice, values, _uri);
 
-        vm.expectRevert(SemiFungible1155Helper.NotAllowed.selector);
+        vm.expectRevert("ERC1155: burn amount exceeds balance");
         semiFungible.burnValue(alice, baseID);
     }
 }

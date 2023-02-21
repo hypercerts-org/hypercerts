@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity 0.8.16;
 
 import { IHypercertToken } from "./interfaces/IHypercertToken.sol";
 import { SemiFungible1155 } from "./SemiFungible1155.sol";
@@ -42,8 +42,10 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256 units,
         string memory _uri,
         TransferRestrictions restrictions
-    ) external whenNotPaused {
-        uint256 claimID = _mintValue(msg.sender, units, _uri);
+    ) external override whenNotPaused {
+        // This enables us to release this restriction in the future
+        if (msg.sender != account) revert Errors.NotAllowed();
+        uint256 claimID = _mintNewTypeWithToken(account, units, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
@@ -56,8 +58,13 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256[] calldata fractions,
         string memory _uri,
         TransferRestrictions restrictions
-    ) external whenNotPaused {
-        uint256 claimID = _mintValue(msg.sender, fractions, _uri);
+    ) external override whenNotPaused {
+        // This enables us to release this restriction in the future
+        if (msg.sender != account) revert Errors.NotAllowed();
+        //Using sum to compare units and fractions (sanity check)
+        if (_getSum(fractions) != units) revert Errors.Invalid();
+
+        uint256 claimID = _mintNewTypeWithTokens(account, fractions, _uri);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
@@ -72,7 +79,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256 units
     ) external whenNotPaused {
         _processClaim(proof, claimID, units);
-        _mintClaim(account, claimID, units);
+        _mintToken(account, claimID, units);
     }
 
     /// @notice Mint semi-fungible tokens representing a fraction of the claims in `claimIDs`
@@ -91,12 +98,12 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
                 ++i;
             }
         }
-        _batchMintClaims(account, claimIDs, units);
+        _batchMintTokens(account, claimIDs, units);
     }
 
     /// @notice Register a claim and the whitelist for minting token(s) belonging to that claim
     /// @dev Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`
-    /// @dev Calls AlloslistMinter to store the `merkleRoot` as proof to authorize claims
+    /// @dev Calls AllowlistMinter to store the `merkleRoot` as proof to authorize claims
     function createAllowlist(
         address account,
         uint256 units,
@@ -105,36 +112,40 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         TransferRestrictions restrictions
     ) external whenNotPaused {
         uint256 claimID = _createTokenType(account, units, _uri);
-        _createAllowlist(claimID, merkleRoot);
+        _createAllowlist(claimID, merkleRoot, units);
         typeRestrictions[claimID] = restrictions;
         emit ClaimStored(claimID, _uri, units);
     }
 
     /// @notice Split a claimtokens value into parts with summed value equal to the original
     /// @dev see {IHypercertToken}
-    function splitValue(address _account, uint256 _tokenID, uint256[] calldata _values) external whenNotPaused {
-        _splitValue(_account, _tokenID, _values);
+    function splitFraction(
+        address _account,
+        uint256 _tokenID,
+        uint256[] calldata _newFractions
+    ) external whenNotPaused {
+        _splitTokenUnits(_account, _tokenID, _newFractions);
     }
 
     /// @notice Merge the value of tokens belonging to the same claim
     /// @dev see {IHypercertToken}
-    function mergeValue(address _account, uint256[] calldata _fractionIDs) external whenNotPaused {
-        _mergeValue(_account, _fractionIDs);
+    function mergeFractions(address _account, uint256[] calldata _fractionIDs) external whenNotPaused {
+        _mergeTokensUnits(_account, _fractionIDs);
     }
 
     /// @notice Burn a claimtoken
     /// @dev see {IHypercertToken}
-    function burnValue(address _account, uint256 _tokenID) external whenNotPaused {
-        _burnValue(_account, _tokenID);
+    function burnFraction(address _account, uint256 _tokenID) external whenNotPaused {
+        _burnToken(_account, _tokenID);
     }
 
     /// @dev see {IHypercertToken}
-    function unitsOf(uint256 tokenID) external view returns (uint256 units) {
+    function unitsOf(uint256 tokenID) external view override returns (uint256 units) {
         units = _unitsOf(tokenID);
     }
 
     /// @dev see {IHypercertToken}
-    function unitsOf(address account, uint256 tokenID) external view returns (uint256 units) {
+    function unitsOf(address account, uint256 tokenID) external view override returns (uint256 units) {
         units = _unitsOf(account, tokenID);
     }
 
@@ -152,7 +163,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @dev see { IHypercertMetadata}
     function uri(uint256 tokenID) public view override(IHypercertToken, SemiFungible1155) returns (string memory _uri) {
-        _uri = super.uri(tokenID);
+        _uri = SemiFungible1155.uri(tokenID);
     }
 
     /// TRANSFER RESTRICTIONS
@@ -179,7 +190,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(SemiFungible1155) {
+    ) internal virtual override {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
 
         // By-pass transfer restrictions for minting and burning
@@ -212,8 +223,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
      * variables without shifting down storage in the inheritance chain.
      * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
      * Assuming 30 available slots (slots cost space, cost gas)
-     * 1. name
-     * 2. typeRestrictions
+     * 1. typeRestrictions
      */
-    uint256[28] private __gap;
+    uint256[29] private __gap;
 }

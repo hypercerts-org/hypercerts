@@ -158,7 +158,7 @@ function createAllowlist(address account, uint256 units, bytes32 merkleRoot, str
 
 Register a claim and the whitelist for minting token(s) belonging to that claim
 
-*Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`Calls AlloslistMinter to store the `merkleRoot` as proof to authorize claims*
+*Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`Calls AllowlistMinter to store the `merkleRoot` as proof to authorize claims*
 
 #### Parameters
 

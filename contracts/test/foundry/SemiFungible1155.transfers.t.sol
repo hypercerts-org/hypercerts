@@ -77,7 +77,7 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
         semiFungible.validateNotOwnerNoBalanceNoUnits(baseID + tokenID, bob);
 
         // Bloack transfer ownership of impact claim 'data'
-        vm.expectRevert(SemiFungible1155Helper.NotAllowed.selector);
+        vm.expectRevert("ERC1155: insufficient balance for transfer");
         semiFungible.safeTransferFrom(alice, bob, baseID, 1, "");
 
         // Transfer ownership of hypercert
