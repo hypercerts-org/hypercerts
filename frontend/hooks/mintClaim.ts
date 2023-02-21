@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   HypercertMetadata,
-  storeMetadata,
+  TransferRestrictions,
 } from "@hypercerts-org/hypercerts-sdk";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
@@ -13,8 +13,10 @@ import {
 import { CONTRACT_ADDRESS } from "../lib/config";
 import { BigNumber } from "ethers";
 import { mintInteractionLabels } from "../content/chainInteractions";
-import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { toast } from "react-toastify";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
+import { useAccountLowerCase } from "./account";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [cidUri, setCidUri] = useState<string>();
@@ -26,6 +28,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     complete: "Done minting",
   };
 
+  const { address } = useAccountLowerCase();
   const { setStep, showModal } = useContractModal();
   const parseBlockchainError = useParseBlockchainError();
 
@@ -35,7 +38,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   ) => {
     setUnits(units);
     setStep("uploading");
-    const cid = await storeMetadata(metaData);
+    const cid = await hypercertsStorage.storeMetadata(metaData);
     setCidUri(cid);
   };
 
@@ -49,10 +52,12 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     args: [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      address! as `0x${string}`,
       BigNumber.from(units || 0),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
-      transferRestrictions.FromCreatorOnly,
+      TransferRestrictions.FromCreatorOnly,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",
@@ -115,9 +120,3 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     isReadyToWrite,
   };
 };
-
-export const transferRestrictions = {
-  AllowAll: 0,
-  DisallowAll: 1,
-  FromCreatorOnly: 2,
-} as const;

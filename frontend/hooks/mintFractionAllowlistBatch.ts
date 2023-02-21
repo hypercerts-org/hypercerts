@@ -8,7 +8,7 @@ import {
 } from "wagmi";
 import { useEffect, useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
-import { HyperCertMinterFactory } from "@network-goods/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { verifyFractionClaim } from "../lib/verify-fraction-claim";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import { useQuery } from "@tanstack/react-query";
@@ -73,6 +73,8 @@ export const useMintFractionAllowlistBatch = ({
     address: CONTRACT_ADDRESS,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      address! as `0x${string}`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       _proofs!,
       (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),

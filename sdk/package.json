@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/hypercerts-sdk",
-  "version": "0.0.21",
+  "version": "0.0.25",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "@graphprotocol/client-cli": "^2.2.15",
-    "@network-goods/hypercerts-protocol": "0.0.9",
+    "@hypercerts-org/hypercerts-protocol": "0.0.10",
     "@types/jest": "^29.2.5",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",

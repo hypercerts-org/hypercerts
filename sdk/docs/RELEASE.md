@@ -1,5 +1,23 @@
 # Release notes
 
+## 0.0.25
+
+* Remove meta-minting function temporarily
+
+## 0.0.24
+
+* Fix re-export from `@hypercerts-org/hypercerts-protocol`
+* Export `TransferRestrictions`
+
+## 0.0.23
+
+* Moved to `@hypercerts-org/hypercerts-protocol` v0.0.10
+
+## 0.0.22
+
+* Add HypercertsStorage class for explicit configurations (i.e. keys)
+* Move storeData and getData to use web3.storage
+
 ## 0.0.21
 
 * Change interface for `formatHypercertData()` to allow arbitrary strings for contributors

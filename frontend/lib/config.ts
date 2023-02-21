@@ -15,6 +15,16 @@ export const CONTRACT_ADDRESS = requireEnv(
   "NEXT_PUBLIC_CONTRACT_ADDRESS",
 ) as `0x${string}`;
 
+export const NFT_STORAGE_TOKEN = requireEnv(
+  process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
+  "NEXT_PUBLIC_NFT_STORAGE_TOKEN",
+);
+
+export const WEB3_STORAGE_TOKEN = requireEnv(
+  process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
+  "NEXT_PUBLIC_WEB3_STORAGE_TOKEN",
+);
+
 export const SUPABASE_URL = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   "NEXT_PUBLIC_SUPABASE_URL",

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import qs from "qs";
-import * as sdk from "@network-goods/hypercerts-sdk";
+import * as sdk from "@hypercerts-org/hypercerts-sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import {
   ClaimByIdQuery,

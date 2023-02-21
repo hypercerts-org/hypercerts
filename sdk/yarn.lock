@@ -1889,6 +1889,11 @@
     ws "*"
     xtend "^4.0.0"
 
+"@hypercerts-org/hypercerts-protocol@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-protocol/-/hypercerts-protocol-0.0.10.tgz#a7248d1ed35257996ac2451ed0a442ef9055ab7d"
+  integrity sha512-S2igvcBB5dxB+rHZnZ/9GySJj8lKmREohQDXNJC3HGX58dJPdCwS4U+QduD/neVbMM3drZedIFtVKmxbBPb+8g==
+
 "@ipld/car@^3.0.1", "@ipld/car@^3.1.4", "@ipld/car@^3.2.3":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@ipld/car/-/car-3.2.4.tgz#115951ba2255ec51d865773a074e422c169fb01c"
@@ -2978,11 +2983,6 @@
   dependencies:
     multiformats "^10.0.2"
     murmurhash3js-revisited "^3.0.0"
-
-"@network-goods/hypercerts-protocol@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@network-goods/hypercerts-protocol/-/hypercerts-protocol-0.0.9.tgz#515ce10092515ee25036fdd627719954da2d7621"
-  integrity sha512-C4CtUQf3F0sj48IgaNb/E5KanhxIeLA4e9fBR1xKcdf+DicZBxCYlWfzp4jyiEn7oo27Un0fZXhRgj4D4ZQH1A==
 
 "@noble/ed25519@^1.5.1":
   version "1.7.3"
