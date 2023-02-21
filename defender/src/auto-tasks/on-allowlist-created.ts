@@ -3,7 +3,7 @@ import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
 import fetch from "node-fetch";
 
 import { createClient } from "@supabase/supabase-js";
-import { abi } from "../HypercertMinterABI.js";
+import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import axios from "axios";
 
@@ -46,7 +46,7 @@ export async function handler(event: AutotaskEvent) {
     .getDefaultProvider("goerli")
     .getTransaction(match.hash);
 
-  const contractInterface = new ethers.utils.Interface(abi);
+  const contractInterface = new ethers.utils.Interface(HypercertMinterABI);
   const decodedData = contractInterface.parseTransaction({
     data: tx.data,
     value: tx.value,
