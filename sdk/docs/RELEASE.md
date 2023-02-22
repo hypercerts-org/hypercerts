@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.0.26
+
+* Fix TransferRestrictions enum
+* Add Optimism network, but still hardcoding to Goerli
+
 ## 0.0.25
 
 * Remove meta-minting function temporarily

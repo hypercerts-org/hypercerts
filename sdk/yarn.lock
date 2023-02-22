@@ -1121,6 +1121,14 @@
     lodash "4.17.21"
     tslib "^2.4.0"
 
+"@graphprotocol/client-add-source-name@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/client-add-source-name/-/client-add-source-name-1.0.16.tgz#6faa733aaae93fd7ef87b1893350d3d5856c291f"
+  integrity sha512-LBlgUn3UJgT5Fmwy6OEx4Me5Il8PVKHGNqVimNZnPlgpyTCC1fiIZbalmGcxwfbloJSCCGs7f29/K7btjJ5reA==
+  dependencies:
+    lodash "4.17.21"
+    tslib "^2.4.0"
+
 "@graphprotocol/client-auto-pagination@1.1.12":
   version "1.1.12"
   resolved "https://registry.yarnpkg.com/@graphprotocol/client-auto-pagination/-/client-auto-pagination-1.1.12.tgz#76a1496dd08525baa1c9176e8404f821af1ffda8"

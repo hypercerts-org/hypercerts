@@ -33,6 +33,6 @@ export const mintHypercertToken = async (
 
 export const TransferRestrictions = {
   AllowAll: 0,
-  FromCreatorOnly: 1,
-  DisallowAll: 2,
+  DisallowAll: 1,
+  FromCreatorOnly: 2,
 } as const;
