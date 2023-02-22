@@ -6,12 +6,10 @@ import pandas as pd
 from utils import create_project_filename
 
 
-with open("config.json") as config_file:
-    CONFIG = json.load(config_file)
-
-DUNE_EXPORTS  = CONFIG["gitcoin_settings"]["path_to_dune_snapshots"]
-ALLOWLIST_DIR = CONFIG["path_to_allowlist_directory"]
-DONORLIST_DIR = CONFIG["path_to_donorlist_directory"]
+CONFIG   = json.load(open("config/config.json"))
+ALLOWLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
+DONORLIST_DIR = CONFIG["localPaths"]["donorlistDirectory"]
+DUNE_EXPORTS = CONFIG["localPaths"]["duneSnapshots"]
 
 
 # Functions for assigning hypercert fractions based on contribution amounts

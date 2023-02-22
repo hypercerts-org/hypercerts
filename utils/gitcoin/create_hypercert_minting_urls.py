@@ -3,23 +3,26 @@ import json
 import os
 import urllib.parse
 
-from utils import create_project_filename, datify
+from utils import create_project_filename
 
 
-with open("config.json") as config_file:
-    CONFIG = json.load(config_file)
+CONFIG          = json.load(open("config/config.json"))
+SETTINGS        = json.load(open("config/gitcoin-settings.json"))
+JSONDATA_PATH   = CONFIG["localPaths"]["canonicalDataset"]
+PROJECTS_DB     = sorted(json.load(open(JSONDATA_PATH)), key=lambda d: d['roundName'])
 
-METADATA_DIR = CONFIG["path_to_metadata_directory"]
-MD_FILENAME  = CONFIG["path_to_project_urls_markdown"]
-CSV_FILENAME = MD_FILENAME.replace(".md", ".csv")
-CID_HOST_URL = CONFIG["hosted_cid_base_url"]
+EXPORTS_DIR     = CONFIG["localPaths"]["exportsDirectory"]
+LOGO_IMG_BASE   = SETTINGS["resources"]["hostedCidBaseUrl"]
+BACKUP_LOGO_CID = SETTINGS["defaultArt"]["icon"]
+ALLOWLISTS_BASE = CONFIG["allowlistBaseUrl"]
+BANNER_IMG_BASE = CONFIG["bannerImageBaseUrl"]
+DAPP_BASE_URL   = CONFIG["hypercertCreateUrl"]
+ERC1155_PROPS   = SETTINGS["properties"]
 
-RESIZED_BANNER_URL = CONFIG["gitcoin_settings"]["resized_banner_base_url"]
+ROUNDS          = json.load(open("config/rounds-list.json"))
+ROUND_MAPPINGS  = {r["roundId"]: r for r in ROUNDS}
 
-with open(CONFIG["gitcoin_settings"]["path_to_project_list"]) as projects_file:
-    PROJECTS_DB = json.load(projects_file)
-
-MAXLEN_DESCR = 1400
+MAXLEN_DESCR    = 1000
 
 
 def url_parse(val):
@@ -28,112 +31,109 @@ def url_parse(val):
 
 def safe_url_attr(name, value):
     parser = lambda k,v: url_parse(k) + '=' + url_parse(v)
-    if isinstance(value, set):
+    if isinstance(value, list):
         url_field = "&".join([parser(f"{name}[{i}]", x) for (i, x) in enumerate(value)])
     else:
         url_field = parser(name, value)
     return url_field
 
 
-def cid_to_url(cid_with_fname):
-    return CID_HOST_URL + url_parse(cid_with_fname)
+def edit_description(text):
+    if len(text) > MAXLEN_DESCR:
+        text = "\n".join([
+            f"** Your description was truncated because it exceeded {MAXLEN_DESCR} chars. **",
+            "** Please review and provide a new description for your hypercert. **\n",
+            text[:MAXLEN_DESCR]
+        ])
+    return text
 
 
-def create_url(metadata):
+def create_url(project):
     
-    base_url = CONFIG["hypercert_dapp_base_url"]
-    name = metadata['name']
+    name = project['title']
+    filename = create_project_filename(name)
+    logo_cid = project["projectLogoCid"] if project["projectLogoCid"] else BACKUP_LOGO_CID
+    round_id = project['roundId']
+    round_data = ROUND_MAPPINGS[round_id]
+    properties = ERC1155_PROPS.copy()
+    properties.append({'matching_pool': project['roundName']})
     params = dict(
         name = name,
-        description = metadata['description'][:MAXLEN_DESCR],
-
-        externalLink = metadata['external_url'],
-        logoUrl = metadata['hidden_properties']['project_icon'],
-        bannerUrl = "".join([RESIZED_BANNER_URL, create_project_filename(name), ".png"]),
-        backgroundColor = metadata['hidden_properties']['bg_color'],
-        backgroundVectorArt = metadata['hidden_properties']['vector'],
-        metadataProperties = json.dumps(metadata['properties']),
-
-        workScopes = ",".join(metadata['hypercert']['work_scope']['value']),
-        workTimeStart = datify(metadata['hypercert']['work_timeframe']['start_value']),
-        workTimeEnd = datify(metadata['hypercert']['work_timeframe']['end_value']),
-        
-        impactScopes = set(metadata['hypercert']['impact_scope']['value']),
-        #impactTimeStart = datify(metadata['hypercert']['impact_timeframe']['start_value']),
-        impactTimeEnd = datify(metadata['hypercert']['impact_timeframe']['end_value']),
-        
-        contributors = ",".join(metadata['hypercert']['contributors']['value']),
-        rights = set(metadata['hypercert']['rights']['value']),    
-        allowlistUrl = cid_to_url(metadata['hidden_properties']['allowlist'])
+        **project['hypercertData'],
+        description = edit_description(project['projectDescription']),
+        externalLink = project["projectWebsite"],
+        logoUrl = LOGO_IMG_BASE + logo_cid,
+        bannerUrl = "".join([BANNER_IMG_BASE, filename, ".png"]),
+        allowlistUrl = "".join([ALLOWLISTS_BASE, filename, ".csv"]),
+        metadataProperties = json.dumps(properties),
+        backgroundColor = round_data['backgroundColor'],
+        backgroundVectorArt = round_data['backgroundVectorArt'],
     )
-    
     params = "&".join([safe_url_attr(k,v) for (k,v) in params.items()])
-    url = base_url + params
+    url = DAPP_BASE_URL + params
+    
     return url
 
 
-def create_markdown_row(grant_data, hypercert_metadata, minting_url):
+def create_markdown_row(project):
 
-    name = grant_data['title']
-    fname = create_project_filename(name)    
-    allowlist_csv = cid_to_url(hypercert_metadata['hidden_properties']['allowlist'])
-    if len(hypercert_metadata['description']) >= MAXLEN_DESCR:
+    name = project['title']
+    filename = create_project_filename(name)    
+    allowlist_csv = "".join([ALLOWLISTS_BASE, filename, ".csv"])
+    minting_url = create_url(project)
+
+    if len(project['projectDescription']) >= MAXLEN_DESCR:
         flag = f"Description length"
     else:
         flag = ""
     
     return "|".join([
         name.replace("|","∙"),
-        "∙".join([
-            f"[Gitcoin]({grant_data['projectGrantPage']})",
-            f"[Hypercert]({minting_url})",
-        ]),
-        f"[{grant_data['fractionsTotalSupply']}]({allowlist_csv})",
+        f"[Hypercert]({minting_url})",
+        f"[{project['fractionsTotalSupply']}]({allowlist_csv})",
         flag
     ])
 
 
 def create_markdown_export():
 
-    with open(MD_FILENAME, 'w') as f:
-        for matching_pool, grants_list in PROJECTS_DB.items():
-            f.write(f"# {matching_pool}\n")
+    md_filename = EXPORTS_DIR + "project_urls.md"
+    with open(md_filename, 'w') as f:
+        
+        matching_pool = ""
+        pool_count = 0
+        for project in PROJECTS_DB:
+            if matching_pool != project['roundName']:
+                pool_count += 1
+                matching_pool = project['roundName']
+                f.write(f"#\n\n{matching_pool}\n")
+
             f.write("| Num | Project | Project Links | Fractions | Flags |\n")
             f.write("| --- | ------- | ------------- | --------- | ----- |\n")
-            for i, grant in enumerate(grants_list):
-                fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
-                metadata = json.load(open(fname))
-                url = create_url(metadata)
-                markdown = create_markdown_row(grant, metadata, url)
-                num = str(i+1).zfill(2)
-                f.write(f"{num}|{markdown}|\n")
-            f.write("\n\n")
+            markdown = create_markdown_row(project)
+            num = str(pool_count+1).zfill(2)
+            f.write(f"{num}|{markdown}|\n")
+    
     f.close()
 
 
 def create_csv_export():
-    with open(CSV_FILENAME, 'w') as f:
+
+    csv_filename = EXPORTS_DIR + "project_urls.csv"
+    with open(csv_filename, 'w') as f:
+
         writer = csv.writer(f)
-        writer.writerow(["Num", "Round", "Project", "Gitcoin Page", "Hypercert URL", "Fractions", 
-                         "Project Wallet Address",  "Wallet Type", "Has Optimism?", "OpETH Balance"])
-        for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
-            for i, grant in enumerate(grants_list):
-                num = round((round_num+1) + ((i+1)/100),2)
-                fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
-                metadata = json.load(open(fname))
-                url = create_url(metadata)
-                writer.writerow([
-                    num,
-                    matching_pool,
-                    grant['title'].replace(",", ""),
-                    grant['projectGrantPage'],
-                    url,
-                    grant['fractionsTotalSupply'],
-                    f"https://etherscan.io/address/{grant['address']}",
-                    grant['addressType'],
-                    grant['optimismAddressFound'],
-                    grant['optimismBalanceEth']
-                ])
+        cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType',                
+                'fundingTotalDollars', 'donorsTotal', 'fractionsTotalSupply', 'hypercertEligibleDonors',
+                'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
+        writer.writerow(cols)
+
+        for project in PROJECTS_DB:
+            p = project.copy()
+            p['mintingUrl'] = create_url(project)
+            p['address'] = "https://etherscan.io/address/" + project['address']
+            writer.writerow([p[c] for c in cols])
+
     f.close()           
 
 
@@ -159,7 +159,6 @@ def create_html_export():
     <body>
     <table>
         <tr>
-          <th>Num</th>
           <th>Round</th>
           <th>Project</th>
           <th>Logo</th>
@@ -168,7 +167,6 @@ def create_html_export():
           <th>Fractions</th>
           <th>Project Wallet Address</th>
           <th>Wallet Type</th>
-          <th>OpETH Balance</th>
         </tr>
       '''
 
@@ -177,36 +175,33 @@ def create_html_export():
     td = lambda row: f"<td>{row}</td>"
     body = []
 
-    for round_num, (matching_pool, grants_list) in enumerate(PROJECTS_DB.items()):
-        for i, grant in enumerate(grants_list):
-            num = round((round_num+1) + ((i+1)/100),2)
-            fname = METADATA_DIR + create_project_filename(grant['title']) + ".json"
-            metadata = json.load(open(fname))
+    for project in PROJECTS_DB:
             
-            grantName = grant['title']
-            grantPage = grant['projectGrantPage']
-            url = create_url(metadata)
-            logo = grant['projectLogoUrl']
-            banner = grant['projectBannerUrl']
-            address = grant['address']
+            grantName = project['title']
+            filename = create_project_filename(grantName)
+            grantPage = project['projectWebsite']            
+            logo_cid = project["projectLogoCid"] if project["projectLogoCid"] else BACKUP_LOGO_CID
+            logo = LOGO_IMG_BASE + logo_cid
+            banner = "".join([BANNER_IMG_BASE, filename, ".png"])
+            url = create_url(project)
+            address = project['address']
             row = "\n".join([
                 "<tr>",
-                td(num),
-                td(matching_pool),
+                td(project['roundName']),
                 td(f'<a href="{grantPage}">{grantName}</a>'),
                 td(f'<img src="{logo}" width="40" height="40"'),
                 td(f'<img src="{banner}" style="width: 320px; height: 214px; object-fit: cover; object-position: 100% 0;">'),
                 td(f'<a href="{url}">Hypercert URL</a>'),
-                td(grant['fractionsTotalSupply']),
+                td(project['fractionsTotalSupply']),
                 td(f'<a href="https://etherscan.io/address/{address}">{address[:5]}...{address[-3:]}</a>'),
-                td(grant['addressType']),
-                td(grant['optimismBalanceEth']),
+                td(project['addressType']),
                 "</tr>"
             ])
             body.append(row)
+    
     html = header + "\n".join(body) + footer
-
-    with open("data/projects/project_urls.html", "w") as f:
+    html_filename = EXPORTS_DIR + "project_urls.html"
+    with open(html_filename, "w") as f:
         f.write(html)
 
 

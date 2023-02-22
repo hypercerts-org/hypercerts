@@ -1,0 +1,28 @@
+{
+  "defaultDims": {
+    "workTimeStart": 1663819200,
+    "workTimeEnd": 1673829248,
+    "impactScopes": "all",
+    "impactTimeEnd": 0,
+    "rights": "Public Display"
+  },
+  "defaultArt": {
+    "banner": "bafkreifn5av7znw7c6fgwq7g5k4be56tutofdgqiatwm2edekewvdf5xqm",
+    "icon": "bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4"
+  },
+  "properties": [
+    {
+      "trait_type": "Funding Platform",
+      "value": "Gitcoin Grants"
+    },
+    {
+      "trait_type": "Funding Round",
+      "value": "Alpha Round"
+    }
+  ],
+  "resources": {
+    "grantExplorerBaseUrl": "https://grant-explorer.gitcoin.co/#/round/1/",
+    "hostedCidBaseUrl": "https://gitcoin.mypinata.cloud/ipfs/",
+    "subgraphId": "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr"
+  }
+}
