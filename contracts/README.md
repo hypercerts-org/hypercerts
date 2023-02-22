@@ -5,8 +5,8 @@
 
 ## Setup
 
-Create a copy of `.env.example` and rename the copy to `.env`. For most of these, you can find keys in the password
-manager.
+Create a copy of `.env.example` and rename the copy to `.env`. If your organization already has keys, ask your admin
+where they are.
 
 - `MNEMONIC`: the seed phrase used for deploying the contract and upgrades
   - Make sure there is sufficient balance in the account for these operations

@@ -17,13 +17,14 @@ yarn dev
 
 Visit on `http://localhost:3000/`
 
-## Export
+## Build and Export
 
 This repository is currently set up to export to a static site:
 
 ```
 yarn build
-yarn export
 ```
 
 This will place the static site in `/frontend/out`, which can be uploaded to any CDN or IPFS for hosting.
+
+Note: This means that we do not currently use any server-side or edge functionality (e.g. middleware, SSR, image optimization etc)

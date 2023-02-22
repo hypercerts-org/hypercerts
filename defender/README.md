@@ -9,3 +9,7 @@ This will create [Sentinels](https://docs.openzeppelin.com/defender/sentinel) on
 Defender, which will monitor for specific function calls or emitted events.
 When either is monitored, an [Autotask](https://docs.openzeppelin.com/defender/autotasks) is run.
 These are defined inside `src/auto-tasks/`.
+
+## Setup
+
+Copy `.env.example` to `.env` and populate your keys and configuration

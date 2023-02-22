@@ -4,7 +4,7 @@ We use this playbook to encapsulate our practices and current setup.
 
 ## Setup dev environment
 
-[Setup guide](./setup.md)
+- [Setup guide](./setup.md)
 
 ## Tasks
 

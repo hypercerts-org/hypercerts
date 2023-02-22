@@ -10,10 +10,10 @@ This interface declares the required functionality for a hypercert tokenThis int
 
 ## Methods
 
-### burnValue
+### burnFraction
 
 ```solidity
-function burnValue(address account, uint256 tokenID) external nonpayable
+function burnFraction(address account, uint256 tokenID) external nonpayable
 ```
 
 Operator must be allowed by `creator` and the token must represent the total amount of available units.
@@ -27,10 +27,10 @@ Operator must be allowed by `creator` and the token must represent the total amo
 | account | address | undefined |
 | tokenID | uint256 | undefined |
 
-### mergeValue
+### mergeFractions
 
 ```solidity
-function mergeValue(address account, uint256[] tokenIDs) external nonpayable
+function mergeFractions(address account, uint256[] tokenIDs) external nonpayable
 ```
 
 Tokens that have been merged are burned.
@@ -83,10 +83,10 @@ function mintClaimWithFractions(address account, uint256 units, uint256[] fracti
 | uri | string | undefined |
 | restrictions | enum IHypercertToken.TransferRestrictions | undefined |
 
-### splitValue
+### splitFraction
 
 ```solidity
-function splitValue(address account, uint256 tokenID, uint256[] _values) external nonpayable
+function splitFraction(address account, uint256 tokenID, uint256[] _values) external nonpayable
 ```
 
 The sum of `values` must equal the current value of `_tokenID`.
