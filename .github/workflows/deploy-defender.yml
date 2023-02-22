@@ -20,7 +20,7 @@ jobs:
   deploy-defender:
     # NOTE: This name appears in GitHub's Checks API.
     name: deploy-defender
-    environment: testnet 
+    environment: deploy 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

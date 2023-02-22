@@ -18,7 +18,7 @@ jobs:
   deploy-cors-proxy:
     # NOTE: This name appears in GitHub's Checks API.
     name: deploy-cors-proxy
-    environment: testnet 
+    environment: deploy 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
