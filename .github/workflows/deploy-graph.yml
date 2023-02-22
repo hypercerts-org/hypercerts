@@ -18,7 +18,7 @@ jobs:
   deploy-graph:
     # NOTE: This name appears in GitHub's Checks API.
     name: deploy-graph
-    environment: testnet 
+    environment: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
