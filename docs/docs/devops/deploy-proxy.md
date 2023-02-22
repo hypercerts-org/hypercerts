@@ -45,7 +45,7 @@ to get set up.
 
 #### Deploy the subgraph
 
-Update `graph/networks.json` with the new proxy address. We can add multiple networks that are monitored by the same subgraph. For more details, see the [Graph documentation](https://thegraph.com/docs/en/deploying/deploying-a-subgraph-to-hosted/#deploying-the-subgraph-to-multiple-ethereum-networks).
+Update `graph/networks.json` with the new proxy address. To speed up indexing, you set the `startBlock` to the block containing the contract creation. We can add multiple networks that are monitored by the same subgraph. For more details, see the [Graph documentation](https://thegraph.com/docs/en/deploying/deploying-a-subgraph-to-hosted/#deploying-the-subgraph-to-multiple-ethereum-networks).
 
 Now deploy the subgraph
 
