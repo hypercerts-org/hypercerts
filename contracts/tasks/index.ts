@@ -1,4 +1,5 @@
 export * from "./deploy";
+export * from "./generate-address";
 export * from "./pause";
 export * from "./transfer-owner";
 export * from "./upgrade";
