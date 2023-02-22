@@ -12,6 +12,9 @@ For more details, check out our [website](https://hypercerts.org/).
 
 - `/contracts`: Smart contracts (Foundry+Hardhat)
   - Manually deployed via hardhat tasks
+  - On Goerli:
+    - HypercertMinter (UUPS Proxy): [0xf3528EED298e943652A41ed04bb9A48cA4969fE0](https://goerli.etherscan.io/address/0xf3528EED298e943652A41ed04bb9A48cA4969fE0#code)
+    - Safe multi-sig: [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)
 - `/cors-proxy`: CORS proxy for Cloudflare Workers
   - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-cors-proxy.yml)
 - `/defender`: OpenZeppelin Defender integration
@@ -29,11 +32,20 @@ For more details, check out our [website](https://hypercerts.org/).
 - `/utils`: various scripts for operations
   - Manually run 
 
-## Setup and build
+## Playbooks
+
+For setup and common operations for each subproject, navigate into the respective directory and check out the `README.md`.
+
+We also maintain a [playbook](https://hypercerts/docs/devops) for larger operations.
+
+## Quickstart with Dapp development
+
+### Setup and build the frontend
 
 First, make sure the environment variables are set for `./frontend`.
 Take a look at `./frontend/.env.local.example` for the complete list.
-You can either set these yourself (e.g. in CI/CD) or copy the file to `.env.local` and populate it.
+- You can either set these yourself (e.g. in CI/CD)
+- or copy the file to `.env.local` and populate it.
 
 Then the do a turbo build of all apps, run the following:
 
@@ -44,14 +56,14 @@ yarn build
 
 The resulting static site can be found in `./build/`.
 
-## Run
+### Running the prod server
+
+If you've already run the build, you can use `yarn serve:build` to serve the built files
 
 ### Running the frontend dev server
+
+To run a dev server that watches for changes across code and Plasmic, run:
 
 ```bash
 yarn dev:frontend
 ```
-
-### Running the prod server
-
-If you've already run the build, you can use `yarn serve:build` to serve those files

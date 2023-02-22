@@ -1,42 +1,45 @@
-### Setup
+## Setup
 
-#### Gather tools
+### Pre-requisites
 
-Install NodeJS and git
+1. Install [NodeJS](https://nodejs.org/en/) and [git](https://git-scm.com/)
+2. Install [yarn](https://classic.yarnpkg.com/)
 
-Clone the repository: 
-`$ git clone git@github.com:Network-Goods/hypercerts-protocol.git`
-
-`$ cd hypercerts-protocol`
-
-Install dependancies:
-`$ yarn`
-
-
-#### Configure Enviroment
-
-In the root directory of the `hypercerts-protocol` repository, create a copy of `.env.example` and rename the copy to `.env`.
-
-The (enviroment variable, value) pairs in the `.env` file should take the form of:
-```
-ENVIROMENT_VARIABLE_NAME="value"
+```sh
+npm install --global yarn
 ```
 
-The values for the environment variables are stored in the `Hypercerts Dev` 1Password vault. Edit the newly created `.env` file to configure the environment variables require for running hardhat tasks accoring to the following:
+3. Clone the repository: 
 
-**Infura API**
-Variable Name: `INFURA_API_KEY`
-Variable Value: The value of the `credential` field on the 'Infura API' item in the 1Password vault
+```
+git clone git@github.com:hypercerts-org/hypercerts.git
+cd hypercerts
+```
 
-**Etherscan API**
-Variable Name: `ETHERSCAN_API_KEY`
-Variable Value: The value of the `credential` field on the 'Etherscan API' item in the 1Password vault
+4. Install dependancies:
 
-**Wallet**
-Variable Name: `NMEMONIC`
-Variable Value: The value of the `credential` field on the 'Goerli Wallet Mnemonic' item in the 1Password vault
+To install dependencies across all projects in the monorepo workspace:
+
+```sh
+yarn install
+```
+
+### Setup your wallets
+
+We need 2 wallets: a multi-sig for administering the contracts, and a hot wallet for setting everything up.
+1. We use a [Gnosis Safe](https://app.safe.global/) multisig for managing and administering the contracts. Set one up with your desired confirmation threshold (e.g. 2 of 3). This wallet will not require any balance.
+2. Separately, set up a wallet that we'll use in our developer scripts.
+  - If you don't have one, you can goto `contracts/` and run `yarn hardhat generate-address`.
+  - Make sure there is enough balance in this account to deploy the contract and transfer ownership to the multisig
+    - [Goerli Faucet](https://goerlifaucet.com/)
+    - [Optimism Bridge](https://app.optimism.io/bridge/deposit)
 
 
-#### Compile the contract
+### Setup the `contracts/` environment
 
-`$ npx hardhat compile`
+Navigate to `contracts/`. Configure your `.env` file by following the instructions in the
+[README](https://github.com/hypercerts-org/hypercerts/tree/main/contracts#setup).
+
+### Next Steps
+
+Depending on what you want to do (e.g. in `./sdk/` or `./frontend/`), there will be further setup instructions in the respective `README.md` file.

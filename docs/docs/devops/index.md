@@ -8,23 +8,11 @@ We use this playbook to encapsulate our practices and current setup.
 
 ## Tasks
 
-### Deploy new proxy contract
+- [Deploy new proxy contract](./deploy-proxy.md)
+- [Upgrade contract](./upgrade.md)
+- [Pause contract](./pause.md)
+- [Unpause contract](./unpause.md)
 
-### Upgrade contract via multi-sig
+## FAQ
 
-### Pause contract
-- `setup.md`
-- `pause.md`
-
-### Unpause contract
-- `setup.md`
-- `unpause.md`
-
-
-## Testing the playbook tasks
-
-The 
-
-There is a HypercertMinter contract deploy on goerli with address `0xd3a596E1a627421cC15558C0bB1753e99fa5bd76`. You can interact with this contract as the owner by using the wallet recovery phrase stored in the `Hypercerts Dev` 1Password vault (this is coverd in the guides)
-
-
+- [Common errors](./errors.md)

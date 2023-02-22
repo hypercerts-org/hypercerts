@@ -76,7 +76,9 @@
     "solhint/@solidity-parser/parser": "^0.14.5"
   },
   "scripts": {
-    "build": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
+    "build": "yarn build:hardhat",
+    "build:forge": "forge build",
+    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
     "build:ts": "npx tsc --build tsconfig.build.json",
     "build:declarations": "shx cp typechain/*.d.ts dist/src/types",
     "clean": "rimraf cache out",
@@ -86,7 +88,8 @@
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,sol,yml}\"",
     "prettier:check": "prettier --config \"./.prettierrc.yml\" --check \"**/*.{json,md,sol,yml}\"",
     "slither": "slither ./src",
-    "test": "forge test",
+    "test": "yarn test:hardhat",
+    "test:forge": "forge test",
     "test:hardhat": "hardhat test",
     "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report",
     "typechain": "forge build --skip test && typechain --target \"ethers-v5\" --out-dir \"typechain\" \"./out/**/*.json\""
