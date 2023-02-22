@@ -13,7 +13,7 @@ For more details, check out our [website](https://hypercerts.org/).
 - `/contracts`: Smart contracts (Foundry+Hardhat)
   - Manually deployed via hardhat tasks
   - On Goerli:
-    - HypercertMinter (UUPS Proxy): [0xf3528EED298e943652A41ed04bb9A48cA4969fE0](https://goerli.etherscan.io/address/0xf3528EED298e943652A41ed04bb9A48cA4969fE0#code)
+    - HypercertMinter (UUPS Proxy): [0xf3528EED298e943652A41ed04bb9A48cA4969fE0](https://goerli.etherscan.io/address/0xf3528EED298e943652A41ed04bb9A48cA4969fE0)
     - Safe multi-sig: [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)
   - On Optimism:
     - HypercertMinter (UUPS Proxy): []()
