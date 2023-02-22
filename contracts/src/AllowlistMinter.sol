@@ -55,4 +55,16 @@ contract AllowlistMinter is IAllowlist {
     function _calculateLeaf(address account, uint256 amount) internal pure returns (bytes32 leaf) {
         leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
     }
+
+    /**
+     * @dev This empty reserved space is put in place to allow future versions to add new
+     * variables without shifting down storage in the inheritance chain.
+     * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
+     * Assuming 30 available slots (slots cost space, cost gas)
+     * 1. merkleRoots
+     * 2. hasBeenClaimed
+     * 3. maxUnits
+     * 4. minted
+     */
+    uint256[26] private __gap;
 }
