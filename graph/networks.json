@@ -1,7 +1,14 @@
 {
   "goerli": {
     "HypercertMinter": {
-      "address": "0xf3528EED298e943652A41ed04bb9A48cA4969fE0"
+      "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      "startBlock": 8537999
+    }
+  },
+  "optimism": {
+    "HypercertMinter": {
+      "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      "startBlock": 76066993
     }
   }
 }

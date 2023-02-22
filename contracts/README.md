@@ -15,6 +15,7 @@ where they are.
 - `OPENZEPPELIN_API_KEY` and `OPENZEPPELIN_SECRET_KEY`: [OpenZeppelin Defender](https://defender.openzeppelin.com/) is
   used for proposing upgrades to the multi-sig.
 - `ETHERSCAN_API_KEY`: [Etherscan](https://etherscan.io/)
+- `OPTIMISTIC_ETHERSCAN_API_KEY`: [Optimism Explorer](https://optimistic.etherscan.io/myapikey)
 
 ## Usage
 

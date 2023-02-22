@@ -35,6 +35,7 @@ dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
 const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
 const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
+const optimisticEtherscanApiKey = requireEnv(process.env.OPTIMISTIC_ETHERSCAN_API_KEY, "OPTIMISTIC_ETHERSCAN_API_KEY");
 const ozApiKey = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
 const ozSecretKey = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
 
@@ -87,6 +88,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       goerli: etherscanApiKey,
       sepolia: etherscanApiKey,
+      optimisticEthereum: optimisticEtherscanApiKey,
     },
   },
   networks: {
@@ -100,7 +102,9 @@ const config: HardhatUserConfig = {
     sepolia: getChainConfig("sepolia"),
     mainnet: getChainConfig("mainnet"),
     "optimism-goerli": getChainConfig("optimism-goerli"),
-    "optimism-mainnet": getChainConfig("optimism-mainnet"),
+    "optimism-mainnet": {
+      ...getChainConfig("optimism-mainnet"),
+    },
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
