@@ -123,7 +123,7 @@ def create_csv_export():
     with open(csv_filename, 'w') as f:
 
         writer = csv.writer(f)
-        cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType',                
+        cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType', 'optimismBalanceEth',               
                 'fundingTotalDollars', 'donorsTotal', 'fractionsTotalSupply', 'hypercertEligibleDonors',
                 'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
         writer.writerow(cols)
@@ -132,6 +132,7 @@ def create_csv_export():
             p = project.copy()
             p['mintingUrl'] = create_url(project)
             p['address'] = "https://etherscan.io/address/" + project['address']
+            p['optimismBalanceEth'] = p['addressScan'].get("optimismBalanceEth")
             writer.writerow([p[c] for c in cols])
 
     f.close()           
