@@ -1,20 +1,22 @@
+from io import BytesIO
 import json
 from math import ceil
 import os
-import requests
-from io import BytesIO
 from PIL import Image
+import requests
 
 from utils import create_project_filename
 
-with open("config.json") as config_file:
-    CONFIG = json.load(config_file)    
 
-with open(CONFIG["gitcoin_settings"]["path_to_project_list"]) as projects_file:
-    PROJECTS_DB = json.load(projects_file)
+GITCOIN        = json.load(open("config/gitcoin-settings.json"))
+CID_HOST_URL   = GITCOIN["resources"]["hostedCidBaseUrl"]
+DEFAULT_BANNER = GITCOIN["defaultArt"]["banner"]
+
+CONFIG         = json.load(open("config/config.json"))
+JSONDATA_PATH  = CONFIG["localPaths"]["canonicalDataset"]
+IMG_DIR        = CONFIG["localPaths"]["imagesDirectory"]
 
 IMG_WIDTH, IMG_HEIGHT = 320, 214
-IMG_DIR = 'data/images/'
 
 
 def crop_and_resize(img):
@@ -41,38 +43,32 @@ def crop_and_resize(img):
     return new_img
 
  
-def getsizes(uri, name):
+def process_image(uri, name, overwrite=False):
+
+    outpath = create_project_filename(name) + ".png"
+    if not overwrite:
+        if outpath in os.listdir(IMG_DIR):
+            return
 
     response = requests.get(uri)
     img = Image.open(BytesIO(response.content))
-    
-    width, height = img.size
-    needs_resizing = (width != IMG_WIDTH or height != IMG_HEIGHT)
-    img = crop_and_resize(img)
-    
-    outpath = IMG_DIR + create_project_filename(name) + ".png"
-    img.save(outpath)
+    img = crop_and_resize(img)    
+    img.save(IMG_DIR + outpath)
 
-    return dict(
-        name=name,
-        outpath=outpath, 
-        width=width,
-        height=height,
-        resized=needs_resizing
-    )
 
+def run_image_processing():
+
+    projects_list = json.load(open(JSONDATA_PATH))
+    for i, project in enumerate(projects_list):
+        name = project['title']
+        cid = project['projectBannerCid']
+        if cid is None:
+            cid = DEFAULT_BANNER
+        uri = CID_HOST_URL + cid
+        print("Processing", name, uri)
+        
+        process_image(uri, name)
 
 
 if __name__ == "__main__":
-
-    images = []
-    for matching_pool, grants_list in PROJECTS_DB.items():
-        for grant in grants_list:
-            name = grant['title']
-            uri = grant['projectBannerUrlOriginal']
-            images.append(getsizes(uri, name))
-
-    outpath = IMG_DIR + "image_data.json"
-    outfile = open(outpath, "w")
-    json.dump(images, outfile, indent=4)                
-    outfile.close()
+    run_image_processing()

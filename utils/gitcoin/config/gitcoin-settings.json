@@ -6,6 +6,10 @@
 		"impactTimeEnd": 0,
 		"rights": "Public Display"
 	},
+	"defaultArt":{
+		"banner": "bafkreifn5av7znw7c6fgwq7g5k4be56tutofdgqiatwm2edekewvdf5xqm",
+		"icon": "bafkreiejljnf6xf6kwcvh3wjef5xa3n7gscdumrmurmt4otkozbx5524r4"
+	},
 	"properties": {
 		"platformName": "Gitcoin Grants",
 		"fundingRoundName": "Alpha Round"
