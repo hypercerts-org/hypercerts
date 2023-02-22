@@ -63,10 +63,10 @@ def run_project_stats():
         else:
             print("Record not found for project:", project_title["title"])
 
-    
     out_file = open(OUTPATH, "w")
     json.dump(project_records, out_file, indent=4)                
     out_file.close()
+
     print(f"Serialized data for {len(project_records)} projects")
 
 
