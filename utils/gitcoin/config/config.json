@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "hypercertCreateUrl": "https://hypercerts.pages.dev/app/create?",
   "allowlistBaseUrl": "https://cloudflare-ipfs.com/ipfs/bafybeigyqkmmmm6o7wjsqxn5mzincl4vb2fm4vctpbgvdmuoced55c4yke/",
+  "bannerImageBaseUrl": "https://nftstorage.link/ipfs/bafybeid5g35scolfpaxznp3o6ysz6e2neirr3t5xw65pw567eptkbo7ijm/",
   "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
   "localPaths": {
     "graphData": "data/graph-data.json",
