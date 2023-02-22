@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
-
 import { createClient } from "@supabase/supabase-js";
-import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
+import * as protocol from "@hypercerts-org/hypercerts-protocol";
+const { HypercertMinterABI } = protocol;
 import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {

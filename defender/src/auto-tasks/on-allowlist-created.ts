@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
 import fetch from "node-fetch";
-
 import { createClient } from "@supabase/supabase-js";
-import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
+import * as protocol from "@hypercerts-org/hypercerts-protocol";
+const { HypercertMinterABI } = protocol;
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import axios from "axios";
 

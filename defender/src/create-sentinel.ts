@@ -1,5 +1,6 @@
 import { SentinelClient } from "defender-sentinel-client";
-import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
+import * as protocol from "@hypercerts-org/hypercerts-protocol";
+const { HypercertMinterABI } = protocol;
 import {
   EventCondition,
   FunctionCondition,
