@@ -12,6 +12,17 @@
 
 ## Errors
 
+### AlreadyClaimed
+
+```solidity
+error AlreadyClaimed()
+```
+
+
+
+
+
+
 ### ArraySize
 
 ```solidity
@@ -45,32 +56,10 @@ error DuplicateEntry()
 
 
 
-### FractionalBurn
-
-```solidity
-error FractionalBurn()
-```
-
-
-
-
-
-
 ### Invalid
 
 ```solidity
 error Invalid()
-```
-
-
-
-
-
-
-### MaxValue
-
-```solidity
-error MaxValue()
 ```
 
 
@@ -93,17 +82,6 @@ error NotAllowed()
 
 ```solidity
 error NotApprovedOrOwner()
-```
-
-
-
-
-
-
-### ToZeroAddress
-
-```solidity
-error ToZeroAddress()
 ```
 
 

@@ -35,11 +35,6 @@ We need 2 wallets: a multi-sig for administering the contracts, and a hot wallet
     - [Optimism Bridge](https://app.optimism.io/bridge/deposit)
 
 
-### Setup the `contracts/` environment
-
-Navigate to `contracts/`. Configure your `.env` file by following the instructions in the
-[README](https://github.com/hypercerts-org/hypercerts/tree/main/contracts#setup).
-
 ### Next Steps
 
 Depending on what you want to do (e.g. in `./sdk/` or `./frontend/`), there will be further setup instructions in the respective `README.md` file.

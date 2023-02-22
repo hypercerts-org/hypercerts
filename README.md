@@ -15,6 +15,9 @@ For more details, check out our [website](https://hypercerts.org/).
   - On Goerli:
     - HypercertMinter (UUPS Proxy): [0xf3528EED298e943652A41ed04bb9A48cA4969fE0](https://goerli.etherscan.io/address/0xf3528EED298e943652A41ed04bb9A48cA4969fE0#code)
     - Safe multi-sig: [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)
+  - On Optimism:
+    - HypercertMinter (UUPS Proxy): []()
+    - Safe multi-sig: [0x560adA72a80b4707e493cA8c3B7B7528930E7Be5](https://optimistic.etherscan.io/address/0x560adA72a80b4707e493cA8c3B7B7528930E7Be5)
 - `/cors-proxy`: CORS proxy for Cloudflare Workers
   - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-cors-proxy.yml)
 - `/defender`: OpenZeppelin Defender integration

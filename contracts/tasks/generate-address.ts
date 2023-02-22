@@ -10,3 +10,11 @@ task("generate-address", "Generate an address").setAction(async ({}, { ethers })
   console.log("DO NOT SHARE THE FOLLOWING");
   console.log("Mnemonic: ", mnemonic.phrase);
 });
+
+task("accounts", "Show me my accounts").setAction(async ({}, { ethers }) => {
+  const accounts = await ethers.getSigners();
+  accounts.forEach((account) => {
+    const address = account.address;
+    console.log("Address: ", address);
+  });
+});

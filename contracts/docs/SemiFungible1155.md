@@ -18,17 +18,6 @@ function __SemiFungible1155_init() external nonpayable
 
 
 
-*Init method. Underlying { Upgradeable1155 } is `Initializable`*
-
-
-### __Upgradeable1155_init
-
-```solidity
-function __Upgradeable1155_init() external nonpayable
-```
-
-
-
 *see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }*
 
 
@@ -552,20 +541,6 @@ event ValueTransfer(uint256 claimID, uint256 fromTokenID, uint256 toTokenID, uin
 | fromTokenID  | uint256 | undefined |
 | toTokenID  | uint256 | undefined |
 | value  | uint256 | undefined |
-
-
-
-## Errors
-
-### NotAllowed
-
-```solidity
-error NotAllowed()
-```
-
-
-
-
 
 
 

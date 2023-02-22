@@ -18,17 +18,6 @@ function __SemiFungible1155_init() external nonpayable
 
 
 
-*Init method. Underlying { Upgradeable1155 } is `Initializable`*
-
-
-### __Upgradeable1155_init
-
-```solidity
-function __Upgradeable1155_init() external nonpayable
-```
-
-
-
 *see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }*
 
 
@@ -133,10 +122,10 @@ function burnBatch(address account, uint256[] ids, uint256[] values) external no
 | ids | uint256[] | undefined |
 | values | uint256[] | undefined |
 
-### burnValue
+### burnFraction
 
 ```solidity
-function burnValue(address _account, uint256 _tokenID) external nonpayable
+function burnFraction(address _account, uint256 _tokenID) external nonpayable
 ```
 
 Burn a claimtoken
@@ -251,10 +240,10 @@ function isApprovedForAll(address account, address operator) external view retur
 |---|---|---|
 | _0 | bool | undefined |
 
-### mergeValue
+### mergeFractions
 
 ```solidity
-function mergeValue(address _account, uint256[] _fractionIDs) external nonpayable
+function mergeFractions(address _account, uint256[] _fractionIDs) external nonpayable
 ```
 
 Merge the value of tokens belonging to the same claim
@@ -517,10 +506,10 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 | operator | address | undefined |
 | approved | bool | undefined |
 
-### splitValue
+### splitFraction
 
 ```solidity
-function splitValue(address _account, uint256 _tokenID, uint256[] _values) external nonpayable
+function splitFraction(address _account, uint256 _tokenID, uint256[] _newFractions) external nonpayable
 ```
 
 Split a claimtokens value into parts with summed value equal to the original
@@ -533,7 +522,7 @@ Split a claimtokens value into parts with summed value equal to the original
 |---|---|---|
 | _account | address | undefined |
 | _tokenID | uint256 | undefined |
-| _values | uint256[] | undefined |
+| _newFractions | uint256[] | undefined |
 
 ### supportsInterface
 
@@ -970,6 +959,17 @@ event ValueTransfer(uint256 claimID, uint256 fromTokenID, uint256 toTokenID, uin
 
 
 ## Errors
+
+### AlreadyClaimed
+
+```solidity
+error AlreadyClaimed()
+```
+
+
+
+
+
 
 ### ArraySize
 
