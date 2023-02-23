@@ -1,3 +1,4 @@
+import axios from "axios";
 import { expect, assert } from "chai";
 import { getData, getMetadata, storeData, storeMetadata } from "../src/index.js";
 import metadata from "./res/mockMetadata.js";
@@ -28,7 +29,7 @@ const mockData = JSON.parse(`{
 
 const mockMetadataCid = "bafkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-const mockDataCid = "bafybeifenmt2wocehkcslpk5gfrbxviymzwgfra24unt3xgs76snqsry2i";
+const mockDataCid = "bafkreif5otrkydrrjbp532a75hkm5goefxv5rqg35d2wqm6oveht4hqto4";
 
 describe("IPFS Client", () => {
   /**
@@ -53,8 +54,13 @@ describe("IPFS Client", () => {
   });
 
   it("Smoke test - get data", async () => {
+    // Using the getter
     const data = await getData(mockDataCid);
     expect(data).to.deep.equal(mockData);
+    // Using an IPFS gateway
+    const nftStorageGatewayLink = getNftStorageGatewayUri(mockDataCid);
+    const gatewayData = await axios.get(nftStorageGatewayLink).then((result) => result.data);
+    expect(gatewayData).to.deep.equal(mockData);
   });
 
   it("Removes ipfs:// prefix if present to get CID", () => {

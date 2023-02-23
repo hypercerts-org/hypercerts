@@ -58,7 +58,7 @@ export const storeData = async (data: any, targetClient?: Web3Storage): Promise<
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
   const files = [new File([blob], "data.json")];
   console.log("Storing blob of: ", data);
-  const cid = await client.put(files);
+  const cid = await client.put(files, { wrapWithDirectory: false });
   return cid;
 };
 

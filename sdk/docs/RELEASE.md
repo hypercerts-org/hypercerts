@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.0.26
+
+* Fix `getData` to not wrapDirectory
+
 ## 0.0.25
 
 * Remove meta-minting function temporarily
