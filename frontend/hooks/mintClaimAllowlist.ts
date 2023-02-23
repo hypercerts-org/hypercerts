@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { parseCsv } from "../lib/parsing";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useAccountLowerCase } from "./account";
+import { cidToIpfsUri } from "../lib/formatting";
 
 const generateAndStoreTree = async (
   pairs: { address: string; fraction: number }[],
@@ -66,9 +67,9 @@ export const useMintClaimAllowlist = ({
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
       const cid = await hypercertsStorage.storeMetadata({
         ...metaData,
-        allowList: merkleCID,
+        allowList: cidToIpfsUri(merkleCID),
       });
-      setCidUri(cid);
+      setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
       setUnits(_.sum(pairs.map((x) => x.fraction)));
     }
@@ -90,9 +91,9 @@ export const useMintClaimAllowlist = ({
         );
         const cid = await hypercertsStorage.storeMetadata({
           ...metaData,
-          allowList: merkleCID,
+          allowList: cidToIpfsUri(merkleCID),
         });
-        setCidUri(cid);
+        setCidUri(cidToIpfsUri(cid));
         setMerkleRoot(root);
         setUnits(_.sum(pairsFromCsv.map((x) => x.fraction)));
       } catch (e) {

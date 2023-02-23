@@ -17,6 +17,7 @@ import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { toast } from "react-toastify";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useAccountLowerCase } from "./account";
+import { cidToIpfsUri } from "../lib/formatting";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [cidUri, setCidUri] = useState<string>();
@@ -39,7 +40,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     setUnits(units);
     setStep("uploading");
     const cid = await hypercertsStorage.storeMetadata(metaData);
-    setCidUri(cid);
+    setCidUri(cidToIpfsUri(cid));
   };
 
   const parseError = useParseBlockchainError();
