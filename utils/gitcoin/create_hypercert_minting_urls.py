@@ -56,7 +56,11 @@ def create_url(project):
     round_id = project['roundId']
     round_data = ROUND_MAPPINGS[round_id]
     properties = ERC1155_PROPS.copy()
-    properties.append({'matching_pool': project['roundName']})
+    {
+      "trait_type": "Funding Round",
+      "value": "Alpha Round"
+    }
+    properties.append({'trait_type': 'Matching Pool', 'value': project['roundName']})
     params = dict(
         name = name,
         **project['hypercertData'],
