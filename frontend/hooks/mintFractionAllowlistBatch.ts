@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase-client";
 import { toast } from "react-toastify";
 import { useAccountLowerCase } from "./account";
+import { SUPABASE_TABLE } from "../lib/config";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
@@ -146,7 +147,7 @@ export const useMintFractionAllowlistBatch = ({
 export const useGetAllEligibility = (address: string) => {
   return useQuery(["get-all-eligibility", address], async () => {
     const { data, error } = await supabase
-      .from("allowlistCache")
+      .from(SUPABASE_TABLE)
       .select("*")
       .eq("address", address.toLowerCase());
     if (error) {
