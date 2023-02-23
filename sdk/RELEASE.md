@@ -3,6 +3,7 @@
 ## 0.0.29
 
 * Added TypeDoc and Markdown plugin
+* Implementing Rollup as the build tool
 
 ## 0.0.28
 
