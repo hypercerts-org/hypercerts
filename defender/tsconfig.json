@@ -11,13 +11,13 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
     "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "removeComments": true,
     "resolveJsonModule": true,
     "sourceMap": false,
     "strict": false,
-    "target": "es6",
+    "target": "es6"
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*"]

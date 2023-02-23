@@ -1,15 +1,10 @@
 import { AutotaskClient } from "defender-autotask-client";
-import { apiKey, apiSecret } from "./config.js";
 import { SentinelTrigger } from "defender-autotask-client/lib/models/autotask.js";
-
-const credentials = {
-  apiKey,
-  apiSecret,
-};
+import config from "./config.js";
 
 export const createTask = async (name: string, file: string) => {
-  const client = new AutotaskClient(credentials);
-  const config = {
+  const client = new AutotaskClient(config.credentials);
+  const taskConfig = {
     name,
     encodedZippedCode: await client.getEncodedZippedCodeFromFolder(
       `./build/relay/${file}`,
@@ -19,7 +14,7 @@ export const createTask = async (name: string, file: string) => {
   };
 
   return await client
-    .create(config)
+    .create(taskConfig)
     .then((res) => {
       console.log("Created autotask", name, "with id", res.autotaskId);
       return res;

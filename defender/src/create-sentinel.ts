@@ -5,35 +5,30 @@ import {
   EventCondition,
   FunctionCondition,
 } from "defender-sentinel-client/lib/models/subscriber.js";
-import { apiKey, apiSecret } from "./config.js";
-
-const credentials = {
-  apiKey: apiKey,
-  apiSecret: apiSecret,
-};
-
-const client = new SentinelClient(credentials);
+import config from "./config.js";
+import { NetworkConfig } from "./networks.js";
 
 export const createSentinel = async ({
-  address,
   name,
+  network,
   autotaskID,
   functionConditions = [],
   eventConditions = [],
 }: {
   name: string;
-  address: string;
+  network: NetworkConfig;
   autotaskID: string;
   eventConditions?: EventCondition[];
   functionConditions?: FunctionCondition[];
 }) => {
+  const client = new SentinelClient(config.credentials);
   await client
     .create({
       type: "BLOCK",
-      network: "goerli",
+      network: network.networkKey,
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
-      addresses: [address],
+      addresses: [network.contractAddress],
       abi: JSON.stringify(HypercertMinterABI),
       paused: false,
       eventConditions,
@@ -47,7 +42,7 @@ export const createSentinel = async ({
         `Created sentinel`,
         res.name,
         "- monitoring address",
-        address,
+        network.contractAddress,
         "- linked to autotask",
         autotaskID,
       );
