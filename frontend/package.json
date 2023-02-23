@@ -22,7 +22,7 @@
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
     "@openzeppelin/merkle-tree": "^1.0.2",
-    "@plasmicapp/loader-nextjs": "^1.0.204",
+    "@plasmicapp/loader-nextjs": "^1.0.231",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "@supabase/supabase-js": "^2.1.2",
     "@tanstack/react-query-devtools": "^4.23.0",
