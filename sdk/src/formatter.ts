@@ -19,6 +19,11 @@ export const formatDate = (date: Date) => {
   return `${fullYear}-${month}-${day}`;
 };
 
+/**
+ * 
+ * Formats input data to an object containing HypercertMetadata including appropriate labels
+ * @returns {HypercertMetadata, boolean, errors<key, value>}
+ */
 export const formatHypercertData = ({
   name,
   description,

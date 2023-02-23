@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.0.29
+
+* Added TypeDoc and Markdown plugin
+
 ## 0.0.28
 
 - Fix wrong TransferRestrictions
