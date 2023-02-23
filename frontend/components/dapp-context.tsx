@@ -15,7 +15,7 @@ import {
 import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { DEFAULT_CHAIN_ID, GRAPH_URL } from "../lib/config";
+import { DEFAULT_CHAIN_ID, GRAPH_URL, SUPABASE_TABLE } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useAccountLowerCase } from "../hooks/account";
@@ -46,6 +46,7 @@ export interface DappContextData {
   chain?: Chain;
   chains?: Chain[];
   graphUrl?: string;
+  supabaseTable?: string;
 }
 
 export const DEFAULT_TEST_DATA: DappContextData = {
@@ -55,6 +56,7 @@ export const DEFAULT_TEST_DATA: DappContextData = {
   chains: ALL_CHAINS,
   graphUrl:
     "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet",
+  supabaseTable: "goerli-allowlistCache",
 };
 
 export interface DappContextProps {
@@ -88,6 +90,7 @@ export function DappContext(props: DappContextProps) {
           chains,
           defaultChainId: DEFAULT_CHAIN_ID,
           graphUrl: GRAPH_URL,
+          supabaseTable: SUPABASE_TABLE,
         };
 
   if (showIfNotConnected && !data.myAddress && notConnected) {

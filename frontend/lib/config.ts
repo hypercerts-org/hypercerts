@@ -40,6 +40,11 @@ export const SUPABASE_ANON_KEY = requireEnv(
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
 );
 
+export const SUPABASE_TABLE = requireEnv(
+  process.env.NEXT_PUBLIC_SUPABASE_TABLE,
+  "NEXT_PUBLIC_SUPABASE_TABLE",
+);
+
 export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
 export const PLASMIC_PROJECT_API_TOKEN =
   process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
