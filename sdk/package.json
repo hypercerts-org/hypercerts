@@ -40,7 +40,7 @@
     "chai": "^4.3.7",
     "esbuild": "^0.17.10",
     "it-all": "^2.0.0",
-    "json-schema-to-typescript": "^11.0.2",
+    "json-schema-to-typescript": "^12.0.0",
     "mockipfs": "^0.3.0",
     "mockttp": "^3.6.1",
     "nyc": "^15.1.0",
@@ -70,7 +70,7 @@
     "prebuild": "yarn clean && yarn types:json && yarn graph:build:esm",
     "prepack": "yarn build",
     "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",
-    "types:json": "yarn run json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema' --no-declareExternallyReferenced"
+    "types:json": "yarn run json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
   },
   "type": "module"
 }
