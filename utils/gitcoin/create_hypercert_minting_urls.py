@@ -22,7 +22,7 @@ ERC1155_PROPS   = SETTINGS["properties"]
 ROUNDS          = json.load(open("config/rounds-list.json"))
 ROUND_MAPPINGS  = {r["roundId"]: r for r in ROUNDS}
 
-MAXLEN_DESCR    = 1000
+MAXLEN_DESCR    = 500
 
 
 def url_parse(val):
