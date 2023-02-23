@@ -43,12 +43,15 @@
     "shx": "^0.3.4",
     "ts-jest-resolver": "^2.0.0",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.23.25",
+    "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^4.9.0"
   },
   "resolutions": {
     "graphql": "^16.6.0"
   },
   "scripts": {
+    "docs": "typedoc --plugin typedoc-plugin-markdown",
     "graph:build": "rm -rf ./src/.graphclient && NODE_OPTIONS='--loader ts-node/esm' graphclient build --throwOnInvalidConfig && mv .graphclient ./src/.graphclient",
     "graph:compile": "graphql-codegen",
     "graph:serve": "graphclient serve-dev",

@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.0.26
+
+* Added TypeDoc and Markdown plugin
+
+
 ## 0.0.25
 
 * Remove meta-minting function temporarily
