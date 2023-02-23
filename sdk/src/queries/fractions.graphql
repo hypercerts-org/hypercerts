@@ -1,5 +1,6 @@
-query ClaimTokensByOwner($owner: Bytes = "") {
-    claimTokens(where: {owner: $owner}, first: 30) {
+query ClaimTokensByOwner($owner: Bytes = "", $chainNames: [String!]!) {
+    claimTokens(where: {owner: $owner}, first: 30, chainNames: $chainNames) {
+        chainName
         id
         owner
         tokenID
@@ -13,8 +14,9 @@ query ClaimTokensByOwner($owner: Bytes = "") {
     }
 }
 
-query ClaimTokensByClaim($claimId: String!) {
-    claimTokens(where: { claim: $claimId }) {
+query ClaimTokensByClaim($claimId: String!, $chainNames: [String!]!) {
+    claimTokens(where: { claim: $claimId }, chainNames: $chainNames) {
+        chainName
         id
         owner
         tokenID
@@ -22,8 +24,9 @@ query ClaimTokensByClaim($claimId: String!) {
     }
 }
 
-query ClaimTokenById($claimTokenId: ID!) {
-    claimToken(id: $claimTokenId) {
+query ClaimTokenById($claimTokenId: ID!, $chainNames: [String!]!) {
+    claimToken(id: $claimTokenId, chainNames: $chainNames) {
+        chainName
         id
         owner
         tokenID

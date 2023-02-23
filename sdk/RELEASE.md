@@ -4,6 +4,8 @@
 
 * Added TypeDoc and Markdown plugin
 * Implementing Rollup as the build tool
+* Fix TransferRestrictions enum
+* Add Optimism network, but still hardcoding to Goerli
 
 ## 0.0.25
 
