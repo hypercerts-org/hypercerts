@@ -58,7 +58,7 @@ const setup = async () => {
         functionConditions: [
           {
             functionSignature:
-              "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
+              "batchMintClaimsFromAllowlists(address,bytes32[][],uint256[],uint256[])",
           },
         ],
       });
@@ -83,7 +83,7 @@ const setup = async () => {
         functionConditions: [
           {
             functionSignature:
-              "mintClaimFromAllowlist(bytes32[],uint256,uint256)",
+              "mintClaimFromAllowlist(address,bytes32[],uint256,uint256)",
           },
         ],
       });

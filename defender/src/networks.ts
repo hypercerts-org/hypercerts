@@ -1,9 +1,14 @@
 import { Network } from "defender-base-client";
 
 export interface NetworkConfig {
+  // Used to identify the network for both Alchemy and OpenZeppelin Sentinel
   networkKey: Network;
+  // Contract address on the network
   contractAddress: string;
+  // Table name in Supabase
   supabaseTableName: string;
+  // the selector to retrieve the key from event.secrets in OpenZeppelin
+  alchemyKeyEnvName: string;
 }
 
 export const NETWORKS: NetworkConfig[] = [
@@ -11,11 +16,13 @@ export const NETWORKS: NetworkConfig[] = [
     networkKey: "goerli",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     supabaseTableName: "goerli-allowlistCache",
+    alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
   },
   {
     networkKey: "optimism",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     supabaseTableName: "optimism-allowlistCache",
+    alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
   },
 ];
 
