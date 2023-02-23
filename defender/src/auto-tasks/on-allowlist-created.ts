@@ -1,11 +1,12 @@
-import { ethers } from "ethers";
+import axios from "axios";
 import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
+import { ethers } from "ethers";
 import fetch from "node-fetch";
-import { createClient } from "@supabase/supabase-js";
 import * as protocol from "@hypercerts-org/hypercerts-protocol";
 const { HypercertMinterABI } = protocol;
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
+import { getNetworkConfigFromName } from "../networks";
 
 const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
@@ -22,6 +23,7 @@ export const getData = async (cid: string) => {
 
 export async function handler(event: AutotaskEvent) {
   const { SUPABASE_URL, SUPABASE_SECRET_API_KEY } = event.secrets;
+  const network = getNetworkConfigFromName(event.autotaskName);
 
   const client = createClient(SUPABASE_URL, SUPABASE_SECRET_API_KEY, {
     global: {
@@ -43,7 +45,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Contract address", contractAddress);
 
   const tx = await ethers
-    .getDefaultProvider("goerli")
+    .getDefaultProvider(network.networkKey)
     .getTransaction(match.hash);
 
   const contractInterface = new ethers.utils.Interface(HypercertMinterABI);
@@ -83,7 +85,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("pairs", pairs);
 
   const addResult = await client
-    .from("allowlistCache")
+    .from(network.supabaseTableName)
     .insert(pairs)
     .select()
     .then((data) => data.data);

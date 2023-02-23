@@ -1,93 +1,94 @@
-import { AutotaskClient } from "defender-autotask-client";
-import { SentinelClient } from "defender-sentinel-client";
-
-import { apiKey, apiSecret, contractAddress } from "./config.js";
-
+import config from "./config.js";
 import { createTask } from "./create-autotask.js";
 import { createSentinel } from "./create-sentinel.js";
+import { ApiError, ConfigError } from "./errors.js";
+import { reset } from "./reset.js";
+import { encodeName } from "./networks.js";
 
-const credentials = {
-  apiKey,
-  apiSecret,
-};
-const autotaskClient = new AutotaskClient(credentials);
-export const sentinelClient = new SentinelClient(credentials);
 const setup = async () => {
-  // Remove all old auto tasks and sentinels
-  const oldAutoTasks = await autotaskClient.list();
-  const oldSentinels = await sentinelClient.list();
-  await Promise.all([
-    ...oldAutoTasks.items.map((x) =>
-      autotaskClient.delete(x.autotaskId).then((res) => {
-        console.log(res.message);
-      }),
-    ),
-    ...oldSentinels.items.map((x) =>
-      sentinelClient.delete(x.subscriberId).then((res) => {
-        console.log(res.message);
-      }),
-    ),
-  ]);
+  // Delete all sentinels and tasks first
+  await reset();
 
-  if (!contractAddress) {
-    throw new Error("No contract address specified");
+  // Error out if no networks configured.
+  if (config.networks.length < 1) {
+    throw new ConfigError("No networks specified");
   }
 
-  // On allowlist created
-  const autoTaskOnAllowlistCreated = await createTask(
-    "add cache entries on allowlist mint",
-    "on-allowlist-created",
+  return await Promise.all(
+    config.networks.map(async (network) => {
+      // On allowlist created
+      const autoTaskOnAllowlistCreated = await createTask(
+        encodeName(network, "add cache entries on allowlist mint"),
+        "on-allowlist-created",
+      );
+      if (!autoTaskOnAllowlistCreated) {
+        throw new ApiError(
+          encodeName(
+            network,
+            "Could not create autoTask for on-allowlist-created",
+          ),
+        );
+      }
+      await createSentinel({
+        name: encodeName(network, "AllowlistCreated"),
+        network: network,
+        eventConditions: [
+          { eventSignature: "AllowlistCreated(uint256,bytes32)" },
+        ],
+        autotaskID: autoTaskOnAllowlistCreated.autotaskId,
+      });
+
+      // On batch minted
+      const autoTaskOnBatchMintClaimsFromAllowlists = await createTask(
+        encodeName(network, "remove cache entries on batch mint"),
+        "batch-mint-claims-from-allowlists",
+      );
+      if (!autoTaskOnBatchMintClaimsFromAllowlists) {
+        throw new ApiError(
+          encodeName(
+            network,
+            "Could not create autoTask for batch-mint-claims-from-allowlists",
+          ),
+        );
+      }
+      await createSentinel({
+        name: encodeName(network, "batchMintClaimsFromAllowlists"),
+        network: network,
+        autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
+        functionConditions: [
+          {
+            functionSignature:
+              "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
+          },
+        ],
+      });
+
+      // On single minted from allowlist
+      const autoTaskOnMintClaimFromAllowlist = await createTask(
+        encodeName(network, "remove cache entry on mint claim from allowlist"),
+        "mint-claim-from-allowlist",
+      );
+      if (!autoTaskOnMintClaimFromAllowlist) {
+        throw new ApiError(
+          encodeName(
+            network,
+            "Could not create autoTask for mint-claim-from-allowlist",
+          ),
+        );
+      }
+      await createSentinel({
+        name: encodeName(network, "mintClaimFromAllowlist"),
+        network: network,
+        autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
+        functionConditions: [
+          {
+            functionSignature:
+              "mintClaimFromAllowlist(bytes32[],uint256,uint256)",
+          },
+        ],
+      });
+    }),
   );
-  if (!autoTaskOnAllowlistCreated) {
-    throw new Error("Could not create autoTask for on-allowlist-created");
-  }
-  await createSentinel({
-    name: "AllowlistCreated",
-    address: contractAddress,
-    eventConditions: [{ eventSignature: "AllowlistCreated(uint256,bytes32)" }],
-    autotaskID: autoTaskOnAllowlistCreated.autotaskId,
-  });
-
-  // On batch minted
-  const autoTaskOnBatchMintClaimsFromAllowlists = await createTask(
-    "remove cache entries on batch mint",
-    "batch-mint-claims-from-allowlists",
-  );
-  if (!autoTaskOnBatchMintClaimsFromAllowlists) {
-    throw new Error(
-      "Could not create autoTask for batch-mint-claims-from-allowlists",
-    );
-  }
-  await createSentinel({
-    name: "batchMintClaimsFromAllowlists",
-    address: contractAddress,
-    autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
-    functionConditions: [
-      {
-        functionSignature:
-          "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
-      },
-    ],
-  });
-
-  // On single minted from allowlist
-  const autoTaskOnMintClaimFromAllowlist = await createTask(
-    "remove cache entry on mint claim from allowlist",
-    "mint-claim-from-allowlist",
-  );
-  if (!autoTaskOnMintClaimFromAllowlist) {
-    throw new Error("Could not create autoTask for mint-claim-from-allowlist");
-  }
-  await createSentinel({
-    name: "mintClaimFromAllowlist",
-    address: contractAddress,
-    autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
-    functionConditions: [
-      {
-        functionSignature: "mintClaimFromAllowlist(bytes32[],uint256,uint256)",
-      },
-    ],
-  });
 };
 
 setup();
