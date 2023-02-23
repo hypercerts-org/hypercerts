@@ -70,6 +70,9 @@ If you are deploying a new proxy contract to a network for which you already hav
 #### Update the OpenZeppelin Defender scripts
 
 Modify the Defender scripts to support the new network.
+
+TODO: new file where this is stored.
+
 The entry point for deployment is in `defender/src/setup.ts`.
 
 #### Setup the `defender/` environment
