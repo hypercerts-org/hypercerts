@@ -90,7 +90,7 @@ def create_markdown_row(project):
     return "|".join([
         name.replace("|","∙"),
         f"[Hypercert]({minting_url})",
-        f"[{project['fractionsTotalSupply']}]({allowlist_csv})",
+        f"{project['fractionsTotalSupply']}",
         flag
     ])
 
@@ -101,18 +101,15 @@ def create_markdown_export():
     with open(md_filename, 'w') as f:
         
         matching_pool = ""
-        pool_count = 0
         for project in PROJECTS_DB:
-            if matching_pool != project['roundName']:
-                pool_count += 1
+            if matching_pool != project['roundName']:                
                 matching_pool = project['roundName']
-                f.write(f"#\n\n{matching_pool}\n")
-
-            f.write("| Num | Project | Project Links | Fractions | Flags |\n")
-            f.write("| --- | ------- | ------------- | --------- | ----- |\n")
+                f.write(f"\n\n# {matching_pool}\n")
+                f.write("| Project | Project Links | Fractions | Flags |\n")
+                f.write("| ------- | ------------- | --------- | ----- |\n")
+            
             markdown = create_markdown_row(project)
-            num = str(pool_count+1).zfill(2)
-            f.write(f"{num}|{markdown}|\n")
+            f.write(f"|{markdown}|\n")
     
     f.close()
 
