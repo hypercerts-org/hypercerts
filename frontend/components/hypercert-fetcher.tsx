@@ -7,6 +7,7 @@ import {
   ClaimTokensByClaimQuery,
 } from "@hypercerts-org/hypercerts-sdk/lib/.graphclient";
 import { spawn } from "../lib/common";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
 
 // The name used to pass data into the Plasmic DataProvider
 const DATAPROVIDER_NAME = "hypercertData";
@@ -74,7 +75,7 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           ? newData?.claim?.uri ?? byMetadataUri
           : byMetadataUri ?? newData?.claim?.uri;
         if (metadataUri) {
-          const result = await sdk.getMetadata(metadataUri);
+          const result = await hypercertsStorage.getMetadata(metadataUri);
           newData.metadata = result;
         }
         console.log(

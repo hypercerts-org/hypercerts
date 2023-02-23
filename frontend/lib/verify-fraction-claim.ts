@@ -1,9 +1,6 @@
-import {
-  claimById,
-  getData,
-  getMetadata,
-} from "@hypercerts-org/hypercerts-sdk";
+import { claimById } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { hypercertsStorage } from "./hypercerts-storage";
 
 export const verifyFractionClaim = async (claimId: string, address: string) => {
   const claimByIdRes = await claimById(claimId);
@@ -13,13 +10,13 @@ export const verifyFractionClaim = async (claimId: string, address: string) => {
   }
 
   const { uri, tokenID: _id } = claimByIdRes.claim;
-  const metadata = await getMetadata(uri || "");
+  const metadata = await hypercertsStorage.getMetadata(uri || "");
 
   if (!metadata?.allowList) {
     throw new Error(`No allowlist found for ${claimId}`);
   }
 
-  const treeResponse = await getData(metadata.allowList);
+  const treeResponse = await hypercertsStorage.getData(metadata.allowList);
 
   if (!treeResponse) {
     throw new Error("Could not fetch json tree dump for allowlist");
