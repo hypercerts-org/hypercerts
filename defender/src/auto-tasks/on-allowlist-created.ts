@@ -14,10 +14,10 @@ const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
   return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
 };
 
-export const getData = async (cid: string) => {
-  const nftStorageGatewayLink = getIpfsGatewayUri(cid);
-  console.log(`Getting metadata ${cid} at ${nftStorageGatewayLink}`);
-  return axios.get(nftStorageGatewayLink).then((result) => result.data);
+export const getData = async (cidOrIpfsUri: string) => {
+  const ipfsGatewayLink = getIpfsGatewayUri(cidOrIpfsUri);
+  console.log(`Getting metadata ${cidOrIpfsUri} at ${ipfsGatewayLink}`);
+  return axios.get(ipfsGatewayLink).then((result) => result.data);
 };
 
 export async function handler(event: AutotaskEvent) {
