@@ -53,12 +53,10 @@ def shorten_url(url):
 
 
 def edit_description(text):
-    if len(text) > MAXLEN_DESCR:
-        text = "\n".join([
-            f"** Your description was truncated because it exceeded {MAXLEN_DESCR} chars. **",
-            "** Please review and provide a new description for your hypercert. **\n",
-            text[:MAXLEN_DESCR]
-        ])
+    text = text[:MAXLEN_DESCR]
+    blobs = text.split("\n")
+    text = "\n".join(blobs[-1:])
+    
     return text
 
 
