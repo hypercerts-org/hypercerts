@@ -97,7 +97,7 @@ const config = {
             {
               type: "doc",
               docId: "whitepaper/whitepaper-intro",
-              label: "Introduction?",
+              label: "Introduction",
             },
             {
               type: "doc",
