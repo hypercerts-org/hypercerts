@@ -8,13 +8,23 @@ import {
 
 const LOCALSTORAGE_KEY = "claimAllFractionsTime";
 const DELAY = 5 * 60 * 1000; // 5 minutes
+export const claimedRecently = () => {
+  // Check if we need to wait (been less than DELAY since last claim)
+  const lastClaimStr = localStorage.getItem(LOCALSTORAGE_KEY);
+  const needToWait = lastClaimStr
+    ? Date.now() < parseInt(lastClaimStr) + DELAY
+    : false;
+  return needToWait;
+};
 
 export const ClaimAllFractionsButton = ({
-  text = "Claim all fractions",
   className,
+  text = "Claim all fractions",
+  disabled,
 }: {
-  text: string;
   className?: string;
+  text: string;
+  disabled?: boolean;
 }) => {
   const { address } = useAccountLowerCase();
 
@@ -29,15 +39,9 @@ export const ClaimAllFractionsButton = ({
     },
   });
 
-  // Check if we need to wait (been less than DELAY since last claim)
-  const lastClaimStr = localStorage.getItem(LOCALSTORAGE_KEY);
-  const needToWait = lastClaimStr
-    ? Date.now() < parseInt(lastClaimStr) + DELAY
-    : false;
-
   return (
     <Button
-      disabled={!claimIds?.length || needToWait}
+      disabled={!claimIds?.length || disabled}
       className={className}
       onClick={() => write()}
       variant="outlined"

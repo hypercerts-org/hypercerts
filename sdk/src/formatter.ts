@@ -2,10 +2,20 @@ import { HypercertMetadata } from "./types/metadata.js";
 import { HypercertClaimdata } from "./types/claimdata.js";
 import { validateClaimData, validateMetaData } from "./validator/index.js";
 
-const formatDate = (date: Date) => {
-  const fullYear = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = (date.getDate() + 1).toString().padStart(2, "0");
+export const INDEFINITE_DATE_STRING = "indefinite";
+
+export const formatUnixTime = (seconds: number) => {
+  if (seconds == 0) {
+    return INDEFINITE_DATE_STRING;
+  } else {
+    return formatDate(new Date(seconds * 1000));
+  }
+};
+
+export const formatDate = (date: Date) => {
+  const fullYear = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
   return `${fullYear}-${month}-${day}`;
 };
 
@@ -62,16 +72,12 @@ export const formatHypercertData = ({
     impact_timeframe: {
       name: "Impact Timeframe",
       value: [impactTimeframeStart, impactTimeframeEnd],
-      display_value: `${formatDate(new Date(impactTimeframeStart * 1000))} \u2192 ${formatDate(
-        new Date(impactTimeframeEnd * 1000),
-      )}`,
+      display_value: `${formatUnixTime(impactTimeframeStart)} \u2192 ${formatUnixTime(impactTimeframeEnd)}`,
     },
     work_timeframe: {
       name: "Work Timeframe",
       value: [workTimeframeStart, workTimeframeEnd],
-      display_value: `${formatDate(new Date(workTimeframeStart * 1000))} \u2192 ${formatDate(
-        new Date(workTimeframeEnd * 1000),
-      )}`,
+      display_value: `${formatUnixTime(workTimeframeStart)} \u2192 ${formatUnixTime(workTimeframeEnd)}`,
     },
     rights: {
       name: "Rights",

@@ -58,7 +58,7 @@ export const storeData = async (data: any, targetClient?: Web3Storage): Promise<
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
   const files = [new File([blob], "data.json")];
   console.log("Storing blob of: ", data);
-  const cid = await client.put(files);
+  const cid = await client.put(files, { wrapWithDirectory: false });
   return cid;
 };
 
@@ -78,6 +78,11 @@ export const getData = async (cidOrIpfsUri: string, targetClient?: Web3Storage):
   }
 
   // Assert there's only 1 file
+  // TODO: because we are storing with `wrapDirectory: false`, this call fails
+  //  on upstream projects (e.g. frontend)
+  //  which is confusing because there's no other way to retrieve the file
+  //  doubly confusing because the unit tests work fine.
+  //  Need further investigating, but using `getMetadata` works as a workaround atm
   const files = await res.files();
   if (files.length !== 1) {
     throw new MalformedDataError(`Expected 1 file but got ${files.length}`);

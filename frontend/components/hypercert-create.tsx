@@ -424,6 +424,8 @@ const formatValuesToMetaData = (
   const workScopes = parseListFromString(val.workScopes);
 
   // Mint certificate using contract
+  // NOTE: we set the times to be UNIX time (seconds since the epoch)
+  //  but Date.getTime() returns milliseconds since the epoch
   // NOTE: we are fixing the impactTimeStart to be the same as workTimeStart
   const impactTimeframeStart = val.workTimeStart
     ? new Date(val.workTimeStart).getTime() / 1000

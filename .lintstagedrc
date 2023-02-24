@@ -3,7 +3,7 @@
     "eslint --ignore-path .gitignore --ignore-pattern sdk/",
     "prettier --write --ignore-path .gitignore"
   ],
-  "**/*.json": [
+  "**/*.{md,json}": [
     "prettier --write --ignore-path .gitignore"
   ]
 }

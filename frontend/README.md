@@ -9,6 +9,14 @@ See `.env.local.example` to see which variables need to be set.
 
 The easiest way to get started is to copy this into `.env.local` and modify the file directly, which `next` will automatically load when running the dev server below.
 
+If you change the environment variables, make sure you update
+
+- `.env.local.example`
+- `./lib/config.ts`
+- `../.github/workflows/ci-default.yml`
+- Any CI/CD system (e.g. GitHub Actions, Pages)
+- In your organization's secrets manager
+
 ## Run
 
 ```

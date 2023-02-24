@@ -1,13 +1,23 @@
 import { ethers } from "ethers";
-import { AutotaskEvent, SentinelTriggerEvent } from "defender-autotask-utils";
+import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
 import { createClient } from "@supabase/supabase-js";
-import * as protocol from "@hypercerts-org/hypercerts-protocol";
-const { HypercertMinterABI } = protocol;
 import fetch from "node-fetch";
+import { getNetworkConfigFromName } from "../networks";
+import { MissingDataError, NotImplementedError } from "../errors";
+import { abi } from "../HypercertMinterABI";
 
 export async function handler(event: AutotaskEvent) {
+  console.log(
+    "Event: ",
+    JSON.stringify(
+      { ...event, secrets: "HIDDEN", credentials: "HIDDEN" },
+      null,
+      2,
+    ),
+  );
+  const network = getNetworkConfigFromName(event.autotaskName);
   const { SUPABASE_URL, SUPABASE_SECRET_API_KEY } = event.secrets;
-
+  const ALCHEMY_KEY = event.secrets[network.alchemyKeyEnvName];
   const client = createClient(SUPABASE_URL, SUPABASE_SECRET_API_KEY, {
     global: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -15,40 +25,41 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
-
-  const match = event.request.body as SentinelTriggerEvent;
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const tokenId = match.matchReasons[0].params.tokenID as string;
-  console.log("TokenId", tokenId);
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const fromAddress = match.transaction.from;
+  const body = event.request.body;
+  if (!("type" in body) || body.type !== "BLOCK") {
+    throw new NotImplementedError("Event body is not a BlockTriggerEvent");
+  }
+  const blockTriggerEvent = body as BlockTriggerEvent;
+  const contractAddress = blockTriggerEvent.matchedAddresses[0];
+  const fromAddress = blockTriggerEvent.transaction.from;
+  if (!contractAddress) {
+    throw new MissingDataError(`body.matchedAddresses is missing`);
+  } else if (!fromAddress) {
+    throw new MissingDataError(`body.transaction.from is missing`);
+  }
+  console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const contractAddress = match.matchedAddresses[0];
-
-  const tx = await ethers
-    .getDefaultProvider("goerli")
-    .getTransaction(match.hash);
-
-  const contractInterface = new ethers.utils.Interface(HypercertMinterABI);
+  const provider = new ethers.providers.AlchemyProvider(
+    network.networkKey,
+    ALCHEMY_KEY,
+  );
+  const tx = await provider.getTransaction(blockTriggerEvent.hash);
+  const contractInterface = new ethers.utils.Interface(abi);
   const decodedData = contractInterface.parseTransaction({
     data: tx.data,
     value: tx.value,
   });
 
+  console.log("Transaction: ", JSON.stringify(decodedData, null, 2));
   const claimId = decodedData.args["claimID"] as string;
   const formattedClaimId = `${contractAddress}-${claimId
     .toString()
     .toLowerCase()}`;
+  console.log("Formatted claim id", formattedClaimId);
 
   const deleteResult = await client
-    .from("allowlistCache")
+    .from(network.supabaseTableName)
     .delete()
     .eq("address", fromAddress)
     .eq("claimId", formattedClaimId)
