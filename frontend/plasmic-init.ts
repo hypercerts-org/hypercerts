@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ClientGrid } from "./components/client-grid";
 import { DEFAULT_TEST_DATA } from "./components/dapp-context";
+import { Config } from "./components/config";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import {
   FormField,
@@ -78,6 +79,22 @@ PLASMIC.registerComponent(ClientGrid, {
   },
   providesData: true,
   importPath: "./components/client-grid",
+});
+
+PLASMIC.registerComponent(Config, {
+  name: "Config",
+  description: "Expose app config",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/config",
 });
 
 PLASMIC.registerComponent(
@@ -308,7 +325,7 @@ PLASMIC.registerComponent(ClaimAllFractionsButton, {
   description: "Button that will claim all fractions upon clicking",
   props: {
     text: "string",
-    className: "string",
+    disabled: "boolean",
   },
   importPath: "./components/claim-all-fractions-button",
 });

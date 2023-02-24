@@ -15,10 +15,11 @@ import {
 import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { DEFAULT_CHAIN_ID, GRAPH_URL, SUPABASE_TABLE } from "../lib/config";
+import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useAccountLowerCase } from "../hooks/account";
+import { claimedRecently } from "./claim-all-fractions-button";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
@@ -45,8 +46,7 @@ export interface DappContextData {
   defaultChainId?: string;
   chain?: Chain;
   chains?: Chain[];
-  graphUrl?: string;
-  supabaseTable?: string;
+  waitToClaim?: boolean;
 }
 
 export const DEFAULT_TEST_DATA: DappContextData = {
@@ -54,9 +54,7 @@ export const DEFAULT_TEST_DATA: DappContextData = {
   defaultChainId: "5",
   chain: goerli,
   chains: ALL_CHAINS,
-  graphUrl:
-    "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet",
-  supabaseTable: "goerli-allowlistCache",
+  waitToClaim: false,
 };
 
 export interface DappContextProps {
@@ -77,6 +75,7 @@ export function DappContext(props: DappContextProps) {
     testData,
     useTestData,
   } = props;
+  const [waitToClaim, setWaitToClaim] = React.useState(false);
 
   const inEditor = React.useContext(PlasmicCanvasContext);
   const { address } = useAccountLowerCase();
@@ -89,9 +88,13 @@ export function DappContext(props: DappContextProps) {
           chain,
           chains,
           defaultChainId: DEFAULT_CHAIN_ID,
-          graphUrl: GRAPH_URL,
-          supabaseTable: SUPABASE_TABLE,
+          waitToClaim,
         };
+
+  React.useEffect(() => {
+    // Reaches into window.localStorage, so doing it within a useEffect
+    setWaitToClaim(claimedRecently());
+  });
 
   if (showIfNotConnected && !data.myAddress && notConnected) {
     return <div className={className}> {notConnected} </div>;

@@ -16,7 +16,9 @@ export const verifyFractionClaim = async (claimId: string, address: string) => {
     throw new Error(`No allowlist found for ${claimId}`);
   }
 
-  const treeResponse = await hypercertsStorage.getData(metadata.allowList);
+  // TODO: this should be retrieved with `getData`, but it fails on res.files()
+  // Need to investigate further
+  const treeResponse = await hypercertsStorage.getMetadata(metadata.allowList);
 
   if (!treeResponse) {
     throw new Error("Could not fetch json tree dump for allowlist");
