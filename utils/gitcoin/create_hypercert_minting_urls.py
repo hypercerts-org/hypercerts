@@ -54,8 +54,8 @@ def shorten_url(url):
 
 def edit_description(text):
     text = text[:MAXLEN_DESCR]
-    blobs = text.split("\n")
-    text = "\n".join(blobs[-1:])
+    # blobs = text.split("\n")
+    # text = "\n".join(blobs[-1:])
     
     return text
 
