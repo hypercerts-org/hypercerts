@@ -17,6 +17,7 @@ const FeatureList = [
     title: 'Vision & Whitepaper',
     icon: 'img/icons/beige.svg',
     items: [
+      {url: "whitepaper/whitepaper-intro", text: "Introduction"},
       {url: "whitepaper/ifs", text: "Impact Funding Systems (IFSs)"},
       {url: "whitepaper/hypercerts-intro", text: "Hypercerts: a New Primitive"},
       {url: "whitepaper/impact-space", text: "A Consistent Impact Space"},
