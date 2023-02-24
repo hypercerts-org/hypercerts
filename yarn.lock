@@ -3474,10 +3474,10 @@
   resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-protocol/-/hypercerts-protocol-0.0.10.tgz#a7248d1ed35257996ac2451ed0a442ef9055ab7d"
   integrity sha512-S2igvcBB5dxB+rHZnZ/9GySJj8lKmREohQDXNJC3HGX58dJPdCwS4U+QduD/neVbMM3drZedIFtVKmxbBPb+8g==
 
-"@hypercerts-org/hypercerts-sdk@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-sdk/-/hypercerts-sdk-0.0.26.tgz#6a21266d3b3f6cdf295adc09ee0e1a4006b896f7"
-  integrity sha512-quQRVQ/XgnfTqTH4W2nRB3KfJccfj4sSxLPFRiotPxQZlQFsRzpG6qcpkW69N67NiKne2DsGQkVPSXu7AFGv+g==
+"@hypercerts-org/hypercerts-sdk@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-sdk/-/hypercerts-sdk-0.0.28.tgz#0aee05558e5420b77c2c47e31060b8d11e2f757f"
+  integrity sha512-MvzpA6SoIH/oQoQJgg1X9vbxpIf08BrABp2YcPrHBqu/tE04+Ecf1AsoFByZ8g3T0tJhjtg/mvhSGOOzCMZhig==
   dependencies:
     "@graphprotocol/client-cli" "^2.2.15"
     "@hypercerts-org/hypercerts-protocol" "0.0.10"
