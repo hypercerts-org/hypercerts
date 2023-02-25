@@ -1,4 +1,7 @@
 import { ethers } from "ethers";
 
-// TODO provider setting from env or user settings
-export const provider = ethers.getDefaultProvider();
+import { getChain } from "src/constants.js";
+
+const chain = getChain();
+
+export const provider = ethers.getDefaultProvider(chain.rpc);

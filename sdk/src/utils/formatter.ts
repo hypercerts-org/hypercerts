@@ -1,6 +1,6 @@
-import { HypercertMetadata } from "./types/metadata.js";
-import { HypercertClaimdata } from "./types/claimdata.js";
-import { validateClaimData, validateMetaData } from "./validator/index.js";
+import { HypercertMetadata } from "../types/metadata.js";
+import { HypercertClaimdata } from "../types/claimdata.js";
+import { validateClaimData, validateMetaData } from "../validator/index.js";
 
 const formatDate = (date: Date) => {
   const fullYear = date.getFullYear();
