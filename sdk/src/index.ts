@@ -16,7 +16,7 @@ export {
 };
 
 // Graph
-import { execute } from "./.graphclient/index.js";
+import { execute } from "../.graphclient/index.js";
 import { claimsByOwner, claimById, firstClaims } from "./claims.js";
 import { fractionsByOwner, fractionsByClaim, fractionById } from "./fractions.js";
 

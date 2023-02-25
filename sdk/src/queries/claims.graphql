@@ -1,38 +1,38 @@
-query ClaimsByOwner($owner: Bytes = "", $chainNames: [String!]!) {
-    claims(where: { owner: $owner }, chainNames: $chainNames) {
-        chainName
-        contract
-        tokenID
-        creator
-        id
-        owner
-        totalUnits
-        uri
-    }
+query ClaimsByOwner($owner: Bytes = "") {
+  claims(where: { owner: $owner }) {
+    chainName
+    contract
+    tokenID
+    creator
+    id
+    owner
+    totalUnits
+    uri
+  }
 }
 
-query RecentClaims($first: Int = 10, $chainNames: [String!]!) {
-    claims(orderDirection: desc, orderBy: creation, first: $first, chainNames: $chainNames) {
-        chainName
-        contract
-        tokenID
-        creator
-        id
-        owner
-        totalUnits
-        uri
-    }
+query RecentClaims($first: Int = 10) {
+  claims(orderDirection: desc, orderBy: creation, first: $first) {
+    chainName
+    contract
+    tokenID
+    creator
+    id
+    owner
+    totalUnits
+    uri
+  }
 }
 
-query ClaimById($id: ID!, $chainNames: [String!]!) {
-    claim(id: $id, chainNames: $chainNames) {
-        chainName
-        contract
-        tokenID
-        creator
-        id
-        owner
-        totalUnits
-        uri
-    }
+query ClaimById($id: ID!) {
+  claim(id: $id) {
+    chainName
+    contract
+    tokenID
+    creator
+    id
+    owner
+    totalUnits
+    uri
+  }
 }
