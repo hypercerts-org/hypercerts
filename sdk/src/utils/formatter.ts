@@ -1,6 +1,6 @@
-import { HypercertMetadata } from "./types/metadata.js";
-import { HypercertClaimdata } from "./types/claimdata.js";
-import { validateClaimData, validateMetaData } from "./validator/index.js";
+import { HypercertMetadata } from "../types/metadata.js";
+import { HypercertClaimdata } from "../types/claimdata.js";
+import { validateClaimData, validateMetaData } from "../validator/index.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
 

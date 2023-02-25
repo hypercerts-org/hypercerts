@@ -1,10 +1,6 @@
 import axios from "axios";
 import { expect, assert } from "chai";
 import { getData, getMetadata, storeData, storeMetadata } from "../src/index.js";
-import metadata from "./res/mockMetadata.js";
-import data from "./res/mockData.js";
-
-import { HypercertMetadata } from "../src/types/metadata.js";
 import { getNftStorageGatewayUri } from "../src/operator/index.js";
 
 const mockMetadata = JSON.parse(`

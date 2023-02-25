@@ -1,6 +1,9 @@
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config();
+
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
-import { formatHypercertData } from "./formatter.js";
+import { formatHypercertData } from "./utils/formatter.js";
 import { storeMetadata, storeData, getMetadata, getData } from "./operator/index.js";
 import { HypercertsStorage } from "./operator/hypercerts-storage.js";
 
@@ -17,8 +20,8 @@ export {
 
 // Graph
 import { execute } from "../.graphclient/index.js";
-import { claimsByOwner, claimById, firstClaims } from "./claims.js";
-import { fractionsByOwner, fractionsByClaim, fractionById } from "./fractions.js";
+import { claimsByOwner, claimById, firstClaims } from "./queries/claims.js";
+import { fractionsByOwner, fractionsByClaim, fractionById } from "./queries/fractions.js";
 
 export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fractionsByClaim, fractionById };
 

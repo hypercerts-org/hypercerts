@@ -1,7 +1,10 @@
-import { getBuiltGraphSDK } from "../.graphclient/index.js";
+import { getBuiltGraphSDK } from "../../.graphclient/index.js";
+import { getChain } from "../constants.js";
+
+const chain = getChain();
 
 const sdk = getBuiltGraphSDK({
-  chainName: "hypercerts-testnet",
+  chainName: chain.graph,
 });
 
 export const claimsByOwner = async (owner: string) =>

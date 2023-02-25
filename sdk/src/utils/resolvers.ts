@@ -1,3 +1,4 @@
+import { getChain } from "src/constants.js";
 import { Resolvers, MeshContext } from "../../.graphclient";
 
 export const resolvers: Resolvers = {

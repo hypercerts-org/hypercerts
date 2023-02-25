@@ -27,6 +27,7 @@
     "@supabase/supabase-js": "^2.1.2",
     "@tanstack/react-query-devtools": "^4.23.0",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
