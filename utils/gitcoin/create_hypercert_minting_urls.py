@@ -53,11 +53,15 @@ def shorten_url(url):
 
 
 def edit_description(text):
-    text = text[:MAXLEN_DESCR]
-    # blobs = text.split("\n")
-    # text = "\n".join(blobs[-1:])
-    
-    return text
+    blobs = text.split("\n")
+    if len(blobs) == 1:
+        return text[:MAXLEN_DESCR]    
+    new_text = blobs[0]
+    idx = 1
+    while len(new_text) <= MAXLEN_DESCR and idx < len(blobs):
+        new_text = "\n".join([new_text, blobs[idx]])
+        idx += 1
+    return new_text
 
 
 def create_url(project, short_url=False):
