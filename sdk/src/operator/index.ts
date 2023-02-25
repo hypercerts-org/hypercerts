@@ -5,10 +5,10 @@ import { NFTStorage, CIDString, Blob } from "nft.storage";
 import { Web3Storage, File } from "web3.storage";
 import { HypercertMetadata } from "../types/metadata.js";
 import { FetchError, MalformedDataError } from "../errors.js";
+import { getStorage } from "../constants.js";
 
 // Storage keys
-const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN ?? "MISSING_TOKEN";
-const WEB3_STORAGE_TOKEN = process.env.WEB3_STORAGE_TOKEN ?? "MISSING_TOKEN";
+const storageConfig = getStorage();
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 export const getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
@@ -16,8 +16,8 @@ export const getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
   return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
 };
 
-export const defaultNftStorageClient = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-export const defaultWeb3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
+export const nftStorageClient = new NFTStorage({ token: storageConfig.nftStorage });
+export const web3StorageClient = new Web3Storage({ token: storageConfig.web3Storage });
 
 /**
  * Stores NFT metadata into NFT.storage
@@ -25,9 +25,9 @@ export const defaultWeb3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TO
  * @param targetClient
  * @returns
  */
-export const storeMetadata = async (data: HypercertMetadata, targetClient?: NFTStorage): Promise<CIDString> => {
+export const storeMetadata = async (data: HypercertMetadata): Promise<CIDString> => {
   console.log("Storing metadata: ", data);
-  const client = targetClient ?? defaultNftStorageClient;
+  const client = nftStorageClient;
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
   const cid = await client.storeBlob(blob);
   return cid;
@@ -53,8 +53,8 @@ export const getMetadata = async (cidOrIpfsUri: string): Promise<HypercertMetada
  * @param targetClient
  * @returns
  */
-export const storeData = async (data: any, targetClient?: Web3Storage): Promise<CIDString> => {
-  const client = targetClient ?? defaultWeb3StorageClient;
+export const storeData = async (data: any): Promise<CIDString> => {
+  const client = web3StorageClient;
   const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
   const files = [new File([blob], "data.json")];
   console.log("Storing blob of: ", data);
@@ -67,8 +67,8 @@ export const storeData = async (data: any, targetClient?: Web3Storage): Promise<
  * @param cidOrIpfsUri
  * @returns
  */
-export const getData = async (cidOrIpfsUri: string, targetClient?: Web3Storage): Promise<any> => {
-  const client = targetClient ?? defaultWeb3StorageClient;
+export const getData = async (cidOrIpfsUri: string): Promise<any> => {
+  const client = web3StorageClient;
   const cid = getCid(cidOrIpfsUri);
 
   // Get the data

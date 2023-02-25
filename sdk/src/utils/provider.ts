@@ -4,4 +4,4 @@ import { getChain } from "src/constants.js";
 
 const chain = getChain();
 
-export const provider = ethers.getDefaultProvider(chain.rpc);
+export const provider = new ethers.providers.JsonRpcProvider(chain.rpc);

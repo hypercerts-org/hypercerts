@@ -1,6 +1,3 @@
-import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-dotenv.config();
-
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
 import { formatHypercertData } from "./utils/formatter.js";
