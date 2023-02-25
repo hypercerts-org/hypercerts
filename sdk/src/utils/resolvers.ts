@@ -1,12 +1,11 @@
-import { getChain } from "src/constants.js";
 import { Resolvers, MeshContext } from "../../.graphclient";
 
 export const resolvers: Resolvers = {
   Claim: {
-    chainName: (root, args, context, info) => context.chainName || "goerli", // The value we provide in the config
+    chainName: (root, args, context, info) => context.chainName || "hypercerts-testnet", // The value we provide in the config
   },
   ClaimToken: {
-    chainName: (root, args, context, info) => context.chainName || "goerli", // The value we provide in the config
+    chainName: (root, args, context, info) => context.chainName || "hypercerts-testnet", // The value we provide in the config
   },
   // Query: {
   //   crossClaims: async (root, args, context, info) =>
