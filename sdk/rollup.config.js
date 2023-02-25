@@ -1,32 +1,35 @@
-import dts from 'rollup-plugin-dts'
-import esbuild from 'rollup-plugin-esbuild'
-import  { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
+import dts from "rollup-plugin-dts";
+import esbuild from "rollup-plugin-esbuild";
+import nodePolyfills from "rollup-plugin-node-polyfills";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import autoExternal from "rollup-plugin-auto-external";
 
 export default [
   {
     input: `src/index.ts`,
-    plugins: [ 
-        nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }), 
-        json(), 
-        commonjs({     include: /node_modules/,
-        requireReturnsDefault: 'auto',}), 
-        esbuild()],
+    plugins: [
+      autoExternal(),
+      nodePolyfills(),
+      json(),
+      commonjs(),
+      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true, modulesOnly: true }),
+      esbuild(),
+    ],
     output: [
       {
-        dir: `dist`,
-        sourcemap: true,
-        // exports: 'default',
+        format: "esm",
+        dir: "dist",
       },
-    ]
+    ],
   },
   {
     input: `src/index.ts`,
     plugins: [dts()],
     output: {
-      file: `dist/bundle.d.ts`,
-      format: 'es',
+      file: `dist/index.d.ts`,
+      format: "es",
     },
-  }
-]
+  },
+];

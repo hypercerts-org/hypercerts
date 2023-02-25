@@ -1,5 +1,5 @@
 sources:
-  - name: hypercerts
+  - name: Hypercerts
     handler:
       graphql:
         # Default value is hypercerts-testnet
@@ -10,15 +10,15 @@ additionalTypeDefs: |
   extend type Claim {
     chainName: String!
   }
-  extend type ClaimToken {
+   extend type ClaimToken {
     chainName: String!
   }
-  extend type Query {
-    chainName: String!
-  }
+
+additionalResolvers:
+  - ./src/utils/resolvers.ts
 
 documents:
   - ./src/queries/*.graphql
 
 codegen:
-  contextType: 'MeshContext & { chainName: string }'
+  contextType: "MeshContext & { chainName: string }"
