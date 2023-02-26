@@ -145,7 +145,7 @@ def create_csv_export():
         writer = csv.writer(f)
         cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType', 'optimismBalanceEth',               
                 'fundingTotalDollars', 'donorsTotal', 'fractionsTotalSupply', 'hypercertEligibleDonors',
-                'lenDescription', 'workscope',
+                'flagDescription', 'workscope',
                 'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
         writer.writerow(cols)
 
@@ -154,7 +154,7 @@ def create_csv_export():
             p['mintingUrl'] = create_url(project)
             p['address'] = "https://etherscan.io/address/" + project['address']
             p['optimismBalanceEth'] = p['addressScan'].get("optimismBalanceEth")
-            p['lenDescription'] = len(p['projectDescription'])
+            p['flagDescription'] = (len(p['projectDescription']) != len(edit_description(p['projectDescription'])))
             p['workscope'] = p['hypercertData']['workScopes']
             writer.writerow([p[c] for c in cols])
 
@@ -199,7 +199,7 @@ def create_html_export():
     td = lambda row: f"<td>{row}</td>"
     body = []
 
-    for project in PROJECTS_DB[:3]:
+    for project in PROJECTS_DB:
             
             grantName = project['title']
             filename = create_project_filename(grantName)
