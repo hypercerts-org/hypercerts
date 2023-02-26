@@ -1,5 +1,5 @@
 ---
-title: What are hypercerts?
+title: What Are Hypercerts?
 id: intro
 ---
 
@@ -8,6 +8,7 @@ id: intro
 ### Hypercerts are a new token standard for tracking and rewarding positive impact.
 
 Each hypercert represents a unique impact claim capturing the following information:
+
 - a scope of work and its corresponding scope of impact
 - a set of time frames for both the work and its impact
 - a set of contributors – the organization or people behind the work
@@ -16,16 +17,20 @@ Each hypercert represents a unique impact claim capturing the following informat
 The hypercert itself is an ERC-1155 semi-fungible token with the information above stored as metadata on IPFS. Here’s an example.
 
 ### Hypercert example
+
 #### Graphic representation
+
 ![hypercert design example](../static/img/hypercert_example.png)
 
 #### Supplementary information (metadata)
+
 - **Title of hypercert:** Invention of the InterPlanetary Filesystem (IPFS)
 - **Description:** The InterPlanetary File System (IPFS) is a set of composable, peer-to-peer protocols for addressing, routing, and transferring content-addressed data in a decentralized file system.
 - **Link:** ipns://ipfs.tech/
 
 #### Hypercert dimensions (metadata)
-- **Set of contributors:** 0xb794f5ea0ba39494ce839613fffba74279579268 *(example Ethereum address)*
+
+- **Set of contributors:** 0xb794f5ea0ba39494ce839613fffba74279579268 _(example Ethereum address)_
 - **Scope of work:** IPFS ∧ ¬ go-ipfs
 - **Time of work:** 2013-01-01 --> 2013-12-31
 - **Scope of impact:** All
@@ -33,6 +38,7 @@ The hypercert itself is an ERC-1155 semi-fungible token with the information abo
 - **Rights:** Public display
 
 ### Why should you care?
+
 We spend trillions of dollars every year on public goods via governmental agencies, foundations, private donations and corporate spendings; however, we don’t effectively track this work – leaving us in the dark, hoping that it actually has the intended positive impact.
 
 We believe we can do better:
@@ -46,6 +52,7 @@ Doing this would unfold powerful incentives. Retrospective funding 1) provides i
 While we are excited about the prospects of retrospective funding, hypercerts do not impose any specific funding mechanisms, but start with tracking the work that is supposed to be impactful. As a database for many funding mechanisms this facilitates experimentation and interoperability between funding mechanisms.
 
 ### Next
+
 Curious and want to learn more? Head over to the [whitepaper](whitepaper/whitepaper-intro.md) to dive deeper into the world of hypercerts.
 
 Or do you want to get started right away? Head to the [minting guide](minting-guide/minting-guide-start.md).
