@@ -16,9 +16,9 @@
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
     "crypto": "^1.0.1",
-    "defender-autotask-client": "^1.38.0",
-    "defender-autotask-utils": "^1.38.0",
-    "defender-sentinel-client": "^1.38.0",
+    "defender-autotask-client": "^1.39.0",
+    "defender-autotask-utils": "^1.39.0",
+    "defender-sentinel-client": "^1.39.0",
     "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
     "ts-node": "^10.9.1"

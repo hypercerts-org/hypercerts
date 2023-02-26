@@ -28,7 +28,7 @@ export const createSentinel = async ({
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
       addresses: [network.contractAddress],
-      abi: JSON.stringify(abi),
+      abi: abi,
       paused: false,
       eventConditions,
       functionConditions,
