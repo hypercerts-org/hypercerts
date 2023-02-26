@@ -33,13 +33,7 @@ For more details, check out our [website](https://hypercerts.org/).
 - `/sdk`: Hypercerts SDK
   - Manually published to npm
 - `/utils`: various scripts for operations
-  - Manually run 
-
-## Playbooks
-
-For setup and common operations for each subproject, navigate into the respective directory and check out the `README.md`.
-
-We also maintain a [playbook](https://hypercerts/docs/devops) for larger operations.
+  - Manually run
 
 ## Quickstart with Dapp development
 
@@ -47,6 +41,7 @@ We also maintain a [playbook](https://hypercerts/docs/devops) for larger operati
 
 First, make sure the environment variables are set for `./frontend`.
 Take a look at `./frontend/.env.local.example` for the complete list.
+
 - You can either set these yourself (e.g. in CI/CD)
 - or copy the file to `.env.local` and populate it.
 
@@ -70,3 +65,9 @@ To run a dev server that watches for changes across code and Plasmic, run:
 ```bash
 yarn dev:frontend
 ```
+
+## Playbooks
+
+For setup and common operations for each subproject, navigate into the respective directory and check out the `README.md`.
+
+We also maintain a [playbook](https://hypercerts.org/docs/devops) for larger operations.
