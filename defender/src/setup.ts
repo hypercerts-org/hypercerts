@@ -18,7 +18,7 @@ const setup = async () => {
     config.networks.map(async (network) => {
       // On allowlist created
       const autoTaskOnAllowlistCreated = await createTask(
-        encodeName(network, "add cache entries on allowlist mint"),
+        encodeName(network, "on-allowlist-created"),
         "on-allowlist-created",
       );
       if (!autoTaskOnAllowlistCreated) {
@@ -40,7 +40,7 @@ const setup = async () => {
 
       // On batch minted
       const autoTaskOnBatchMintClaimsFromAllowlists = await createTask(
-        encodeName(network, "remove cache entries on batch mint"),
+        encodeName(network, "batch-mint-claims-from-allowlists"),
         "batch-mint-claims-from-allowlists",
       );
       if (!autoTaskOnBatchMintClaimsFromAllowlists) {
@@ -58,14 +58,14 @@ const setup = async () => {
         functionConditions: [
           {
             functionSignature:
-              "batchMintClaimsFromAllowlists(bytes32[][],uint256[],uint256[])",
+              "batchMintClaimsFromAllowlists(address,bytes32[][],uint256[],uint256[])",
           },
         ],
       });
 
       // On single minted from allowlist
       const autoTaskOnMintClaimFromAllowlist = await createTask(
-        encodeName(network, "remove cache entry on mint claim from allowlist"),
+        encodeName(network, "mint-claim-from-allowlist"),
         "mint-claim-from-allowlist",
       );
       if (!autoTaskOnMintClaimFromAllowlist) {
@@ -83,7 +83,7 @@ const setup = async () => {
         functionConditions: [
           {
             functionSignature:
-              "mintClaimFromAllowlist(bytes32[],uint256,uint256)",
+              "mintClaimFromAllowlist(address,bytes32[],uint256,uint256)",
           },
         ],
       });

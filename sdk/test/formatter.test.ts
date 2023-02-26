@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { formatUnixTime, formatDate, INDEFINITE_DATE_STRING } from "../src/formatter.js";
 import { formatHypercertData } from "../src/index.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
@@ -32,5 +33,21 @@ describe("Format Hypercert Data test", () => {
     expect(valid).to.be.false;
     expect(Object.keys(errors).length).to.eq(1);
     expect(data).to.be.null;
+  });
+});
+
+describe("Format dates", () => {
+  it("formats Date", () => {
+    // It's the next day
+    expect(formatDate(new Date("July 20, 69 20:17:40 GMT+00:00"))).to.equal("1969-07-20");
+  });
+
+  it("formats UNIX time", () => {
+    expect(formatUnixTime(-14182940)).to.equal("1969-07-20");
+    expect(formatUnixTime(1677194695)).to.equal("2023-02-23");
+  });
+
+  it("formats indefinite time", () => {
+    expect(formatUnixTime(0)).to.equal(INDEFINITE_DATE_STRING);
   });
 });

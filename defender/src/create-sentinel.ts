@@ -1,12 +1,11 @@
 import { SentinelClient } from "defender-sentinel-client";
-import * as protocol from "@hypercerts-org/hypercerts-protocol";
-const { HypercertMinterABI } = protocol;
 import {
   EventCondition,
   FunctionCondition,
 } from "defender-sentinel-client/lib/models/subscriber.js";
 import config from "./config.js";
 import { NetworkConfig } from "./networks.js";
+import { abi } from "./HypercertMinterABI.js";
 
 export const createSentinel = async ({
   name,
@@ -29,7 +28,7 @@ export const createSentinel = async ({
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
       addresses: [network.contractAddress],
-      abi: JSON.stringify(HypercertMinterABI),
+      abi: abi,
       paused: false,
       eventConditions,
       functionConditions,

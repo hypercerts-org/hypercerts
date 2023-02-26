@@ -1,10 +1,15 @@
 import csv
+from dotenv import load_dotenv
 import json
 import os
+import requests
 import urllib.parse
 
 from utils import create_project_filename
 
+
+load_dotenv()
+CUTTLY_API      = os.environ['CUTTLY_API']
 
 CONFIG          = json.load(open("config/config.json"))
 SETTINGS        = json.load(open("config/gitcoin-settings.json"))
@@ -22,7 +27,7 @@ ERC1155_PROPS   = SETTINGS["properties"]
 ROUNDS          = json.load(open("config/rounds-list.json"))
 ROUND_MAPPINGS  = {r["roundId"]: r for r in ROUNDS}
 
-MAXLEN_DESCR    = 1000
+MAXLEN_DESCR    = 500
 
 
 def url_parse(val):
@@ -38,17 +43,28 @@ def safe_url_attr(name, value):
     return url_field
 
 
+def shorten_url(url):
+
+    userDomain = '1'
+    base_url = 'http://cutt.ly/api/api.php?key={}&short={}'
+    r = requests.get(base_url.format(CUTTLY_API, url))
+    short_url = json.loads(r.text)['url']['shortLink']
+    return(short_url)    
+
+
 def edit_description(text):
-    if len(text) > MAXLEN_DESCR:
-        text = "\n".join([
-            f"** Your description was truncated because it exceeded {MAXLEN_DESCR} chars. **",
-            "** Please review and provide a new description for your hypercert. **\n",
-            text[:MAXLEN_DESCR]
-        ])
-    return text
+    blobs = text.split("\n")
+    if len(blobs) == 1:
+        return text[:MAXLEN_DESCR]    
+    new_text = blobs[0]
+    idx = 1
+    while len(new_text) <= MAXLEN_DESCR and idx < len(blobs):
+        new_text = "\n".join([new_text, blobs[idx]])
+        idx += 1
+    return new_text
 
 
-def create_url(project):
+def create_url(project, short_url=False):
     
     name = project['title']
     filename = create_project_filename(name)
@@ -76,6 +92,9 @@ def create_url(project):
     params = "&".join([safe_url_attr(k,v) for (k,v) in params.items()])
     url = DAPP_BASE_URL + params
     
+    if short_url:
+        url = shorten_url(url)
+
     return url
 
 
@@ -126,6 +145,7 @@ def create_csv_export():
         writer = csv.writer(f)
         cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType', 'optimismBalanceEth',               
                 'fundingTotalDollars', 'donorsTotal', 'fractionsTotalSupply', 'hypercertEligibleDonors',
+                'lenDescription', 'workscope',
                 'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
         writer.writerow(cols)
 
@@ -134,6 +154,8 @@ def create_csv_export():
             p['mintingUrl'] = create_url(project)
             p['address'] = "https://etherscan.io/address/" + project['address']
             p['optimismBalanceEth'] = p['addressScan'].get("optimismBalanceEth")
+            p['lenDescription'] = len(p['projectDescription'])
+            p['workscope'] = p['hypercertData']['workScopes']
             writer.writerow([p[c] for c in cols])
 
     f.close()           
@@ -177,7 +199,7 @@ def create_html_export():
     td = lambda row: f"<td>{row}</td>"
     body = []
 
-    for project in PROJECTS_DB:
+    for project in PROJECTS_DB[:3]:
             
             grantName = project['title']
             filename = create_project_filename(grantName)
@@ -185,7 +207,8 @@ def create_html_export():
             logo_cid = project["projectLogoCid"] if project["projectLogoCid"] else BACKUP_LOGO_CID
             logo = LOGO_IMG_BASE + logo_cid
             banner = "".join([BANNER_IMG_BASE, filename, ".png"])
-            url = create_url(project)
+            url = create_url(project, short_url=False)
+            
             address = project['address']
             row = "\n".join([
                 "<tr>",

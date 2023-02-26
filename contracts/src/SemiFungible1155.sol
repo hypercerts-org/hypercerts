@@ -368,7 +368,9 @@ contract SemiFungible1155 is
     function uri(
         uint256 tokenID
     ) public view virtual override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable) returns (string memory _uri) {
-        _uri = ERC1155URIStorageUpgradeable.uri(tokenID);
+        // All tokens share the same metadata at the moment
+        uint256 typeID = getBaseType(tokenID);
+        _uri = ERC1155URIStorageUpgradeable.uri(typeID);
     }
 
     /// UTILS

@@ -61,3 +61,11 @@ export const getOpenSeaFractionUrl = (
 
 export const formatAddress = (address: string) =>
   `${address.slice(0, 4)}...${address.slice(-4)}`;
+
+/**
+ * Prefix cid with `ipfs://` if it's not already
+ * @param cid
+ * @returns
+ */
+export const cidToIpfsUri = (cid: string) =>
+  cid.startsWith("ipfs://") ? cid : `ipfs://${cid}`;

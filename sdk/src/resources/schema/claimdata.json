@@ -54,7 +54,7 @@
     },
     "work_timeframe": {
       "type": "object",
-      "description": "Scopes of work",
+      "description": "Work time period. The value is UNIX time in seconds from epoch.",
       "properties": {
         "name": {
           "type": "string"
@@ -72,7 +72,7 @@
     },
     "impact_timeframe": {
       "type": "object",
-      "description": "Scopes of work",
+      "description": "Impact time period. The value is UNIX time in seconds from epoch.",
       "properties": {
         "name": {
           "type": "string"
@@ -90,7 +90,7 @@
     },
     "contributors": {
       "type": "object",
-      "description": "Scopes of work",
+      "description": "Contributors",
       "properties": {
         "name": {
           "type": "string"
@@ -108,7 +108,7 @@
     },
     "rights": {
       "type": "object",
-      "description": "Scopes of work",
+      "description": "Rights",
       "properties": {
         "name": {
           "type": "string"
@@ -131,11 +131,5 @@
       }
     }
   },
-  "required": [
-    "impact_scope",
-    "work_scope",
-    "work_timeframe",
-    "impact_timeframe",
-    "contributors"
-  ]
+  "required": ["impact_scope", "work_scope", "work_timeframe", "impact_timeframe", "contributors"]
 }

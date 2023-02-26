@@ -61,19 +61,18 @@ yarn deploy:hosted
 
 Log into the [Supabase dashboard](https://app.supabase.com/).
 We store all data in a single project, but use different tables for each network.
-The table name will be prefixed by the network (e.g. `goerli-allowlistCache`).
-
+The table name should be prefixed by the network (e.g. `goerli-allowlistCache`).
 If you are deploying to a new network, create a new table. You can copy the table schema and RLS policy from another pre-existing table.
 
 If you are deploying a new proxy contract to a network for which you already have another deployment, you'll have to make a judgement call as to whether you can reuse the existing table, whether you need to clear the existing table, or create another table.
 
 #### Update the OpenZeppelin Defender scripts
 
-Modify the Defender scripts to support the new network.
+Modify the Defender scripts to support the new network in `defender/src/networks.ts`. 
 
-TODO: new file where this is stored.
+If the ABI of the contract has changed, make sure you also update `defender/src/HypercertMinterABI.ts`.
 
-The entry point for deployment is in `defender/src/setup.ts`.
+Note: The entry point for deployment is in `defender/src/setup.ts`.
 
 #### Setup the `defender/` environment
 
