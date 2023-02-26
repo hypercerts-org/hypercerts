@@ -2,8 +2,9 @@
 
 ## 0.0.29
 
-* Added TypeDoc and Markdown plugin
-* Implementing Rollup as the build tool
+- Added TypeDoc and Markdown plugin
+- Implementing Rollup as the build tool
+- Add Optimism network, but still hardcoding to Goerli
 
 ## 0.0.28
 
