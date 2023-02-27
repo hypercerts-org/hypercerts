@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "hypercertCreateUrl": "https://hypercerts.pages.dev/app/create?",
-  "allowlistBaseUrl": "https://cloudflare-ipfs.com/ipfs/bafybeigyqkmmmm6o7wjsqxn5mzincl4vb2fm4vctpbgvdmuoced55c4yke/",
-  "bannerImageBaseUrl": "https://nftstorage.link/ipfs/bafybeid5g35scolfpaxznp3o6ysz6e2neirr3t5xw65pw567eptkbo7ijm/",
+  "allowlistBaseUrl": "https://bafybeiatu732zyuvc5lyeuq5ncwsqolax7ue4mrsj32xfrpd3twowakj2u.ipfs.w3s.link/allowlists/",
+  "bannerImageBaseUrl": "https://bafybeigl5mup4ltahdv3v7x23oe6nrlqdzwmlrcfeawkqhovndwka4mawq.ipfs.w3s.link/images/",
   "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
   "localPaths": {
     "graphData": "data/graph-data.json",
