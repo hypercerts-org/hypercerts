@@ -5,7 +5,7 @@ import styles from './homeNavBoxes.module.css';
 const FeatureList = [
   {
     title: 'Introduction',
-    icon: 'img/icons/green.svg',
+    icon: 'img/icons/hypercerts_logo_green.png',
     items: [
       {url: "intro", text: "What are hypercerts?"},
         {url: "about", text: "About the Hypercerts Foundation"},
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'Vision & Whitepaper',
-    icon: 'img/icons/beige.svg',
+    icon: 'img/icons/hypercerts_logo_beige.png',
     items: [
       {url: "whitepaper/whitepaper-intro", text: "Introduction"},
       {url: "whitepaper/ifs", text: "Impact Funding Systems (IFSs)"},
@@ -27,7 +27,7 @@ const FeatureList = [
   },
   {
     title: 'Minting Guide',
-    icon: 'img/icons/red.svg',
+    icon: 'img/icons/hypercerts_logo_red.png',
     items: [
       {url: "minting-guide/minting-guide-start", text: "Getting Started"},
       {url: "minting-guide/step-by-step", text: "Step-by-step Instructions"},
@@ -36,7 +36,7 @@ const FeatureList = [
   },
   {
     title: 'Implementation',
-    icon: 'img/icons/yellow.svg',
+    icon: 'img/icons/hypercerts_logo_yellow.png',
     items: [
       {url: "implementation/token-standard", text: "Token Standard"},
       {url: "implementation/metadata", text: "Metadata Standard"},
