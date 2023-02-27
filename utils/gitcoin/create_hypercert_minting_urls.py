@@ -19,6 +19,7 @@ PROJECTS_DB     = sorted(json.load(open(JSONDATA_PATH)), key=lambda d: d['roundN
 EXPORTS_DIR     = CONFIG["localPaths"]["exportsDirectory"]
 LOGO_IMG_BASE   = SETTINGS["resources"]["hostedCidBaseUrl"]
 BACKUP_LOGO_CID = SETTINGS["defaultArt"]["icon"]
+FLAGS           = SETTINGS["flags"]
 ALLOWLISTS_BASE = CONFIG["allowlistBaseUrl"]
 BANNER_IMG_BASE = CONFIG["bannerImageBaseUrl"]
 DAPP_BASE_URL   = CONFIG["hypercertCreateUrl"]
@@ -137,6 +138,31 @@ def create_markdown_export():
     f.close()
 
 
+def add_csv_flags(project, json_data):
+    """
+    Adds flags to a CSV export for CRM'ing with projects
+    See `config/gitcoin-settings.json` for list of flags.
+    """
+    flags = []
+    if project['addressType'] != 'EOA':
+        flags.append("MULTISIG")
+    elif project['optimismBalanceEth'] == 0:
+        flags.append("opETH")
+    if project['workscope'] == project['title']:
+        flags.append("TITLE")
+    if not json_data['projectLogoCid']:
+        flags.append("LOGO")
+    if not json_data['projectBannerCid']:
+        flags.append("BANNER")
+    if project['flagDescription']:
+        flags.append("DESCRIPTION")
+    if flags:
+        return "\n".join([
+            f"{num+1}. {flag}: {FLAGS.get(flag)}"
+            for (num,flag) in enumerate(flags)
+        ])
+
+
 def create_csv_export():
 
     csv_filename = EXPORTS_DIR + "project_urls.csv"
@@ -145,7 +171,7 @@ def create_csv_export():
         writer = csv.writer(f)
         cols = ['title', 'roundName', 'mintingUrl', 'address', 'ensName', 'addressType', 'optimismBalanceEth',               
                 'fundingTotalDollars', 'donorsTotal', 'fractionsTotalSupply', 'hypercertEligibleDonors',
-                'flagDescription', 'workscope',
+                'flagDescription', 'workscope', 'flags',
                 'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
         writer.writerow(cols)
 
@@ -156,6 +182,7 @@ def create_csv_export():
             p['optimismBalanceEth'] = p['addressScan'].get("optimismBalanceEth")
             p['flagDescription'] = (len(p['projectDescription']) != len(edit_description(p['projectDescription'])))
             p['workscope'] = p['hypercertData']['workScopes']
+            p['flags'] = add_csv_flags(p, project)
             writer.writerow([p[c] for c in cols])
 
     f.close()           

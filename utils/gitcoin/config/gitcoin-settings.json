@@ -24,5 +24,13 @@
     "grantExplorerBaseUrl": "https://grant-explorer.gitcoin.co/#/round/1/",
     "hostedCidBaseUrl": "https://gitcoin.mypinata.cloud/ipfs/",
     "subgraphId": "BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr"
+  },
+  "flags": {
+    "MULTISIG": "We detected that your project's Gitcoin payout address is a multisig. Unfortunately, multisig addresses will NOT work on Optimism. Please ensure that your project has a wallet or multisig that it controls on Optimism before minting your hypercert. It will also need a small amount of opETH to cover gas fees.",
+    "opETH": "We detected that your project's wallet address does not have any ETH on Optimism yet. You may need to bridge a small amount of ETH (eg 0.01) from Ethereum Mainnet to Optimism in order to cover the gas fees of minting a hypercert.",
+    "TITLE": "Review your hypercert's title and consider giving it something more descriptive.",
+    "LOGO": "Your Gitcoin Grant did not a logo image, so we've assigned you a default image. You can keep the default or add a link to a new logo image in the hypercert create form.",
+    "BANNER": "Your Gitcoin Grant did not a banner image, so we've assigned you a default image. You can keep the default or add a link to a new banner image in the hypercert create form.",
+    "DESCRIPTION": "The description in your Gitcoin Grant was over 500 characters, so we truncated it. You should prepare a shorter description about the work your project did leading up to Alpha Round to copy-paste into the hypercert create form."
   }
 }
