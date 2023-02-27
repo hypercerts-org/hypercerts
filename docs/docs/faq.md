@@ -9,15 +9,11 @@ id: faq
 
 We've created a step-by-step guide in the documents, which you can find [here](minting-guide/minting-guide-start).
 
-### How do I create a hypercert from a multisig?
-
-If you are creating a hypercert on Optimism, then you will need an Optimism-based multisig. (Unfortunately, Safe wallets created on Ethereum won't work on Optimism.)
-
 ### How do I claim a hypercert? Can I claim all of the ones I’m eligible for at once?
 
 After you connect your wallet, you will see a dashboard of hypercerts that you can claim. You can either claim them individually or in a batch transaction. Note that if you perform the batch transaction you will automatically claim _all_ hypercerts you are allow-listed for. (You still pay a gas fee for each claim, however.) If you don't want to claim _all_ at once, then you should claim them one-by-one.
 
-### What token standard do Hypercerts utilize?
+### What token standard do hypercerts utilize?
 
 The interface supports both ERC-1155s and 721s. Our current implementation makes use of [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) (a semi-fungible token).
 
@@ -34,18 +30,6 @@ There are six required fields:
 
 Hypercerts also need a name and description.
 
-### How is a hypercert different than a POAP or Impact NFT?
-
-Hypercerts have some things in common with certain POAPs or Impact NFTs, but also a number of crucial differences.
-
-First, all POAPs and most Impact NFTs are implemented as non-fungible tokens (ERC-721s). Hypercerts are currently being implemented as semi-fungible tokens (ERC-1155s), meaning it is possible to own more than one unit or fraction of a given hypercert. This makes it easy and intuitive to display the share of hypercerts that a given owner has.
-
-Second, hypercerts have specific metadata requirements and interpretation logic. These include a standard schema for how the six required hypercert dimensions are defined and captured (i.e., work scopes, impact scopes, timeframes, contributors, etc) as well as logic for how to interpret different inputs (e.g., how to include or exclude certain work scopes, create an indefinite time period, etc). POAPs have a completely different schema. Although there is no standard schema for Impact NFTs, an Impact NFT project could choose to adopt the hypercert standard and token interface and thereby achieve compatibility.
-
-Third, the hypercerts token interface is intended to support several functions that are not possible out of the box with other token standards, chiefly, atomic split and merge capabilities. We also expect other protocols to work with hypercerts for the purposes of prospective and retrospective funding, contributor verification, and impact evaluation.
-
-For certain use cases, POAPs may be better suited for projects as hypercerts are focused on the funding aspect of impactful work.
-
 ### Are hypercerts the same as impact evaluations?
 
 No. A hypercert is a claim over a discrete piece of work and the impact that may result from that work. It has no opinion about the legitimacy or quality of the claim.
@@ -59,6 +43,18 @@ Over time, the expectation is that hypercerts that attract multiple, high qualit
 ### What can I do with my hypercert?
 
 The `rights` dimension specific what an owner can do with their hypercert. Currently, the only `right` that owners have is "Public Display". Over time, we hope the protocol can support various `rights` including transfers, intellectual property, tax-deductibility, carbon offsets, ESG reporting, and more.
+
+### How is a hypercert different than a POAP or Impact NFT?
+
+Hypercerts have some things in common with certain POAPs or Impact NFTs, but also a number of crucial differences.
+
+First, all POAPs and most Impact NFTs are implemented as non-fungible tokens (ERC-721s). Hypercerts are currently being implemented as semi-fungible tokens (ERC-1155s), meaning it is possible to own more than one unit or fraction of a given hypercert. This makes it easy and intuitive to display the share of hypercerts that a given owner has.
+
+Second, hypercerts have specific metadata requirements and interpretation logic. These include a standard schema for how the six required hypercert dimensions are defined and captured (i.e., work scopes, impact scopes, timeframes, contributors, etc) as well as logic for how to interpret different inputs (e.g., how to include or exclude certain work scopes, create an indefinite time period, etc). POAPs have a completely different schema. Although there is no standard schema for Impact NFTs, an Impact NFT project could choose to adopt the hypercert standard and token interface and thereby achieve compatibility.
+
+Third, the hypercerts token interface is intended to support several functions that are not possible out of the box with other token standards, chiefly, atomic split and merge capabilities. We also expect other protocols to work with hypercerts for the purposes of prospective and retrospective funding, contributor verification, and impact evaluation.
+
+For certain use cases, POAPs may be better suited for projects as hypercerts are focused on the funding aspect of impactful work.
 
 ### Where can I purchase a hypercert?
 
@@ -79,6 +75,10 @@ Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0
 ### How much gas will it cost to create or claim a hypercert?
 
 In our simulations, the gas fee for minting a hypercert on Ethereum Mainnet ranged from 2,707,282 to 7,515,075 gwei (0.0027 to 0.0075 ETH). Minting costs are significantly cheaper on Optimism (i.e., below 0.0005 ETH or less than $1). Claiming a hypercert should be below 0.0001 ETH or less than $0.10 on Optimism.
+
+### How do I create a hypercert from a multisig?
+
+If you are creating a hypercert on Optimism, then you will need an Optimism-based multisig. (Unfortunately, Safe wallets created on Ethereum won't work on Optimism.)
 
 ### Have the smart contracts been audited?
 
