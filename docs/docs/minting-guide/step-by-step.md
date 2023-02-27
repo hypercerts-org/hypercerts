@@ -4,9 +4,7 @@ id: step-by-step
 sidebar_position: 2
 ---
 
-# Hypercerts Minting Guide
-
-## Step-by-step instructions
+# Step-by-step instructions
 
 First, go to the [Create Hypercert](https://hypercerts.org/app/create) site with a wallet-enabled browser or follow the custom URL you received to access a prepopulated form.
 
