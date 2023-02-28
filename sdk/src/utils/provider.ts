@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-import { getChain } from "src/constants.js";
+import { getChainConfig } from "src/constants.js";
 
-const chain = getChain();
+const chain = getChainConfig({});
 
 export const provider = new ethers.providers.JsonRpcProvider(chain.rpc);

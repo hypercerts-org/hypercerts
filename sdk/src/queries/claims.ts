@@ -1,7 +1,7 @@
 import { getBuiltGraphSDK } from "../../.graphclient/index.js";
-import { getChain } from "../constants.js";
+import { getChainConfig } from "../constants.js";
 
-const chain = getChain();
+const chain = getChainConfig({});
 
 const sdk = getBuiltGraphSDK({
   chainName: chain.graph,

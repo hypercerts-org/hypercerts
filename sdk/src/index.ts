@@ -1,16 +1,12 @@
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
 import { formatHypercertData } from "./utils/formatter.js";
-import { storeMetadata, storeData, getMetadata, getData } from "./operator/index.js";
+// import { xx, storeData, getMetadata, getData } from "./operator/index.js";
 import { HypercertsStorage } from "./operator/hypercerts-storage.js";
 
 export {
   validateMetaData,
   validateClaimData,
-  storeMetadata,
-  storeData,
-  getMetadata,
-  getData,
   formatHypercertData,
   HypercertsStorage,
 };
