@@ -1,15 +1,13 @@
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
 import { formatHypercertData } from "./utils/formatter.js";
-// import { xx, storeData, getMetadata, getData } from "./operator/index.js";
-import { HypercertsStorage } from "./operator/hypercerts-storage.js";
 
-export {
-  validateMetaData,
-  validateClaimData,
-  formatHypercertData,
-  HypercertsStorage,
-};
+export { validateMetaData, validateClaimData, formatHypercertData };
+
+// Operations
+import { HypercertsStorage, HypercertMinting } from "./operator/index.js";
+
+export { HypercertsStorage, HypercertMinting };
 
 // Graph
 import { execute } from "../.graphclient/index.js";
@@ -20,10 +18,10 @@ export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fract
 
 // Protocol
 import * as protocol from "@hypercerts-org/hypercerts-protocol";
-const { HyperCertMinterFactory, HypercertMinterABI } = protocol;
-import { TransferRestrictions } from "./minting.js";
+import HypercertMinterABI from "../../contracts/out/HypercertMinter.sol/HypercertMinter.json" assert { type: "json" };
+const { HyperCertMinterFactory } = protocol;
 
-export { HyperCertMinterFactory, HypercertMinterABI, TransferRestrictions };
+export { HyperCertMinterFactory, HypercertMinterABI };
 
 // Types
 import type { HypercertClaimdata } from "./types/claimdata.js";

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { expect, assert } from "chai";
-import { getData, getMetadata, storeData, storeMetadata } from "../src/index.js";
-import { getNftStorageGatewayUri } from "../src/operator/index.js";
+import { expect } from "chai";
+
+import { HypercertsStorage } from "../src/index";
 
 const mockMetadata = JSON.parse(`
 {
@@ -28,40 +28,45 @@ const mockMetadataCid = "bafkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn6
 const mockDataCid = "bafkreif5otrkydrrjbp532a75hkm5goefxv5rqg35d2wqm6oveht4hqto4";
 
 describe("IPFS Client", () => {
+  let storage: HypercertsStorage;
+
+  beforeEach(() => {
+    storage = new HypercertsStorage({});
+  });
   /**
    * Currently just testing against the production NFT.Storage service.
    */
   it("Smoke test - add metadata", async () => {
-    const result = await storeMetadata(mockMetadata);
+    const result = await storage.storeMetadata(mockMetadata);
     expect(result).to.be.a("string");
     expect(result).to.equal(mockMetadataCid);
   });
 
   it("Smoke test - get metadata", async () => {
-    const data = await getMetadata(mockMetadataCid);
+    const data = await storage.getMetadata(mockMetadataCid);
 
     expect(data).to.deep.equal(mockMetadata);
   });
 
   it("Smoke test - add data", async () => {
-    const result = await storeData(mockData);
+    const result = await storage.storeData(mockData);
     expect(result).to.be.a("string");
     expect(result).to.equal(mockDataCid);
   });
 
   it("Smoke test - get data", async () => {
     // Using the getter
-    const data = await getData(mockDataCid);
+    const data = await storage.getData(mockDataCid);
     expect(data).to.deep.equal(mockData);
     // Using an IPFS gateway
-    const nftStorageGatewayLink = getNftStorageGatewayUri(mockDataCid);
+    const nftStorageGatewayLink = storage.getNftStorageGatewayUri(mockDataCid);
     const gatewayData = await axios.get(nftStorageGatewayLink).then((result) => result.data);
     expect(gatewayData).to.deep.equal(mockData);
   });
 
   it("Removes ipfs:// prefix if present to get CID", () => {
-    const uriFromCid = getNftStorageGatewayUri(mockDataCid);
-    const uriFromIpfsLink = getNftStorageGatewayUri(`ipfs://${mockDataCid}`);
+    const uriFromCid = storage.getNftStorageGatewayUri(mockDataCid);
+    const uriFromIpfsLink = storage.getNftStorageGatewayUri(`ipfs://${mockDataCid}`);
     expect(uriFromCid).to.eq(uriFromIpfsLink);
   });
 });

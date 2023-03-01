@@ -5,7 +5,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "baseUrl": ".",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -22,5 +22,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*", ".graphclient/**/*"]
+  "include": ["src/**/*", ".graphclient/**/*", "test/operator/hypercerts-minting.test.ts"]
 }

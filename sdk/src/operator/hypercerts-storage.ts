@@ -1,8 +1,10 @@
+// @ts-ignore
+import { NFTStorage, CIDString } from "nft.storage";
+// @ts-ignore
+import { Web3Storage, Blob, File } from "web3.storage";
 import { HypercertMetadata } from "../types/metadata.js";
-import { FetchError, MalformedDataError } from "src/errors.js";
+import { FetchError, MalformedDataError } from "../errors.js";
 import axios from "axios";
-import { NFTStorage, CIDString } from "node_modules/nft.storage/dist/src/lib.js";
-import { Web3Storage } from "node_modules/web3.storage/dist/src/lib.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -11,7 +13,7 @@ type HypercertStorageProps = {
   web3StorageToken?: string;
 };
 
-export class HypercertsStorage {
+export default class HypercertsStorage {
   nftStorageClient: NFTStorage;
   web3StorageClient: Web3Storage;
 
@@ -19,7 +21,7 @@ export class HypercertsStorage {
     const _nftStorageToken = nftStorageToken ? nftStorageToken : process.env.NFT_STORAGE_TOKEN;
     const _web3StorageToken = web3StorageToken ? web3StorageToken : process.env.WEB3_STORAGE_TOKEN;
 
-    if (!nftStorageToken || !web3StorageToken || nftStorageToken === "" || web3StorageToken === "") {
+    if (!_nftStorageToken || !_web3StorageToken || _nftStorageToken === "" || _web3StorageToken === "") {
       throw new Error("Invalid API key");
     }
     this.nftStorageClient = new NFTStorage({ token: _nftStorageToken! });

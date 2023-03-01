@@ -9,6 +9,7 @@
   "typedocMain": "src/index.ts",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "testEnvironment": "jsdom",
   "files": [
     "dist",
     "README.md",
