@@ -136,10 +136,7 @@ const formDataToQueryString = (values: Record<string, any>) => {
   ["impactTimeStart", "impactTimeEnd", "workTimeStart", "workTimeEnd"].forEach(
     formatDate,
   );
-  const filteredValues = _.chain(values)
-    .pickBy()
-    .omit(["agreeContributorsConsent", "agreeTermsConditions"])
-    .value();
+  const filteredValues = _.chain(values).pickBy().value();
   return qs.stringify(filteredValues);
 };
 

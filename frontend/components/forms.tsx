@@ -384,17 +384,18 @@ export function FormDropZone(props: FormDropZoneProps) {
 export interface FormCheckboxProps {
   className?: string; // Plasmic CSS class
   fieldName?: string; // Formik field name
-  defaultChecked?: boolean; // Default checked
-  disabled?: boolean; // Disabled
 }
 
 export function FormCheckbox(props: FormCheckboxProps) {
-  const { className, fieldName, defaultChecked, disabled } = props;
+  const { className, fieldName } = props;
 
   if (!fieldName) {
     return <div>{MISSING_FIELDNAME_ERROR}</div>;
   }
 
+  return <Field type="checkbox" className={className} name={fieldName} />;
+  /**
+   * // Would have been nice to use MUI, but for some reason the visual check box is unable to stay in sync with the form data. (e.g. with initial values)
   return (
     <Field name={fieldName} className={className}>
       {({ field }: FieldProps) => (
@@ -406,4 +407,5 @@ export function FormCheckbox(props: FormCheckboxProps) {
       )}
     </Field>
   );
+  */
 }

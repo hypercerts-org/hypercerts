@@ -262,8 +262,6 @@ PLASMIC.registerComponent(FormCheckbox, {
   description: "Checkbox for forms",
   props: {
     fieldName: "string",
-    defaultChecked: "boolean",
-    disabled: "boolean",
   },
   importPath: "./components/forms",
 });
