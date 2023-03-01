@@ -26,5 +26,6 @@ export { HyperCertMinterFactory, HypercertMinterABI };
 // Types
 import type { HypercertClaimdata } from "./types/claimdata.js";
 import type { HypercertMetadata } from "./types/metadata.js";
+import type { ClaimByIdQuery } from "./index.js";
 
-export type { HypercertMetadata, HypercertClaimdata };
+export type { HypercertMetadata, HypercertClaimdata, ClaimByIdQuery };

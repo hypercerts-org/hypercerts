@@ -5,7 +5,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import {
   ClaimByIdQuery,
   ClaimTokensByClaimQuery,
-} from "@hypercerts-org/hypercerts-sdk/lib/.graphclient";
+} from "@hypercerts-org/hypercerts-sdk";
 import { spawn } from "../lib/common";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 

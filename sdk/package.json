@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/hypercerts-sdk",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
