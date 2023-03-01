@@ -17,10 +17,10 @@
 
 - [HyperCertMinterFactory](modules.md#hypercertminterfactory)
 - [HypercertMinterABI](modules.md#hypercertminterabi)
-- [TransferRestrictions](modules.md#transferrestrictions)
 
 ### Functions
 
+- [HypercertMinting](modules.md#hypercertminting)
 - [claimById](modules.md#claimbyid)
 - [claimsByOwner](modules.md#claimsbyowner)
 - [execute](modules.md#execute)
@@ -29,10 +29,6 @@
 - [fractionById](modules.md#fractionbyid)
 - [fractionsByClaim](modules.md#fractionsbyclaim)
 - [fractionsByOwner](modules.md#fractionsbyowner)
-- [getData](modules.md#getdata)
-- [getMetadata](modules.md#getmetadata)
-- [storeData](modules.md#storedata)
-- [storeMetadata](modules.md#storemetadata)
 - [validateClaimData](modules.md#validateclaimdata)
 - [validateMetaData](modules.md#validatemetadata)
 
@@ -44,61 +40,39 @@
 
 #### Defined in
 
-[src/index.ts:27](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/index.ts#L27)
+[src/index.ts:22](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/index.ts#L22)
 
 ___
 
 ### HypercertMinterABI
 
-• **HypercertMinterABI**: ({ `anonymous`: `undefined` = false; `inputs`: `never`[] = []; `name`: `undefined` = "balanceOf"; `outputs`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| { `anonymous`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "ArraySize"; `outputs`: `undefined` ; `stateMutability`: `undefined` = "view"; `type`: `string` = "error" } \| { `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs`: `undefined` ; `stateMutability`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
+• `Const` **HypercertMinterABI**: ({ `anonymous`: `undefined` = false; `inputs`: `never`[] = []; `name`: `undefined` = "balanceOf"; `outputs`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| { `anonymous`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs`: `undefined` ; `stateMutability`: `undefined` = "view"; `type`: `string` = "error" } \| { `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs`: `undefined` ; `stateMutability`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
 
 #### Defined in
 
-[src/index.ts:27](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/index.ts#L27)
+[src/resources/HypercertMinter.ts:1](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/resources/HypercertMinter.ts#L1)
 
-___
+## Functions
 
-### TransferRestrictions
+### HypercertMinting
 
-• `Const` **TransferRestrictions**: `Object`
+▸ **HypercertMinting**(`«destructured»`): `HypercertsMinterType`
 
-COMMENTING THIS OUT FOR NOW - breaks the build
-// TODO dynamic addresses and provider
-const hypercertMinter = <protocol.HypercertMinter>(
- new ethers.Contract("0xcC08266250930E98256182734913Bf1B36102072", protocol.HypercertMinterABI, provider)
-);
-
-// TODO error handling
-// TODO Automagic checking on mapping transferRestrictions -> value and effect
-export const mintHypercertToken = async (
- claimData: HypercertMetadata,
- totalUnits: BigNumberish,
- transferRestriction: BigNumberish,
-) => {
- if (validateMetaData(claimData)) {
-   // store metadata on IPFS
-   const cid = await storeMetadata(claimData);
-
-   // mint hypercert token
-   //return hypercertMinter.mintClaim(totalUnits, cid, transferRestriction);
- } else {
-   console.log("Incorrect metadata");
- }
-};
-
-#### Type declaration
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `AllowAll` | ``0`` |
-| `DisallowAll` | ``2`` |
-| `FromCreatorOnly` | ``1`` |
+| `«destructured»` | `HypercertsMinterProps` |
+
+#### Returns
+
+`HypercertsMinterType`
 
 #### Defined in
 
-[src/minting.ts:34](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/minting.ts#L34)
+[src/operator/hypercerts-minting.ts:22](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/operator/hypercerts-minting.ts#L22)
 
-## Functions
+___
 
 ### claimById
 
@@ -116,7 +90,7 @@ export const mintHypercertToken = async (
 
 #### Defined in
 
-[src/claims.ts:7](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/claims.ts#L7)
+[src/queries/claims.ts:15](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/claims.ts#L15)
 
 ___
 
@@ -136,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/claims.ts:5](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/claims.ts#L5)
+[src/queries/claims.ts:10](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/claims.ts#L10)
 
 ___
 
@@ -180,7 +154,7 @@ ___
 
 #### Defined in
 
-[src/claims.ts:9](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/claims.ts#L9)
+[src/queries/claims.ts:20](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/claims.ts#L20)
 
 ___
 
@@ -225,7 +199,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[src/formatter.ts:17](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/formatter.ts#L17)
+[src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/utils/formatter.ts#L27)
 
 ___
 
@@ -245,7 +219,7 @@ ___
 
 #### Defined in
 
-[src/fractions.ts:9](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/fractions.ts#L9)
+[src/queries/fractions.ts:18](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/fractions.ts#L18)
 
 ___
 
@@ -265,7 +239,7 @@ ___
 
 #### Defined in
 
-[src/fractions.ts:7](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/fractions.ts#L7)
+[src/queries/fractions.ts:13](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/fractions.ts#L13)
 
 ___
 
@@ -285,101 +259,7 @@ ___
 
 #### Defined in
 
-[src/fractions.ts:5](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/fractions.ts#L5)
-
-___
-
-### getData
-
-▸ **getData**(`cidOrIpfsUri`, `targetClient?`): `Promise`<`any`\>
-
-Get arbitrary data from web3.storage
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `cidOrIpfsUri` | `string` |
-| `targetClient?` | `any` |
-
-#### Returns
-
-`Promise`<`any`\>
-
-#### Defined in
-
-[src/operator/index.ts:70](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/operator/index.ts#L70)
-
-___
-
-### getMetadata
-
-▸ **getMetadata**(`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](interfaces/HypercertMetadata.md)\>
-
-Retrieves NFT metadata from NFT.storage
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `cidOrIpfsUri` | `string` |
-
-#### Returns
-
-`Promise`<[`HypercertMetadata`](interfaces/HypercertMetadata.md)\>
-
-#### Defined in
-
-[src/operator/index.ts:41](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/operator/index.ts#L41)
-
-___
-
-### storeData
-
-▸ **storeData**(`data`, `targetClient?`): `Promise`<`CIDString`\>
-
-Store arbitrary JSON data into web3.storage
-- Even though web3.storage takes a list of files, we'll assume we're only storing 1 JSON blob
-- Because we pay for storage quotas, this data is stored best effort.
-- If you are using our default keys, we may delete older data if we hit our storage quota
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `data` | `any` |
-| `targetClient?` | `any` |
-
-#### Returns
-
-`Promise`<`CIDString`\>
-
-#### Defined in
-
-[src/operator/index.ts:56](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/operator/index.ts#L56)
-
-___
-
-### storeMetadata
-
-▸ **storeMetadata**(`data`, `targetClient?`): `Promise`<`CIDString`\>
-
-Stores NFT metadata into NFT.storage
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `data` | [`HypercertMetadata`](interfaces/HypercertMetadata.md) |
-| `targetClient?` | `any` |
-
-#### Returns
-
-`Promise`<`CIDString`\>
-
-#### Defined in
-
-[src/operator/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/operator/index.ts#L28)
+[src/queries/fractions.ts:8](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/queries/fractions.ts#L8)
 
 ___
 
@@ -399,7 +279,7 @@ ___
 
 #### Defined in
 
-[src/validator/index.ts:41](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/validator/index.ts#L41)
+[src/validator/index.ts:41](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/validator/index.ts#L41)
 
 ___
 
@@ -419,4 +299,4 @@ ___
 
 #### Defined in
 
-[src/validator/index.ts:18](https://github.com/Network-Goods/hypercerts/blob/ece3cf1/sdk/src/validator/index.ts#L18)
+[src/validator/index.ts:18](https://github.com/Network-Goods/hypercerts/blob/c1e4887/sdk/src/validator/index.ts#L18)

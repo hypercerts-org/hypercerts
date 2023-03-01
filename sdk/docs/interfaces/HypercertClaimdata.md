@@ -25,7 +25,7 @@ Properties of an impact claim
 
 • **contributors**: `Object`
 
-Scopes of work
+Contributors
 
 #### Index signature
 
@@ -74,7 +74,7 @@ ___
 
 • **impact\_timeframe**: `Object`
 
-Scopes of work
+Impact time period. The value is UNIX time in seconds from epoch.
 
 #### Index signature
 
@@ -98,7 +98,7 @@ ___
 
 • `Optional` **rights**: `Object`
 
-Scopes of work
+Rights
 
 #### Index signature
 
@@ -148,7 +148,7 @@ ___
 
 • **work\_timeframe**: `Object`
 
-Scopes of work
+Work time period. The value is UNIX time in seconds from epoch.
 
 #### Index signature
 

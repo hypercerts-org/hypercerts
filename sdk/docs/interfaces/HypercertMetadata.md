@@ -58,7 +58,7 @@ ___
 
 ### hypercert
 
-• `Optional` **hypercert**: `any`
+• `Optional` **hypercert**: `HypercertClaimdata`
 
 #### Defined in
 

@@ -5,6 +5,9 @@
 * Added TypeDoc and Markdown plugin
 * Implementing Rollup as the build tool
 * Add Optimism network, but still hardcoding to Goerli
+* Multi-chain support in Graph client
+* SDK parameterisation
+* Error handling in chain config/setup
 
 ## 0.0.28
 
