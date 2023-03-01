@@ -18,7 +18,7 @@ export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fract
 
 // Protocol
 import * as protocol from "@hypercerts-org/hypercerts-protocol";
-import HypercertMinterABI from "../../contracts/out/HypercertMinter.sol/HypercertMinter.json" assert { type: "json" };
+import HypercertMinterABI from "./resources/HypercertMinter.js";
 const { HyperCertMinterFactory } = protocol;
 
 export { HyperCertMinterFactory, HypercertMinterABI };

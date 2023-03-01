@@ -25,9 +25,7 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
 
   const _provider = provider !== undefined ? provider : ethers.getDefaultProvider(chainConfig.name);
 
-  const contract = <HypercertMinter>(
-    new ethers.Contract(_chainConfig.contractAddress, HypercertMinterABI.abi, _provider)
-  );
+  const contract = <HypercertMinter>new ethers.Contract(_chainConfig.contractAddress, HypercertMinterABI, _provider);
 
   const TransferRestrictions = {
     AllowAll: 0,
