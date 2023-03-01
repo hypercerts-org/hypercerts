@@ -1,8 +1,24 @@
 sources:
-  - name: hypercerts-dev
+  - name: Hypercerts
     handler:
       graphql:
-        endpoint: https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet
+        # Default value is hypercerts-testnet
+        # This is needed for the initial introspection on buildtime
+        endpoint: https://api.thegraph.com/subgraphs/name/hypercerts-admin/{context.chainName:hypercerts-testnet}
+
+additionalTypeDefs: |
+  extend type Claim {
+    chainName: String!
+  }
+   extend type ClaimToken {
+    chainName: String!
+  }
+
+additionalResolvers:
+  - ./src/utils/resolvers.ts
 
 documents:
   - ./src/queries/*.graphql
+
+codegen:
+  contextType: "MeshContext & { chainName: string }"

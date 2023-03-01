@@ -1,10 +1,9 @@
-import { HypercertMetadata } from "./types/metadata.js";
-import { HypercertClaimdata } from "./types/claimdata.js";
-import { validateClaimData, validateMetaData } from "./validator/index.js";
+import { HypercertMetadata } from "../types/metadata.js";
+import { HypercertClaimdata } from "../types/claimdata.js";
+import { validateClaimData, validateMetaData } from "../validator/index.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
-
-export const formatUnixTime = (seconds: number) => {
+const formatUnixTime = (seconds: number) => {
   if (seconds == 0) {
     return INDEFINITE_DATE_STRING;
   } else {
@@ -12,14 +11,19 @@ export const formatUnixTime = (seconds: number) => {
   }
 };
 
-export const formatDate = (date: Date) => {
+const formatDate = (date: Date) => {
   const fullYear = date.getUTCFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
   const day = date.getUTCDate().toString().padStart(2, "0");
   return `${fullYear}-${month}-${day}`;
 };
 
-export const formatHypercertData = ({
+/**
+ *
+ * Formats input data to an object containing HypercertMetadata including appropriate labels
+ * @returns {HypercertMetadata, boolean, errors<key, value>}
+ */
+const formatHypercertData = ({
   name,
   description,
   external_url,
@@ -113,3 +117,5 @@ export const formatHypercertData = ({
   }
   return { valid: true, errors: {}, data: metaData };
 };
+
+export { formatDate, formatUnixTime, formatHypercertData };

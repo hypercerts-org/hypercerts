@@ -1,36 +1,31 @@
 // Validation
 import { validateMetaData, validateClaimData } from "./validator/index.js";
-import { formatHypercertData } from "./formatter.js";
-import { storeMetadata, storeData, getMetadata, getData } from "./operator/index.js";
-import { HypercertsStorage } from "./operator/hypercerts-storage.js";
+import { formatHypercertData } from "./utils/formatter.js";
 
-export {
-  validateMetaData,
-  validateClaimData,
-  storeMetadata,
-  storeData,
-  getMetadata,
-  getData,
-  formatHypercertData,
-  HypercertsStorage,
-};
+export { validateMetaData, validateClaimData, formatHypercertData };
+
+// Operations
+import { HypercertsStorage, HypercertMinting } from "./operator/index.js";
+
+export { HypercertsStorage, HypercertMinting };
 
 // Graph
-import { execute } from "./.graphclient/index.js";
-import { claimsByOwner, claimById, firstClaims } from "./claims.js";
-import { fractionsByOwner, fractionsByClaim, fractionById } from "./fractions.js";
+import { execute } from "../.graphclient/index.js";
+import { claimsByOwner, claimById, firstClaims } from "./queries/claims.js";
+import { fractionsByOwner, fractionsByClaim, fractionById } from "./queries/fractions.js";
 
 export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fractionsByClaim, fractionById };
 
 // Protocol
 import * as protocol from "@hypercerts-org/hypercerts-protocol";
-const { HyperCertMinterFactory, HypercertMinterABI } = protocol;
-import { TransferRestrictions } from "./minting.js";
+import HypercertMinterABI from "./resources/HypercertMinter.js";
+const { HyperCertMinterFactory } = protocol;
 
-export { HyperCertMinterFactory, HypercertMinterABI, TransferRestrictions };
+export { HyperCertMinterFactory, HypercertMinterABI };
 
 // Types
 import type { HypercertClaimdata } from "./types/claimdata.js";
 import type { HypercertMetadata } from "./types/metadata.js";
+import type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "./global.js";
 
-export type { HypercertMetadata, HypercertClaimdata };
+export type { HypercertMetadata, HypercertClaimdata, ClaimByIdQuery, ClaimTokensByClaimQuery };

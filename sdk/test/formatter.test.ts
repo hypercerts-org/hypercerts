@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { formatUnixTime, formatDate, INDEFINITE_DATE_STRING } from "../src/formatter.js";
+import { formatUnixTime, formatDate, INDEFINITE_DATE_STRING } from "../src/utils/formatter.js";
 import { formatHypercertData } from "../src/index.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];

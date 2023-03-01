@@ -10,12 +10,12 @@ import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
 import DappContext from "./dapp-context";
-import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { parseListFromString } from "../lib/parsing";
 import { useAccountLowerCase } from "../hooks/account";
+import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
 
 /**
  * Constants
@@ -360,7 +360,7 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             image,
           );
           console.log(`Metadata(valid=${valid}): `, metaData);
-          if (valid) {
+          if (valid && metaData) {
             //return; // Used for testing
             if (values.allowlistUrl) {
               await mintClaimAllowlist({

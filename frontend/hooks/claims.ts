@@ -1,9 +1,10 @@
-import { firstClaims, getMetadata } from "@hypercerts-org/hypercerts-sdk";
+import { firstClaims } from "@hypercerts-org/hypercerts-sdk";
 import { useQuery } from "@tanstack/react-query";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
 
 export const useClaimMetadata = (cid?: string | null) =>
   useQuery(["ipfs", "claim", "metadata", cid], async () =>
-    cid ? getMetadata(cid) : null,
+    cid ? hypercertsStorage.getMetadata(cid) : null,
   );
 
 export const useListFirstClaims = () => {

@@ -8,7 +8,7 @@ import {
 } from "wagmi";
 import {
   HypercertMetadata,
-  TransferRestrictions,
+  HypercertMinting,
 } from "@hypercerts-org/hypercerts-sdk";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useEffect, useState } from "react";
@@ -39,6 +39,7 @@ export const useMintClaimAllowlist = ({
   const [cidUri, setCidUri] = useState<string>();
   const [_units, setUnits] = useState<number>();
   const [merkleRoot, setMerkleRoot] = useState<`0x{string}`>();
+  const minter = HypercertMinting({ provider: undefined, chainConfig: {} });
 
   const stepDescriptions = {
     uploading: "Uploading metadata to ipfs",
@@ -124,7 +125,7 @@ export const useMintClaimAllowlist = ({
       merkleRoot!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
-      TransferRestrictions.FromCreatorOnly,
+      minter.transferRestrictions.FromCreatorOnly,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
