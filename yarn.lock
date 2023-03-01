@@ -3482,10 +3482,10 @@
   resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-protocol/-/hypercerts-protocol-0.0.10.tgz#a7248d1ed35257996ac2451ed0a442ef9055ab7d"
   integrity sha512-S2igvcBB5dxB+rHZnZ/9GySJj8lKmREohQDXNJC3HGX58dJPdCwS4U+QduD/neVbMM3drZedIFtVKmxbBPb+8g==
 
-"@hypercerts-org/hypercerts-sdk@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-sdk/-/hypercerts-sdk-0.0.30.tgz#326ee350a3847b365832c9dd36b5dd323a1370d9"
-  integrity sha512-w8isSmxFcxh2r9R6skyR8+mHMdA1StrCCrJye8MD8I3uLBHATzhlIJ/zKIxEHqWfKAZQ3rTDFW2lvMfbkQMZzA==
+"@hypercerts-org/hypercerts-sdk@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@hypercerts-org/hypercerts-sdk/-/hypercerts-sdk-0.0.31.tgz#fc2c1c03298558e3a81881d847298975d4715cbd"
+  integrity sha512-LUlxhWGm5i4GjXHnxiRmtzkVNatz3MVB0bhcFNisrtrQgFl5MMNJ7X3UIYHnB1SDFuuHz9ByOym+BOrmfqKLRQ==
   dependencies:
     "@graphprotocol/client-add-source-name" "^1.0.16"
     "@graphprotocol/client-cli" "^2.2.15"

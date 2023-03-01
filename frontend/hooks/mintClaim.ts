@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   HypercertMetadata,
-  TransferRestrictions,
+  HypercertMinting,
 } from "@hypercerts-org/hypercerts-sdk";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
@@ -22,6 +22,7 @@ import { cidToIpfsUri } from "../lib/formatting";
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [cidUri, setCidUri] = useState<string>();
   const [units, setUnits] = useState<number>();
+  const minter = HypercertMinting({ provider: undefined, chainConfig: {} });
 
   const stepDescriptions = {
     uploading: "Uploading metadata to ipfs",
@@ -58,7 +59,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       BigNumber.from(units || 0),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
-      TransferRestrictions.FromCreatorOnly,
+      minter.transferRestrictions.FromCreatorOnly,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",

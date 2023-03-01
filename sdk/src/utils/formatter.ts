@@ -3,8 +3,7 @@ import { HypercertClaimdata } from "../types/claimdata.js";
 import { validateClaimData, validateMetaData } from "../validator/index.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
-
-export const formatUnixTime = (seconds: number) => {
+const formatUnixTime = (seconds: number) => {
   if (seconds == 0) {
     return INDEFINITE_DATE_STRING;
   } else {
@@ -12,7 +11,7 @@ export const formatUnixTime = (seconds: number) => {
   }
 };
 
-export const formatDate = (date: Date) => {
+const formatDate = (date: Date) => {
   const fullYear = date.getUTCFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
   const day = date.getUTCDate().toString().padStart(2, "0");
@@ -20,11 +19,11 @@ export const formatDate = (date: Date) => {
 };
 
 /**
- * 
+ *
  * Formats input data to an object containing HypercertMetadata including appropriate labels
  * @returns {HypercertMetadata, boolean, errors<key, value>}
  */
-export const formatHypercertData = ({
+const formatHypercertData = ({
   name,
   description,
   external_url,
@@ -118,3 +117,5 @@ export const formatHypercertData = ({
   }
   return { valid: true, errors: {}, data: metaData };
 };
+
+export { formatDate, formatUnixTime, formatHypercertData };

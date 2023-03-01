@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.0.31
+
+- Hack around getData handler
+- Update app with updated function calls
+
 ## 0.0.30
 
 - Expose Query types via SDK

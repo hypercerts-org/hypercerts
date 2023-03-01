@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { parseListFromString } from "../lib/parsing";
 import { useAccountLowerCase } from "../hooks/account";
-import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk";
+import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
 
 /**
  * Constants

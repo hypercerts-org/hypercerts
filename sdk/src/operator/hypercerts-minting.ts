@@ -16,7 +16,7 @@ type HypercertsMinterType = {
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
   ) => Promise<ContractTransaction>;
-  transferRestrictions: {};
+  transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
 };
 
 const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): HypercertsMinterType => {
