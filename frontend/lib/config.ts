@@ -20,6 +20,11 @@ export const GRAPH_URL = requireEnv(
   "NEXT_PUBLIC_GRAPH_URL",
 );
 
+export const RPC_URL = requireEnv(
+  process.env.NEXT_PUBLIC_RPC_URL,
+  "NEXT_PUBLIC_RPC_URL",
+);
+
 export const NFT_STORAGE_TOKEN = requireEnv(
   process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
   "NEXT_PUBLIC_NFT_STORAGE_TOKEN",
