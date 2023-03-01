@@ -1,10 +1,10 @@
+import axios from "axios";
 // @ts-ignore
 import { NFTStorage, CIDString } from "nft.storage";
 // @ts-ignore
 import { Web3Storage, Blob, File } from "web3.storage";
 import { HypercertMetadata } from "../types/metadata.js";
 import { FetchError, MalformedDataError } from "../errors.js";
-import axios from "axios";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -73,32 +73,36 @@ export default class HypercertsStorage {
    * @returns
    */
   public async getData(cidOrIpfsUri: string) {
-    // const cid = getCid(cidOrIpfsUri);
+    /**
+    // Using the default web3.storage client is not working in upstream repos. Needs further testing.
+    const cid = getCid(cidOrIpfsUri);
 
-    // // Get the data
-    // const res = await this.web3StorageClient.get(cid);
-    // if (!res || !res.ok) {
-    //   throw new FetchError(`Failed to get ${cidOrIpfsUri}`);
-    // }
+    // Get the data
+    const res = await this.web3StorageClient.get(cid);
+    if (!res || !res.ok) {
+      throw new FetchError(`Failed to get ${cidOrIpfsUri}`);
+    }
 
-    // // Assert there's only 1 file
-    // // TODO: because we are storing with `wrapDirectory: false`, this call fails
-    // //  on upstream projects (e.g. frontend)
-    // //  which is confusing because there's no other way to retrieve the file
-    // //  doubly confusing because the unit tests work fine.
-    // //  Need further investigating, but using `getMetadata` works as a workaround atm
-    // const files = await res.files();
-    // if (files.length !== 1) {
-    //   throw new MalformedDataError(`Expected 1 file but got ${files.length}`);
-    // }
-    // const dataStr = await files[0].text();
-    // const data = JSON.parse(dataStr);
-    // console.log(`Getting data ${cidOrIpfsUri}: `, data);
-    // return data;
+    // Assert there's only 1 file
+    // TODO: because we are storing with `wrapDirectory: false`, this call fails
+    //  on upstream projects (e.g. frontend)
+    //  which is confusing because there's no other way to retrieve the file
+    //  doubly confusing because the unit tests work fine.
+    //  Need further investigating, but using `getMetadata` works as a workaround atm
+    const files = await res.files();
+    if (files.length !== 1) {
+      throw new MalformedDataError(`Expected 1 file but got ${files.length}`);
+    }
+    const dataStr = await files[0].text();
+    const data = JSON.parse(dataStr);
+    console.log(`Getting data ${cidOrIpfsUri}: `, data);
+    return data;
+    */
 
+    // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
     console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-    return axios.get(nftStorageGatewayLink).then((result) => result.data);
+    return axios.get(nftStorageGatewayLink).then((result: any) => result.data);
   }
 
   getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
