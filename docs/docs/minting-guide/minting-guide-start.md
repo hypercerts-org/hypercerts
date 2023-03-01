@@ -4,9 +4,7 @@ id: minting-guide-start
 sidebar_position: 1
 ---
 
-# Hypercerts Minting Guide
-
-## Getting started
+# Getting started
 
 ### How to create a hypercert
 
