@@ -104,6 +104,7 @@ const config: HardhatUserConfig = {
     "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": {
       ...getChainConfig("optimism-mainnet"),
+      url: "https://opt-mainnet.g.alchemy.com/v2/ZTQlA1-nt0ZuZwXgAKQExGHva-Q7tbTK",
     },
   },
   paths: {
