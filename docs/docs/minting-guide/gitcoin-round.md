@@ -3,9 +3,11 @@ title: Gitcoin Alpha Round Instructions
 id: gitcoin-round
 sidebar_position: 3
 ---
+
 # Gitcoin Alpha Round Instructions
 
 ## Overview
+
 - all projects in the Gitcoin Alpha Round will be invited to mint a hypercert for their work
 - anyone who gave over $1 to a project will be automatically allowlisted for that project’s hypercert
 - we’ve created a custom url for each project to make minting super easy, which we sent to each project
@@ -17,7 +19,6 @@ If your project participated in the Gitcoin Alpha Round, but you didn't get a me
 
 :::
 
-
 ## Hypercerts x Gitcoin Alpha Round
 
 Now that Gitcoin’s Alpha Round has officially closed and the funding distribution is finalized, we are inviting all eligible projects that participated to mint a hypercert for their past work and to allocate fractions of their hypercert to a list of supporters.
@@ -27,6 +28,7 @@ We’ve created a dApp that pulls all of the data required to mint your hypercer
 Once your hypercert has been minted, the people who supported your project with a contribution of at least $1 DAI on Gitcoin’s Alpha Round will be able to connect and claim their fractions.
 
 A few important notes about the alpha round:
+
 - The total units of a hypercert is equal to the total donations; each funder get awarded units proportional to their donations.
 - Transfers will be restricted to one transfer from the project to the supporter
 - There will be no additional rights awarded to the funders except the right to "public display" their support for the project.
@@ -38,33 +40,41 @@ The following guidance is only for projects that receive a custom URL that pre-p
 It explains the default settings in the form and recommends fields that the creator may choose to update or edit.
 
 :::note
-Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [in the whitepaper](whitepaper/retrospective-funding.md).*
+Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [in the whitepaper](whitepaper/retrospective-funding.md).\*
 :::
 
 ### General Fields
+
 #### Name of Hypercert
+
 This field is set by default to the name of your project on Gitcoin Grants. You can edit this to be more specific. Given that your project may create numerous hypercerts over time, consider giving each hypercert a name that represents a more discrete phase or output.
 
 #### Logo
+
 This field is set to the icon artwork provided for your project on Gitcoin Grants. If there was an error accessing your icon, you will see a generic icon.
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
 #### Background Banner Image
+
 This field is set to the banner artwork provided for your project on Gitcoin Grants. If there was an error accessing your banner, you will see a generic Gitcoin banner.
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
 #### Project Description
+
 This field is set by default to the description of your project on Gitcoin Grants. You may edit this to provide more details about your work and to remove information that is targeted solely at Gitcoin Grants users. This is also a good place to provide other links, such as Github repos or social media accounts, where the general public can learn more about the work.
 
 The project description should refer to **past work**, not future work that you would like to do with additional funding.
 
 #### Link
+
 This field is set to the first external URL provided for your project on Gitcoin Grants. You can update this.
 
 ### Hypercert Fields
+
 #### Work Scope
+
 This field is set by default to a **shortened version** of the name of your project on Gitcoin Grants. You may edit or add additional work scope tags.
 
 #### Work Start/End Dates
@@ -76,15 +86,19 @@ The end date references the last update to your grant page on Gitcoin Grants.
 You may edit or update these fields, however, the end date may not extend beyond `2023-01-31` (the close of the funding round) as all hypercerts will be retrospective in this round.
 
 #### Set of Contributors
+
 This field is set by default to the wallet address that is set as the recipient address for receiving Gitcoin Grants funding. **You should review this field closely and – if applicable – provide the addresses of additional contributors.**
 
 ### Advanced Fields
+
 #### Impact Scope
+
 This field is set by default to `all`.
 
 Updates are currently disabled on the frontend because funding decisions on Gitcoin Grants were not specific to an impact scope or impact time period.
 
 #### Impact Start/End Dates
+
 This field is set by default to the work start date of `2022-09-22` (see above) and a work end date of `indefinite`. Updates are currently disabled on the frontend.
 
 #### Rights
@@ -94,7 +108,9 @@ This field is set by default to `Public Display`, i.e., the owners are allowed t
 Updates are currently disabled on the frontend.
 
 ### Distribution
+
 #### Allowlist
+
 This field is set by default to a custom allowlist generated for each project based on the funding it received on the Gitcoin Grants Alpha Round. This field should not be changed. If there is a problem with your allowlist, please contact us.
 
 The formula assigns one fraction (rounded down) for every $1 (using the exchange rate at the time of the transaction) that a donor contributed to the project. It also provides a small buffer (of 5%) so that a transaction worth $0.999 or $0.951 remains eligible for one fraction.
@@ -113,11 +129,15 @@ The queries used to generate the allowlists can be viewed here:
 - OSS: https://dune.com/queries/1934969
 
 ### Confirmations
+
 #### Contributors' permission
+
 Every contributor needs to agree to have their contribution be represented by a hypercert. This is why the person minting the hypercert has to confirm to have the permission of all listed contributors.
 
 #### Terms & Conditions
-The terms & Conditions can be found [here](https://hypercerts.pages.dev/terms).
+
+The terms & Conditions can be found [here](https://hypercerts.org/terms).
 
 ### Final step: Click "Create"
+
 Make sure your Optimism wallet or multi-sig is connected. Click on "create" and wait for your hypercert to be created. Congratulations!
