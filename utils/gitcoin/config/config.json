@@ -16,6 +16,7 @@
       "data/csv/Donors_EthInfra.csv",
       "data/csv/Donors_OSS.csv"
     ],
+    "duneMultisigsList": "data/csv/Dune_SafeMultisigList.csv",
     "workScopeOverrides": "data/csv/Notion_WorkscopeOverrides.csv"
   }
 }
