@@ -2,25 +2,32 @@ import json
 import pandas as pd
 
 
-CONFIG   = json.load(open("config/config.json"))
-DUNE_EXPORTS = CONFIG["localPaths"]["duneSnapshots"]
+CONFIG        = json.load(open("config/config.json"))
+QF_EXPORTS    = CONFIG["localPaths"]["qfData"]
 MULTISIG_PATH = CONFIG["localPaths"]["duneMultisigsList"]
+ETH_DAI_RATE  = 1500
 
 
-def ingest_dune_export(csv_path):
+def convert_token(token, amount):
+    if token == 'ETH':
+        return amount * ETH_DAI_RATE
+    return amount
+
+def ingest_qf_export(csv_path):
     
     df = pd.read_csv(csv_path)
-    df['address'] = df['donor'].apply(lambda x: "0"+x[1:].lower())
-    df.drop(columns=['donor'], inplace=True)
-    
+    df = df[['source_wallet', 'token', 'amount']]
+    df['address'] = df['source_wallet'].apply(lambda x: x.lower())
+    df['usd'] = df.apply(lambda x: convert_token(x['token'], x['amount']), axis=1)    
     return df
 
 
 def check_multisigs(paths):
 
-    df = pd.concat([ingest_dune_export(f) for f in paths], axis=0)
     ms = pd.read_csv(MULTISIG_PATH)
     multisig_list = set(ms['address'].str.lower())
+
+    df = pd.concat([ingest_qf_export(f) for f in paths], axis=0)
     df['multisig'] = df['address'].apply(lambda x: x in multisig_list)
     
     dff = (df[df['multisig'] == True]
@@ -48,7 +55,7 @@ def check_multisigs(paths):
 
 
 def main():
-    check_multisigs(paths=DUNE_EXPORTS)
+    check_multisigs(paths=QF_EXPORTS)
 
 
 if __name__ == "__main__":
