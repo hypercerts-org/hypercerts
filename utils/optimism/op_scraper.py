@@ -1,28 +1,25 @@
 import json
 from selenium import webdriver 
-from selenium.webdriver import Chrome 
-from selenium.webdriver.chrome.service import Service 
 from selenium.webdriver.common.by import By 
-import time
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-
+import time
 
 # initialize a headless web scraper
 
-options = webdriver.ChromeOptions() 
-options.headless = True 
-options.page_load_strategy = 'none' 
 
-chrome_path = ChromeDriverManager().install() 
-chrome_service = Service(chrome_path) 
+options = webdriver.ChromeOptions()
+options.add_argument("--headless=new")
 
-driver = Chrome(options=options, service=chrome_service) 
-driver.implicitly_wait(5)
+# if you encounter issues, follow instructions here: 
+# https://intoli.com/blog/running-selenium-with-headless-chrome/
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # local path names
 
 LINKS_PATH = 'links.txt'
-DATA_PATH  = 'optimism/data/'
+DATA_PATH  = 'optimism/data/projects/'
 
 
 # module for extracting fields from a given project page
@@ -90,3 +87,4 @@ def scrape_all_projects():
 
 if __name__ == "__main__":
     scrape_all_projects()           
+    driver.quit()
