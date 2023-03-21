@@ -1,25 +1,28 @@
 import json
 from selenium import webdriver 
+from selenium.webdriver import Chrome 
+from selenium.webdriver.chrome.service import Service 
 from selenium.webdriver.common.by import By 
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 import time
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 # initialize a headless web scraper
 
+options = webdriver.ChromeOptions() 
+options.headless = True 
+options.page_load_strategy = 'none' 
 
-options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")
+chrome_path = ChromeDriverManager().install() 
+chrome_service = Service(chrome_path) 
 
-# if you encounter issues, follow instructions here: 
-# https://intoli.com/blog/running-selenium-with-headless-chrome/
-
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = Chrome(options=options, service=chrome_service) 
+driver.implicitly_wait(5)
 
 # local path names
 
 LINKS_PATH = 'links.txt'
-DATA_PATH  = 'optimism/data/projects/'
+DATA_PATH  = 'optimism/data/'
 
 
 # module for extracting fields from a given project page
@@ -33,6 +36,11 @@ def extract_fields(link):
     responses = content.find_elements(By.TAG_NAME, "section")
     description = responses[0].find_element(By.TAG_NAME, "p").text
     category = responses[1].find_element(By.CSS_SELECTOR, "span[class^='_label'").text
+    try:
+        address = content.find_element(By.CSS_SELECTOR, "div[class^='_addressWrapper'").text
+    except:
+        print("No address:", link)
+        address = None
     p_grabber = lambda r: "\n".join([t.text for t in r.find_elements(By.TAG_NAME, "p")])
     logo = driver.find_element(By.CSS_SELECTOR, "img[class^='_image'").get_property("src")
     try:
@@ -40,6 +48,7 @@ def extract_fields(link):
                   .find_element(By.CSS_SELECTOR, "div[class^='_banner'")
                   .find_element(By.TAG_NAME, "img").get_property("src"))
     except:
+        print("No banner:", link)
         banner = None
     
     return {
@@ -50,6 +59,7 @@ def extract_fields(link):
         'public_goods': p_grabber(responses[2]),
         'sustainability': p_grabber(responses[3]),
         'team_size': p_grabber(responses[4]),
+        'address': address,
         'banner': banner,
         'logo': logo        
     }
@@ -86,5 +96,5 @@ def scrape_all_projects():
 
 
 if __name__ == "__main__":
-    scrape_all_projects()           
-    driver.quit()
+    scrape_all_projects()   
+    driver.quit()        
