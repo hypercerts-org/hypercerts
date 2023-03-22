@@ -22,7 +22,7 @@ driver.implicitly_wait(5)
 # local path names
 
 LINKS_PATH = 'links.txt'
-DATA_PATH  = 'optimism/data/'
+DATA_PATH  = 'optimism/data/projects/'
 
 
 # module for extracting fields from a given project page
@@ -97,4 +97,4 @@ def scrape_all_projects():
 
 if __name__ == "__main__":
     scrape_all_projects()   
-    driver.quit()        
+    driver.quit()

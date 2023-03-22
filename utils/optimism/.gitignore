@@ -1,5 +1,4 @@
 # ignore local storage artifacts
-env/
 .env
 __pycache__/
 .DS_Store

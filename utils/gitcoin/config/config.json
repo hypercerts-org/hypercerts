@@ -16,6 +16,12 @@
       "data/csv/Donors_EthInfra.csv",
       "data/csv/Donors_OSS.csv"
     ],
+    "qfData": [
+      "data/qf/climate_grant_votes.csv",
+      "data/qf/ethereum_grant_votes.csv",
+      "data/qf/oss_grant_votes.csv"
+    ],
+    "duneMultisigsList": "data/csv/Dune_SafeMultisigList.csv",
     "workScopeOverrides": "data/csv/Notion_WorkscopeOverrides.csv"
   }
 }
