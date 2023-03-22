@@ -6,4 +6,4 @@ __pycache__/
 *.pickle
 *.ipynb
 .ipynb_checkpoints/
-data/*.json
+data/projects/*.json

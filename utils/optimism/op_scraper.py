@@ -22,7 +22,7 @@ driver.implicitly_wait(5)
 # local path names
 
 LINKS_PATH = 'links.txt'
-DATA_PATH  = 'optimism/data/'
+DATA_PATH  = 'optimism/data/projects/'
 
 
 # module for extracting fields from a given project page
@@ -36,6 +36,11 @@ def extract_fields(link):
     responses = content.find_elements(By.TAG_NAME, "section")
     description = responses[0].find_element(By.TAG_NAME, "p").text
     category = responses[1].find_element(By.CSS_SELECTOR, "span[class^='_label'").text
+    try:
+        address = content.find_element(By.CSS_SELECTOR, "div[class^='_addressWrapper'").text
+    except:
+        print("No address:", link)
+        address = None
     p_grabber = lambda r: "\n".join([t.text for t in r.find_elements(By.TAG_NAME, "p")])
     logo = driver.find_element(By.CSS_SELECTOR, "img[class^='_image'").get_property("src")
     try:
@@ -43,6 +48,7 @@ def extract_fields(link):
                   .find_element(By.CSS_SELECTOR, "div[class^='_banner'")
                   .find_element(By.TAG_NAME, "img").get_property("src"))
     except:
+        print("No banner:", link)
         banner = None
     
     return {
@@ -53,6 +59,7 @@ def extract_fields(link):
         'public_goods': p_grabber(responses[2]),
         'sustainability': p_grabber(responses[3]),
         'team_size': p_grabber(responses[4]),
+        'address': address,
         'banner': banner,
         'logo': logo        
     }
@@ -89,4 +96,5 @@ def scrape_all_projects():
 
 
 if __name__ == "__main__":
-    scrape_all_projects()           
+    scrape_all_projects()   
+    driver.quit()
