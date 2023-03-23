@@ -7,3 +7,4 @@ __pycache__/
 *.ipynb
 .ipynb_checkpoints/
 data/projects/*.json
+data/github/*.json
