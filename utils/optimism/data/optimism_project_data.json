@@ -16,7 +16,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6f9BB7e454f5B3eb2310343f0E99269dC2BB8A1d",
     "project_pathname": "0x6f9BB7e454f5B3eb2310343f0E99269dC2BB8A1d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.03622360811258065
+    "optimismBalanceEth": 0.03622360811258065,
+    "github_data": []
   },
   {
     "project": "SEED LATAM (formerly DeFi LATAM)",
@@ -32,7 +33,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xbe0fc34488CaA2766C3225B56ade0c1E409c0De7",
     "project_pathname": "0xbe0fc34488CaA2766C3225B56ade0c1E409c0De7",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Layer 2 Landscape",
@@ -52,7 +54,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x7a48A728d9Fd2d5a55c545c4378E5bA909349E90",
     "project_pathname": "0x7a48A728d9Fd2d5a55c545c4378E5bA909349E90",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.004413607541581524
+    "optimismBalanceEth": 0.004413607541581524,
+    "github_data": [
+      "data/github/https:__github.com_fainashalts_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_truffle-box_optimism-box_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "EthereansOS",
@@ -72,7 +78,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xdc0090f8aDD5DB06De0897A54e753af143668668",
     "project_pathname": "0xdc0090f8aDD5DB06De0897A54e753af143668668",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.12011054197128418
+    "optimismBalanceEth": 0.12011054197128418,
+    "github_data": [
+      "data/github/https:__github.com_EthereansOS_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "RockX",
@@ -88,7 +97,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x56262562506967a08Bf60a5aC5a5cEEAc02BECD2",
     "project_pathname": "0x56262562506967a08Bf60a5aC5a5cEEAc02BECD2",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "\ud83d\udc0d snekmate",
@@ -107,7 +117,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x07bF3CDA34aA78d92949bbDce31520714AB5b228",
     "project_pathname": "0x07bF3CDA34aA78d92949bbDce31520714AB5b228",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_pcaversaccio_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Gitcoin",
@@ -127,7 +140,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x48A63097E1Ac123b1f5A8bbfFafA4afa8192FaB0",
     "project_pathname": "0x48A63097E1Ac123b1f5A8bbfFafA4afa8192FaB0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_gitcoinco_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Kernel",
@@ -147,7 +163,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC728DEa8B2972E6e07493BE8DC2F0314F7dC3E98",
     "project_pathname": "0xC728DEa8B2972E6e07493BE8DC2F0314F7dC3E98",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_kernel-community__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "ERC-5560: Redeemable NFTs",
@@ -167,7 +186,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5874D5D530D1f969FD962579c445A0f3A8682D48",
     "project_pathname": "0x5874D5D530D1f969FD962579c445A0f3A8682D48",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ATO-nft_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "The Optimistic Series",
@@ -186,7 +208,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x03143EE031AA7bD7b6846750d066A27f18D39edd",
     "project_pathname": "0x03143EE031AA7bD7b6846750d066A27f18D39edd",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.41529338971145996
+    "optimismBalanceEth": 0.41529338971145996,
+    "github_data": []
   },
   {
     "project": "Solady",
@@ -206,7 +229,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x1F5D295778796a8b9f29600A585Ab73D452AcB1c",
     "project_pathname": "0x1F5D295778796a8b9f29600A585Ab73D452AcB1c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.004983837891411276
+    "optimismBalanceEth": 0.004983837891411276,
+    "github_data": [
+      "data/github/https:__github.com_Vectorized_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Bankless Academy",
@@ -226,7 +252,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xB30dD1198Feed1e22EC969f61EEd04cB75937adf",
     "project_pathname": "0xB30dD1198Feed1e22EC969f61EEd04cB75937adf",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_didierkrux_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Slither",
@@ -246,7 +275,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xA6826463a53bBe3d673f7e61E94a6099581FfC7d",
     "project_pathname": "0xA6826463a53bBe3d673f7e61E94a6099581FfC7d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_montyly_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_crytic_slither_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Eneagon by zenbit.eth",
@@ -266,7 +299,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x04cc6b487566B1C821bEa04d7ac0d23CEDe05cC9",
     "project_pathname": "0x04cc6b487566B1C821bEa04d7ac0d23CEDe05cC9",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.02524942207562111
+    "optimismBalanceEth": 0.02524942207562111,
+    "github_data": [
+      "data/github/https:__github.com_zenbitETH_eneagon_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Pocket Network",
@@ -286,7 +322,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xb89e800719a96c609dB746397b7d2c3B917694e0",
     "project_pathname": "0xb89e800719a96c609dB746397b7d2c3B917694e0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_pokt-network_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Quark ID",
@@ -306,7 +345,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5A930B098Ed8D58dD4590577af85a8E864A8F6fE",
     "project_pathname": "0x5A930B098Ed8D58dD4590577af85a8E864A8F6fE",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_Quark-id_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Big Sybil'or",
@@ -322,7 +364,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x8B93910594e2a09c30D7e97883f6d35d8772801d",
     "project_pathname": "0x8B93910594e2a09c30D7e97883f6d35d8772801d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.049200064891489106
+    "optimismBalanceEth": 0.049200064891489106,
+    "github_data": []
   },
   {
     "project": "ETHGlobal",
@@ -342,7 +385,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xe993486B257Cd1481aef74b3B909A2627Fc8d305",
     "project_pathname": "0xe993486B257Cd1481aef74b3B909A2627Fc8d305",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.05
+    "optimismBalanceEth": 0.05,
+    "github_data": [
+      "data/github/https:__github.com_ethglobal_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "OP Dashboards by Springzhang",
@@ -361,7 +407,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xdbE38D1d3631a04875d3FAd945D0dFcb2C20f91c",
     "project_pathname": "0xdbE38D1d3631a04875d3FAd945D0dFcb2C20f91c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.019100434103383048
+    "optimismBalanceEth": 0.019100434103383048,
+    "github_data": [
+      "data/github/https:__github.com_springzh_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Where has the OP Gone?",
@@ -380,7 +429,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4f41877773e44F2275dA1942FEe898556821bf66",
     "project_pathname": "0x4f41877773e44F2275dA1942FEe898556821bf66",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.01283998882204793
+    "optimismBalanceEth": 0.01283998882204793,
+    "github_data": []
   },
   {
     "project": "EthernautDAO",
@@ -400,7 +450,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3B3980936707A8299AFb5424Fa807c1CBac37cCb",
     "project_pathname": "0x3B3980936707A8299AFb5424Fa807c1CBac37cCb",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 1.695
+    "optimismBalanceEth": 1.695,
+    "github_data": [
+      "data/github/https:__github.com_ethernautdao_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Prettier Solidity",
@@ -419,7 +472,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xFc756d8632A19CEbd76560CE0A6967279E32131b",
     "project_pathname": "0xFc756d8632A19CEbd76560CE0A6967279E32131b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_prettier-solidity_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "delegation.tools",
@@ -439,7 +495,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xA47669cBc53985333423e4d3D00188f4049fB695",
     "project_pathname": "0xA47669cBc53985333423e4d3D00188f4049fB695",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.008779511128978852
+    "optimismBalanceEth": 0.008779511128978852,
+    "github_data": [
+      "data/github/https:__github.com_DanieleSalatti_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "ITU Blockchain",
@@ -459,7 +518,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xBEC643BD5b7F5e9190617CA4187ef0455950C51C",
     "project_pathname": "0xBEC643BD5b7F5e9190617CA4187ef0455950C51C",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_itublockchain_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Frame",
@@ -479,7 +541,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x7c929EfA9a8A2A1524BA90aBc2B70801413fFD4c",
     "project_pathname": "0x7c929EfA9a8A2A1524BA90aBc2B70801413fFD4c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.039066658290958456
+    "optimismBalanceEth": 0.039066658290958456,
+    "github_data": [
+      "data/github/https:__github.com_floating_frame_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Blobscan",
@@ -499,7 +564,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd7BDE01888B8A2a97924444009E31C8d8c2391F3",
     "project_pathname": "0xd7BDE01888B8A2a97924444009E31C8d8c2391F3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_Blobscan_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Rigoblock",
@@ -519,7 +587,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x080f08076e8EAdC66006C3CbFEd28a34918A1fA6",
     "project_pathname": "0x080f08076e8EAdC66006C3CbFEd28a34918A1fA6",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.004501019366293531
+    "optimismBalanceEth": 0.004501019366293531,
+    "github_data": [
+      "data/github/https:__github.com_RigoBlock_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Akula",
@@ -539,7 +610,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9d6d3b09F8AC8615805bd82e53B80D956F451CFa",
     "project_pathname": "0x9d6d3b09F8AC8615805bd82e53B80D956F451CFa",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_akula-bft_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Ankr",
@@ -555,7 +629,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5eEeB9F8a2050533BBEd20F87d445Dcf309a5eA7",
     "project_pathname": "0x5eEeB9F8a2050533BBEd20F87d445Dcf309a5eA7",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "ETHEREUM M\u00c9XICO",
@@ -574,7 +649,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC0aC93ABb5539769Edac951D9EbD5BCbFB854b0f",
     "project_pathname": "0xC0aC93ABb5539769Edac951D9EbD5BCbFB854b0f",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Optinames | ENS on Optimism",
@@ -594,7 +670,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6",
     "project_pathname": "0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_stevegachau_optimismresolver_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Thumbs Up Finance",
@@ -613,7 +692,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4d85e4F760fb58E380f02657AE5Aafb8bd010601",
     "project_pathname": "0x4d85e4F760fb58E380f02657AE5Aafb8bd010601",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.004246573896006605
+    "optimismBalanceEth": 0.004246573896006605,
+    "github_data": []
   },
   {
     "project": "Optimism FM",
@@ -629,7 +709,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x09c41efc1C7E2C2A11Bb153eF39AFFeaFf2CeDcD",
     "project_pathname": "0x09c41efc1C7E2C2A11Bb153eF39AFFeaFf2CeDcD",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.2767153851440616
+    "optimismBalanceEth": 0.2767153851440616,
+    "github_data": []
   },
   {
     "project": "Solidity",
@@ -649,7 +730,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x151EF20A3ADe1CC1161391594f8a32461389a54e",
     "project_pathname": "0x151EF20A3ADe1CC1161391594f8a32461389a54e",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ethereum_solidity_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Rust-cannon-template",
@@ -669,7 +753,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xc0017405E287476443Ab1B342B86f2ea92Ef9F73",
     "project_pathname": "0xc0017405E287476443Ab1B342B86f2ea92Ef9F73",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.02
+    "optimismBalanceEth": 0.02,
+    "github_data": [
+      "data/github/https:__github.com_willemolding_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_willemolding_rust-cannon-template_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Small Brain Games",
@@ -689,7 +777,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xc152Cc22488f1383E675f5738dF9a4244fB113a5",
     "project_pathname": "0xc152Cc22488f1383E675f5738dF9a4244fB113a5",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_smallbraingames_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Blockscout",
@@ -709,7 +800,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x245cE6de47A5D44E5B73f923F1aDA4cc1688D22b",
     "project_pathname": "0x245cE6de47A5D44E5B73f923F1aDA4cc1688D22b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_blockscout_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "MetricsDAO",
@@ -725,7 +819,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4c6E3610a222E4518cc7ef3d8826Ee8640995c5C",
     "project_pathname": "0x4c6E3610a222E4518cc7ef3d8826Ee8640995c5C",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0025
+    "optimismBalanceEth": 0.0025,
+    "github_data": []
   },
   {
     "project": "blst by Supranational",
@@ -745,7 +840,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0a6CD04Ca9Ce730c709276C6868D9F2C4D9Ef1D6",
     "project_pathname": "0x0a6CD04Ca9Ce730c709276C6868D9F2C4D9Ef1D6",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_supranational_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Women Biz - Optimism education",
@@ -765,7 +863,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0693401dF5CbAE158be6bbAdDD69d52283a8076E",
     "project_pathname": "0x0693401dF5CbAE158be6bbAdDD69d52283a8076E",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_womenbiz_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Attestation Station Interface",
@@ -785,7 +886,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5EfF4B8c042AA6003cBDA6E32C4aA23657d3b6AF",
     "project_pathname": "0x5EfF4B8c042AA6003cBDA6E32C4aA23657d3b6AF",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.3200600405873465
+    "optimismBalanceEth": 0.3200600405873465,
+    "github_data": [
+      "data/github/https:__github.com_sbvegan_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Sugar",
@@ -804,7 +908,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x892Ff98a46e5bd141E2D12618f4B2Fe6284debac",
     "project_pathname": "0x892Ff98a46e5bd141E2D12618f4B2Fe6284debac",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.8390104563609855
+    "optimismBalanceEth": 0.8390104563609855,
+    "github_data": [
+      "data/github/https:__github.com_stas_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_velodrome-finance_sugar__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Boardroom",
@@ -824,7 +932,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xc1a69F906Ce4366C0C77e0219b3132FeA0969231",
     "project_pathname": "0xc1a69F906Ce4366C0C77e0219b3132FeA0969231",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.8045
+    "optimismBalanceEth": 0.8045,
+    "github_data": [
+      "data/github/https:__github.com_boardroom-inc_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "OptiChads",
@@ -840,7 +951,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x10850762bAc0dc6660630c1EfFe188A7cbFDdc88",
     "project_pathname": "0x10850762bAc0dc6660630c1EfFe188A7cbFDdc88",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000906999512425505
+    "optimismBalanceEth": 0.000906999512425505,
+    "github_data": []
   },
   {
     "project": "Nethermind",
@@ -860,7 +972,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xFED0e586cB372Fd0b17ead9F8cb1347BF8a5937f",
     "project_pathname": "0xFED0e586cB372Fd0b17ead9F8cb1347BF8a5937f",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.009848771375476977
+    "optimismBalanceEth": 0.009848771375476977,
+    "github_data": [
+      "data/github/https:__github.com_NethermindEth_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Token Terminal",
@@ -879,7 +994,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xeB67e286faf667A047e435EC90107122b0bC2C01",
     "project_pathname": "0xeB67e286faf667A047e435EC90107122b0bC2C01",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Perpetuals Dune Abstraction",
@@ -895,7 +1011,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x08290908a251119a1C75bb9C36A7A41e9BF2f1E3",
     "project_pathname": "0x08290908a251119a1C75bb9C36A7A41e9BF2f1E3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.20728109603629483
+    "optimismBalanceEth": 0.20728109603629483,
+    "github_data": [
+      "data/github/https:__github.com_RplusT_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "DexKit",
@@ -915,7 +1034,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f",
     "project_pathname": "0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.04977826796723874
+    "optimismBalanceEth": 0.04977826796723874,
+    "github_data": [
+      "data/github/https:__github.com_DexKit_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Remix Project",
@@ -935,7 +1057,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x2ba1aebA3fBd69aa74944F17326Bfdc229fD986E",
     "project_pathname": "0x2ba1aebA3fBd69aa74944F17326Bfdc229fD986E",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ethereum_remix-project_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Zapper",
@@ -951,7 +1076,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x7f9D4208D404d86396F856C4f3db0195bB677f17",
     "project_pathname": "0x7f9D4208D404d86396F856C4f3db0195bB677f17",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000403261634781658
+    "optimismBalanceEth": 0.000403261634781658,
+    "github_data": []
   },
   {
     "project": "Nested",
@@ -971,7 +1097,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0BE55326919F08Af4D14A42aAfb3B68F95738355",
     "project_pathname": "0x0BE55326919F08Af4D14A42aAfb3B68F95738355",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.2114556964725364
+    "optimismBalanceEth": 0.2114556964725364,
+    "github_data": [
+      "data/github/https:__github.com_NestedFi_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "RadicalxChange Foundation",
@@ -991,7 +1120,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3945D766185E2264900C84faC10958B3619C2bD4",
     "project_pathname": "0x3945D766185E2264900C84faC10958B3619C2bD4",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_RadicalxChange_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Blocktrend (\u5340\u584a\u52e2)",
@@ -1011,7 +1143,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x36F322fC85B24aB13263CFE9217B28f8E2b38381",
     "project_pathname": "0x36F322fC85B24aB13263CFE9217B28f8E2b38381",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.10627896516932497
+    "optimismBalanceEth": 0.10627896516932497,
+    "github_data": [
+      "data/github/https:__github.com_astro-hsu_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Nimbus",
@@ -1031,7 +1166,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4413E96F6b46e59326a7695eF871FA902Ff7935d",
     "project_pathname": "0x4413E96F6b46e59326a7695eF871FA902Ff7935d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.01
+    "optimismBalanceEth": 0.01,
+    "github_data": [
+      "data/github/https:__github.com_status-im__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Erigon",
@@ -1050,7 +1188,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9D20893054afC4A74b856089c44F9A09d1C38Db0",
     "project_pathname": "0x9D20893054afC4A74b856089c44F9A09d1C38Db0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ledgerwatch_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Espacio Cripto",
@@ -1069,7 +1210,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xcE36608441F24E2d5642932F2A511D98BBBC06A9",
     "project_pathname": "0xcE36608441F24E2d5642932F2A511D98BBBC06A9",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Optimism Cult Merch",
@@ -1088,7 +1230,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x59E6Ca75DFb201BAFF565303CA52A3113DD6F223",
     "project_pathname": "0x59E6Ca75DFb201BAFF565303CA52A3113DD6F223",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.004328000276340408
+    "optimismBalanceEth": 0.004328000276340408,
+    "github_data": []
   },
   {
     "project": "Ethers",
@@ -1108,7 +1251,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x8ba1f109551bD432803012645Ac136ddd64DBA72",
     "project_pathname": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ricmoo_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "raise_exception (rotate.eth)",
@@ -1127,7 +1273,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x400aBc3DAE98Ec5aEEF2681b40D4CEd0A5aff934",
     "project_pathname": "0x400aBc3DAE98Ec5aEEF2681b40D4CEd0A5aff934",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.08961984483562149
+    "optimismBalanceEth": 0.08961984483562149,
+    "github_data": [
+      "data/github/https:__github.com_rotate-eth_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "MarcoV (Optimism Dashboards)",
@@ -1147,7 +1296,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x283266045Ab2aB0793a62CADC21D55f685636Ae0",
     "project_pathname": "0x283266045Ab2aB0793a62CADC21D55f685636Ae0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.04663379641341249
+    "optimismBalanceEth": 0.04663379641341249,
+    "github_data": [
+      "data/github/https:__github.com_MarcoVugts_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Web3beach",
@@ -1163,7 +1315,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xEFEdaf9c07E6eB56BB8F82f30018e4461B1c5F4c",
     "project_pathname": "0xEFEdaf9c07E6eB56BB8F82f30018e4461B1c5F4c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 1.1323139241328635
+    "optimismBalanceEth": 1.1323139241328635,
+    "github_data": []
   },
   {
     "project": "rotki",
@@ -1183,7 +1336,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9531C059098e3d194fF87FebB587aB07B30B1306",
     "project_pathname": "0x9531C059098e3d194fF87FebB587aB07B30B1306",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.1912909149310675
+    "optimismBalanceEth": 0.1912909149310675,
+    "github_data": [
+      "data/github/https:__github.com_rotki_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "WakeUp Labs",
@@ -1203,7 +1359,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xab4f5A7fcd1Bb66C8c5f01bB77F6142759f46107",
     "project_pathname": "0xab4f5A7fcd1Bb66C8c5f01bB77F6142759f46107",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_wakeuplabs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "geth",
@@ -1223,7 +1382,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x60AdC0F89a41AF237ce73554EDe170D733ec14E0",
     "project_pathname": "0x60AdC0F89a41AF237ce73554EDe170D733ec14E0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ethereum_go-ethereum_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "ChugSplash",
@@ -1243,7 +1405,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4856e043a1F2CAA8aCEfd076328b4981Aca91000",
     "project_pathname": "0x4856e043a1F2CAA8aCEfd076328b4981Aca91000",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000520682632937888
+    "optimismBalanceEth": 0.000520682632937888,
+    "github_data": [
+      "data/github/https:__github.com_chugsplash_chugsplash_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_chugsplash_chugsplash_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Hyperledger Besu",
@@ -1262,7 +1428,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xe4Eb51D709D22FE02C42F68A0483fa70A772e984",
     "project_pathname": "0xe4Eb51D709D22FE02C42F68A0483fa70A772e984",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_hyperledger_besu_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Lodestar",
@@ -1282,7 +1451,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6Fa4C420E9567203Aa65eB38da5DBe361fD61ff2",
     "project_pathname": "0x6Fa4C420E9567203Aa65eB38da5DBe361fD61ff2",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ChainSafe_lodestar_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Commons Stack",
@@ -1302,7 +1474,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC5A756D63C5fe67b438acBE468aA62a52093fDEf",
     "project_pathname": "0xC5A756D63C5fe67b438acBE468aA62a52093fDEf",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.009632580466447712
+    "optimismBalanceEth": 0.009632580466447712,
+    "github_data": [
+      "data/github/https:__github.com_commons-stack__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Optimism Translators Collection",
@@ -1320,7 +1495,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/translators",
     "project_pathname": "translators",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": []
   },
   {
     "project": "OAYC",
@@ -1336,7 +1512,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x81B7E9d8409B857D70aD14073E785c486945CaF4",
     "project_pathname": "0x81B7E9d8409B857D70aD14073E785c486945CaF4",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.19322547342617394
+    "optimismBalanceEth": 0.19322547342617394,
+    "github_data": []
   },
   {
     "project": "MUX Protocol",
@@ -1352,7 +1529,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x7b4c5F852AA6b44Bd01F9252C3F93Ae1aa1c63e9",
     "project_pathname": "0x7b4c5F852AA6b44Bd01F9252C3F93Ae1aa1c63e9",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.001253642033482962
+    "optimismBalanceEth": 0.001253642033482962,
+    "github_data": []
   },
   {
     "project": "L2BEAT",
@@ -1372,7 +1550,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xa142aB9eab9264807A41F0E5cbDab877D204E233",
     "project_pathname": "0xa142aB9eab9264807A41F0E5cbDab877D204E233",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.7633661362575699
+    "optimismBalanceEth": 0.7633661362575699,
+    "github_data": [
+      "data/github/https:__github.com_l2beat_l2beat_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Week in Ethereum News",
@@ -1391,7 +1572,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x13ebd3443fa5575F0Eb173e323D8419F7452CfB1",
     "project_pathname": "0x13ebd3443fa5575F0Eb173e323D8419F7452CfB1",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 6.542206363901649
+    "optimismBalanceEth": 6.542206363901649,
+    "github_data": []
   },
   {
     "project": "Apetimism Launchpad",
@@ -1410,7 +1592,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x2117085E7e4eE35825A9C71bbE46AAd8c01789f3",
     "project_pathname": "0x2117085E7e4eE35825A9C71bbE46AAd8c01789f3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 20.362219330248614
+    "optimismBalanceEth": 20.362219330248614,
+    "github_data": []
   },
   {
     "project": "MerkleTreeJS",
@@ -1429,7 +1612,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x358fdcCDE25e0aae7fBA01F088Da89b08aBF61DB",
     "project_pathname": "0x358fdcCDE25e0aae7fBA01F088Da89b08aBF61DB",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_merkletreejs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "BwareLabs",
@@ -1449,7 +1635,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xE0D76bDF0Dcf83685dc41570Dd4536649119D304",
     "project_pathname": "0xE0D76bDF0Dcf83685dc41570Dd4536649119D304",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_bwarelabs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Keccak hashing",
@@ -1469,7 +1658,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xD06CaC3a900Dd34FE9CCd32F15DCC75E2423b816",
     "project_pathname": "0xD06CaC3a900Dd34FE9CCd32F15DCC75E2423b816",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.009899433211481888
+    "optimismBalanceEth": 0.009899433211481888,
+    "github_data": [
+      "data/github/https:__github.com_XKCP_XKCP_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "OptimismGuru",
@@ -1485,7 +1677,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x8E72a24221517E51502f20f387415a06b27A5b51",
     "project_pathname": "0x8E72a24221517E51502f20f387415a06b27A5b51",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Fire",
@@ -1501,7 +1694,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x57B02589d6e24203FC43e442ce9A4803E290293b",
     "project_pathname": "0x57B02589d6e24203FC43e442ce9A4803E290293b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Ipsilon",
@@ -1521,7 +1715,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xF96Aa4A25fDe246d9dD498B145F52Fab0eAd29f3",
     "project_pathname": "0xF96Aa4A25fDe246d9dD498B145F52Fab0eAd29f3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ipsilon_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Jrocki - YouTube & Podcast",
@@ -1540,7 +1737,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xFC10A71B1E7974401D840fd15ceBf08Ed7E115Cc",
     "project_pathname": "0xFC10A71B1E7974401D840fd15ceBf08Ed7E115Cc",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 1.2763736138140125
+    "optimismBalanceEth": 1.2763736138140125,
+    "github_data": []
   },
   {
     "project": "dm3 protocol",
@@ -1560,7 +1758,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x1d921dff757610FbDB0073479e12c0a07d382677",
     "project_pathname": "0x1d921dff757610FbDB0073479e12c0a07d382677",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_corpus-io_Optimism-Resolver_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Bored Town",
@@ -1579,7 +1780,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6fF5723435b7dfC2371B57Fb5cB4c373E5995C78",
     "project_pathname": "0x6fF5723435b7dfC2371B57Fb5cB4c373E5995C78",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.04765745045224472
+    "optimismBalanceEth": 0.04765745045224472,
+    "github_data": []
   },
   {
     "project": "Polynya",
@@ -1599,7 +1801,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x429F9aDA43e9F345CbB85EC88681BB70Df808892",
     "project_pathname": "0x429F9aDA43e9F345CbB85EC88681BB70Df808892",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.040803216942506174
+    "optimismBalanceEth": 0.040803216942506174,
+    "github_data": [
+      "data/github/https:__github.com_apolynya_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "L2planet",
@@ -1619,7 +1824,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xf23F9C10D1559885dABEE67c59c4554E6152697b",
     "project_pathname": "0xf23F9C10D1559885dABEE67c59c4554E6152697b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_l2planet_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "ZachXBT",
@@ -1635,7 +1843,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9D727911B54C455B0071A7B682FcF4Bc444B5596",
     "project_pathname": "0x9D727911B54C455B0071A7B682FcF4Bc444B5596",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.22241590831514949
+    "optimismBalanceEth": 0.22241590831514949,
+    "github_data": []
   },
   {
     "project": "\u26a1\ufe0fTurboETH - Web3 Build System",
@@ -1655,7 +1864,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x761d584f1C2d43cBc3F42ECd739701a36dFFAa31",
     "project_pathname": "0x761d584f1C2d43cBc3F42ECd739701a36dFFAa31",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.21239444163607937
+    "optimismBalanceEth": 0.21239444163607937,
+    "github_data": [
+      "data/github/https:__github.com_kamescg_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "OptimismArabia",
@@ -1674,7 +1886,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6e4E55A49a8C8938BD8D8668E18DE95962740Fe1",
     "project_pathname": "0x6e4E55A49a8C8938BD8D8668E18DE95962740Fe1",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 7.487976459201e-6
+    "optimismBalanceEth": 7.487976459201e-6,
+    "github_data": []
   },
   {
     "project": "CryptoZombies",
@@ -1694,7 +1907,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xbb105E3c6D6406A3F0aAB98cD8D0E3a127bD6436",
     "project_pathname": "0xbb105E3c6D6406A3F0aAB98cD8D0E3a127bD6436",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_CryptozombiesHQ_cryptozombie-lessons_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "TypeChain",
@@ -1714,7 +1930,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4d2F0Efdb2AD1d709d8522E7b5aa9f5181563617",
     "project_pathname": "0x4d2F0Efdb2AD1d709d8522E7b5aa9f5181563617",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_dethcrypto_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_dethcrypto_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Hop Protocol",
@@ -1734,7 +1954,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x816a684f40b8B4B060A4Df7A10caD589Ef64E95e",
     "project_pathname": "0x816a684f40b8B4B060A4Df7A10caD589Ef64E95e",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_hop-protocol_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Launchifi",
@@ -1754,7 +1977,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x64249ED5Ef7a004d268A508092851e987482a175",
     "project_pathname": "0x64249ED5Ef7a004d268A508092851e987482a175",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_Launchifi__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Flexible Voting",
@@ -1770,7 +1996,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x8f5906963Ae276E1631EFA8Ff1a9CaE6499EC5E3",
     "project_pathname": "0x8f5906963Ae276E1631EFA8Ff1a9CaE6499EC5E3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.01710102206413176
+    "optimismBalanceEth": 0.01710102206413176,
+    "github_data": [
+      "data/github/https:__github.com_ScopeLift_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "NFTEarth",
@@ -1790,7 +2019,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xD131F1BcDd547e067Af447dD3C36C99d6be9FdEB",
     "project_pathname": "0xD131F1BcDd547e067Af447dD3C36C99d6be9FdEB",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.074209
+    "optimismBalanceEth": 0.074209,
+    "github_data": [
+      "data/github/https:__github.com_NFTEarth_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Filosof\u00eda C\u00f3digo",
@@ -1810,7 +2042,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xb6F5414bAb8d5ad8F33E37591C02f7284E974FcB",
     "project_pathname": "0xb6F5414bAb8d5ad8F33E37591C02f7284E974FcB",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.09982001438079244
+    "optimismBalanceEth": 0.09982001438079244,
+    "github_data": [
+      "data/github/https:__github.com_FilosofiaCodigo_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Atlantis World",
@@ -1830,7 +2065,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x036C545Ae4f68059b4C83f7E3814429d4c73c089",
     "project_pathname": "0x036C545Ae4f68059b4C83f7E3814429d4c73c089",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 5.956656026236e-6
+    "optimismBalanceEth": 5.956656026236e-6,
+    "github_data": [
+      "data/github/https:__github.com_carlomigueldy_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Infinitism (ERC-4337)",
@@ -1849,7 +2087,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xdb5781a835b60110298fF7205D8ef9678Ff1f800",
     "project_pathname": "0xdb5781a835b60110298fF7205D8ef9678Ff1f800",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_eth-infinitism_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_eth-infinitism_account-abstraction_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Cryptocurrency and Friends",
@@ -1868,7 +2110,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xEc087478B0bC2F1a18Ff01717e381f44B791114A",
     "project_pathname": "0xEc087478B0bC2F1a18Ff01717e381f44B791114A",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__cryptocurrencyclass.github.io__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "H.E.R. DAO LATAM",
@@ -1887,7 +2132,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x1F9E7984eDdb135ab6D6f354E229970bB332dCC4",
     "project_pathname": "0x1F9E7984eDdb135ab6D6f354E229970bB332dCC4",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "DefiLlama",
@@ -1907,7 +2153,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3754a10c1cA723961068B2653109E6201982Dd9c",
     "project_pathname": "0x3754a10c1cA723961068B2653109E6201982Dd9c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_DefiLlama_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Otterspace",
@@ -1927,7 +2176,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0AB7C4123e84c975008fcfcb14f07152bb711F82",
     "project_pathname": "0x0AB7C4123e84c975008fcfcb14f07152bb711F82",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 3.357513521217789
+    "optimismBalanceEth": 3.357513521217789,
+    "github_data": [
+      "data/github/https:__github.com_otterspace-xyz__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "OP Medicine",
@@ -1947,7 +2199,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x8dc640a257DE18857F8d24e1Ae2645F8bBa1E034",
     "project_pathname": "0x8dc640a257DE18857F8d24e1Ae2645F8bBa1E034",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.002697027795448751
+    "optimismBalanceEth": 0.002697027795448751,
+    "github_data": [
+      "data/github/https:__github.com_aspiringsecurity_EMTTR_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "EthereumETL",
@@ -1966,7 +2221,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9FD0C742D81B6f08817F3eF11D09Cb4a9f54eE5f",
     "project_pathname": "0x9FD0C742D81B6f08817F3eF11D09Cb4a9f54eE5f",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_blockchain-etl_ethereum-etl_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "hildobby's Dune dashboards",
@@ -1986,7 +2244,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x09a5943a6d10919571eE2C9F63380aEA747ECA97",
     "project_pathname": "0x09a5943a6d10919571eE2C9F63380aEA747ECA97",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.08461398142821043
+    "optimismBalanceEth": 0.08461398142821043,
+    "github_data": [
+      "data/github/https:__github.com_hildobby_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "TrueBlocks",
@@ -2006,7 +2267,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xf503017D7baF7FBC0fff7492b751025c6A78179b",
     "project_pathname": "0xf503017D7baF7FBC0fff7492b751025c6A78179b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.001
+    "optimismBalanceEth": 0.001,
+    "github_data": [
+      "data/github/https:__github.com_TrueBlocks_trueblocks-core_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Snapshot",
@@ -2026,7 +2290,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xf9551c66995eD3Ff9bb05C9Fd7ff148Bd75dc99a",
     "project_pathname": "0xf9551c66995eD3Ff9bb05C9Fd7ff148Bd75dc99a",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_snapshot-labs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "timdaub\u2019s work as ETH Magician",
@@ -2046,7 +2313,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x005241438cAF3eaCb05bB6543151f7AF894C5B58",
     "project_pathname": "0x005241438cAF3eaCb05bB6543151f7AF894C5B58",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_attestate_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "BanklessDAO Projects",
@@ -2066,7 +2336,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x958c20A43F5206F186B0195cCB61Acb724b2EE1E",
     "project_pathname": "0x958c20A43F5206F186B0195cCB61Acb724b2EE1E",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.001
+    "optimismBalanceEth": 0.001,
+    "github_data": [
+      "data/github/https:__github.com_BanklessDAO_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Optimism DAppNode Package",
@@ -2086,7 +2359,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x523d007855B3543797E0d3D462CB44B601274819",
     "project_pathname": "0x523d007855B3543797E0d3D462CB44B601274819",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.014955552643715423
+    "optimismBalanceEth": 0.014955552643715423,
+    "github_data": [
+      "data/github/https:__github.com_DanieleSalatti_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_DanieleSalatti_DAppNodePackage-optimism_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "beaconcha.in",
@@ -2106,7 +2383,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd9ED89A0f4cfbC1be4b7b1aA744b5bd25ACA9979",
     "project_pathname": "0xd9ED89A0f4cfbC1be4b7b1aA744b5bd25ACA9979",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.09715400672172587
+    "optimismBalanceEth": 0.09715400672172587,
+    "github_data": [
+      "data/github/https:__github.com_beaconchain_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Duniversity (Dune Education)",
@@ -2125,7 +2405,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xAA857AC645733FbF3105b0406417d35BA1576ff8",
     "project_pathname": "0xAA857AC645733FbF3105b0406417d35BA1576ff8",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.00982885429360496
+    "optimismBalanceEth": 0.00982885429360496,
+    "github_data": []
   },
   {
     "project": "Gelato",
@@ -2145,7 +2426,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x587e9cbc67Af10a9d95F3e38836943667b331392",
     "project_pathname": "0x587e9cbc67Af10a9d95F3e38836943667b331392",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_gelatodigital_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Messari Protocol Services",
@@ -2165,7 +2449,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x47A6a1B6492B6dF811606B8294A02b4268e86dAD",
     "project_pathname": "0x47A6a1B6492B6dF811606B8294A02b4268e86dAD",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_messari_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Michael Vander Meiden",
@@ -2184,7 +2471,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6EdA5aCafF7F5964E1EcC3FD61C62570C186cA0C",
     "project_pathname": "0x6EdA5aCafF7F5964E1EcC3FD61C62570C186cA0C",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.42782013882310377
+    "optimismBalanceEth": 0.42782013882310377,
+    "github_data": []
   },
   {
     "project": "CANDIDE Wallet",
@@ -2204,7 +2492,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC2842A7653b9c2272F424a18DFf468C32d1f874D",
     "project_pathname": "0xC2842A7653b9c2272F424a18DFf468C32d1f874D",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_candidelabs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Layer 2 Weekly Roundup",
@@ -2223,7 +2514,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x24b0529c7226AE66968B9A8b521b266A2cA4a898",
     "project_pathname": "0x24b0529c7226AE66968B9A8b521b266A2cA4a898",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Web3 Data Degens",
@@ -2243,7 +2535,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x2Ae8c972fB2E6c00ddED8986E2dc672ED190DA06",
     "project_pathname": "0x2Ae8c972fB2E6c00ddED8986E2dc672ED190DA06",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.4687461129225868
+    "optimismBalanceEth": 0.4687461129225868,
+    "github_data": [
+      "data/github/https:__github.com_andrewhong5297_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Infinity Wallet & Web3 Browser",
@@ -2262,7 +2557,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xb7D6937F3aa9E09817C045b7d5b5Fb5064370671",
     "project_pathname": "0xb7D6937F3aa9E09817C045b7d5b5Fb5064370671",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Optimism Prices Contracts",
@@ -2281,7 +2577,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x82D54397B88CE80Ea2Df9aD049213ACb47dc2523",
     "project_pathname": "0x82D54397B88CE80Ea2Df9aD049213ACb47dc2523",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 14.692559342826275
+    "optimismBalanceEth": 14.692559342826275,
+    "github_data": [
+      "data/github/https:__github.com_ethzoomer_optimism-prices_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_ethzoomer_optimism-prices_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Umbra",
@@ -2301,7 +2601,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5C04E7808455ee0e22c2773328C151d0DD79dC62",
     "project_pathname": "0x5C04E7808455ee0e22c2773328C151d0DD79dC62",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.01710102206413176
+    "optimismBalanceEth": 0.01710102206413176,
+    "github_data": [
+      "data/github/https:__github.com_ScopeLift_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Cryptoversidad",
@@ -2320,7 +2623,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x281BA4E9B7e28982d6CB53EE3836865f1453e12F",
     "project_pathname": "0x281BA4E9B7e28982d6CB53EE3836865f1453e12F",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Orbiter Finance",
@@ -2340,7 +2644,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd923CA098dBBFb0d24677a3150fa3aA97be461b5",
     "project_pathname": "0xd923CA098dBBFb0d24677a3150fa3aA97be461b5",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.006097007605370432
+    "optimismBalanceEth": 0.006097007605370432,
+    "github_data": [
+      "data/github/https:__github.com_Orbiter-Finance_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Chainlist",
@@ -2359,7 +2666,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x40bbF4468495197b919591Dae8cb5d3fE2F52e7E",
     "project_pathname": "0x40bbF4468495197b919591Dae8cb5d3fE2F52e7E",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_DefiLlama_chainlist_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Solhint",
@@ -2379,7 +2689,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5fC34D03cFdf145Db5f3c5B5558e39a4164AAa30",
     "project_pathname": "0x5fC34D03cFdf145Db5f3c5B5558e39a4164AAa30",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_protofire_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "EIP-5164 / PoolTogether Inc",
@@ -2395,7 +2708,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0a09cd09B0107Bb98a83f211704F036ECa94B92e",
     "project_pathname": "0x0a09cd09B0107Bb98a83f211704F036ECa94B92e",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_pooltogether_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Vyper",
@@ -2415,7 +2731,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xAbfA48BCc0F96Fc70be7a4156b0a74Ea350167fD",
     "project_pathname": "0xAbfA48BCc0F96Fc70be7a4156b0a74Ea350167fD",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_vyperlang__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "donnoh",
@@ -2435,7 +2754,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x33D66941465ac776C38096cb1bc496C673aE7390",
     "project_pathname": "0x33D66941465ac776C38096cb1bc496C673aE7390",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_lucadonnoh_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__lucadonnoh.github.io__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Optimism Support NERDs Collection",
@@ -2453,7 +2776,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/support-nerds",
     "project_pathname": "support-nerds",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": []
   },
   {
     "project": "OPCraft & MUD (Lattice)",
@@ -2473,7 +2797,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xD8ce5Ae15E2A9C8528FDce195AD43015782C5079",
     "project_pathname": "0xD8ce5Ae15E2A9C8528FDce195AD43015782C5079",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_latticexyz_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "DeFi Library",
@@ -2492,7 +2819,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4e3D9399C28c724293dd545225Ec843Ac4c9e953",
     "project_pathname": "0x4e3D9399C28c724293dd545225Ec843Ac4c9e953",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.023708657342348664
+    "optimismBalanceEth": 0.023708657342348664,
+    "github_data": []
   },
   {
     "project": "OpenZeppelin",
@@ -2512,7 +2840,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6084fBE2Aa96Bb131D6Bc7Bd3BE786882cfA250F",
     "project_pathname": "0x6084fBE2Aa96Bb131D6Bc7Bd3BE786882cfA250F",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000251630573271048
+    "optimismBalanceEth": 0.000251630573271048,
+    "github_data": [
+      "data/github/https:__github.com_openzeppelin_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Otterscan",
@@ -2532,7 +2863,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd31b671F1a398B519222FdAba5aB5464B9F2a3Fa",
     "project_pathname": "0xd31b671F1a398B519222FdAba5aB5464B9F2a3Fa",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_wmitsuda_otterscan_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Optimism Monorepo Dependencies Collection",
@@ -2551,7 +2885,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/monorepo-dependencies",
     "project_pathname": "monorepo-dependencies",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_ethereum-optimism_optimism_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Scry",
@@ -2571,7 +2908,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9D31e30003f253563Ff108BC60B16Fdf2c93abb5",
     "project_pathname": "0x9D31e30003f253563Ff108BC60B16Fdf2c93abb5",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.2801585421235169
+    "optimismBalanceEth": 0.2801585421235169,
+    "github_data": [
+      "data/github/https:__github.com_ScryProtocol_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "BuidlGuidl",
@@ -2591,7 +2931,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x34aA3F359A9D614239015126635CE7732c18fDF3",
     "project_pathname": "0x34aA3F359A9D614239015126635CE7732c18fDF3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 2.531816537605181
+    "optimismBalanceEth": 2.531816537605181,
+    "github_data": [
+      "data/github/https:__github.com_BuidlGuidl_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Node Guardians",
@@ -2611,7 +2954,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x6ef87E0Aaadb2c3d07fD98a098Af5FaD0aD45811",
     "project_pathname": "0x6ef87E0Aaadb2c3d07fD98a098Af5FaD0aD45811",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000607194034925801
+    "optimismBalanceEth": 0.000607194034925801,
+    "github_data": [
+      "data/github/https:__github.com_Nodeguardians_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Revolte",
@@ -2631,7 +2977,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xAC4DDaf8FBfFba0f1e8c7619720335FD4f03EaCD",
     "project_pathname": "0xAC4DDaf8FBfFba0f1e8c7619720335FD4f03EaCD",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_pgrandne__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "eth.limo",
@@ -2651,7 +3000,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xB352bB4E2A4f27683435f153A259f1B207218b1b",
     "project_pathname": "0xB352bB4E2A4f27683435f153A259f1B207218b1b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ethlimo_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Cannon",
@@ -2670,7 +3022,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x07Aeeb7E544A070a2553e142828fb30c214a1F86",
     "project_pathname": "0x07Aeeb7E544A070a2553e142828fb30c214a1F86",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.29103241852241823
+    "optimismBalanceEth": 0.29103241852241823,
+    "github_data": [
+      "data/github/https:__github.com_usecannon_cannon_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "EIP-4844 Contributors Collection",
@@ -2688,7 +3043,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/eip-4844",
     "project_pathname": "eip-4844",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": []
   },
   {
     "project": "Lighthouse",
@@ -2708,7 +3064,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x59cc06BF5CF5e07790432599060B7D402F9d2cA8",
     "project_pathname": "0x59cc06BF5CF5e07790432599060B7D402F9d2cA8",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_sigp_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Layer2DAO",
@@ -2728,7 +3087,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x062a07cBf4848fdA67292A96a5E02C97E402233F",
     "project_pathname": "0x062a07cBf4848fdA67292A96a5E02C97E402233F",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 9.962052819400398
+    "optimismBalanceEth": 9.962052819400398,
+    "github_data": [
+      "data/github/https:__github.com_layer2dao_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Smock",
@@ -2748,7 +3110,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3B1E17b3FC8B2B2c5FBb995Fb3E1dE95a4D7cF7D",
     "project_pathname": "0x3B1E17b3FC8B2B2c5FBb995Fb3E1dE95a4D7cF7D",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_defi-wonderland_smock_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Dapp-Learning",
@@ -2767,7 +3132,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x1F7b953113f4dFcBF56a1688529CC812865840e1",
     "project_pathname": "0x1F7b953113f4dFcBF56a1688529CC812865840e1",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.04954102448388358
+    "optimismBalanceEth": 0.04954102448388358,
+    "github_data": [
+      "data/github/https:__github.com_Dapp-Learning-DAO_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "0xPARC",
@@ -2787,7 +3155,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x5401745963974c22F8f8254a2A904Ea5f54ddc22",
     "project_pathname": "0x5401745963974c22F8f8254a2A904Ea5f54ddc22",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_0xparc_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "WTF Academy",
@@ -2807,7 +3178,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x25df6DA2f4e5C178DdFF45038378C0b08E0Bce54",
     "project_pathname": "0x25df6DA2f4e5C178DdFF45038378C0b08E0Bce54",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.023271896921406635
+    "optimismBalanceEth": 0.023271896921406635,
+    "github_data": [
+      "data/github/https:__github.com_AmazingAng_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Multicall3",
@@ -2827,7 +3201,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x60A5dcB2fC804874883b797f37CbF1b0582ac2dD",
     "project_pathname": "0x60A5dcB2fC804874883b797f37CbF1b0582ac2dD",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.6063038052924812
+    "optimismBalanceEth": 0.6063038052924812,
+    "github_data": [
+      "data/github/https:__github.com_mds1_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_mds1_multicall_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Clique",
@@ -2847,7 +3225,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0B27BFb649919bE208F62244E4a09A41b0f962D0",
     "project_pathname": "0x0B27BFb649919bE208F62244E4a09A41b0f962D0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_CliqueOfficial_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "JiffyScan",
@@ -2863,7 +3244,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3b036793Ea6dD8D9b352847f32818FA253eB759d",
     "project_pathname": "0x3b036793Ea6dD8D9b352847f32818FA253eB759d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_jiffy-labs_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Sourcify",
@@ -2883,7 +3267,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xAA6042aa65eb93C6439cDaeBC27B3bd09c5DFe94",
     "project_pathname": "0xAA6042aa65eb93C6439cDaeBC27B3bd09c5DFe94",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ethereum_sourcify_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "NiceNode",
@@ -2903,7 +3290,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9cce47E9cF12C6147c9844adBB81fE85880c4df4",
     "project_pathname": "0x9cce47E9cF12C6147c9844adBB81fE85880c4df4",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.02
+    "optimismBalanceEth": 0.02,
+    "github_data": [
+      "data/github/https:__github.com_NiceNode_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Ospace Project",
@@ -2923,7 +3313,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x941D8Cd7378432Bc4952bA0Dcc9e120C18C92975",
     "project_pathname": "0x941D8Cd7378432Bc4952bA0Dcc9e120C18C92975",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.003341115274589523
+    "optimismBalanceEth": 0.003341115274589523,
+    "github_data": [
+      "data/github/https:__github.com_Ospaceproject_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Giveth",
@@ -2943,7 +3336,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xDCfe20E6C1d14c26930a28B1f92fB981CDa26884",
     "project_pathname": "0xDCfe20E6C1d14c26930a28B1f92fB981CDa26884",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_Giveth_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Gov",
@@ -2963,7 +3359,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xa30189949cD8F662582b10eB6E353374419EDf67",
     "project_pathname": "0xa30189949cD8F662582b10eB6E353374419EDf67",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 1.089263985794e-6
+    "optimismBalanceEth": 1.089263985794e-6,
+    "github_data": [
+      "data/github/https:__github.com_w3hc_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_w3hc_gov_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Proof of Integrity",
@@ -2982,7 +3382,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xf21b24E6D87C7e5dEC3e419551829F6B39dBB807",
     "project_pathname": "0xf21b24E6D87C7e5dEC3e419551829F6B39dBB807",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Fractal Visions",
@@ -3001,7 +3402,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC4FC57Dedd2463314A3fD2DBadB86B4404C257e5",
     "project_pathname": "0xC4FC57Dedd2463314A3fD2DBadB86B4404C257e5",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.010767017744217825
+    "optimismBalanceEth": 0.010767017744217825,
+    "github_data": []
   },
   {
     "project": "GasHawk",
@@ -3017,7 +3419,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xC1FDB60CFB2FbbD6EDc9b445D9B508Da2dBF2c9b",
     "project_pathname": "0xC1FDB60CFB2FbbD6EDc9b445D9B508Da2dBF2c9b",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.009806862036247192
+    "optimismBalanceEth": 0.009806862036247192,
+    "github_data": []
   },
   {
     "project": "Foundry",
@@ -3033,7 +3436,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4BAa1fcAe9Ba8F9e1247b5CFD71e2463e85b2284",
     "project_pathname": "0x4BAa1fcAe9Ba8F9e1247b5CFD71e2463e85b2284",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_gakonst_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "GiveStation",
@@ -3053,7 +3459,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x96Cd3AC1e5c2E4FB021B97dA3a6D57e8e665EDc3",
     "project_pathname": "0x96Cd3AC1e5c2E4FB021B97dA3a6D57e8e665EDc3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_givestation_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "CryptoStats",
@@ -3073,7 +3482,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x69aa21403244889832609963B0028e337a834953",
     "project_pathname": "0x69aa21403244889832609963B0028e337a834953",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.009635873827168892
+    "optimismBalanceEth": 0.009635873827168892,
+    "github_data": [
+      "data/github/https:__github.com_crypto-stats_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Basic course in crypto literacy",
@@ -3089,7 +3501,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xff95a2f9bf8fe8019d1f705B5b1e3cb8a8F223C0",
     "project_pathname": "0xff95a2f9bf8fe8019d1f705B5b1e3cb8a8F223C0",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "RareSkills",
@@ -3109,7 +3522,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4879DF2Ba195a69C178133F44E278c0f64797Ca5",
     "project_pathname": "0x4879DF2Ba195a69C178133F44E278c0f64797Ca5",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_rareSkills_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Pairwise",
@@ -3129,7 +3545,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4d5Dd4d81D773c05cE27AbA03e2f3E346c3F8E54",
     "project_pathname": "0x4d5Dd4d81D773c05cE27AbA03e2f3E346c3F8E54",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_GeneralMagicio_budget-boxes_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Crate-Crypto",
@@ -3145,7 +3564,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x90B005a9C7B19E1E962178deA63c1becc409B90f",
     "project_pathname": "0x90B005a9C7B19E1E962178deA63c1becc409B90f",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_kevaundray_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Questbook",
@@ -3165,7 +3587,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x45755F5e7d3b1cdB1AaF1Fe786c415e47Bed2f43",
     "project_pathname": "0x45755F5e7d3b1cdB1AaF1Fe786c415e47Bed2f43",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.43738124774294457
+    "optimismBalanceEth": 0.43738124774294457,
+    "github_data": [
+      "data/github/https:__github.com_questbook_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "jordanmmck",
@@ -3185,7 +3610,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x2B1Bfc5dCD4E21CeAA5F512e350b00c585dAE894",
     "project_pathname": "0x2B1Bfc5dCD4E21CeAA5F512e350b00c585dAE894",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_jordanmmck_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Odos",
@@ -3201,7 +3629,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xF86BaD4E03D731de4d67B4f3943743f0B4C2084c",
     "project_pathname": "0xF86BaD4E03D731de4d67B4f3943743f0B4C2084c",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.8709148920017648
+    "optimismBalanceEth": 0.8709148920017648,
+    "github_data": []
   },
   {
     "project": "Optimism en Espa\u00f1ol",
@@ -3217,7 +3646,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x61d10BFDa1aa5010795985FD9a49F21Fb7570982",
     "project_pathname": "0x61d10BFDa1aa5010795985FD9a49F21Fb7570982",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Web3j",
@@ -3237,7 +3667,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xe8a17e2f1bd4bFcBfBecb8a90be08780949a0cac",
     "project_pathname": "0xe8a17e2f1bd4bFcBfBecb8a90be08780949a0cac",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_web3j_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Guild",
@@ -3257,7 +3690,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xab12931a2c0C519a62794C24105E2f66eE35CFE7",
     "project_pathname": "0xab12931a2c0C519a62794C24105E2f66eE35CFE7",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_agoraxyz_guild.xyz_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Protocol Guild",
@@ -3277,7 +3713,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x4C0a466DF0628FE8699051b3Ac6506653191cc21",
     "project_pathname": "0x4C0a466DF0628FE8699051b3Ac6506653191cc21",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_protocolguild_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "thesleeper.eth Thai OP contents",
@@ -3293,7 +3732,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x00409fC839a2Ec2e6d12305423d37Cd011279C09",
     "project_pathname": "0x00409fC839a2Ec2e6d12305423d37Cd011279C09",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.39621533904563666
+    "optimismBalanceEth": 0.39621533904563666,
+    "github_data": []
   },
   {
     "project": "Ante",
@@ -3313,7 +3753,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xa5b4f91FDE4E35Be891eA97C47D1052D8a4D75f7",
     "project_pathname": "0xa5b4f91FDE4E35Be891eA97C47D1052D8a4D75f7",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.9986784122858692
+    "optimismBalanceEth": 0.9986784122858692,
+    "github_data": [
+      "data/github/https:__github.com_antefinance_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Esteroids",
@@ -3333,7 +3776,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xc967dEdcF086b7FE1eAB492F2EB2b74F1E5947b8",
     "project_pathname": "0xc967dEdcF086b7FE1eAB492F2EB2b74F1E5947b8",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_esteroids__events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "LlamaFolio",
@@ -3349,7 +3795,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x2cd0ac587Fc0E6FBcF8A47A449971649E7dab835",
     "project_pathname": "0x2cd0ac587Fc0E6FBcF8A47A449971649E7dab835",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_llamafolio_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Praise",
@@ -3369,7 +3818,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xE2d2Ac26Cb9dE9a8BBc6d2698CC40b154fAc920d",
     "project_pathname": "0xE2d2Ac26Cb9dE9a8BBc6d2698CC40b154fAc920d",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_givepraise_praise_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Forta",
@@ -3389,7 +3841,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xD5Abb5086E5d18b6BdB8F0943b7786f2a0Af7Df2",
     "project_pathname": "0xD5Abb5086E5d18b6BdB8F0943b7786f2a0Af7Df2",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_forta-network_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Agora",
@@ -3409,7 +3864,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xFdFC6E1BbEc01288447222fC8F1AEE55a7C72b7B",
     "project_pathname": "0xFdFC6E1BbEc01288447222fC8F1AEE55a7C72b7B",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_voteagora_agora_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Teku",
@@ -3428,7 +3886,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xFF7B65dDc2Ffb7f6AC527b4C2F048946B3A5eaF3",
     "project_pathname": "0xFF7B65dDc2Ffb7f6AC527b4C2F048946B3A5eaF3",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_ConsenSys_teku_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Safe (previously Gnosis Safe)",
@@ -3448,7 +3909,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9F87C1aCaF3Afc6a5557c58284D9F8609470b571",
     "project_pathname": "0x9F87C1aCaF3Afc6a5557c58284D9F8609470b571",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_safe-global_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Chaineye",
@@ -3468,7 +3932,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x112E372bb5EC17c1ea6b1d679EA72aFBD2A94404",
     "project_pathname": "0x112E372bb5EC17c1ea6b1d679EA72aFBD2A94404",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_DeFiEye_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "diligit",
@@ -3484,7 +3951,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x25a2dF1d1310da75e8BC115cc797673E777B7e27",
     "project_pathname": "0x25a2dF1d1310da75e8BC115cc797673E777B7e27",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.005752805145767984
+    "optimismBalanceEth": 0.005752805145767984,
+    "github_data": []
   },
   {
     "project": "Rollup Economics Dashboard",
@@ -3503,7 +3971,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x701E37643DADa13DE79e66A74E7d6187FC48faD2",
     "project_pathname": "0x701E37643DADa13DE79e66A74E7d6187FC48faD2",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "RainbowKit Login for WordPress",
@@ -3523,7 +3992,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x0F9Bd2a9E0D30f121c525DB5419A07b08Fce8440",
     "project_pathname": "0x0F9Bd2a9E0D30f121c525DB5419A07b08Fce8440",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.000758615782756856
+    "optimismBalanceEth": 0.000758615782756856,
+    "github_data": [
+      "data/github/https:__github.com_davisshaver_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "TE Academy",
@@ -3542,7 +4014,8 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x3b067Af83F540cB827825a6Ee5480441a4237E77",
     "project_pathname": "0x3b067Af83F540cB827825a6Ee5480441a4237E77",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": []
   },
   {
     "project": "Across Protocol",
@@ -3562,7 +4035,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x33DB27C21E0f7a2f3351A4C6DDceDFB9F713410b",
     "project_pathname": "0x33DB27C21E0f7a2f3351A4C6DDceDFB9F713410b",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_across-protocol_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "IC3",
@@ -3582,7 +4058,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xBF430a49C4d85AeeD3908619D5387A1fbF8E74A9",
     "project_pathname": "0xBF430a49C4d85AeeD3908619D5387A1fbF8E74A9",
     "optimismAddressFound": false,
-    "optimismBalanceEth": 0
+    "optimismBalanceEth": 0,
+    "github_data": [
+      "data/github/https:__github.com_initc3_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Synpress",
@@ -3602,7 +4081,11 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd35E119782059A27FEAd4EddA8B555f393650BC8",
     "project_pathname": "0xd35E119782059A27FEAd4EddA8B555f393650BC8",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_drptbl_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_Synthetixio_synpress_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Revoke.cash",
@@ -3622,7 +4105,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xe126b3E5d052f1F575828f61fEBA4f4f2603652a",
     "project_pathname": "0xe126b3E5d052f1F575828f61fEBA4f4f2603652a",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 4.406374932541299
+    "optimismBalanceEth": 4.406374932541299,
+    "github_data": [
+      "data/github/https:__github.com_RevokeCash_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "wagmi",
@@ -3642,7 +4128,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xd2135CfB216b74109775236E36d4b433F1DF507B",
     "project_pathname": "0xd2135CfB216b74109775236E36d4b433F1DF507B",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_wagmi-dev_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "0xSplits",
@@ -3662,7 +4151,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x9ebC8E61f87A301fF25a606d7C06150f856F24E2",
     "project_pathname": "0x9ebC8E61f87A301fF25a606d7C06150f856F24E2",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.9920998081802628
+    "optimismBalanceEth": 0.9920998081802628,
+    "github_data": [
+      "data/github/https:__github.com_0xSplits_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "Flipside Crypto",
@@ -3682,7 +4174,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0x62a43123FE71f9764f26554b3F5017627996816a",
     "project_pathname": "0x62a43123FE71f9764f26554b3F5017627996816a",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.02953179445127572
+    "optimismBalanceEth": 0.02953179445127572,
+    "github_data": [
+      "data/github/https:__github.com_FlipsideCrypto_events_2022-07-01_2023-03-01.json"
+    ]
   },
   {
     "project": "hardhat-deploy",
@@ -3702,6 +4197,10 @@
     "project_link": "https://app.optimism.io/retropgf-discovery/0xF78cD306b23031dE9E739A5BcDE61764e82AD5eF",
     "project_pathname": "0xF78cD306b23031dE9E739A5BcDE61764e82AD5eF",
     "optimismAddressFound": true,
-    "optimismBalanceEth": 0.0
+    "optimismBalanceEth": 0.0,
+    "github_data": [
+      "data/github/https:__github.com_wighawag_events_2022-07-01_2023-03-01.json",
+      "data/github/https:__github.com_wighawag_hardhat-deploy_events_2022-07-01_2023-03-01.json"
+    ]
   }
 ]
