@@ -24,6 +24,7 @@
     "duneMultisigsList": "data/csv/Dune_SafeMultisigList.csv",
     "workScopeOverrides": "data/csv/Notion_WorkscopeOverrides.csv",
     "payoutData": "data/csv/Gitcoin Alpha Round - Matching Allocations - data.csv",
+    "payoutExports": "data/csv/Donors_MatchingPoools.csv",
     "multisigMapping": "config/multisig-mapping.json",
     "multisigTransactionExport": "data/csv/MultisigDonations.csv"
   }
