@@ -86,7 +86,7 @@ def main():
     batch_create_allowlists(
         paths=paths,
         min_usd=1,
-        fraction_func=rounder
+        fraction_func=buffered_floor
     )
 
 
