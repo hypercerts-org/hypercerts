@@ -1,20 +1,26 @@
 [
-	{
-		"roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
-		"roundName": "Climate Solutions",
-		"backgroundColor": "green",
-		"backgroundVectorArt": "circles"
-	},
-	{
-		"roundId": "0xd95a1969c41112cee9a2c931e849bcef36a16f4c",
-        "roundName": "Open Source Software",
-        "backgroundColor": "blue",
-        "backgroundVectorArt": "contours"
-    },
-    {
-        "roundId": "0xe575282b376e3c9886779a841a2510f1dd8c2ce4",
-        "roundName": "Ethereum Infrastructure",
-        "backgroundColor": "purple",
-        "backgroundVectorArt": "octagonals"
-	}		
+  {
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "roundName": "Climate Solutions",
+    "backgroundColor": "green",
+    "backgroundVectorArt": "circles",
+    "matchPoolSize": 333333.33,
+    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAB": 0.5 }]
+  },
+  {
+    "roundId": "0xd95a1969c41112cee9a2c931e849bcef36a16f4c",
+    "roundName": "Open Source Software",
+    "backgroundColor": "blue",
+    "backgroundVectorArt": "contours",
+    "matchPoolSize": 333333.33,
+    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAC": 0.5 }]
+  },
+  {
+    "roundId": "0xe575282b376e3c9886779a841a2510f1dd8c2ce4",
+    "roundName": "Ethereum Infrastructure",
+    "backgroundColor": "purple",
+    "backgroundVectorArt": "octagonals",
+    "matchPoolSize": 333333.33,
+    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAD": 0.5 }]
+  }
 ]
