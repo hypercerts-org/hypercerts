@@ -31,7 +31,7 @@ const FeatureList = [
     items: [
       {url: "minting-guide/minting-guide-start", text: "Getting Started"},
       {url: "minting-guide/step-by-step", text: "Step-by-step Instructions"},
-      {url: "minting-guide/gitcoin-round", text: "Gitcoing Alpha Round Instructions"},
+      {url: "minting-guide/gitcoin-round", text: "Gitcoin Alpha Round Instructions"},
     ]
   },
   {
