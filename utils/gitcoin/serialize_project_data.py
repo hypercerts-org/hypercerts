@@ -27,10 +27,11 @@ def serialize_donor_stats(project_name):
 
 
 def serialize_project_info(project_record):
-    
+
     info = project_record["data"]["application"]["project"]
 
     return dict(
+        projectId=project_record["projectId"],
         projectDescription=info.get('description'),
         projectWebsite=info.get('website'),
         projectLogoCid=info.get('logoImg'),
