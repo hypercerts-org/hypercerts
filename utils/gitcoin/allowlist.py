@@ -6,10 +6,15 @@ import pandas as pd
 from utils import create_project_filename
 
 
-CONFIG   = json.load(open("config/config.json"))
+CONFIG        = json.load(open("config/config.json"))
 ALLOWLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
 DONORLIST_DIR = CONFIG["localPaths"]["donorlistDirectory"]
-DUNE_EXPORTS = CONFIG["localPaths"]["duneSnapshots"]
+DUNE_EXPORTS  = CONFIG["localPaths"]["duneSnapshots"]
+MULTISIG_DUMP = CONFIG["localPaths"]["multisigTransactionExport"]
+PAYOUT_DATA   = CONFIG["localPaths"]["payoutData"]
+
+
+ROUND_DATA    = json.load(open("config/rounds-list.json"))
 
 
 # Functions for assigning hypercert fractions based on contribution amounts
@@ -35,8 +40,16 @@ def ingest_dune_export(csv_path):
     df = pd.read_csv(csv_path)
     df['address'] = df['donor'].apply(lambda x: "0"+x[1:])
     df.drop(columns=['donor'], inplace=True)
-    
+    df['source'] = csv_path
     return df
+
+
+def remove_duplicates(df):
+    counts = df['address'].value_counts()
+    dups = counts[counts>1].index
+
+    dup_rows = (df['address'].isin(dups)) & (df['source'] == MULTISIG_DUMP)
+    return df[~dup_rows]
 
 
 def prepare_allowlist(dataframe, project_title, min_usd, func):
@@ -46,11 +59,12 @@ def prepare_allowlist(dataframe, project_title, min_usd, func):
          .sort_values(by='usd', ascending=False)
          .reset_index(drop=True)
          .copy())
-    
+
+    df = remove_duplicates(df)    
     df.index.name = 'index'
     df['price'] = 0.0
     df['fractions'] = df['usd'].apply(lambda amt: func(amt, min_usd))
-    
+
     return df
 
 
@@ -71,8 +85,9 @@ def batch_create_allowlists(paths, min_usd, fraction_func):
 
 
 def main():
+    paths = DUNE_EXPORTS + [MULTISIG_DUMP]
     batch_create_allowlists(
-        paths=DUNE_EXPORTS,
+        paths=paths,
         min_usd=1.0,
         fraction_func=buffered_floor
     )

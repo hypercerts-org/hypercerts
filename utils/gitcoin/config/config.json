@@ -22,6 +22,9 @@
       "data/qf/oss_grant_votes.csv"
     ],
     "duneMultisigsList": "data/csv/Dune_SafeMultisigList.csv",
-    "workScopeOverrides": "data/csv/Notion_WorkscopeOverrides.csv"
+    "workScopeOverrides": "data/csv/Notion_WorkscopeOverrides.csv",
+    "payoutData": "data/csv/Gitcoin Alpha Round - Matching Allocations - data.csv",
+    "multisigMapping": "config/multisig-mapping.json",
+    "multisigTransactionExport": "data/csv/MultisigDonations.csv"
   }
 }
