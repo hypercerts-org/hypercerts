@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "hypercertCreateUrl": "https://hypercerts.pages.dev/app/create?",
   "allowlistBaseUrl": "https://bafybeiatu732zyuvc5lyeuq5ncwsqolax7ue4mrsj32xfrpd3twowakj2u.ipfs.w3s.link/allowlists/",
-  "bannerImageBaseUrl": "https://bafybeigl5mup4ltahdv3v7x23oe6nrlqdzwmlrcfeawkqhovndwka4mawq.ipfs.w3s.link/images/",
+  "bannerImageBaseUrl": "https://bafybeib4dqu5yil3hkvn4pm7vfnlkuytzo3u2k26mq3kb43colpfk2yrle.ipfs.w3s.link/images/",
   "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
   "localPaths": {
     "graphData": "data/graph-data.json",

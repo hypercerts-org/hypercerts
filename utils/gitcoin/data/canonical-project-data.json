@@ -21,6 +21,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Otterscan",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xb7081Fd06E7039D198D10A8b72B824e60C1B1E16",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -56,6 +66,16 @@
         "0x97843608a00e2bbc75ab0C1911387E002565DEDE": 0.01,
         "adamfuller.eth": 0.01
       }
+    },
+    "hypercertData": {
+      "workScopes": "BuidlGuidl",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "buidlguidl.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -80,6 +100,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Ethereum on ARM",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x7f06Ac71366631157551D97559b82975c293FdBa",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -104,6 +134,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.7097828508620031
+    },
+    "hypercertData": {
+      "workScopes": "Chainlist",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x08a3c2A819E3de7ACa384c798269B3Ce1CD0e437",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -135,6 +175,16 @@
       "safeUsers": {
         "0x6c5a2688c83C806150cA9DD0b2f10f16F8f1c33e": 0.3333333333333333
       }
+    },
+    "hypercertData": {
+      "workScopes": "L2BEAT",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x6c5a2688c83C806150cA9DD0b2f10f16F8f1c33e",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -168,6 +218,16 @@
         "awkweb.eth": 0.375,
         "0x4557B18E779944BFE9d78A672452331C186a9f48": 0.041666666666666664
       }
+    },
+    "hypercertData": {
+      "workScopes": "wagmi",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x4557B18E779944BFE9d78A672452331C186a9f48",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -192,6 +252,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Lighthouse",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xC9a872868afA68BA937f65A1c5b4B252dAB15D85",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -216,6 +286,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.05960115134970108
+    },
+    "hypercertData": {
+      "workScopes": "Ethereum Staking Guides (Ubuntu)",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "somer.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -240,6 +320,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.1912909149310675
+    },
+    "hypercertData": {
+      "workScopes": "rotki",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "rotki.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -264,6 +354,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.04805
+    },
+    "hypercertData": {
+      "workScopes": "EthStaker",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ethstaker.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -288,6 +388,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.008779511128978852
+    },
+    "hypercertData": {
+      "workScopes": "Optimism DAppNode Package",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ledger.salatti.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -312,6 +422,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "smol-evm",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xD41BDBD4101e02057b7F621f681540ef3Ac81e55",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -336,6 +456,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.09715400672172587
+    },
+    "hypercertData": {
+      "workScopes": "beaconcha.in",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x9d4E94dB689Bc471E45b0a18B7BdA36FcCeC9c3b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -360,6 +490,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.02
+    },
+    "hypercertData": {
+      "workScopes": "NiceNode",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "nicenode.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -384,6 +524,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "PLUME",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x23aDa6E6A9E9D4EcDDd185e3ec353163BCeeBF2a",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -408,6 +558,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Stereum",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x6E41fe2F8303b89c9dbcCABE59A7F7f8F4312cA9",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -432,6 +592,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Lodestar",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xc8F9f8C913d6fF031c65e3bF7c7a51Ad1f3a86E5",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -456,6 +626,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ethers.js",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ricmoo.firefly.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -487,6 +667,16 @@
         "fubuloubu.eth": 0.75,
         "0x187089b65520D2208aB93FB471C4970c29eAf929": 0.08333333333333333
       }
+    },
+    "hypercertData": {
+      "workScopes": "Ape Framework",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x187089b65520D2208aB93FB471C4970c29eAf929",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -517,6 +707,16 @@
       "safeUsers": {
         "0x242ba6d68FfEb4a098B591B32d370F973FF882B7": 0.05555555555555555
       }
+    },
+    "hypercertData": {
+      "workScopes": "Blockscout",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x242ba6d68FfEb4a098B591B32d370F973FF882B7",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -548,6 +748,16 @@
         "planett.eth": 0.3,
         "sajz.sismo.eth": 0.016666666666666666
       }
+    },
+    "hypercertData": {
+      "workScopes": "Ethereum Magicians",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xB35cD25e91B376EAfbA79AbE71D78814dEC3401a",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -572,6 +782,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.9977608326533066
+    },
+    "hypercertData": {
+      "workScopes": "TrueBlocks",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "trueblocks.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -596,6 +816,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Solarpunk Nomads",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x474716e617FEa8898D4fa9D891AA67B5BEDd6C4b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -628,6 +858,16 @@
         "0x8D860D4f254eD45946F5FB0e3243C1db63a4ea2f": 0.04,
         "daryledwards.eth": 0.28
       }
+    },
+    "hypercertData": {
+      "workScopes": "ReFi Commons Prize",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "refidao.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -652,6 +892,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Atlantis",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xfbCA78474A09E2BF3543f4Fc1037152ea2c6C32d",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -681,6 +931,16 @@
       "safeUsers": {
         "0x0F7272F8873B68b2a2F52685311822D831afC8b4": 0.01
       }
+    },
+    "hypercertData": {
+      "workScopes": "BETTER",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x0F7272F8873B68b2a2F52685311822D831afC8b4",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -705,6 +965,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ReFi Spring",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x14CB60F6Aca2b2A68d975743baCb33F01f587da5",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -735,6 +1005,16 @@
       "safeUsers": {
         "0xF64bBc221f89cc882fBa507908bbE4Ae3Ad2F470": 0.02127659574468085
       }
+    },
+    "hypercertData": {
+      "workScopes": "Bloom Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xF64bBc221f89cc882fBa507908bbE4Ae3Ad2F470",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -756,7 +1036,17 @@
     "hypercertEligibleDonors": 174,
     "ensName": null,
     "addressType": "0xSplits",
-    "addressScan": {}
+    "addressScan": {},
+    "hypercertData": {
+      "workScopes": ".basin",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xD2584c1CF7E3fF11957195732d380DC886F5f05b",
+      "rights": ["Public Display"]
+    }
   },
   {
     "title": "Barichara Regeneration Fund \u2013 Prototyping a Bioregional Regenerative Economy",
@@ -780,6 +1070,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Barichara Regeneration Fund",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xFd9F8A0f4bdEaC72F08AF1c708023cC31dD2E3BE",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -804,6 +1104,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ReCommon",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "recommon.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -830,6 +1140,16 @@
         "0x63757e9c621AE7963F2DB2C7F02A1CDD89d6375D": null
       },
       "safeUsers": null
+    },
+    "hypercertData": {
+      "workScopes": "dMeter",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x788bd114C3f625600b547d5a08EC38E0ee90A06e",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -854,6 +1174,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "The Solar Foundation",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x5B625088Ee2E0E9E3D0BD8AB6Ba3839d68886d2D",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -878,6 +1208,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Avano",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x3C8281c8786ab29Bcab5B33566968f8011ea6A59",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -902,6 +1242,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Endangered Tokens",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xCe849efC35A0a0a046E67c76B477c5432E4BA58b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -938,6 +1288,16 @@
         "sunnyleen.eth": 0.1,
         "0x371cA2c8f1D02864C7306e5E5Ed5DC6edF2DD19c": 0.05
       }
+    },
+    "hypercertData": {
+      "workScopes": "Regens Unite",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x371ca2c8f1d02864c7306e5e5ed5dc6edf2dd19c",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -962,6 +1322,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "KOKO DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "anamariamb16.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -986,6 +1356,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Natives in Tech",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "nativesintech.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1010,6 +1390,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Shamba",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "shambadmrv.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1034,6 +1424,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.1499373825998352
+    },
+    "hypercertData": {
+      "workScopes": "WaterDAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ecotoken.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1058,6 +1458,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ReSci Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "resci.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1082,6 +1492,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.001773953786900543
+    },
+    "hypercertData": {
+      "workScopes": "Kokonut Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "wasabinetwork.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1106,6 +1526,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "The Impact App",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ecolabs.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1130,6 +1560,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Silvi",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xa7CA400d49BBa87EB606ee05af93689BD21FaB99",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1154,6 +1594,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "$Earth",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xd6b97e042d03EdBDc100Eb55fbE43Eb75f2e3036",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1178,6 +1628,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 1.0524638560226238
+    },
+    "hypercertData": {
+      "workScopes": "TaterDAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "nickjrishwain.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1212,6 +1672,16 @@
         "johnx25bd.eth": 0.40540540540540543,
         "tsondru.eth": 0.02702702702702703
       }
+    },
+    "hypercertData": {
+      "workScopes": "Astral Protocol",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x41DdE2Dc7f718D5F764fc97e8d122864587642d4",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1236,6 +1706,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.001922087974591008
+    },
+    "hypercertData": {
+      "workScopes": "Impact DAO Media",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xb6e780438882f2daa11dA0972807f4D12166af8b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1260,6 +1740,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "CyberBox",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x65eD9a7CD4890E23Ac5bc8D51498ae955aF00724",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1288,6 +1778,16 @@
         "0x8ac698f95f186938774Dcbf321DF3bCb62cD9e4C": null
       },
       "safeUsers": null
+    },
+    "hypercertData": {
+      "workScopes": "The CM Guild",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x18ddbb6e344B11eeDff5A49fA0C0f1a03cc1097E",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1312,6 +1812,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Treejer Protocol",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x81c776d0D7F7d9D3699851993EcAa88A46187F11",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1343,6 +1853,16 @@
         "0xdD866169DBCf639ed57f0020c5C9F4F4E1AAB263": 0.38461538461538464,
         "diogoj.eth": 0.15384615384615385
       }
+    },
+    "hypercertData": {
+      "workScopes": "AgroforestDAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xdD866169DBCf639ed57f0020c5C9F4F4E1AAB263",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1367,6 +1887,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "MRV Foundation",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x1b4463971582f485138879F0e509C160BeB8D5e6",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1391,6 +1921,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.002141136889027099
+    },
+    "hypercertData": {
+      "workScopes": "Hibiscus DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "hibiscus.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1415,6 +1955,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "The Angry Teenagers",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x3460BF837B6741035d20Ea2D894A4423A859af12",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1439,6 +1989,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Myseelia \ud83c\udf44",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x16d46098e455A04Cf7F3e43c3b2706614fDbEC85",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1463,6 +2023,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Carbon DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "rasxt.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1487,6 +2057,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Chama DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "regenfoundation.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1518,6 +2098,16 @@
         "alienseeker.eth": 0.6666666666666666,
         "earthist.eth": 0.3333333333333333
       }
+    },
+    "hypercertData": {
+      "workScopes": "Earthist Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xc2d706398A978b8c5Aa4EFCd824b57E978841107",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1542,6 +2132,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ReFi by South",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xd2993E8217063c72BBE8c736404c7fC02adC9761",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1566,6 +2166,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 1.1287535204635235
+    },
+    "hypercertData": {
+      "workScopes": "Web3beach",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "web3beach.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1590,6 +2200,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Plants And Pillars",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x1C4a70EaDeCc48e436Efd0E997445D71DF57a4ED",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1614,6 +2234,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.03933502791317038
+    },
+    "hypercertData": {
+      "workScopes": "web3swift",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "web3swift.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1638,6 +2268,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.000890253492355041
+    },
+    "hypercertData": {
+      "workScopes": "Lenstube",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "sasi.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1662,6 +2302,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ECHO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xB67FD6f4B908d702c2CF0E2b9d30d52D4EA5B2bC",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1686,6 +2336,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Chaineye",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xE6D7b9Fb31B93E542f57c7B6bfa0a5a48EfC9D0f",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1710,6 +2370,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "UBI DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ubi.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1745,6 +2415,16 @@
         "nfthinker.eth": 0.32,
         "0x7bD7De26eBD064465Bb9c272513Bb3bcBdDb1E93": 0.04
       }
+    },
+    "hypercertData": {
+      "workScopes": "White Hat DAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "whitehatdao-treasury.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1769,6 +2449,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 3.71862
+    },
+    "hypercertData": {
+      "workScopes": "devpill",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "dcbuilder.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1793,6 +2483,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "DefiLab.xyz",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x9fe6764778db6AD5c5ED86242485d1a868a8c52A",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1817,6 +2517,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Dweb Movement",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x81Bbc5E83901CA95bb85e3D1916D04D434e7f2bD",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1841,6 +2551,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.1159199032438727
+    },
+    "hypercertData": {
+      "workScopes": "Loanshark",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x7D658841f8Ba93299970f6e765C2CE205f1E70DD",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1865,6 +2585,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.005292506414766423
+    },
+    "hypercertData": {
+      "workScopes": "Optinames",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "opti.ecc.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1889,6 +2619,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Jolly Roger",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xF0D7a8198D75e10517f035CF11b928e9E2aB20f4",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1921,6 +2661,16 @@
         "metamailcolin.eth": 0.2857142857142857,
         "0xdeadlist.eth": 0.2857142857142857
       }
+    },
+    "hypercertData": {
+      "workScopes": "0xDeadList",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x799B774204A348E1182fE01074C51444bA70A149",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1945,6 +2695,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.7097828508620031
+    },
+    "hypercertData": {
+      "workScopes": "DefiLlama",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x08a3c2A819E3de7ACa384c798269B3Ce1CD0e437",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -1983,6 +2743,16 @@
         "0x5a741ab878Bb65f6AE5506455FB555eaf3094B3F": 0.02,
         "digitalassetoasis.eth": 0.02
       }
+    },
+    "hypercertData": {
+      "workScopes": "LexDAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x5a741ab878Bb65f6AE5506455FB555eaf3094B3F",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2007,6 +2777,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ITU Blockchain",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "itublockchain.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2031,6 +2811,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Jolocom",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xF3CF346DB5DAb30d73d272499CBAe6E6C0eE2C60",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2055,6 +2845,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Lume Web",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x63cd2C691632720Ff2ABDD0b6AABA2466D3Fe468",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2079,6 +2879,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Vocdoni",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x74D8967e812de34702eCD3D453a44bf37440b10b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2103,6 +2913,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "DePay",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x4e260bB2b25EC6F3A59B478fCDe5eD5B8D783B02",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2127,6 +2947,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.023271896921406635
+    },
+    "hypercertData": {
+      "workScopes": "WTF Academy",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "wtfacademy.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2151,6 +2981,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "eth.limo",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ethdotlimo.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2190,6 +3030,16 @@
         "0x0406Bf2dAE6A42d567b4e3DbA6ADA99069622fF1": 0.04411764705882353,
         "itamarg.eth": 0.04411764705882353
       }
+    },
+    "hypercertData": {
+      "workScopes": "talentDAO",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x0406Bf2dAE6A42d567b4e3DbA6ADA99069622fF1",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2214,6 +3064,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 1.9997806046214774
+    },
+    "hypercertData": {
+      "workScopes": "JediSwap",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "jediswap.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2248,6 +3108,16 @@
       "safeUsers": {
         "0xd525fF26F45f3B7D20cfEf170E2cb9E601A0b4dA": 0.02
       }
+    },
+    "hypercertData": {
+      "workScopes": "CirclesUBI",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xd525fF26F45f3B7D20cfEf170E2cb9E601A0b4dA",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2272,6 +3142,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.006590717389140812
+    },
+    "hypercertData": {
+      "workScopes": "wordblock",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x65a0Af703047dfDd270361659d02f4f0E8547202",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2296,6 +3176,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.00100835228972355
+    },
+    "hypercertData": {
+      "workScopes": "StarkDeFi",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "thestarkknight.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2320,6 +3210,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.09187704205782139
+    },
+    "hypercertData": {
+      "workScopes": "Malicious Contract Detector",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "venglov.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2344,6 +3244,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ENS Spoofing Bot",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x7b736FE138775D1fCD2CFE4E1D6158BfF3a2F28e",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2368,6 +3278,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.00062
+    },
+    "hypercertData": {
+      "workScopes": "Krebit",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "alerios.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2392,6 +3312,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.48528083382539106
+    },
+    "hypercertData": {
+      "workScopes": "W3.work",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "cuegod.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2416,6 +3346,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Esteroids",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x71c7252Cc1AfC181704ff7fDED27486f5cCd9205",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2440,6 +3380,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.019438337048293067
+    },
+    "hypercertData": {
+      "workScopes": "Fileverse",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "archive.radicle.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2464,6 +3414,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "MoonMath Manual",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xA8A4912938549d50EF3E7c698C890E18D73408Ee",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2488,6 +3448,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Rings Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xf7FeA1722F9b27B0666919A5664BaB486a4b18D3",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2525,6 +3495,16 @@
         "onrecord.eth": 0.125,
         "suneal.eth": 0.125
       }
+    },
+    "hypercertData": {
+      "workScopes": "Soul Wallet",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "soulwalletlab.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2557,6 +3537,16 @@
       "safeUsers": {
         "0x3EcB9640ea6cC9bd9D5040713F854634Fd0FCf8a": 0.2
       }
+    },
+    "hypercertData": {
+      "workScopes": "The Science Commons Initiative",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x3EcB9640ea6cC9bd9D5040713F854634Fd0FCf8a",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2581,6 +3571,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.01
+    },
+    "hypercertData": {
+      "workScopes": "Kredeum NFTs Factory",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "kredeum.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2605,6 +3605,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Scam Sniffer",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "scamsniffer.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2629,6 +3639,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Proof of Humanity",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x2AF4125c8fE208a349ef78d3cb980308ab1Ed34f",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2653,6 +3673,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.15590926092717897
+    },
+    "hypercertData": {
+      "workScopes": "Lighthouse",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "nanditmehra.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2677,6 +3707,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "zkREPL",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "zkrepl.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2705,6 +3745,16 @@
         "0x87451bb0053cD80E1c7d092114D710F7600b66a2": "top-defi.eth"
       },
       "safeUsers": null
+    },
+    "hypercertData": {
+      "workScopes": "Dapp-Learning",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x35C6d9117F66943C881E8354138434b8a0727988",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2729,6 +3779,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Web3MQ",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "swapchatnft.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2759,6 +3819,16 @@
       "safeUsers": {
         "leomarlo.eth": 1.0
       }
+    },
+    "hypercertData": {
+      "workScopes": "Voting Contracts",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x5514f4a2BC7194664B12A48E238876Aa53140350",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2790,6 +3860,16 @@
         "0x5c34386552091744717b1C0154b9d48D35f5f435": 0.7222222222222222,
         "seedle.eth": 0.2777777777777778
       }
+    },
+    "hypercertData": {
+      "workScopes": "Seedle",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x5c34386552091744717b1c0154b9d48d35f5f435",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2814,6 +3894,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.011654196442005204
+    },
+    "hypercertData": {
+      "workScopes": "Umbra",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "umbra.umbra.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2844,6 +3934,16 @@
       "safeUsers": {
         "0xC876bEC4e02EACc92df0F7b6EEee90c2aD794E50": 0.3076923076923077
       }
+    },
+    "hypercertData": {
+      "workScopes": "Friends of Pooly",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xC876bEC4e02EACc92df0F7b6EEee90c2aD794E50",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2874,6 +3974,16 @@
         "abbeyjaz.eth": 0.9,
         "clemlaflemme.eth": 0.1
       }
+    },
+    "hypercertData": {
+      "workScopes": "Starksheet",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x7A0857D314f62d383341b4ED8FE380e7C98Fb978",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2910,6 +4020,16 @@
         "sha237.eth": 0.125,
         "0xriku.eth": 0.041666666666666664
       }
+    },
+    "hypercertData": {
+      "workScopes": "minipent",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "pentamom.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2934,6 +4054,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.1
+    },
+    "hypercertData": {
+      "workScopes": "Rouge Ticket",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xEb439EED5642641968f9D8b52F2788e0F19B443B",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2975,6 +4105,16 @@
         "moutinho.eth": 0.2631578947368421,
         "felipenovaesrocha.eth": 0.10526315789473684
       }
+    },
+    "hypercertData": {
+      "workScopes": "1Hive Gardens",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x1B8C7f06F537711A7CAf6770051A43B4F3E69A7e",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -2999,6 +4139,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.12482537558949647
+    },
+    "hypercertData": {
+      "workScopes": "Punk Domains",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x12e838f846ffdade34b2e006f84117a370d71687",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3023,6 +4173,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ETH Leaderboard",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xD0AeA65bb96b823cb30724ee0a6B7588c77dE486",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3047,6 +4207,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.2380284792451696
+    },
+    "hypercertData": {
+      "workScopes": "Geo Web",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "geoweb.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3080,6 +4250,16 @@
         "0x99b36fDbC582D113aF36A21EBa06BFEAb7b9bE12": 0.03333333333333333,
         "scott1up.eth": 0.03333333333333333
       }
+    },
+    "hypercertData": {
+      "workScopes": "Tally Ho!",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x99b36fDbC582D113aF36A21EBa06BFEAb7b9bE12",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3111,6 +4291,16 @@
         "geoist.eth": 0.6774193548387096,
         "levertz.eth": 0.3225806451612903
       }
+    },
+    "hypercertData": {
+      "workScopes": "IDriss",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x531Eb60b2dDE9a841BA358EE033533AAF90D1feA",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3157,6 +4347,16 @@
         "geleeroyale.eth": 0.04,
         "mateodaza.eth": 0.03
       }
+    },
+    "hypercertData": {
+      "workScopes": "Giveth",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "giv.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3181,6 +4381,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.004634261306089692
+    },
+    "hypercertData": {
+      "workScopes": "LunCo",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "lunco.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3205,6 +4415,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Blaine Bublitz",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x0E4d2ec48f03a9eD9068EeA2926dE34b6AB8646b",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3238,6 +4458,16 @@
         "fubuloubu.eth": 0.36,
         "0x70CCBE10F980d80b7eBaab7D2E3A73e87D67B775": 0.11
       }
+    },
+    "hypercertData": {
+      "workScopes": "Vyper",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x70CCBE10F980d80b7eBaab7D2E3A73e87D67B775",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3262,6 +4492,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.09904843636964825
+    },
+    "hypercertData": {
+      "workScopes": "Lenster",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "yoginth.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3286,6 +4526,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.013384591712418611
+    },
+    "hypercertData": {
+      "workScopes": "IDENA",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x8917418aBe36E6E788068E96EF5A47d7484C06b1",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3310,6 +4560,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ZeroPool",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x947F8A49640B4770A8c7fE3C1E69FfC974295448",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3334,6 +4594,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.07740102834231606
+    },
+    "hypercertData": {
+      "workScopes": "vfat.tools",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "vfat.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3358,6 +4628,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.26089015269786187
+    },
+    "hypercertData": {
+      "workScopes": "Spect",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "chaks.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3394,6 +4674,16 @@
         "abvavgjoe.eth": 0.08,
         "natew.eth": 0.07
       }
+    },
+    "hypercertData": {
+      "workScopes": "BanklessDAO Projects",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "banklessvault.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3422,6 +4712,16 @@
       "safeUsers": {
         "pepemonworld.eth": 1.0
       }
+    },
+    "hypercertData": {
+      "workScopes": "Degen Battleground",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xB614B1464c561EB2fD0d7d3475feB52B5a34dEc0",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3446,6 +4746,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.009635873827168892
+    },
+    "hypercertData": {
+      "workScopes": "CryptoStats",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "cryptostats.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3470,6 +4780,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "POAPin",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "glorylab.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3494,6 +4814,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.038444744616829285
+    },
+    "hypercertData": {
+      "workScopes": "Relay",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "seanwbren.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3518,6 +4848,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.009129865608344912
+    },
+    "hypercertData": {
+      "workScopes": "Gitcoin China Ecosystem",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "bobjiang.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3542,6 +4882,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.3314735117561508
+    },
+    "hypercertData": {
+      "workScopes": "API: Resolving ENS names and avatars",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "frolic.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3566,6 +4916,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "ETHRank",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x0D538d6253Eb5CeBaEf94a873a7d3DF22D6F936c",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3595,6 +4955,16 @@
       "safeUsers": {
         "0x10666d9c6295E838d3b8B84ffcC97d62EF7e6120": 0.38461538461538464
       }
+    },
+    "hypercertData": {
+      "workScopes": "Inverter Network",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x10666d9c6295E838d3b8B84ffcC97d62EF7e6120",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3619,6 +4989,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Zero Knowledge Podcast",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x0b0E6486648FBBb8E9ab33e3ae9D0B44B6faa701",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3643,6 +5023,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "datalatte",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x690315449eFad5f8B06a356f16eecFC41F475F70",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3667,6 +5057,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Electronic Frontier Foundation",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x640C28441f9e73537C63576A0D6f44643a577E32",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3691,6 +5091,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "Nimi.eth",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0xdE81d67Af572EC0F22841da702C1EdC25608dBBB",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3715,6 +5125,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.009632580466447712
+    },
+    "hypercertData": {
+      "workScopes": "Commons Stack",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x8110d1D04ac316fdCACe8f24fD60C86b810AB15A",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3739,6 +5159,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.005292506414766423
+    },
+    "hypercertData": {
+      "workScopes": "Optinames",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "opti.ecc.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3763,6 +5193,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "BrightID",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x4B8810b079eb22ecF2D1f75E08E0AbbD6fD87dbF",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3787,6 +5227,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 4.406374932541299
+    },
+    "hypercertData": {
+      "workScopes": "Revoke.cash",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "kalis.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3811,6 +5261,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.0
+    },
+    "hypercertData": {
+      "workScopes": "MetaMail",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "0x3806a85D9b8E017d2714B5a240f3e7737279a3Ba",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3835,6 +5295,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.22628434919805063
+    },
+    "hypercertData": {
+      "workScopes": "OpSci Society",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "ltd.opscientia.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3859,6 +5329,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.09951882692134979
+    },
+    "hypercertData": {
+      "workScopes": "Upala",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "multipassport.eth",
+      "rights": ["Public Display"]
     }
   },
   {
@@ -3883,6 +5363,16 @@
     "addressScan": {
       "optimismAddressFound": true,
       "optimismBalanceEth": 0.002150671546741064
+    },
+    "hypercertData": {
+      "workScopes": "DeFi & Web3 Developer Roadmap",
+      "workTimeStart": "2022-09-22",
+      "workTimeEnd": "2023-01-15",
+      "impactScopes": ["all"],
+      "impactTimeStart": "2022-09-22",
+      "impactTimeEnd": "indefinite",
+      "contributors": "officercia.eth",
+      "rights": ["Public Display"]
     }
   }
 ]
