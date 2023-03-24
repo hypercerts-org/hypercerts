@@ -11,10 +11,7 @@ ALLOWLIST_DIR = CONFIG["localPaths"]["allowlistDirectory"]
 DONORLIST_DIR = CONFIG["localPaths"]["donorlistDirectory"]
 DUNE_EXPORTS  = CONFIG["localPaths"]["duneSnapshots"]
 MULTISIG_DUMP = CONFIG["localPaths"]["multisigTransactionExport"]
-PAYOUT_DATA   = CONFIG["localPaths"]["payoutData"]
-
-
-ROUND_DATA    = json.load(open("config/rounds-list.json"))
+MATCH_DONORS  = CONFIG["localPaths"]["payoutExports"]
 
 
 # Functions for assigning hypercert fractions based on contribution amounts
@@ -85,7 +82,7 @@ def batch_create_allowlists(paths, min_usd, fraction_func):
 
 
 def main():
-    paths = DUNE_EXPORTS + [MULTISIG_DUMP]
+    paths = DUNE_EXPORTS + [MULTISIG_DUMP, MATCH_DONORS]
     batch_create_allowlists(
         paths=paths,
         min_usd=1,
