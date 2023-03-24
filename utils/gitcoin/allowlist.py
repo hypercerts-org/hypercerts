@@ -88,8 +88,8 @@ def main():
     paths = DUNE_EXPORTS + [MULTISIG_DUMP]
     batch_create_allowlists(
         paths=paths,
-        min_usd=1.0,
-        fraction_func=buffered_floor
+        min_usd=1,
+        fraction_func=rounder
     )
 
 
