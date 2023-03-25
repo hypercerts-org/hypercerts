@@ -113,7 +113,7 @@ The allowlist is implemented as a CSV file specifying `index,address,price,fract
 
 The `price` field is denominated in ETH. This should remain at 0.0 for all hypercerts, as primary sales are not currently supported through the app and the secondary sale/transfer of hypercerts is currently not allowed.
 
-You can store your allowlists on IPFS using [web3.storage](web3.storage).
+You can store your allowlists on IPFS using [web3.storage](https://web3.storage/).
 
 :::note
 If your allowlist is not properly formatted, you will be unable to mint your hypercert. If you do not include an allowlist, then the creator of the hypercert will receive 100% of the hypercert (set to a default of 10,000 units), which you can then sell or transfer to another wallet a maximum of one time.
