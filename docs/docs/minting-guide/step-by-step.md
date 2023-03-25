@@ -17,6 +17,7 @@ Once you've connected, you will see an empty form for creating a hypercert.
 ### General fields
 
 #### Name of Hypercert
+
 Enter the name or title of the hypercert. This is the place to be verbose and specific about what the project is doing. You'll see on the preview when your title becomes too long.
 
 Given that a project may create numerous hypercerts over time, consider giving the hypercert a name that represents a discrete phase or output.
@@ -63,7 +64,7 @@ Multiple tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_
 
 We recommend just a short form of the project name as a single tag. In most cases that will be sufficient.
 
-*Note: In the future, you will be able to specifically exclude work from the hypercert.*
+_Note: In the future, you will be able to specifically exclude work from the hypercert._
 
 #### Start and End Date of Work
 
@@ -75,7 +76,7 @@ The time period of work doesn't need to be the start and end date of a project, 
 
 #### Impact Scope
 
-The impact scope can be used to limit the impact that a hypercert represents, e.g. for the work scope `Planting trees` a hypercert can represent *only* the impact on biodiversity by including the impact scope tag `Biodiversity`. This would exclude all other impacts, including the impact on CO2 in the atmosphere, which can be useful if that impact is already captured by a carbon credit.
+The impact scope can be used to limit the impact that a hypercert represents, e.g. for the work scope `Planting trees` a hypercert can represent _only_ the impact on biodiversity by including the impact scope tag `Biodiversity`. This would exclude all other impacts, including the impact on CO2 in the atmosphere, which can be useful if that impact is already captured by a carbon credit.
 
 By default this is set to "`all`" and we strongly recommend keeping it that way.
 
@@ -91,7 +92,7 @@ By default the `impact start date` is the same as the `work start date` and the 
 
 Provide a list of contributors, one per line, or comma-separated.
 
-The list should include *all* contributors that performed the described work.
+The list should include _all_ contributors that performed the described work.
 
 Contributors are generally itemized as wallet addresses or ENS names, but can also be names / pseudonyms. Groups of contributors can be represented by a multisig or name of an organization.
 
@@ -103,14 +104,20 @@ The allowlist allocates fractions of the hypercert to specific wallet addresses.
 
 The allowlist is implemented as a CSV file specifying `index,address,price,fractions` headers.
 
-|index | address | price | fractions |
-| -------- | -------- | -------- | -------- |
-|0|0x5dee7b340764c49a827c60d2b8729e49405fbefc|0.0|100|
-|1|0x1e2dbb9ca3f6d48e085384a821b7259abfdc7d65|0.0|50|
-|...|...|...|...|
-|999|0x436bad18642f45d3fa5fcaad0a2d81764a9cba85|0.0|1|
+| index | address                                    | price | fractions |
+| ----- | ------------------------------------------ | ----- | --------- |
+| 0     | 0x5dee7b340764c49a827c60d2b8729e49405fbefc | 0.0   | 100       |
+| 1     | 0x1e2dbb9ca3f6d48e085384a821b7259abfdc7d65 | 0.0   | 50        |
+| ...   | ...                                        | ...   | ...       |
+| 999   | 0x436bad18642f45d3fa5fcaad0a2d81764a9cba85 | 0.0   | 1         |
 
 The `price` field is denominated in ETH. This should remain at 0.0 for all hypercerts, as primary sales are not currently supported through the app and the secondary sale/transfer of hypercerts is currently not allowed.
+
+You can store your allowlists on IPFS using [web3.storage](https://web3.storage/).
+
+:::note
+If your allowlist is not properly formatted, you will be unable to mint your hypercert. If you do not include an allowlist, then the creator of the hypercert will receive 100% of the hypercert (set to a default of 10,000 units), which you can then sell or transfer to another wallet a maximum of one time.
+:::
 
 #### Rights
 
@@ -118,4 +125,4 @@ This field defines the rights that owners of the hypercert have over the work be
 
 By default this is set to `Public Display`, i.e., the owners are allowed to publicly display the hypercert and show their support of the work.
 
-*Note: In the future, additional rights can be included for different hypercerts.*
+_Note: In the future, additional rights can be included for different hypercerts._

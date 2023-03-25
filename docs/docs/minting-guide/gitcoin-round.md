@@ -8,15 +8,13 @@ sidebar_position: 3
 
 ## Overview
 
-- all projects in the Gitcoin Alpha Round will be invited to mint a hypercert for their work
-- anyone who gave over $1 to a project will be automatically allowlisted for that project’s hypercert
-- we’ve created a custom url for each project to make minting super easy, which we sent to each project
-- everything will run on Optimism (users only need to pay L2 gas costs)
+- all projects in the Gitcoin Alpha Round are invited to mint a hypercert for their work
+- anyone who gave over $1 to a project is automatically allowlisted for that project’s hypercert
+- each project has a custom URL to make minting super easy (the link is sent directly to each project)
+- everything runs on Optimism (users only need to pay L2 gas costs)
 
 :::info
-
-If your project participated in the Gitcoin Alpha Round, but you didn't get a message with a custom URL, please reach out to us at team@hypercert.org,
-
+If your project participated in the Gitcoin Alpha Round, but you didn't get a message with a custom URL, please reach out to team[at]hypercert.org.
 :::
 
 ## Hypercerts x Gitcoin Alpha Round
@@ -27,7 +25,7 @@ We’ve created a dApp that pulls all of the data required to mint your hypercer
 
 Once your hypercert has been minted, the people who supported your project with a contribution of at least $1 DAI on Gitcoin’s Alpha Round will be able to connect and claim their fractions.
 
-A few important notes about the alpha round:
+A few important notes about the Alpha Round:
 
 - The total units of a hypercert is equal to the total donations; each funder get awarded units proportional to their donations.
 - Transfers will be restricted to one transfer from the project to the supporter
@@ -40,7 +38,7 @@ The following guidance is only for projects that receive a custom URL that pre-p
 It explains the default settings in the form and recommends fields that the creator may choose to update or edit.
 
 :::note
-Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [in the whitepaper](whitepaper/retrospective-funding.md).\*
+Gitcoin Grant hypercerts are for retrospective work, i.e., they are intended to capture work that happened between Gitcoin Grants Round 15 (September 2022) and the Alpha Round (January 2023). Therefore, the work time period is always set to past dates. (You might need to adjust the name and description to also refer to past work only.) We are focusing solely on retrospective hypercerts for this round as part of broader efforts to promote retrospective funding; you can read more about it [in the whitepaper](whitepaper/retrospective-funding.md).
 :::
 
 ### General Fields
@@ -55,17 +53,25 @@ This field is set to the icon artwork provided for your project on Gitcoin Grant
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
+Banner images look best with an aspect ratio of 1.0 (square-shaped).
+
 #### Background Banner Image
 
 This field is set to the banner artwork provided for your project on Gitcoin Grants. If there was an error accessing your banner, you will see a generic Gitcoin banner.
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
+Banner images look best with an aspect ratio of 1.5 (e.g., 600 x 400 pixels). The dimensions should be at least 320 pixels wide and 214 pixels high to avoid stretching.
+
 #### Project Description
 
-This field is set by default to the description of your project on Gitcoin Grants. You may edit this to provide more details about your work and to remove information that is targeted solely at Gitcoin Grants users. This is also a good place to provide other links, such as Github repos or social media accounts, where the general public can learn more about the work.
+This field is set by default to the description of your project on Gitcoin Grants. Review closely -- a long project description in your Gitcoin Grant description will be truncated.
 
+You may edit this to provide more details about your work and to remove information that is targeted solely at Gitcoin Grants users. This is also a good place to provide other links, such as Github repos or social media accounts, where the general public can learn more about the work. Please aim for a project description that is less than 500 characters.
+
+:::note
 The project description should refer to **past work**, not future work that you would like to do with additional funding.
+:::
 
 #### Link
 
@@ -87,7 +93,11 @@ You may edit or update these fields, however, the end date may not extend beyond
 
 #### Set of Contributors
 
-This field is set by default to the wallet address that is set as the recipient address for receiving Gitcoin Grants funding. **You should review this field closely and – if applicable – provide the addresses of additional contributors.**
+This field is set by default to the wallet address that is set as the recipient address for receiving Gitcoin Grants funding.
+
+:::note
+You should review this field closely and – if applicable – provide the addresses of additional contributors.
+:::
 
 ### Advanced Fields
 
@@ -127,6 +137,12 @@ The queries used to generate the allowlists can be viewed here:
 - ETH Infra: https://dune.com/queries/1934656
 - Climate: https://dune.com/queries/1934689
 - OSS: https://dune.com/queries/1934969
+
+Donors who contributed to the matching pool for each round are also eligible to claim hypercerts.
+
+:::note
+You are free to edit your allowlist. You can do this by following the step-by-step instructions [here](minting-guide/step-by-step.md). Just remember that you will need to upload the new allowlist in a CSV format to a storage site like [web3.storage](https://web3.storage) and then update the link in the allowlist field. Contact team[at]hypercerts.org if you need help.
+:::
 
 ### Confirmations
 
