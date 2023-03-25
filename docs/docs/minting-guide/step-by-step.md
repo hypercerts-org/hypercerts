@@ -116,7 +116,7 @@ The `price` field is denominated in ETH. This should remain at 0.0 for all hyper
 You can store your allowlists on IPFS using [web3.storage](web3.storage).
 
 :::note
-If your allowlist is not properly formatted, you will be unable to mint your hypercert. If you do not include a hypercert, then the creator of the hypercert will receive 100% of the hypercert (set to a default of 10,000 units), which you can then sell or transfer to another wallet a maximum of one time.
+If your allowlist is not properly formatted, you will be unable to mint your hypercert. If you do not include an allowlist, then the creator of the hypercert will receive 100% of the hypercert (set to a default of 10,000 units), which you can then sell or transfer to another wallet a maximum of one time.
 :::
 
 #### Rights
