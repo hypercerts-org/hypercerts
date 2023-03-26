@@ -95,11 +95,23 @@ export interface FormTextFieldProps {
   fieldName?: string; // Formik field name
   label?: string; // Label to show
   placeholder?: string; // Input placeholder
-  rows?: number; // Number of rows to show in multi-line inputs
+  multiline?: boolean; // Enable multiline, autosized by default
+  minRows?: number; // If multiline is true, bound it
+  maxRows?: number; // If multiline is true, bound it
+  rows?: number; // Fixed number of rows to show in multi-line inputs
 }
 
 export function FormTextField(props: FormTextFieldProps) {
-  const { className, fieldName, label, placeholder, rows } = props;
+  const {
+    className,
+    fieldName,
+    label,
+    placeholder,
+    multiline,
+    minRows,
+    maxRows,
+    rows,
+  } = props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -115,7 +127,9 @@ export function FormTextField(props: FormTextFieldProps) {
           variant={"outlined"}
           label={label}
           placeholder={placeholder}
-          multiline={!!rows && rows > 0}
+          multiline={multiline}
+          minRows={minRows}
+          maxRows={maxRows}
           rows={rows}
           error={meta.touched && !!meta.error}
           helperText={meta.touched ? meta.error : undefined}
