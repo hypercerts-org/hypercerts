@@ -20,3 +20,6 @@ export class AssertionError extends Error {
  * Something is `null` or `undefined` when we don't expect it
  */
 export class NullOrUndefinedValueError extends Error {}
+
+export class ParsingError extends Error {}
+export class OutOfBoundsError extends Error {}

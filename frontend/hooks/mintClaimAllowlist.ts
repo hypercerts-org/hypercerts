@@ -17,15 +17,15 @@ import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import { parseCsv } from "../lib/parsing";
+import { parseAllowlistCsv } from "../lib/parsing";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useAccountLowerCase } from "./account";
 import { cidToIpfsUri } from "../lib/formatting";
 
 const generateAndStoreTree = async (
-  pairs: { address: string; fraction: number }[],
+  pairs: { address: string; units: number }[],
 ) => {
-  const tuples = pairs.map((p) => [p.address, p.fraction]);
+  const tuples = pairs.map((p) => [p.address, p.units]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as `0x{string}` };
@@ -60,7 +60,7 @@ export const useMintClaimAllowlist = ({
   }: {
     metaData: HypercertMetadata;
     allowlistUrl?: string;
-    pairs?: { address: string; fraction: number }[];
+    pairs?: { address: string; units: number }[];
   }) => {
     setStep("uploading");
     if (pairs) {
@@ -72,31 +72,30 @@ export const useMintClaimAllowlist = ({
       });
       setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
-      setUnits(_.sum(pairs.map((x) => x.fraction)));
+      setUnits(_.sum(pairs.map((x) => x.units)));
     }
     if (allowlistUrl) {
       // fetch csv file
       try {
-        const pairsFromCsv = await fetch(allowlistUrl, { method: "GET" }).then(
-          async (data) => {
-            const text = await data.text();
-            const results = parseCsv(text);
-            return results.map((row) => ({
-              address: row["address"].toLowerCase(),
-              fraction: parseInt(row["fractions"], 10),
-            }));
+        const htmlResult = await fetch(allowlistUrl, { method: "GET" });
+        const htmlText = await htmlResult.text();
+        const allowlist = parseAllowlistCsv(htmlText, [
+          {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            address: address!,
+            percentage: 0.5,
           },
-        );
-        const { cid: merkleCID, root } = await generateAndStoreTree(
-          pairsFromCsv,
-        );
+        ]);
+        const totalSupply = _.sum(allowlist.map((x) => x.units));
+
+        const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
         const cid = await hypercertsStorage.storeMetadata({
           ...metaData,
           allowList: cidToIpfsUri(merkleCID),
         });
         setCidUri(cidToIpfsUri(cid));
         setMerkleRoot(root);
-        setUnits(_.sum(pairsFromCsv.map((x) => x.fraction)));
+        setUnits(totalSupply);
       } catch (e) {
         console.error(e);
         toast(
@@ -182,7 +181,7 @@ export const useMintClaimAllowlist = ({
     }: {
       metaData: HypercertMetadata;
       allowlistUrl?: string;
-      pairs?: { address: string; fraction: number }[];
+      pairs?: { address: string; units: number }[];
     }) => {
       showModal({ stepDescriptions });
       await initializeWrite({
