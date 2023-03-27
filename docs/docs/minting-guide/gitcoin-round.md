@@ -10,6 +10,7 @@ sidebar_position: 3
 
 - all projects in the Gitcoin Alpha Round are invited to mint a hypercert for their work
 - anyone who gave over $1 to a project is automatically allowlisted for that project’s hypercert
+- 50% of each hypercert is distributed to the funders, 50% is kept by the project and can be transferred later
 - each project has a custom URL to make minting super easy (the link is sent directly to each project)
 - everything runs on Optimism (users only need to pay L2 gas costs)
 
@@ -27,8 +28,8 @@ Once your hypercert has been minted, the people who supported your project with 
 
 A few important notes about the Alpha Round:
 
-- The total units of a hypercert is equal to the total donations; each funder get awarded units proportional to their donations.
-- Transfers will be restricted to one transfer from the project to the supporter
+- The total units of a hypercert is based on the total donations; each funder get awarded units proportional to their donations.
+- Transfers will be restricted to one transfer from the project to the supporters.
 - There will be no additional rights awarded to the funders except the right to "public display" their support for the project.
 
 ## Instructions
@@ -121,7 +122,9 @@ Updates are currently disabled on the frontend.
 
 #### Allowlist
 
-This field is set by default to a custom allowlist generated for each project based on the funding it received on the Gitcoin Grants Alpha Round. This field should not be changed. If there is a problem with your allowlist, please contact us.
+This field is set by default to a custom allowlist generated for each project based on the funding it received on the Gitcoin Grants Alpha Round. You should not need to update this field. If there is a problem with your allowlist, please contact us.
+
+50% of the hypercert will be allocated according to this allowlist. The other 50% will be kept by the project, i.e. it is allocated to the address that mints the hypercert. You will be able to transfer or sell these fractions later as long as they are owned by the minter. This means that they can only be transferred or sold once.
 
 The formula assigns one fraction (rounded down) for every $1 (using the exchange rate at the time of the transaction) that a donor contributed to the project. It also provides a small buffer (of 5%) so that a transaction worth $0.999 or $0.951 remains eligible for one fraction.
 
