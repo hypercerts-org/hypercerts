@@ -3,6 +3,7 @@
     "bundleId": "0x0b84bfa1e358e2c7816e5244258c16e4d6d06930fb4cf20f2d714ce35d330308",
     "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
     "bundleName": "Bundle: Agriculture",
+    "workScope": "Agriculture",
     "bundleDescription": "\ud83c\udf31\u00a0This grant bundles 8 initiatives devoted to transforming agriculture to provide healthy food, water, material, medicinal security to communities, regenerated working lands for improved carbon & water cycling, and biodiversity as well as general ecosystem functions. \ud83c\udf31\u00a0\n\n\ud83d\ude9c\u00a0 Agriculture is a primary driver of land, water degradation globally, and contributes significantly to global GHG emissions (>10%) food is essential for a community\u2019s security & well-being, and is considered a matter of national security by modern nation-states. \n\n\ud83d\udc90\u00a0\u00a0Regenerative agriculture initiatives recognize the fragility of \u201cmodern\u201d agriculture. They argue that resilient communities achieve food, water, material & medicinal security by restoring health to their surroundings and valuing ecosystem functions. It generally allows us to decolonize our minds that traditionally associate farming with mass monoculture to instead associate it with multiple and diverse species (wild, livestock, vegetative, & microbiome\u2026) contributing to the resilience of a whole ecosystem. \n\n\ud83c\udf0e\u00a0 A global decentralized grants platform like Gitcoin offers a means for each of us to reclaim agency over the food system that we rely on. Let us be empowered and demonstrate the potential of quadratic funding to allocate, prioritize, as well as support transformative change to agriculture across scales. \n\n\u2600\ufe0f\u00a0The initiatives represented by this bundle are collaborating with local communities and indigenous organizations while providing access to knowledge about regenerative agriculture as well as access to the tools for farmers. Creating these impacts in Kenya, Columbia, India, Croatia & the United States with disparate aims but a common mission and mandate to demonstrate and expand the role of free and open-source software in public goods funding.\n\nIf you would like to know more about the individual projects that have been gathered in this bundle, check below!\n\n\u2615\ufe0f  Coffee Carbon Collective, @CoffeeCarbonCo: supports coffee farmers in their transition to regenerative agriculture by providing agronomic guidance and rewarding them for the implementation of new practices. Coffee Impact Collective creates an ecosystem that provides multiple services and opportunities for farmers, allowing them to become a part of a decentralized marketplace where \u201cregenerated\u201d coffee is traded along with eco credits (like carbon, biodiversity, water quality, social impact, and eco-tourism), not separately.\n\n\ud83c\udf38\u00a0 Kanga Gardens, @Kangra_Gardens: The Kangra Gardens are a place for people to express gratitude and give back to the earth by respecting and learning from it. The purpose of the Kangra Botanical Garden, which is a part of Kula, is to regenerate the local ecosystem, promote biodiversity conservation, support community health, build towards food sovereignty and nutrition, and engage people in connecting with the environment. The garden uses Ayurvedic medicine production and syntropic farming to achieve these goals facilitated through a Bioregional Learning Center. The grant for Kangra Gardens aims to fund new as well as current contributors and the development of open-source documentation to share with the global community.\n\n\ud83d\udca7\u00a0Watercycle, @friedmanspace: Watercycle is developing an open-source, low-cost water structuring device to improve crop yields and accelerate natural carbon sequestration. Water structuring is the process of altering the structure of water to optimize its ability to support life. The benefits of water structuring in agriculture include improved soil structure, increased plant growth and yield, and reduced water usage.\n\n\ud83c\udfdd\ufe0f\u00a0Ogallala.Life, @ogallalalife: We are a not-for-profit devoted to learning, exploring, developing & deploying web3 tools for landscape rehydration on and around the US high plains aquifer system. Our mission is to prove out market incentives for improved water recharge & retention - our communities place a tremendously high value on water security and ReFi offers novel mechanisms to invest in surrounding landscapes & watersheds. We\u2019ve launched pilot projects along the Canadian River breaks to explore leaky weirs, riparian restoration, and similar interventions, & their impact on the water budget, biodiversity, carbon & climate. Our projects help facilitate the maturation of decentralized science applied towards regenerative aims through our active collaboration with dMeter, a DAO tasked to build tools for decentralized digital measure recordation & validation in natural capital context including but not limited to PES markets.\n\n\ud83d\udc68\ud83c\udffe\u200d\ud83c\udf3e\u00a0 Regr\u00f2, @projectregro: At Regr\u00f2 farmers, gardeners and artists share their journeys about Regenerative Agriculture and Regenerative Finance. Under the increasing climate emergency pressure, the Regr\u00f2 project aims to connect land owners, farmers, and growers, interested in sharing resources to build resilient agroecological systems through Regenerative and Conservation Agriculture, Permaculture, and non-invasive practices.\n\n\ud83c\udf33  Ayowecca Uganda, @ayowecca_uganda: A community-founded organization working on nature-based solutions, Wetlands and peatland ecosystem restoration has been our focus. Together with the local community, we are restoring encroached wetlands and protecting those that already exist. Our strategy involves agroforestry and afforestation. We are promoting agroforestry, by giving farmers fruit trees to plant beside their crops to protect the degraded landscape, promote food security and raise food production. Climate change adaptation and mitigation are our primary goals in promoting agroforestry/regenerative agriculture and permaculture. The effects of climate change on agricultural communities can be lessened by planting trees in agricultural systems. Growing the number of trees on agricultural land decreases tree cutting and boosts carbon sinks.\n\n \ud83d\udce1\u00a0 dMRV Network, @dmrvnetwork: dMRV network puts the tools necessary in the hands of small-scale farmers and other marginalized communities so that they have the opportunity to collect and submit valuable ecological data for fair compensation. dMRV network is a decentralized organization of scientists, project developers, farmers, and regenerators that contributes to open source systems that allow for decentralized data collection correlation of ecological data into ecological credits and/or payments. The primary goal of dMRV Network is to create a guide for communities to identify the best practices, tools, and resources for maximizing value and ecological health via ecological service payments and/or credits.\n\n\ud83c\udf31 The WeSeed Project @weseedrefi: The WeSeed Project is a unique initiative that aims to address global food insecurity challenges through the use of blockchain and cryptocurrency technologies. The project seeks to provide education and training in these areas to underserved communities, empowering them to actively participate in regenerative microeconomics and create long-term systemic change.",
     "projects": [
       {
@@ -53,11 +54,6 @@
     "bundleName": "Act Now Climate Change Bundle",
     "bundleDescription": "\ud83d\udc9a ACT NOW CLIMATE CHANGE BUNDLE:\n\nActivism and advocacy can change the world. They can push the boundaries of our knowledge, tip the balance on policy and induce public action to affect environmental and social change. The projects in the activism and advocacy bundle extend from the depths of the earth to the far reaches of outer space and include:\n\n- Collaborations between Web3 regens and land trusts\n- Indigenous legal climate challenges\n- Initiatives to incentivize planetary cleanup, from oceans and rainforests to Earth's orbits\n- Strategic Climate Solutions Campaigns\n- Putting the Paris Agreement carbon markets on chain\n- Governing climate-related blockchain efforts across sectors\n\n\ud83d\udc18 ELEPHANT IN THE ROOM:\n\nTwitter- @ClimateRace\n\nStrategic Climate Solutions Campaigns. We work with Indigenous organizations, voting organizations, neighborhoods, cities and activists to promote climate action to communities around the world and to counter the vast array of fossil fuel advertising and disinformation. Over the past year Elephant Room has also been creating strategic communications that are focused on the web3 community.\n\n\ud83c\udfe1 UNEARTHING COMMON GROUND:\n\nWebsite- https://common-ground.super.site/\nTwitter- @commongroundCLT\n\nGitcoin Grant 16 page-https://gitcoin.co/grants/6318/unearthing-common-ground-a-six-week-journey-into-\n\n0x08f2E5b3b316C49F8Ab95df0D6ee541271d10f7e\n\nA six week learning journey which introduces 50 web3 regens to 50 existing community land trusts from around the world to develop on the ground project collaboration.\n\n\u267b\ufe0f LITTER TOKEN ($LTK):\n\nTwitter- @litter_token\nInstagram- @littertoken\nWebsite- www.littertoken.xyz\n\nLittle Token is a purpose-driven token that pays people to pick up litter. We use our own cryptocurrency to compensate people for cleaning up the planet. We are Pokemon Go for climate change.\n\nTo date, we have picked up 65k+ pieces of litter (across Nigeria, Philippines, USA, Brazil, Puerto Rico, etc), started a Community Farm in rural Nigeria, and started a waste management business in Puerto Rico.\n\n\ud83d\udef0\ufe0f COSMOS FOR HUMANITY:\n\nWebsite- https://cosmosforhumanity.eu/en/\nTwitter- @cosmos4humanity\nDiscord- https://discord.gg/mmCAgkHFnn\n\nGitcoin Grant 16 page-https://gitcoin.co/grants/6782/protecting-earths-orbits-through-citizen-intellige\n\nC4H is a Swiss-based NGO that promotes a more sustainable access to outer space for humanity. We are currently creating a carbon footprint inspired indicator in partnership with the French space agency. We also aim to create a citizen-run label to fund researchers and startups working on space pollution and help finance active debris removal operations in the future.\n\n\u2696\ufe0f BEYOND FOSSIL FUELS:\n\nTwitter- @BFF_campaign\n\nIndigenous Legal Fund for Climate Action.\n\n\ud83c\udf33 BLOCKCHAIN FOR CLIMATE FOUNDATION:\n\nTwitter- @blockforclimate\n\nBlockchain for Climate Foundation is working to put the Paris Agreement carbon markets on Ethereum to enable cross border collaboration on climate change. The BITMO Platform enables national government issuance and exchange of sovereign emissions reductions and removals outcomes as ERC-1155 NFTs - providing low-cost transparent architecture for a more timely launch of these markets.\n\n\ud83d\udce3 BLOCKCHAIN x CLIMATE INFRASTRUCTURE (BxCi) - formerly known as BICOWG\n\nTwitter- @BICWOG \n\nBxC is an activist-to-industry network of global stakeholders working together to define and author cooperative operating and technical principles that govern climate-related blockchain efforts across sectors. BxCi working groups focus on carbon market registries, standards and auditability, policy development, regenerative finance and emerging markets in the global south. In 2023, BxC aims to scale the reach and impact of these initiatives and identify new multi-sector alliances. Many of these projects are underway as proof of concepts or in fully implemented solutions but require a consistent taxonomy framework to scale.",
     "projects": [
-      {
-        "project_name": "Act Now Climate Change Bundle",
-        "twitter_handle": "ClimateRace",
-        "description": "This bundle includes collaborations between Web3 regens and land trusts, Indigenous legal climate challenges, initiatives to incentivize planetary cleanup, strategic climate solutions campaigns, and putting the Paris Agreement carbon markets on chain."
-      },
       {
         "project_name": "Elephant in the Room",
         "twitter_handle": "ClimateRace",
@@ -119,7 +115,7 @@
         },
         {
           "project_name": "KHALON BRIDGE",
-          "twitter_handle": "@Khalon Bridge",
+          "twitter_handle": "@KhalonBridge",
           "description": "Distributed Solar for Web3 Creators in Nigeria. Providing residential solar to emerging talent in the region to advance the digital economy in Africa."
         }
       ]
@@ -331,24 +327,14 @@
         "description": "A carbon credits registry offering natured based carbon removal credits from biodiverse forest land that is being enrolled into perpetual conservation."
       },
       {
-        "project_name": "Carbonland DAO",
-        "twitter_handle": "@CarbonlandDAO",
-        "description": "A Nature Preserve Timeshare that leverages the Carbonland Trust protocol to issue and sell carbon credits from its own forestland."
-      },
-      {
         "project_name": "disCarbon",
         "twitter_handle": "@discarbon_earth",
         "description": "Creates transparent and verifiable emission estimation and carbon retirement and tools available as public goods within the Ethereum ecosystem."
       },
       {
         "project_name": "Changeblock",
-        "twitter_handle": "",
+        "twitter_handle": "Changeblock_io",
         "description": "Provides investors access to groundbreaking green credits that are streamlined and independently verified, allowing for the creation and listing of unique instruments on their platform."
-      },
-      {
-        "project_name": "ChangeblockNFT",
-        "twitter_handle": "",
-        "description": "Helps demonstrate commitment to sustainability and social responsibility by enabling NFT companies to improve their reputation, reduce risk and attract top talent."
       },
       {
         "project_name": "The Eden Dao",
@@ -429,9 +415,9 @@
         "description": "Cambiatus is building complementary currencies and collaborative businesses on Blockchain."
       },
       {
-        "project_name": "ReconTech",
-        "twitter_handle": "@recon.tec",
-        "description": "ReconTech is using technology as a mean to reconnect the humans and more-than-human pluriverse."
+        "project_name": "ReConnection Tech",
+        "twitter_handle": null,
+        "description": "Reconnection Tech is using technology as a mean to reconnect the humans and more-than-human pluriverse."
       }
     ]
   },
@@ -447,13 +433,13 @@
         "description": "A development studio collective of over 40+ web3 operators providing residential solar to emerging talent in Nigeria to advance the digital economy in Africa."
       },
       {
-        "project_name": "ReconTech",
-        "twitter_handle": "@emergir.co",
-        "description": "Devices and experiences that seek to materialize a world in which our technological devices help us to interact more intimately with the more-than-human world."
+        "project_name": "ReConnection Tech",
+        "twitter_handle": null,
+        "description": "Reconnection Tech is using technology as a mean to reconnect the humans and more-than-human pluriverse."
       },
       {
         "project_name": "Urb\u00e1nika",
-        "twitter_handle": "@0xUrbanika / @urbanika.lens",
+        "twitter_handle": "@0xUrbanika",
         "description": "An immersive activism school that turns passive citizens into active city shapers capable of using web 3.0 tech, peer governance, and commoning."
       },
       {
