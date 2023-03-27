@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "hypercertCreateUrl": "https://hypercerts.pages.dev/app/create?",
   "allowlistBaseUrl": "https://bafybeiatu732zyuvc5lyeuq5ncwsqolax7ue4mrsj32xfrpd3twowakj2u.ipfs.w3s.link/allowlists/",
-  "bannerImageBaseUrl": "https://bafybeib4dqu5yil3hkvn4pm7vfnlkuytzo3u2k26mq3kb43colpfk2yrle.ipfs.w3s.link/images/",
+  "bannerImageBaseUrl": "https://bafybeifrnuuehyhnky3zwgwkxwjmpuzkmewj3hfvfzmyqjnycfevfom6tq.ipfs.w3s.link/images/",
   "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
   "localPaths": {
     "graphData": "data/graph-data.json",
@@ -26,6 +26,7 @@
     "payoutData": "data/csv/Gitcoin Alpha Round - Matching Allocations - data.csv",
     "payoutExports": "data/csv/Donors_MatchingPoools.csv",
     "multisigMapping": "config/multisig-mapping.json",
-    "multisigTransactionExport": "data/csv/MultisigDonations.csv"
+    "multisigTransactionExport": "data/csv/MultisigDonations.csv",
+    "bundleDataset": "data/climate-bundle-data.json"
   }
 }

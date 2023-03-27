@@ -1,0 +1,555 @@
+[
+  {
+    "bundleId": "0x0b84bfa1e358e2c7816e5244258c16e4d6d06930fb4cf20f2d714ce35d330308",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Agriculture",
+    "workScope": "Agriculture",
+    "bundleDescription": "\ud83c\udf31\u00a0This grant bundles 8 initiatives devoted to transforming agriculture to provide healthy food, water, material, medicinal security to communities, regenerated working lands for improved carbon & water cycling, and biodiversity as well as general ecosystem functions. \ud83c\udf31\u00a0\n\n\ud83d\ude9c\u00a0 Agriculture is a primary driver of land, water degradation globally, and contributes significantly to global GHG emissions (>10%) food is essential for a community\u2019s security & well-being, and is considered a matter of national security by modern nation-states. \n\n\ud83d\udc90\u00a0\u00a0Regenerative agriculture initiatives recognize the fragility of \u201cmodern\u201d agriculture. They argue that resilient communities achieve food, water, material & medicinal security by restoring health to their surroundings and valuing ecosystem functions. It generally allows us to decolonize our minds that traditionally associate farming with mass monoculture to instead associate it with multiple and diverse species (wild, livestock, vegetative, & microbiome\u2026) contributing to the resilience of a whole ecosystem. \n\n\ud83c\udf0e\u00a0 A global decentralized grants platform like Gitcoin offers a means for each of us to reclaim agency over the food system that we rely on. Let us be empowered and demonstrate the potential of quadratic funding to allocate, prioritize, as well as support transformative change to agriculture across scales. \n\n\u2600\ufe0f\u00a0The initiatives represented by this bundle are collaborating with local communities and indigenous organizations while providing access to knowledge about regenerative agriculture as well as access to the tools for farmers. Creating these impacts in Kenya, Columbia, India, Croatia & the United States with disparate aims but a common mission and mandate to demonstrate and expand the role of free and open-source software in public goods funding.\n\nIf you would like to know more about the individual projects that have been gathered in this bundle, check below!\n\n\u2615\ufe0f  Coffee Carbon Collective, @CoffeeCarbonCo: supports coffee farmers in their transition to regenerative agriculture by providing agronomic guidance and rewarding them for the implementation of new practices. Coffee Impact Collective creates an ecosystem that provides multiple services and opportunities for farmers, allowing them to become a part of a decentralized marketplace where \u201cregenerated\u201d coffee is traded along with eco credits (like carbon, biodiversity, water quality, social impact, and eco-tourism), not separately.\n\n\ud83c\udf38\u00a0 Kanga Gardens, @Kangra_Gardens: The Kangra Gardens are a place for people to express gratitude and give back to the earth by respecting and learning from it. The purpose of the Kangra Botanical Garden, which is a part of Kula, is to regenerate the local ecosystem, promote biodiversity conservation, support community health, build towards food sovereignty and nutrition, and engage people in connecting with the environment. The garden uses Ayurvedic medicine production and syntropic farming to achieve these goals facilitated through a Bioregional Learning Center. The grant for Kangra Gardens aims to fund new as well as current contributors and the development of open-source documentation to share with the global community.\n\n\ud83d\udca7\u00a0Watercycle, @friedmanspace: Watercycle is developing an open-source, low-cost water structuring device to improve crop yields and accelerate natural carbon sequestration. Water structuring is the process of altering the structure of water to optimize its ability to support life. The benefits of water structuring in agriculture include improved soil structure, increased plant growth and yield, and reduced water usage.\n\n\ud83c\udfdd\ufe0f\u00a0Ogallala.Life, @ogallalalife: We are a not-for-profit devoted to learning, exploring, developing & deploying web3 tools for landscape rehydration on and around the US high plains aquifer system. Our mission is to prove out market incentives for improved water recharge & retention - our communities place a tremendously high value on water security and ReFi offers novel mechanisms to invest in surrounding landscapes & watersheds. We\u2019ve launched pilot projects along the Canadian River breaks to explore leaky weirs, riparian restoration, and similar interventions, & their impact on the water budget, biodiversity, carbon & climate. Our projects help facilitate the maturation of decentralized science applied towards regenerative aims through our active collaboration with dMeter, a DAO tasked to build tools for decentralized digital measure recordation & validation in natural capital context including but not limited to PES markets.\n\n\ud83d\udc68\ud83c\udffe\u200d\ud83c\udf3e\u00a0 Regr\u00f2, @projectregro: At Regr\u00f2 farmers, gardeners and artists share their journeys about Regenerative Agriculture and Regenerative Finance. Under the increasing climate emergency pressure, the Regr\u00f2 project aims to connect land owners, farmers, and growers, interested in sharing resources to build resilient agroecological systems through Regenerative and Conservation Agriculture, Permaculture, and non-invasive practices.\n\n\ud83c\udf33  Ayowecca Uganda, @ayowecca_uganda: A community-founded organization working on nature-based solutions, Wetlands and peatland ecosystem restoration has been our focus. Together with the local community, we are restoring encroached wetlands and protecting those that already exist. Our strategy involves agroforestry and afforestation. We are promoting agroforestry, by giving farmers fruit trees to plant beside their crops to protect the degraded landscape, promote food security and raise food production. Climate change adaptation and mitigation are our primary goals in promoting agroforestry/regenerative agriculture and permaculture. The effects of climate change on agricultural communities can be lessened by planting trees in agricultural systems. Growing the number of trees on agricultural land decreases tree cutting and boosts carbon sinks.\n\n \ud83d\udce1\u00a0 dMRV Network, @dmrvnetwork: dMRV network puts the tools necessary in the hands of small-scale farmers and other marginalized communities so that they have the opportunity to collect and submit valuable ecological data for fair compensation. dMRV network is a decentralized organization of scientists, project developers, farmers, and regenerators that contributes to open source systems that allow for decentralized data collection correlation of ecological data into ecological credits and/or payments. The primary goal of dMRV Network is to create a guide for communities to identify the best practices, tools, and resources for maximizing value and ecological health via ecological service payments and/or credits.\n\n\ud83c\udf31 The WeSeed Project @weseedrefi: The WeSeed Project is a unique initiative that aims to address global food insecurity challenges through the use of blockchain and cryptocurrency technologies. The project seeks to provide education and training in these areas to underserved communities, empowering them to actively participate in regenerative microeconomics and create long-term systemic change.",
+    "projects": [
+      {
+        "project_name": "Coffee Carbon Collective",
+        "twitter_handle": "@CoffeeCarbonCo",
+        "description": "Supports coffee farmers in their transition to regenerative agriculture by providing agronomic guidance and rewarding them for the implementation of new practices. Creates an ecosystem that provides multiple services and opportunities for farmers."
+      },
+      {
+        "project_name": "Kanga Gardens",
+        "twitter_handle": "@Kangra_Gardens",
+        "description": "A place for people to express gratitude and give back to the earth by respecting and learning from it. Uses Ayurvedic medicine production and syntropic farming to achieve goals."
+      },
+      {
+        "project_name": "Watercycle",
+        "twitter_handle": "@friedmanspace",
+        "description": "Developing an open-source, low-cost water structuring device to improve crop yields and accelerate natural carbon sequestration. Benefits of water structuring in agriculture include improved soil structure, increased plant growth and yield, and reduced water usage."
+      },
+      {
+        "project_name": "Ogallala.Life",
+        "twitter_handle": "@ogallalalife",
+        "description": "Devoted to learning, exploring, developing & deploying web3 tools for landscape rehydration on and around the US high plains aquifer system. Proves out market incentives for improved water recharge & retention."
+      },
+      {
+        "project_name": "Regr\u00f2",
+        "twitter_handle": "@projectregro",
+        "description": "Connects land owners, farmers, and growers, interested in sharing resources to build resilient agroecological systems through Regenerative and Conservation Agriculture, Permaculture, and non-invasive practices."
+      },
+      {
+        "project_name": "Ayowecca Uganda",
+        "twitter_handle": "@ayowecca_uganda",
+        "description": "A community-founded organization working on nature-based solutions, Wetlands and peatland ecosystem restoration. Promotes agroforestry, by giving farmers fruit trees to plant beside their crops to protect the degraded landscape, promote food security and raise food production."
+      },
+      {
+        "project_name": "dMRV Network",
+        "twitter_handle": "@dmrvnetwork",
+        "description": "Puts the tools necessary in the hands of small-scale farmers and other marginalized communities so that they have the opportunity to collect and submit valuable ecological data for fair compensation."
+      },
+      {
+        "project_name": "WeSeed Project",
+        "twitter_handle": "@weseedrefi",
+        "description": "Addresses global food insecurity challenges through the use of blockchain and cryptocurrency technologies. Provides education and training in these areas to underserved communities, empowering them to actively participate in regenerative microeconomics."
+      }
+    ]
+  },
+  {
+    "bundleId": "0x42c5410440da06b29d782ee691783aad21d76b0de61c1034432f816af89aa57f",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Act Now Climate Change Bundle",
+    "bundleDescription": "\ud83d\udc9a ACT NOW CLIMATE CHANGE BUNDLE:\n\nActivism and advocacy can change the world. They can push the boundaries of our knowledge, tip the balance on policy and induce public action to affect environmental and social change. The projects in the activism and advocacy bundle extend from the depths of the earth to the far reaches of outer space and include:\n\n- Collaborations between Web3 regens and land trusts\n- Indigenous legal climate challenges\n- Initiatives to incentivize planetary cleanup, from oceans and rainforests to Earth's orbits\n- Strategic Climate Solutions Campaigns\n- Putting the Paris Agreement carbon markets on chain\n- Governing climate-related blockchain efforts across sectors\n\n\ud83d\udc18 ELEPHANT IN THE ROOM:\n\nTwitter- @ClimateRace\n\nStrategic Climate Solutions Campaigns. We work with Indigenous organizations, voting organizations, neighborhoods, cities and activists to promote climate action to communities around the world and to counter the vast array of fossil fuel advertising and disinformation. Over the past year Elephant Room has also been creating strategic communications that are focused on the web3 community.\n\n\ud83c\udfe1 UNEARTHING COMMON GROUND:\n\nWebsite- https://common-ground.super.site/\nTwitter- @commongroundCLT\n\nGitcoin Grant 16 page-https://gitcoin.co/grants/6318/unearthing-common-ground-a-six-week-journey-into-\n\n0x08f2E5b3b316C49F8Ab95df0D6ee541271d10f7e\n\nA six week learning journey which introduces 50 web3 regens to 50 existing community land trusts from around the world to develop on the ground project collaboration.\n\n\u267b\ufe0f LITTER TOKEN ($LTK):\n\nTwitter- @litter_token\nInstagram- @littertoken\nWebsite- www.littertoken.xyz\n\nLittle Token is a purpose-driven token that pays people to pick up litter. We use our own cryptocurrency to compensate people for cleaning up the planet. We are Pokemon Go for climate change.\n\nTo date, we have picked up 65k+ pieces of litter (across Nigeria, Philippines, USA, Brazil, Puerto Rico, etc), started a Community Farm in rural Nigeria, and started a waste management business in Puerto Rico.\n\n\ud83d\udef0\ufe0f COSMOS FOR HUMANITY:\n\nWebsite- https://cosmosforhumanity.eu/en/\nTwitter- @cosmos4humanity\nDiscord- https://discord.gg/mmCAgkHFnn\n\nGitcoin Grant 16 page-https://gitcoin.co/grants/6782/protecting-earths-orbits-through-citizen-intellige\n\nC4H is a Swiss-based NGO that promotes a more sustainable access to outer space for humanity. We are currently creating a carbon footprint inspired indicator in partnership with the French space agency. We also aim to create a citizen-run label to fund researchers and startups working on space pollution and help finance active debris removal operations in the future.\n\n\u2696\ufe0f BEYOND FOSSIL FUELS:\n\nTwitter- @BFF_campaign\n\nIndigenous Legal Fund for Climate Action.\n\n\ud83c\udf33 BLOCKCHAIN FOR CLIMATE FOUNDATION:\n\nTwitter- @blockforclimate\n\nBlockchain for Climate Foundation is working to put the Paris Agreement carbon markets on Ethereum to enable cross border collaboration on climate change. The BITMO Platform enables national government issuance and exchange of sovereign emissions reductions and removals outcomes as ERC-1155 NFTs - providing low-cost transparent architecture for a more timely launch of these markets.\n\n\ud83d\udce3 BLOCKCHAIN x CLIMATE INFRASTRUCTURE (BxCi) - formerly known as BICOWG\n\nTwitter- @BICWOG \n\nBxC is an activist-to-industry network of global stakeholders working together to define and author cooperative operating and technical principles that govern climate-related blockchain efforts across sectors. BxCi working groups focus on carbon market registries, standards and auditability, policy development, regenerative finance and emerging markets in the global south. In 2023, BxC aims to scale the reach and impact of these initiatives and identify new multi-sector alliances. Many of these projects are underway as proof of concepts or in fully implemented solutions but require a consistent taxonomy framework to scale.",
+    "projects": [
+      {
+        "project_name": "Elephant in the Room",
+        "twitter_handle": "ClimateRace",
+        "description": "Elephant in the Room works with Indigenous organizations, voting organizations, neighborhoods, cities, and activists to promote climate action to communities around the world and to counter fossil fuel advertising and disinformation."
+      },
+      {
+        "project_name": "Unearthing Common Ground",
+        "twitter_handle": "commongroundCLT",
+        "description": "Unearthing Common Ground is a six week learning journey which introduces 50 Web3 regens to 50 existing community land trusts from around the world to develop on the ground project collaboration."
+      },
+      {
+        "project_name": "Litter Token ($LTK)",
+        "twitter_handle": "litter_token",
+        "description": "Litter Token is a purpose-driven token that pays people to pick up litter. They use their own cryptocurrency to compensate people for cleaning up the planet."
+      },
+      {
+        "project_name": "Cosmos for Humanity",
+        "twitter_handle": "cosmos4humanity",
+        "description": "Cosmos for Humanity is a Swiss-based NGO that promotes a more sustainable access to outer space for humanity. They are creating a carbon footprint inspired indicator and a citizen-run label to fund researchers and startups working on space pollution."
+      },
+      {
+        "project_name": "Beyond Fossil Fuels",
+        "twitter_handle": "BFF_campaign",
+        "description": "Beyond Fossil Fuels is an Indigenous Legal Fund for Climate Action."
+      },
+      {
+        "project_name": "Blockchain for Climate Foundation",
+        "twitter_handle": "blockforclimate",
+        "description": "Blockchain for Climate Foundation is working to put the Paris Agreement carbon markets on Ethereum to enable cross border collaboration on climate change."
+      },
+      {
+        "project_name": "Blockchain x Climate Infrastructure",
+        "twitter_handle": "BICWOG",
+        "description": "Blockchain x Climate Infrastructure is an activist-to-industry network of global stakeholders working together to define and author cooperative operating and technical principles for climate-related blockchain efforts."
+      }
+    ]
+  },
+  {
+    "bundleId": "0x52f41f0f49803ae47f13977a8a5dd1b170348e82e2d59303861efb83d1413b50",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle \u26a1\ufe0f\u267b\ufe0fRenewable Energy",
+    "bundleDescription": "////////////  \ud83d\udc41 LOOK HERE \ud83d\udc41 //////////////\nThe BEST place to read about this bundle with images is on  \n\ud83d\udc49 https://bit.ly/RenewableEnergyGrant \ud83d\udc48\n\udb40\udc20\n\n/////////////// \ud83c\udfc3\u200d\u2642\ufe0fTL;DR  ////////////////\n\n//// \u26a1\ufe0f\u267b\ufe0f WHY SUPPORT THE RENEWABLE ENERGY BUNDLE \n\n\nEnergy is the \ud83d\udc49 biggest problem of the Climate Crisis \ud83d\udc48 \nsince its consumption is responsible for 75.6% of all global CO2 emissions \ud83e\udd2f\n \nThese projects are working hard to \ud83d\udcc9 reduce emissions and create new ways to increase the adoption of renewable energy in its many forms.\n\n\nWe are focused on directly funding renewable energy development around the world while creating decentralized energy grids and data centers that heat spaces with compute power instead of wasting energy on cooling. This removes middle men, makes climate action programmable, improves access to stable electricity and accelerates the world\u2019s transition to sustainable energy and heating.\n\nIf you want to put your chips on a sector that is e-x-i-s-t-e-n-t-i-a-l and fundamental for solving climate change, it would be this.\n\n\udb40\udc20\n//////////// \ud83d\udc68\u200d\ud83d\ude80 THE PROJECTS /////////////\n\udb40\udc20\n\ud83d\udc49\ud83d\udc49\ud83d\udc49 7ENERGY\nEmpowering Renewable Energy Independence for Energy Communities \ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66\u26a1\ufe0f\n\nJoin the 7Energy revolution and take control of your energy \u26a1\ufe0fconsumption! Our platform and community empower individuals to optimize their energy usage and cost, \ud83d\udcb5 while breaking free from dependence on fossil fuels and big corporations. Be a part of shaping a sustainable and healthy \ud83d\udc9a energy future for all.\n\ud83d\udc26 @7EnergyDAO   \n\ud83d\udd17 https://7energy.at\n\n\n\udb40\udc20\n\ud83d\udc49\ud83d\udc49\ud83d\udc49 ZERO LABS & BLOCKS GARDEN\nEmbedding tokenized renewable energy into any digital process or app + Blocks.garden to MakeCryptoGreen\n  \nthrough tokenized Renewable Energy Certificates (REC) and our simple API, making climate action programmable and automatic \ud83e\udd16, building radically accessible and transparent tools that make it easy for anyone anywhere to buy renewable energy \u267b\ufe0f\u26a1\ufe0fand prove it on a blockchain, and tell the story of their impact with \ud83e\udd29 gorgeous human readable \u2705 Green-Proofs  2\ufe0f\u20e3. We call this vision \u201cprogrammable decarbonization\u201d.\n \nWe recently \ud83d\ude80launched Blocks.garden 3\ufe0f\u20e3 to #MakeCryptoGreen, starting from decarbonizing Ethereum\u2019s 1 historical emissions. \n\ud83d\udc26 @zerolabsx  \n\ud83d\udd17 www.zerolabs.green \n\n\ud83d\udd17 2\ufe0f\u20e3 https://app.proofs.green\n\ud83d\udd17 3\ufe0f\u20e3 https://.blocks.garden\n\n\n\n\udb40\udc20\n\ud83d\udc49\ud83d\udc49\ud83d\udc49 FUROA \nFloor heating with compute power \n\nData centers consume 2% of the world\u2019s electricity but 40% of it is wasted on cooling \u2744\ufe0f. That\u2019s enough energy to heat millions of homes \ud83c\udfe1 or offices \ud83c\udfe2. And that\u2019s why we\u2019re building Furoa\u2014a floor heating system that heats spaces with compute power \u26a1\ufe0f; laying the foundation for zero-emission, truly decentralized computing \ud83d\ude4c. Since GR15, we\u2019ve established relationships with component suppliers and updated the design to reduce production cost and energy consumption.\n\ud83d\udc26 @FuroaCo \n\ud83d\udd17 https://furoa.co\n\n\n\n\udb40\udc20\n\udb40\udc20\ud83d\udc49\ud83d\udc49\ud83d\udc49 KHALON BRIDGE\nDistributed Solar for Web3 Creators in Nigeria\n\nNigeria is at the leading edge of the web3 ecosystem but suffers from a notoriously collapsing electrical grid that impedes developer talent from keeping up with the digital economy without having to buy pollutive generators. Khalon Bridge is a development studio collective of over 40+ web3 operators and continues to provide residential solar to emerging talent in the region to advance the digital economy in Africa.\n\ud83d\udc26 @Khalon Bridge\n\ud83d\udd17 https://khalonbridge.com/\n\n\n\n\udb40\udc20\n//////////// POWER A \u267b\ufe0fFUTURE /////////////\n\n\ud83d\udc9a Be a part of the solution and not the pollution. \n\u2600\ufe0f Join us in powering a brighter future!\n\ud83d\ude4f Support renewable energy by donating today! \n\ud83d\udc49 only on ETH mainnet\n*********************************************\n\n\n\udb40\udc20\n/////////////  \ud83d\udc41 REMEMBER \ud83d\udc41 ///////////////\nThe BEST place to read about this bundle with images is on  \n\ud83d\udc49 https://bit.ly/RenewableEnergyGrant  \ud83d\udc48",
+    "projects": {
+      "projects": [
+        {
+          "project_name": "7ENERGY",
+          "twitter_handle": "@7EnergyDAO",
+          "description": "Empowering Renewable Energy Independence for Energy Communities. Join the 7Energy revolution and take control of your energy consumption!"
+        },
+        {
+          "project_name": "ZERO LABS & BLOCKS GARDEN",
+          "twitter_handle": "@zerolabsx",
+          "description": "Embedding tokenized renewable energy into any digital process or app. Making climate action programmable and automatic, building radically accessible and transparent tools."
+        },
+        {
+          "project_name": "FUROA",
+          "twitter_handle": "@FuroaCo",
+          "description": "Floor heating system that heats spaces with compute power; laying the foundation for zero-emission, truly decentralized computing."
+        },
+        {
+          "project_name": "KHALON BRIDGE",
+          "twitter_handle": "@KhalonBridge",
+          "description": "Distributed Solar for Web3 Creators in Nigeria. Providing residential solar to emerging talent in the region to advance the digital economy in Africa."
+        }
+      ]
+    }
+  },
+  {
+    "bundleId": "0x5b82b9d0cb3d0d14c8fe693502b197cfbc0f55115446632448549da20538c96c",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Climate Research Alpha Round",
+    "bundleDescription": "Mission Statement:\n\nTime is running out. Climate research today needs to focus immediately on practical solutions. We need research that leads to mass movements and exponentially growing impact. Like the US Advanced Research Projects Agency - Energy (ARPA-E), the Climate Research bundle will be a key engine of climate innovation and climate action. While fixing our sights on the high bar set by ARPA-E is wildly ambitious, we know that blockchain technology can exponentially increase effective and efficient scientific research. Integrated indicators make the research replicable and scalable and allow improved documentation and verification. The ambitious and innovative projects in the Climate Research bundle will architect many systems of the new infrastructure of climate research and scientific collaboration. \n\nThis bundle is comprised of 8 critical and interrelated projects address various challenges of climate research by generating:\n\n\u26a1 Clean, cheap, abundant, and reliable sources of energy and the need to mitigate the negative impacts of climate change on cities and urban areas.\n\n\ud83d\udca8 Increased speed and efficiency of traditional methods for conducting and translating scientific research\n\n\ud83e\udd2f Solutions to the complex set of root causes that contribute to the long time it takes for scientific research to be implemented in real life\n\n\ud83d\udd0d Increased transparency, traceability, and access to funding for scientific research\n\n\ud83e\uddbe Effective mechanisms to protect intellectual property, reduced investor risk in, and increased investor access to the scientific and technological innovation process\n\n\ud83e\udd11 Profitable ways for companies to align with community values related to climate change\n\n\ud83d\udd2c More effective research, and strategies for promoting and supporting scientific innovation that positively impacts the world and its inhabitants\n\n\ud83c\udf31 Developing regenerative data tech, storing digital data in the DNA of plants and trees, to create carbon absorbing data storage\n\nThe projects contributing to this effort are:\n\n\ud83c\udf0e FrontierDAO\n\ud83c\udf0e SCINET\n\ud83c\udf0e Option\n\ud83c\udf0e ScienceFund\n\ud83c\udf0e Internet of Animals\n\ud83c\udf0e Defi Biolabs\n\ud83c\udf0e Circonomy\n\ud83c\udf0e Grow Your Own Cloud DAO (GYOC DAO)\n\nFrontierDAO @FrontierDAO;  Collectively incubating scientific and engineering innovations and innovators, using Web3 tooling (linktr.ee/frontierdao).\n\nOne of our key focus areas is \u201cfusion energy as a climate solution.\u201d Fusion energy, while still in its infancy, is the technology that will usher in a new era on this planet - one where cheap, clean, abundant, baseload energy is available for all. \n\nNuclear fusion energy is the energy of the stars and sun. It is the opposite of nuclear fission.. \n\nTo help usher in this new era of transition to clean energy, FrontierDAO has released in BETA an IP NFT on-chain scientific publishing platform called FrontierRegistry. By publishing research on the blockchain, we aim to foster greater collaboration while protecting authors\u2019 IP rights. frontierda.xyz/faqs-projects\n\nFunds raised from GR15 were used to partially underwrite a 12-week Fusion Energy As A Climate Solution weekly workshop series that ran from November to mid-January. Interviews can be found on Youtube.com/@frontierdao.                           \n\nSCINET, INC @scinet_inc. At SCINET, we are increasing the speed, efficiency, and effectiveness of life sciences research from \u201clab to life\u201d by developing a suite of software applications in a decentralized (\"DeSci\") life sciences ecosystem that addresses the complex set of root causes for why it takes 17 years for life sciences research, including climate solutions, to get into real life (see here for socials, media mentions, website, etc.).\n\nWe help scientists conduct and translate research faster, more accurately, and more efficiently by offering them a unique confluence of decentralized funding, blockchain-protected IP, unique trust mechanisms, and commercialization strategies that reduce investor risk, increase scientific innovation, protect intellectual property, and positively impact the world and its inhabitants.\n\nOption, @option_hq: Option is a prediction market for governance that incentivizes companies to align with community values, including those related to climate change, by making it profitable for them to do so. An example of climate governance using Option could be creating a market where players can make predictions about a company's carbon emissions reduction targets. If the company meets its targets, those who predicted accurately would be rewarded. This would incentivize the company to align with community values and reduce its carbon emissions in order to profit from the market. Furthermore, the funding provided by the market could be used to support research and journalism focused on climate change and carbon emissions reduction.\n\nScience Fund, @sciencefund_io: Fund basic science with donations recorded for posterity on the Ethereum blockchain. \n\nScience Fund is empowering scientists to freely, openly, and rapidly pursue their best scientific ideas. To achieve this, we are reimagining how discovery is funded. No grant applications. Transparent, traceable funding records. Rapid funding cycles that support more ideas early and continue funding what\u2019s working. In this Gitcoin Round, we plan to test some of the mechanisms we thought out. At least 80% of the funds collected in this round will go towards our first Climate Action funding pool, the \u201cUrban Climate Impact Mitigation Pool\u201d. \n\nSpecifically we will support \u201cUPP\u201d - the \u201cUrban Planting Project\u201d incubated at the AKASHA Hub in Barcelona. UPPs mission is to turn every available city space into green islands of chill. By easing heat stress, UPP is helping to mitigate the effects of climate change and promote new sources for local food production in cities. UPP has already formed partnerships with local universities and communities to deploy its \u201cUPP toolbox\u201d and will apply S.M.A.R.T. principles to quantify the project's impact both through technology including real-time tracking, and satellite imagery as well as by documenting the social impact of their project.\n\nDonors to our Gitcoin grant will be recorded in the funding pool through their Ethereum addresses and will receive certificates of the impact that allows them to unlock information and data about the project\u2019s success at regular intervals in the future. \n\nInternet of Animals, @WildlifeMovemnt: Our mission is to create a community of scientists that promotes the design, development, implementation, and improvement of accessibility to software, hardware, and knowledge resources related to wildlife movement ecology. To realize that vision, we formed The Wildlife Movement Institute, a nonprofit organization to be a hub for this community for local, regional, and international collaborations \u2013 whether you are an expert or someone passionate about wildlife and technology. Since the end of GR15 we have established a bank account, set up a business account on CoinBase and are now preparing to invest in web development and getting 501(c)(3) tax status. \n\nDefi Biolabs, @Defibiolabs: Bioengineering algae to reduce greenhouse gas emissions. \nGR15 Grant: https://gitcoin.co/grants/7497/defi-biolabs-is-engineering-cyanobacteria-to-prod\n\nCirconomy, @CirconomyDAO: Recycle & Reuse 2 Earn 2 put the \u201ceco\u201d in \u201ceconomy\u201d (https://www.circon.me). \n\nWe aspire to become a DAO platform to proliferate circular economic projects all over the world. We'll accomplish this by building a dapp which will have a combination of on-chain registration of hardware-based circular economic projects such as Precious Plastic. This will be crowdfunded to ensure common ownership and stakeholdership. This will be supported by on-chain tracking of all recycling activity which will have a recycle-2-eajjrn cryptoeconomics model underpinning it.\n\nWe are currently creating a crypto-back solution for the world of recycling & reusing. We\u2019ll accomplish this by tokenizing existing points-based recycling/reuse-2-earn programs administered by not-for-profit organizations such as Circulr.ca and RedeemClothingRecycling.com. This allows us to better empower end users with an interoperable incentive that would have a unified reward pool amongst all of our partners as well as grant more autonomy to our partners to scale their operations.\n\nThe high-level summary of our tokenomics is as follows - there will be a dual-token system whereby:\nThe token users will earn will be created by coalitions between brands and nonprofits so what we mean by this is - depending on the material in question and/or other factors, we\u2019ll have coalitions of for-profit and nonprofit organizations that will mint a utility token together for earning. As an example - ideally, all clothing-recycling will have one utility token governed by all nonprofits that handle clothing recycling whilst the for-profits will be sustainable fashion brands. Likewise, all plastic-recycling will have one utility token governed by all nonprofits that deal with plastic recycling whilst the for-profits will be sustainable toy/merch companies. In that latter example, there may be multiple coalitions given that the toy industry is a specific/niche market. But regardless, we\u2019re starting with the fashion industry as our MVP.\n\nThis utility token will not be tradable in the exchanges because Circonomy itself will have a token that will be liquid in the exchanges out there. This token will be token-bonded to the utility tokens within Circonomy\u2019s ecosystem and thus in order for users to either obtain other utility tokens or liquidate them, they\u2019ll have to exchange their utility token for the Circonomy token. Each utility token will be exchangeable for rewards such as discounts or exclusive access to brand events that are token-gated or NFT phygital goods. But if they don\u2019t care about those things, they may simply liquidate by way of exchanging for the Circonomy token and then selling their Circonomy token, or they may stake the Circonomy token for gains of course and helping to drive value.\n\nGrow Your Own Cloud, @_GYOC: develops regenerative data technology, storing digital data in the DNA of plants and trees, to create carbon absorbing data storage. \n\nIt works! We\u2019ve just been awarded the science breakthrough of the year from Falling Walls for our functional prototype 'Data Garden'. We\u2019ve also just finished an EU-funded research project that demonstrates how urban scale implementations of GYOC could absorb megatonnes of carbon and store terabytes of data.\n\nNow we\u2019re developing a unique Web3 offering we call \"Non-Fungible Plants\" (NFPs). NFPs are physical plants with data encoded within their DNA. Data like JPEGs and MP3s. They\u2019re the first truly plant-based NFTs ever created. They\u2019re the first step to build data systems that work in harmony with living systems for maximum positive impact.\n\nTo enable our vision, within Web3 we are forming GYOC DAO: an internet-native organization dedicated to accelerating the transition to truly green data storage. Funds raised through this bundle will help the continued growth of an organization which more closely resembles a public good than a traditional tech company. Together we can create a future where server farms could be replaced by data forests. \n\n",
+    "projects": [
+      {
+        "project_name": "FrontierDAO",
+        "twitter_handle": "@FrontierDAO",
+        "description": "Collectively incubating scientific and engineering innovations and innovators, using Web3 tooling. Focus area is \u201cfusion energy as a climate solution.\u201d Released IP NFT on-chain scientific publishing platform called FrontierRegistry."
+      },
+      {
+        "project_name": "SCINET, INC",
+        "twitter_handle": "@scinet_inc",
+        "description": "Increasing speed, efficiency, and effectiveness of life sciences research from \u201clab to life\u201d through decentralized life sciences ecosystem. Offering unique confluence of decentralized funding, blockchain-protected IP, and commercialization strategies."
+      },
+      {
+        "project_name": "Option",
+        "twitter_handle": "@option_hq",
+        "description": "Prediction market for governance that incentivizes companies to align with community values, including those related to climate change, by making it profitable for them to do so."
+      },
+      {
+        "project_name": "ScienceFund",
+        "twitter_handle": "@sciencefund_io",
+        "description": "Funding basic science with donations recorded for posterity on the Ethereum blockchain. Supporting \u201cUrban Climate Impact Mitigation Pool\u201d, specifically \u201cUPP\u201d - the \u201cUrban Planting Project\u201d incubated at the AKASHA Hub in Barcelona."
+      },
+      {
+        "project_name": "Internet of Animals",
+        "twitter_handle": "@WildlifeMovemnt",
+        "description": "Creating a community of scientists to promote design, development, implementation, and improvement of software, hardware, and knowledge resources related to wildlife movement ecology. Established a bank account and business account on CoinBase, preparing to invest in web development and 501(c)(3) tax status."
+      },
+      {
+        "project_name": "Defi Biolabs",
+        "twitter_handle": "@Defibiolabs",
+        "description": "Bioengineering algae to reduce greenhouse gas emissions."
+      },
+      {
+        "project_name": "Circonomy",
+        "twitter_handle": "@CirconomyDAO",
+        "description": "Recycle & Reuse 2 Earn 2 put the \u201ceco\u201d in \u201ceconomy\u201d. Building a dapp with combination of on-chain registration of hardware-based circular economic projects and on-chain tracking of all recycling activity."
+      },
+      {
+        "project_name": "Grow Your Own Cloud DAO (GYOC DAO)",
+        "twitter_handle": "@_GYOC",
+        "description": "Developing regenerative data tech, storing digital data in the DNA of plants and trees, to create carbon absorbing data storage. Awarded science breakthrough of the year from Falling Walls. Building unique Web3 offering \u201cNon-Fungible Plants\u201d (NFPs)."
+      }
+    ]
+  },
+  {
+    "bundleId": "0x89c4fbe0d97ba25cba17b36c837c27cb7b39c96ccc8b43a99df2dfaca9732763",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Oceans & Forests",
+    "bundleDescription": " \n\ud83d\udc49 Who are we? \n \nWe are independent teams of conscious humans, climate tech entrepreneurs, computer scientists, and environmentalists, that are united by the mission to protect and restore the forests and oceans of our beloved planet Earth. We believe in a power of coordination so that collectively we can tackle the problem of biodiversity loss.\n \n\ud83c\udf33 Gainforest: A decentralized fund using artificial intelligence to measure and reward sustainable nature stewardship @GainForestNow:  GainForest is a non-profit developing impact evaluators, transparency dashboards and accountability protocols for nature-based assets using DeSci, artificial intelligence and web3. \n \n\ud83c\udf33 Vlinder: Restoration of degraded mangrove areas, @vlinderclimate: Vlinder develops Verra-certified mangrove restoration projects to provide a variety of ecosystem services, climate change mitigation, economic considerations, and active participation of the local community in coastal areas.\n \n\ud83c\udf33 Salt Spring Solutions \u2013 Sequestering carbon via forest preservation & regenerative agriculture @SaltSpringSols: Our projects are systemic solutions to carbon sequestration on Salt Spring Island, BC, including managing a recently-purchased 75 acre forest as a community park to sequester carbon in perpetuity, and sequestering carbon through regenerative agriculture that also improves food security.\n \n\ud83c\udf33Bloomeria, an organization to help communities safeguard green areas. @bloomeria_dao: We help fund reforestation and conservation projects, we connect environmental organizations and companies willing to fund meaningful projects and we help companies prove their ESG commitments through a simplified view of their relevant on-chain actions, in a graphic and interactive way.\n \n\ud83c\udf33Treegens: Evolving Degens into Treegens, @thetreegens: We\u2019re making Degens bullish on trees through the world\u2019s most transparent & rewarding tree planting. PPGL tokens are pegged to the cost of each mangrove tree we plant - $0.094. Our machine learning / AI tree counter then counts each tree from video footage, & airdrops Non-Fungible Updates. To reward holders, we\u2019re also tokenizing carbon forwards & airdropping a portion of carbon forward revenue to the holders. \n \n\ud83d\udc49 What we do? \n \nOur bundle mission is to protect and restore forests and oceans with the support of science and technology. Received funding will be used to:\n\n\ud83c\udf33 support impact projects of our members, \n\ud83c\udf33 improve collaboration between our teams via joint projects,\n\ud83c\udf33 facilitate dMRV and verification of impact for greater accountability.\n \nOur bundle is organized as a DAO with a Treasury Safe managed by the simple majority of the bundle members. Projects will be nominated by the bundle members and voted on by the DAO.",
+    "projects": [
+      {
+        "project_name": "Gainforest",
+        "twitter_handle": "@GainForestNow",
+        "description": "Gainforest is a non-profit developing impact evaluators, transparency dashboards and accountability protocols for nature-based assets using DeSci, artificial intelligence and web3."
+      },
+      {
+        "project_name": "Vlinder",
+        "twitter_handle": "@vlinderclimate",
+        "description": "Vlinder develops Verra-certified mangrove restoration projects to provide a variety of ecosystem services, climate change mitigation, economic considerations, and active participation of the local community in coastal areas."
+      },
+      {
+        "project_name": "Salt Spring Solutions",
+        "twitter_handle": "@SaltSpringSols",
+        "description": "Our projects are systemic solutions to carbon sequestration on Salt Spring Island, BC, including managing a recently-purchased 75 acre forest as a community park to sequester carbon in perpetuity, and sequestering carbon through regenerative agriculture that also improves food security."
+      },
+      {
+        "project_name": "Bloomeria",
+        "twitter_handle": "@bloomeria_dao",
+        "description": "We help fund reforestation and conservation projects, we connect environmental organizations and companies willing to fund meaningful projects and we help companies prove their ESG commitments through a simplified view of their relevant on-chain actions, in a graphic and interactive way."
+      },
+      {
+        "project_name": "Treegens",
+        "twitter_handle": "@thetreegens",
+        "description": "We\u2019re making Degens bullish on trees through the world\u2019s most transparent & rewarding tree planting. PPGL tokens are pegged to the cost of each mangrove tree we plant. Our machine learning / AI tree counter then counts each tree from video footage, & airdrops Non-Fungible Updates."
+      }
+    ]
+  },
+  {
+    "bundleId": "0x95adaaef6d0a11b862f47a236bbca9d93dcfe35d1ae044edc0223d5485e1bfbb",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle #3: Verification Infrastructure (Impact Certs, Measurement, Reporting & Verification (MRV) and Oracles)",
+    "bundleDescription": "Verification Bundle - 12 innovative projects proving impact and unlocking critical funding in the climate and sustainability space.\n\nWhy: Verification as proof of impact\n\nHow: MRV, Oracles, Impact Certs, Active Inference, Digital Identity\n\nWhat: An anti-greenwashing toolkit\n\nBundle Description\n\n\ud83c\udf0d\ud83d\udca1 Introducing Bundle #3: Verification Infrastructure \ud83d\udee1\ufe0f- the ultimate toolkit for proving \ud83d\udc9aimpact and unlocking \ud83d\udcb0funding in the sustainability and climate solutions space.\n\nThis bundle brings together \ud83d\udd25 12 cutting-edge projects that are changing the game for measuring, reporting, and verifying (MRV) impact. With our bundle, you'll be able to confidently prove that your projects are delivering real, tangible results.\n\nLet's be real, in order to fund the solutions we need to save the planet, we need to show that our projects are \ud83d\udcaf and that the impact is \ud83d\udcaa. That's where MRV comes in - it's the bridge between \ud83d\udcb0 and \ud83d\udc9aimpact. These projects included in the bundle offer MRV solutions through \ud83d\udd2eoracles, \ud83d\udcbbimpact certificates, and MRV protocols which are making it simpler and more transparent for projects to prove their impact and secure funding.\n\nThink of this bundle as your one-stop-shop for proving your impact and unlocking funding \ud83d\udcb0. Whether you're working on \ud83c\udf33carbon removal, \ud83c\udf31afforestation, regenerative agriculture or you've doing grassroots community building - with this bundle, you'll have everything you need to prove your impact, access funding and receive rewards.\n\nWith this grant, we're powering up these projects to take the MRV space to the next level\ud83d\ude80. Let's work together to make sure funding is going to the most impactful solutions, and let's make a real difference in the fight against \ud83d\udd25climate change.\n\nWhat\n\nBehind every product lies a hidden infrastructure\u2014a complex ecosystem of factories, ships, robots, processes, and people working in harmony to deliver value. The web3 climate economy likewise requires an infrastructure of technologies, people, and services. That's us.\n\nThe Verification Bundle comprises a range of approaches targeting different pieces of the verification value chain. This includes project evaluation networks, oracles, impact certificates, and MRV protocols. We are also building apps and interfaces enabling climate entrepreneurs to easily plug verification into their projects. We are for climate entrepreneurs like what AWS is for developers.\n\nWhy\n\nCurrent verification methods are expensive, inaccurate, inaccessible, or untransparent. These shortcomings are a bottleneck for both funding and entrepreneurs. Funders, from small donors, to institutional and sovereign funds, will not fund climate initiatives en masse until they can verify climate impact. Meanwhile the legacy, off-chain verification organizations cannot scale to serve the fast-growing, dynamic, and global mix of climate entrepreneurs.\n\nWeb3 technologies, like blockchain, enable new verification solutions that decrease cost, democratize access, increase accuracy, and create transparency. However, these solutions are not automatic. There is tremendous work to be done designing user experiences, aligning incentives, and building applications. Furthermore, we need to tailor solutions for the wide range of climate and sustainability initiatives.\n\nBeyond accountability, verification projects are the foundation for a more immersive, and rewarding impact sector. Impact certificates (NFTs linked to verifiable impact) enable projects to symbolically represent their work with creative smart contract structures. For example, a tree planter could sell tree NFTs that produce carbon tokens for holders. These carbon tokens could then grant holders exclusive rewards from video game skins, to store discounts, backstage concert access, or project voting rights.\n\nIf we are successful, donating to climate impact will soon be as good, if not better, than buying things for oneself.\n\n--------------------------------------------------------------------------------\n\nExplore each individual project\n\n\u2b50 Athena Protocol @_AthenaProtocol \n\nChanging the way the world runs on data to include ethics and equity through cryptographic security. Athena Protocol is building the smart contract primitives required to facilitate on chain claim resolutions to claims involving payments for ecosystem services. Our work during q4 of 2022 re our GR15 grant application \u201c ImpactNFTs: An on-chain resource for validating impact\u201d has resulted in the collaboration between several organizations within the dMeter ecosystem to adopt ours as their shared claim resolution framework. We are seeking additional funding to grow our core team, to expand our educational material on the importance of data sovereignty, and to continue development of our claim resolution framework and ImpactNFT primitives.\n\n----------------------------------------\n\n\u2b50 Pozzle Planet @PozzlePlanet \n\nPozzlePlanet is social app \ud83d\udcf1and protocol \u26d3\u00a0where users earn our native token POZ by sharing, joining and documenting planet pozitive \ud83c\udf0e activities via short form video\u2019s called pozzles \ud83e\udd33\ud83c\udffd. On the outside, a social app where people generate positive impact by sharing videos and earning rewards. Underneath the hood, a DeFi protocol that passively farms users activity into NFTs backed by real world assets like CO2. \n\nOur mobile app went LIVE in public beta in November 2022 via AppStore and Goggle Play with 1500+ daily active users. So far 24k+ pozzle videos added, 8k+ activities verified by the community, and the protocol has rewarded the community with 18k+ POZ - see the latest \ud83d\udcc8\u00a0real-time stats here https://www.pozzleplanet.com/ \ud83c\udf0d\u00a0\n\nLinks \ud83d\udd17\n\nVideo Demo: https://twitter.com/PozzlePlanet/status/1591662766947201025?s=20&t=zsAvCXhjeJpGyAQpVV6R6Q\n\nWeb:\nhttps://www.pozzleplanet.com/\n\nPurple paper:\nhttps://pozzle-planet.gitbook.io/poz-purplepaper/\n\nTwitter:\nhttps://twitter.com/PozzlePlanet\n\nMedium:\nhttps://pozzleplanet.medium.com/\n\nDune Analytics for POZ:\nhttps://dune.com/swarthyhatter/POZ\n\nGITHUB: \nhttps://github.com/PozzlePlanet/\n\n----------------------------------------\n\n\u2b50 Digital Gaia @_digitalgaia www.digitalgaia.earth\nIf you want to teach people a new way of thinking, don't bother trying to teach them. Instead, give them a tool, the use of which will lead to new ways of thinking. (Buckminster Fuller)\n\nThe funding from this grant will support the launch of Digital Gaia's first product, called Gaia. It is the culmination of Digital Gaia's MVP sprint in Q3 and Q4 of 2021, which was partially funded by Gitcoin GR 14 and 15. \n\nBackground on the research and thought leadership that goes into Gaia can be found at: https://docsend.com/view/s/gexztbntbf5vxsn9\n\nGaia is an AI-augmented assistant that helps the global regenerative community achieve more impact faster and with greater confidence. It is built on a novel decentralized AI platform and backed by state-of-the-art science. Gaia provides context-specific information, knowledge, decision support, and Impact assessment for the first mile of Impact rooted in the collective intelligence of a global network of practitioners, experts, scientists, data providers, and indigenous communities.\n\nGaia is built on Digital Gaia's open technology platform and will enable multiple high-value services missing today that are essential to scaling regenerative agriculture and healthy bioregional economies, including:\n\n1. Expert Assistance for the first mile of Impact: Each instance of Gaia is a standalone AI for a specific ecosystem and community context. It supports and gathers context from land stewards and experts through local inputs and the use of multi-tiered remote sensing and other forms of MRV.\n2. Open Access to a global commons of data, information, and knowledge: Individual Gaias are interconnected in an AI-augmented global network. Digital Gaia's AI tools autonomously integrate all the local information and knowledge into continuously improving scientific models. These consensus-based models feed back into the network, enabling exponentially faster learning and continuously improving performance against targeted outcomes at the local level.\n3. Transparent and Immutable Proof of Impact on Regenerative Outcomes: Gaia produces real-time project assessments from pre-feasibility stages to end-of-life. It serves as an Oracle for both future predicted performance and realized impact across the life of projects that can scale from project, to portfolio, to bioregion.\n\nObjectives\n\nOur objectives for the first six months of the Gaia launch are:\n\n- 125 Project Onboarded with >10,000 Hectares impacted\n- A pipeline of over 1250 Projects in the onboarding pipeline with >100,000 Hectares impacted\n- 7+ project aggregators integrating Gaia into operating models\n- 55+ SMEs, Experts and Data Providers engaged in our global community\n- 7+ SME organization, academic institutions, data aggregators integrating internal resources with the Gaia Network and Gaia POI oracle services\n- Integration of Gaia POI Oracle Services into 3 Marketplace channels\n\n----------------------------------------\n\n\u2b50 Katalyst.earth @KatalystEarth www.katalyst.earth\n\nScaling Nature Positive Credits through Digital MRV\n\n----------------------------------------\n\n\u2b50 POCA: Proof of Climate/Community Action \n @Poca_earth \nis like a POAP but for climate and community action.\n\nIt\u00a0is a reward badge to add to a collection of actions you participated in, whether it is building a community or taking part in a climate action.\n\n----------------------------------------\n\n\u2b50 LunarPunk Labs @LunarPunk_Labs \nFacilitating community articulated Active Inferencing Models.\n\n----------------------------------------\n\n\u2b50 SproutUp @sproutupapp \nThe impact certificate fundraising platform for web3 charities. Turn good deeds into NFTs and earn crypto donations.\n\n----------------------------------------\n\n\u2b50 EverGreenCoin @evergreencoin_ evergreencoin.org\nEverGreenCoin (EGC) is a native blockchain PoW/PoS hybrid cryptocurrency, now full PoS, launched in 2015. The EverGreenCoin Foundation, Inc. is a 501(c)3 public charity launched in 2017. Proof of Environment (PoE) is a program of the foundation's, by which it rewards environmentally-conscious activities and observations with EGC, launched in 2019. PoE rounds run monthly and the reward pool is grown throughout. Submissions are publicly scored. The reward each submission receives after month's end is proportionate to how it did in public scoring. We believe we have an amazing platform established for people to share, and be rewarded for, any environmentally-conscious activity. We are requesting grant funding to scale EGC\u2019s PoE and ready it for a global stage.\n\n----------------------------------------\n\n\u2b50 ORGO @orgo_earth \nORGO is on a mission to regenerate the planet by creating an economy for environmental and social causes. Impact organizations that are focused on making a difference need better visibility and access to funding. ORGO\u2019s philosophy is rooted in liberating impact data. ORGO aims to close the gap in sustainable finance, reward positive behaviors, and eradicate greenwashing and fraud.\n\nWebsite\nhttps://orgo.earth/\n\nJoin our Discord\nhttp://discord.gg/qhg6wqWE5j\n\nBlog\nhttps://medium.com/@orgo_earth/our-philosophy-279431efc41a\n\n----------------------------------------\n\n\u2b50 Earthbanc Protocol @earthbanc\n\n----------------------------------------\n\n\u2b50 Project Themistoklis @p_themistoklis \n\n----------------------------------------\n\n\u2b50 Buan @buan_fund\n@buan_fund on twitter / mirror.xyz/buanfund.eth / https://t.me/buanthereum\n\nB\u00daAN is minting digital twins of RWA on Ethereum with a focus on environmentally valuable areas of land which can form the backing for impact certificates which can be sold to businesses. With the ultimate goal of rekindling societies relationship with nature. Think of us as The Federal Reserve before it moved away from the gold standard except our treasure is biodiversity. By developing the rails to on board RWA to the blockchain in a legally indemnifiable way we hope to encourage others to innovate within the same framework.",
+    "projects": [
+      {
+        "project_name": "Athena Protocol",
+        "twitter_handle": "@_AthenaProtocol",
+        "description": "Athena Protocol is building the smart contract primitives required to facilitate on chain claim resolutions to claims involving payments for ecosystem services."
+      },
+      {
+        "project_name": "Pozzle Planet",
+        "twitter_handle": "@PozzlePlanet",
+        "description": "PozzlePlanet is a social app and protocol where users earn a native token by sharing, joining and documenting planet positive activities."
+      },
+      {
+        "project_name": "Digital Gaia",
+        "twitter_handle": "@_digitalgaia",
+        "description": "Digital Gaia is building an AI-augmented assistant to help the global regenerative community achieve more impact faster and with greater confidence."
+      },
+      {
+        "project_name": "Katalyst.earth",
+        "twitter_handle": "@KatalystEarth",
+        "description": "Katalyst.earth is scaling Nature Positive Credits through Digital MRV."
+      },
+      {
+        "project_name": "POCA: Proof of Climate/Community Action",
+        "twitter_handle": "@Poca_earth",
+        "description": "POCA is a reward badge to add to a collection of actions taken, such as building a community or taking part in a climate action."
+      },
+      {
+        "project_name": "LunarPunk Labs",
+        "twitter_handle": "@LunarPunk_Labs",
+        "description": "LunarPunk Labs is facilitating community articulated Active Inferencing Models."
+      },
+      {
+        "project_name": "SproutUp",
+        "twitter_handle": "@sproutupapp",
+        "description": "SproutUp is an impact certificate fundraising platform for web3 charities."
+      },
+      {
+        "project_name": "EverGreenCoin",
+        "twitter_handle": "@evergreencoin_",
+        "description": "EverGreenCoin is a native blockchain PoW/PoS hybrid cryptocurrency, rewarding environmentally-conscious activities and observations with EGC."
+      },
+      {
+        "project_name": "ORGO",
+        "twitter_handle": "@orgo_earth",
+        "description": "ORGO is creating an economy for environmental and social causes, rewarding positive behaviors and eradicating greenwashing and fraud."
+      },
+      {
+        "project_name": "Earthbanc Protocol",
+        "twitter_handle": "@earthbanc",
+        "description": "Earthbanc Protocol is a blockchain-based platform for environmental and social impact projects."
+      },
+      {
+        "project_name": "Project Themistoklis",
+        "twitter_handle": "@p_themistoklis",
+        "description": "Project Themistoklis is an open source platform for decentralized climate action and finance."
+      },
+      {
+        "project_name": "Buan",
+        "twitter_handle": "@buan_fund",
+        "description": "B\u00daAN is minting digital twins of RWA on Ethereum with a focus on environmentally valuable areas of land."
+      }
+    ]
+  },
+  {
+    "bundleId": "0xd716c3a7c353f0458ff8387fb435606934e25b631a83db017e5eb9a0022358f0",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Carbon Markets",
+    "bundleDescription": "\nA collective of 13 cutting edge projects working at the forefront of the digital carbon revolutions.\n\n------------------------------------------\nAbout the Carbon Markets Bundle\n------------------------------------------\n\nCarbon markets are an important way to reduce greenhouse gas emissions and slow down climate change. These markets work by allowing people and companies to buy and sell emissions reductions. This GR16 bundle is a collection of projects that help people understand and reduce their own emissions, and make it easier for them to buy carbon credits to offset the emissions they can't reduce. This bundle includes projects innovating to raise awareness, create demand, and facilitate the supply of carbon credits, all of which are necessary for a functioning carbon market.\n\n------------------------------------------\nHow the grants funds will be used\n------------------------------------------\nThe funds raised will be divided equally between all bundle projects. Funds will be invested into increasing demand through improved scoring, increasing supply and improving guaranteed quality of supply, promoting the marketplace to ensure demand can meet supply. Ultimately, the consumer is best served through a strong marketplace when there\u2019s competition and choice. The grants funding will contribute towards that.\n\n---------------------------------------------------------------------------------------------------------\nThe funds raised in this bundle will be shared equally amongst the following 15 projects:\n---------------------------------------------------------------------------------------------------------\n\nDottyland Impact Self \ud83c\udf33 @dottyland_xyz : On-chain Impact Self. Turning climate-positive actions into functional and serviceable identities across web3 applications, starting with on-chain carbon token retirement.\n\nCarbon Flow \ud83c\udf33 @CarbonAntiTheft : An anti-theft solution for global carbon markets, a multitoken system restricting the amount of carbon tokens converted. Multi-trillion carbon market just makes no sense without anti-theft. It is a smart contract that limits the amount of theft in carbon markets. Everybody can create a carbon token. The owner of a carbon token can allow conversion into it from other carbon tokens, and set limits (absolute or per a period of time) of conversion from that other tokens. So, for example France\u2019s DAO sets the amount of Paris\u2019s carbon tokens that can be exchanged for France's token. So if Paris is found guilty, France can pause exchanges from Paris tokens and devalue their token. If Paris during some error produces a septillion of carbon tokens, they can\u2019t be exchanged for an upper level, because of the anti-theft limits. Tokens can be retired (voluntary denial of carbon production) and retired tokens are meant to be used as a means of payment. Every carbon token owner (such as a notary) can set his \u201ctax\u201d on the retirement of tokens, so notaries and DAOs compete on the free market. DAOs can also mint retired tokens to reward somebody, e.g. for climate science progress. The smart smart (not a typo) contract is developed, it remains to create a DAO around it.\n\nCoorest \ud83c\udf33 @CoorestOfficial : A decentralised application for carbon offsets utilising a 100% on-chain CO2 sequestration via satellite validated NFTrees, CO2 tokens and Proof of Carbon Compensation (PoCC) certificates. \n\nKlimaDAO Name Service \ud83c\udf33 @knsdomains_ : A domain name NFT that permanently locks up carbon credits, continuously offsets carbon credits and can be used as a social representation of climate impact. Currently integrated into KlimaDAO pledge dashboard, making it easy to access climate commitments using .klima domain names. \n\nClime Tech (Formerly Clime DAO) \ud83c\udf33 @ClimeTechInc : Climate action and resiliency tool used by cities and business for adaptation and mitigation. Carbon reduction verified, stored on chain and issued tech based carbon credits. \n\nMangrove \ud83c\udf33 @mangrovecarbon : Mangrove is building the operating system for carbon removal companies to eliminate the risk of double selling supply, improve sales processes, easily bring inventory into the refi ecosystem and ensure compliance with government and registries. \n\nERC-Cool\u2122 \ud83c\udf33 @TresCoolLabs : The ERC-Cool\u2122 is an improved implementation of the ERC721 smart contract standard that weaves real world, perpetual, carbon removal into any NFT use case that adopts it. An open source - planet cooling - super sustainable - delight. Designed to spark a removal revolution, enabling action to become the fabric of web3 and sprinkled to every corner of the internet.\n\nKUMO \ud83c\udf33 @kumo_dao : KUMO unlocks the value of natural assets by providing interest-free loans against their market value. Loans are issued in our native stablecoin, which literally locks carbon into money. KUMO turns the act of owning a dollar into a climate action.\n\nECORISE DAO \ud83c\udf33 @ECORISEDAO :  ECORISE brings liquidity to the real estate and natural capital asset market and unlocks stored value through tokenization of these assets and bringing them on-chain.  Landowners are incentivized and rewarded for regenerative and restorative actions that increase their natural capital asset value and provides new sources of revenue from ecological economics.  \n\nCarbonland:\nCarbonland Trust \ud83c\udf33 @CarbonLandTrust : a carbon credits registry offering natured based carbon removal credits from biodiverse forest land that is being enrolled into perpetual conservation. \nCarbonland DAO \ud83c\udf33 @CarbonlandDAO : a Nature Preserve Timeshare that leverages the Carbonland Trust protocol to issue and sell carbon credits from its own forestland. Carbonland DAO acquires property by selling CDAO tokens, the governance token of Carbonland DAO. Token holders can use CDAO to vote where Carbonland DAO buys property, and can spend CDAO to make reservations to visit and stay at Carbonland DAO\u2019s nature preserves.\n\ndisCarbon \ud83c\udf33 @discarbon_earth : creates transparent and verifiable emission estimation and carbon retirement and tools available as public goods within the Ethereum ecosystem. disCarbon\u2019s aims are to raise awareness about the impact our actions have on our planet and accelerate the adoption of on-chain carbon credits.\n\nChangeblock \ud83c\udf33 : investors can gain access to groundbreaking green credits that are streamlined and independently verified, allowing for the creation and listing of unique instruments on our platform. As the first to offer an end of life plastic credit in collaboration with Fusion One, we have demonstrated the ability to develop credits for any green initiative, providing investors with a unique opportunity to support and benefit from innovative sustainability efforts.\nChangeblockNFT: ChangeblockNFT helps demonstrate commitment to sustainability and social responsibility. We enable NFT companies to improve their reputation, reduce risk and attract top talent whilst making a positive impact on the environment. ChangeblockNFT has the following 3 key features: \nNFT Asset Wrapping: Enhance the value and marketability of your NFTs while supporting UN SDGs with our asset wrapping service; \nRetroactive Carbon Offsetting: Eliminate the negative emissions from your past NFT transactions with ChangeblockNFT. \nAutomated Offsetting: Ensure all future NFT transactions are offset with our automated offsetting service. Choose the green assets you want to support and make a real world impact. \n\nThe Eden Dao \ud83c\udf33 @TheEdenDao : In 2022, Eden Dao launched the DRM Syndicate, which removed 760 tons of CO2 permanently removed from the atmosphere to rise to top 25 in the world alongside Stripe, Microsoft, and Harvard. In 2023, Eden Dao Lab builds regenerative financial infrastructure, decentralized lego blocks, and public good utilities to accelerate time-to-market for ReFi startups.",
+    "projects": [
+      {
+        "project_name": "Dottyland Impact Self",
+        "twitter_handle": "@dottyland_xyz",
+        "description": "On-chain Impact Self. Turning climate-positive actions into functional and serviceable identities across web3 applications, starting with on-chain carbon token retirement."
+      },
+      {
+        "project_name": "Carbon Flow",
+        "twitter_handle": "@CarbonAntiTheft",
+        "description": "An anti-theft solution for global carbon markets, a multitoken system restricting the amount of carbon tokens converted."
+      },
+      {
+        "project_name": "Coorest",
+        "twitter_handle": "@CoorestOfficial",
+        "description": "A decentralised application for carbon offsets utilising a 100% on-chain CO2 sequestration via satellite validated NFTrees, CO2 tokens and Proof of Carbon Compensation (PoCC) certificates."
+      },
+      {
+        "project_name": "KlimaDAO Name Service",
+        "twitter_handle": "@knsdomains_",
+        "description": "A domain name NFT that permanently locks up carbon credits, continuously offsets carbon credits and can be used as a social representation of climate impact."
+      },
+      {
+        "project_name": "Clime Tech (Formerly Clime DAO)",
+        "twitter_handle": "@ClimeTechInc",
+        "description": "Climate action and resiliency tool used by cities and business for adaptation and mitigation. Carbon reduction verified, stored on chain and issued tech based carbon credits."
+      },
+      {
+        "project_name": "Mangrove",
+        "twitter_handle": "@mangrovecarbon",
+        "description": "Mangrove is building the operating system for carbon removal companies to eliminate the risk of double selling supply, improve sales processes, easily bring inventory into the refi ecosystem and ensure compliance with government and registries."
+      },
+      {
+        "project_name": "ERC-Cool\u2122",
+        "twitter_handle": "@TresCoolLabs",
+        "description": "An improved implementation of the ERC721 smart contract standard that weaves real world, perpetual, carbon removal into any NFT use case."
+      },
+      {
+        "project_name": "KUMO",
+        "twitter_handle": "@kumo_dao",
+        "description": "KUMO unlocks the value of natural assets by providing interest-free loans against their market value. Loans are issued in their native stablecoin, which literally locks carbon into money."
+      },
+      {
+        "project_name": "ECORISE DAO",
+        "twitter_handle": "@ECORISEDAO",
+        "description": "ECORISE brings liquidity to the real estate and natural capital asset market and unlocks stored value through tokenization of these assets and bringing them on-chain."
+      },
+      {
+        "project_name": "Carbonland Trust",
+        "twitter_handle": "@CarbonLandTrust",
+        "description": "A carbon credits registry offering natured based carbon removal credits from biodiverse forest land that is being enrolled into perpetual conservation."
+      },
+      {
+        "project_name": "disCarbon",
+        "twitter_handle": "@discarbon_earth",
+        "description": "Creates transparent and verifiable emission estimation and carbon retirement and tools available as public goods within the Ethereum ecosystem."
+      },
+      {
+        "project_name": "Changeblock",
+        "twitter_handle": "Changeblock_io",
+        "description": "Provides investors access to groundbreaking green credits that are streamlined and independently verified, allowing for the creation and listing of unique instruments on their platform."
+      },
+      {
+        "project_name": "The Eden Dao",
+        "twitter_handle": "@TheEdenDao",
+        "description": "Launched the DRM Syndicate in 2022, which removed 760 tons of CO2 permanently removed from the atmosphere. Building regenerative financial infrastructure, decentralized lego blocks, and public good utilities in 2023."
+      }
+    ]
+  },
+  {
+    "bundleId": "0xe8017af6c0a19b08c86e8ef94d9b3dadcbe8f55bc446d7359a6f294d68227b84",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Community Engagement - Bundle 6",
+    "bundleDescription": "\ud83d\udc9a Who are we? \ud83d\udc9a\n\nWe make change happen through community! \ud83d\udc65\ud83d\udc9a\n\nAll the projects and organisations in this bundle focus on change-making and innovation for, by and with communities.  \u2728\n\nWe are all  cutting edge projects \ud83d\udd1d building and curating communities with planet-positive impact, including web3 conferences, ecovillages, podcasts and learning journeys around regenerative economic systems, new ways of living and climate education. \ud83c\udf40\n\n\ud83c\udf0d The global impact of this group ranges from the United States, Guatemala, Brazil and various countries in Europe and Africa. We travel the world! \ud83d\uddfa\ufe0f\n\n\ud83d\udc65 All of the grantees in this round are working to remove barriers to save the planet, from addressing gaps in language access, lack of knowledge, access to Internet and climate resources and education, digital literacy or capacity to participate in climate action, or the simple ability to connect to nature. \n\n\ud83c\udf38 We are all builders who are using decentralized processes and other accessible technologies for social good. \n\n\ud83c\udf3c We all operate in the climate, health and social justice space. \ud83e\udec2\n\n\ud83d\udc49\ud83c\udffc By donating to this bundle you will have the chance to kick off the new year by supporting  global builders in our efforts to create digital public goods alongside Gitcoin. \ud83d\ude4f\ud83c\udffd\ud83e\udd8b\n \n \n\ud83d\udc9a The projects \ud83d\udc9a\n\n\ud83e\udd38\ud83c\udffd\u200d\u2640\ufe0f The Undivide Project: rebuilding, reclaiming and connecting communities to climate solutions and web3\n\n\ud83e\udd38\ud83c\udffe All for Climate DAO is building the Greenpeace of the 21st: a decentralized community of active citizens that take initiatives to transition to a more regenerative world. @allforclimatedao\n\n\ud83e\udd38\ud83c\udffe La Matrice Multiversity Campus: La Matrice Campus is a hotspot of transformative education with a focus on the transmission of regenerative practices, in a vibrant ecovillage. @MatriceCampus\n \n\ud83e\udd38\ud83c\udffe Closer an operating system for regenerative villages. We are building systems that support the governance and operations of regenerative co-living and co-housing projects. @closerearth\n\n\ud83e\udd38\ud83c\udffc\u200d\u2642\ufe0f Translators DAO: a collective of translators and interpreters who ensure communication across the world in five languages and more, for grassroots, non-profit climate justice movements. @TranslatorsDAO \n\n\ud83e\udd38\ud83c\udffe Samara Trust is a decentralized organization of facilitators who help organizations and communities attempting to regenerate our Earth (revitalizing soil, forests, waterways, capturing carbon, etc.) and regenerate our culture \n\n\ud83e\udd38\ud83c\udfff Hazel is gamifying carbon removal using a web3 game to help bring consumer spending to the carbon removal market. @hazelclimateapp\n\n\ud83e\udd38\ud83c\udffd\u200d\u2640\ufe0f Pythagoras Ecology Works uses forest waste wood taken in wildfire mitigation in decentralized manufacture of furniture and structures without use of metal fasteners. @ecologyworks\n\n\ud83e\udd38\ud83c\udffc\u200d\u2642\ufe0f Future Diaries: a dramatised speculative fiction podcast that highlights a variety of social and environmental issues! @future_diaries\n\n\ud83e\udd38\ud83c\udfff Borderless Money: @borderless_refi is the first non-custodial decentralized endowment platform, where contributors retain control over the principal, and only the income generated is distributed to initiatives. @borderless_refi \n\n\ud83e\udd38\ud83c\udffe La Matrice Multiversity Campus: La Matrice Campus is a hotspot of transformative education with a focus on the transmission of regenerative practices, in a vibrant ecovillage. @MatriceCampus\n\n\ud83e\udd38\ud83c\udfff ReConnection Tech (devices & experiences) seek to materialize this kind of world through experimentation with Music from Plants, Smart Forest Baths and more. @emergir.co\n\n\ud83e\udd38\ud83c\udffd\u200d\u2640\ufe0f Open Source Ecology: Open Source Manufacturing: An Affordable Housing Solution\n\n\ud83e\udd38\ud83c\udffc\u200d\u2642\ufe0f ReFi Bootcamp: Learn to Earn Regenerative Finance Education\n\n\ud83e\udd38\ud83c\udfff Cambiatus Complementary currencies and collaborative businesses on Blockchain. @_cambiatus\n\n\ud83e\udd38\ud83c\udfff ReconTech: technology as a mean to reconnect the humans and more-than-human pluriverse.@recon.tec\n\n",
+    "projects": [
+      {
+        "project_name": "The Undivide Project",
+        "twitter_handle": null,
+        "description": "The Undivide Project focuses on rebuilding, reclaiming and connecting communities to climate solutions and web3."
+      },
+      {
+        "project_name": "All for Climate DAO",
+        "twitter_handle": "@allforclimatedao",
+        "description": "All for Climate DAO is building the Greenpeace of the 21st: a decentralized community of active citizens that take initiatives to transition to a more regenerative world."
+      },
+      {
+        "project_name": "La Matrice Multiversity Campus",
+        "twitter_handle": "@MatriceCampus",
+        "description": "La Matrice Campus is a hotspot of transformative education with a focus on the transmission of regenerative practices, in a vibrant ecovillage."
+      },
+      {
+        "project_name": "Closer",
+        "twitter_handle": "@closerearth",
+        "description": "Closer is an operating system for regenerative villages, building systems that support the governance and operations of regenerative co-living and co-housing projects."
+      },
+      {
+        "project_name": "Translators DAO",
+        "twitter_handle": "@TranslatorsDAO",
+        "description": "Translators DAO is a collective of translators and interpreters who ensure communication across the world for grassroots, non-profit climate justice movements."
+      },
+      {
+        "project_name": "Samara Trust",
+        "twitter_handle": null,
+        "description": "Samara Trust is a decentralized organization of facilitators who help organizations and communities attempting to regenerate our Earth and culture."
+      },
+      {
+        "project_name": "Hazel",
+        "twitter_handle": "@hazelclimateapp",
+        "description": "Hazel is gamifying carbon removal using a web3 game to help bring consumer spending to the carbon removal market."
+      },
+      {
+        "project_name": "Pythagoras Ecology Works",
+        "twitter_handle": "@ecologyworks",
+        "description": "Pythagoras Ecology Works uses forest waste wood taken in wildfire mitigation in decentralized manufacture of furniture and structures without use of metal fasteners."
+      },
+      {
+        "project_name": "Future Diaries",
+        "twitter_handle": "@future_diaries",
+        "description": "Future Diaries is a dramatised speculative fiction podcast that highlights a variety of social and environmental issues."
+      },
+      {
+        "project_name": "Borderless Money",
+        "twitter_handle": "@borderless_refi",
+        "description": "Borderless Money is the first non-custodial decentralized endowment platform, where contributors retain control over the principal, and only the income generated is distributed to initiatives."
+      },
+      {
+        "project_name": "Open Source Ecology",
+        "twitter_handle": null,
+        "description": "Open Source Ecology is building systems for open source manufacturing as an affordable housing solution."
+      },
+      {
+        "project_name": "ReFi Bootcamp",
+        "twitter_handle": null,
+        "description": "ReFi Bootcamp is a learning platform to earn regenerative finance education."
+      },
+      {
+        "project_name": "Cambiatus",
+        "twitter_handle": "@_cambiatus",
+        "description": "Cambiatus is building complementary currencies and collaborative businesses on Blockchain."
+      },
+      {
+        "project_name": "ReConnection Tech",
+        "twitter_handle": null,
+        "description": "Reconnection Tech is using technology as a mean to reconnect the humans and more-than-human pluriverse."
+      }
+    ]
+  },
+  {
+    "bundleId": "0xedc8c2863195c102234eb522c94568c4aabd91d4eb2df52d2c4dc9f953e01295",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Emerging Economies and Indigenous Communities",
+    "bundleDescription": "This bundle unites 12 exciting projects working either in Emerging Economies or with Indigenous Communities around the world. \n \nHumanity must choose to either embrace economic transformation or continue down the path of destruction, desecration and resource theft via war, infringement and oppression. We see many people, worldwide, standing up to denounce the latter. The mission of these projects is to steward and lay the foundation for emerging economies and indigenous communities that are built on the principles of abundance, knowledge sharing, trust and an intimate connection to our fellow human beings, nature and ourselves.  \nThe initiatives represented by this bundle include work in First Nation and Native American Communities, LatinoAmerica, Uganda, Nigeria, Kenya, and India with disparate aims but a common mission to demonstrate and expand the role of Free Open Source Software in public goods funding. With your help we will be able to continue our work in climate action, clean energy sovereignty, indigenous justice, the global water crisis, postCapitalist education, regenerative agriculture, mangrove restoration, SolarPunk IoT, and advocacy of both people and Earth\u2019s rights.\nGitcoin offers a means for each of us to reclaim agency over the economic system that we rely on. Let us be empowered and demonstrate the potential of quadratic funding to allocate, prioritize & support transformative change.\nTogether we can empower communities through sustainable, scalable agriculture, climate action, clean energy sovereignty, equitable access, resiliency, advocacy and local environmental achievements. \nIf you would like to know more about the individual projects that have gathered in this bundle, check below!\n\n\ud83c\udf1e KhalonBridge, @KhalonBridge: Nigeria is at the leading edge of the web3 ecosystem but suffers from a notoriously collapsing electrical grid that impedes developer talent from keeping up with the digital economy without having to buy pollutive generators. Khalon Bridge is a development studio collective of over 40+ web3 operators and continues to provide residential solar to emerging talent in the region to advance the digital economy in Africa.\n\n\ud83d\udce1 ReconTech, @emergir.co: Imagine a world in which our technological devices help us to interact more intimately with the more-than-human world, expanding our consciousness by cultivating new cognitive and sensory perceptions. ReConnection Tech (devices & experiences) seek to materialize this kind of world through experimentation with Music from Plants, Smart Forest Baths and more.\n\n\ud83c\udf3b Urb\u00e1nika, @0xUrbanika / @urbanika.lens: An immersive activism school that turns passive citizens into active city shapers capable of using web 3.0 tech, peer governance, and commoning to facilitate transitioning into regenerative ways of living.\n\n\ud83e\uddd1\ud83c\udffe\u200d\ud83e\udd1d\u200d\ud83e\uddd1\ud83c\udffb Vlinder: \"Papariko\" - Restoration of degraded mangrove areas in Kenya, @vlinderclimate: Verra-certified mangrove restoration project to provide a variety of ecosystem services, climate change mitigation, economic considerations, and active participation of the local community in coastal areas of Kenya.\n\n\u2615 Coffee Impact Collective, @Coffeeimpactco: The project supports coffee farmers in their transition to regenerative agriculture by providing agronomic guidance and rewarding them for implementation of new practices. Coffee Impact Collective creates an ecosystem that provides multiple services and opportunities for farmers, allowing them to become a part of a decentralized marketplace where \u201cregenerated\u201d coffee is traded along with eco credits (like carbon, biodiversity, water quality, social impact and eco tourism), not separately. First pilots are starting with farmers and cooperatives in Colombia.\n\n\ud83c\udff5\ufe0f Kangra Gardens, @Kangra_Gardens: The Kangra Gardens are a place for people to express gratitude and give back to the earth by respecting and learning from it. The purpose of the Kangra Botanical Garden, which is a part of Kula, is to regenerate the local ecosystem, promote biodiversity conservation, support community health, build towards food sovereignty and nutrition, and engage people in connecting with the environment. The garden uses Ayurvedic medicine production and syntropic farming to achieve these goals facilitated through a Bioregional Learning Center. The grant for Kangra Gardens aims to fund new as well as current contributors and the development of the gardens themselves to share with the global community.\n\n\ud83d\udc18 Elephant in the Room: @ClimateRace : Strategic Climate Solutions Campaigns. We work with Indigenous organizations, voting organizations, neighborhoods, cities and activists to promote climate action to communities around the world and to counter the vast array of fossil fuel advertising and disinformation. Over the past year Elephant Room has also been creating strategic communications that are focused on the web3 community.\n\n\ud83d\udee2\ufe0f Beyond Fossil Fuels: @BFF_campaign : Indigenous Legal Fund for Climate Action. Presently supporting 2 major projects - 1) Tsleil-Waututh Nation Sacred Trust\u2019s opposition to the TMX pipeline and 2) We Stand Together : a legal climate case that is aimed at ensuring systemic climate planning and remedies for legally binding, science-based climate recovery policies. First Nations have standing under the ratified UNDRIP (United Nations Declaration on the Rights of Indigenous Peoples) Act in Canada and can invoke their unceded rights in legal proceedings to effectively defend and protect the environment.\n\n\ud83d\udc68\ud83c\udffe\u200d\ud83c\udf3e Project regr\u00f2 : @projectregro Under the increasing climate emergency pressure, the regr\u00f2 project aims to connect land owners, farmers and growers, interested in sharing resources to build resilient agro-ecologic systems through Regenerative and Conservation Agriculture, Permaculture and non-invasive practices.\n\n\ud83c\udf33 Ayowecca: Wetlands and peatland ecosystem restoration has been our focus. Together with the local community, we are restoring encroached wetlands and protecting those that already exist. Our strategy involves agroforestry and afforestation. We are promoting agroforestry, by giving farmers fruit trees. Climate change adaptation and mitigation are our primary goals in promoting agroforestry. The effects of climate change on agricultural communities can be lessened by planting trees in agricultural systems. Growing the amount of trees on agricultural land decreases tree cutting and boosts carbon sinks.\n\n\ud83e\udd8b Cambiatus: @_cambiatus -  social currencies to foster planetary regeneration. Working with the Paiter Surui indigenous community to create the Paiter Coin and onboard their members into the web3 space.\n\n\ud83d\udc2cProject Toninas: @yaqupachauy Project Toninas is long term project focused on the research and conservation of the Lahille\u2019s bottlenose dolphin T. truncatus gephyreus, a subspecies of bottlenose dolphin that only occurs in Brazil, Uruguay and Argentina. They are only ~ 600 individuals left across the entire distribution (Uruguay population~ 70\ud83d\udc2c). Project Toninas is carried out by Yaqu Pacha Uruguay, a civil non-profit organization dedicated to implementing and promoting projects for the conservation and study of aquatic mammals in Uruguay and the Southwestern Atlantic Ocean. ",
+    "projects": [
+      {
+        "project_name": "KhalonBridge",
+        "twitter_handle": "@KhalonBridge",
+        "description": "A development studio collective of over 40+ web3 operators providing residential solar to emerging talent in Nigeria to advance the digital economy in Africa."
+      },
+      {
+        "project_name": "ReConnection Tech",
+        "twitter_handle": null,
+        "description": "Reconnection Tech is using technology as a mean to reconnect the humans and more-than-human pluriverse."
+      },
+      {
+        "project_name": "Urb\u00e1nika",
+        "twitter_handle": "@0xUrbanika",
+        "description": "An immersive activism school that turns passive citizens into active city shapers capable of using web 3.0 tech, peer governance, and commoning."
+      },
+      {
+        "project_name": "Vlinder",
+        "twitter_handle": "@vlinderclimate",
+        "description": "Verra-certified mangrove restoration project to provide a variety of ecosystem services, climate change mitigation, and active participation of the local community in coastal areas of Kenya."
+      },
+      {
+        "project_name": "Coffee Impact Collective",
+        "twitter_handle": "@Coffeeimpactco",
+        "description": "Supports coffee farmers in their transition to regenerative agriculture by providing agronomic guidance and rewarding them for implementation of new practices."
+      },
+      {
+        "project_name": "Kangra Gardens",
+        "twitter_handle": "@Kangra_Gardens",
+        "description": "A place for people to express gratitude and give back to the earth by respecting and learning from it and using Ayurvedic medicine production and syntropic farming."
+      },
+      {
+        "project_name": "Elephant in the Room",
+        "twitter_handle": "@ClimateRace",
+        "description": "Works with Indigenous organizations, voting organizations, neighborhoods, cities and activists to promote climate action and counter fossil fuel advertising and disinformation."
+      },
+      {
+        "project_name": "Beyond Fossil Fuels",
+        "twitter_handle": "@BFF_campaign",
+        "description": "Indigenous Legal Fund for Climate Action supporting projects to oppose the TMX pipeline and ensure systemic climate planning and remedies for legally binding, science-based climate recovery policies."
+      },
+      {
+        "project_name": "Project regr\u00f2",
+        "twitter_handle": "@projectregro",
+        "description": "Connects land owners, farmers and growers to build resilient agro-ecologic systems through Regenerative and Conservation Agriculture, Permaculture and non-invasive practices."
+      },
+      {
+        "project_name": "Ayowecca",
+        "twitter_handle": "@ayowecca",
+        "description": "Restoring encroached wetlands and protecting those that already exist through agroforestry and afforestation, promoting climate change adaptation and mitigation."
+      },
+      {
+        "project_name": "Cambiatus",
+        "twitter_handle": "@_cambiatus",
+        "description": "Creating social currencies to foster planetary regeneration, working with the Paiter Surui indigenous community to create the Paiter Coin."
+      },
+      {
+        "project_name": "Project Toninas",
+        "twitter_handle": "@yaqupachauy",
+        "description": "Focused on the research and conservation of the Lahille\u2019s bottlenose dolphin, providing multiple services and opportunities for farmers in Brazil, Uruguay and Argentina."
+      }
+    ]
+  },
+  {
+    "bundleId": "0xf39a20c932f2445f48214e8726d305bac89d54b3c99940d601a168e2b8745014",
+    "roundId": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
+    "bundleName": "Bundle: Creative Works",
+    "bundleDescription": "\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\nAre you looking for a way to contribute to a positive impact on the world through creative works? Bundle: Creative Works is the place to look!\nWe are believers in regeneration through art and unapologetic creativity. We are the solarpunk artists, changemakers, shapeshifters and out-of-the-box creators from all around the world.\nThis group of innovative projects is using their creativity and expertise to address important environmental and social issues. From using art sales to fund social causes to immersive activism schools these projects are making tangible impacts IRL and on web 3.0.\nThat's not all. There are also grants DAOs supporting and funding diverse and creative projects with the potential to make a positive impact and collectives of artists raising awareness about the climate emergency within the group. Creating digital artworks about climate change, producing eco-conscious handmade hemp goods or high-impact filmmaking for climate awareness are also among what amazing projects of this bundle are doing.\nJoin the movement for a better world with the Creative Works Bundle!\n11 creative projects related to art, film, games, solarpunk for Climate Action\u2026\n----------------------------------------------------------------\n\ud83c\udf31 Future Quest\nA web3 ecosystem committed to fixing our future. Part game, part launch pad for public good Quests for our planet.\n@FutureQuestDAO\n----------------------------------------------------------------\n\ud83c\udf31 ColtonArt\n100% of my art sales fund social causes. $154,389 have gone directly to support the Gitcoin Matching Pool by selling over 200 individual artworks over the past year. This grant helps cover my living expenses so I can continue creating solarpunk art that funds our shared needs and hopefully inspires more artists to join the regen movement \u2600\ufe0f\ud83c\udf34\n@mettahead\n----------------------------------------------------------------\n\ud83c\udf31 Urbanika\nImmersive activism school that uses AI and XR to teach about the intersection of web 3.0 and urban governance. We aim to turn passive citizens into active city shapers. Our first course is being co-created with David Bollier and targeted to policy-makers, urban activists, and social entrepreneurs. Enter to urbanika.my.canva.site/ to immerse yourself into the micro-learning videos that come with virtual and IRL\n@0xUrbanika - @urbanika.lens - urbanika.my.canva.site/\n----------------------------------------------------------------\n\ud83c\udf31 Decentralized Desires Studio-Lab (Former: \u201cDynamic Energy Budget\u201d)\nWe are an Art-Science Studio-Lab for DeSci ecosystems - hosted at Omega/TEC. We use art as an inquiry (Practice Based Research in the Arts scientific methodologies) to engage interdisciplinary teams on climate related avenues of research. We develop prototypes and artistic creations to make alternative futures tangible for all.\n@BudgetDynamic - @JeanneBloch - decentralized-desires.com\n----------------------------------------------------------------\n\ud83c\udf31 Climate Change Countdown\nFrom 01/19/2022 and for 10 years, the project regularly creates and posts digital artworks about Climate Change, exploring a variety of forms of visual and non visual arts. The artworks are published on the artists social media channels. The core of the project are periodic expeditions on the field to document causes and effects of Climate Change and positive examples of sustainability and activism. All the artworks are available for free to any nonprofit climate project.\n@Marcobear_eth\n----------------------------------------------------------------\n\ud83c\udf31 Vanara\nVanara is an ecological arts & crafts collective working with hemp not only to produce slow-fashion goods, but also to regenerate the ecosystem as a whole with the strongest fiber in the world. We support economically disadvantaged artisan women and young digital artists by creating and producing with freedom both in the metaverse and in the physical world. Processing hemp to make yarn with authentic methods and techniques is our primary production line. We are preparing to launch an NFT collection of digital art pieces of Hemp as utilities for our workshops, IRL products and community events.\n@Vanara_Co\n----------------------------------------------------------------\n\ud83c\udf31 Ranna\nRanna is an open network of filmmakers dedicating their tools and skills to creating quality content for the environmental and climate justice movements. We create high impact films that provide activist-led, top-tier coverage to climate action initiatives. We are sharing and amplifying the voices of those working for a better collective present and future. In doing so we aim to inspire, engage and mobilize more people to join the fight for a just, livable Earth.\n@rannamedia - ranna.pt\n----------------------------------------------------------------\n\ud83c\udf31 nfDAO\nnfDAO is a grants DAO with a mission is to discover, support and fund diverse and creative projects we believe can make a positive impact. We award micro-grants to promising early stage projects and guide them on their first steps towards success.\n@dao_nf - nfdao.io\n----------------------------------------------------------------\n\ud83c\udf31 Artists for Climate\nUsing art to raise awareness on the climate emergency! Artists For Climate is a collective of humans who use art as a tool to generate an emotional impact on citizens and motivate them to take action in solving the climate emergency we have created. We work together and share knowledge, resources, techniques, inspiration, and much more. The group is managed and coordinated by artists and for artists.\n@all4climatedao - allforclimate.earth\n----------------------------------------------------------------\n\ud83c\udf31 Solarpunk Art DAO:\nWe are a collective of Solarpunks helping create and fund more Solarpunk art to reimagine a regenerative future where humans, nature, and technology live in harmony. Solarpunk comes in many flavors, and it varies based on the needs of every community. We intend to empower local artists to design their local Solarpunk reality by helping them with funding for local IRL exhibitions.\n@all4climatedao - allforclimate.earth\n----------------------------------------------------------------\n\ud83c\udf31 W3ST: Solarpunk meta-nation\nAn impact network of regenerative projects (nodes) united under the symbolic entity of a globally distributed country to transition to new models of political, social and economic innovation through the will and direct action of its citizens. We are working through 3 ACTION STREAMS: NODES (territories and positive impact initiatives) + ACTIVISM (direct actions and artistic interventions) + FUNDRAISING (help like-minded entities and collectives)\n@w3stdao\n----------------------------------------------------------------\n\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\ud83c\udf31\n",
+    "projects": [
+      {
+        "project_name": "Future Quest",
+        "twitter_handle": "@FutureQuestDAO",
+        "description": "A web3 ecosystem committed to fixing our future. Part game, part launch pad for public good Quests for our planet."
+      },
+      {
+        "project_name": "ColtonArt",
+        "twitter_handle": "@mettahead",
+        "description": "Funds social causes through art sales. $154,389 have been donated to the Gitcoin Matching Pool in the past year."
+      },
+      {
+        "project_name": "Urbanika",
+        "twitter_handle": "@0xUrbanika, @urbanika.lens",
+        "description": "Immersive activism school that uses AI and XR to teach about the intersection of web 3.0 and urban governance."
+      },
+      {
+        "project_name": "Decentralized Desires Studio-Lab",
+        "twitter_handle": "@BudgetDynamic, @JeanneBloch",
+        "description": "Uses art as an inquiry to engage interdisciplinary teams on climate related avenues of research."
+      },
+      {
+        "project_name": "Climate Change Countdown",
+        "twitter_handle": "@Marcobear_eth",
+        "description": "Regularly creates and posts digital artworks about Climate Change, exploring a variety of forms of visual and non visual arts."
+      },
+      {
+        "project_name": "Vanara",
+        "twitter_handle": "@Vanara_Co",
+        "description": "Ecological arts & crafts collective working with hemp to produce slow-fashion goods and regenerate the ecosystem."
+      },
+      {
+        "project_name": "Ranna",
+        "twitter_handle": "@rannamedia",
+        "description": "Open network of filmmakers creating high impact films to provide activist-led coverage to climate action initiatives."
+      },
+      {
+        "project_name": "nfDAO",
+        "twitter_handle": "@dao_nf",
+        "description": "Grants DAO to discover, support and fund diverse and creative projects with potential to make a positive impact."
+      },
+      {
+        "project_name": "Artists for Climate",
+        "twitter_handle": "@all4climatedao",
+        "description": "Collective of humans using art to generate an emotional impact on citizens and motivate them to take action in solving the climate emergency."
+      },
+      {
+        "project_name": "Solarpunk Art DAO",
+        "twitter_handle": "@all4climatedao",
+        "description": "Collective of Solarpunks helping create and fund more Solarpunk art to reimagine a regenerative future."
+      },
+      {
+        "project_name": "W3ST: Solarpunk meta-nation",
+        "twitter_handle": "@w3stdao",
+        "description": "Impact network of regenerative projects united under the symbolic entity of a globally distributed country to transition to new models of innovation."
+      }
+    ]
+  }
+]
