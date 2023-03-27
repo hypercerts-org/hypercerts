@@ -9,26 +9,29 @@ from utils import create_project_filename
 
 
 load_dotenv()
-CUTTLY_API      = os.environ['CUTTLY_API']
+CUTTLY_API        = os.environ['CUTTLY_API']
 
-CONFIG          = json.load(open("config/config.json"))
-SETTINGS        = json.load(open("config/gitcoin-settings.json"))
-JSONDATA_PATH   = CONFIG["localPaths"]["canonicalDataset"]
-PROJECTS_DB     = sorted(json.load(open(JSONDATA_PATH)), key=lambda d: d['roundName'])
+CONFIG            = json.load(open("config/config.json"))
+SETTINGS          = json.load(open("config/gitcoin-settings.json"))
+JSONDATA_PATH     = CONFIG["localPaths"]["canonicalDataset"]
+PROJECTS_DB       = sorted(json.load(open(JSONDATA_PATH)), key=lambda d: d['roundName'])
 
-EXPORTS_DIR     = CONFIG["localPaths"]["exportsDirectory"]
-LOGO_IMG_BASE   = SETTINGS["resources"]["hostedCidBaseUrl"]
-BACKUP_LOGO_CID = SETTINGS["defaultArt"]["icon"]
-FLAGS           = SETTINGS["flags"]
-ALLOWLISTS_BASE = CONFIG["allowlistBaseUrl"]
-BANNER_IMG_BASE = CONFIG["bannerImageBaseUrl"]
-DAPP_BASE_URL   = CONFIG["hypercertCreateUrl"]
-ERC1155_PROPS   = SETTINGS["properties"]
+EXPORTS_DIR       = CONFIG["localPaths"]["exportsDirectory"]
+LOGO_IMG_BASE     = SETTINGS["resources"]["hostedCidBaseUrl"]
+BACKUP_LOGO_CID   = SETTINGS["defaultArt"]["icon"]
+BACKUP_BANNER_CID = SETTINGS["defaultArt"]["banner"]
+FLAGS             = SETTINGS["flags"]
+ALLOWLISTS_BASE   = CONFIG["allowlistBaseUrl"]
+BANNER_IMG_BASE   = CONFIG["bannerImageBaseUrl"]
+DAPP_BASE_URL     = CONFIG["hypercertCreateUrl"]
+ERC1155_PROPS     = SETTINGS["properties"]
 
-ROUNDS          = json.load(open("config/rounds-list.json"))
-ROUND_MAPPINGS  = {r["roundId"]: r for r in ROUNDS}
+ROUNDS            = json.load(open("config/rounds-list.json"))
+ROUND_MAPPINGS    = {r["roundId"]: r for r in ROUNDS}
 
-MAXLEN_DESCR    = 500
+BUNDLES_DATA      = json.load(open(CONFIG["localPaths"]["bundleProjectsDataset"]))
+
+MAXLEN_DESCR      = 500
 
 
 def url_parse(val):
@@ -73,10 +76,6 @@ def create_url(project, short_url=False):
     round_id = project['roundId']
     round_data = ROUND_MAPPINGS[round_id]
     properties = ERC1155_PROPS.copy()
-    {
-      "trait_type": "Funding Round",
-      "value": "Alpha Round"
-    }
     properties.append({'trait_type': 'Matching Pool', 'value': project['roundName']})
     params = dict(
         name = name,
@@ -97,6 +96,36 @@ def create_url(project, short_url=False):
         url = shorten_url(url)
 
     return url
+
+
+def create_bundle_project_url(project, short_url=False):
+    
+    name = project['title']
+    filename = create_project_filename(name)
+    logo_cid = BACKUP_LOGO_CID
+    round_id = project['roundId']
+    round_data = ROUND_MAPPINGS[round_id]
+    properties = ERC1155_PROPS.copy()
+    properties.append({'trait_type': 'Matching Pool', 'value': 'Climate Solutions (Bundles)'})
+    params = dict(
+        name = name,
+        **project['hypercertData'],
+        description = edit_description(project['projectDescription']),
+        externalLink = project["projectWebsite"],
+        logoUrl = LOGO_IMG_BASE + BACKUP_LOGO_CID,
+        bannerUrl = LOGO_IMG_BASE + BACKUP_BANNER_CID,
+        allowlistUrl = "".join([ALLOWLISTS_BASE, filename, ".csv"]),
+        metadataProperties = json.dumps(properties),
+        backgroundColor = round_data['backgroundColor'],
+        backgroundVectorArt = round_data['backgroundVectorArt'],
+    )
+    params = "&".join([safe_url_attr(k,v) for (k,v) in params.items()])
+    url = DAPP_BASE_URL + params
+    
+    if short_url:
+        url = shorten_url(url)
+
+    return url    
 
 
 def create_markdown_row(project):
@@ -185,7 +214,31 @@ def create_csv_export():
             p['flags'] = add_csv_flags(p, project)
             writer.writerow([p[c] for c in cols])
 
-    f.close()           
+    f.close()        
+
+
+def create_bundle_csv_export():
+
+    csv_filename = EXPORTS_DIR + "bundle_project_urls.csv"
+
+    with open(csv_filename, 'w') as f:
+
+        writer = csv.writer(f)
+        cols = ['title', 'bundles', 'twitter', 'mintingUrl']
+        writer.writerow(cols)
+
+        for project in BUNDLES_DATA:
+            p = project.copy()
+            p['mintingUrl'] = create_bundle_project_url(project)
+            url = p['projectWebsite']
+            if "twitter" in url:
+                p['twitter'] = url
+            else:
+                p['twitter'] = ""
+            p['bundles'] = p['hypercertData']['workScopes']
+            writer.writerow([p[c] for c in cols])
+
+    f.close()        
 
 
 def create_html_export():
@@ -228,28 +281,28 @@ def create_html_export():
 
     for project in PROJECTS_DB:
             
-            grantName = project['title']
-            filename = create_project_filename(grantName)
-            grantPage = project['projectWebsite']            
-            logo_cid = project["projectLogoCid"] if project["projectLogoCid"] else BACKUP_LOGO_CID
-            logo = LOGO_IMG_BASE + logo_cid
-            banner = "".join([BANNER_IMG_BASE, filename, ".png"])
-            url = create_url(project, short_url=False)
-            
-            address = project['address']
-            row = "\n".join([
-                "<tr>",
-                td(project['roundName']),
-                td(f'<a href="{grantPage}">{grantName}</a>'),
-                td(f'<img src="{logo}" width="40" height="40"'),
-                td(f'<img src="{banner}" style="width: 320px; height: 214px; object-fit: cover; object-position: 100% 0;">'),
-                td(f'<a href="{url}">Hypercert URL</a>'),
-                td(project['fractionsTotalSupply']),
-                td(f'<a href="https://etherscan.io/address/{address}">{address[:5]}...{address[-3:]}</a>'),
-                td(project['addressType']),
-                "</tr>"
-            ])
-            body.append(row)
+        grantName = project['title']
+        filename = create_project_filename(grantName)
+        grantPage = project['projectWebsite']            
+        logo_cid = project["projectLogoCid"] if project["projectLogoCid"] else BACKUP_LOGO_CID
+        logo = LOGO_IMG_BASE + logo_cid
+        banner = "".join([BANNER_IMG_BASE, filename, ".png"])
+        url = create_url(project, short_url=False)
+        
+        address = project['address']
+        row = "\n".join([
+            "<tr>",
+            td(project['roundName']),
+            td(f'<a href="{grantPage}">{grantName}</a>'),
+            td(f'<img src="{logo}" width="40" height="40"'),
+            td(f'<img src="{banner}" style="width: 320px; height: 214px; object-fit: cover; object-position: 100% 0;">'),
+            td(f'<a href="{url}">Hypercert URL</a>'),
+            td(project['fractionsTotalSupply']),
+            td(f'<a href="https://etherscan.io/address/{address}">{address[:5]}...{address[-3:]}</a>'),
+            td(project['addressType']),
+            "</tr>"
+        ])
+        body.append(row)
     
     html = header + "\n".join(body) + footer
     html_filename = EXPORTS_DIR + "project_urls.html"
@@ -259,6 +312,7 @@ def create_html_export():
 
     
 if __name__ == "__main__":
-    create_markdown_export()
-    create_csv_export()
-    create_html_export()
+    #create_markdown_export()
+    #create_csv_export()
+    #create_html_export()
+    create_bundle_csv_export()

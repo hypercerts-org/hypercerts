@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "hypercertCreateUrl": "https://hypercerts.pages.dev/app/create?",
+  "hypercertCreateUrl": "https://hypercerts.org/app/create?",
   "allowlistBaseUrl": "https://bafybeiatu732zyuvc5lyeuq5ncwsqolax7ue4mrsj32xfrpd3twowakj2u.ipfs.w3s.link/allowlists/",
   "bannerImageBaseUrl": "https://bafybeifrnuuehyhnky3zwgwkxwjmpuzkmewj3hfvfzmyqjnycfevfom6tq.ipfs.w3s.link/images/",
   "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
@@ -27,6 +27,7 @@
     "payoutExports": "data/csv/Donors_MatchingPoools.csv",
     "multisigMapping": "config/multisig-mapping.json",
     "multisigTransactionExport": "data/csv/MultisigDonations.csv",
-    "bundleDataset": "data/climate-bundle-data.json"
+    "bundleDataset": "data/climate-bundle-data.json",
+    "bundleProjectsDataset": "data/climate-bundle-project-data.json"
   }
 }
