@@ -205,7 +205,7 @@ def create_csv_export():
                 'projectWebsite', 'projectTwitter', 'projectGithub', 'userGithub']
         writer.writerow(cols)
 
-        for project in PROJECTS_DB:
+        for project in PROJECTS_DB:            
             p = project.copy()
             p['mintingUrl'] = create_url(project)
             p['address'] = "https://etherscan.io/address/" + project['address']
@@ -213,7 +213,8 @@ def create_csv_export():
             p['flagDescription'] = (len(p['projectDescription']) != len(edit_description(p['projectDescription'])))
             p['workscope'] = p['hypercertData']['workScopes']
             p['flags'] = add_csv_flags(p, project)
-            writer.writerow([p[c] for c in cols])
+            if "bundle" not in p["title"].lower():
+                writer.writerow([p[c] for c in cols])
 
     f.close()        
 
