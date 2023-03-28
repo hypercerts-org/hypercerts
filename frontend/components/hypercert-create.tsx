@@ -9,7 +9,6 @@ import qs from "qs";
 import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
 import { useMintClaim } from "../hooks/mintClaim";
-import DappContext from "./dapp-context";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
@@ -284,15 +283,6 @@ export interface HypercertCreateFormProps {
 }
 
 export function HypercertCreateForm(props: HypercertCreateFormProps) {
-  // TODO: Wrapped in manually, should be a better way to do this?
-  return (
-    <DappContext>
-      <HypercertCreateFormInner {...props} />
-    </DappContext>
-  );
-}
-
-export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
   const { className, children } = props;
   const { address } = useAccountLowerCase();
   const { push } = useRouter();
@@ -305,7 +295,9 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
   // Load the querystring into React state only once on initial page load
   React.useEffect(() => {
     if (!initialQuery) {
-      setInitialQuery(window.location.search.replace("?", ""));
+      window.location.hash.startsWith("#")
+        ? setInitialQuery(window.location.hash.slice(1))
+        : setInitialQuery(window.location.hash);
     }
   }, [initialQuery]);
 
@@ -327,13 +319,13 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
       <Formik
         validationSchema={ValidationSchema}
         validateOnMount={true}
-        validate={(values) => {
-          //console.log(values);
+        validate={(_values) => {
+          // console.log(values);
           if (typeof initialQuery !== "undefined") {
             // The useEffect has run already, so it's safe to just update the query string directly
-            const querystring = formDataToQueryString(values);
-            const path = `${window.location.pathname}?${querystring}`;
-            window.history.pushState(null, "", path);
+            //const querystring = formDataToQueryString(values);
+            //const path = `${window.location.pathname}#${querystring}`;
+            //window.history.pushState(null, "", path);
           }
         }}
         initialValues={{
@@ -384,6 +376,9 @@ export function HypercertCreateFormInner(props: HypercertCreateFormProps) {
             name={FORM_SELECTOR}
             data={{
               ...formikProps.values,
+              shareUrl: `${window.location.pathname}#${formDataToQueryString(
+                formikProps.values,
+              )}`,
               isSubmitting: formikProps.isSubmitting,
             }}
           >
