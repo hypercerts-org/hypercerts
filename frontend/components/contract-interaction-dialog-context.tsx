@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContentText,
+  LinearProgress,
   Step,
   StepLabel,
   Stepper,
@@ -78,6 +79,7 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
             {Object.keys(stepDescriptions).map((key) => (
               <Step key={key} classes={{}}>
                 <StepLabel>{stepDescriptions[key]}</StepLabel>
+                {step === key && <LinearProgress />}
               </Step>
             ))}
           </Stepper>
