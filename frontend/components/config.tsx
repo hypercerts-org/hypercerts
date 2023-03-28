@@ -1,10 +1,17 @@
 import React from "react";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { GRAPH_URL, SUPABASE_TABLE } from "../lib/config";
+import {
+  DOMAIN,
+  DEFAULT_CHAIN_ID,
+  GRAPH_URL,
+  SUPABASE_TABLE,
+} from "../lib/config";
 
 const PLASMIC_DATA_KEY = "Config";
 
 interface ConfigData {
+  domain: string;
+  chainId: string;
   graphUrl: string;
   supabaseTable: string;
 }
@@ -17,6 +24,8 @@ export interface ConfigProps {
 export function Config(props: ConfigProps) {
   const { className, children } = props;
   const data: ConfigData = {
+    domain: DOMAIN,
+    chainId: DEFAULT_CHAIN_ID,
     graphUrl: GRAPH_URL,
     supabaseTable: SUPABASE_TABLE,
   };

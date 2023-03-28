@@ -5,6 +5,15 @@ export const requireEnv = (value: string | undefined, identifier: string) => {
   return value;
 };
 
+export const DOMAIN = requireEnv(
+  process.env.NEXT_PUBLIC_DOMAIN,
+  "NEXT_PUBLIC_DOMAIN",
+);
+
+export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
+export const PLASMIC_PROJECT_API_TOKEN =
+  process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
+
 export const DEFAULT_CHAIN_ID = requireEnv(
   process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
   "NEXT_PUBLIC_DEFAULT_CHAIN_ID",
@@ -49,7 +58,3 @@ export const SUPABASE_TABLE = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_TABLE,
   "NEXT_PUBLIC_SUPABASE_TABLE",
 );
-
-export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
-export const PLASMIC_PROJECT_API_TOKEN =
-  process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
