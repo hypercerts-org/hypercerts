@@ -5,7 +5,11 @@
     "backgroundColor": "green",
     "backgroundVectorArt": "circles",
     "matchPoolSize": 333333.33,
-    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAB": 0.5 }]
+    "matchPoolDonors": [
+      { "0xE25C73435702fED11E9C5584cE6EFE7CbFf71739": 0.8 },
+      { "0xB2b6B480c1c4891278CE2BF627F0C750c21e0908": 0.1 },
+      { "0xC5BFCe27e0e7A7d7731bC23B92eBC62B9Ed63B83": 0.1 }
+    ]
   },
   {
     "roundId": "0xd95a1969c41112cee9a2c931e849bcef36a16f4c",
@@ -13,7 +17,7 @@
     "backgroundColor": "blue",
     "backgroundVectorArt": "contours",
     "matchPoolSize": 333333.33,
-    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAC": 0.5 }]
+    "matchPoolDonors": [{ "0xC5BFCe27e0e7A7d7731bC23B92eBC62B9Ed63B83": 1.0 }]
   },
   {
     "roundId": "0xe575282b376e3c9886779a841a2510f1dd8c2ce4",
@@ -21,6 +25,6 @@
     "backgroundColor": "purple",
     "backgroundVectorArt": "octagonals",
     "matchPoolSize": 333333.33,
-    "matchPoolDonors": [{ "0xAAA": 0.5 }, { "0xAAD": 0.5 }]
+    "matchPoolDonors": [{ "0xC5BFCe27e0e7A7d7731bC23B92eBC62B9Ed63B83": 1.0 }]
   }
 ]
