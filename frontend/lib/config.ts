@@ -14,9 +14,11 @@ export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
 export const PLASMIC_PROJECT_API_TOKEN =
   process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
 
-export const DEFAULT_CHAIN_ID = requireEnv(
-  process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
-  "NEXT_PUBLIC_DEFAULT_CHAIN_ID",
+export const DEFAULT_CHAIN_ID = parseInt(
+  requireEnv(
+    process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
+    "NEXT_PUBLIC_DEFAULT_CHAIN_ID",
+  ),
 );
 
 export const CONTRACT_ADDRESS = requireEnv(
