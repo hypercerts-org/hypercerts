@@ -308,11 +308,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
 
   const onComplete = async () => {
     hideModal();
-    push("/app/dashboard");
     confetti &&
       (await confetti.addConfetti({
         emojis: ["🌈", "⚡️", "💥", "✨", "💫", "🌸"],
       }));
+    push("/app/dashboard");
   };
 
   const { write: mintClaim } = useMintClaim({
