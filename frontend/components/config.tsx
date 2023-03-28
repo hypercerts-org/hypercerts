@@ -11,7 +11,7 @@ const PLASMIC_DATA_KEY = "Config";
 
 interface ConfigData {
   domain: string;
-  chainId: string;
+  chainId: number;
   graphUrl: string;
   supabaseTable: string;
 }

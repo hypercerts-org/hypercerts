@@ -8,10 +8,12 @@ import { toast } from "react-toastify";
 import qs from "qs";
 import * as Yup from "yup";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
+import { useNetwork } from "wagmi";
 import { useMintClaim } from "../hooks/mintClaim";
 import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
 import { useRouter } from "next/router";
 import { useContractModal } from "./contract-interaction-dialog-context";
+import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { parseListFromString } from "../lib/parsing";
 import { useAccountLowerCase } from "../hooks/account";
 import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
@@ -285,6 +287,7 @@ export interface HypercertCreateFormProps {
 export function HypercertCreateForm(props: HypercertCreateFormProps) {
   const { className, children } = props;
   const { address } = useAccountLowerCase();
+  const { chain } = useNetwork();
   const { push } = useRouter();
   const { hideModal } = useContractModal();
 
@@ -337,6 +340,14 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
           if (!address) {
             console.log("User not connected");
             toast("Please connect your wallet", { type: "error" });
+            return;
+          } else if (chain?.id !== DEFAULT_CHAIN_ID) {
+            console.log(
+              `On wrong network. Expect ${DEFAULT_CHAIN_ID} Saw ${chain?.id}`,
+            );
+            toast("Please connect to the correct network first.", {
+              type: "error",
+            });
             return;
           }
 

@@ -43,7 +43,7 @@ const wagmiClient = createClient({
 
 export interface DappContextData {
   myAddress?: string;
-  defaultChainId?: string;
+  defaultChainId?: number;
   chain?: Chain;
   chains?: Chain[];
   waitToClaim?: boolean;
@@ -51,7 +51,7 @@ export interface DappContextData {
 
 export const DEFAULT_TEST_DATA: DappContextData = {
   myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f".toLowerCase(),
-  defaultChainId: "5",
+  defaultChainId: 5,
   chain: goerli,
   chains: ALL_CHAINS,
   waitToClaim: false,
