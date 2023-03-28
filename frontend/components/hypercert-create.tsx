@@ -17,6 +17,7 @@ import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { parseListFromString } from "../lib/parsing";
 import { useAccountLowerCase } from "../hooks/account";
 import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
+import { useConfetti } from "./confetti";
 
 /**
  * Constants
@@ -290,6 +291,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
   const { chain } = useNetwork();
   const { push } = useRouter();
   const { hideModal } = useContractModal();
+  const confetti = useConfetti();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -304,9 +306,13 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
     }
   }, [initialQuery]);
 
-  const onComplete = () => {
+  const onComplete = async () => {
     hideModal();
     push("/app/dashboard");
+    confetti &&
+      (await confetti.addConfetti({
+        emojis: ["🌈", "⚡️", "💥", "✨", "💫", "🌸"],
+      }));
   };
 
   const { write: mintClaim } = useMintClaim({

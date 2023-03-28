@@ -36,6 +36,7 @@
     "formik-mui-x-date-pickers": "^0.0.1",
     "graphql": "^16.6.0",
     "html2canvas": "^1.4.1",
+    "js-confetti": "^0.11.0",
     "lodash": "^4.17.21",
     "next": "latest",
     "papaparse": "^5.4.1",
