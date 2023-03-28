@@ -32,6 +32,7 @@ ROUND_MAPPINGS    = {r["roundId"]: r for r in ROUNDS}
 BUNDLES_DATA      = json.load(open(CONFIG["localPaths"]["bundleProjectsDataset"]))
 
 MAXLEN_DESCR      = 500
+SHORTEN_URL       = False
 
 
 def url_parse(val):
@@ -68,7 +69,7 @@ def edit_description(text):
     return new_text
 
 
-def create_url(project, short_url=False):
+def create_url(project, short_url=SHORTEN_URL):
     
     name = project['title']
     filename = create_project_filename(name)
@@ -98,7 +99,7 @@ def create_url(project, short_url=False):
     return url
 
 
-def create_bundle_project_url(project, short_url=False):
+def create_bundle_project_url(project, short_url=SHORTEN_URL):
     
     name = project['title']
     filename = create_project_filename(name)
@@ -312,7 +313,7 @@ def create_html_export():
 
     
 if __name__ == "__main__":
-    #create_markdown_export()
-    #create_csv_export()
-    #create_html_export()
+    create_markdown_export()
+    create_csv_export()
+    create_html_export()
     create_bundle_csv_export()
