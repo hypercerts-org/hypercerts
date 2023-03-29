@@ -54,7 +54,7 @@ This field is set to the icon artwork provided for your project on Gitcoin Grant
 
 You can update this by providing a new URL and the hypercert artwork should update automatically.
 
-Banner images look best with an aspect ratio of 1.0 (square-shaped).
+Logo images look best with an aspect ratio of 1.0 (square-shaped).
 
 #### Background Banner Image
 
@@ -83,6 +83,10 @@ This field is set to the first external URL provided for your project on Gitcoin
 #### Work Scope
 
 This field is set by default to a **shortened version** of the name of your project on Gitcoin Grants. You may edit or add additional work scope tags.
+
+For most projects, it's probably best just to use a single tag that is a short form of your project's name. Given that your project may create numerous hypercerts over time, having a work scope that represents the name of your project will make your claims in the "impact hyperspace" more continuous.
+
+If you choose to use more than one tag, remember that tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction), e.g. `Planting trees` ∧ `Germany` means that the hypercert includes the planting of trees only in Germany, but not planting trees anywhere else or any other work in Germany that wasn't planting trees.
 
 #### Work Start/End Dates
 

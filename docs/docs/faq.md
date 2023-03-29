@@ -9,6 +9,14 @@ id: faq
 
 We've created a step-by-step guide in the documents, which you can find [here](minting-guide/minting-guide-start).
 
+### Who gets to claim my hypercert?
+
+There are currently two types of users who are eligible to claim your hypercert.
+
+1. You as the creator of the hypercert are eligible to claim your hypercert. For projects with an allow list, you are eligible to claim 50% of the total tokens. For projects with no allow list, you will receive 100% of the tokens automatically and can do whatever you like with them.
+
+2. Anyone on the hypercert's allow list will be eligible to claim your hypercert. The allow list is stored and the time of minting and allocates fractions of the hypercert to specific wallet addresses. These wallet addresses are then allowed to claim these fractions through a separate contract interaction. Creators often use allow lists be used to allocate fractions to previous funders and contributors.
+
 ### How do I claim a hypercert? Can I claim all of the ones I’m eligible for at once?
 
 After you connect your wallet, you will see a dashboard of hypercerts that you can claim. You can either claim them individually or in a batch transaction. Note that if you perform the batch transaction you will automatically claim _all_ hypercerts you are allow-listed for. (You still pay a gas fee for each claim, however.) If you don't want to claim _all_ at once, then you should claim them one-by-one.
@@ -29,6 +37,12 @@ There are six required fields:
 6. Rights of the owners: An unordered list of usage rights tags, which define the rights of the owners of this hypercert over the work being claimed by this hypercert.
 
 Hypercerts also need a name and description.
+
+### What should I put for my hypercert's work scope?
+
+For most projects, it's probably best just to use a single tag that is a short form of your project's name. Given that your project may create numerous hypercerts over time, having a work scope that represents the name of your project will make your claims in the "impact hyperspace" more continuous.
+
+If you choose to use more than one tag, remember that tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction), e.g. `Planting trees` ∧ `Germany` means that the hypercert includes the planting of trees only in Germany, but not planting trees anywhere else or any other work in Germany that wasn't planting trees.
 
 ### Are hypercerts the same as impact evaluations?
 
@@ -62,15 +76,11 @@ Currently, it is only possible to purchase a hypercert from a creator or project
 
 ### What chain(s) is hypercerts running on?
 
-The hypercerts smart contracts have been deployed on Goerli Testnet. Deployment on Optimism will follow shortly. We plan to support various EVM chains in the near future.
+The hypercerts smart contracts have been deployed on Optimism and Goerli Testnet. We plan to support various EVM chains in the near future.
 
 ### How do I bridge to Optimism?
 
 There are various bridging services including the official [Optimism Bridge](https://app.optimism.io/bridge/deposit). Note that bridging assets from Ethereum to Optimism will incur a gas fee.
-
-### How do I get Goerli (testnet) ETH?
-
-Alchemy has a popular [Goerli Faucet](https://goerlifaucet.com/) that provides 0.2 ETH per day to registered users.
 
 ### How much gas will it cost to create or claim a hypercert?
 
@@ -84,11 +94,11 @@ If you are creating a hypercert on Optimism, then you will need an Optimism-base
 
 Yes. The auditor's security report is available [here](https://github.com/pashov/audits/blob/master/solo/Hypercerts-security-review.md).
 
-### How is the allowlist generated?
+### How is the allow list generated?
 
-For Gitcoin projects, an allowlist is generated from a snapshot of all of the on-chain funding received by the project.
+For Gitcoin projects, an allow list is generated from a snapshot of all of the on-chain funding received by the project.
 
-The queries used to generate the allowlists can be viewed here:
+The queries used to generate the allow lists can be viewed here:
 
 - ETH Infra: https://dune.com/queries/1934656
 - Climate: https://dune.com/queries/1934689
@@ -103,7 +113,7 @@ For example:
 - $0.96 donated --> 1 fraction
 - $0.52 donated --> 0 fractions
 
-### Why am I not on the allowlist even though I contributed to the project?
+### Why am I not on the allow list even though I contributed to the project?
 
 If you contributed less than $1 DAI to a project, then you will not be eligible to claim a hypercert fraction.
 
