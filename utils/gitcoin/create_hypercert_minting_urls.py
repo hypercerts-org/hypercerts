@@ -310,10 +310,9 @@ def create_html_export():
     with open(html_filename, "w") as f:
         f.write(html)
 
-
     
 if __name__ == "__main__":
-    create_markdown_export()
+    #create_markdown_export()
     create_csv_export()
     create_html_export()
     create_bundle_csv_export()
