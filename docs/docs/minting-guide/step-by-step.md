@@ -42,17 +42,19 @@ This will be displayed next to the hypercert on webpages like OpenSea and should
 
 An icon for the top left part of the card. This could be your project logo. It will be automatically masked to the shape of a circle.
 
-Images stored on IPFS should be referenced through a hosted URL service, e.g., `https://cloudflare-ipfs.com/ipfs/<CID>`.
+Logo images look best with an aspect ratio of 1.0 (square-shaped).
+
+The easiest way is to find an image you like in your web browser, right click "Copy Image Address", and paste it in the field. Images stored on IPFS should be referenced through a hosted URL service, e.g., `https://cloudflare-ipfs.com/ipfs/<CID>`.
 
 #### Background Banner Image
 
 A background image that will extend across the upper half of the artwork. This could be your project masthead or a unique piece of art.
 
-We recommend using a picture with dimensions of at least 512 x 342 pixels.
+Banner images look best with an aspect ratio of 1.5 (e.g., 600 x 400 pixels). The dimensions should be at least 320 pixels wide and 214 pixels high to avoid stretching.
 
 Currently we don't support zoom / cropping, so you will need to test the look and feel on your own.
 
-Images stored on IPFS should be referenced through a hosted URL service, e.g., `https://cloudflare-ipfs.com/ipfs/<CID>`.
+The easiest way is to find an image you like in your web browser, right click "Copy Image Address", and paste it in the field. Images stored on IPFS should be referenced through a hosted URL service, e.g., `https://cloudflare-ipfs.com/ipfs/<CID>`.
 
 ### Work Scope fields
 
@@ -62,7 +64,7 @@ One or multiple tags describe the work that the hypercert represents. This work 
 
 Multiple tags are [logically conjunctive](https://en.wikipedia.org/wiki/Logical_conjunction), e.g. `Planting trees` ∧ `Germany` means that the hypercert includes the planting of trees only in Germany, but not planting trees anywhere else or any other work in Germany that wasn't planting trees.
 
-We recommend just a short form of the project name as a single tag. In most cases that will be sufficient.
+For most projects, it's probably best just to use a single tag that is a short form of your project's name. Given that your project may create numerous hypercerts over time, having a work scope that represents the name of your project will make your claims in the "impact hyperspace" more continuous.
 
 _Note: In the future, you will be able to specifically exclude work from the hypercert._
 
