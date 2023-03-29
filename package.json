@@ -11,7 +11,8 @@
     "defender",
     "docs",
     "frontend",
-    "graph"
+    "graph",
+    "sdk"
   ],
   "scripts": {
     "build": "turbo run build",
