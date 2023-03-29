@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { PostData } from "../types/postdata";
+import Link from "next/link";
 
 export default function Post({ title, body, id }: PostData) {
   return (

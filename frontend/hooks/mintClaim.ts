@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useContractModal } from "../components/contract-interaction-dialog-context";
+import { mintInteractionLabels } from "../content/chainInteractions";
+import { CONTRACT_ADDRESS } from "../lib/config";
+import { cidToIpfsUri } from "../lib/formatting";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
+import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { useAccountLowerCase } from "./account";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import {
   HypercertMetadata,
   HypercertMinting,
 } from "@hypercerts-org/hypercerts-sdk";
-import { useContractModal } from "../components/contract-interaction-dialog-context";
-import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { BigNumber } from "ethers";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { CONTRACT_ADDRESS } from "../lib/config";
-import { BigNumber } from "ethers";
-import { mintInteractionLabels } from "../content/chainInteractions";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
-import { toast } from "react-toastify";
-import { hypercertsStorage } from "../lib/hypercerts-storage";
-import { useAccountLowerCase } from "./account";
-import { cidToIpfsUri } from "../lib/formatting";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [cidUri, setCidUri] = useState<string>();

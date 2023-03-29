@@ -22,18 +22,21 @@ function getRemappings() {
 }
 
 function requireEnv(value: string | undefined, identifier: string) {
+  /**
   if (!value) {
     throw new Error(`Required env var ${identifier} does not exist`);
   }
+  **/
   return value;
 }
 
-const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || "./.env";
+const dotenvConfigPath: string = process.env.DOTENV_PATH ?? fs.existsSync("./.env") ? "./.env" : "./.env.example";
 dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
 const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
 const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
+const alchemyOptimismUrl = requireEnv(process.env.ALCHEMY_OPTIMISM_URL, "ALCHEMY_OPTIMISM_URL");
 const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
 const optimisticEtherscanApiKey = requireEnv(process.env.OPTIMISTIC_ETHERSCAN_API_KEY, "OPTIMISTIC_ETHERSCAN_API_KEY");
 const ozApiKey = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
@@ -104,7 +107,7 @@ const config: HardhatUserConfig = {
     "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": {
       ...getChainConfig("optimism-mainnet"),
-      url: "https://opt-mainnet.g.alchemy.com/v2/ZTQlA1-nt0ZuZwXgAKQExGHva-Q7tbTK",
+      url: alchemyOptimismUrl,
     },
   },
   paths: {

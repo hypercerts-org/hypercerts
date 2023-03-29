@@ -1,17 +1,17 @@
-import { BigNumber, BigNumberish } from "ethers";
-import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
+import { CONTRACT_ADDRESS } from "../lib/config";
+import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { useAccountLowerCase } from "./account";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import { BigNumber, BigNumberish } from "ethers";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { useEffect, useState } from "react";
-import { useContractModal } from "../components/contract-interaction-dialog-context";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
-import { CONTRACT_ADDRESS } from "../lib/config";
-import { toast } from "react-toastify";
-import { useAccountLowerCase } from "./account";
 
 export const useMintFractionAllowlist = ({
   onComplete,

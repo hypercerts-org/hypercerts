@@ -1,6 +1,6 @@
+import { CONTRACT_ADDRESS } from "../lib/config";
 import { HypercertMinterABI } from "@hypercerts-org/hypercerts-sdk";
 import { useContract, useProvider } from "wagmi";
-import { CONTRACT_ADDRESS } from "../lib/config";
 
 export const useHypercertContract = () => {
   const provider = useProvider();

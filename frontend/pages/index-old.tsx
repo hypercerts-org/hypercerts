@@ -1,8 +1,8 @@
-import Head from "next/head";
-import { GetStaticProps, NextPage } from "next";
 import Post from "../components/post";
-import { PostData, PostDataListProps } from "../types/postdata";
 import { GetPosts } from "../lib/postdata_api";
+import { PostData, PostDataListProps } from "../types/postdata";
+import { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 
 export const getStaticProps: GetStaticProps = async (_context) => {
   // fetch list of posts

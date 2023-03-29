@@ -1,5 +1,5 @@
-import _ from "lodash";
 import { BigNumber } from "ethers";
+import _ from "lodash";
 
 export const formatScope = (scopeLabel: string) =>
   scopeLabel.toLowerCase().replaceAll(/\s+/g, "-").trim();

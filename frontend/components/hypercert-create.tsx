@@ -1,23 +1,23 @@
-import React, { ReactNode } from "react";
+import { useAccountLowerCase } from "../hooks/account";
+import { useMintClaim } from "../hooks/mintClaim";
+import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
+import { DEFAULT_CHAIN_ID } from "../lib/config";
+import { parseListFromString } from "../lib/parsing";
+import { useConfetti } from "./confetti";
+import { useContractModal } from "./contract-interaction-dialog-context";
+import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
+import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
-import _ from "lodash";
 import html2canvas from "html2canvas";
-import { toast } from "react-toastify";
-import qs from "qs";
-import * as Yup from "yup";
-import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
-import { useNetwork } from "wagmi";
-import { useMintClaim } from "../hooks/mintClaim";
-import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
+import _ from "lodash";
 import { useRouter } from "next/router";
-import { useContractModal } from "./contract-interaction-dialog-context";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
-import { parseListFromString } from "../lib/parsing";
-import { useAccountLowerCase } from "../hooks/account";
-import { formatHypercertData } from "@hypercerts-org/hypercerts-sdk/dist";
-import { useConfetti } from "./confetti";
+import qs from "qs";
+import React, { ReactNode } from "react";
+import { toast } from "react-toastify";
+import { useNetwork } from "wagmi";
+import * as Yup from "yup";
 
 /**
  * Constants

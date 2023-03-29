@@ -1,21 +1,21 @@
-import { BigNumber } from "ethers";
-import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
+import { CONTRACT_ADDRESS } from "../lib/config";
+import { SUPABASE_TABLE } from "../lib/config";
+import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { supabase } from "../lib/supabase-client";
+import { verifyFractionClaim } from "../lib/verify-fraction-claim";
+import { useAccountLowerCase } from "./account";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import { useQuery } from "@tanstack/react-query";
+import { BigNumber } from "ethers";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { useEffect, useState } from "react";
-import { useContractModal } from "../components/contract-interaction-dialog-context";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
-import { verifyFractionClaim } from "../lib/verify-fraction-claim";
-import { CONTRACT_ADDRESS } from "../lib/config";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../lib/supabase-client";
-import { toast } from "react-toastify";
-import { useAccountLowerCase } from "./account";
-import { SUPABASE_TABLE } from "../lib/config";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,

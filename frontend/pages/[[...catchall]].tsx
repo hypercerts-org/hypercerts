@@ -1,4 +1,5 @@
-import * as React from "react";
+import { ConfettiContainer } from "../components/confetti";
+import { PLASMIC } from "../plasmic-init";
 import {
   PlasmicComponent,
   ComponentRenderData,
@@ -8,12 +9,9 @@ import {
 import { GetStaticPaths, GetStaticProps } from "next";
 import Error from "next/error";
 import { useRouter } from "next/router";
-
+import * as React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { ConfettiContainer } from "../components/confetti";
-import { PLASMIC } from "../plasmic-init";
 
 /**
  * Use fetchPages() to fetch list of pages that have been created in Plasmic

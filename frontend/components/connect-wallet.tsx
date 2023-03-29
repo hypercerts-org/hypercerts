@@ -1,7 +1,7 @@
-import React from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { formatAddress } from "../lib/formatting";
 import { useAccountLowerCase } from "../hooks/account";
+import { formatAddress } from "../lib/formatting";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import React from "react";
 
 export const ConnectWallet = () => {
   const { address, isConnected } = useAccountLowerCase();

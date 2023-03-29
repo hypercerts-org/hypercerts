@@ -1,11 +1,11 @@
-import React from "react";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
 import {
   DOMAIN,
   DEFAULT_CHAIN_ID,
   GRAPH_URL,
   SUPABASE_TABLE,
 } from "../lib/config";
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import React from "react";
 
 const PLASMIC_DATA_KEY = "Config";
 

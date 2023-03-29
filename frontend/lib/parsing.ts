@@ -1,8 +1,8 @@
-import _ from "lodash";
-import Papa from "papaparse";
-import { isAddress } from "ethers/lib/utils";
 import { assertNever } from "./common";
 import { OutOfBoundsError } from "./errors";
+import { isAddress } from "ethers/lib/utils";
+import _ from "lodash";
+import Papa from "papaparse";
 
 /**
  * Takes a CSV and creates an allowlist
