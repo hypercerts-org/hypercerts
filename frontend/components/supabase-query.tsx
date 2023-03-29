@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { supabase } from "../lib/supabase-client";
 import { spawn } from "../lib/common";
+import { supabase } from "../lib/supabase-client";
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import React, { ReactNode } from "react";
 
 // The name used to pass data into the Plasmic DataProvider
 const DATAPROVIDER_NAME = "supabaseData";

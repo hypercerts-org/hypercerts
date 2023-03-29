@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
-import { useRouter } from "next/router";
 import { useAccountLowerCase } from "../hooks/account";
 import {
   useGetAllEligibility,
   useMintFractionAllowlistBatch,
 } from "../hooks/mintFractionAllowlistBatch";
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 
 const LOCALSTORAGE_KEY = "claimAllFractionsTime";
 const DELAY = 5 * 60 * 1000; // 5 minutes

@@ -1,10 +1,7 @@
-import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
-import dynamic from "next/dynamic";
-import CircularProgress from "@mui/material/CircularProgress";
+import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
-import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import { Config } from "./components/config";
-import { HypercertCreateForm } from "./components/hypercert-create";
+import { DEFAULT_TEST_DATA } from "./components/dapp-context";
 import {
   FormField,
   FormError,
@@ -14,11 +11,14 @@ import {
   FormDropZone,
   FormCheckbox,
 } from "./components/forms";
-import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
+import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
-import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { Tooltip, Accordion } from "./components/widgets";
+import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
+import CircularProgress from "@mui/material/CircularProgress";
+import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
+import dynamic from "next/dynamic";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [

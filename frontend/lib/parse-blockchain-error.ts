@@ -1,5 +1,5 @@
-import { useHypercertContract } from "../hooks/contracts";
 import { errorMessages } from "../content/readable-errors";
+import { useHypercertContract } from "../hooks/contracts";
 
 export const useParseBlockchainError = () => {
   const contract = useHypercertContract();

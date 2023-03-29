@@ -19,6 +19,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@graphprotocol/client-cli": "^2.2.16",
+    "@hypercerts-org/hypercerts-protocol": "*",
     "@hypercerts-org/hypercerts-sdk": "^0.0.31",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",

@@ -1,10 +1,10 @@
-import Link from "next/link";
-import Head from "next/head";
-import React from "react";
-import { GetStaticProps, GetStaticPaths, NextPage } from "next";
-import { ParsedUrlQuery } from "querystring";
-import { PostData, PostDataProps } from "../../types/postdata";
 import { GetPosts, GetPost } from "../../lib/postdata_api";
+import { PostData, PostDataProps } from "../../types/postdata";
+import { GetStaticProps, GetStaticPaths, NextPage } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import { ParsedUrlQuery } from "querystring";
+import React from "react";
 
 interface Params extends ParsedUrlQuery {
   id: string;

@@ -6,6 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "workspaces": [
+    "contracts",
     "cors-proxy",
     "defender",
     "docs",
@@ -14,7 +15,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "build:site": "turbo run build --filter=hypercerts-frontend --filter=hypercerts-docs && yarn copy",
+    "build:site": "turbo run build --filter=hypercerts-frontend --filter=hypercerts-docs --filter=hypercerts-protocol && yarn copy",
     "build:defender": "turbo run build --filter=hypercerts-defender",
     "build:graph": "turbo run build --filter=hypercerts-graph",
     "copy": "yarn copy:frontend && yarn copy:docs && yarn copy:html",

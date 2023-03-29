@@ -290,7 +290,13 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             ids[i] = (i + 1) << 128;
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
-            minter.createAllowlist(user, 10000, dataset.root, _uri, IHypercertToken.TransferRestrictions.FromCreatorOnly);
+            minter.createAllowlist(
+                user,
+                10000,
+                dataset.root,
+                _uri,
+                IHypercertToken.TransferRestrictions.FromCreatorOnly
+            );
         }
 
         startHoax(user, 10 ether);
@@ -307,6 +313,4 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             assertEq(minter.unitsOf(user, tokenID), dataset.units[index]);
         }
     }
-
-    
 }

@@ -1,26 +1,26 @@
-import { BigNumber } from "ethers";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
+import { mintInteractionLabels } from "../content/chainInteractions";
+import { CONTRACT_ADDRESS } from "../lib/config";
+import { cidToIpfsUri } from "../lib/formatting";
+import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { parseAllowlistCsv } from "../lib/parsing";
+import { useAccountLowerCase } from "./account";
+import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import {
+  HypercertMetadata,
+  HypercertMinting,
+} from "@hypercerts-org/hypercerts-sdk";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { BigNumber } from "ethers";
+import _ from "lodash";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import {
-  HypercertMetadata,
-  HypercertMinting,
-} from "@hypercerts-org/hypercerts-sdk";
-import { mintInteractionLabels } from "../content/chainInteractions";
-import { useEffect, useState } from "react";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
-import { CONTRACT_ADDRESS } from "../lib/config";
-import _ from "lodash";
-import { toast } from "react-toastify";
-import { parseAllowlistCsv } from "../lib/parsing";
-import { hypercertsStorage } from "../lib/hypercerts-storage";
-import { useAccountLowerCase } from "./account";
-import { cidToIpfsUri } from "../lib/formatting";
 
 const generateAndStoreTree = async (
   pairs: { address: string; units: number }[],

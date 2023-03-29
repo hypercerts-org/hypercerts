@@ -1,10 +1,15 @@
-import "@rainbow-me/rainbowkit/styles.css";
-
-import React, { ReactNode } from "react";
+import { useAccountLowerCase } from "../hooks/account";
+import { DEFAULT_CHAIN_ID } from "../lib/config";
+import { claimedRecently } from "./claim-all-fractions-button";
+import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient } from "@tanstack/query-core";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import React, { ReactNode } from "react";
 import {
   configureChains,
   createClient,
@@ -14,12 +19,6 @@ import {
 } from "wagmi";
 import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
-import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useAccountLowerCase } from "../hooks/account";
-import { claimedRecently } from "./claim-all-fractions-button";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 

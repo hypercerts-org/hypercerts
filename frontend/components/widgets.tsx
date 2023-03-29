@@ -1,9 +1,9 @@
-import React from "react";
-import MuiTooltip from "@mui/material/Tooltip";
-import MuiAccordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MuiAccordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import MuiTooltip from "@mui/material/Tooltip";
+import React from "react";
 
 export interface TooltipProps {
   className?: string; // Plasmic CSS class

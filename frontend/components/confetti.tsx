@@ -1,5 +1,5 @@
-import React from "react";
 import JSConfetti from "js-confetti";
+import React from "react";
 
 export const ConfettiContext = React.createContext<JSConfetti | undefined>(
   undefined,

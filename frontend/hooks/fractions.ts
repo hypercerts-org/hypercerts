@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   fractionsByClaim,
   fractionsByOwner,
   fractionById,
 } from "@hypercerts-org/hypercerts-sdk";
+import { useQuery } from "@tanstack/react-query";
 
 export const useFractionsByOwner = (owner: string) =>
   useQuery(["graph", "fractions", "owner", owner], () =>

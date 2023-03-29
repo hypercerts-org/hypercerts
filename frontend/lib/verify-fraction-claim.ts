@@ -1,6 +1,6 @@
+import { hypercertsStorage } from "./hypercerts-storage";
 import { claimById } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { hypercertsStorage } from "./hypercerts-storage";
 
 export const verifyFractionClaim = async (claimId: string, address: string) => {
   const claimByIdRes = await claimById(claimId);

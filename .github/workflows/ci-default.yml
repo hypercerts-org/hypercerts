@@ -58,6 +58,10 @@ jobs:
         with:
           cache: "yarn"
           node-version: "18.x"
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
       - name: Install
         run: |
           yarn install --immutable
