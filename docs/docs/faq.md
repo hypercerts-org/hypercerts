@@ -117,6 +117,22 @@ For example:
 
 If you contributed less than $1 DAI to a project, then you will not be eligible to claim a hypercert fraction.
 
+### I supported a project. Why I don't I see the hypercert in my dashboard?
+
+In order to your hypercert to appear as "claimable", the project needs to mint the hypercert first. If the project has not minted its hypercert yet, then you will not be able to claim it. We suggest you check back in a few days to see if the project has created the hypercert and is now claimable.
+
+If the project has created its hypercert, then please try the following solutions:
+1. Confirm the wallet address is correct (some users have multiple wallet addresses and forget which one they donated with)
+2. Check that your wallet is included in the Dune Dashboards for each Gitcoin Round
+
+- ETH Infra: https://dune.com/queries/1934656
+- Climate: https://dune.com/queries/1934689
+- OSS: https://dune.com/queries/1934969
+
+3. Confirm you donated more than $1 DAI to the project.
+
+If the project has created its hypercert, and you have confirmed items 1-3, then please send us a DM over Twitter or Telegram with your wallet address and we will get back to you promptly.
+
 ### How do I retire a hypercert?
 
 We don't yet have a frontend for retiring hypercerts but you can do this by interacting directly with the smart contract on Etherscan.
