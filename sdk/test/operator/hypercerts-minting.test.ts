@@ -1,5 +1,6 @@
-import { HypercertMinting, formatHypercertData, HypercertMetadata } from "../../src/index.js";
-import { ethers, BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
+
+import { HypercertMetadata, HypercertMinting, formatHypercertData } from "../../src/index.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -26,9 +27,9 @@ describe("Create Minting instance", () => {
     const minter = HypercertMinting({
       provider: undefined,
       chainConfig: {
-        chainID: "5",
-        rpc: "example.com",
+        chainId: 5,
         contractAddress: "0x1",
+        rpcUrl: "example.com",
       },
     });
 
@@ -44,9 +45,9 @@ describe("Create Minting instance", () => {
     const { valid, errors, data } = formatHypercertData(testData as TestDataType);
     const minter = HypercertMinting({
       chainConfig: {
-        chainID: "5",
-        rpc: "example.com",
+        chainId: 5,
         contractAddress: "0x1",
+        rpcUrl: "example.com",
       },
     });
 

@@ -27,7 +27,11 @@ const mockMetadataCid = "bafkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn6
 
 const mockDataCid = "bafkreif5otrkydrrjbp532a75hkm5goefxv5rqg35d2wqm6oveht4hqto4";
 
-describe("IPFS Client", () => {
+/**
+ * Skipping these tests currently,
+ * don't want to test against production web3.storage and nft.storage servers
+ */
+describe.skip("IPFS Client", () => {
   let storage: HypercertsStorage;
 
   beforeEach(() => {
@@ -63,8 +67,11 @@ describe("IPFS Client", () => {
     const gatewayData = await axios.get(nftStorageGatewayLink).then((result) => result.data);
     expect(gatewayData).to.deep.equal(mockData);
   });
+});
 
+describe("Storage utilities", () => {
   it("Removes ipfs:// prefix if present to get CID", () => {
+    const storage = new HypercertsStorage({});
     const uriFromCid = storage.getNftStorageGatewayUri(mockDataCid);
     const uriFromIpfsLink = storage.getNftStorageGatewayUri(`ipfs://${mockDataCid}`);
     expect(uriFromCid).to.eq(uriFromIpfsLink);

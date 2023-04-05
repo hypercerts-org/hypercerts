@@ -1,9 +1,9 @@
-import { getChainConfig } from "../constants.js";
 import { getBuiltGraphSDK } from "../../.graphclient/index.js";
+import { getConfig } from "../config.js";
 
-const chain = getChainConfig({});
+const chain = getConfig({});
 
-const sdk = getBuiltGraphSDK({ chainName: chain.graph });
+const sdk = getBuiltGraphSDK({ chainName: chain.graphName });
 
 export const fractionsByOwner = async (owner: string) =>
   sdk.ClaimTokensByOwner({

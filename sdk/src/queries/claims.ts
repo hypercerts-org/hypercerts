@@ -1,10 +1,10 @@
 import { getBuiltGraphSDK } from "../../.graphclient/index.js";
-import { getChainConfig } from "../constants.js";
+import { getConfig } from "../config.js";
 
-const chain = getChainConfig({});
+const chain = getConfig({});
 
 const sdk = getBuiltGraphSDK({
-  chainName: chain.graph,
+  chainName: chain.graphName,
 });
 
 export const claimsByOwner = async (owner: string) =>

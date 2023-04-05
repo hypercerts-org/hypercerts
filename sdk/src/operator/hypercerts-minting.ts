@@ -1,11 +1,12 @@
-import { BigNumberish, ContractTransaction, ethers } from "ethers";
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
-import { ChainConfig, getChainConfig } from "../constants.js";
-import { HypercertMetadata, HypercertsStorage, validateMetaData, HypercertMinterABI } from "../index.js";
+import { BigNumberish, ContractTransaction, ethers } from "ethers";
+
+import { Config, getConfig } from "../config.js";
+import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
 
 type HypercertsMinterProps = {
   provider?: ethers.providers.BaseProvider;
-  chainConfig: Partial<ChainConfig>;
+  chainConfig: Partial<Config>;
 };
 
 type HypercertsMinterType = {
@@ -20,10 +21,10 @@ type HypercertsMinterType = {
 };
 
 const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): HypercertsMinterType => {
-  const _chainConfig = getChainConfig(chainConfig);
+  const _chainConfig = getConfig(chainConfig);
   const _storage = new HypercertsStorage({});
 
-  const _provider = provider !== undefined ? provider : ethers.getDefaultProvider(chainConfig.name);
+  const _provider = provider !== undefined ? provider : ethers.getDefaultProvider(chainConfig.chainName);
 
   const contract = <HypercertMinter>new ethers.Contract(_chainConfig.contractAddress, HypercertMinterABI, _provider);
 

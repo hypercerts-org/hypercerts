@@ -20,7 +20,7 @@
     "@emotion/styled": "^11.10.5",
     "@graphprotocol/client-cli": "^2.2.16",
     "@hypercerts-org/hypercerts-protocol": "*",
-    "@hypercerts-org/hypercerts-sdk": "^0.0.31",
+    "@hypercerts-org/hypercerts-sdk": "*",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
