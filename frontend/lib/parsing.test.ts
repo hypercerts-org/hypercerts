@@ -120,4 +120,13 @@ describe("allowlist", () => {
       ),
     ).toThrow();
   });
+
+  it("throws if allowlist is empty", () => {
+    expect(() =>
+      parseAllowlistCsv(
+        `index,address,price,fractions
+0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,0`,
+      ),
+    ).toThrow();
+  });
 });

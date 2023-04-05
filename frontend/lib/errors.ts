@@ -22,4 +22,13 @@ export class AssertionError extends Error {
 export class NullOrUndefinedValueError extends Error {}
 
 export class ParsingError extends Error {}
+
+/**
+ * Some value is out of an expected bound
+ */
 export class OutOfBoundsError extends Error {}
+
+/**
+ * Data is malformed
+ */
+export class InvalidDataError extends Error {}
