@@ -1,5 +1,5 @@
 import { assertNever } from "./common";
-import { OutOfBoundsError } from "./errors";
+import { InvalidDataError, OutOfBoundsError } from "./errors";
 import { isAddress } from "ethers/lib/utils";
 import _ from "lodash";
 import Papa from "papaparse";
@@ -32,6 +32,9 @@ export function parseAllowlistCsv(
     units: parseInt(row["fractions"].trim(), 10),
   }));
   const csvTotalSupply = csvData.reduce((accum, curr) => accum + curr.units, 0);
+  if (csvTotalSupply <= 0) {
+    throw new InvalidDataError("Did not find any valid rows");
+  }
   // Calculate the new total supply
   const addTotalPercentage = add.reduce(
     (accum, curr) => accum + curr.percentage,
