@@ -1,4 +1,14 @@
+"""
+NOTE: 
+There is a bug in web3.storage that prevents filenames with
+accents on Latin letters like á or ó from being retrieved.
+If you run into this issue, uncomment the unidecode module
+and apply it to the `create_project_filename` function.
+
+"""
+
 from datetime import datetime
+#from unidecode import unidecode
 
 
 def datify(u):
@@ -12,16 +22,16 @@ def shorten_address(a):
         return "unknown"
 
 def create_project_filename(project_name):
+    #filename = unidecode(filename)
     filename = project_name.replace("/","-").replace(":", "-")
     filename = filename.replace(" ","_")
-    filename = filename if filename[0] != '.' else filename[1:]
+    filename = filename if filename[0] != '.' else filename[1:]    
     return filename
 
 def build_scope(name, include_list, exclude_list=[]):
     
     def format_list(lst):
         lst = [x.strip() for x in lst]
-        #lst = [x.lower() if x.upper() != x else x for x in lst]
         return lst
 
     include_list = format_list(include_list)
