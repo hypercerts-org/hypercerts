@@ -30,6 +30,8 @@ For more details, check out our [website](https://hypercerts.org/).
   - [on Cloudflare](https://testnet.hypercerts.org) - Staging build on Goerli
 - `/graph`: The Graph integration
   - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-graph.yml)
+  - [Goerli Subgraph](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet)
+  - [Optimism Subgraph](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-optimism-mainnet)
 - `/sdk`: Hypercerts SDK
   - Manually published to npm
 - `/utils`: various scripts for operations
