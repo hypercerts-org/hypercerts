@@ -12,12 +12,13 @@ npm install @hypercerts-org/sdk
 ## Initialize the client
 
 ```js
-import { HypercertsClient } from "@hypercerts-org/sdk"
-import { ethers } from 'ethers';
+import { HypercertsClient, HypercertsStorage } from "@hypercerts-org/sdk";
+import { ethers } from "ethers";
 
 const hypercerts = new HypercertsClient({
   chainId: 5,
-  provider: ethers.getDefaultProvider("goerli");
+  provider: ethers.getDefaultProvider("goerli"),
+  storage: new HypercertsStorage({ web3storage: "", nftstorage: "" }),
 });
 ```
 
@@ -39,7 +40,6 @@ const { claimId } = await hypercerts.mintClaim({
   totalSupply: 10000, // total supply
   metadata,
   transferRestrictions: TransferRestrictions.FromCreatorOnly,
-  keys: { nftstorage: "" }
 });
 
 ```
@@ -58,7 +58,6 @@ const { claimId } = await hypercerts.createAllowlist({
   allowlist,
   metadata,
   transferRestrictions: TransferRestrictions.FromCreatorOnly,
-  keys: { web3storage: "", nftstorage: "" }
 });
 ```
 
@@ -86,11 +85,9 @@ const { tokenId } = await hypercerts.mergeFractions({ tokenIds });
 const { claimIds } = await hypercerts.splitClaim({
   claimId,
   TODO: somehow specify hypercert subregions
-  keys: { nftstorage: "" }
 });
 const { claimId} = await hypercerts.mergeClaims({
   claimIds,
-  keys: { nftstorage: ""}
 });
 ```
 
