@@ -4,6 +4,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { cidToIpfsUri } from "../lib/formatting";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import {
@@ -55,7 +56,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     address: CONTRACT_ADDRESS,
     args: [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      address! as `0x${string}`,
+      address! as HexString,
       BigNumber.from(units || 0),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cidUri!,
@@ -63,7 +64,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",
-    onError: (error) => {
+    onError: error => {
       parseError(error, "the fallback");
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",

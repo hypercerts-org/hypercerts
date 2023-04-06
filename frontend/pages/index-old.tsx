@@ -4,7 +4,7 @@ import { PostData, PostDataListProps } from "../types/postdata";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 
-export const getStaticProps: GetStaticProps = async (_context) => {
+export const getStaticProps: GetStaticProps = async _context => {
   // fetch list of posts
   const posts: PostData[] = await GetPosts();
   return {

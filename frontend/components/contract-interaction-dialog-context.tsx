@@ -19,12 +19,13 @@ interface IContractInteractionModalProvider {
   hideModal: () => void;
 }
 
-const ContractInteractionDialogContext =
-  React.createContext<IContractInteractionModalProvider>({
-    showModal: () => {}, // eslint-disable-line
-    setStep: () => {}, // eslint-disable-line
-    hideModal: () => {}, // eslint-disable-line
-  });
+const ContractInteractionDialogContext = React.createContext<
+  IContractInteractionModalProvider
+>({
+  showModal: () => {}, // eslint-disable-line
+  setStep: () => {}, // eslint-disable-line
+  hideModal: () => {}, // eslint-disable-line
+});
 
 export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
   children,
@@ -76,7 +77,7 @@ export const ContractInteractionDialogProvider: React.FC<PropsWithChildren> = ({
             orientation="vertical"
             activeStep={step ? Object.keys(stepDescriptions).indexOf(step) : 0}
           >
-            {Object.keys(stepDescriptions).map((key) => (
+            {Object.keys(stepDescriptions).map(key => (
               <Step key={key} classes={{}}>
                 <StepLabel>{stepDescriptions[key]}</StepLabel>
                 {step === key && <LinearProgress />}
