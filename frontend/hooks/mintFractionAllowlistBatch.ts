@@ -5,6 +5,7 @@ import { SUPABASE_TABLE } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { supabase } from "../lib/supabase-client";
 import { verifyFractionClaim } from "../lib/verify-fraction-claim";
+import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { useQuery } from "@tanstack/react-query";
@@ -29,7 +30,7 @@ export const useMintFractionAllowlistBatch = ({
   const parseBlockchainError = useParseBlockchainError();
 
   const [_units, setUnits] = useState<BigNumber[]>();
-  const [_proofs, setProofs] = useState<`0x{string}`[][]>();
+  const [_proofs, setProofs] = useState<HexString[][]>();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -56,11 +57,11 @@ export const useMintFractionAllowlistBatch = ({
     }
 
     const results = await Promise.all(
-      claimIds.map((claimId) => verifyFractionClaim(claimId, address)),
+      claimIds.map(claimId => verifyFractionClaim(claimId, address)),
     );
 
-    setUnits(results.map((x) => BigNumber.from(x.units)));
-    setProofs(results.map((x) => x.proof as `0x{string}`[]));
+    setUnits(results.map(x => BigNumber.from(x.units)));
+    setProofs(results.map(x => x.proof as HexString[]));
   };
 
   const parseError = useParseBlockchainError();
@@ -75,16 +76,16 @@ export const useMintFractionAllowlistBatch = ({
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     args: [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      address! as `0x${string}`,
+      address! as HexString,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       _proofs!,
-      (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
+      (claimIds || []).map(x => BigNumber.from(x.split("-")[1])),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       _units!,
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "batchMintClaimsFromAllowlists",
-    onError: (error) => {
+    onError: error => {
       parseError(error, "the fallback");
       toast(
         parseBlockchainError(
@@ -154,7 +155,7 @@ export const useGetAllEligibility = (address: string) => {
       console.error("Supabase error:");
       console.error(error);
     }
-    const claimIds = data?.map((x) => x.claimId as string);
+    const claimIds = data?.map(x => x.claimId as string);
     return claimIds ?? [];
   });
 };

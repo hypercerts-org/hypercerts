@@ -5,6 +5,7 @@ import { cidToIpfsUri } from "../lib/formatting";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { parseAllowlistCsv } from "../lib/parsing";
+import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import {
@@ -25,10 +26,10 @@ import {
 const generateAndStoreTree = async (
   pairs: { address: string; units: number }[],
 ) => {
-  const tuples = pairs.map((p) => [p.address, p.units]);
+  const tuples = pairs.map(p => [p.address, p.units]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
-  return { cid, root: tree.root as `0x{string}` };
+  return { cid, root: tree.root as HexString };
 };
 
 export const useMintClaimAllowlist = ({
@@ -38,7 +39,7 @@ export const useMintClaimAllowlist = ({
 }) => {
   const [cidUri, setCidUri] = useState<string>();
   const [_units, setUnits] = useState<number>();
-  const [merkleRoot, setMerkleRoot] = useState<`0x{string}`>();
+  const [merkleRoot, setMerkleRoot] = useState<HexString>();
   const minter = HypercertMinting({ provider: undefined, chainConfig: {} });
 
   const stepDescriptions = {
@@ -72,7 +73,7 @@ export const useMintClaimAllowlist = ({
       });
       setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
-      setUnits(_.sum(pairs.map((x) => x.units)));
+      setUnits(_.sum(pairs.map(x => x.units)));
     }
     if (allowlistUrl) {
       // fetch csv file
@@ -86,7 +87,7 @@ export const useMintClaimAllowlist = ({
             percentage: 0.5,
           },
         ]);
-        const totalSupply = _.sum(allowlist.map((x) => x.units));
+        const totalSupply = _.sum(allowlist.map(x => x.units));
 
         const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
         const cid = await hypercertsStorage.storeMetadata({
@@ -118,7 +119,7 @@ export const useMintClaimAllowlist = ({
     address: CONTRACT_ADDRESS,
     args: [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      address! as `0x${string}`,
+      address! as HexString,
       BigNumber.from(_units || 0),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       merkleRoot!,
@@ -128,7 +129,7 @@ export const useMintClaimAllowlist = ({
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
-    onError: (error) => {
+    onError: error => {
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",
       });

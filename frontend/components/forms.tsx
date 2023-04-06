@@ -154,8 +154,14 @@ export interface FormSelectProps {
 }
 
 export function FormSelect(props: FormSelectProps) {
-  const { className, fieldName, label, optionValues, multiple, disabled } =
-    props;
+  const {
+    className,
+    fieldName,
+    label,
+    optionValues,
+    multiple,
+    disabled,
+  } = props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -183,7 +189,7 @@ export function FormSelect(props: FormSelectProps) {
               _.isArray(selected) ? selected.join(", ") : selected
             }
           >
-            {optionValues.map((val) => (
+            {optionValues.map(val => (
               <MenuItem key={val} value={val}>
                 {multiple && (
                   <Checkbox
@@ -303,14 +309,12 @@ export function FormDatePicker(props: FormDatePickerProps) {
           }
           label="Indefinite End Date"
         />
-        {
-          // We need to show the error message here if the TextField above is hidden
-          hasError && dateUndefined ? (
-            <FormHelperText>{errorMessage}</FormHelperText>
-          ) : (
-            <></>
-          )
-        }
+        {// We need to show the error message here if the TextField above is hidden
+        hasError && dateUndefined ? (
+          <FormHelperText>{errorMessage}</FormHelperText>
+        ) : (
+          <></>
+        )}
       </FormControl>
     </LocalizationProvider>
   );

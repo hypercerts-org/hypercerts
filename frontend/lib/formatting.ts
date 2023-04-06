@@ -2,7 +2,10 @@ import { BigNumber } from "ethers";
 import _ from "lodash";
 
 export const formatScope = (scopeLabel: string) =>
-  scopeLabel.toLowerCase().replaceAll(/\s+/g, "-").trim();
+  scopeLabel
+    .toLowerCase()
+    .replaceAll(/\s+/g, "-")
+    .trim();
 
 export const formatContributors = (contributors: string[]) => {
   if (contributors.length === 0) {

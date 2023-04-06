@@ -2,6 +2,7 @@ import { useContractModal } from "../components/contract-interaction-dialog-cont
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { CONTRACT_ADDRESS } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
+import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumber, BigNumberish } from "ethers";
@@ -27,7 +28,7 @@ export const useMintFractionAllowlist = ({
 
   const [_claimId, setClaimId] = useState<BigNumber>();
   const [_units, setUnits] = useState<BigNumber>();
-  const [_proof, setProof] = useState<`0x{string}`[]>();
+  const [_proof, setProof] = useState<HexString[]>();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -42,7 +43,7 @@ export const useMintFractionAllowlist = ({
   ) => {
     setClaimId(BigNumber.from(claimId));
     setUnits(BigNumber.from(units));
-    setProof(proof as `0x{string}`[]);
+    setProof(proof as HexString[]);
     setStep("initial");
     showModal({ stepDescriptions });
   };
@@ -57,10 +58,10 @@ export const useMintFractionAllowlist = ({
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [address! as `0x${string}`, _proof!, _claimId!, _units!],
+    args: [address! as HexString, _proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaimFromAllowlist",
-    onError: (error) => {
+    onError: error => {
       parseError(error, "the fallback");
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",
