@@ -27,6 +27,7 @@
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@plasmicapp/loader-nextjs": "^1.0.250",
     "@rainbow-me/rainbowkit": "^0.8.1",
+    "@sentry/nextjs": "^7.47.0",
     "@supabase/supabase-js": "^2.1.2",
     "@tanstack/react-query-devtools": "^4.23.0",
     "dayjs": "^1.11.7",
