@@ -1,6 +1,6 @@
-## Upgrading the contract
+# Upgrading the contract
 
-#### Validate upgrade
+## Validate upgrade
 
 Validate contract upgradeability against deployment.
 
@@ -10,7 +10,7 @@ For example, for the `goerli` deployment:
 yarn hardhat validate-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS
 ```
 
-#### Propose Upgrade
+## Propose Upgrade
 
 Propose an upgrade via OpenZeppelin Defender. For more information, see this
 [guide](https://docs.openzeppelin.com/defender/guide-upgrades)
@@ -23,4 +23,3 @@ yarn hardhat propose-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS --m
 ```
 
 This will output an OpenZeppelin URL that multi-sig members can use to approve/reject the upgrade.
-
