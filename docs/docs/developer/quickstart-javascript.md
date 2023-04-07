@@ -97,6 +97,26 @@ const { claimId} = await hypercerts.mergeClaims({
 const { TODO } = await hypercerts.burnFraction({ tokenId });
 ```
 
+### Create an evaluation
+
+Perhaps leverage EAS schema registry to generate different types of evaluation schemas
+(e.g. different type of eval for OSS vs SP Audits vs Climate)
+
+```js
+const { TODO } = await hypercerts.createEvaluation({
+  ref: HypercertClaim || HypercertRegion || Evaluation
+  evaluationSchema: "SCHEMA_IDENTIFIER"
+  data: TODO
+});
+```
+
+### Respond / or contest an evaluation
+
+Just create an evaluation referencing an evaluation
+
+```js
+```
+
 ### Handling Errors
 
 ```js
