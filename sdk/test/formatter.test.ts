@@ -1,6 +1,7 @@
 import { expect } from "chai";
-import { formatUnixTime, formatDate, INDEFINITE_DATE_STRING } from "../src/utils/formatter.js";
+
 import { formatHypercertData } from "../src/index.js";
+import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../src/utils/formatter.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -20,6 +21,10 @@ const testData: Partial<TestDataType> = {
   version: "0.0.1",
 };
 
+const testDataUndefinedProperties: Partial<TestDataType> = { ...testData, properties: undefined };
+
+const testDataUndefinedExternalURL: Partial<TestDataType> = { ...testData, external_url: undefined };
+
 describe("Format Hypercert Data test", () => {
   it("checks correct metadata", () => {
     const { valid, errors } = formatHypercertData(testData as TestDataType);
@@ -33,6 +38,20 @@ describe("Format Hypercert Data test", () => {
     expect(valid).to.be.false;
     expect(Object.keys(errors).length).to.eq(1);
     expect(data).to.be.null;
+  });
+
+  it("handles undefined properties", () => {
+    const { valid, errors, data } = formatHypercertData(testDataUndefinedProperties as TestDataType);
+    expect(valid).to.be.true;
+    expect(Object.keys(errors).length).to.eq(0);
+    expect(Object.keys(data!).find((key) => key === "properties")).to.be.undefined;
+  });
+
+  it("handles undefined external_url", () => {
+    const { valid, errors, data } = formatHypercertData(testDataUndefinedExternalURL as TestDataType);
+    expect(valid).to.be.true;
+    expect(Object.keys(errors).length).to.eq(0);
+    expect(Object.keys(data!).find((key) => key === "external_url")).to.be.undefined;
   });
 });
 
