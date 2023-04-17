@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.0.21
+
+- Handle empty fields in formatter to fix issue where OpenSea wouldn't index a token
+
 ## 0.0.31
 
 - Hack around getData handler
