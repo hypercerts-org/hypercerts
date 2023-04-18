@@ -112,6 +112,7 @@ def parse_claims(list_of_claims: list, existing_claims: list) -> list:
 def store_claims_in_supabase(claims: list):
     """Stores the claim records in the Supabase table."""
     for claim in claims:
+        print(f"Adding {claim['title']} claim to Supabase.")
         supabase.table(TABLE_NAME).insert(claim).execute()
 
 
@@ -124,20 +125,31 @@ def fetch_claim_ids_from_supabase() -> list:
     return claim_ids
 
 
+def save_supabase_snapshot_to_csv(csv_filepath: str = CSV_FILEPATH) -> None:
+    """Saves a snapshot of the Supabase table to a CSV file."""
+    data, _ = supabase.table(TABLE_NAME).select("*").execute()
+    claims = data[1]
+    df = pd.DataFrame(claims)
+    df.set_index("claimId", inplace=True)
+    df.to_csv(csv_filepath)
+
+
 def append_to_csv_file(claims: list, csv_filepath: str = CSV_FILEPATH) -> None:
     """Appends the claim records to the local CSV file."""
     if not os.path.exists(csv_filepath):
         df = pd.DataFrame(columns=claims[0].keys())
-        df.to_csv(csv_filepath, index_label="id")
+        df.set_index("claimId", inplace=True)
+        df.to_csv(csv_filepath)
 
-    df = pd.read_csv(csv_filepath, index_col="id")
+    df = pd.read_csv(csv_filepath, index_col="claimId")
     for claim in claims:
-        df = df.append(claim, ignore_index=True)
+        df = df.append(pd.Series(claim, name=claim["claimId"]))
 
     df.to_csv(csv_filepath)
 
 
 def main():
+    save_supabase_snapshot_to_csv()
     claims_data = get_all_claims()
     existing_claim_ids = fetch_claim_ids_from_supabase()
     new_claims = parse_claims(claims_data, existing_claim_ids)
