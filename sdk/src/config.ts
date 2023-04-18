@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 
 import { UnsupportedChain } from "./errors.js";
+import { logger } from "./utils/logger.js";
 
 /**
  * Constants
@@ -47,7 +48,7 @@ export const getConfig = (overrides: Partial<Config>) => {
     throw new UnsupportedChain(`chainId=${chainId} is not yet supported`);
   }
 
-  const baseDeployment = DEPLOYMENTS.find((d) => d.chainId === chainId);
+  const baseDeployment = DEPLOYMENTS.find(d => d.chainId === chainId);
   if (!baseDeployment) {
     throw new UnsupportedChain(`chainId=${chainId} is missing in SDK`);
   }
@@ -66,7 +67,7 @@ export const getConfig = (overrides: Partial<Config>) => {
 
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
-      console.error(`Cannot get chain config. ${key} is possibly undefined`);
+      logger.error(`Cannot get chain config. ${key} is possibly undefined`);
     }
   }
 

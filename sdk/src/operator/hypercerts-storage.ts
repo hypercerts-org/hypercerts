@@ -6,6 +6,7 @@ import { Blob, File, Web3Storage } from "web3.storage";
 
 import { FetchError, MalformedDataError } from "../errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
+import { logger } from "../utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -38,7 +39,7 @@ export default class HypercertsStorage {
    * @returns
    */
   public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
-    console.log("Storing metadata: ", data);
+    logger.info("Storing HypercertMetaData:", { metadata: data });
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     return this.nftStorageClient.storeBlob(blob);
   }
@@ -51,7 +52,7 @@ export default class HypercertsStorage {
   public async getMetadata(cidOrIpfsUri: string) {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
     console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-    return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
+    return axios.get<HypercertMetadata>(nftStorageGatewayLink).then(result => result.data);
   }
 
   /**
