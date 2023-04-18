@@ -149,7 +149,7 @@ def append_to_csv_file(claims: list, csv_filepath: str = CSV_FILEPATH) -> None:
 
 
 def main():
-    save_supabase_snapshot_to_csv()
+    #save_supabase_snapshot_to_csv()
     claims_data = get_all_claims()
     existing_claim_ids = fetch_claim_ids_from_supabase()
     new_claims = parse_claims(claims_data, existing_claim_ids)
