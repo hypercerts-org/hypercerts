@@ -13,3 +13,10 @@ export class MalformedDataError extends Error {}
  * Please file an issue
  */
 export class UnsupportedChain extends Error {}
+
+// Exhaustive switch helper
+export class UnreachableCaseError extends Error {
+  constructor(val: never) {
+    super(`Unreachable case: ${val}`);
+  }
+}
