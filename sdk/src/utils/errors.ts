@@ -1,16 +1,16 @@
-import { TypedError } from "../errors";
-import { logger } from "./logger";
+import { TypedError } from "../errors.js";
+import { logger } from "./logger.js";
 
 const errorHandler = (err: Error) => {
   const errType = (err as TypedError).__type;
   switch (errType) {
+    case "UnsupportedChainError":
     case "MalformedDataError":
-      logger.error(`${err.message}`);
-      break;
     case "FetchError":
       logger.error(`${err.message}`);
       break;
     default:
+      // TODO unreachable case Error
       logger.error(`${err.message}`);
   }
 };

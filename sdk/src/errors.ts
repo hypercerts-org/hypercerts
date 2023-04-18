@@ -13,7 +13,6 @@ export class FetchError implements TypedError {
     this.message = message;
 
     Object.setPrototypeOf(this, new.target.prototype);
-    this.name = "FetchError";
     Error.captureStackTrace(this);
   }
 }
