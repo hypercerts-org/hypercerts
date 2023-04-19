@@ -4,7 +4,6 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
-import { FetchError, MalformedDataError } from "../errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
 import { logger } from "../utils/logger.js";
 
@@ -51,7 +50,7 @@ export default class HypercertsStorage {
    */
   public async getMetadata(cidOrIpfsUri: string) {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
     return axios.get<HypercertMetadata>(nftStorageGatewayLink).then(result => result.data);
   }
 
@@ -67,7 +66,7 @@ export default class HypercertsStorage {
   public async storeData(data: any): Promise<CIDString> {
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
-    console.log("Storing blob of: ", data);
+    logger.info("Storing blob of: ", data);
     return await this.web3StorageClient.put(files, { wrapWithDirectory: false });
   }
 
@@ -105,7 +104,7 @@ export default class HypercertsStorage {
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
     return axios.get(nftStorageGatewayLink).then((result: any) => result.data);
   }
 

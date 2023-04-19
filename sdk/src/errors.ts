@@ -1,16 +1,25 @@
+enum ErrorType {
+  FetchError = "FetchError",
+  MalformedDataError = "MalformedDataError",
+  UnsupportedChainError = "UnsupportedChainError",
+}
+
 export interface TypedError extends Error {
-  __type: string;
+  __type: ErrorType;
+  payload?: { [key: string]: any };
 }
 
 /**
  * Fails fetching a remote resource
  */
 export class FetchError implements TypedError {
-  __type = "FetchError";
+  __type = ErrorType.FetchError;
   name = "FetchError";
   message: string;
-  constructor(message: string) {
+  payload?: any;
+  constructor(message: string, payload?: any) {
     this.message = message;
+    this.payload = payload;
 
     Object.setPrototypeOf(this, new.target.prototype);
     Error.captureStackTrace(this);
@@ -21,11 +30,13 @@ export class FetchError implements TypedError {
  * Data doesn't conform to expectations
  */
 export class MalformedDataError implements TypedError {
-  __type = "MalformedDataError";
+  __type = ErrorType.MalformedDataError;
   name = "MalformedDataError";
   message: string;
-  constructor(message: string) {
+  payload?: { [key: string]: any } | undefined;
+  constructor(message: string, payload?: { [key: string]: any } | undefined) {
     this.message = message;
+    this.payload = payload;
 
     Object.setPrototypeOf(this, new.target.prototype);
     Error.captureStackTrace(this);
@@ -37,25 +48,26 @@ export class MalformedDataError implements TypedError {
  * Please file an issue
  */
 export class UnsupportedChainError implements TypedError {
-  __type = "UnsupportedChain";
+  __type = ErrorType.UnsupportedChainError;
   name = "UnsupportedChain";
   message: string;
-  constructor(chainID: string) {
-    this.message = `Chain ${chainID} is not yet supported`;
+  payload: { chainID: string | number };
+  constructor(message: string, chainID: string | number) {
+    this.message = message;
+    this.payload = { chainID };
     Object.setPrototypeOf(this, new.target.prototype);
     Error.captureStackTrace(this);
   }
 }
 
-// Exhaustive switch helper
-export class UnreachableCaseError implements TypedError {
-  __type: string = "UnreachableCaseError";
-  name: string = "UnreachableCaseError";
-  message: string;
+/**
+ * Undefined error case
+ * Please file an issue
+ */
+export class UnreachableCaseError extends Error {
   constructor(val: never) {
-    this.message = `Unreachable case: ${val}`;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    super(`Unreachable case: ${val}`);
   }
 }
+
+export type HypercertsSdkError = FetchError | MalformedDataError | UnsupportedChainError;

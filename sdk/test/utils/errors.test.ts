@@ -1,13 +1,12 @@
 import { expect } from "chai";
 
 import { FetchError, MalformedDataError, UnsupportedChainError } from "../../src/errors.js";
-import { errorHandler } from "../../src/utils/errors.js";
+import { handleError } from "../../src/utils/errors.js";
 
 describe("Error handler test", () => {
   it("checking error handler", () => {
-    expect(errorHandler(new FetchError("testing Fetch error"))).to.be.undefined;
-    expect(errorHandler(new MalformedDataError("testing MalformedData error"))).to.be.undefined;
-    expect(errorHandler(new UnsupportedChainError("0x1337"))).to.be.undefined;
-    expect(errorHandler(new Error("something"))).to.be.undefined;
+    expect(handleError(new FetchError("testing FetchError", { url: "http://badexample.com" }))).to.be.undefined;
+    expect(handleError(new MalformedDataError("testing MalformedDataError", { data: { foo: "bar" } }))).to.be.undefined;
+    expect(handleError(new UnsupportedChainError("testing UnsupportedChainError", 1337))).to.be.undefined;
   });
 });

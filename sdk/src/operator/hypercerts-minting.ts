@@ -2,6 +2,7 @@ import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
 
 import { Config, getConfig } from "../config.js";
+import { HypercertsSdkError, MalformedDataError } from "../errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
 
 type HypercertsMinterProps = {
@@ -16,17 +17,18 @@ type HypercertsMinterType = {
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ) => Promise<ContractTransaction>;
+  ) => Promise<ContractTransaction | MalformedDataError>;
   transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
 };
 
 const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): HypercertsMinterType => {
   const _chainConfig = getConfig(chainConfig);
+  const { contractAddress } = _chainConfig;
   const _storage = new HypercertsStorage({});
 
-  const _provider = provider !== undefined ? provider : ethers.getDefaultProvider(chainConfig.chainName);
+  const _provider = provider ?? ethers.getDefaultProvider(chainConfig.chainName);
 
-  const contract = <HypercertMinter>new ethers.Contract(_chainConfig.contractAddress, HypercertMinterABI, _provider);
+  const contract = <HypercertMinter>new ethers.Contract(contractAddress, HypercertMinterABI, _provider);
 
   const TransferRestrictions = {
     AllowAll: 0,
@@ -43,12 +45,11 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
     // validate metadata
     const validation = validateMetaData(claimData);
     if (!validation.valid || Object.keys(validation.errors).length > 0) {
-      throw new Error(`Error(s) validating metadata: ${validation.errors}`);
+      return new MalformedDataError(`Error(s) validating metadata: ${validation.errors}`, validation.errors);
     }
     // store metadata on IPFS
     const cid = await _storage.storeMetadata(claimData);
 
-    // mint hypercert token
     return await contract.mintClaim(address, totalUnits, cid, transferRestriction);
   };
 

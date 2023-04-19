@@ -1,17 +1,17 @@
 import { createLogger, format, transports } from "winston";
 
-const { cli, align, combine, timestamp, printf, json } = format;
+const { cli, align, combine, timestamp, printf } = format;
 
 const consoleFormat = combine(
   cli(),
   timestamp(),
   align(),
   printf(info => {
-    return `${info.timestamp} - ${info.level}:  [${info.label}]: ${info.message} ${JSON.stringify(info.metadata)}`;
+    return `${info.timestamp} - ${info.level}:  [${info.label}]: ${info.message} ${
+      info.metadata ? JSON.stringify(info.metadata) : ""
+    }`;
   }),
 );
-
-const fileFormat = combine(timestamp(), align(), json());
 
 // Log levels
 // error: 0
@@ -24,28 +24,13 @@ const fileFormat = combine(timestamp(), align(), json());
 
 const logger = createLogger({
   level: process.env.LOG_LEVEL || "info",
-  format: fileFormat,
+  format: consoleFormat,
   defaultMeta: { service: "hypercerts-sdk" },
   transports: [
-    //
-    // - Write all logs with importance level of `error` or less to `error.log`
-    // - Write all logs with importance level of `info` or less to `combined.log`
-    //
-    new transports.File({ filename: "error.log", level: "error" }),
-    new transports.File({ filename: "combined.log" }),
-  ],
-});
-
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (process.env.NODE_ENV !== "production") {
-  logger.add(
     new transports.Console({
       format: consoleFormat,
     }),
-  );
-}
+  ],
+});
 
 export { logger };
