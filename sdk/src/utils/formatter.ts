@@ -1,6 +1,11 @@
-import { HypercertMetadata } from "../types/metadata.js";
+import { Result } from "true-myth";
+import { err, ok } from "true-myth/result";
+
+import { MalformedDataError } from "../errors.js";
 import { HypercertClaimdata } from "../types/claimdata.js";
+import { HypercertMetadata } from "../types/metadata.js";
 import { validateClaimData, validateMetaData } from "../validator/index.js";
+import { handleError } from "./errors.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
 const formatUnixTime = (seconds: number) => {
@@ -21,7 +26,7 @@ const formatDate = (date: Date) => {
 /**
  *
  * Formats input data to an object containing HypercertMetadata including appropriate labels
- * @returns {HypercertMetadata, boolean, errors<key, value>}
+ * @returns {HypercertMetadata, MalformedDataError}
  */
 const formatHypercertData = ({
   name,
@@ -59,7 +64,7 @@ const formatHypercertData = ({
   contributors: string[];
   rights: string[];
   excludedRights: string[];
-}): { data: HypercertMetadata | null; valid: boolean; errors: Record<string, string> } => {
+}): Result<HypercertMetadata, MalformedDataError> => {
   const claimData: HypercertClaimdata = {
     impact_scope: {
       name: "Impact Scope",
@@ -96,9 +101,9 @@ const formatHypercertData = ({
     },
   };
 
-  const { valid: claimDataValid, errors: claimDataErrors } = validateClaimData(claimData);
-  if (!claimDataValid) {
-    return { valid: false, errors: claimDataErrors, data: null };
+  const claimDataValidation = validateClaimData(claimData);
+  if (claimDataValidation.isErr) {
+    handleError(claimDataValidation.error);
   }
 
   const metaData: HypercertMetadata = {
@@ -111,11 +116,35 @@ const formatHypercertData = ({
     hypercert: claimData,
   };
 
-  const { valid: metaDataValid, errors: metaDataErrors } = validateMetaData(metaData);
-  if (!metaDataValid) {
-    return { valid: false, errors: metaDataErrors, data: null };
+  const metaDataValidation = validateMetaData(metaData);
+  if (metaDataValidation.isErr) {
+    handleError(metaDataValidation.error);
   }
-  return { valid: true, errors: {}, data: metaData };
+  return metaDataValidation.isOk && claimDataValidation.isOk
+    ? ok(metaData)
+    : err(
+        new MalformedDataError("Could not format data", {
+          input: {
+            name,
+            description,
+            external_url,
+            image,
+            version,
+            properties,
+            impactScope,
+            excludedImpactScope,
+            workScope,
+            excludedWorkScope,
+            workTimeframeStart,
+            workTimeframeEnd,
+            impactTimeframeStart,
+            impactTimeframeEnd,
+            contributors,
+            rights,
+            excludedRights,
+          },
+        }),
+      );
 };
 
 export { formatDate, formatUnixTime, formatHypercertData };

@@ -1,9 +1,14 @@
 import axios from "axios";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
+import { Result } from "true-myth";
+import { err, ok } from "true-myth/result";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
+import { FetchError, InvalidOrMissingError, StorageError } from "../errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
 import { logger } from "../utils/logger.js";
 
@@ -24,11 +29,16 @@ export default class HypercertsStorage {
     const _web3StorageToken =
       web3StorageToken ?? process.env.WEB3_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    if (!_nftStorageToken || !_web3StorageToken || _nftStorageToken === "" || _web3StorageToken === "") {
-      throw new Error("Invalid API key");
+    if (!_nftStorageToken || _nftStorageToken === "") {
+      throw new InvalidOrMissingError("NFT Storage API key is missing or invalid.", "_nftStorageToken");
     }
-    this.nftStorageClient = new NFTStorage({ token: _nftStorageToken! });
-    this.web3StorageClient = new Web3Storage({ token: _web3StorageToken! });
+
+    if (!_web3StorageToken || _web3StorageToken === "") {
+      throw new InvalidOrMissingError("Web3 Storage API key is missing or invalid.", "_web3StorageToken");
+    }
+
+    this.nftStorageClient = new NFTStorage({ token: _nftStorageToken });
+    this.web3StorageClient = new Web3Storage({ token: _web3StorageToken });
   }
 
   /**
@@ -37,10 +47,15 @@ export default class HypercertsStorage {
    * @param targetClient
    * @returns
    */
-  public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
+  public async storeMetadata(data: HypercertMetadata): Promise<Result<CIDString, StorageError>> {
     logger.info("Storing HypercertMetaData:", { metadata: data });
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
-    return this.nftStorageClient.storeBlob(blob);
+    const cid: CIDString = await this.nftStorageClient.storeBlob(blob);
+    if (!cid) {
+      return err(new StorageError("Failed to store metadata"));
+    }
+
+    return ok(cid);
   }
 
   /**
@@ -48,10 +63,13 @@ export default class HypercertsStorage {
    * @param cidOrIpfsUri
    * @returns
    */
-  public async getMetadata(cidOrIpfsUri: string) {
+  public async getMetadata(cidOrIpfsUri: string): Promise<Result<HypercertMetadata, FetchError>> {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
     logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-    return axios.get<HypercertMetadata>(nftStorageGatewayLink).then(result => result.data);
+    return axios.get<HypercertMetadata>(nftStorageGatewayLink).then(
+      (result) => ok(result.data),
+      () => err(new FetchError(`Failed to get ${cidOrIpfsUri}`, { uri: nftStorageGatewayLink })),
+    );
   }
 
   /**
@@ -63,19 +81,25 @@ export default class HypercertsStorage {
    * @param targetClient
    * @returns
    */
-  public async storeData(data: any): Promise<CIDString> {
+  public async storeData(data: unknown): Promise<Result<CIDString, FetchError>> {
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
     logger.info("Storing blob of: ", data);
-    return await this.web3StorageClient.put(files, { wrapWithDirectory: false });
+    const cid: CIDString = await this.web3StorageClient.put(files, { wrapWithDirectory: false });
+
+    if (!cid) {
+      return err(new StorageError("Failed to store data"));
+    }
+
+    return ok(cid);
   }
 
   /**
-   * Get arbitrary data from web3.storage
+   * Get arbitrary data from web3.storage. Use with caution because there's no guarantee that the data will be there or safe.
    * @param cidOrIpfsUri
-   * @returns
+   * @returns JSON data or error
    */
-  public async getData(cidOrIpfsUri: string) {
+  public async getData(cidOrIpfsUri: string): Promise<Result<unknown, FetchError>> {
     /**
     // Using the default web3.storage client is not working in upstream repos. Needs further testing.
     const cid = getCid(cidOrIpfsUri);
@@ -104,8 +128,11 @@ export default class HypercertsStorage {
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-    return axios.get(nftStorageGatewayLink).then((result: any) => result.data);
+    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    return axios.get(nftStorageGatewayLink).then(
+      (result) => ok(result.data),
+      () => err(new FetchError(`Failed to get ${cidOrIpfsUri}`, { uri: nftStorageGatewayLink })),
+    );
   }
 
   getNftStorageGatewayUri = (cidOrIpfsUri: string) => {

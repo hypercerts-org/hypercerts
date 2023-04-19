@@ -1,7 +1,4 @@
-import { Result } from "true-myth";
-
 import { UnsupportedChainError } from "./errors.js";
-import { handleError } from "./utils/errors.js";
 import { logger } from "./utils/logger.js";
 
 /**
@@ -48,7 +45,7 @@ export const getConfig = (overrides: Partial<Config>) => {
     throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId);
   }
 
-  const baseDeployment = DEPLOYMENTS.find(d => d.chainId === chainId);
+  const baseDeployment = DEPLOYMENTS.find((d) => d.chainId === chainId);
   if (!baseDeployment) {
     throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
   }

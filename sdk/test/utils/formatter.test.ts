@@ -1,6 +1,7 @@
 import { expect } from "chai";
-import { formatUnixTime, formatDate, INDEFINITE_DATE_STRING } from "../../src/utils/formatter.js";
+
 import { formatHypercertData } from "../../src/index.js";
+import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../../src/utils/formatter.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -21,18 +22,33 @@ const testData: Partial<TestDataType> = {
 };
 
 describe("Format Hypercert Data test", () => {
-  it("checks correct metadata", () => {
-    const { valid, errors } = formatHypercertData(testData as TestDataType);
-    expect(valid).to.be.true;
-    expect(Object.keys(errors).length).to.eq(0);
-  });
+  it("checks correct metadata and returns result", () => {
+    const formattedValidData = formatHypercertData(testData as TestDataType);
+    expect(formattedValidData.isOk).to.be.true;
+    expect(formattedValidData.isErr).to.be.false;
 
-  it("returns null on incorrect data", () => {
-    const { name, ...rest } = testData;
-    const { valid, errors, data } = formatHypercertData(rest as TestDataType);
-    expect(valid).to.be.false;
-    expect(Object.keys(errors).length).to.eq(1);
-    expect(data).to.be.null;
+    const validData = formattedValidData.unwrapOr({});
+    const validKeys = Object.keys(validData);
+
+    expect(validKeys).to.include.members([
+      "name",
+      "description",
+      "external_url",
+      "image",
+      "version",
+      "properties",
+      "hypercert",
+    ]);
+
+    const invalidData = testData;
+    delete invalidData.name;
+    const formattedInvalidData = formatHypercertData(invalidData as TestDataType);
+    expect(formattedInvalidData.isOk).to.be.false;
+    expect(formattedInvalidData.isErr).to.be.true;
+
+    if (formattedInvalidData.isErr) {
+      expect(formattedInvalidData.error.message).to.equal("Could not format data");
+    }
   });
 });
 

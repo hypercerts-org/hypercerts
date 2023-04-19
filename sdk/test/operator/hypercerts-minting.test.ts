@@ -42,7 +42,7 @@ describe("Create Minting instance", () => {
   });
 
   it("checks can mint", async () => {
-    const { valid, errors, data } = formatHypercertData(testData as TestDataType);
+    const formattedData = formatHypercertData(testData as TestDataType);
     const minter = HypercertMinting({
       chainConfig: {
         chainId: 5,
@@ -51,12 +51,14 @@ describe("Create Minting instance", () => {
       },
     });
 
-    try {
-      await minter.mintHypercert(userAddress, data as HypercertMetadata, BigNumber.from("10000"), BigNumber.from("0"));
-    } catch (e: any) {
-      expect(e.message).toEqual(
-        'sending a transaction requires a signer (operation="sendTransaction", code=UNSUPPORTED_OPERATION, version=contracts/5.7.0)',
-      );
-    }
+    const result = await minter.mintHypercert(
+      userAddress,
+      formattedData.unwrapOr({} as HypercertMetadata),
+      BigNumber.from("10000"),
+      BigNumber.from("0"),
+    );
+
+    expect(result.isOk).toBe(false);
+    expect(result.isErr).toBe(true);
   });
 });

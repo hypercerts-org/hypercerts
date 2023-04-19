@@ -1,9 +1,12 @@
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
+import { Result } from "true-myth";
+import { err, ok } from "true-myth/result";
 
 import { Config, getConfig } from "../config.js";
-import { HypercertsSdkError, MalformedDataError } from "../errors.js";
+import { HypercertsSdkError, MintingError } from "../errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
+import { handleError } from "../utils/errors.js";
 
 type HypercertsMinterProps = {
   provider?: ethers.providers.BaseProvider;
@@ -17,7 +20,7 @@ type HypercertsMinterType = {
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ) => Promise<ContractTransaction | MalformedDataError>;
+  ) => Promise<Result<ContractTransaction, HypercertsSdkError>>;
   transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
 };
 
@@ -41,16 +44,28 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ) => {
+  ): Promise<Result<ContractTransaction, HypercertsSdkError>> => {
     // validate metadata
     const validation = validateMetaData(claimData);
-    if (!validation.valid || Object.keys(validation.errors).length > 0) {
-      return new MalformedDataError(`Error(s) validating metadata: ${validation.errors}`, validation.errors);
+    if (validation.isErr) {
+      handleError(validation.error);
+      return err(validation.error);
     }
     // store metadata on IPFS
     const cid = await _storage.storeMetadata(claimData);
+    if (cid.isErr) {
+      handleError(cid.error);
+      return err(cid.error);
+    }
 
-    return await contract.mintClaim(address, totalUnits, cid, transferRestriction);
+    return await contract.mintClaim(address, totalUnits, cid.value, transferRestriction).then(
+      (tx) => {
+        return ok(tx);
+      },
+      () => {
+        return err(new MintingError("Minting failed", { address, totalUnits, cid, transferRestriction }));
+      },
+    );
   };
 
   return {

@@ -1,29 +1,24 @@
 import Ajv from "ajv";
-import metaData from "../resources/schema/metadata.json" assert { type: "json" };
+import Result, { err, ok } from "true-myth/result";
+
+import { HypercertsSdkError, MalformedDataError, UnknownSchemaError } from "../errors.js";
 import claimData from "../resources/schema/claimdata.json" assert { type: "json" };
-
-import { HypercertMetadata } from "../types/metadata.js";
+import metaData from "../resources/schema/metadata.json" assert { type: "json" };
 import { HypercertClaimdata } from "../types/claimdata.js";
-
-type Result = {
-  valid: boolean;
-  errors: Record<string, string>;
-};
+import { HypercertMetadata } from "../types/metadata.js";
 
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaData, "metaData");
 ajv.addSchema(claimData, "claimData");
 
-// TODO error logging and handling
-const validateMetaData = (data: HypercertMetadata): Result => {
-  let validate = ajv.getSchema<HypercertMetadata>("metaData");
+const validateMetaData = (data: HypercertMetadata): Result<boolean, HypercertsSdkError> => {
+  const schemaName = "metaData";
+  const validate = ajv.getSchema<HypercertMetadata>(schemaName);
   if (!validate) {
-    return { valid: false, errors: {} };
+    return err(new UnknownSchemaError("Schema not found", { schemaName }));
   }
 
-  if (validate(data)) {
-    return { valid: true, errors: {} };
-  } else {
+  if (!validate(data)) {
     const errors: Record<string, string> = {};
     for (const e of validate.errors || []) {
       const key = e.params.missingProperty || "other";
@@ -31,22 +26,20 @@ const validateMetaData = (data: HypercertMetadata): Result => {
         errors[key] = e.message;
       }
     }
-    return {
-      valid: false,
-      errors,
-    };
+    return err(new MalformedDataError("Metadata validation failed", errors));
   }
+
+  return ok(true);
 };
 
-const validateClaimData = (data: HypercertClaimdata): Result => {
-  let validate = ajv.getSchema<HypercertClaimdata>("claimData");
+const validateClaimData = (data: HypercertClaimdata): Result<boolean, HypercertsSdkError> => {
+  const schemaName = "claimData";
+  const validate = ajv.getSchema<HypercertClaimdata>(schemaName);
   if (!validate) {
-    return { valid: false, errors: {} };
+    return err(new UnknownSchemaError("Schema not found", { schemaName }));
   }
 
-  if (validate(data)) {
-    return { valid: true, errors: {} };
-  } else {
+  if (!validate(data)) {
     const errors: Record<string, string> = {};
     for (const e of validate.errors || []) {
       const key = e.params.missingProperty || "other";
@@ -54,11 +47,10 @@ const validateClaimData = (data: HypercertClaimdata): Result => {
         errors[key] = e.message;
       }
     }
-    return {
-      valid: false,
-      errors,
-    };
+    return err(new MalformedDataError("Claimdata validation failed", errors));
   }
+
+  return ok(true);
 };
 
 export { validateMetaData, validateClaimData };
