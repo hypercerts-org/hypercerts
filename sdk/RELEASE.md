@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.0.32
+
+- Removed `30` limit on token query
+- Updated `graph-client packages`
+
 ## 0.0.31
 
 - Hack around getData handler

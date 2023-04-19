@@ -27,6 +27,7 @@ import { fetch as fetchFn } from "@whatwg-node/fetch";
 import { FieldNode, GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig, SelectionSetNode } from "graphql";
 import { parse } from "graphql";
 
+import * as importedModule$0 from "./sources/Hypercerts/introspectionSchema";
 import type { HypercertsTypes } from "./sources/Hypercerts/types";
 
 export type Maybe<T> = T | null;
@@ -888,7 +889,7 @@ const importFn: ImportFn = <T>(moduleId: string) => {
     .replace(baseDir + "/", "");
   switch (relativeModuleId) {
     case ".graphclient/sources/Hypercerts/introspectionSchema":
-      return import("./sources/Hypercerts/introspectionSchema") as T;
+      return Promise.resolve(importedModule$0) as T;
 
     default:
       return Promise.reject(new Error(`Cannot find module '${relativeModuleId}'.`));
@@ -1150,7 +1151,7 @@ export const ClaimByIdDocument = gql`
 ` as unknown as DocumentNode<ClaimByIdQuery, ClaimByIdQueryVariables>;
 export const ClaimTokensByOwnerDocument = gql`
   query ClaimTokensByOwner($owner: Bytes = "") {
-    claimTokens(where: { owner: $owner }, first: 30) {
+    claimTokens(where: { owner: $owner }) {
       chainName
       id
       owner
