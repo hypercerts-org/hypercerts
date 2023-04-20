@@ -76,7 +76,7 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           : byMetadataUri ?? newData?.claim?.uri;
         if (metadataUri) {
           const result = await hypercertsStorage.getMetadata(metadataUri);
-          newData.metadata = result;
+          newData.metadata = result.unwrapOr(undefined);
         }
         console.log(
           `Hypercert name='${newData.metadata?.name}' claimId=${claimId}, metadataUri=${metadataUri}: `,

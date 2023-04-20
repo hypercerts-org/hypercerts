@@ -138,9 +138,7 @@ const formDataToQueryString = (values: Record<string, any>) => {
   ["impactTimeStart", "impactTimeEnd", "workTimeStart", "workTimeEnd"].forEach(
     formatDate,
   );
-  const filteredValues = _.chain(values)
-    .pickBy()
-    .value();
+  const filteredValues = _.chain(values).pickBy().value();
   return qs.stringify(filteredValues);
 };
 
@@ -186,23 +184,26 @@ const ValidationSchema = Yup.object().shape({
   externalLink: Yup.string().test(
     "valid uri",
     "Please enter a valid URL",
-    value =>
+    (value) =>
       isValidUrl(value, {
         emptyAllowed: true,
         ipfsAllowed: true,
       }),
   ),
-  logoUrl: Yup.string().test("valid uri", "Please enter a valid URL", value =>
+  logoUrl: Yup.string().test("valid uri", "Please enter a valid URL", (value) =>
     isValidUrl(value, {
       emptyAllowed: true,
       ipfsAllowed: false,
     }),
   ),
-  bannerUrl: Yup.string().test("valid uri", "Please enter a valid URL", value =>
-    isValidUrl(value, {
-      emptyAllowed: true,
-      ipfsAllowed: false,
-    }),
+  bannerUrl: Yup.string().test(
+    "valid uri",
+    "Please enter a valid URL",
+    (value) =>
+      isValidUrl(value, {
+        emptyAllowed: true,
+        ipfsAllowed: false,
+      }),
   ),
   impactScopes: Yup.array().min(1, "Please choose at least 1 item"),
   impactTimeEnd: Yup.lazy((val: any) => {
@@ -210,7 +211,7 @@ const ValidationSchema = Yup.object().shape({
       case "string":
         return Yup.string();
       default:
-        return Yup.date().when("workTimeStart", workTimeStart => {
+        return Yup.date().when("workTimeStart", (workTimeStart) => {
           return Yup.date().min(
             workTimeStart,
             "End date must be after start date",
@@ -224,7 +225,7 @@ const ValidationSchema = Yup.object().shape({
       NAME_MIN_LENGTH,
       `Work scopes must be at least ${NAME_MIN_LENGTH} characters`,
     )
-    .test("no duplicates", "Please remove duplicate items", value => {
+    .test("no duplicates", "Please remove duplicate items", (value) => {
       if (!value) {
         return true;
       }
@@ -235,13 +236,13 @@ const ValidationSchema = Yup.object().shape({
       });
       return _.isEqual(items, dedup);
     }),
-  workTimeEnd: Yup.date().when("workTimeStart", workTimeStart => {
+  workTimeEnd: Yup.date().when("workTimeStart", (workTimeStart) => {
     return Yup.date().min(workTimeStart, "End date must be after start date");
   }),
   rights: Yup.array().min(1),
   contributors: Yup.string()
     .required("Required")
-    .test("no duplicates", "Please remove duplicate items", value => {
+    .test("no duplicates", "Please remove duplicate items", (value) => {
       if (!value) {
         return true;
       }
@@ -255,7 +256,7 @@ const ValidationSchema = Yup.object().shape({
   allowlistUrl: Yup.string().test(
     "valid uri",
     "Please enter a valid URL",
-    value =>
+    (value) =>
       isValidUrl(value, {
         emptyAllowed: true,
         ipfsAllowed: false,
@@ -327,7 +328,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
       <Formik
         validationSchema={ValidationSchema}
         validateOnMount={true}
-        validate={_values => {
+        validate={(_values) => {
           // console.log(values);
           if (typeof initialQuery !== "undefined") {
             // The useEffect has run already, so it's safe to just update the query string directly
@@ -357,28 +358,31 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
           }
 
           const image = await exportAsImage(IMAGE_SELECTOR);
-          const { valid, errors, data: metaData } = formatValuesToMetaData(
+          const metaData = formatValuesToMetaData(
             values,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address!,
             image,
           );
-          console.log(`Metadata(valid=${valid}): `, metaData);
-          if (valid && metaData) {
+          console.log(
+            `Metadata(valid=${metaData.isOk}): `,
+            metaData.unwrapOr("Something went wrong"),
+          );
+          if (metaData.isOk) {
             //return; // Used for testing
             if (values.allowlistUrl) {
               await mintClaimAllowlist({
-                metaData,
+                metaData: metaData.value,
                 allowlistUrl: values.allowlistUrl,
               });
             } else {
-              await mintClaim(metaData, DEFAULT_NUM_FRACTIONS);
+              await mintClaim(metaData.value, DEFAULT_NUM_FRACTIONS);
             }
           } else {
             toast("Error creating hypercert. Please contact the team.", {
               type: "error",
             });
-            console.error("SDK formatting errors: ", errors);
+            console.error("SDK formatting errors: ", metaData.error);
           }
           setSubmitting(false);
         }}
@@ -396,7 +400,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
           >
             <FormContext.Provider value={formikProps}>
               <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                   e.preventDefault();
                   console.log("Submitting form...");
                   console.log("Form values: ", formikProps.values);

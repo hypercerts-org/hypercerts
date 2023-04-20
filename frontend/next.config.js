@@ -23,3 +23,11 @@ module.exports = withSentryConfig(
   { silent: true },
   { hideSourcemaps: true },
 );
+
+module.exports = {
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+
+    return config;
+  },
+};
