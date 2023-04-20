@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local", "**.env"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -22,6 +23,9 @@
     },
     "test": {
       "cache": false
+    },
+    "contracts#build": {
+      "dependsOn": ["contracts#typechain"]
     },
     "frontend#build": {
       "dependsOn": ["sdk#build"]
