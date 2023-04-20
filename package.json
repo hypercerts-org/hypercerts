@@ -5,15 +5,20 @@
   "author": "Hypercerts Foundation",
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": [
-    "contracts",
-    "cors-proxy",
-    "defender",
-    "docs",
-    "frontend",
-    "graph",
-    "sdk"
-  ],
+  "workspaces": {
+    "packages": [
+      "contracts",
+      "cors-proxy",
+      "defender",
+      "docs",
+      "frontend",
+      "graph",
+      "sdk"
+    ],
+    "nohoist": [
+      "graph"
+    ]
+  },
   "scripts": {
     "build": "turbo run build",
     "build:site": "turbo run build --filter=hypercerts-frontend --filter=hypercerts-docs --filter=hypercerts-protocol && yarn copy",
