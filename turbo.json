@@ -22,6 +22,12 @@
     },
     "test": {
       "cache": false
+    },
+    "frontend#build": {
+      "dependsOn": ["sdk#build"]
+    },
+    "sdk#build": {
+      "dependsOn": ["contracts#build"]
     }
   }
 }

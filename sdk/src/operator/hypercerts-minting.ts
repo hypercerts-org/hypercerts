@@ -20,7 +20,7 @@ type HypercertsMinterType = {
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ) => Promise<Result<ContractTransaction, HypercertsSdkError>>;
+  ) => Promise<ContractTransaction>;
   transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
 };
 
@@ -44,28 +44,21 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ): Promise<Result<ContractTransaction, HypercertsSdkError>> => {
+  ): Promise<ContractTransaction> => {
     // validate metadata
     const validation = validateMetaData(claimData);
     if (validation.isErr) {
       handleError(validation.error);
-      return err(validation.error);
+      throw validation.error;
     }
     // store metadata on IPFS
     const cid = await _storage.storeMetadata(claimData);
     if (cid.isErr) {
       handleError(cid.error);
-      return err(cid.error);
+      throw cid.error;
     }
 
-    return await contract.mintClaim(address, totalUnits, cid.value, transferRestriction).then(
-      (tx) => {
-        return ok(tx);
-      },
-      () => {
-        return err(new MintingError("Minting failed", { address, totalUnits, cid, transferRestriction }));
-      },
-    );
+    return await contract.mintClaim(address, totalUnits, cid.value, transferRestriction);
   };
 
   return {
