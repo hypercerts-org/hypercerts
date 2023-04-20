@@ -11,7 +11,7 @@ plugins:
 root: true
 rules:
   "@typescript-eslint/semi": 
-    - "warn"
+    - warn
   "@typescript-eslint/switch-exhaustiveness-check":
     - warn
   "@typescript-eslint/no-floating-promises":
