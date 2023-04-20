@@ -13,16 +13,18 @@
       ]
     },
     "deploy": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build", "lint", "test"]
     },
     "dev": {
       "cache": false
     },
     "lint": {
-      "cache": false
+      "cache": false,
+      "dependsOn": ["build"]
     },
     "test": {
-      "cache": false
+      "cache": false,
+      "dependsOn": ["lint"]
     },
     "contracts#build": {
       "dependsOn": ["^build"]
