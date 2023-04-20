@@ -1,11 +1,6 @@
-import { Result } from "true-myth";
-import { err, ok } from "true-myth/result";
-
-import { MalformedDataError } from "../errors.js";
 import { HypercertClaimdata } from "../types/claimdata.js";
 import { HypercertMetadata } from "../types/metadata.js";
 import { validateClaimData, validateMetaData } from "../validator/index.js";
-import { handleError } from "./errors.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
 const formatUnixTime = (seconds: number) => {
@@ -22,6 +17,8 @@ const formatDate = (date: Date) => {
   const day = date.getUTCDate().toString().padStart(2, "0");
   return `${fullYear}-${month}-${day}`;
 };
+
+type FormatResult = { data: HypercertMetadata | null; valid: boolean; errors: Record<string, string> | null };
 
 /**
  *
@@ -49,10 +46,10 @@ const formatHypercertData = ({
 }: {
   name: string;
   description: string;
-  external_url: string;
+  external_url?: string;
   image: string;
   version: string;
-  properties: { trait_type: string; value: string }[];
+  properties?: { trait_type: string; value: string }[];
   impactScope: string[];
   excludedImpactScope: string[];
   workScope: string[];
@@ -64,7 +61,7 @@ const formatHypercertData = ({
   contributors: string[];
   rights: string[];
   excludedRights: string[];
-}): Result<HypercertMetadata, MalformedDataError> => {
+}): FormatResult => {
   const claimData: HypercertClaimdata = {
     impact_scope: {
       name: "Impact Scope",
@@ -101,50 +98,33 @@ const formatHypercertData = ({
     },
   };
 
-  const claimDataValidation = validateClaimData(claimData);
-  if (claimDataValidation.isErr) {
-    handleError(claimDataValidation.error);
+  const { valid: claimDataValid, errors: claimDataErrors } = validateClaimData(claimData);
+  if (!claimDataValid) {
+    return { valid: false, errors: claimDataErrors, data: null } as FormatResult;
   }
 
   const metaData: HypercertMetadata = {
     name,
     description,
-    external_url,
     image,
     version,
-    properties,
     hypercert: claimData,
   };
 
-  const metaDataValidation = validateMetaData(metaData);
-  if (metaDataValidation.isErr) {
-    handleError(metaDataValidation.error);
+  if (properties && properties.length > 0) {
+    metaData.properties = properties;
   }
-  return metaDataValidation.isOk && claimDataValidation.isOk
-    ? ok(metaData)
-    : err(
-        new MalformedDataError("Could not format data", {
-          input: {
-            name,
-            description,
-            external_url,
-            image,
-            version,
-            properties,
-            impactScope,
-            excludedImpactScope,
-            workScope,
-            excludedWorkScope,
-            workTimeframeStart,
-            workTimeframeEnd,
-            impactTimeframeStart,
-            impactTimeframeEnd,
-            contributors,
-            rights,
-            excludedRights,
-          },
-        }),
-      );
+
+  if (external_url && external_url.length > 0) {
+    metaData.external_url = external_url;
+  }
+
+  const { valid: metaDataValid, errors: metaDataErrors } = validateMetaData(metaData);
+  if (!metaDataValid) {
+    return { valid: false, errors: metaDataErrors, data: null } as FormatResult;
+  }
+
+  return { data: metaData, valid: true, errors: null };
 };
 
 export { formatDate, formatUnixTime, formatHypercertData };

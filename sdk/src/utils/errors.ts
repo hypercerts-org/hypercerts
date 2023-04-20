@@ -3,7 +3,7 @@ import { logger } from "./logger.js";
 
 /**
  *
- * Method to handle errors and log them
+ * Method to catch errors and log them
  * @param err  Error to handle defined in HypercertsSdkError
  */
 const handleError = (err: HypercertsSdkError) => {

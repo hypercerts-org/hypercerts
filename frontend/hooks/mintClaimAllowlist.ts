@@ -67,8 +67,7 @@ export const useMintClaimAllowlist = ({
     if (pairs) {
       // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
-      if (merkleCID.isErr) {
-        console.error(merkleCID.error);
+      if (!merkleCID) {
         toast(
           "Something went wrong while generating merkle tree from the CSV file",
           { type: "error" },
@@ -78,11 +77,10 @@ export const useMintClaimAllowlist = ({
       }
       const cid = await hypercertsStorage.storeMetadata({
         ...metaData,
-        allowList: cidToIpfsUri(merkleCID.value),
+        allowList: cidToIpfsUri(merkleCID),
       });
 
-      if (cid.isErr) {
-        console.error(cid.error);
+      if (!cid) {
         toast("Something went wrong while uploading metadata to IPFS", {
           type: "error",
         });
@@ -90,7 +88,7 @@ export const useMintClaimAllowlist = ({
         return;
       }
 
-      setCidUri(cidToIpfsUri(cid.value));
+      setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
       setUnits(_.sum(pairs.map((x) => x.units)));
     }
@@ -109,8 +107,7 @@ export const useMintClaimAllowlist = ({
         const totalSupply = _.sum(allowlist.map((x) => x.units));
 
         const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
-        if (merkleCID.isErr) {
-          console.error(merkleCID.error);
+        if (!merkleCID) {
           toast(
             "Something went wrong while generating merkle tree from the CSV file",
             { type: "error" },
@@ -121,11 +118,11 @@ export const useMintClaimAllowlist = ({
 
         const cid = await hypercertsStorage.storeMetadata({
           ...metaData,
-          allowList: cidToIpfsUri(merkleCID.value),
+          allowList: cidToIpfsUri(merkleCID),
         });
 
-        if (cid.isErr) {
-          console.error(cid.error);
+        if (!cid) {
+          console.error(cid);
           toast("Something went wrong while uploading metadata to IPFS", {
             type: "error",
           });
@@ -133,7 +130,7 @@ export const useMintClaimAllowlist = ({
           return;
         }
 
-        setCidUri(cidToIpfsUri(cid.value));
+        setCidUri(cidToIpfsUri(cid));
         setMerkleRoot(root);
         setUnits(totalSupply);
       } catch (e) {

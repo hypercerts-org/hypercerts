@@ -104,8 +104,8 @@ export class MalformedDataError implements TypedError {
   __type = ErrorType.MalformedDataError;
   name = "MalformedDataError";
   message: string;
-  payload?: { [key: string]: unknown } | undefined;
-  constructor(message: string, payload?: { [key: string]: unknown } | undefined) {
+  payload?: { [key: string]: unknown };
+  constructor(message: string, payload?: { [key: string]: unknown }) {
     this.message = message;
     this.payload = payload;
 

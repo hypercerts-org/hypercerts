@@ -5,11 +5,13 @@ extends:
   - "prettier"
 parser: "@typescript-eslint/parser"
 parserOptions:
-  project: "./tsconfig.json"
+  project: "./sdk/tsconfig.json"
 plugins:
   - "@typescript-eslint"
 root: true
 rules:
+  "@typescript-eslint/semi": 
+    - "warn"
   "@typescript-eslint/switch-exhaustiveness-check":
     - warn
   "@typescript-eslint/no-floating-promises":

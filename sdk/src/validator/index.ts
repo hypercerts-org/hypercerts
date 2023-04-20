@@ -1,7 +1,5 @@
 import Ajv from "ajv";
-import Result, { err, ok } from "true-myth/result";
 
-import { HypercertsSdkError, MalformedDataError, UnknownSchemaError } from "../errors.js";
 import claimData from "../resources/schema/claimdata.json" assert { type: "json" };
 import metaData from "../resources/schema/metadata.json" assert { type: "json" };
 import { HypercertClaimdata } from "../types/claimdata.js";
@@ -11,11 +9,16 @@ const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g.
 ajv.addSchema(metaData, "metaData");
 ajv.addSchema(claimData, "claimData");
 
-const validateMetaData = (data: HypercertMetadata): Result<boolean, HypercertsSdkError> => {
+type ValidationResult = {
+  valid: boolean;
+  errors: Record<string, string>;
+};
+
+const validateMetaData = (data: HypercertMetadata): ValidationResult => {
   const schemaName = "metaData";
   const validate = ajv.getSchema<HypercertMetadata>(schemaName);
   if (!validate) {
-    return err(new UnknownSchemaError("Schema not found", { schemaName }));
+    return { valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -26,17 +29,17 @@ const validateMetaData = (data: HypercertMetadata): Result<boolean, HypercertsSd
         errors[key] = e.message;
       }
     }
-    return err(new MalformedDataError("Metadata validation failed", errors));
+    return { valid: false, errors };
   }
 
-  return ok(true);
+  return { valid: true, errors: {} };
 };
 
-const validateClaimData = (data: HypercertClaimdata): Result<boolean, HypercertsSdkError> => {
+const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
   const schemaName = "claimData";
   const validate = ajv.getSchema<HypercertClaimdata>(schemaName);
   if (!validate) {
-    return err(new UnknownSchemaError("Schema not found", { schemaName }));
+    return { valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -47,10 +50,10 @@ const validateClaimData = (data: HypercertClaimdata): Result<boolean, Hypercerts
         errors[key] = e.message;
       }
     }
-    return err(new MalformedDataError("Claimdata validation failed", errors));
+    return { valid: false, errors };
   }
 
-  return ok(true);
+  return { valid: true, errors: {} };
 };
 
 export { validateMetaData, validateClaimData };

@@ -21,14 +21,14 @@ const testData: Partial<TestDataType> = {
   version: "0.0.1",
 };
 
+const testDataUndefinedProperties: Partial<TestDataType> = { ...testData, properties: undefined };
+
+const testDataUndefinedExternalURL: Partial<TestDataType> = { ...testData, external_url: undefined };
+
 describe("Format Hypercert Data test", () => {
   it("checks correct metadata and returns result", () => {
-    const formattedValidData = formatHypercertData(testData as TestDataType);
-    expect(formattedValidData.isOk).to.be.true;
-    expect(formattedValidData.isErr).to.be.false;
-
-    const validData = formattedValidData.unwrapOr({});
-    const validKeys = Object.keys(validData);
+    const result = formatHypercertData(testData as TestDataType);
+    const validKeys = Object.keys(result.data!);
 
     expect(validKeys).to.include.members([
       "name",
@@ -42,13 +42,22 @@ describe("Format Hypercert Data test", () => {
 
     const invalidData = testData;
     delete invalidData.name;
-    const formattedInvalidData = formatHypercertData(invalidData as TestDataType);
-    expect(formattedInvalidData.isOk).to.be.false;
-    expect(formattedInvalidData.isErr).to.be.true;
 
-    if (formattedInvalidData.isErr) {
-      expect(formattedInvalidData.error.message).to.equal("Could not format data");
-    }
+    const invalidResult = formatHypercertData(invalidData as TestDataType);
+
+    expect(invalidResult.valid).to.be.false;
+    expect(Object.keys(invalidResult.errors!)).to.be.length(1);
+    expect(Object.keys(invalidResult.errors!)[0]).to.eq("name");
+  });
+
+  it("handles undefined properties", () => {
+    const formattedData = formatHypercertData(testDataUndefinedProperties as TestDataType);
+    expect(Object.keys(formattedData).find((key) => key === "properties")).to.be.undefined;
+  });
+
+  it("handles undefined external_url", () => {
+    const formattedData = formatHypercertData(testDataUndefinedExternalURL as TestDataType);
+    expect(Object.keys(formattedData).find((key) => key === "external_url")).to.be.undefined;
   });
 });
 

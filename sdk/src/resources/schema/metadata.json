@@ -51,10 +51,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [
-    "name",
-    "description",
-    "image",
-    "properties"
-  ]
+  "required": ["name", "description", "image"]
 }

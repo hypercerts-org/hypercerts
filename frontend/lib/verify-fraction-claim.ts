@@ -1,8 +1,6 @@
-import { cidToIpfsUri } from "./formatting";
 import { hypercertsStorage } from "./hypercerts-storage";
 import { claimById } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { toast } from "react-toastify";
 
 export type ClaimProof = {
   proof: string[];
@@ -12,33 +10,23 @@ export type ClaimProof = {
 
 export const verifyFractionClaim = async (claimId: string, address: string) => {
   const claimByIdRes = await claimById(claimId);
-  if (claimByIdRes.isErr) {
-    console.log(claimByIdRes.error);
-    toast(
-      `Could not fetch claim ${claimId} from Graph. Please try again later.`,
-    );
-    return;
+  if (!claimByIdRes?.claim) {
+    throw new Error("No claim found for ${claimID}");
   }
 
   const { uri, tokenID: _id } = claimByIdRes.claim;
   const metadata = await hypercertsStorage.getMetadata(uri || "");
 
-  if (metadata.isErr) {
-    console.log(metadata.error);
-    toast(`Could not fetch metadata for ${_id}. Please try again later.`);
-    return;
+  if (!metadata?.allowList) {
+    throw new Error(`No allowlist found for ${claimId}`);
   }
 
   // TODO: this should be retrieved with `getData`, but it fails on res.files()
   // Need to investigate further
-  const treeResponse = await hypercertsStorage.getData(
-    cidToIpfsUri(metadata.value.allowList || ""),
-  );
+  const treeResponse = await hypercertsStorage.getData(metadata.allowList);
 
-  if (treeResponse.isErr) {
-    console.log(treeResponse.error);
-    toast(`Could not fetch json tree dump for allowlist`);
-    return;
+  if (!treeResponse) {
+    throw new Error("Could not fetch json tree dump for allowlist");
   }
 
   const value: unknown = treeResponse.value;
@@ -60,6 +48,5 @@ export const verifyFractionClaim = async (claimId: string, address: string) => {
     }
   }
 
-  console.log(`Proof could not be found in tree ${value}`);
-  toast(`Proof could not be found`);
+  throw new Error("Proof could not be found");
 };

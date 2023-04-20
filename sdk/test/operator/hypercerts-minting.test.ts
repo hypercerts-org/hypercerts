@@ -42,7 +42,7 @@ describe("Create Minting instance", () => {
   });
 
   it("checks can mint", async () => {
-    const formattedData = formatHypercertData(testData as TestDataType);
+    const { data: formattedData } = formatHypercertData(testData as TestDataType);
     const minter = HypercertMinting({
       chainConfig: {
         chainId: 5,
@@ -51,14 +51,18 @@ describe("Create Minting instance", () => {
       },
     });
 
-    const result = await minter.mintHypercert(
-      userAddress,
-      formattedData.unwrapOr({} as HypercertMetadata),
-      BigNumber.from("10000"),
-      BigNumber.from("0"),
-    );
+    try {
+      await minter.mintHypercert(userAddress, formattedData!, BigNumber.from("10000"), BigNumber.from("0"));
+    } catch (e: any) {
+      expect(e.message).toEqual(
+        'sending a transaction requires a signer (operation="sendTransaction", code=UNSUPPORTED_OPERATION, version=contracts/5.7.0)',
+      );
+    }
 
-    expect(result.isOk).toBe(false);
-    expect(result.isErr).toBe(true);
+    try {
+      await minter.mintHypercert(userAddress, {} as HypercertMetadata, BigNumber.from("10000"), BigNumber.from("0"));
+    } catch (e: any) {
+      expect(e.message).toEqual("Metadata validation failed");
+    }
   });
 });

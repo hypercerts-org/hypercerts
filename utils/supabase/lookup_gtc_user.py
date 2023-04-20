@@ -23,9 +23,9 @@ def lookup_user(user_address):
    if count:
       project_list = sorted([x["project"] for x in data[1]])
       print("User donated to the following Gitcoin projects:")
-      print(", ".join([f"{i+1}. {p}" for (i,p) in enumerate(project_list)]))
+      for (i,projectId) in enumerate(project_list):
+         print(f"{i+1}. {projectId}")
       
-
    data, count = (supabase 
                      .table(allowlist_cache)
                      .select('claimId, address')
@@ -34,7 +34,9 @@ def lookup_user(user_address):
    if count:
       claim_list = sorted([x["claimId"] for x in data[1]])
       print("User may claim the following hypercerts:")
-      print(", ".join([f"{i+1}. {p}" for (i,p) in enumerate(claim_list)]))
+      for (i,claimId) in enumerate(claim_list):
+         print(f"{i+1}. {claimId}")
+   
 
 
 if __name__ == "__main__":

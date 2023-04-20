@@ -42,13 +42,13 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     setUnits(units);
     setStep("uploading");
     const cid = await hypercertsStorage.storeMetadata(metaData);
-    if (cid.isErr) {
-      toast(`Error uploading metadata to IPFS: ${cid.error}`, {
+    if (!cid) {
+      toast(`Error uploading metadata to IPFS`, {
         type: "error",
       });
       return;
     }
-    setCidUri(cidToIpfsUri(cid.unwrapOr("")));
+    setCidUri(cidToIpfsUri(cid));
   };
 
   const parseError = useParseBlockchainError();

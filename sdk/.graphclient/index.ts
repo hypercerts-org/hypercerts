@@ -1150,7 +1150,7 @@ export const ClaimByIdDocument = gql`
 ` as unknown as DocumentNode<ClaimByIdQuery, ClaimByIdQueryVariables>;
 export const ClaimTokensByOwnerDocument = gql`
   query ClaimTokensByOwner($owner: Bytes = "") {
-    claimTokens(where: { owner: $owner }, first: 30) {
+    claimTokens(where: { owner: $owner }) {
       chainName
       id
       owner

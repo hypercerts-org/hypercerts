@@ -364,25 +364,22 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
             address!,
             image,
           );
-          console.log(
-            `Metadata(valid=${metaData.isOk}): `,
-            metaData.unwrapOr("Something went wrong"),
-          );
-          if (metaData.isOk) {
+          console.log(`Metadata(valid=${metaData.valid}): `, metaData.data);
+          if (metaData.data) {
             //return; // Used for testing
             if (values.allowlistUrl) {
               await mintClaimAllowlist({
-                metaData: metaData.value,
+                metaData: metaData.data,
                 allowlistUrl: values.allowlistUrl,
               });
             } else {
-              await mintClaim(metaData.value, DEFAULT_NUM_FRACTIONS);
+              await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
             }
           } else {
             toast("Error creating hypercert. Please contact the team.", {
               type: "error",
             });
-            console.error("SDK formatting errors: ", metaData.error);
+            console.error("SDK formatting errors: ", metaData.errors);
           }
           setSubmitting(false);
         }}

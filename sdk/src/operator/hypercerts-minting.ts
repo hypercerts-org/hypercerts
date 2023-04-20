@@ -1,12 +1,9 @@
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
-import { Result } from "true-myth";
-import { err, ok } from "true-myth/result";
 
 import { Config, getConfig } from "../config.js";
-import { HypercertsSdkError, MintingError } from "../errors.js";
+import { MalformedDataError } from "../errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
-import { handleError } from "../utils/errors.js";
 
 type HypercertsMinterProps = {
   provider?: ethers.providers.BaseProvider;
@@ -44,21 +41,17 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: BigNumberish,
-  ): Promise<ContractTransaction> => {
+  ) => {
     // validate metadata
-    const validation = validateMetaData(claimData);
-    if (validation.isErr) {
-      handleError(validation.error);
-      throw validation.error;
-    }
-    // store metadata on IPFS
-    const cid = await _storage.storeMetadata(claimData);
-    if (cid.isErr) {
-      handleError(cid.error);
-      throw cid.error;
+    const { valid, errors } = validateMetaData(claimData);
+    if (!valid && Object.keys(errors).length > 0) {
+      throw new MalformedDataError("Metadata validation failed", errors);
     }
 
-    return await contract.mintClaim(address, totalUnits, cid.value, transferRestriction);
+    // store metadata on IPFS
+    const cid = await _storage.storeMetadata(claimData);
+
+    return contract.mintClaim(address, totalUnits, cid, transferRestriction);
   };
 
   return {
