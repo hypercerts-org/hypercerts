@@ -80,7 +80,7 @@
     "build:forge": "forge build",
     "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
     "build:ts": "npx tsc --build tsconfig.build.json",
-    "build:declarations": "shx cp typechain/*.d.ts dist/src/types",
+    "build:declarations": "yarn typechain && shx cp typechain/*.d.ts dist/src/types",
     "clean": "rimraf cache out",
     "docs": "hardhat dodoc",
     "lint": "yarn lint:sol && yarn prettier:check",
