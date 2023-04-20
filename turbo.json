@@ -19,12 +19,10 @@
       "cache": false
     },
     "lint": {
-      "cache": false,
-      "dependsOn": ["build"]
+      "cache": false
     },
     "test": {
-      "cache": false,
-      "dependsOn": ["lint"]
+      "cache": false
     },
     "contracts#build": {
       "inputs": ["./src"],
