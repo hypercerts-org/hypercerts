@@ -27,12 +27,15 @@
       "dependsOn": ["lint"]
     },
     "contracts#build": {
-      "dependsOn": ["^build"]
+      "inputs": ["./src"],
+      "dependsOn": ["^build"],
+      "outputs": ["./typechain", "./abi", "./dist"]
     },
     "frontend#build": {
       "dependsOn": ["sdk#build"]
     },
     "sdk#build": {
+      "inputs": ["./src", "./.graphclient", "./test"],
       "dependsOn": ["contracts#build"]
     }
   }
