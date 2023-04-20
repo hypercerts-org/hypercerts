@@ -1,8 +1,9 @@
 # Release notes
 
-## 0.0.21
+## 0.0.32
 
 - Handle empty fields in formatter to fix issue where OpenSea wouldn't index a token
+- Remove arbitrary limit value in fractions query
 
 ## 0.0.31
 
