@@ -21,7 +21,7 @@
     "contracts#build": {
       "inputs": ["./src/**/*.sol", "./src/**/*.ts", "./src/**/*.t.sol"],
       "outputs": ["./typechain", "./abi", "./dist"],
-      "dependsOn": ["contracts#build:ts"]
+      "dependsOn": ["build:hardhat"]
     },
     "frontend#build": {
       "dependsOn": ["sdk#build"]
