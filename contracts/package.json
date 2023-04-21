@@ -12,6 +12,17 @@
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "packageManager": "yarn@3.2.4",
+  "resolutions": {
+    "solhint/@solidity-parser/parser": "^0.14.5"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -69,16 +80,10 @@
     "solidity",
     "template"
   ],
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "packageManager": "yarn@3.2.4",
-  "resolutions": {
-    "solhint/@solidity-parser/parser": "^0.14.5"
-  },
   "scripts": {
     "build": "yarn build:ts",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
+    "build:hardhat": "hardhat compile",
     "build:ts": "tsc --build tsconfig.build.json",
     "clean": "rimraf cache out typechain abi dist cache_hardhat artifacts",
     "docs": "hardhat dodoc",

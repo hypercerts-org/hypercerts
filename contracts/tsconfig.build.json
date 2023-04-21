@@ -7,13 +7,12 @@
     "incremental": true,
     "composite": true,
     "lib": ["esnext"],
-    "module": "CommonJS",
-    "outDir": "dist",
+    "outDir": "./dist",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "target": "es6"
   },
-  "files": ["src/index.ts"],
+  "files": ["./src/index.ts"],
   "include": [
     "./typechain/common.ts",
     "./abi/HypercertMinter.json",
