@@ -1,5 +1,5 @@
-import { HypercertMetadata } from "../types/metadata.js";
 import { HypercertClaimdata } from "../types/claimdata.js";
+import { HypercertMetadata } from "../types/metadata.js";
 import { validateClaimData, validateMetaData } from "../validator/index.js";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
@@ -44,10 +44,10 @@ const formatHypercertData = ({
 }: {
   name: string;
   description: string;
-  external_url: string;
+  external_url?: string;
   image: string;
   version: string;
-  properties: { trait_type: string; value: string }[];
+  properties?: { trait_type: string; value: string }[];
   impactScope: string[];
   excludedImpactScope: string[];
   workScope: string[];
@@ -104,12 +104,18 @@ const formatHypercertData = ({
   const metaData: HypercertMetadata = {
     name,
     description,
-    external_url,
     image,
     version,
-    properties,
     hypercert: claimData,
   };
+
+  if (properties && properties.length > 0) {
+    metaData.properties = properties;
+  }
+
+  if (external_url && external_url.length > 0) {
+    metaData.external_url = external_url;
+  }
 
   const { valid: metaDataValid, errors: metaDataErrors } = validateMetaData(metaData);
   if (!metaDataValid) {

@@ -1,5 +1,5 @@
 query ClaimTokensByOwner($owner: Bytes = "") {
-  claimTokens(where: { owner: $owner }, first: 30) {
+  claimTokens(where: { owner: $owner }) {
     chainName
     id
     owner
