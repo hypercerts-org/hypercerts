@@ -15,18 +15,11 @@
     "deploy": {
       "dependsOn": ["build", "lint", "test"]
     },
-    "dev": {
-      "cache": false
-    },
-    "lint": {
-      "cache": false
-    },
-    "test": {
-      "cache": false
-    },
+    "dev": {},
+    "lint": {},
+    "test": {},
     "contracts#build": {
       "inputs": ["./src"],
-      "dependsOn": ["^build"],
       "outputs": ["./typechain", "./abi", "./dist"]
     },
     "frontend#build": {
