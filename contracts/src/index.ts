@@ -5,7 +5,8 @@
     3) add the path to the ts.config.build.json under the { include: [...] } configuration.
     4) bump package.json version to publish a new package to npm.
 */
-import ERC1155UpgradeableABI from "../abi/ERC1155Upgradeable.json";
+import ERC1155UpgradeableABI from "abi/ERC1155Upgradeable.json";
+
 import HypercertMinterABI from "../abi/HypercertMinter.json";
 import IHypercertTokenABI from "../abi/IHypercertToken.json";
 import SemiFungible1155ABI from "../abi/SemiFungible1155.json";

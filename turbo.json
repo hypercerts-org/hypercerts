@@ -20,7 +20,8 @@
     "test": {},
     "contracts#build": {
       "inputs": ["./src/**/*.sol", "./src/**/*.ts", "./src/**/*.t.sol"],
-      "outputs": ["./typechain", "./abi", "./dist"]
+      "outputs": ["./typechain", "./abi", "./dist"],
+      "dependsOn": ["contracts#clean"]
     },
     "frontend#build": {
       "dependsOn": ["sdk#build"]
