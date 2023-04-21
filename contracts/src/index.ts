@@ -14,11 +14,11 @@ import SemiFungible1155ABI from "../abi/SemiFungible1155.json";
 export { HypercertMinterABI, IHypercertTokenABI, SemiFungible1155ABI, ERC1155UpgradeableABI };
 
 // Interfaces
-export type { IHypercertToken } from "../typechain/src/interfaces/IHypercertToken";
+export { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
 
 // Contracts
-export { HypercertMinter } from "../typechain/src/HypercertMinter";
-export { AllowlistMinter } from "../typechain/src/AllowlistMinter";
+export { HypercertMinter } from "./types/src/HypercertMinter";
+export { AllowlistMinter } from "./types/src/AllowlistMinter";
 
 // Factories
-export { HypercertMinter__factory as HyperCertMinterFactory } from "../typechain/factories/src/HypercertMinter__factory";
+export { HypercertMinter__factory as HyperCertMinterFactory } from "./types/factories/src/HypercertMinter__factory";

@@ -7,21 +7,18 @@
     "incremental": true,
     "composite": true,
     "lib": ["esnext"],
-    "outDir": "./dist",
+    "outDir": "./out-tsc",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "target": "es6"
   },
   "files": ["./src/index.ts"],
   "include": [
-    "./typechain/common.ts",
     "./abi/HypercertMinter.json",
     "./abi/IHypercertToken.json",
     "./abi/SemiFungible1155.json",
     "./abi/ERC1155Upgradeable.json",
-    "./typechain/src/interfaces/IHypercertToken.ts",
-    "./typechain/src/HypercertMinter.ts",
-    "./typechain/src/AllowlistMinter.ts",
-    "./typechain/factories/src/HypercertMinter__factory.ts"
+    "./src/types/*.ts",
+    "./src/types/**/*.ts"
   ]
 }

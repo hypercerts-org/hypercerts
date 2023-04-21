@@ -78,8 +78,8 @@ const config: HardhatUserConfig = {
     flat: true,
   },
   defender: {
-    apiKey: ozApiKey,
-    apiSecret: ozSecretKey,
+    apiKey: ozApiKey!,
+    apiSecret: ozSecretKey!,
   },
   dodoc: {
     runOnCompile: true,
@@ -89,9 +89,9 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      goerli: etherscanApiKey,
-      sepolia: etherscanApiKey,
-      optimisticEthereum: optimisticEtherscanApiKey,
+      goerli: etherscanApiKey!,
+      sepolia: etherscanApiKey!,
+      optimisticEthereum: optimisticEtherscanApiKey!,
     },
   },
   networks: {
@@ -139,7 +139,7 @@ const config: HardhatUserConfig = {
     },
   },
   typechain: {
-    outDir: "./typechain",
+    outDir: "src/types",
   },
 };
 

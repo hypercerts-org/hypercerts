@@ -6194,6 +6194,18 @@
     is-reference "1.2.1"
     magic-string "^0.27.0"
 
+"@rollup/plugin-commonjs@^24.1.0":
+  version "24.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-24.1.0.tgz#79e54bd83bb64396761431eee6c44152ef322100"
+  integrity sha512-eSL45hjhCWI0jCCXcNtLVqM5N1JlBGvlFfY0m6oOYnLCJ6N0qEXoZql4sY2MOUArzhH4SA/qBpTxvvZp2Sc+DQ==
+  dependencies:
+    "@rollup/pluginutils" "^5.0.1"
+    commondir "^1.0.1"
+    estree-walker "^2.0.2"
+    glob "^8.0.3"
+    is-reference "1.2.1"
+    magic-string "^0.27.0"
+
 "@rollup/plugin-json@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-6.0.0.tgz#199fea6670fd4dfb1f4932250569b14719db234a"
@@ -6211,6 +6223,14 @@
     deepmerge "^4.2.2"
     is-builtin-module "^3.2.0"
     is-module "^1.0.0"
+    resolve "^1.22.1"
+
+"@rollup/plugin-typescript@^11.1.0":
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-11.1.0.tgz#4dd2a98475a791200d3e4dd1b8234073ad96c535"
+  integrity sha512-86flrfE+bSHB69znnTV6kVjkncs2LBMhcTCyxWgRxLyfXfQrxg4UwlAqENnjrrxnSNS/XKCDJCl8EkdFJVHOxw==
+  dependencies:
+    "@rollup/pluginutils" "^5.0.1"
     resolve "^1.22.1"
 
 "@rollup/pluginutils@^5.0.1":
@@ -6527,7 +6547,7 @@
     rpc-websockets "^7.5.1"
     superstruct "^0.14.2"
 
-"@solidity-parser/parser@^0.14.0", "@solidity-parser/parser@^0.14.1":
+"@solidity-parser/parser@^0.14.0", "@solidity-parser/parser@^0.14.1", "@solidity-parser/parser@^0.14.5":
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/@solidity-parser/parser/-/parser-0.14.5.tgz#87bc3cc7b068e08195c219c91cd8ddff5ef1a804"
   integrity sha512-6dKnHZn7fg/iQATVEzqyUOyEidbn05q7YA2mQ9hC0MMXhhV3/JrsxmFSYZAcr7j1yUP700LLhTruvJ3MiQmjJg==
@@ -6986,7 +7006,7 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
-"@typechain/ethers-v5@^10.1.1":
+"@typechain/ethers-v5@^10.2.0":
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-10.2.0.tgz#68f5963efb5214cb2d881477228e4b5b315473e1"
   integrity sha512-ikaq0N/w9fABM+G01OFmU3U3dNnyRwEahkdvi9mqy1a3XwKiPZaF/lu54OcNaEWnpvEYyhhS0N7buCtLQqC92w==
@@ -6994,7 +7014,7 @@
     lodash "^4.17.15"
     ts-essentials "^7.0.1"
 
-"@typechain/hardhat@^6.1.4":
+"@typechain/hardhat@^6.1.5":
   version "6.1.5"
   resolved "https://registry.yarnpkg.com/@typechain/hardhat/-/hardhat-6.1.5.tgz#caad58a1d3e9cd88061a584eb4f4fa763d5dcad1"
   integrity sha512-lg7LW4qDZpxFMknp3Xool61Fg6Lays8F8TXdFGBG+MxyYcYU5795P1U2XdStuzGq9S2Dzdgh+1jGww9wvZ6r4Q==
@@ -22753,7 +22773,7 @@ rollup-plugin-auto-external@^2.0.0:
     safe-resolve "^1.0.0"
     semver "^5.5.0"
 
-rollup-plugin-dts@^5.2.0:
+rollup-plugin-dts@^5.2.0, rollup-plugin-dts@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-5.3.0.tgz#80a95988002f188e376f6db3b7e2f53679168957"
   integrity sha512-8FXp0ZkyZj1iU5klkIJYLjIq/YZSwBoERu33QBDxm/1yw5UU4txrEtcmMkrq+ZiKu3Q4qvPCNqc3ovX6rjqzbQ==
@@ -22803,7 +22823,7 @@ rollup@2.78.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-rollup@^3.17.2:
+rollup@^3.17.2, rollup@^3.20.7:
   version "3.20.7"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.20.7.tgz#4f045dfb388abe08dd159f8cd286dcaca1e80b28"
   integrity sha512-P7E2zezKSLhWnTz46XxjSmInrbOCiul1yf+kJccMxT56vxjHwCbDfoLbiqFgu+WQoo9ij2PkraYaBstgB2prBA==
