@@ -19,15 +19,23 @@
     "lint": {},
     "test": {},
     "contracts#build": {
-      "inputs": ["./src"],
+      "inputs": ["./src/**/*.sol", "./src/**/*.ts", "./src/**/*.t.sol"],
       "outputs": ["./typechain", "./abi", "./dist"]
     },
     "frontend#build": {
       "dependsOn": ["sdk#build"]
     },
     "sdk#build": {
-      "inputs": ["./src", "./.graphclient", "./test"],
-      "dependsOn": ["contracts#build"]
+      "dependsOn": ["contracts#build"],
+      "inputs": [
+        "./src/**/*.ts",
+        "./src/**/*.graphql",
+        "./src/**/*.json",
+        "./.graphclient/**/*.ts",
+        "./.graphclient/**/*.graphql",
+        "./test/**/*.ts"
+      ],
+      "outputs": ["./dist"]
     }
   }
 }
