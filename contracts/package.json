@@ -78,20 +78,19 @@
   "scripts": {
     "build": "yarn build:hardhat",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:declarations && yarn build:ts ",
+    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts ",
     "build:ts": "npx tsc --build tsconfig.build.json",
-    "build:declarations": "yarn typechain && shx cp typechain/*.d.ts dist/src/types",
     "clean": "rimraf cache out",
     "docs": "hardhat dodoc",
     "lint": "yarn lint:sol && yarn prettier:check",
     "lint:sol": "solhint \"{src,test}/**/*.sol\"",
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,sol,yml}\"",
     "prettier:check": "prettier --config \"./.prettierrc.yml\" --check \"**/*.{json,md,sol,yml}\"",
+    "prebuild": "hardhat clean",
     "slither": "slither ./src",
     "test": "yarn test:hardhat && yarn test:forge",
     "test:forge": "forge test",
     "test:hardhat": "hardhat test",
-    "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report",
-    "typechain": "forge build --skip test && typechain --target \"ethers-v5\" --out-dir \"typechain\" \"./out/**/*.json\""
+    "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report"
   }
 }
