@@ -9,16 +9,16 @@ import ERC1155UpgradeableABI from "../abi/ERC1155Upgradeable.json";
 import HypercertMinterABI from "../abi/HypercertMinter.json";
 import IHypercertTokenABI from "../abi/IHypercertToken.json";
 import SemiFungible1155ABI from "../abi/SemiFungible1155.json";
+import { AllowlistMinter, ERC1155Upgradeable, HypercertMinter, HypercertMinter__factory } from "./types";
 
 // ABIs
 export { HypercertMinterABI, IHypercertTokenABI, SemiFungible1155ABI, ERC1155UpgradeableABI };
 
 // Interfaces
-export { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
+export { ERC1155Upgradeable };
 
-// Contracts
-export { HypercertMinter } from "./types/src/HypercertMinter";
-export { AllowlistMinter } from "./types/src/AllowlistMinter";
+// // Contracts
+export { HypercertMinter, AllowlistMinter };
 
-// Factories
-export { HypercertMinter__factory as HyperCertMinterFactory } from "./types/factories/src/HypercertMinter__factory";
+// // Factories
+export { HypercertMinter__factory as HyperCertMinterFactory };

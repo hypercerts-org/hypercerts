@@ -7,6 +7,7 @@
     "incremental": true,
     "composite": true,
     "lib": ["esnext"],
+    "baseUrl": ".",
     "outDir": "./out-tsc",
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -18,7 +19,6 @@
     "./abi/IHypercertToken.json",
     "./abi/SemiFungible1155.json",
     "./abi/ERC1155Upgradeable.json",
-    "./src/types/*.ts",
-    "./src/types/**/*.ts"
+    "./src/types"
   ]
 }
