@@ -88,7 +88,7 @@ def create_claim_record(claim, metadata):
         "creatorAddress": claim["creator"],
         "totalUnits": int(claim["totalUnits"]),
         "date": timestamp_to_date_string(claim["creation"]),
-        "properties": metadata["properties"],
+        "properties": metadata.get("properties"),
         "hypercert": hypercert
     }
 
