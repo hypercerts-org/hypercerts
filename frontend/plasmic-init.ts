@@ -14,7 +14,7 @@ import {
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
-import { Tooltip, Accordion } from "./components/widgets";
+import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
@@ -363,6 +363,17 @@ PLASMIC.registerComponent(Accordion, {
         type: "text",
         value: "Placeholder",
       },
+    },
+  },
+  importPath: "./components/widgets",
+});
+
+PLASMIC.registerComponent(Markdown, {
+  name: "Markdown",
+  props: {
+    markdown: {
+      type: "string",
+      helpText: "Copy and paste markdown here",
     },
   },
   importPath: "./components/widgets",

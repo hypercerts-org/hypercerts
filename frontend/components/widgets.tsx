@@ -7,6 +7,7 @@ import MuiTooltip, {
   TooltipProps as MuiTooltipProps,
   tooltipClasses,
 } from "@mui/material/Tooltip";
+import ReactMarkdown from "react-markdown";
 import React from "react";
 
 export interface TooltipProps {
@@ -54,6 +55,23 @@ export function Accordion(props: AccordionProps) {
         </AccordionSummary>
         <AccordionDetails>{children}</AccordionDetails>
       </MuiAccordion>
+    </div>
+  );
+}
+
+/**
+ * Basic widget to render markdown
+ */
+export interface MarkdownProps {
+  className?: string; // Plasmic CSS class
+  markdown?: string;
+}
+
+export function Markdown(props: MarkdownProps) {
+  const { className, markdown } = props;
+  return (
+    <div className={className}>
+      <ReactMarkdown>{markdown ?? ""}</ReactMarkdown>
     </div>
   );
 }
