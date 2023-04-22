@@ -117,15 +117,20 @@ PLASMIC.registerComponent(
           value: "Placeholder",
         },
       },
-      showIfNotConnected: "boolean",
+      showIfNotConnected: {
+        type: "boolean",
+        helpText: "Display 'notConnected' if wallet not connected",
+      },
       testData: {
         type: "object",
         defaultValue: DEFAULT_TEST_DATA,
         editOnly: true,
+        helpText: "Test data to show in Studio",
       },
       useTestData: {
         type: "boolean",
         editOnly: true,
+        helpText: "Toggle between using real and test data",
       },
     },
     providesData: true,
@@ -161,10 +166,23 @@ PLASMIC.registerComponent(HypercertFetcher, {
         value: "Placeholder",
       },
     },
-    ignoreLoading: "boolean",
-    useQueryString: "boolean",
-    byClaimId: "string",
-    byMetadataUri: "string",
+    ignoreLoading: {
+      type: "boolean",
+      helpText: "Don't show 'loading' even if we're still loading data",
+    },
+    useQueryString: {
+      type: "boolean",
+      helpText: "Retrieve claimId from URL hash querystring instead",
+    },
+    byClaimId: {
+      type: "string",
+      helpText: "Only set 1 of either byClaimId or byMetadataUri",
+    },
+    byMetadataUri: {
+      type: "string",
+      helpText:
+        "Metadata URI of Hypercert to fetch. Returns faster than 'byClaimId'",
+    },
   },
   providesData: true,
   importPath: "./components/hypercert-metadata-fetcher",
@@ -190,7 +208,10 @@ PLASMIC.registerComponent(FormError, {
   name: "FormError",
   description: "Displays the error associated with fieldName",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
   },
   importPath: "./components/forms",
 });
@@ -199,7 +220,10 @@ PLASMIC.registerComponent(FormField, {
   name: "FormField",
   description: "General purpose form field that accepts an arbitrary input",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
     children: "slot",
   },
   importPath: "./components/forms",
@@ -209,13 +233,28 @@ PLASMIC.registerComponent(FormTextField, {
   name: "FormTextField",
   description: "Textfield for forms",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
     label: "string",
     placeholder: "string",
-    multiline: "boolean",
-    minRows: "number",
-    maxRows: "number",
-    rows: "number",
+    multiline: {
+      type: "boolean",
+      helpText: "Support multiple lines. Automatically resizes the box",
+    },
+    minRows: {
+      type: "number",
+      helpText: "If multiline, minimum rows to show",
+    },
+    maxRows: {
+      type: "number",
+      helpText: "If multiline, maximum rows to show. Scrolls if more than that",
+    },
+    rows: {
+      type: "number",
+      helpText: "If multiline, fixes the number of rows to show",
+    },
   },
   importPath: "./components/forms",
 });
@@ -224,13 +263,19 @@ PLASMIC.registerComponent(FormSelect, {
   name: "FormSelect",
   description: "Select box for forms",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
     label: "string",
     optionValues: {
       type: "object",
       defaultValue: ["a", "b"],
     },
-    multiple: "boolean",
+    multiple: {
+      type: "boolean",
+      helpText: "Let the user choose multiple values",
+    },
     disabled: "boolean",
   },
   importPath: "./components/forms",
@@ -240,9 +285,15 @@ PLASMIC.registerComponent(FormDatePicker, {
   name: "FormDatePicker",
   description: "Date picker for forms",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
     label: "string",
-    showUndefined: "boolean",
+    showUndefined: {
+      type: "boolean",
+      helpText: "Show checkbox to allow setting to undefined",
+    },
     defaultUndefined: "boolean",
     disabled: "boolean",
   },
@@ -253,9 +304,15 @@ PLASMIC.registerComponent(FormDropZone, {
   name: "FormDropZone",
   description: "DropZone for forms",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
     children: "slot",
-    accept: "string",
+    accept: {
+      type: "string",
+      helpText: "Types of files to accept",
+    },
   },
   importPath: "./components/forms",
 });
@@ -264,7 +321,10 @@ PLASMIC.registerComponent(FormCheckbox, {
   name: "FormCheckbox",
   description: "Checkbox for forms",
   props: {
-    fieldName: "string",
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
   },
   importPath: "./components/forms",
 });
@@ -310,15 +370,31 @@ PLASMIC.registerComponent(SupabaseQuery, {
   name: "SupabaseQuery",
   props: {
     children: "slot",
-    tableName: "string",
-    columns: "string",
+    tableName: {
+      type: "string",
+      helpText: "Supabase table name",
+    },
+    columns: {
+      type: "string",
+      helpText: "Comma-separated list of columns",
+    },
     filters: {
       type: "object",
       defaultValue: [],
+      helpText: "e.g. [['id', 'lt', 10], ['name', 'eq', 'foobar']]",
     },
-    limit: "number",
-    orderBy: "string",
-    orderAscending: "boolean",
+    limit: {
+      type: "number",
+      helpText: "Number of rows to return",
+    },
+    orderBy: {
+      type: "string",
+      helpText: "Name of column to order by",
+    },
+    orderAscending: {
+      type: "boolean",
+      helpText: "True if ascending, false if descending",
+    },
   },
   providesData: true,
   importPath: "./components/supabase-query",
