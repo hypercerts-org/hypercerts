@@ -334,6 +334,15 @@ PLASMIC.registerComponent(Tooltip, {
   props: {
     title: "string",
     children: "slot",
+    fontSize: "number",
+    color: {
+      type: "string",
+      helpText: "Font color",
+    },
+    backgroundColor: {
+      type: "string",
+      helpText: "Background color",
+    },
   },
   importPath: "./components/widgets",
 });
