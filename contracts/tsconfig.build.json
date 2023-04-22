@@ -1,24 +1,38 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "declarationDir": "./dist/dst",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es6"],
+    "module": "ESNext",
+    "moduleResolution": "nodenext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "incremental": true,
     "composite": true,
-    "lib": ["esnext"],
-    "baseUrl": ".",
-    "outDir": "./out-tsc",
-    "skipLibCheck": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "target": "es6"
   },
-  "files": ["./src/index.ts"],
-  "include": [
-    "./abi/HypercertMinter.json",
-    "./abi/IHypercertToken.json",
-    "./abi/SemiFungible1155.json",
-    "./abi/ERC1155Upgradeable.json",
-    "./src/types"
-  ]
+  "files": [
+    "./src/index.ts",
+    "./src/abi/HypercertMinter.json",
+    "./src/abi/IHypercertToken.json",
+    "./src/abi/SemiFungible1155.json",
+    "./src/abi/ERC1155Upgradeable.json"
+  ],
+  "include": ["./src/typechain/**/*.ts"],
+  "exclude": ["node_modules"]
 }

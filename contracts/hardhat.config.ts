@@ -72,7 +72,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
 
 const config: HardhatUserConfig = {
   abiExporter: {
-    path: "./abi",
+    path: "./src/abi",
     runOnCompile: true,
     clear: true,
     flat: true,
@@ -139,7 +139,8 @@ const config: HardhatUserConfig = {
     },
   },
   typechain: {
-    outDir: "src/types",
+    outDir: "./src/typechain",
+    target: "ethers-v5",
   },
 };
 
