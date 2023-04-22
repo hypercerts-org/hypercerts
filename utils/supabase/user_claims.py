@@ -14,8 +14,10 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 TABLE_NAME = "claims-metadata-mapping"
 CSV_FILEPATH = "data/userTokenData.csv"
 
+CALL_LIMIT = 1000
 
-def get_tokens_claimed_by_hypercert(claim_id: str) -> list:
+
+def get_tokens_claimed_by_hypercert(claim_id: str, offset: int = 0) -> list:
     """Fetches tokens from The Graph for a given hypercert id."""
     query = f'''
         {{
@@ -25,7 +27,8 @@ def get_tokens_claimed_by_hypercert(claim_id: str) -> list:
                         id: "{claim_id}"
                     }}
                 }}
-                first: 30
+                first: {CALL_LIMIT}
+                offset: {offset}
                 orderBy: units
                 orderDirection: desc
             ) {{
@@ -51,10 +54,15 @@ def get_all_tokens(list_of_claim_ids: list) -> list:
     """Fetches all tokens from The Graph."""
     all_tokens = []
     for claim_id in list_of_claim_ids:
-        tokens = get_tokens_claimed_by_hypercert(claim_id)
-        if not tokens:
-            break
-        all_tokens.extend(tokens)
+        calls = 0
+        while True:
+            tokens = get_tokens_claimed_by_hypercert(claim_id, offset=(calls*CALL_LIMIT))
+            if not tokens:
+                break
+            all_tokens.extend(tokens)
+            calls += 1
+            if calls >= 5:
+                break
     return all_tokens
 
 
