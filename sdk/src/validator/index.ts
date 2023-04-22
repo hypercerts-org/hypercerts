@@ -1,13 +1,21 @@
 import Ajv from "ajv";
+import { BigNumber, BigNumberish } from "ethers";
+import { isAddress } from "ethers/lib/utils.js";
+import { readFileSync } from "fs";
+import { Allowlist } from "src/client.js";
 
-import claimData from "../resources/schema/claimdata.json" assert { type: "json" };
-import metaData from "../resources/schema/metadata.json" assert { type: "json" };
 import { HypercertClaimdata } from "../types/claimdata.js";
 import { HypercertMetadata } from "../types/metadata.js";
 
+const claimDataUrl = new URL("../resources/schema/claimdata.json", import.meta.url);
+const claimDataSchema = JSON.parse(readFileSync(claimDataUrl, "utf8"));
+
+const metaDataUrl = new URL("../resources/schema/metadata.json", import.meta.url);
+const metaDataSchema = JSON.parse(readFileSync(metaDataUrl, "utf8"));
+
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
-ajv.addSchema(metaData, "metaData");
-ajv.addSchema(claimData, "claimData");
+ajv.addSchema(metaDataSchema, "metaData");
+ajv.addSchema(claimDataSchema, "claimData");
 
 type ValidationResult = {
   valid: boolean;
@@ -56,4 +64,19 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
   return { valid: true, errors: {} };
 };
 
-export { validateMetaData, validateClaimData };
+const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
+  const errors: Record<string, string | string[]> = {};
+  const totalUnits = data.reduce((acc, curr) => acc.add(curr.units), BigNumber.from(0));
+  if (totalUnits !== units) {
+    errors["units"] = "Total units in allowlist must match total units";
+  }
+
+  const filteredAddresses = data.filter(entry => !isAddress(entry.address));
+  if (filteredAddresses.length > 0) {
+    errors["address"] = filteredAddresses.map(entry => entry.address);
+  }
+
+  return { valid: Object.keys(errors).length === 0, errors };
+};
+
+export { validateMetaData, validateClaimData, validateAllowlist };

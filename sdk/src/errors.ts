@@ -1,4 +1,5 @@
 enum ErrorType {
+  ClientError = "ClientError",
   FetchError = "FetchError",
   InvalidOrMissingError = "InvalidOrMissingError",
   MalformedDataError = "MalformedDataError",
@@ -11,6 +12,23 @@ enum ErrorType {
 export interface TypedError extends Error {
   __type: ErrorType;
   payload?: { [key: string]: unknown };
+}
+
+/**
+ * Fails fetching a remote resource
+ */
+export class ClientError implements TypedError {
+  __type = ErrorType.ClientError;
+  name = "ClientError";
+  message: string;
+  payload?: { [key: string]: unknown };
+  constructor(message: string, payload?: { [key: string]: unknown }) {
+    this.message = message;
+    this.payload = payload;
+
+    Object.setPrototypeOf(this, new.target.prototype);
+    Error.captureStackTrace(this);
+  }
 }
 
 /**

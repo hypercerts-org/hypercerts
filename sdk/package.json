@@ -19,6 +19,7 @@
     "@graphprotocol/client-add-source-name": "^1.0.16",
     "@graphprotocol/client-cli": "^2.2.15",
     "@hypercerts-org/hypercerts-protocol": "*",
+    "@openzeppelin/merkle-tree": "^1.0.4",
     "@types/jest": "^29.2.5",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",

@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 import { UnsupportedChainError } from "./errors.js";
 import { logger } from "./utils/logger.js";
 
@@ -22,7 +24,7 @@ const DEPLOYMENTS: Deployment[] = [
   },
 ];
 type SupportedChainIds = 5 | 10;
-type SupportedChainNames = "goerli" | "optimism-mainnet";
+export type SupportedChainNames = "goerli" | "optimism-mainnet";
 
 interface Deployment {
   chainId: SupportedChainIds;
@@ -33,6 +35,7 @@ interface Deployment {
 
 export type Config = Deployment & {
   rpcUrl: string;
+  signer?: ethers.Signer;
 };
 
 export const getConfig = (overrides: Partial<Config>) => {
@@ -45,7 +48,7 @@ export const getConfig = (overrides: Partial<Config>) => {
     throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId);
   }
 
-  const baseDeployment = DEPLOYMENTS.find((d) => d.chainId === chainId);
+  const baseDeployment = DEPLOYMENTS.find(d => d.chainId === chainId);
   if (!baseDeployment) {
     throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
   }
@@ -61,6 +64,10 @@ export const getConfig = (overrides: Partial<Config>) => {
     ...overrides,
     chainId: chainId,
   } as Config;
+
+  if (overrides.signer?._isSigner) {
+    config.signer = overrides.signer;
+  }
 
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
