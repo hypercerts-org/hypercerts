@@ -54,9 +54,17 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
     spawn(
       (async () => {
         const newData: HypercertData = {};
-        const querystring = window.location.search.replace("?", "");
-        const q = qs.parse(querystring ?? "");
-        const qClaimId = q[QUERYSTRING_SELECTOR] as string;
+        const hashQueryString = window.location.hash.slice(
+          window.location.hash.startsWith("#") ? 1 : 0,
+        );
+        const searchQueryString = window.location.search.slice(
+          window.location.search.startsWith("?") ? 1 : 0,
+        );
+        const hashQuery = qs.parse(hashQueryString);
+        const searchQuery = qs.parse(searchQueryString);
+        // Take preference with the hash querystring
+        const qClaimId = (hashQuery[QUERYSTRING_SELECTOR] ??
+          searchQuery[QUERYSTRING_SELECTOR]) as string;
         const claimId = useQueryString
           ? qClaimId ?? byClaimId
           : byClaimId ?? qClaimId;
