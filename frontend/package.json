@@ -27,7 +27,7 @@
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
     "@openzeppelin/merkle-tree": "^1.0.2",
-    "@plasmicapp/loader-nextjs": "^1.0.250",
+    "@plasmicapp/loader-nextjs": "^1.0.260",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "@sentry/nextjs": "^7.47.0",
     "@supabase/supabase-js": "^2.1.2",
