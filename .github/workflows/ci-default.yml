@@ -56,8 +56,8 @@ jobs:
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          cache: "yarn"
           node-version: "18.x"
+          cache: "yarn"
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
