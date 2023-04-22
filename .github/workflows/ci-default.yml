@@ -1,7 +1,6 @@
 # NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
 name: ci-default
 env:
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
   NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
   PLASMIC_PROJECT_ID: ${{ vars.PLASMIC_PROJECT_ID }}
   PLASMIC_PROJECT_API_TOKEN: ${{ vars.PLASMIC_PROJECT_API_TOKEN }}
