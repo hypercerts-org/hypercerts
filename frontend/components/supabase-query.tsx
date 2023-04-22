@@ -20,11 +20,23 @@ export interface SupabaseQueryProps {
   filters?: any; // A list of filters, where each filter is `[ column, operator, value ]`
   // See https://supabase.com/docs/reference/javascript/filter
   // e.g. [ [ "address", "eq", "0xabc123" ] ]
+  limit?: number; // Number of results to return
+  orderBy?: string; // Name of column to order by
+  orderAscending?: boolean; // True if ascending, false if descending
 }
 
 export function SupabaseQuery(props: SupabaseQueryProps) {
   // These props are set in the Plasmic Studio
-  const { className, children, tableName, columns, filters } = props;
+  const {
+    className,
+    children,
+    tableName,
+    columns,
+    filters,
+    limit,
+    orderBy,
+    orderAscending,
+  } = props;
   const [result, setResult] = React.useState<any[] | undefined>(undefined);
 
   // Only query if the user is logged in
@@ -36,9 +48,7 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
     spawn(
       (async () => {
         try {
-          // Always retrieve the id
-          const cols = columns ? columns + ",id" : "id";
-          let query = supabase.from(tableName).select(cols);
+          let query = supabase.from(tableName).select(columns);
           // Iterate over the filters
           if (Array.isArray(filters)) {
             for (let i = 0; i < filters.length; i++) {
@@ -50,10 +60,14 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
               query = query.filter(f[0], f[1], f[2]);
             }
           }
+          if (limit) {
+            query = query.limit(limit);
+          }
+          if (orderBy) {
+            query = query.order(orderBy, { ascending: orderAscending });
+          }
           // Execute query
-          const { data, error, status } = await query.order("id", {
-            ascending: false,
-          });
+          const { data, error, status } = await query;
           if (error && status !== 406) {
             throw error;
           } else if (data) {
