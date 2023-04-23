@@ -3,28 +3,12 @@ import { ethers } from "ethers";
 import { UnsupportedChainError } from "./errors.js";
 import { logger } from "./utils/logger.js";
 
-/**
- * Constants
- */
-// Goerli is default if nothing specified
-const DEFAULT_CHAIN_ID = 5;
-// These are the deployments we manage
-const DEPLOYMENTS: Deployment[] = [
-  {
-    chainId: 5,
-    chainName: "goerli",
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    graphName: "hypercerts-testnet",
-  },
-  {
-    chainId: 10,
-    chainName: "optimism-mainnet",
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    graphName: "hypercerts-optimism-mainnet",
-  },
-];
 type SupportedChainIds = 5 | 10;
-export type SupportedChainNames = "goerli" | "optimism-mainnet";
+
+export enum SupportedChainNames {
+  Goerli = "goerli",
+  Optimism = "optimism-mainnet",
+}
 
 interface Deployment {
   chainId: SupportedChainIds;
@@ -38,6 +22,33 @@ export type Config = Deployment & {
   signer?: ethers.Signer;
 };
 
+/**
+ * Constants
+ */
+// Goerli is default if nothing specified
+const DEFAULT_CHAIN_ID = 5;
+
+// These are the deployments we manage
+const DEPLOYMENTS: Deployment[] = [
+  {
+    chainId: 5,
+    chainName: SupportedChainNames.Goerli,
+    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-testnet",
+  },
+  {
+    chainId: 10,
+    chainName: SupportedChainNames.Optimism,
+    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-optimism-mainnet",
+  },
+];
+
+/**
+ * Get the configuration for the SDK
+ * @param overrides
+ * @returns Config
+ */
 export const getConfig = (overrides: Partial<Config>) => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const chainId =
@@ -48,7 +59,7 @@ export const getConfig = (overrides: Partial<Config>) => {
     throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId);
   }
 
-  const baseDeployment = DEPLOYMENTS.find(d => d.chainId === chainId);
+  const baseDeployment = DEPLOYMENTS.find((d) => d.chainId === chainId);
   if (!baseDeployment) {
     throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
   }

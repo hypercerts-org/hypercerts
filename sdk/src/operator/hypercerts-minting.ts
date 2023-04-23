@@ -4,7 +4,7 @@ import { BigNumberish, ContractTransaction, ethers } from "ethers";
 import { Config, getConfig } from "../config.js";
 import { MalformedDataError } from "../errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
-import { TransferRestrictions } from "src/client.js";
+import { TransferRestrictions } from "../client.js";
 
 type HypercertsMinterProps = {
   provider?: ethers.providers.BaseProvider;

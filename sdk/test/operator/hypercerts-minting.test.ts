@@ -1,6 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 
 import { HypercertMetadata, HypercertMinting, formatHypercertData } from "../../src/index.js";
+import { TransferRestrictions } from "../../src/client.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -34,11 +35,7 @@ describe("Create Minting instance", () => {
     });
 
     expect(minter.contract).toBeInstanceOf(ethers.Contract);
-    expect(minter.transferRestrictions).toEqual({
-      AllowAll: 0,
-      DisallowAll: 1,
-      FromCreatorOnly: 2,
-    });
+    expect(minter.transferRestrictions).toEqual(expect.objectContaining(TransferRestrictions));
   });
 
   it("checks can mint", async () => {
@@ -52,7 +49,7 @@ describe("Create Minting instance", () => {
     });
 
     try {
-      await minter.mintHypercert(userAddress, formattedData!, BigNumber.from("10000"), BigNumber.from("0"));
+      await minter.mintHypercert(userAddress, formattedData!, BigNumber.from("10000"), TransferRestrictions.AllowAll);
     } catch (e: any) {
       expect(e.message).toEqual(
         'sending a transaction requires a signer (operation="sendTransaction", code=UNSUPPORTED_OPERATION, version=contracts/5.7.0)',
@@ -60,7 +57,12 @@ describe("Create Minting instance", () => {
     }
 
     try {
-      await minter.mintHypercert(userAddress, {} as HypercertMetadata, BigNumber.from("10000"), BigNumber.from("0"));
+      await minter.mintHypercert(
+        userAddress,
+        {} as HypercertMetadata,
+        BigNumber.from("10000"),
+        TransferRestrictions.AllowAll,
+      );
     } catch (e: any) {
       expect(e.message).toEqual("Metadata validation failed");
     }

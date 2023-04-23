@@ -4,6 +4,11 @@ import { formatHypercertData } from "./utils/formatter.js";
 
 export { validateMetaData, validateClaimData, formatHypercertData };
 
+// Wrapper client
+import { HypercertClient } from "./client.js";
+
+export { HypercertClient };
+
 // Operations
 import { HypercertsStorage, HypercertMinting } from "./operator/index.js";
 
