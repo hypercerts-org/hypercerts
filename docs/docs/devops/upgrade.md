@@ -23,3 +23,13 @@ yarn hardhat propose-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS --m
 ```
 
 This will output an OpenZeppelin URL that multi-sig members can use to approve/reject the upgrade.
+
+## Publish to npm
+
+After you update the contracts, deploy the `contracts/` package to npm.
+
+TODO
+
+Update the dependencies in `frontend/package.json` and `sdk/package.json`.
+
+If the ABI of the contract has changed, make sure you also update `defender/src/HypercertMinterABI.ts`.
