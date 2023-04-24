@@ -1,7 +1,9 @@
-import { BigNumber, ethers } from "ethers";
+import { expect } from "chai";
+import { BigNumber, Contract, ethers } from "ethers";
 
 import { HypercertMetadata, HypercertMinting, formatHypercertData } from "../../src/index.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
+import { MalformedDataError, MintingError } from "../../src/types/errors.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -34,8 +36,8 @@ describe("Create Minting instance", () => {
       },
     });
 
-    expect(minter.contract).toBeInstanceOf(ethers.Contract);
-    expect(minter.transferRestrictions).toEqual(expect.objectContaining(TransferRestrictions));
+    expect(minter.contract instanceof Contract).to.be.true;
+    expect(minter.transferRestrictions).to.include(TransferRestrictions);
   });
 
   it("checks can mint", async () => {
@@ -49,9 +51,13 @@ describe("Create Minting instance", () => {
     });
 
     try {
-      await minter.mintHypercert(userAddress, formattedData!, BigNumber.from("10000"), TransferRestrictions.AllowAll);
-    } catch (e: any) {
-      expect(e.message).toEqual(
+      if (formattedData) {
+        await minter.mintHypercert(userAddress, formattedData, BigNumber.from("10000"), TransferRestrictions.AllowAll);
+      }
+      expect.fail("Should throw MintingError");
+    } catch (e) {
+      const error = e as Error;
+      expect(error.message).to.eq(
         'sending a transaction requires a signer (operation="sendTransaction", code=UNSUPPORTED_OPERATION, version=contracts/5.7.0)',
       );
     }
@@ -63,8 +69,12 @@ describe("Create Minting instance", () => {
         BigNumber.from("10000"),
         TransferRestrictions.AllowAll,
       );
-    } catch (e: any) {
-      expect(e.message).toEqual("Metadata validation failed");
+      expect.fail("Should throw MalformedDataError");
+    } catch (e) {
+      expect(e instanceof MalformedDataError).to.be.true;
+
+      const error = e as MalformedDataError;
+      expect(error.message).to.eq("Metadata validation failed");
     }
   });
 });

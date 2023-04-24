@@ -50,8 +50,8 @@ export interface HypercertStorageInterface {
  * @param storage - Hypercerts storage configuration
  */
 export type HypercertClientProps = {
-  config: Partial<HypercertClientConfig>;
-  storage: HypercertsStorage;
+  config?: Partial<HypercertClientConfig>;
+  storage?: HypercertsStorage;
 };
 
 /**

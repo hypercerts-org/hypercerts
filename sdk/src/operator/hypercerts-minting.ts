@@ -1,7 +1,7 @@
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
 
-import { getConfig } from "../config.js";
+import { getConfig } from "../utils/config.js";
 import { MalformedDataError } from "../types/errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
 import { TransferRestrictions } from "../types/hypercerts.js";

@@ -17,8 +17,6 @@ describe("HypercertsStorage", () => {
   it("should be able to create a new instance without valid storage keys", () => {
     const storage = new HypercertsStorage({});
 
-    console.log(storage);
-
     expect(storage).to.be.an.instanceOf(HypercertsStorage);
     expect(storage.readonly).to.be.true;
   });

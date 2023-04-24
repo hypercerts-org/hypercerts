@@ -1,7 +1,7 @@
-import { UnsupportedChainError } from "./types/errors.js";
-import { logger } from "./utils/logger.js";
-import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "./constants.js";
-import { HypercertClientConfig } from "./types/client.js";
+import { UnsupportedChainError } from "../types/errors.js";
+import { logger } from "./logger.js";
+import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
+import { HypercertClientConfig } from "../types/client.js";
 
 /**
  * Get the configuration for the SDK

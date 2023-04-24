@@ -48,10 +48,13 @@ describe("Format Hypercert Data test", () => {
     const invalidResult = formatHypercertData(invalidData as TestDataType);
 
     expect(invalidResult.valid).to.be.false;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(Object.keys(invalidResult.errors!)).to.be.length(1);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(Object.keys(invalidResult.errors!)[0]).to.eq("name");
+
+    if (invalidResult.errors) {
+      expect(Object.keys(invalidResult.errors)).to.be.length(1);
+      expect(Object.keys(invalidResult.errors)[0]).to.eq("name");
+    } else {
+      expect.fail("Should return errors");
+    }
   });
 
   it("handles undefined properties", () => {
