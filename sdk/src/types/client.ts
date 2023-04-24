@@ -2,8 +2,8 @@ import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { Allowlist, TransferRestrictions } from "./hypercerts.js";
 import { HypercertMetadata } from "./metadata.js";
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
-import HypercertsStorage from "../operator/hypercerts-storage.js";
 import { CIDString } from "nft.storage";
+import HypercertsStorage from "src/storage.js";
 
 export type SupportedChainIds = 5 | 10;
 

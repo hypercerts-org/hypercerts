@@ -4,10 +4,11 @@ import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from 
 
 import { getConfig } from "./config.js";
 import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
-import { HypercertMetadata, HypercertsStorage, validateMetaData } from "./index.js";
+import { HypercertMetadata, validateMetaData } from "./index.js";
 import { validateAllowlist } from "./validator/index.js";
 import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
 import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
+import HypercertsStorage from "./storage.js";
 
 /**
  * Hypercerts client factory
@@ -25,7 +26,7 @@ export class HypercertClient implements HypercertClientInterface {
 
   constructor({ config, storage }: HypercertClientProps) {
     this.config = getConfig(config);
-    this.storage = storage ?? new HypercertsStorage({});
+    this.storage = storage;
     this.provider = new ethers.providers.JsonRpcProvider(this.config.rpcUrl);
     this.contract = <HypercertMinter>(
       new ethers.Contract(this.config.contractAddress, HypercertMinterABI, this.provider)
