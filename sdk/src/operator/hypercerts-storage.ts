@@ -6,18 +6,14 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
-import { InvalidOrMissingError, StorageError } from "../errors.js";
+import { InvalidOrMissingError, StorageError } from "../types/errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
 import { logger } from "../utils/logger.js";
+import { HypercertStorageInterface, HypercertStorageProps } from "../types/client.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
-type HypercertStorageProps = {
-  nftStorageToken?: string;
-  web3StorageToken?: string;
-};
-
-export default class HypercertsStorage {
+export default class HypercertsStorage implements HypercertStorageInterface {
   nftStorageClient: NFTStorage;
   web3StorageClient: Web3Storage;
 

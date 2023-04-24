@@ -22,5 +22,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*", "./.graphclient/**/*"]
+  "include": ["./src/**/*", "./.graphclient/**/*", "./test"]
 }

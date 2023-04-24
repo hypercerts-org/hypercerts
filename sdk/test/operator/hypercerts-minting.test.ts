@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 
 import { HypercertMetadata, HypercertMinting, formatHypercertData } from "../../src/index.js";
-import { TransferRestrictions } from "../../src/client.js";
+import { TransferRestrictions } from "../../src/types/hypercerts.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {

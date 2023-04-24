@@ -1,81 +1,13 @@
 import { HypercertMinter, HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { BigNumber, BigNumberish, ContractTransaction, ethers } from "ethers";
+import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
-import { Config, getConfig } from "./config.js";
-import { ClientError, MalformedDataError, StorageError } from "./errors.js";
+import { getConfig } from "./config.js";
+import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
 import { HypercertMetadata, HypercertsStorage, validateMetaData } from "./index.js";
 import { validateAllowlist } from "./validator/index.js";
-
-/**
- * Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
- * @dev AllowAll: All transfers are allowed
- * @dev DisallowAll: All transfers are disallowed
- * @dev FromCreatorOnly: Only the creator can transfer the Hypercert
- *
- */
-export enum TransferRestrictions {
-  AllowAll = 0,
-  DisallowAll = 1,
-  FromCreatorOnly = 2,
-}
-
-/**
- * Allowlist entry for Hypercerts matching the definitions in the Hypercerts protocol
- * @param address - Address of the recipient
- * @param units - Number of units allocated to the recipient
- */
-export type AllowlistEntry = {
-  address: string;
-  units: BigNumberish;
-};
-
-/**
- * Helper type to allow for a more readable Allowlist type
- */
-export type Allowlist = AllowlistEntry[];
-
-/**
- * Hypercerts client configuration
- * @param config - Hypercerts client configuration
- * @param storage - Hypercerts storage configuration
- */
-type HypercertClientConfig = {
-  config: Partial<Config>;
-  storage: HypercertsStorage;
-};
-
-/**
- * Hypercerts client interface
- * @param readonly - Indicates if the client is readonly
- * @param config - Hypercerts client configuration
- * @param provider - Ethers provider
- * @param contract - Hypercerts contract
- * @param storage - Hypercerts storage
- * @param mintClaim - Wrapper function to mint a Hypercert claim
- * @param createAllowlist - Wrapper function to mint a Hypercert claim with an allowlist
- */
-type HypercertClientInterface = {
-  readonly: boolean;
-  config: Config;
-  provider: ethers.providers.JsonRpcProvider;
-  contract: HypercertMinter;
-  storage: HypercertsStorage;
-  mintClaim: (
-    metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
-    transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
-  createAllowlist: (
-    allowList: Allowlist,
-    metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
-    transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
-  splitClaimUnits: (claimId: BigNumberish, fractions: BigNumberish[]) => Promise<ContractTransaction>;
-  mergeClaimUnits: (claimIds: BigNumberish[]) => Promise<ContractTransaction>;
-  burnClaimFraction: (claimId: BigNumberish) => Promise<ContractTransaction>;
-};
+import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
+import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
 
 /**
  * Hypercerts client factory
@@ -85,13 +17,13 @@ type HypercertClientInterface = {
  * @param storage - Hypercerts storage object
  */
 export class HypercertClient implements HypercertClientInterface {
-  config: Config;
+  config: HypercertClientConfig;
   storage: HypercertsStorage;
   provider: ethers.providers.JsonRpcProvider;
   contract: HypercertMinter;
   readonly: boolean;
 
-  constructor({ config, storage }: HypercertClientConfig) {
+  constructor({ config, storage }: HypercertClientProps) {
     this.config = getConfig(config);
     this.storage = storage ?? new HypercertsStorage({});
     this.provider = new ethers.providers.JsonRpcProvider(this.config.rpcUrl);
@@ -183,8 +115,9 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Split a Hypercert claim into multiple claims
-   * @dev Splits a Hypercert claim into multiple claims with the given fractions
+   * Split a Hypercert's unit into multiple claims with the given fractions
+   * @dev Submit the ID of the claim to split and new fraction values.
+   * @notice The sum of the fractions must be equal to the total units of the claim
    * @param claimId - Hypercert claim id
    * @param fractions - Fractions of the Hypercert claim to split
    * @returns Contract transaction
@@ -209,7 +142,7 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Merge multiple Hypercert claims into one
+   * Merge multiple Hypercert claims fractions into one
    * @dev Merges multiple Hypercert claims into one
    * @param claimIds - Hypercert claim ids
    * @returns Contract transaction
@@ -233,7 +166,7 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Burn a Hypercert claim
+   * Burn a Hypercert claim by providing the claim id
    * @dev Burns a Hypercert claim
    * @param claimId - Hypercert claim id
    * @returns Contract transaction
@@ -249,5 +182,39 @@ export class HypercertClient implements HypercertClientInterface {
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimId });
 
     return this.contract.burnFraction(signerAddress, claimId);
+  };
+
+  /**
+   * Mint a Hypercert claim fraction from an allowlist.
+   * @dev Verifies the claim proof and mints the claim fraction
+   * @notice If known, provide the root for client side verification
+   * @param claimId - Hypercert claim id
+   * @param units - Number of units to mint
+   * @param proof - Merkle proof for the claim
+   * @returns Contract transaction
+   */
+  mintClaimFractionFromAllowlist = async (
+    claimId: BigNumberish,
+    units: BigNumberish,
+    proof: BytesLike[],
+    root?: BytesLike,
+  ): Promise<ContractTransaction> => {
+    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
+    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+
+    const signerAddress = await this.config.signer.getAddress();
+
+    //verify the proof using the OZ merkle tree library
+    if (root && root.length > 0) {
+      const verified = StandardMerkleTree.verify(
+        root.toString(),
+        ["address", "uint"],
+        [signerAddress, units],
+        proof.map((value) => value.toString()),
+      );
+      if (!verified) throw new MintingError("Merkle proof verification failed", { root, proof });
+    }
+
+    return this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
   };
 }

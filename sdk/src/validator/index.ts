@@ -2,10 +2,10 @@ import Ajv from "ajv";
 import { BigNumber, BigNumberish } from "ethers";
 import { isAddress } from "ethers/lib/utils.js";
 import { readFileSync } from "fs";
-import { Allowlist } from "src/client.js";
 
 import { HypercertClaimdata } from "../types/claimdata.js";
 import { HypercertMetadata } from "../types/metadata.js";
+import { Allowlist } from "../types/hypercerts.js";
 
 const claimDataUrl = new URL("../resources/schema/claimdata.json", import.meta.url);
 const claimDataSchema = JSON.parse(readFileSync(claimDataUrl, "utf8"));
@@ -71,9 +71,9 @@ const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
     errors["units"] = "Total units in allowlist must match total units";
   }
 
-  const filteredAddresses = data.filter(entry => !isAddress(entry.address));
+  const filteredAddresses = data.filter((entry) => !isAddress(entry.address));
   if (filteredAddresses.length > 0) {
-    errors["address"] = filteredAddresses.map(entry => entry.address);
+    errors["address"] = filteredAddresses.map((entry) => entry.address);
   }
 
   return { valid: Object.keys(errors).length === 0, errors };
