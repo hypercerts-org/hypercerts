@@ -6,10 +6,10 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
+import { HypercertStorageInterface, HypercertStorageProps } from "./types/client.js";
 import { StorageError } from "./types/errors.js";
 import { HypercertMetadata } from "./types/metadata.js";
 import { logger } from "./utils/logger.js";
-import { HypercertStorageInterface, HypercertStorageProps } from "./types/client.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -55,13 +55,15 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       throw new StorageError("NFT.storage client is not configured");
     }
 
-    logger.info("Storing HypercertMetaData:", { metadata: data });
+    logger.debug("Storing HypercertMetaData:", { metadata: data });
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
 
     const cid: CIDString = await this.nftStorageClient.storeBlob(blob);
     if (!cid) {
       throw new StorageError("Failed to store metadata");
     }
+
+    logger.debug(`Stored metadata at ${cid}`);
 
     return cid;
   }
@@ -73,7 +75,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    */
   public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
     return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
   }
@@ -93,7 +95,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     }
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
-    logger.info("Storing blob of: ", data);
+    logger.debug("Storing blob of: ", data);
     const cid: CIDString = await this.web3StorageClient.put(files, { wrapWithDirectory: false });
 
     if (!cid) {

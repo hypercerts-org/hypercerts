@@ -1,27 +1,12 @@
 import { expect } from "chai";
-import { BigNumber, Contract, ethers } from "ethers";
+import { BigNumber, Contract } from "ethers";
 
 import { HypercertMetadata, HypercertMinting, formatHypercertData } from "../../src/index.js";
+import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
-import { MalformedDataError, MintingError } from "../../src/types/errors.js";
+import { TestDataType, getRawInputData } from "../helpers.js";
 
-type TestDataType = Parameters<typeof formatHypercertData>[0];
-const testData: Partial<TestDataType> = {
-  name: "test name",
-  description: "test description",
-  image: "some test image",
-  contributors: ["0x111", "0x22"],
-  external_url: "https://example.com",
-  impactScope: ["test impact scope"],
-  impactTimeframeEnd: Math.floor(new Date().getTime()) / 1000,
-  impactTimeframeStart: Math.floor(new Date().getTime()) / 1000,
-  workScope: ["test work scope"],
-  workTimeframeStart: Math.floor(new Date().getTime()) / 1000,
-  workTimeframeEnd: Math.floor(new Date().getTime()) / 1000,
-  properties: [{ trait_type: "test trait type", value: "aaa" }],
-  rights: ["test right 1", "test right 2"],
-  version: "0.0.1",
-};
+const testData = getRawInputData();
 
 describe("Create Minting instance", () => {
   const userAddress = "0x23314160c752D6Bb544661DcE13d01C21c64331E";

@@ -2,15 +2,15 @@ import { HypercertMinter, HypercertMinterABI } from "@hypercerts-org/hypercerts-
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
-import { getConfig } from "./utils/config.js";
-import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
-import { HypercertMetadata, validateMetaData } from "./index.js";
-import { validateAllowlist } from "./validator/index.js";
-import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
-import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
-import HypercertsStorage from "./storage.js";
-import { logger } from "./utils/logger.js";
 import { DEFAULT_CHAIN_ID } from "./constants.js";
+import { HypercertMetadata, validateMetaData } from "./index.js";
+import HypercertsStorage from "./storage.js";
+import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
+import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
+import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
+import { getConfig } from "./utils/config.js";
+import { logger } from "./utils/logger.js";
+import { validateAllowlist } from "./validator/index.js";
 
 /**
  * Hypercerts client factory
@@ -19,22 +19,28 @@ import { DEFAULT_CHAIN_ID } from "./constants.js";
  * @param config - Hypercerts client configuration
  * @param storage - Hypercerts storage object
  */
-export class HypercertClient implements HypercertClientInterface {
+export default class HypercertClient implements HypercertClientInterface {
   config: HypercertClientConfig;
   storage: HypercertsStorage;
-  provider: ethers.providers.JsonRpcProvider;
+  provider: ethers.providers.BaseProvider;
+  signer?: ethers.Signer;
   contract: HypercertMinter;
   readonly: boolean;
 
   constructor({ config = { chainId: DEFAULT_CHAIN_ID }, storage }: HypercertClientProps) {
     this.config = getConfig(config);
     this.storage = storage ?? new HypercertsStorage({});
-    this.provider = new ethers.providers.JsonRpcProvider(this.config.rpcUrl);
+    this.provider =
+      config.provider ??
+      new ethers.providers.JsonRpcProvider(this.config.rpcUrl) ??
+      ethers.getDefaultProvider("goerli");
+    this.signer = this.config.signer ?? undefined;
+
     this.contract = <HypercertMinter>(
-      new ethers.Contract(this.config.contractAddress, HypercertMinterABI, this.provider)
+      new ethers.Contract(this.config.contractAddress, HypercertMinterABI, this.signer || this.provider)
     );
 
-    this.readonly = !this.provider._isProvider || this.contract.address === undefined || this.storage.readonly;
+    this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;
     if (this.readonly) logger.warn("HypercertsClient is in readonly mode");
   }
 

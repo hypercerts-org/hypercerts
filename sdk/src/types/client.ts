@@ -1,9 +1,10 @@
-import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
-import { Allowlist, TransferRestrictions } from "./hypercerts.js";
-import { HypercertMetadata } from "./metadata.js";
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
+import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 import HypercertsStorage from "src/storage.js";
+
+import { Allowlist, TransferRestrictions } from "./hypercerts.js";
+import { HypercertMetadata } from "./metadata.js";
 
 export type SupportedChainIds = 5 | 10;
 
@@ -15,7 +16,8 @@ export type Deployment = {
 };
 
 export type HypercertClientConfig = Deployment & {
-  rpcUrl: string;
+  provider?: ethers.providers.BaseProvider;
+  rpcUrl?: string;
   signer?: ethers.Signer;
 };
 
@@ -71,7 +73,7 @@ export type HypercertClientProps = {
 export interface HypercertClientInterface {
   readonly: boolean;
   config: HypercertClientConfig;
-  provider: ethers.providers.JsonRpcProvider;
+  provider: ethers.providers.BaseProvider;
   contract: HypercertMinter;
   storage: HypercertsStorage;
   mintClaim: (

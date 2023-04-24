@@ -1,10 +1,11 @@
 import { expect } from "chai";
+import { ethers } from "ethers";
 
 import { HypercertClient, HypercertMetadata } from "../src/index.js";
 import HypercertsStorage from "../src/storage.js";
-import { reloadEnv } from "./setup-tests.js";
 import { ClientError, UnsupportedChainError } from "../src/types/errors.js";
 import { Allowlist, TransferRestrictions } from "../src/types/hypercerts.js";
+import { reloadEnv } from "./setup-tests.js";
 
 describe("HypercertClient", () => {
   beforeEach(() => {
@@ -24,9 +25,10 @@ describe("HypercertClient", () => {
   });
 
   it("should be able to create a new instance", () => {
+    const signer = ethers.Wallet.createRandom();
     const storage = new HypercertsStorage({ nftStorageToken: "test", web3StorageToken: "test" });
 
-    const config = { chainId: 5 };
+    const config = { chainId: 5, signer };
     const client = new HypercertClient({ config, storage });
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;

@@ -1,9 +1,10 @@
 import { expect } from "chai";
+import { HypercertMetadata } from "src/index.js";
 
 import HypercertsStorage from "../src/storage.js";
 import { StorageError } from "../src/types/errors.js";
-import { HypercertMetadata } from "src/index.js";
 import { reloadEnv } from "./setup-tests.js";
+
 describe("HypercertsStorage", () => {
   beforeAll(() => {
     delete process.env.NFT_STORAGE_TOKEN;
@@ -35,5 +36,40 @@ describe("HypercertsStorage", () => {
     expect(async () =>
       storage.storeMetadata({} as HypercertMetadata).should.throw(StorageError, "NFT.storage client is not configured"),
     );
+  });
+
+  it("should throw an error when executing write method in readonly mode", async () => {
+    delete process.env.NFT_STORAGE_TOKEN;
+    delete process.env.WEB3_STORAGE_TOKEN;
+    delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
+    delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+
+    const client = new HypercertsStorage({});
+
+    // storeMetadata
+    try {
+      const metaData = { name: "test" } as HypercertMetadata;
+
+      await client.storeMetadata(metaData);
+      expect.fail("Should throw StorageError");
+    } catch (e) {
+      expect(e instanceof StorageError).to.be.true;
+
+      const error = e as StorageError;
+      expect(error.message).to.eq("NFT.storage client is not configured");
+    }
+
+    // storeData
+    try {
+      const data = { name: "test" };
+
+      await client.storeData(data);
+      expect.fail("Should throw ClientError");
+    } catch (e) {
+      expect(e instanceof StorageError).to.be.true;
+
+      const error = e as StorageError;
+      expect(error.message).to.eq("Web3.storage client is not configured");
+    }
   });
 });
