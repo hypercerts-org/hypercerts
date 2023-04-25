@@ -1,11 +1,14 @@
 import axios from "axios";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
-import { FetchError, MalformedDataError } from "../errors.js";
+import { InvalidOrMissingError, StorageError } from "../errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
+import { logger } from "../utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -24,11 +27,16 @@ export default class HypercertsStorage {
     const _web3StorageToken =
       web3StorageToken ?? process.env.WEB3_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    if (!_nftStorageToken || !_web3StorageToken || _nftStorageToken === "" || _web3StorageToken === "") {
-      throw new Error("Invalid API key");
+    if (!_nftStorageToken || _nftStorageToken === "") {
+      throw new InvalidOrMissingError("NFT Storage API key is missing or invalid.", "_nftStorageToken");
     }
-    this.nftStorageClient = new NFTStorage({ token: _nftStorageToken! });
-    this.web3StorageClient = new Web3Storage({ token: _web3StorageToken! });
+
+    if (!_web3StorageToken || _web3StorageToken === "") {
+      throw new InvalidOrMissingError("Web3 Storage API key is missing or invalid.", "_web3StorageToken");
+    }
+
+    this.nftStorageClient = new NFTStorage({ token: _nftStorageToken });
+    this.web3StorageClient = new Web3Storage({ token: _web3StorageToken });
   }
 
   /**
@@ -38,9 +46,15 @@ export default class HypercertsStorage {
    * @returns
    */
   public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
-    console.log("Storing metadata: ", data);
+    logger.info("Storing HypercertMetaData:", { metadata: data });
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
-    return this.nftStorageClient.storeBlob(blob);
+
+    const cid: CIDString = await this.nftStorageClient.storeBlob(blob);
+    if (!cid) {
+      throw new StorageError("Failed to store metadata");
+    }
+
+    return cid;
   }
 
   /**
@@ -48,9 +62,10 @@ export default class HypercertsStorage {
    * @param cidOrIpfsUri
    * @returns
    */
-  public async getMetadata(cidOrIpfsUri: string) {
+  public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+
     return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
   }
 
@@ -63,17 +78,23 @@ export default class HypercertsStorage {
    * @param targetClient
    * @returns
    */
-  public async storeData(data: any): Promise<CIDString> {
+  public async storeData(data: unknown): Promise<CIDString> {
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
-    console.log("Storing blob of: ", data);
-    return await this.web3StorageClient.put(files, { wrapWithDirectory: false });
+    logger.info("Storing blob of: ", data);
+    const cid: CIDString = await this.web3StorageClient.put(files, { wrapWithDirectory: false });
+
+    if (!cid) {
+      throw new StorageError("Failed to store data");
+    }
+
+    return cid;
   }
 
   /**
-   * Get arbitrary data from web3.storage
+   * Get arbitrary data from web3.storage. Use with caution because there's no guarantee that the data will be there or safe.
    * @param cidOrIpfsUri
-   * @returns
+   * @returns JSON data or error
    */
   public async getData(cidOrIpfsUri: string) {
     /**
@@ -104,8 +125,9 @@ export default class HypercertsStorage {
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
-    return axios.get(nftStorageGatewayLink).then((result: any) => result.data);
+    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+
+    return axios.get(nftStorageGatewayLink).then((result) => result.data);
   }
 
   getNftStorageGatewayUri = (cidOrIpfsUri: string) => {

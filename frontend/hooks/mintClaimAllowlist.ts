@@ -26,7 +26,7 @@ import {
 const generateAndStoreTree = async (
   pairs: { address: string; units: number }[],
 ) => {
-  const tuples = pairs.map(p => [p.address, p.units]);
+  const tuples = pairs.map((p) => [p.address, p.units]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as HexString };
@@ -67,13 +67,30 @@ export const useMintClaimAllowlist = ({
     if (pairs) {
       // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
+      if (!merkleCID) {
+        toast(
+          "Something went wrong while generating merkle tree from the CSV file",
+          { type: "error" },
+        );
+        hideModal();
+        return;
+      }
       const cid = await hypercertsStorage.storeMetadata({
         ...metaData,
         allowList: cidToIpfsUri(merkleCID),
       });
+
+      if (!cid) {
+        toast("Something went wrong while uploading metadata to IPFS", {
+          type: "error",
+        });
+        hideModal();
+        return;
+      }
+
       setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
-      setUnits(_.sum(pairs.map(x => x.units)));
+      setUnits(_.sum(pairs.map((x) => x.units)));
     }
     if (allowlistUrl) {
       // fetch csv file
@@ -87,13 +104,32 @@ export const useMintClaimAllowlist = ({
             percentage: 0.5,
           },
         ]);
-        const totalSupply = _.sum(allowlist.map(x => x.units));
+        const totalSupply = _.sum(allowlist.map((x) => x.units));
 
         const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
+        if (!merkleCID) {
+          toast(
+            "Something went wrong while generating merkle tree from the CSV file",
+            { type: "error" },
+          );
+          hideModal();
+          return;
+        }
+
         const cid = await hypercertsStorage.storeMetadata({
           ...metaData,
           allowList: cidToIpfsUri(merkleCID),
         });
+
+        if (!cid) {
+          console.error(cid);
+          toast("Something went wrong while uploading metadata to IPFS", {
+            type: "error",
+          });
+          hideModal();
+          return;
+        }
+
         setCidUri(cidToIpfsUri(cid));
         setMerkleRoot(root);
         setUnits(totalSupply);
@@ -129,7 +165,7 @@ export const useMintClaimAllowlist = ({
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
-    onError: error => {
+    onError: (error) => {
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",
       });

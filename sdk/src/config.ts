@@ -1,6 +1,5 @@
-import { ethers } from "ethers";
-
-import { UnsupportedChain } from "./errors.js";
+import { UnsupportedChainError } from "./errors.js";
+import { logger } from "./utils/logger.js";
 
 /**
  * Constants
@@ -23,7 +22,6 @@ const DEPLOYMENTS: Deployment[] = [
   },
 ];
 type SupportedChainIds = 5 | 10;
-const SUPPORTED_CHAIN_IDS: SupportedChainIds[] = [5, 10];
 type SupportedChainNames = "goerli" | "optimism-mainnet";
 
 interface Deployment {
@@ -44,12 +42,12 @@ export const getConfig = (overrides: Partial<Config>) => {
     (process.env.DEFAULT_CHAIN_ID ? parseInt(process.env.DEFAULT_CHAIN_ID || "") : DEFAULT_CHAIN_ID);
 
   if (chainId !== 5 && chainId !== 10) {
-    throw new UnsupportedChain(`chainId=${chainId} is not yet supported`);
+    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId);
   }
 
   const baseDeployment = DEPLOYMENTS.find((d) => d.chainId === chainId);
   if (!baseDeployment) {
-    throw new UnsupportedChain(`chainId=${chainId} is missing in SDK`);
+    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
   }
 
   const config = {
@@ -62,11 +60,11 @@ export const getConfig = (overrides: Partial<Config>) => {
     // Let the user override from explicit parameters
     ...overrides,
     chainId: chainId,
-  };
+  } as Config;
 
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
-      console.error(`Cannot get chain config. ${key} is possibly undefined`);
+      logger.error(`Cannot get chain config. ${key} is possibly undefined`);
     }
   }
 

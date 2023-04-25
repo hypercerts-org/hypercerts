@@ -72,14 +72,14 @@ function getChainConfig(chain: keyof typeof chainIds) {
 
 const config: HardhatUserConfig = {
   abiExporter: {
-    path: "./abi",
+    path: "./src/abi",
     runOnCompile: true,
     clear: true,
     flat: true,
   },
   defender: {
-    apiKey: ozApiKey,
-    apiSecret: ozSecretKey,
+    apiKey: ozApiKey!,
+    apiSecret: ozSecretKey!,
   },
   dodoc: {
     runOnCompile: true,
@@ -89,9 +89,9 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      goerli: etherscanApiKey,
-      sepolia: etherscanApiKey,
-      optimisticEthereum: optimisticEtherscanApiKey,
+      goerli: etherscanApiKey!,
+      sepolia: etherscanApiKey!,
+      optimisticEthereum: optimisticEtherscanApiKey!,
     },
   },
   networks: {
@@ -139,7 +139,8 @@ const config: HardhatUserConfig = {
     },
   },
   typechain: {
-    outDir: "./typechain",
+    outDir: "./src/typechain",
+    target: "ethers-v5",
   },
 };
 

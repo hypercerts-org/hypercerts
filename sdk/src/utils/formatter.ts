@@ -18,10 +18,12 @@ const formatDate = (date: Date) => {
   return `${fullYear}-${month}-${day}`;
 };
 
+type FormatResult = { data: HypercertMetadata | null; valid: boolean; errors: Record<string, string> | null };
+
 /**
  *
  * Formats input data to an object containing HypercertMetadata including appropriate labels
- * @returns {HypercertMetadata, boolean, errors<key, value>}
+ * @returns {HypercertMetadata, MalformedDataError}
  */
 const formatHypercertData = ({
   name,
@@ -59,7 +61,7 @@ const formatHypercertData = ({
   contributors: string[];
   rights: string[];
   excludedRights: string[];
-}): { data: HypercertMetadata | null; valid: boolean; errors: Record<string, string> } => {
+}): FormatResult => {
   const claimData: HypercertClaimdata = {
     impact_scope: {
       name: "Impact Scope",
@@ -98,7 +100,7 @@ const formatHypercertData = ({
 
   const { valid: claimDataValid, errors: claimDataErrors } = validateClaimData(claimData);
   if (!claimDataValid) {
-    return { valid: false, errors: claimDataErrors, data: null };
+    return { valid: false, errors: claimDataErrors, data: null } as FormatResult;
   }
 
   const metaData: HypercertMetadata = {
@@ -119,9 +121,10 @@ const formatHypercertData = ({
 
   const { valid: metaDataValid, errors: metaDataErrors } = validateMetaData(metaData);
   if (!metaDataValid) {
-    return { valid: false, errors: metaDataErrors, data: null };
+    return { valid: false, errors: metaDataErrors, data: null } as FormatResult;
   }
-  return { valid: true, errors: {}, data: metaData };
+
+  return { data: metaData, valid: true, errors: null };
 };
 
 export { formatDate, formatUnixTime, formatHypercertData };
