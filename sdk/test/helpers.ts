@@ -1,6 +1,6 @@
 import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
-import { HypercertMetadata } from "src/index.js";
 
+import { HypercertMetadata } from "../src/index.js";
 import { formatHypercertData } from "../src/utils/formatter.js";
 
 export type TestDataType = Parameters<typeof formatHypercertData>[0];

@@ -6,10 +6,10 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
+import { HypercertStorageInterface, HypercertStorageProps } from "../types/client.js";
 import { InvalidOrMissingError, StorageError } from "../types/errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
 import { logger } from "../utils/logger.js";
-import { HypercertStorageInterface, HypercertStorageProps } from "../types/client.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -92,6 +92,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   }
 
   /**
+   * Get arbitrary data from web3.storage. Use with caution because there's no guarantee that the data will be there or safe.
    * Get arbitrary data from web3.storage. Use with caution because there's no guarantee that the data will be there or safe.
    * @param cidOrIpfsUri
    * @returns JSON data or error

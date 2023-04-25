@@ -1,13 +1,12 @@
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { jest } from "@jest/globals";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Web3Storage } from "web3.storage";
 
 import HypercertsStorage from "../../src/storage.js";
 import { logger } from "../../src/utils/logger.js";
-import { getFormattedMetadata } from "../helpers.js";
 import mockData from "../res/mockData.js";
 import mockMetadata from "../res/mockMetadata.js";
 

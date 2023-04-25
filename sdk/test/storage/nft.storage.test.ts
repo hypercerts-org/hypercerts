@@ -1,12 +1,10 @@
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { jest } from "@jest/globals";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { NFTStorage } from "nft.storage";
 
 import HypercertsStorage from "../../src/storage.js";
-import { MalformedDataError, StorageError } from "../../src/types/errors.js";
+import { MalformedDataError } from "../../src/types/errors.js";
 import { HypercertMetadata } from "../../src/types/metadata.js";
 import { logger } from "../../src/utils/logger.js";
 import { getFormattedMetadata } from "../helpers.js";

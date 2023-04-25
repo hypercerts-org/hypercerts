@@ -56,8 +56,8 @@ jobs:
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          cache: "yarn"
           node-version: "18.x"
+          cache: "yarn"
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
@@ -72,13 +72,13 @@ jobs:
           yarn build 
         # Always run this step so that all linting errors can be seen at once.
         if: always()
-      # - name: Lint
-      #   run: |
-      #     yarn lint
-      #   # Always run this step so that all linting errors can be seen at once.
-      #   if: always()
-      # - name: Test
-      #   run: |
-      #     yarn test 
-      #   # Always run this step so that all linting errors can be seen at once.
-      #   if: always()
+      - name: Lint
+        run: |
+          yarn lint
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: Test
+        run: |
+          yarn test 
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()

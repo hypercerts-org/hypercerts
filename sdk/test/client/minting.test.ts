@@ -23,7 +23,7 @@ describe("mintClaim in HypercertClient", () => {
     const rawData = getRawInputData() as TestDataType;
     const { data: formattedData } = formatHypercertData(rawData);
 
-    let spy = jest.spyOn(provider, "sendTransaction");
+    const spy = jest.spyOn(provider, "sendTransaction");
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll);
@@ -41,7 +41,7 @@ describe("mintClaim in HypercertClient", () => {
 
     expect(client.readonly).toBe(false);
 
-    let spy = jest.spyOn(provider, "sendTransaction");
+    const spy = jest.spyOn(provider, "sendTransaction");
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

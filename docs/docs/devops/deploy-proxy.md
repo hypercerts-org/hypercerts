@@ -68,6 +68,8 @@ If you are deploying to a new network, create a new table. You can copy the tabl
 
 If you are deploying a new proxy contract to a network for which you already have another deployment, you'll have to make a judgement call as to whether you can reuse the existing table, whether you need to clear the existing table, or create another table.
 
+Note: We want to merge all the tables in this [issue](https://github.com/hypercerts-org/hypercerts/issues/477).
+
 ### Update the OpenZeppelin Defender scripts
 
 Modify the Defender scripts to support the new network in `defender/src/networks.ts`.
@@ -105,7 +107,7 @@ Publish SDK to npm
 
 ## Deploy the Dapp frontend
 
-Each frontend build is configured to run on a different network (e.g. `https://goerli.hypercerts.org`). You can use any CDN to serve the site (e.g. Netlify, Vercel, GitHub Pages, Cloudflare Pages, Fleek, Firebase Hosting).
+Each frontend build is configured to run on a different network (e.g. `https://testnet.hypercerts.org`). You can use any CDN to serve the site (e.g. Netlify, Vercel, GitHub Pages, Cloudflare Pages, Fleek, Firebase Hosting).
 
 1. Configure your build environment with the environment variables specified in `frontend/.env.local.example`.
 

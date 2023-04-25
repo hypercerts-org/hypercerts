@@ -4,8 +4,8 @@ import { isAddress } from "ethers/lib/utils.js";
 import { readFileSync } from "fs";
 
 import { HypercertClaimdata } from "../types/claimdata.js";
-import { HypercertMetadata } from "../types/metadata.js";
 import { Allowlist } from "../types/hypercerts.js";
+import { HypercertMetadata } from "../types/metadata.js";
 
 const claimDataUrl = new URL("../resources/schema/claimdata.json", import.meta.url);
 const claimDataSchema = JSON.parse(readFileSync(claimDataUrl, "utf8"));
