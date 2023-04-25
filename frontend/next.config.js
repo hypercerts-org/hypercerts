@@ -16,6 +16,10 @@ const nextConfig = {
     WEB3_STORAGE_TOKEN: process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
   },
   productionBrowserSourceMaps: true,
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+    return config;
+  },
 };
 
 module.exports = nextConfig;
@@ -24,11 +28,3 @@ module.exports = withSentryConfig(
   { silent: true },
   { hideSourcemaps: false },
 );
-
-module.exports = {
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-
-    return config;
-  },
-};
