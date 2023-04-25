@@ -1,17 +1,12 @@
 import Ajv from "ajv";
 import { BigNumber, BigNumberish } from "ethers";
 import { isAddress } from "ethers/lib/utils.js";
-import { readFileSync } from "fs";
 
+import claimDataSchema from "../resources/schema/claimdata.json";
+import metaDataSchema from "../resources/schema/metadata.json";
 import { HypercertClaimdata } from "../types/claimdata.js";
 import { Allowlist } from "../types/hypercerts.js";
 import { HypercertMetadata } from "../types/metadata.js";
-
-const claimDataUrl = new URL("../resources/schema/claimdata.json", import.meta.url);
-const claimDataSchema = JSON.parse(readFileSync(claimDataUrl, "utf8"));
-
-const metaDataUrl = new URL("../resources/schema/metadata.json", import.meta.url);
-const metaDataSchema = JSON.parse(readFileSync(metaDataUrl, "utf8"));
 
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
