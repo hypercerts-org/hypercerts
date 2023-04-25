@@ -6,8 +6,9 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
+import { validateMetaData } from "./index.js";
 import { HypercertStorageInterface, HypercertStorageProps } from "./types/client.js";
-import { StorageError } from "./types/errors.js";
+import { MalformedDataError, StorageError } from "./types/errors.js";
 import { HypercertMetadata } from "./types/metadata.js";
 import { logger } from "./utils/logger.js";
 
@@ -32,7 +33,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     }
 
     if (!_web3StorageToken || _web3StorageToken === "") {
-      logger.error("Web3 Storage API key is missing or invalid.", "_web3StorageToken");
+      logger.error(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
     }
 
     if (_nftStorageToken !== undefined && _web3StorageToken !== undefined) {
@@ -53,6 +54,11 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
     if (this.readonly || !this.nftStorageClient) {
       throw new StorageError("NFT.storage client is not configured");
+    }
+
+    const validation = validateMetaData(data);
+    if (!validation.valid) {
+      throw new MalformedDataError(`Invalid metadata.`, { errors: validation.errors });
     }
 
     logger.debug("Storing HypercertMetaData:", { metadata: data });
@@ -77,7 +83,19 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
     logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
-    return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
+    const res = await axios.get<HypercertMetadata>(nftStorageGatewayLink);
+
+    if (!res || !res.data) {
+      throw new StorageError(`Failed to get ${cidOrIpfsUri}`);
+    }
+
+    const data = res.data;
+    const validation = validateMetaData(data);
+    if (!validation.valid) {
+      throw new MalformedDataError(`Invalid metadata at ${cidOrIpfsUri}`, { errors: validation.errors });
+    }
+
+    return data;
   }
 
   /**

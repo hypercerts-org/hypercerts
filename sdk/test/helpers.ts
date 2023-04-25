@@ -1,4 +1,5 @@
 import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
+import { HypercertMetadata } from "src/index.js";
 
 import { formatHypercertData } from "../src/utils/formatter.js";
 
@@ -23,6 +24,12 @@ const getRawInputData = (overrides?: Partial<TestDataType>): Partial<TestDataTyp
   };
 
   return { ...testData, ...overrides };
+};
+
+const getFormattedMetadata = (overrides?: Partial<TestDataType>): HypercertMetadata => {
+  const rawData = getRawInputData(overrides) as TestDataType;
+  const { data: formattedData } = formatHypercertData(rawData);
+  return formattedData as HypercertMetadata;
 };
 
 const mockContractResponse = (): Promise<ContractTransaction> => {
@@ -61,4 +68,4 @@ const mockContractResponse = (): Promise<ContractTransaction> => {
   return Promise.resolve(transaction);
 };
 
-export { getRawInputData, mockContractResponse };
+export { getFormattedMetadata, getRawInputData, mockContractResponse };

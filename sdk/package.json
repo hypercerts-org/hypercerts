@@ -46,6 +46,7 @@
     "ethereum-waffle": "^4.0.10",
     "it-all": "^2.0.0",
     "json-schema-to-typescript": "^12.0.0",
+    "msw": "^1.2.1",
     "nyc": "^15.1.0",
     "rollup": "^3.17.2",
     "rollup-plugin-auto-external": "^2.0.0",
