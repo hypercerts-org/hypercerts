@@ -7,6 +7,7 @@ import {
   FormError,
   FormTextField,
   FormSelect,
+  FormSlider,
   FormDatePicker,
   FormDropZone,
   FormCheckbox,
@@ -281,6 +282,25 @@ PLASMIC.registerComponent(FormSelect, {
       helpText: "Let the user choose multiple values",
     },
     disabled: "boolean",
+  },
+  importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(FormSlider, {
+  name: "FormSlider",
+  description: "Slider for forms",
+  props: {
+    fieldName: {
+      type: "string",
+      helpText: "Formik field name",
+    },
+    defaultValue: {
+      type: "number",
+      helpText: "Starting value",
+    },
+    min: "number",
+    max: "number",
+    step: "number",
   },
   importPath: "./components/forms",
 });
