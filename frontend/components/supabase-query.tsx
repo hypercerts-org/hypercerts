@@ -14,7 +14,10 @@ const DATAPROVIDER_NAME = "supabaseData";
  */
 export interface SupabaseQueryProps {
   className?: string; // Plasmic CSS class
+  variableName?: string; // Name to use in Plasmic data picker
   children?: ReactNode; // Show this
+  loading?: ReactNode; // Show during loading if !ignoreLoading
+  ignoreLoading?: boolean; // Skip the loading visual
   tableName?: string; // table to query
   columns?: string; // comma-delimited column names (e.g. `address,claimId`)
   filters?: any; // A list of filters, where each filter is `[ column, operator, value ]`
@@ -29,7 +32,10 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
   // These props are set in the Plasmic Studio
   const {
     className,
+    variableName,
     children,
+    loading,
+    ignoreLoading,
     tableName,
     columns,
     filters,
@@ -88,9 +94,14 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
     return <p>You need to set the columns prop</p>;
   }
 
+  // Show when loading
+  if (!ignoreLoading && !!loading && !result) {
+    return <div className={className}> {loading} </div>;
+  }
+
   return (
     <div className={className}>
-      <DataProvider name={DATAPROVIDER_NAME} data={result}>
+      <DataProvider name={variableName ?? DATAPROVIDER_NAME} data={result}>
         {children}
       </DataProvider>
     </div>
