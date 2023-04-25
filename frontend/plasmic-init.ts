@@ -152,6 +152,10 @@ PLASMIC.registerComponent(HypercertFetcher, {
   name: "HypercertFetcher",
   description: "Client-side fetch metadata from IPFS",
   props: {
+    variableName: {
+      type: "string",
+      helpText: "Name to use in Plasmic data picker",
+    },
     children: {
       type: "slot",
       defaultValue: {
@@ -389,7 +393,22 @@ PLASMIC.registerComponent(CircularProgress, {
 PLASMIC.registerComponent(SupabaseQuery, {
   name: "SupabaseQuery",
   props: {
+    variableName: {
+      type: "string",
+      helpText: "Name to use in Plasmic data picker",
+    },
     children: "slot",
+    loading: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    ignoreLoading: {
+      type: "boolean",
+      helpText: "Don't show 'loading' even if we're still loading data",
+    },
     tableName: {
       type: "string",
       helpText: "Supabase table name",
