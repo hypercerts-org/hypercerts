@@ -66,12 +66,11 @@
   "scripts": {
     "build": "rollup -c",
     "docs": "typedoc --plugin typedoc-plugin-markdown",
-    "graph:build": "rm -rf ./src/.graphclient && NODE_OPTIONS='--loader ts-node/esm' graphclient build --throwOnInvalidConfig",
     "graph:compile": "graphql-codegen",
     "graph:serve": "graphclient serve-dev",
     "graph:watch": "graphql-codegen -w",
     "graph:build:esm": "rm -rf ./src/.graphclient && NODE_OPTIONS='--loader ts-node/esm' graphclient build --filetype js --throwOnInvalidConfig",
-    "clean": "rm -rf ./lib && rm -rf ./src/types",
+    "clean": "rm -rf ./dist",
     "prebuild": "yarn clean && yarn types:json && yarn graph:build:esm",
     "prepack": "yarn build",
     "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",
