@@ -2,7 +2,7 @@ import { getBuiltGraphSDK } from "../../.graphclient/index.js";
 import { getConfig } from "../config.js";
 
 const config = getConfig({});
-const sdkConfig = { chainName: config.chainName };
+const sdkConfig = { chainName: config.graphName };
 
 const sdk = getBuiltGraphSDK(sdkConfig);
 
