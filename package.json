@@ -7,6 +7,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "contracts",
       "cors-proxy",
       "defender",
       "docs",

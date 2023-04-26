@@ -79,7 +79,7 @@ Deployment of the contract to EVM compatible net is managed by
 management and safety checks.
 
 ```sh
-yarn build:hardhat
+yarn build:deploy
 yarn hardhat deploy --network goerli
 ```
 
