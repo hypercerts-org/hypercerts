@@ -23,6 +23,8 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
+export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
+
 const generateAndStoreTree = async (
   pairs: { address: string; units: number }[],
 ) => {
@@ -57,10 +59,12 @@ export const useMintClaimAllowlist = ({
   const initializeWrite = async ({
     metaData,
     allowlistUrl,
+    allowlistPercentage,
     pairs,
   }: {
     metaData: HypercertMetadata;
     allowlistUrl?: string;
+    allowlistPercentage?: number;
     pairs?: { address: string; units: number }[];
   }) => {
     setStep("uploading");
@@ -95,13 +99,16 @@ export const useMintClaimAllowlist = ({
     if (allowlistUrl) {
       // fetch csv file
       try {
+        const allowlistFraction =
+          (allowlistPercentage ?? DEFAULT_ALLOWLIST_PERCENTAGE) / 100.0;
         const htmlResult = await fetch(allowlistUrl, { method: "GET" });
         const htmlText = await htmlResult.text();
         const allowlist = parseAllowlistCsv(htmlText, [
           {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address: address!,
-            percentage: 0.5,
+            // Creator gets the rest for now
+            percentage: 1.0 - allowlistFraction,
           },
         ]);
         const totalSupply = _.sum(allowlist.map((x) => x.units));
@@ -214,10 +221,12 @@ export const useMintClaimAllowlist = ({
     write: async ({
       metaData,
       allowlistUrl,
+      allowlistPercentage,
       pairs,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl?: string;
+      allowlistPercentage?: number;
       pairs?: { address: string; units: number }[];
     }) => {
       showModal({ stepDescriptions });
@@ -225,6 +234,7 @@ export const useMintClaimAllowlist = ({
         metaData,
         pairs,
         allowlistUrl,
+        allowlistPercentage,
       });
     },
     isLoading:

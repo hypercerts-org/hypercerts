@@ -94,6 +94,7 @@ export function FormError(props: FormErrorProps) {
 export interface FormTextFieldProps {
   className?: string; // Plasmic CSS class
   fieldName?: string; // Formik field name
+  disabled?: boolean; // Disabled
   label?: string; // Label to show
   placeholder?: string; // Input placeholder
   multiline?: boolean; // Enable multiline, autosized by default
@@ -106,6 +107,7 @@ export function FormTextField(props: FormTextFieldProps) {
   const {
     className,
     fieldName,
+    disabled,
     label,
     placeholder,
     multiline,
@@ -126,6 +128,7 @@ export function FormTextField(props: FormTextFieldProps) {
           {...field}
           className={className}
           variant={"outlined"}
+          disabled={disabled}
           label={label}
           placeholder={placeholder}
           multiline={multiline}
@@ -214,6 +217,7 @@ export function FormSelect(props: FormSelectProps) {
 export interface FormSliderProps {
   className?: string; // Plasmic CSS class
   fieldName?: string; // Formik field name
+  disabled?: boolean; // Disabled
   defaultValue?: number; // Default value
   min?: number; // Minimum value
   max?: number; // Maximum value
@@ -221,7 +225,8 @@ export interface FormSliderProps {
 }
 
 export function FormSlider(props: FormSliderProps) {
-  const { className, fieldName, defaultValue, min, max, step } = props;
+  const { className, fieldName, disabled, defaultValue, min, max, step } =
+    props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -234,6 +239,8 @@ export function FormSlider(props: FormSliderProps) {
         <Slider
           {...field}
           className={className}
+          valueLabelDisplay="auto"
+          disabled={disabled}
           defaultValue={defaultValue}
           min={min}
           max={max}
