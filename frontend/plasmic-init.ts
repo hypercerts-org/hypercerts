@@ -242,6 +242,7 @@ PLASMIC.registerComponent(FormTextField, {
       type: "string",
       helpText: "Formik field name",
     },
+    disabled: "boolean",
     label: "string",
     placeholder: "string",
     multiline: {
@@ -294,6 +295,7 @@ PLASMIC.registerComponent(FormSlider, {
       type: "string",
       helpText: "Formik field name",
     },
+    disabled: "boolean",
     defaultValue: {
       type: "number",
       helpText: "Starting value",
