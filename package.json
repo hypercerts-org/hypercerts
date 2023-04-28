@@ -7,6 +7,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "contracts",
       "cors-proxy",
       "defender",
       "docs",
@@ -30,10 +31,12 @@
     "deploy:cors-proxy": "turbo run deploy --filter=cors-proxy --parallel",
     "deploy:defender": "turbo run deploy --filter=hypercerts-defender --parallel",
     "deploy:graph": "turbo run deploy --filter=hypercerts-graph --parallel",
+    "deploy:site": "yarn build:site && yarn sentry:sourcemaps",
     "dev:cors-proxy": "turbo run dev --filter=cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=hypercerts-frontend --parallel",
     "format:staged": "lint-staged",
     "lint": "turbo run lint",
+    "sentry:sourcemaps": "turbo run sentry:sourcemaps --filter=hypercerts-frontend",
     "serve:build": "yarn serve build",
     "test": "turbo run test",
     "prepare": "husky install"

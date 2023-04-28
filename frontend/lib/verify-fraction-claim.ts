@@ -29,7 +29,7 @@ export const verifyFractionClaim = async (claimId: string, address: string) => {
     throw new Error("Could not fetch json tree dump for allowlist");
   }
 
-  const value: unknown = treeResponse.value;
+  const value: unknown = treeResponse;
 
   if (typeof value === "string") {
     // Load the tree

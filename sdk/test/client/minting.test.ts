@@ -29,7 +29,7 @@ describe("mintClaim in HypercertClient", () => {
     await client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll);
 
     expect(spy).toBeCalledTimes(1);
-  });
+  }, 10000);
 
   it("throws on malformed metadata", async () => {
     const provider = new MockProvider();

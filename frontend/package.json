@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "next build && next export",
+    "build": "export SENTRY_RELEASE=`sentry-cli releases propose-version` && next build && next export",
     "start": "serve out",
     "dev": "next",
     "lint": "tsc --noEmit && next lint && yarn lint:eslint",
@@ -14,14 +14,16 @@
     "test:watch": "jest --watch",
     "preexport": "npm run build",
     "export": "next export",
-    "prestart": "npm run export"
+    "prestart": "npm run export",
+    "sentry:release": "export SENTRY_RELEASE=`sentry-cli releases propose-version` && echo $SENTRY_RELEASE",
+    "sentry:sourcemaps": "export SENTRY_RELEASE=`sentry-cli releases propose-version` && sentry-cli releases --org hypercerts --project hypercerts-dapp files $SENTRY_RELEASE upload-sourcemaps out/"
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@graphprotocol/client-cli": "^2.2.16",
-    "@hypercerts-org/hypercerts-protocol": "0.0.10",
+    "@hypercerts-org/hypercerts-protocol": "*",
     "@hypercerts-org/hypercerts-sdk": "*",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",

@@ -1,6 +1,9 @@
 import { useAccountLowerCase } from "../hooks/account";
 import { useMintClaim } from "../hooks/mintClaim";
-import { useMintClaimAllowlist } from "../hooks/mintClaimAllowlist";
+import {
+  useMintClaimAllowlist,
+  DEFAULT_ALLOWLIST_PERCENTAGE,
+} from "../hooks/mintClaimAllowlist";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
@@ -52,6 +55,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   rights: ["Public Display"] as string[],
   contributors: "",
   allowlistUrl: "",
+  allowlistPercentage: DEFAULT_ALLOWLIST_PERCENTAGE,
   agreeContributorsConsent: false,
   agreeTermsConditions: false,
   // Hidden
@@ -77,6 +81,7 @@ interface HypercertCreateFormData {
   rights: string[];
   contributors: string;
   allowlistUrl: string;
+  allowlistPercentage: number;
   agreeContributorsConsent: boolean;
   agreeTermsConditions: boolean;
   // Hidden
@@ -262,6 +267,7 @@ const ValidationSchema = Yup.object().shape({
         ipfsAllowed: false,
       }),
   ),
+  allowlistPerentage: Yup.number().min(1).max(100),
   agreeContributorsConsent: Yup.boolean().oneOf(
     [true],
     "You must get the consent of contributors before creating",
@@ -371,6 +377,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
               await mintClaimAllowlist({
                 metaData: metaData.data,
                 allowlistUrl: values.allowlistUrl,
+                allowlistPercentage: values.allowlistPercentage,
               });
             } else {
               await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
