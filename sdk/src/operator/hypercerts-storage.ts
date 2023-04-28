@@ -8,7 +8,6 @@ import { Blob, File, Web3Storage } from "web3.storage";
 
 import { InvalidOrMissingError, StorageError } from "../errors.js";
 import { HypercertMetadata } from "../types/metadata.js";
-import { logger } from "../utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -46,7 +45,7 @@ export default class HypercertsStorage {
    * @returns
    */
   public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
-    logger.info("Storing HypercertMetaData:", { metadata: data });
+    console.log("Storing HypercertMetaData:", { metadata: data });
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
 
     const cid: CIDString = await this.nftStorageClient.storeBlob(blob);
@@ -64,7 +63,7 @@ export default class HypercertsStorage {
    */
   public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    console.log(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
     return axios.get<HypercertMetadata>(nftStorageGatewayLink).then((result) => result.data);
   }
@@ -81,7 +80,7 @@ export default class HypercertsStorage {
   public async storeData(data: unknown): Promise<CIDString> {
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
-    logger.info("Storing blob of: ", data);
+    console.log("Storing blob of: ", data);
     const cid: CIDString = await this.web3StorageClient.put(files, { wrapWithDirectory: false });
 
     if (!cid) {
@@ -125,7 +124,7 @@ export default class HypercertsStorage {
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    console.log(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
     return axios.get(nftStorageGatewayLink).then((result) => result.data);
   }

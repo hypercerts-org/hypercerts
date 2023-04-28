@@ -1,5 +1,4 @@
 import { UnsupportedChainError } from "./errors.js";
-import { logger } from "./utils/logger.js";
 
 /**
  * Constants
@@ -64,7 +63,7 @@ export const getConfig = (overrides: Partial<Config>) => {
 
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
-      logger.error(`Cannot get chain config. ${key} is possibly undefined`);
+      console.error(`Cannot get chain config. ${key} is possibly undefined`);
     }
   }
 
