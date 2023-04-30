@@ -1,7 +1,7 @@
 import axios from "axios";
 import { expect } from "chai";
 
-import { HypercertsStorage } from "../src/index";
+import { HypercertsStorage } from "../src/index.js";
 
 const mockMetadata = JSON.parse(`
 {

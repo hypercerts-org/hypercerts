@@ -1,26 +1,37 @@
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
 
-import { Config, getConfig } from "../config.js";
-import { MalformedDataError } from "../errors.js";
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";
+import { HypercertClientConfig } from "../types/client.js";
+import { MalformedDataError } from "../types/errors.js";
+import { TransferRestrictions } from "../types/hypercerts.js";
+import { getConfig } from "../utils/config.js";
 
+/**
+ * @deprecated Refactored this type into the client interface
+ */
 type HypercertsMinterProps = {
   provider?: ethers.providers.BaseProvider;
-  chainConfig: Partial<Config>;
+  chainConfig: Partial<HypercertClientConfig>;
 };
 
+/**
+ * @deprecated Refactored this type into the client interface
+ */
 type HypercertsMinterType = {
   contract: HypercertMinter;
   mintHypercert: (
     address: string,
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
-    transferRestriction: BigNumberish,
+    transferRestriction: TransferRestrictions,
   ) => Promise<ContractTransaction>;
   transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
 };
 
+/**
+ * @deprecated Refactored this funtionality into the client
+ */
 const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): HypercertsMinterType => {
   const _chainConfig = getConfig(chainConfig);
   const { contractAddress } = _chainConfig;
@@ -30,17 +41,11 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
 
   const contract = <HypercertMinter>new ethers.Contract(contractAddress, HypercertMinterABI, _provider);
 
-  const TransferRestrictions = {
-    AllowAll: 0,
-    DisallowAll: 1,
-    FromCreatorOnly: 2,
-  } as const;
-
   const mintHypercert = async (
     address: string,
     claimData: HypercertMetadata,
     totalUnits: BigNumberish,
-    transferRestriction: BigNumberish,
+    transferRestriction: TransferRestrictions,
   ) => {
     // validate metadata
     const { valid, errors } = validateMetaData(claimData);

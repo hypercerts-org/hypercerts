@@ -28,6 +28,8 @@ const testDataUndefinedExternalURL: Partial<TestDataType> = { ...testData, exter
 describe("Format Hypercert Data test", () => {
   it("checks correct metadata and returns result", () => {
     const result = formatHypercertData(testData as TestDataType);
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const validKeys = Object.keys(result.data!);
 
     expect(validKeys).to.include.members([
@@ -46,8 +48,13 @@ describe("Format Hypercert Data test", () => {
     const invalidResult = formatHypercertData(invalidData as TestDataType);
 
     expect(invalidResult.valid).to.be.false;
-    expect(Object.keys(invalidResult.errors!)).to.be.length(1);
-    expect(Object.keys(invalidResult.errors!)[0]).to.eq("name");
+
+    if (invalidResult.errors) {
+      expect(Object.keys(invalidResult.errors)).to.be.length(1);
+      expect(Object.keys(invalidResult.errors)[0]).to.eq("name");
+    } else {
+      expect.fail("Should return errors");
+    }
   });
 
   it("handles undefined properties", () => {

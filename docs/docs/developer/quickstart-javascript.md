@@ -16,6 +16,8 @@ yarn add @hypercerts-org/sdk
 
 ## Initialize the client
 
+[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts)
+
 ```js
 import { HypercertsClient, HypercertsStorage } from "@hypercerts-org/sdk";
 import { ethers } from "ethers";
@@ -36,6 +38,8 @@ Contract interactions wait for settlement to get back some return value.
 The user does not need to `await` the promise, they can choose to fire and forget
 
 ### Minting
+
+[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/operator/hypercert-minting.ts)
 
 ```js
 import { TransferRestrictions, formatHypercertData } from "@hypercerts-org/sdk"
@@ -138,7 +142,7 @@ export interface TypedError extends Error {
 | --------------------- | ---------------------------------- | ----------------------------------------------- |
 | FetchError            | Async call to API failed           | `{ [key: string]: unknown }`                    |
 | InvalidOrMissingError | Env var missing                    | `{ keyName: string }`                           |
-| MalformedDataError    | Validation or formatting failed    | `{ [key: string]: unknown } `                   |
+| MalformedDataError    | Validation or formatting failed    | `{ [key: string]: unknown }`                    |
 | MintingError          | EVM call to mint failed            | `{ [key: string]: unknown }`                    |
 | StorageError          | NFT-/Web3 Storage error            | `{ [key: string]: unknown }`                    |
 | UnsupportedChainError | Provided EVM chainID not supported | <code>{ chainID: string &#124; number };</code> |

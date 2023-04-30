@@ -1,4 +1,4 @@
-import { HypercertsSdkError } from "../errors.js";
+import { HypercertsSdkError } from "../types/errors.js";
 
 /**
  *
