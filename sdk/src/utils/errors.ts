@@ -1,5 +1,4 @@
 import { HypercertsSdkError } from "../types/errors.js";
-import { logger } from "./logger.js";
 
 /**
  *
@@ -15,7 +14,7 @@ const handleError = (err: HypercertsSdkError) => {
     case "StorageError":
     case "UnsupportedChainError":
     case "UnknownSchemaError":
-      logger.error(err.message, { label: err.__type, metadata: err.payload });
+      console.error(err.message, { label: err.__type, metadata: err.payload });
       break;
     default:
       throw new Error(`Unreachable case: ${err.__type}`);

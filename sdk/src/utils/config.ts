@@ -1,5 +1,4 @@
 import { UnsupportedChainError } from "../types/errors.js";
-import { logger } from "./logger.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { HypercertClientConfig } from "../types/client.js";
 
@@ -41,7 +40,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
 
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
-      logger.error(`Cannot get chain config. ${key} is possibly undefined`);
+      console.log(`Cannot get chain config. ${key} is possibly undefined`);
     }
   }
 
