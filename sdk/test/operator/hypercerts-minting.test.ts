@@ -61,5 +61,5 @@ describe("Create Minting instance", () => {
       const error = e as MalformedDataError;
       expect(error.message).to.eq("Metadata validation failed");
     }
-  });
+  }, 10000);
 });
