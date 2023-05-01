@@ -21,7 +21,6 @@ import { toast } from "react-toastify";
 import { useNetwork } from "wagmi";
 import * as Yup from "yup";
 import { useMintClaimSDK } from "../hooks/mintClaimSDK";
-import { read } from "fs";
 
 /**
  * Constants
