@@ -49,18 +49,22 @@ export const useMintClaimAllowlistSDK = ({
       (allowlistPercentage ?? DEFAULT_ALLOWLIST_PERCENTAGE) / 100.0;
     const htmlResult = await fetch(allowlistUrl, { method: "GET" });
     const htmlText = await htmlResult.text();
-    const allowlist: Allowlist = parseAllowlistCsv(htmlText, [
-      {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        address: address!,
-        // Creator gets the rest for now
-        percentage: 1.0 - allowlistFraction,
-      },
-    ]);
-    const totalSupply = _.sum(allowlist.map((x: AllowlistEntry) => x.units));
+    try {
+      const allowlist: Allowlist = parseAllowlistCsv(htmlText, [
+        {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          address: address!,
+          // Creator gets the rest for now
+          percentage: 1.0 - allowlistFraction,
+        },
+      ]);
+      const totalSupply = _.sum(allowlist.map((x: AllowlistEntry) => x.units));
 
-    const { valid, errors } = validateAllowlist(allowlist, totalSupply);
-    return { allowlist, totalSupply, valid, errors };
+      const { valid, errors } = validateAllowlist(allowlist, totalSupply);
+      return { allowlist, totalSupply, valid, errors };
+    } catch (error) {
+      return { allowlist: [], totalSupply: 0, valid: false, errors: error };
+    }
   };
 
   const initializeWrite = async (
