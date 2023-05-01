@@ -16,7 +16,9 @@ export const useMintClaimSDK = ({
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
-    writing: "Minting hypercert on-chain",
+    preparing: "Preparing to mint hypercert",
+    minting: "Minting hypercert on-chain",
+    waiting: "Awaiting confirmation",
     complete: "Done minting",
   };
 
