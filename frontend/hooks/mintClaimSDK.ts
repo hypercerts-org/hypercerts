@@ -65,6 +65,6 @@ export const useMintClaimSDK = ({
       setStep("preparing");
       await initializeWrite(metaData, units);
     },
-    readOnly: isLoading || !client || client.readOnly,
+    readOnly: isLoading || !client || client.readonly,
   };
 };
