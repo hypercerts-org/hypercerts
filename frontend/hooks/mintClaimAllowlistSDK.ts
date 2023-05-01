@@ -61,6 +61,8 @@ export const useMintClaimAllowlistSDK = ({
       const totalSupply = _.sum(allowlist.map((x: AllowlistEntry) => x.units));
 
       const { valid, errors } = validateAllowlist(allowlist, totalSupply);
+
+      console.log(valid, errors);
       return { allowlist, totalSupply, valid, errors };
     } catch (error) {
       return { allowlist: [], totalSupply: 0, valid: false, errors: error };
@@ -81,7 +83,9 @@ export const useMintClaimAllowlistSDK = ({
       toast("Errors found in allowlist. Check console for errors.", {
         type: "error",
       });
-      console.error(errors);
+      for (const error of errors) {
+        console.error(error);
+      }
       hideModal();
       return;
     }

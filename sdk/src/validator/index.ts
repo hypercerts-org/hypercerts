@@ -62,8 +62,10 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
 const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
   const errors: Record<string, string | string[]> = {};
   const totalUnits = data.reduce((acc, curr) => acc.add(curr.units), BigNumber.from(0));
-  if (totalUnits !== units) {
-    errors["units"] = "Total units in allowlist must match total units";
+  if (!totalUnits.eq(units)) {
+    errors[
+      "units"
+    ] = `Total units in allowlist must match total units [expected: ${units}, got: ${totalUnits.toString()}]`;
   }
 
   const filteredAddresses = data.filter((entry) => !isAddress(entry.address));
