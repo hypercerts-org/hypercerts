@@ -16,7 +16,7 @@ export type Deployment = {
 };
 
 export type HypercertClientConfig = Deployment & {
-  provider?: ethers.providers.BaseProvider;
+  provider?: ethers.providers.Provider;
   rpcUrl?: string;
   signer?: ethers.Signer;
 };
@@ -73,7 +73,7 @@ export type HypercertClientProps = {
 export interface HypercertClientInterface {
   readonly: boolean;
   config: HypercertClientConfig;
-  provider: ethers.providers.BaseProvider;
+  provider: ethers.providers.Provider;
   contract: HypercertMinter;
   storage: HypercertsStorage;
   mintClaim: (

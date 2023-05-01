@@ -9,7 +9,6 @@ import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps }
 import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
 import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
 import { getConfig } from "./utils/config.js";
-import { logger } from "./utils/logger.js";
 import { validateAllowlist } from "./validator/index.js";
 
 /**
@@ -22,7 +21,7 @@ import { validateAllowlist } from "./validator/index.js";
 export default class HypercertClient implements HypercertClientInterface {
   config: HypercertClientConfig;
   storage: HypercertsStorage;
-  provider: ethers.providers.BaseProvider;
+  provider: ethers.providers.Provider;
   signer?: ethers.Signer;
   contract: HypercertMinter;
   readonly: boolean;
@@ -41,7 +40,13 @@ export default class HypercertClient implements HypercertClientInterface {
     );
 
     this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;
-    if (this.readonly) logger.warn("HypercertsClient is in readonly mode");
+    if (this.readonly) {
+      console.log("HypercertsClient is in readonly mode");
+      console.log("HypercertsClient signer: ", this.signer);
+      console.log("HypercertsClient provider: ", this.provider);
+      console.log("HypercertsClient contract address: ", this.contract.address);
+      console.log("HypercertsClient storage: ", this.storage);
+    }
   }
 
   /**
