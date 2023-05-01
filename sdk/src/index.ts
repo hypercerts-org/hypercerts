@@ -16,10 +16,10 @@ import HypercertMinterABI from "./resources/HypercertMinter.js";
 import type { HypercertClaimdata } from "./types/claimdata.js";
 import type { HypercertMetadata } from "./types/metadata.js";
 import { formatHypercertData } from "./utils/formatter.js";
-import { validateClaimData, validateMetaData } from "./validator/index.js";
-import { TransferRestrictions } from "./types/hypercerts.js";
+import { validateClaimData, validateMetaData, validateAllowlist } from "./validator/index.js";
+import { TransferRestrictions, Allowlist, AllowlistEntry } from "./types/hypercerts.js";
 
-export { validateMetaData, validateClaimData, formatHypercertData };
+export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
 
 export { HypercertClient };
 export { TransferRestrictions };
@@ -32,4 +32,11 @@ const { HyperCertMinterFactory } = protocol;
 
 export { HyperCertMinterFactory, HypercertMinterABI };
 
-export type { HypercertMetadata, HypercertClaimdata, ClaimByIdQuery, ClaimTokensByClaimQuery };
+export type {
+  HypercertMetadata,
+  HypercertClaimdata,
+  ClaimByIdQuery,
+  ClaimTokensByClaimQuery,
+  Allowlist,
+  AllowlistEntry,
+};

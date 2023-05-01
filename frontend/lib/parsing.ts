@@ -1,3 +1,4 @@
+import { Allowlist } from "@hypercerts-org/hypercerts-sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
 import { isAddress } from "ethers/lib/utils";
@@ -16,15 +17,15 @@ export function parseAllowlistCsv(
     address: string;
     percentage: number;
   }[] = [],
-): { address: string; units: number }[] {
+): Allowlist {
   // Parse CSV
   const { data: rawData, errors } = Papa.parse(csv, {
     header: true,
     skipEmptyLines: true,
   });
   if (errors.length > 0) {
-    console.warn("Warnings parsing allowlist:", errors);
-    // TODO: should this throw an exception? Or should we be more tolerant?
+    console.error("Errors parsing allowlist:", errors);
+    throw new InvalidDataError("Errors parsing allowlist");
   }
   // Get the addresses and units from the CSV
   const csvData = rawData.map((row: any) => ({
@@ -42,26 +43,26 @@ export function parseAllowlistCsv(
   );
   if (addTotalPercentage < 0.0 || addTotalPercentage >= 1.0) {
     throw new OutOfBoundsError(
-      "Total percentage added must be between [0.0, 1.0)",
+      "Total percentage added must be between [0.0, 1.0]",
     );
   }
   for (let i = 0; i < add.length; i++) {
     if (add[i].percentage < 0.0 || add[i].percentage >= 1.0) {
-      throw new OutOfBoundsError("Percentage added must be between [0.0, 1.0)");
+      throw new OutOfBoundsError("Percentage added must be between [0.0, 1.0]");
     }
   }
   // Combine CSV data with manually added addresses
   const csvTotalPercentage = 1.0 - addTotalPercentage;
   const totalSupply = csvTotalSupply / csvTotalPercentage;
   const data = csvData.concat(
-    add.map(x => ({
+    add.map((x) => ({
       address: x.address.trim().toLowerCase(),
       units: Math.floor(totalSupply * x.percentage),
     })),
   );
   // Deduplicate
-  const groups = _.groupBy(data, x => x.address);
-  const addressToUnits = _.mapValues(groups, x =>
+  const groups = _.groupBy(data, (x) => x.address);
+  const addressToUnits = _.mapValues(groups, (x) =>
     x.reduce((accum, curr) => accum + curr.units, 0),
   );
   const result = _.toPairs(addressToUnits).map(([address, units]) => ({
@@ -90,16 +91,16 @@ export const parseListFromString = (
     // Split on either new lines or commas
     .split(/[,\n]/)
     // Cleanup
-    .map(i => i.trim())
+    .map((i) => i.trim())
     // Filter out non-truthy values
-    .filter(i => !!i);
+    .filter((i) => !!i);
   if (opts?.lowercase) {
     switch (opts.lowercase) {
       case "all":
-        list = list.map(x => x.toLowerCase());
+        list = list.map((x) => x.toLowerCase());
         break;
       case "addresses":
-        list = list.map(x => (isAddress(x) ? x.toLowerCase() : x));
+        list = list.map((x) => (isAddress(x) ? x.toLowerCase() : x));
         break;
       default:
         assertNever(opts.lowercase);
