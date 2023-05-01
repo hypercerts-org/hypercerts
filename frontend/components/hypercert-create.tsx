@@ -1,8 +1,4 @@
 import { useAccountLowerCase } from "../hooks/account";
-import {
-  useMintClaimAllowlist,
-  DEFAULT_ALLOWLIST_PERCENTAGE,
-} from "../hooks/mintClaimAllowlist";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
@@ -21,6 +17,11 @@ import { toast } from "react-toastify";
 import { useNetwork } from "wagmi";
 import * as Yup from "yup";
 import { useMintClaimSDK } from "../hooks/mintClaimSDK";
+import {
+  useMintClaimAllowlistSDK,
+  DEFAULT_ALLOWLIST_PERCENTAGE,
+} from "../hooks/mintClaimAllowlistSDK";
+import { useHypercertClient } from "../hooks/hypercerts-client";
 
 /**
  * Constants
@@ -298,6 +299,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
   const { push } = useRouter();
   const { hideModal } = useContractModal();
   const confetti = useConfetti();
+  const { client } = useHypercertClient();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -321,11 +323,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
     push("/app/dashboard");
   };
 
-  const { write: mintClaim, readOnly } = useMintClaimSDK({
+  const { write: mintClaim } = useMintClaimSDK({
     onComplete,
   });
 
-  const { write: mintClaimAllowlist } = useMintClaimAllowlist({
+  const { write: mintClaimAllowlist } = useMintClaimAllowlistSDK({
     onComplete,
   });
 
@@ -361,6 +363,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
               type: "error",
             });
             return;
+          } else if (!client || client.readonly) {
+            toast("Client is in readonly mode. Are you connected?", {
+              type: "warning",
+            });
+            return;
           }
 
           const image = await exportAsImage(IMAGE_SELECTOR);
@@ -380,11 +387,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
                 allowlistPercentage: values.allowlistPercentage,
               });
             } else {
-              readOnly
-                ? toast("Client is in readonly mode. Are you connected?", {
-                    type: "warning",
-                  })
-                : await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
+              await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
             }
           } else {
             toast("Error creating hypercert. Please contact the team.", {

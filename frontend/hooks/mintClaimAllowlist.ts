@@ -11,6 +11,8 @@ import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import {
   HypercertMetadata,
   HypercertMinting,
+  AllowlistEntry,
+  Allowlist,
 } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber } from "ethers";
@@ -25,9 +27,7 @@ import {
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
 
-const generateAndStoreTree = async (
-  pairs: { address: string; units: number }[],
-) => {
+const generateAndStoreTree = async (pairs: Allowlist) => {
   const tuples = pairs.map((p) => [p.address, p.units]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
@@ -111,7 +111,9 @@ export const useMintClaimAllowlist = ({
             percentage: 1.0 - allowlistFraction,
           },
         ]);
-        const totalSupply = _.sum(allowlist.map((x) => x.units));
+        const totalSupply = _.sum(
+          allowlist.map((x: AllowlistEntry) => x.units),
+        );
 
         const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
         if (!merkleCID) {
