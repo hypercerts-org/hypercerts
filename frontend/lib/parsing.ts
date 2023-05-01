@@ -24,8 +24,8 @@ export function parseAllowlistCsv(
     skipEmptyLines: true,
   });
   if (errors.length > 0) {
-    console.warn("Warnings parsing allowlist:", errors);
-    // TODO: should this throw an exception? Or should we be more tolerant?
+    console.error("Errors parsing allowlist:", errors);
+    throw new InvalidDataError("Errors parsing allowlist");
   }
   // Get the addresses and units from the CSV
   const csvData = rawData.map((row: any) => ({
@@ -43,12 +43,12 @@ export function parseAllowlistCsv(
   );
   if (addTotalPercentage < 0.0 || addTotalPercentage >= 1.0) {
     throw new OutOfBoundsError(
-      "Total percentage added must be between [0.0, 1.0)",
+      "Total percentage added must be between [0.0, 1.0]",
     );
   }
   for (let i = 0; i < add.length; i++) {
     if (add[i].percentage < 0.0 || add[i].percentage >= 1.0) {
-      throw new OutOfBoundsError("Percentage added must be between [0.0, 1.0)");
+      throw new OutOfBoundsError("Percentage added must be between [0.0, 1.0]");
     }
   }
   // Combine CSV data with manually added addresses
