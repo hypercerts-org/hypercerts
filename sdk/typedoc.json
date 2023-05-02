@@ -4,5 +4,6 @@
   "name": "Hypercerts SDK Documentation",
   "tsconfig": "./tsconfig.json",
   "entryPointStrategy": "expand",
-  "cleanOutputDir": true
+  "cleanOutputDir": true,
+  "readme": "none"
 }

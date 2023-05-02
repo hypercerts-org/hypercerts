@@ -45,7 +45,7 @@ The user does not need to `await` the promise, they can choose to fire and forge
 
 ### Minting you first hypercert
 
-[code]("https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts")
+[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts)
 
 To mint a hypercert you need to provide the `metadata`, total amount of `units` and the prefered `TransferRestrictions`.
 

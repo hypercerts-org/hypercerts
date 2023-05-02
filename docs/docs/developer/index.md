@@ -11,8 +11,8 @@
 
 The API documentation is an output of the Typedoc and NatSpec documentation of the SDK and contracts respectively.
 
-- [Contracts API](./api/contracts/)
-- [SDK API](./api/sdk/modules.md)
+- [Contracts API](./api/contracts/index.md)
+- [SDK API](./api/sdk/index.md)
 
 ## Environments
 
