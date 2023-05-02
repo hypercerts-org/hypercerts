@@ -32,7 +32,7 @@ const hypercerts = new HypercertsClient({
 
 We support a read only mode in case the signer, provider, contract address or storage are not properly defined.
 
-You can override options, see [API reference](./api-reference.md)
+You can override options, see [API specification](./api/index.md)
 
 ## Contract Operations
 
