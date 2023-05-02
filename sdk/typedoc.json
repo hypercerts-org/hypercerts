@@ -1,8 +1,8 @@
 {
   "entryPoints": ["src"],
-  "out": "docs/",
-  "readme": "README.md",
+  "out": "../docs/docs/developer/api/sdk",
   "name": "Hypercerts SDK Documentation",
   "tsconfig": "./tsconfig.json",
-  "entryPointStrategy": "expand"
+  "entryPointStrategy": "expand",
+  "cleanOutputDir": true
 }

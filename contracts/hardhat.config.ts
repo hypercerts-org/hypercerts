@@ -85,6 +85,7 @@ const config: HardhatUserConfig = {
     runOnCompile: true,
     include: ["src"],
     freshOutput: true,
+    outputDir: "../docs/docs/developer/api/contracts",
     // More options...
   },
   etherscan: {

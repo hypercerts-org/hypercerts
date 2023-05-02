@@ -18,16 +18,19 @@ yarn add @hypercerts-org/sdk
 
 [code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts)
 
+The client provides a simple and configurable entrypoint for interaction with the Hypercerts deployment. To get started, provide the client with the prefered chainID. An overview of supported chains can be found under [Supported Networks](./supported-networks.md).
+
 ```js
 import { HypercertsClient, HypercertsStorage } from "@hypercerts-org/sdk";
 import { ethers } from "ethers";
 
 const hypercerts = new HypercertsClient({
-  chainId: 5,
-  provider: ethers.getDefaultProvider("goerli"),
+  config: { chainId: 5 },
   storage: new HypercertsStorage({ web3storage: "", nftstorage: "" }),
 });
 ```
+
+We support a read only mode in case the signer, provider, contract address or storage are not properly defined.
 
 You can override options, see [API reference](./api-reference.md)
 
@@ -37,17 +40,24 @@ Pattern:
 Contract interactions wait for settlement to get back some return value.
 The user does not need to `await` the promise, they can choose to fire and forget
 
-### Minting
+> ** warning **
+> The client needs to be connect with a signer to enable contract operations.
 
-[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/operator/hypercert-minting.ts)
+### Minting you first hypercert
+
+[code]("https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts")
+
+To mint a hypercert you need to provide the `metadata`, total amount of `units` and the prefered `TransferRestrictions`.
 
 ```js
 import { TransferRestrictions, formatHypercertData } from "@hypercerts-org/sdk"
 
 const { metadata } = formatHypercertData(...);
-const { claimId } = await hypercerts.mintClaim({
-  totalSupply: 10000, // total supply
+const totalUnits = "10000";
+
+const tx: Promise<ContractTransaction> = await hypercerts.mintClaim({
   metadata,
+  totalUnits
   transferRestrictions: TransferRestrictions.FromCreatorOnly,
 });
 
@@ -55,17 +65,22 @@ const { claimId } = await hypercerts.mintClaim({
 
 ### Create an allowlist
 
-```js
-import { TransferRestrictions, formatHypercertData } from "@hypercerts-org/sdk"
+Allowlists are an efficient way to enable distribution of hypercert fractions amongst a group of funders/contributors.
 
-const allowlist = [
+```js
+import { TransferRestrictions, formatHypercertData, Allowlist } from "@hypercerts-org/sdk"
+
+const allowlist: Allowlist = [
   { address: "0x123", units: 100},
   { address: "0xabc", units: 100}
 ];
 const { metadata } = formatHypercertData(...);
+const totalUnits = "10000";
+
 const { claimId } = await hypercerts.createAllowlist({
-  allowlist,
-  metadata,
+  allowList,
+  metaData,
+  totalUnits,
   transferRestrictions: TransferRestrictions.FromCreatorOnly,
 });
 ```
