@@ -30,7 +30,7 @@
     "@mui/x-date-pickers": "^5.0.12",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@plasmicapp/loader-nextjs": "^1.0.260",
-    "@rainbow-me/rainbowkit": "^0.8.1",
+    "@rainbow-me/rainbowkit": "^0.12.12",
     "@sentry/nextjs": "^7.47.0",
     "@supabase/supabase-js": "^2.1.2",
     "@tanstack/react-query-devtools": "^4.23.0",
@@ -54,7 +54,7 @@
     "react-toastify": "^9.1.1",
     "react-use": "^17.4.0",
     "serve": "^14.0.1",
-    "wagmi": "^0.10.15",
+    "wagmi": "^0.12.12",
     "yup": "^0.32.11"
   },
   "devDependencies": {
