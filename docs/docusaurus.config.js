@@ -1,6 +1,5 @@
 // @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
@@ -40,7 +39,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           remarkPlugins: [require("mdx-mermaid")],
-          editUrl: "https://github.com/Network-Goods/hypercerts",
+          editUrl: "https://github.com/hypercerts-org/hypercerts",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -68,107 +67,107 @@ const config = {
             label: "Docs",
           },
           {
-          type: 'dropdown',
-          label: 'Intro',
-          position: 'left',
-          items: [
-            {
-              type: "doc",
-              docId: "intro",
-              label: "What are hypercerts?",
-            },
-            {
-              type: "doc",
-              docId: "faq",
-              label: "Frequently Asked Questions",
-            },
-            {
-              type: "doc",
-              docId: "further-resources",
-              label: "Further Resources",
-            },
-          ],
+            type: "dropdown",
+            label: "Intro",
+            position: "left",
+            items: [
+              {
+                type: "doc",
+                docId: "intro",
+                label: "What are hypercerts?",
+              },
+              {
+                type: "doc",
+                docId: "faq",
+                label: "Frequently Asked Questions",
+              },
+              {
+                type: "doc",
+                docId: "further-resources",
+                label: "Further Resources",
+              },
+            ],
           },
           {
-          type: 'dropdown',
-          label: 'Vision & Whitepaper',
-          position: 'left',
-          items: [
-            {
-              type: "doc",
-              docId: "whitepaper/whitepaper-intro",
-              label: "Introduction",
-            },
-            {
-              type: "doc",
-              docId: "whitepaper/ifs",
-              label: "Impact Funding Systems",
-            },
-            {
-              type: "doc",
-              docId: "whitepaper/hypercerts-intro",
-              label: "Hypercerts: a New Primitive",
-            },
-            {
-              type: "doc",
-              docId: "whitepaper/impact-space",
-              label: "A Consistent Impact Space",
-            },
-            {
-              type: "doc",
-              docId: "whitepaper/evaluation",
-              label: "Open Impact Evaluations",
-            },
-            {
-              type: "doc",
-              docId: "whitepaper/retrospective-funding",
-              label: "Retrospective Impact Funding",
-            },
-          ],
+            type: "dropdown",
+            label: "Vision & Whitepaper",
+            position: "left",
+            items: [
+              {
+                type: "doc",
+                docId: "whitepaper/whitepaper-intro",
+                label: "Introduction",
+              },
+              {
+                type: "doc",
+                docId: "whitepaper/ifs",
+                label: "Impact Funding Systems",
+              },
+              {
+                type: "doc",
+                docId: "whitepaper/hypercerts-intro",
+                label: "Hypercerts: a New Primitive",
+              },
+              {
+                type: "doc",
+                docId: "whitepaper/impact-space",
+                label: "A Consistent Impact Space",
+              },
+              {
+                type: "doc",
+                docId: "whitepaper/evaluation",
+                label: "Open Impact Evaluations",
+              },
+              {
+                type: "doc",
+                docId: "whitepaper/retrospective-funding",
+                label: "Retrospective Impact Funding",
+              },
+            ],
           },
           {
-          type: 'dropdown',
-          label: 'Minting Guide',
-          position: 'left',
-          items: [
-            {
-              type: "doc",
-              docId: "minting-guide/minting-guide-start",
-              label: "Getting Started",
-            },
-            {
-              type: "doc",
-              docId: "minting-guide/step-by-step",
-              label: "Step-by-step implementation",
-            },
-            {
-              type: "doc",
-              docId: "minting-guide/gitcoin-round",
-              label: "Gitcoin Alpha Round Instructions",
-            },
-          ],
+            type: "dropdown",
+            label: "Minting Guide",
+            position: "left",
+            items: [
+              {
+                type: "doc",
+                docId: "minting-guide/minting-guide-start",
+                label: "Getting Started",
+              },
+              {
+                type: "doc",
+                docId: "minting-guide/step-by-step",
+                label: "Step-by-step implementation",
+              },
+              {
+                type: "doc",
+                docId: "minting-guide/gitcoin-round",
+                label: "Gitcoin Alpha Round Instructions",
+              },
+            ],
           },
           {
-          type: 'dropdown',
-          label: 'Implementation',
-          position: 'left',
-          items: [
-            {
-              type: "doc",
-              docId: "implementation/token-standard",
-              label: "Token Standard",
-            },
-            {
-              type: "doc",
-              docId: "implementation/metadata",
-              label: "Metadata Standard",
-            },
-            {
-              type: "doc",
-              docId: "implementation/glossary",
-              label: "Glossary",
-            },
-          ],
+            type: "dropdown",
+            label: "Implementation",
+            position: "left",
+            items: [
+              {
+                type: "doc",
+                docId: "implementation/token-standard",
+                label: "Token Standard",
+              },
+              {
+                type: "doc",
+                docId: "implementation/metadata",
+                label: "Metadata Standard",
+              },
+              {
+                type: "doc",
+                docId: "implementation/glossary",
+                label: "Glossary",
+              },
+            ],
           },
           {
             type: "doc",
@@ -177,22 +176,22 @@ const config = {
             label: "About",
           },
           {
-          type: 'dropdown',
-          label: 'Community',
-          position: 'right',
-          items: [
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/hypercerts',
-            },
-            {
-              label: 'Telegram Group',
-              href: 'https://t.me/+YF9AYb6zCv1mNDJi',
-            },
-          ],
+            type: "dropdown",
+            label: "Community",
+            position: "right",
+            items: [
+              {
+                label: "Twitter",
+                href: "https://twitter.com/hypercerts",
+              },
+              {
+                label: "Telegram Group",
+                href: "https://t.me/+YF9AYb6zCv1mNDJi",
+              },
+            ],
           },
           {
-            href: "https://github.com/Network-Goods/hypercerts",
+            href: "https://github.com/hypercerts-org/hypercerts",
             label: "GitHub",
             position: "right",
           },

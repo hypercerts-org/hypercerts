@@ -3,7 +3,6 @@
   "out": "../docs/docs/developer/api/sdk",
   "name": "Hypercerts SDK Documentation",
   "tsconfig": "./tsconfig.json",
-  "entryPointStrategy": "expand",
   "cleanOutputDir": true,
-  "readme": "none"
+  "readme": "README.md"
 }

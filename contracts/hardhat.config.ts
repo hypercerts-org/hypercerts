@@ -1,4 +1,3 @@
-import "@dlsl/hardhat-markup";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
@@ -85,7 +84,7 @@ const config: HardhatUserConfig = {
   dodoc: {
     runOnCompile: true,
     include: ["src"],
-    freshOutput: true,
+    freshOutput: false,
     outputDir: "../docs/docs/developer/api/contracts",
   },
   etherscan: {

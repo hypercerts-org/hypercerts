@@ -1,3 +1,5 @@
+Hypercerts SDK Documentation / [Exports](modules.md)
+
 # Hypercert SDK
 
 ## Set up
