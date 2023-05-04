@@ -3,6 +3,7 @@ import { MockProvider, deployMockContract } from "ethereum-waffle";
 import HypercertClient from "../../src/client.js";
 import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumber } from "ethers";
+import { ClientError } from "../../src/types/errors.js";
 
 const provider = new MockProvider();
 const wallet = provider.getWallets()[0];
@@ -36,7 +37,122 @@ describe("splitClaimUnits in HypercertClient", () => {
     expect(provider.callHistory.length).toBe(7);
   }, 10000);
 
-  it("throws on splitting with incorrect new total value", async () => {});
+  it("throws on splitting with incorrect new total value", async () => {
+    const userAddress = await wallet.getAddress();
+    const mockMinter = await deployMockContract(wallet, HypercertMinterABI);
+    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
+    await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(42);
 
-  it("throws on splitting fractions not owned by signer", async () => {});
+    const signer = wallet.connect(provider);
+
+    const client = new HypercertClient({
+      config: { chainId: 5, provider, signer, contractAddress: mockMinter.address },
+    });
+
+    expect(client.readonly).toBe(false);
+
+    try {
+      await client.splitClaimUnits(fractionId, [100, 200]);
+    } catch (e) {
+      console.log(e);
+      expect(e instanceof ClientError).toBeTruthy();
+
+      const error = e as ClientError;
+      expect(error.message).toBe("Sum of fractions is not equal to the total units");
+    }
+
+    //TODO determine underlying calls and mock those out. Some are provider simulation calls
+    // Owner
+    // UnitsOf
+    expect(provider.callHistory.length).toBe(5);
+    expect.assertions(4);
+  });
+
+  it("throws on splitting fractions not owned by signer", async () => {
+    const otherUser = await provider.getWallets()[1].getAddress();
+    const mockMinter = await deployMockContract(wallet, HypercertMinterABI);
+    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
+
+    const signer = wallet.connect(provider);
+
+    const client = new HypercertClient({
+      config: { chainId: 5, provider, signer, contractAddress: mockMinter.address },
+    });
+
+    expect(client.readonly).toBe(false);
+
+    try {
+      await client.splitClaimUnits(fractionId, [100, 200]);
+    } catch (e) {
+      console.log(e);
+      expect(e instanceof ClientError).toBeTruthy();
+
+      const error = e as ClientError;
+      expect(error.message).toBe("Claim is not owned by the signer");
+    }
+
+    //TODO determine underlying calls and mock those out. Some are provider simulation calls
+    // Owner
+    expect(provider.callHistory.length).toBe(3);
+    expect.assertions(4);
+  });
+});
+
+describe("mergeClaimUnits in HypercertClient", () => {
+  beforeEach(() => {
+    provider.clearCallHistory();
+  });
+
+  it("allows for hypercert fractions to merge value", async () => {
+    const userAddress = await wallet.getAddress();
+    const mockMinter = await deployMockContract(wallet, HypercertMinterABI);
+    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
+    await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(userAddress);
+    await mockMinter.mock["mergeFractions(address,uint256[])"]
+      .withArgs(userAddress, [fractionId, fractionId.add(1)])
+      .returns();
+
+    const signer = wallet.connect(provider);
+
+    const client = new HypercertClient({
+      config: { chainId: 5, provider, signer, contractAddress: mockMinter.address },
+    });
+
+    expect(client.readonly).toBe(false);
+
+    await client.mergeClaimUnits([fractionId, fractionId.add(1)]);
+
+    //TODO determine underlying calls and mock those out. Some are provider simulation calls
+    expect(provider.callHistory.length).toBe(7);
+  }, 10000);
+
+  it("throws on splitting fractions not owned by signer", async () => {
+    const userAddress = await wallet.getAddress();
+    const otherUser = await provider.getWallets()[1].getAddress();
+
+    const mockMinter = await deployMockContract(wallet, HypercertMinterABI);
+    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
+    await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(otherUser);
+
+    const signer = wallet.connect(provider);
+
+    const client = new HypercertClient({
+      config: { chainId: 5, provider, signer, contractAddress: mockMinter.address },
+    });
+
+    expect(client.readonly).toBe(false);
+
+    try {
+      await client.mergeClaimUnits([fractionId, fractionId.add(1)]);
+    } catch (e) {
+      console.log(e);
+      expect(e instanceof ClientError).toBeTruthy();
+
+      const error = e as ClientError;
+      expect(error.message).toBe("One or more claims are not owned by the signer");
+    }
+
+    //TODO determine underlying calls and mock those out. Some are provider simulation calls
+    expect(provider.callHistory.length).toBe(5);
+  });
 });
