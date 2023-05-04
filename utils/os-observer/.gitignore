@@ -1,0 +1,9 @@
+# ignore local storage artifacts
+.env
+__pycache__/
+.DS_Store
+.ipynb_checkpoints/
+data/temp/
+data/convert.py
+data/projects.yaml
+
