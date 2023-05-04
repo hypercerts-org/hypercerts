@@ -4,13 +4,8 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [
-        "build/**",
-        ".docusaurus",
-        ".cache-loader",
-        "out/**",
-        ".next/**"
-      ]
+      "env": ["PLASMIC_PROJECT_ID", "PLASMIC_PROJECT_API_TOKEN"],
+      "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
     "deploy": {
       "dependsOn": ["build", "lint", "test"]
@@ -18,26 +13,6 @@
     "dev": {},
     "lint": {},
     "sentry:sourcemaps": {},
-    "test": {},
-    "contracts#build": {
-      "inputs": ["./src/**/*.sol", "./src/**/*.ts", "./src/**/*.t.sol"],
-      "outputs": ["./typechain", "./abi", "./dist"],
-      "dependsOn": ["build:hardhat"]
-    },
-    "frontend#build": {
-      "dependsOn": ["sdk#build"]
-    },
-    "sdk#build": {
-      "dependsOn": ["contracts#build"],
-      "inputs": [
-        "./src/**/*.ts",
-        "./src/**/*.graphql",
-        "./src/**/*.json",
-        "./.graphclient/**/*.ts",
-        "./.graphclient/**/*.graphql",
-        "./test/**/*.ts"
-      ],
-      "outputs": ["./dist"]
-    }
+    "test": {}
   }
 }
