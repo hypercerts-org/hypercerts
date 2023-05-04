@@ -18,7 +18,8 @@
   "dependencies": {
     "@graphprotocol/client-add-source-name": "^1.0.16",
     "@graphprotocol/client-cli": "^2.2.15",
-    "@hypercerts-org/hypercerts-protocol": "0.0.10",
+    "@hypercerts-org/hypercerts-protocol": "*",
+    "@openzeppelin/merkle-tree": "^1.0.4",
     "@types/jest": "^29.2.5",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",
@@ -31,7 +32,8 @@
     "nft.storage": "^7.0.0",
     "ts-jest": "^29.0.3",
     "ts-mocha": "^10.0.0",
-    "web3.storage": "^4.4.0"
+    "web3.storage": "^4.4.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
@@ -41,10 +43,10 @@
     "@types/node": "^18.11.17",
     "chai": "^4.3.7",
     "esbuild": "^0.17.10",
+    "ethereum-waffle": "^4.0.10",
     "it-all": "^2.0.0",
     "json-schema-to-typescript": "^12.0.0",
-    "mockipfs": "^0.3.0",
-    "mockttp": "^3.6.1",
+    "msw": "^1.2.1",
     "nyc": "^15.1.0",
     "rollup": "^3.17.2",
     "rollup-plugin-auto-external": "^2.0.0",
@@ -64,12 +66,11 @@
   "scripts": {
     "build": "rollup -c",
     "docs": "typedoc --plugin typedoc-plugin-markdown",
-    "graph:build": "rm -rf ./src/.graphclient && NODE_OPTIONS='--loader ts-node/esm' graphclient build --throwOnInvalidConfig",
     "graph:compile": "graphql-codegen",
     "graph:serve": "graphclient serve-dev",
     "graph:watch": "graphql-codegen -w",
     "graph:build:esm": "rm -rf ./src/.graphclient && NODE_OPTIONS='--loader ts-node/esm' graphclient build --filetype js --throwOnInvalidConfig",
-    "clean": "rm -rf ./lib && rm -rf ./src/types",
+    "clean": "rm -rf ./dist",
     "prebuild": "yarn clean && yarn types:json && yarn graph:build:esm",
     "prepack": "yarn build",
     "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",

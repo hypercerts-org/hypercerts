@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import Slider from "@mui/material/Slider";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -93,6 +94,7 @@ export function FormError(props: FormErrorProps) {
 export interface FormTextFieldProps {
   className?: string; // Plasmic CSS class
   fieldName?: string; // Formik field name
+  disabled?: boolean; // Disabled
   label?: string; // Label to show
   placeholder?: string; // Input placeholder
   multiline?: boolean; // Enable multiline, autosized by default
@@ -105,6 +107,7 @@ export function FormTextField(props: FormTextFieldProps) {
   const {
     className,
     fieldName,
+    disabled,
     label,
     placeholder,
     multiline,
@@ -125,6 +128,7 @@ export function FormTextField(props: FormTextFieldProps) {
           {...field}
           className={className}
           variant={"outlined"}
+          disabled={disabled}
           label={label}
           placeholder={placeholder}
           multiline={multiline}
@@ -154,14 +158,8 @@ export interface FormSelectProps {
 }
 
 export function FormSelect(props: FormSelectProps) {
-  const {
-    className,
-    fieldName,
-    label,
-    optionValues,
-    multiple,
-    disabled,
-  } = props;
+  const { className, fieldName, label, optionValues, multiple, disabled } =
+    props;
 
   // Developer error messages surfaced to the UI
   if (!fieldName) {
@@ -189,7 +187,7 @@ export function FormSelect(props: FormSelectProps) {
               _.isArray(selected) ? selected.join(", ") : selected
             }
           >
-            {optionValues.map(val => (
+            {optionValues.map((val) => (
               <MenuItem key={val} value={val}>
                 {multiple && (
                   <Checkbox
@@ -208,6 +206,46 @@ export function FormSelect(props: FormSelectProps) {
             {meta.touched ? meta.error : undefined}
           </FormHelperText>
         </FormControl>
+      )}
+    </Field>
+  );
+}
+
+/**
+ * Formik-wrapped Slider
+ */
+export interface FormSliderProps {
+  className?: string; // Plasmic CSS class
+  fieldName?: string; // Formik field name
+  disabled?: boolean; // Disabled
+  defaultValue?: number; // Default value
+  min?: number; // Minimum value
+  max?: number; // Maximum value
+  step?: number; // Granularity of slider
+}
+
+export function FormSlider(props: FormSliderProps) {
+  const { className, fieldName, disabled, defaultValue, min, max, step } =
+    props;
+
+  // Developer error messages surfaced to the UI
+  if (!fieldName) {
+    return <div>{MISSING_FIELDNAME_ERROR}</div>;
+  }
+
+  return (
+    <Field name={fieldName}>
+      {({ field }: FieldProps) => (
+        <Slider
+          {...field}
+          className={className}
+          valueLabelDisplay="auto"
+          disabled={disabled}
+          defaultValue={defaultValue}
+          min={min}
+          max={max}
+          step={step}
+        />
       )}
     </Field>
   );
@@ -309,12 +347,14 @@ export function FormDatePicker(props: FormDatePickerProps) {
           }
           label="Indefinite End Date"
         />
-        {// We need to show the error message here if the TextField above is hidden
-        hasError && dateUndefined ? (
-          <FormHelperText>{errorMessage}</FormHelperText>
-        ) : (
-          <></>
-        )}
+        {
+          // We need to show the error message here if the TextField above is hidden
+          hasError && dateUndefined ? (
+            <FormHelperText>{errorMessage}</FormHelperText>
+          ) : (
+            <></>
+          )
+        }
       </FormControl>
     </LocalizationProvider>
   );

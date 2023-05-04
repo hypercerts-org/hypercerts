@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.0.33
+
+- Adding custom error types to SDK
+- Adding Winston for logging
+
 ## 0.0.32
 
 - Handle empty fields in formatter to fix issue where OpenSea wouldn't index a token

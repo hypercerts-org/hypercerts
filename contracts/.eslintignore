@@ -12,6 +12,7 @@
 **/node_modules
 **/types
 **/src/index.ts
+**/.openzeppelin
 
 # files
 *.env

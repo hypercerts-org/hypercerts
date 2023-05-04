@@ -1,31 +1,42 @@
 // Validation
-import { validateMetaData, validateClaimData } from "./validator/index.js";
-import { formatHypercertData } from "./utils/formatter.js";
-
-export { validateMetaData, validateClaimData, formatHypercertData };
-
-// Operations
-import { HypercertsStorage, HypercertMinting } from "./operator/index.js";
-
-export { HypercertsStorage, HypercertMinting };
+// Protocol
+import * as protocol from "@hypercerts-org/hypercerts-protocol";
 
 // Graph
 import { execute } from "../.graphclient/index.js";
-import { claimsByOwner, claimById, firstClaims } from "./queries/claims.js";
-import { fractionsByOwner, fractionsByClaim, fractionById } from "./queries/fractions.js";
+// Wrapper client
+import HypercertClient from "./client.js";
+import type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "./global.js";
+// Operations
+import { HypercertMinting, HypercertsStorage } from "./operator/index.js";
+import { claimById, claimsByOwner, firstClaims } from "./queries/claims.js";
+import { fractionById, fractionsByClaim, fractionsByOwner } from "./queries/fractions.js";
+import HypercertMinterABI from "./resources/HypercertMinter.js";
+// Types
+import type { HypercertClaimdata } from "./types/claimdata.js";
+import type { HypercertMetadata } from "./types/metadata.js";
+import { formatHypercertData } from "./utils/formatter.js";
+import { validateClaimData, validateMetaData, validateAllowlist } from "./validator/index.js";
+import { TransferRestrictions, Allowlist, AllowlistEntry } from "./types/hypercerts.js";
+
+export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
+
+export { HypercertClient };
+export { TransferRestrictions };
+
+export { HypercertsStorage, HypercertMinting };
 
 export { execute, claimsByOwner, claimById, firstClaims, fractionsByOwner, fractionsByClaim, fractionById };
 
-// Protocol
-import * as protocol from "@hypercerts-org/hypercerts-protocol";
-import HypercertMinterABI from "./resources/HypercertMinter.js";
 const { HyperCertMinterFactory } = protocol;
 
 export { HyperCertMinterFactory, HypercertMinterABI };
 
-// Types
-import type { HypercertClaimdata } from "./types/claimdata.js";
-import type { HypercertMetadata } from "./types/metadata.js";
-import type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "./global.js";
-
-export type { HypercertMetadata, HypercertClaimdata, ClaimByIdQuery, ClaimTokensByClaimQuery };
+export type {
+  HypercertMetadata,
+  HypercertClaimdata,
+  ClaimByIdQuery,
+  ClaimTokensByClaimQuery,
+  Allowlist,
+  AllowlistEntry,
+};

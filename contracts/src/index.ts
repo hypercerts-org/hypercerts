@@ -5,19 +5,19 @@
     3) add the path to the ts.config.build.json under the { include: [...] } configuration.
     4) bump package.json version to publish a new package to npm.
 */
+import { AllowlistMinter, ERC1155Upgradeable, HypercertMinter, HypercertMinter__factory } from "./typechain";
 
 // ABIs
-export { default as HypercertMinterABI } from "../abi/HypercertMinter.json";
-export { default as IHypercertTokenABI } from "../abi/IHypercertToken.json";
-export { default as SemiFungible1155ABI } from "../abi/SemiFungible1155.json";
-export { default as ERC1155UpgradeableABI } from "../abi/ERC1155Upgradeable.json";
+export { default as HypercertMinterABI } from "./abi/HypercertMinter.json";
+export { default as IHypercertTokenABI } from "./abi/IHypercertToken.json";
+export { default as SemiFungible1155ABI } from "./abi/SemiFungible1155.json";
+export { default as ERC1155UpgradeableABI } from "./abi/ERC1155Upgradeable.json";
 
 // Interfaces
-export type { IHypercertToken } from "../typechain/src/interfaces/IHypercertToken";
+export { ERC1155Upgradeable };
 
-// Contracts
-export { HypercertMinter } from "../typechain/src/HypercertMinter";
-export { AllowlistMinter } from "../typechain/src/AllowlistMinter";
+// // Contracts
+export { HypercertMinter, AllowlistMinter };
 
-// Factories
-export { HypercertMinter__factory as HyperCertMinterFactory } from "../typechain/factories/src/HypercertMinter__factory";
+// // Factories
+export { HypercertMinter__factory as HyperCertMinterFactory };

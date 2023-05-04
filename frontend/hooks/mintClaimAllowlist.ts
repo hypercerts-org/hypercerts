@@ -11,6 +11,8 @@ import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
 import {
   HypercertMetadata,
   HypercertMinting,
+  AllowlistEntry,
+  Allowlist,
 } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber } from "ethers";
@@ -23,10 +25,10 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
-const generateAndStoreTree = async (
-  pairs: { address: string; units: number }[],
-) => {
-  const tuples = pairs.map(p => [p.address, p.units]);
+export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
+
+const generateAndStoreTree = async (pairs: Allowlist) => {
+  const tuples = pairs.map((p) => [p.address, p.units]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
   const cid = await hypercertsStorage.storeData(JSON.stringify(tree.dump()));
   return { cid, root: tree.root as HexString };
@@ -57,43 +59,86 @@ export const useMintClaimAllowlist = ({
   const initializeWrite = async ({
     metaData,
     allowlistUrl,
+    allowlistPercentage,
     pairs,
   }: {
     metaData: HypercertMetadata;
     allowlistUrl?: string;
+    allowlistPercentage?: number;
     pairs?: { address: string; units: number }[];
   }) => {
     setStep("uploading");
     if (pairs) {
       // Handle manual creation of proof and merkle tree
       const { cid: merkleCID, root } = await generateAndStoreTree(pairs);
+      if (!merkleCID) {
+        toast(
+          "Something went wrong while generating merkle tree from the CSV file",
+          { type: "error" },
+        );
+        hideModal();
+        return;
+      }
       const cid = await hypercertsStorage.storeMetadata({
         ...metaData,
         allowList: cidToIpfsUri(merkleCID),
       });
+
+      if (!cid) {
+        toast("Something went wrong while uploading metadata to IPFS", {
+          type: "error",
+        });
+        hideModal();
+        return;
+      }
+
       setCidUri(cidToIpfsUri(cid));
       setMerkleRoot(root);
-      setUnits(_.sum(pairs.map(x => x.units)));
+      setUnits(_.sum(pairs.map((x) => x.units)));
     }
     if (allowlistUrl) {
       // fetch csv file
       try {
+        const allowlistFraction =
+          (allowlistPercentage ?? DEFAULT_ALLOWLIST_PERCENTAGE) / 100.0;
         const htmlResult = await fetch(allowlistUrl, { method: "GET" });
         const htmlText = await htmlResult.text();
         const allowlist = parseAllowlistCsv(htmlText, [
           {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address: address!,
-            percentage: 0.5,
+            // Creator gets the rest for now
+            percentage: 1.0 - allowlistFraction,
           },
         ]);
-        const totalSupply = _.sum(allowlist.map(x => x.units));
+        const totalSupply = _.sum(
+          allowlist.map((x: AllowlistEntry) => x.units),
+        );
 
         const { cid: merkleCID, root } = await generateAndStoreTree(allowlist);
+        if (!merkleCID) {
+          toast(
+            "Something went wrong while generating merkle tree from the CSV file",
+            { type: "error" },
+          );
+          hideModal();
+          return;
+        }
+
         const cid = await hypercertsStorage.storeMetadata({
           ...metaData,
           allowList: cidToIpfsUri(merkleCID),
         });
+
+        if (!cid) {
+          console.error(cid);
+          toast("Something went wrong while uploading metadata to IPFS", {
+            type: "error",
+          });
+          hideModal();
+          return;
+        }
+
         setCidUri(cidToIpfsUri(cid));
         setMerkleRoot(root);
         setUnits(totalSupply);
@@ -129,7 +174,7 @@ export const useMintClaimAllowlist = ({
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "createAllowlist",
-    onError: error => {
+    onError: (error) => {
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",
       });
@@ -178,10 +223,12 @@ export const useMintClaimAllowlist = ({
     write: async ({
       metaData,
       allowlistUrl,
+      allowlistPercentage,
       pairs,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl?: string;
+      allowlistPercentage?: number;
       pairs?: { address: string; units: number }[];
     }) => {
       showModal({ stepDescriptions });
@@ -189,6 +236,7 @@ export const useMintClaimAllowlist = ({
         metaData,
         pairs,
         allowlistUrl,
+        allowlistPercentage,
       });
     },
     isLoading:

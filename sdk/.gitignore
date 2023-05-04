@@ -6,7 +6,6 @@
 !.yarn/sdks
 !.yarn/versions
 **/node_modules
-**/src/types
 **/dist
 
 # files

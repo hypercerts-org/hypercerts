@@ -42,6 +42,12 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     setUnits(units);
     setStep("uploading");
     const cid = await hypercertsStorage.storeMetadata(metaData);
+    if (!cid) {
+      toast(`Error uploading metadata to IPFS`, {
+        type: "error",
+      });
+      return;
+    }
     setCidUri(cidToIpfsUri(cid));
   };
 
@@ -64,7 +70,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     ],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaim",
-    onError: error => {
+    onError: (error) => {
       parseError(error, "the fallback");
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",

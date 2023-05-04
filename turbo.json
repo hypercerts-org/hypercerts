@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local", "**.env"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -12,16 +13,31 @@
       ]
     },
     "deploy": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build", "lint", "test"]
     },
-    "dev": {
-      "cache": false
+    "dev": {},
+    "lint": {},
+    "sentry:sourcemaps": {},
+    "test": {},
+    "contracts#build": {
+      "inputs": ["./src/**/*.sol", "./src/**/*.ts", "./src/**/*.t.sol"],
+      "outputs": ["./typechain", "./abi", "./dist"],
+      "dependsOn": ["build:hardhat"]
     },
-    "lint": {
-      "cache": false
+    "frontend#build": {
+      "dependsOn": ["sdk#build"]
     },
-    "test": {
-      "cache": false
+    "sdk#build": {
+      "dependsOn": ["contracts#build"],
+      "inputs": [
+        "./src/**/*.ts",
+        "./src/**/*.graphql",
+        "./src/**/*.json",
+        "./.graphclient/**/*.ts",
+        "./.graphclient/**/*.graphql",
+        "./test/**/*.ts"
+      ],
+      "outputs": ["./dist"]
     }
   }
 }

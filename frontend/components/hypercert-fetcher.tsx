@@ -25,6 +25,7 @@ const QUERYSTRING_SELECTOR = "claimId";
  */
 export interface HypercertFetcherProps {
   className?: string; // Plasmic CSS class
+  variableName?: string; // Name to use in Plasmic data picker
   children?: ReactNode; // Show after done loading
   loading?: ReactNode; // Show during loading if !ignoreLoading
   ignoreLoading?: boolean; // Skip the loading visual
@@ -41,6 +42,7 @@ export type HypercertData = ClaimByIdQuery &
 export function HypercertFetcher(props: HypercertFetcherProps) {
   const {
     className,
+    variableName,
     children,
     loading,
     ignoreLoading,
@@ -95,14 +97,14 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
     );
   }, [useQueryString, byClaimId, byMetadataUri]);
 
-  // Show lwhen oading
+  // Show when loading
   if (!ignoreLoading && !!loading && !data) {
     return <div className={className}> {loading} </div>;
   }
 
   return (
     <div className={className}>
-      <DataProvider name={DATAPROVIDER_NAME} data={data}>
+      <DataProvider name={variableName ?? DATAPROVIDER_NAME} data={data}>
         {children}
       </DataProvider>
     </div>

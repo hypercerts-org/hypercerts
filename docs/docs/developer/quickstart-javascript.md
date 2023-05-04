@@ -6,10 +6,17 @@ or TypeScript
 
 ```bash
 npm install @hypercerts-org/sdk
-# or yarn add @hypercerts-org/sdk
+```
+
+Or
+
+```bash
+yarn add @hypercerts-org/sdk
 ```
 
 ## Initialize the client
+
+[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/client.ts)
 
 ```js
 import { HypercertsClient, HypercertsStorage } from "@hypercerts-org/sdk";
@@ -31,6 +38,8 @@ Contract interactions wait for settlement to get back some return value.
 The user does not need to `await` the promise, they can choose to fire and forget
 
 ### Minting
+
+[code](https://github.com/hypercerts-org/hypercerts/tree/main/sdk/src/operator/hypercert-minting.ts)
 
 ```js
 import { TransferRestrictions, formatHypercertData } from "@hypercerts-org/sdk"
@@ -115,15 +124,29 @@ const { TODO } = await hypercerts.createEvaluation({
 Just create an evaluation referencing an evaluation
 
 ```js
+
 ```
 
 ### Handling Errors
 
+To support debugging we've implemented some custom errors.
+
 ```js
-TODO;
+export interface TypedError extends Error {
+  __type: ErrorType;
+  payload?: { [key: string]: unknown };
+}
 ```
 
-We want to expose lots of good typed errors for all the things that can go wrong.
+| Error                 | Reason                             | Payload                                         |
+| --------------------- | ---------------------------------- | ----------------------------------------------- |
+| FetchError            | Async call to API failed           | `{ [key: string]: unknown }`                    |
+| InvalidOrMissingError | Env var missing                    | `{ keyName: string }`                           |
+| MalformedDataError    | Validation or formatting failed    | `{ [key: string]: unknown }`                    |
+| MintingError          | EVM call to mint failed            | `{ [key: string]: unknown }`                    |
+| StorageError          | NFT-/Web3 Storage error            | `{ [key: string]: unknown }`                    |
+| UnsupportedChainError | Provided EVM chainID not supported | <code>{ chainID: string &#124; number };</code> |
+| UnknownSchemaError    | Validation schema not found        | `{ schemaName: string }`                        |
 
 ### Progress reporting
 

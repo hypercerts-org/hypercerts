@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -7,8 +6,9 @@ import MuiTooltip, {
   TooltipProps as MuiTooltipProps,
   tooltipClasses,
 } from "@mui/material/Tooltip";
-import ReactMarkdown from "react-markdown";
+import { styled } from "@mui/material/styles";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 export interface TooltipProps {
   className?: string; // Plasmic CSS class

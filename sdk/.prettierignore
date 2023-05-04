@@ -15,6 +15,7 @@
 **/types
 **/deployments
 **/.openzeppelin
+**/.graphclient
 
 # files
 *.env

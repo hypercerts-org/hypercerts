@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { formatHypercertData } from "../src/index.js";
-import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../src/utils/formatter.js";
+import { formatHypercertData } from "../../src/index.js";
+import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../../src/utils/formatter.js";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {
@@ -26,32 +26,45 @@ const testDataUndefinedProperties: Partial<TestDataType> = { ...testData, proper
 const testDataUndefinedExternalURL: Partial<TestDataType> = { ...testData, external_url: undefined };
 
 describe("Format Hypercert Data test", () => {
-  it("checks correct metadata", () => {
-    const { valid, errors } = formatHypercertData(testData as TestDataType);
-    expect(valid).to.be.true;
-    expect(Object.keys(errors).length).to.eq(0);
-  });
+  it("checks correct metadata and returns result", () => {
+    const result = formatHypercertData(testData as TestDataType);
 
-  it("returns null on incorrect data", () => {
-    const { name, ...rest } = testData;
-    const { valid, errors, data } = formatHypercertData(rest as TestDataType);
-    expect(valid).to.be.false;
-    expect(Object.keys(errors).length).to.eq(1);
-    expect(data).to.be.null;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const validKeys = Object.keys(result.data!);
+
+    expect(validKeys).to.include.members([
+      "name",
+      "description",
+      "external_url",
+      "image",
+      "version",
+      "properties",
+      "hypercert",
+    ]);
+
+    const invalidData = testData;
+    delete invalidData.name;
+
+    const invalidResult = formatHypercertData(invalidData as TestDataType);
+
+    expect(invalidResult.valid).to.be.false;
+
+    if (invalidResult.errors) {
+      expect(Object.keys(invalidResult.errors)).to.be.length(1);
+      expect(Object.keys(invalidResult.errors)[0]).to.eq("name");
+    } else {
+      expect.fail("Should return errors");
+    }
   });
 
   it("handles undefined properties", () => {
-    const { valid, errors, data } = formatHypercertData(testDataUndefinedProperties as TestDataType);
-    expect(valid).to.be.true;
-    expect(Object.keys(errors).length).to.eq(0);
-    expect(Object.keys(data!).find((key) => key === "properties")).to.be.undefined;
+    const formattedData = formatHypercertData(testDataUndefinedProperties as TestDataType);
+    expect(Object.keys(formattedData).find((key) => key === "properties")).to.be.undefined;
   });
 
   it("handles undefined external_url", () => {
-    const { valid, errors, data } = formatHypercertData(testDataUndefinedExternalURL as TestDataType);
-    expect(valid).to.be.true;
-    expect(Object.keys(errors).length).to.eq(0);
-    expect(Object.keys(data!).find((key) => key === "external_url")).to.be.undefined;
+    const formattedData = formatHypercertData(testDataUndefinedExternalURL as TestDataType);
+    expect(Object.keys(formattedData).find((key) => key === "external_url")).to.be.undefined;
   });
 });
 

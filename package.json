@@ -5,14 +5,20 @@
   "author": "Hypercerts Foundation",
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": [
-    "cors-proxy",
-    "defender",
-    "docs",
-    "frontend",
-    "graph",
-    "sdk"
-  ],
+  "workspaces": {
+    "packages": [
+      "contracts",
+      "cors-proxy",
+      "defender",
+      "docs",
+      "frontend",
+      "graph",
+      "sdk"
+    ],
+    "nohoist": [
+      "graph"
+    ]
+  },
   "scripts": {
     "build": "turbo run build",
     "build:site": "turbo run build --filter=hypercerts-frontend --filter=hypercerts-docs --filter=hypercerts-protocol && yarn copy",
@@ -25,11 +31,12 @@
     "deploy:cors-proxy": "turbo run deploy --filter=cors-proxy --parallel",
     "deploy:defender": "turbo run deploy --filter=hypercerts-defender --parallel",
     "deploy:graph": "turbo run deploy --filter=hypercerts-graph --parallel",
+    "deploy:site": "yarn build:site && yarn sentry:sourcemaps",
     "dev:cors-proxy": "turbo run dev --filter=cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=hypercerts-frontend --parallel",
     "format:staged": "lint-staged",
     "lint": "turbo run lint",
-    "postinstall": "rm -rf graph/node_modules && ln -s ../node_modules graph/node_modules",
+    "sentry:sourcemaps": "turbo run sentry:sourcemaps --filter=hypercerts-frontend",
     "serve:build": "yarn serve build",
     "test": "turbo run test",
     "prepare": "husky install"

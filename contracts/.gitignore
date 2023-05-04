@@ -15,10 +15,12 @@
 **/dist
 **/node_modules
 **/deployments/localhost
-**/out
+**/out*
 **/typechain
+**/src/types
 **/cache**
 **/abi
+**/rollup-cache
 
 # files
 *.env
