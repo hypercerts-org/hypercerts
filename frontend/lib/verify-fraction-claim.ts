@@ -1,14 +1,11 @@
 import { hypercertsStorage } from "./hypercerts-storage";
-import { claimById } from "@hypercerts-org/hypercerts-sdk";
+import { claimById, ClaimProof } from "@hypercerts-org/hypercerts-sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
-export type ClaimProof = {
-  proof: string[];
-  units: number;
-  claimIDContract: string;
-};
-
-export const verifyFractionClaim = async (claimId: string, address: string) => {
+export const verifyFractionClaim = async (
+  claimId: string,
+  address: string,
+): Promise<ClaimProof> => {
   const claimByIdRes = await claimById(claimId);
   if (!claimByIdRes?.claim) {
     throw new Error("No claim found for ${claimID}");
@@ -40,10 +37,11 @@ export const verifyFractionClaim = async (claimId: string, address: string) => {
       if (v[0] === address) {
         const proof = tree.getProof(i);
         return {
+          root: tree.root,
           proof,
           units: Number(v[1]),
-          claimIDContract: _id as string,
-        } as ClaimProof;
+          claimId: _id as string,
+        };
       }
     }
   }

@@ -1,10 +1,10 @@
 import { useAccountLowerCase } from "../hooks/account";
-import {
-  useGetAllEligibility,
-  useMintFractionAllowlistBatch,
-} from "../hooks/mintFractionAllowlistBatch";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
+import {
+  useGetAllEligibility,
+  useMintFractionAllowlistBatchSDK,
+} from "../hooks/mintFractionAllowlistBatchSDK";
 
 const LOCALSTORAGE_KEY = "claimAllFractionsTime";
 const DELAY = 5 * 60 * 1000; // 5 minutes
@@ -30,7 +30,7 @@ export const ClaimAllFractionsButton = ({
 
   const router = useRouter();
   const { data: claimIds } = useGetAllEligibility(address ?? "");
-  const { write } = useMintFractionAllowlistBatch({
+  const { write } = useMintFractionAllowlistBatchSDK({
     onComplete: () => {
       console.log("Minted all of them");
       // Store the current time
