@@ -67,7 +67,10 @@ def run_analysis():
     df['collisions'] = collision_list
 
     pdf = df.pivot_table(index='tag', columns='collisions', values='date', aggfunc='count')
-    print(pdf)
+    for tag,row in pdf.iterrows():
+        print(tag, row[False], "of", row.sum())
+
+
     with open(OUTPATH, 'w') as f:
         json.dump(collisions_data, f, indent=4)
 
