@@ -1,7 +1,9 @@
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import dayjs from "dayjs";
+import _ from "lodash";
+import React, { ReactNode } from "react";
 import { spawn } from "../lib/common";
 import { supabase } from "../lib/supabase-client";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
-import React, { ReactNode } from "react";
 
 // The name used to pass data into the Plasmic DataProvider
 const DATAPROVIDER_NAME = "supabaseChart";
@@ -49,9 +51,10 @@ export function SupabaseToChart(props: SupabaseToChartProps) {
           const { data, error, status } = await supabase
             .from("events")
             .select(
-              "id, project_id, timestamp, event_type, details, projects(github_org)",
+              "id, project:project_id!inner(id, github_org), event_type, timestamp, amount, details",
             )
-            .in("projects.github_org", githubOrgs ?? [])
+            .limit(10000)
+            .in("project.github_org", githubOrgs ?? [])
             .in("event_type", eventTypes ?? []);
           //.gte("timestamp", startDateObj.toISOString())
           //.lte("timestamp", endDateObj.toISOString());
@@ -61,10 +64,26 @@ export function SupabaseToChart(props: SupabaseToChartProps) {
           } else if (!data) {
             throw new Error("Missing data");
           }
-          console.log(`githubOrgs: ${githubOrgs}`);
-          console.log(`eventTypes: ${eventTypes}`);
           console.log(data);
-          setResult(data ? [data.length] : []);
+
+          const simpleDates = data.map((x) => ({
+            date: dayjs(x.timestamp).format("YYYY-MM-DD"),
+            amount: x.amount,
+          }));
+          console.log(simpleDates);
+          const grouped = _.groupBy(simpleDates, (x) => x.date);
+          console.log(grouped);
+          const summed = _.mapValues(grouped, (x) =>
+            _.sum(x.map((y) => y.amount)),
+          );
+          console.log(summed);
+          const unsorted = _.toPairs(summed).map((x) => ({
+            date: x[0],
+            value: x[1],
+          }));
+          const result = _.sortBy(unsorted, (x) => x.date);
+          console.log(result);
+          setResult(result);
         } catch (error) {
           // Just log query errors at the moment
           console.error(error);
