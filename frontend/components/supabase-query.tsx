@@ -85,7 +85,7 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
         }
       })(),
     );
-  }, [tableName, columns, filters]);
+  }, [tableName, columns, filters, limit, orderBy, orderAscending]);
 
   // Error messages are currently rendered in the component
   if (!tableName) {
