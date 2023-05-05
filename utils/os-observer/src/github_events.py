@@ -4,10 +4,12 @@ import json
 import os
 import requests
 
-from graphql_queries import QUERIES
+from src.graphql_queries import QUERIES
 
+# -------------- HELPER FUNCTIONS -------------- #
 
 def find_dict_with_pageinfo(data):
+
     if isinstance(data, dict):
         for k, v in data.items():
             if v and 'pageInfo' in v:
@@ -20,6 +22,7 @@ def find_dict_with_pageinfo(data):
 
 
 def flatten_dict(d):
+
     flattened_dict = {}
     for key, value in d.items():
         if isinstance(value, dict):
@@ -31,6 +34,7 @@ def flatten_dict(d):
             flattened_dict[key] = value
     return flattened_dict      
 
+# -------------- QUERY CONSTRUCTORS -------------- #
 
 def run_query_for_org(query_func, github_org, start_date, end_date):
 
@@ -76,10 +80,8 @@ def run_query_for_org(query_func, github_org, start_date, end_date):
     return events, rate_limit_hit
     
 
-
 def paginate_query_for_org(query_func, github_org, start_date, end_date):
-    
-    
+
     date_fmt = "%Y-%m-%dT%H:%M:%SZ"
     to_date = lambda x: x.strftime(date_fmt)
     
@@ -100,7 +102,6 @@ def paginate_query_for_org(query_func, github_org, start_date, end_date):
             start_dt += timedelta(days=delta_days)
 
     return events
-
 
 
 def execute_org_query(query_idx, github_org, start_date, end_date):

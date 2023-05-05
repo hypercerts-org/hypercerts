@@ -16,16 +16,35 @@ Projects must be stored in a JSON with the following fields:
 - description
 - github_org
 
-A database of projects can be initialized with the following command:
+A database of projects can then be initialized with the following command in `src/database.py`:
 
-`$ python src/database.py`
+`insert_projects_and_wallets_from_json("data/projects.json")`
 
 # Fetching Github events for a project
 
-`command goes here`
+Once the database of projects is created, you can trigger the script to gather Github events with the following command in `src/database.py`:
 
-# Linking a wallet address to a project
+`insert_all_events()`
 
-A wallet address can be linked to a project with the following command:
+Don't forget to review constant settings for:
 
-`command goes here`
+```
+START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+QUERIES = ["merged PR", "issue", "created PR"]
+```
+
+Note: there is currently no detection of duplicate entries in the database, so be careful modifying these settings.
+
+# Fetching financial transactions linked to a project's Ethereum address
+
+The script uses Zerion to download all transaction data for a wallet address.
+
+`$ python src/zerion_scraper.py`
+
+It will store all of the CSV files in a local directory:
+
+`STORAGE_DIR = "data/temp"`
+
+Finally, these can be added to the events database through the following command in `src/database.py`:
+
+`insert_zerion_transactions()`
