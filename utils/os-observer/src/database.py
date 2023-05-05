@@ -5,8 +5,13 @@ import pandas as pd
 from supabase import create_client, Client
 import sys
 
-from github_events import execute_org_query
-from zerion_scraper import convert_csvs_to_records
+from src.github_events import execute_org_query
+from src.zerion_scraper import convert_csvs_to_records
+
+
+START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+QUERIES = ["merged PR", "issue", "created PR"]
+
 
 # -------------- DATABASE SETUP -------------- #
 
@@ -20,6 +25,11 @@ wallets_table = 'wallets'
 events_table = 'events'
 
 # -------------- HELPER FUNCTIONS -------------- #
+
+
+def supabase_client():
+    return supabase
+
 
 def fetch_col(table_name, col_name):
     data, _ = (supabase
@@ -99,7 +109,6 @@ def insert_projects_and_wallets_from_json(json_path):
 
 def insert_project_github_events(query_num, project_id, github_org):
 
-    start, end = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
     events = execute_org_query(query_num, github_org, start, end)
     for event in events:
         event.update({"project_id": project_id, "amount": 1})
@@ -116,7 +125,7 @@ def insert_all_events():
         .execute())
 
     projects = data[1]
-    for query_num, query_type in enumerate(["merged PR", "issue", "created PR"]):
+    for query_num, query_type in enumerate(QUERIES):
         for project in projects:            
             if check_if_events_exist(project['id'], query_type):
                 continue
@@ -142,6 +151,7 @@ def insert_zerion_transactions():
 
 
 if __name__ == "__main__":
+    pass
 
     #insert_projects_and_wallets_from_json("data/projects.json")
     #insert_all_events()
