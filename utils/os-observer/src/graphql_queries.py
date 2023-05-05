@@ -2,6 +2,7 @@
 
 
 def query_commits(org, first, after, since, until):
+  # currently not active / working
     return f'''
         {{
             repository(
