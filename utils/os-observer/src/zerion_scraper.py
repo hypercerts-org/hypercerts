@@ -141,7 +141,7 @@ def classify_event(buy, sell, fee):
     return event_type, amount
 
 
-def convert_csvs_to_records():
+def consolidate_csvs():
 
     wallet_data = fetch_list_of_wallets()
     wallet_mapping = {w['address'].lower(): w['project_id'] for w in wallet_data}
@@ -158,9 +158,6 @@ def convert_csvs_to_records():
 
         wallet = file.replace(".csv", "").lower()        
         df['wallet'] = wallet
-        
-        #df[flts].fillna(0, inplace=True)
-        #df[strs].fillna("", inplace=True)
         df['details'] = df.apply(lambda x: dict(x), axis=1)
         
         df['project_id'] = wallet_mapping.get(wallet)
@@ -177,17 +174,24 @@ def convert_csvs_to_records():
         df.drop(columns=['wallet'], inplace=True)
         dfs.append(df)
 
-    df = pd.concat(dfs, axis=0, ignore_index=True)
-    records = df.to_dict(orient='records')
+    return pd.concat(dfs, axis=0, ignore_index=True)
 
+
+def convert_csvs_to_records():
+
+    df = consolidate_csvs()
+    records = df.to_dict(orient='records')
     return records
 
 
 if __name__ == '__main__':
-    #test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
-    wallet_data = fetch_list_of_wallets()
-    #r = convert_csvs_to_records()
-    for w in wallet_data:
-        addr = w['address']
-        retrieve_wallet_history(addr)
+    
+    test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
+    # consolidate_csvs()
+    
+    # wallet_data = fetch_list_of_wallets()
+    # for w in wallet_data:
+    #     addr = w['address']
+    #     retrieve_wallet_history(addr)
 
+    # r = convert_csvs_to_records()
