@@ -8,6 +8,7 @@ from dash.exceptions import PreventUpdate
 
 #----------------------- THIS APP'S DEPENDENCIES ------------------------------#
 
+from collections import Counter
 from datetime import date
 import pandas as pd
 from src.database import supabase_client
@@ -54,16 +55,12 @@ def get_all_events_from_project(project_id, start_date, end_date):
                    .gte('timestamp', start_date)
                    .lte('timestamp', end_date)
                    .execute())
-    return data[1]
 
+    events_data = data[1]
 
-def generate_treemap(project_id, start_date, end_date, groupby='repo'):
-    
     project = PROJECT_MAPPING.get(project_id)
-    project_name = project.get('name')
     github_org = project.get('github')
-    
-    events_data = get_all_events_from_project(project_id, start_date, end_date)     
+
     events = []
     for e in events_data:
         if e['data_source'] != 'github':
@@ -77,6 +74,11 @@ def generate_treemap(project_id, start_date, end_date, groupby='repo'):
             'github_org': github_org
         })
 
+    return events
+
+
+def generate_treemap(events, groupby='repo'):
+    
     if groupby == 'repo':
         nodes = ['github_org', 'repo', 'contributor']
     else:
@@ -91,18 +93,34 @@ def generate_treemap(project_id, start_date, end_date, groupby='repo'):
         color='contributor'
     )
 
-    fig.update_layout(showlegend=True)
+    fig.update_layout(
+        margin=dict(t=25, l=10, r=10, b=25)
+    )
     
     return fig
 
 
-def format_kpi(pct):
-    pct *= 100
-    if pct == 100:
-        return "100%"
-    else:
-        return f"{pct:.1f}%"
+def generate_kpis(project_id, events):
 
+    project = PROJECT_MAPPING.get(project_id)
+    github_org = project.get('github')
+    project_name = project.get('name')
+
+    contrib_counts = Counter([e['contributor'] for e in events])
+    event_counts = Counter(e['event_type'] for e in events)
+    repo_counts = Counter(e['repo'] for e in events)
+
+    events_string = ", ".join([f"{k}s - {v}" for k,v in event_counts.items()])
+
+    return [
+        html.H4(project_name),
+        html.P(
+            f"A total of {len(contrib_counts)} contributors made " \
+            f"{len(events)} contributions ({events_string}) in {len(repo_counts)} repos.",
+            style={'margin-bottom': "0px"}
+        )   
+    ]
+    
 
 #----------------------- SIDEBAR ----------------------------------------------#
 
@@ -178,18 +196,27 @@ sidebar = html.Div(
 CONTENT_STYLE = {
     "margin-left": "16rem",
     "margin-right": "0rem",
-    "margin-top": "0rem",
-    "margin-bottom": "0rem",
+    "margin-top": "10px",
+    "margin-bottom": "10px",
     "padding": "0rem",
 }
 
 content = html.Div(
     id="dashboard",
-    children=dcc.Graph(
-        id='treemap',
-        figure=generate_treemap(DEFAULT_PROJECT_ID, DEFAULT_START_DATE, DEFAULT_END_DATE),
-        style={'height': '100vh', 'width': '100%'},
-    ),
+    children=[
+        html.P(
+            id='kpi-list',
+            style={'margin-left': "10px", 'margin-bottom': "0px"},
+        ),
+        dcc.Graph(
+            id='treemap',
+            figure=generate_treemap(get_all_events_from_project(
+                    DEFAULT_PROJECT_ID, 
+                    DEFAULT_START_DATE, 
+                    DEFAULT_END_DATE)),
+            style={'height': '90vh', 'width': '100%'},
+        )
+    ],
     style=CONTENT_STYLE
 )
 
@@ -206,7 +233,8 @@ app.layout = html.Div([content, sidebar])
 @app.callback(
     [
         Output('treemap', 'figure'),
-        Output('project-description', 'children')
+        Output('project-description', 'children'),
+        Output('kpi-list', 'children')
     ],
     [
         Input('project-id', 'value'),
@@ -220,10 +248,15 @@ def update_figure(project_id, groupby, start_date, end_date):
     if project_id is None:
         raise PreventUpdate
     
-    fig = generate_treemap(project_id, start_date, end_date, groupby)
-    descr = PROJECT_MAPPING[project_id]['description']
+    events = get_all_events_from_project(project_id, start_date, end_date)
+    if not len(events):
+        raise PreventUpdate
 
-    return [fig, descr]
+    fig = generate_treemap(events, groupby)
+    descr = PROJECT_MAPPING[project_id]['description']
+    kpis = generate_kpis(project_id, events)
+
+    return [fig, descr, kpis]
 
 #----------------------- RUN APP ----------------------------------------------#
 
