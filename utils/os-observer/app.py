@@ -28,14 +28,15 @@ def get_project_mapping():
 
     data, count = (supabase
                     .table('projects')
-                    .select('id, name, github_org')
+                    .select('id, name, github_org, description')
                     .order('name')
                     .execute())
     
     mapping = {
         project['id']: {
             'name': project['name'],
-            'github': project['github_org']
+            'github': project['github_org'],
+            'description': project['description']
         }
         for project in data[1]
     }
@@ -162,20 +163,12 @@ sidebar = html.Div(
         ),
         html.Br(),
         html.Hr(),
-        html.H6("How this works"),
-        html.Label([
-            "Locations of health facilities come from an OSM export available at ",
-            html.A("data.world.",
-            href="https://data.world/hot/6f5935e6-e2b5-4428-bf97-24ddd9e011a6"),
-            " Driving times by road are calculated using the ",
-            html.A("Bing Maps Distance Matrix API",
-            href="https://www.microsoft.com/en-us/maps/distance-matrix"),
-            " and assume an average speed of 40 km/hr. ",
-            " Service times by drone are calculated using ",
-            html.A("Euclidean distances",
-            href="https://en.wikipedia.org/wiki/Euclidean_distance"),
-            " and assume an average speed of 128 km/hr."
-        ], style={"fontSize": "small"}),
+        html.H6("Project description"),
+        html.P(
+            PROJECT_MAPPING.get(DEFAULT_PROJECT_ID).get('description'),
+            id="project-description", 
+            style={"fontSize": "small"}
+        ),
     ],
     style=SIDEBAR_STYLE
 )
@@ -212,7 +205,8 @@ app.layout = html.Div([content, sidebar])
 
 @app.callback(
     [
-        Output('treemap', 'figure')
+        Output('treemap', 'figure'),
+        Output('project-description', 'children')
     ],
     [
         Input('project-id', 'value'),
@@ -227,8 +221,9 @@ def update_figure(project_id, groupby, start_date, end_date):
         raise PreventUpdate
     
     fig = generate_treemap(project_id, start_date, end_date, groupby)
+    descr = PROJECT_MAPPING[project_id]['description']
 
-    return [fig]
+    return [fig, descr]
 
 #----------------------- RUN APP ----------------------------------------------#
 
