@@ -8,6 +8,13 @@ from src.graphql_queries import QUERIES
 
 # -------------- HELPER FUNCTIONS -------------- #
 
+
+date_fmt = "%Y-%m-%dT%H:%M:%SZ"
+
+def to_date(date):
+    return date.strftime(date_fmt)
+
+
 def find_dict_with_pageinfo(data):
 
     if isinstance(data, dict):
@@ -81,9 +88,6 @@ def run_query_for_org(query_func, github_org, start_date, end_date):
     
 
 def paginate_query_for_org(query_func, github_org, start_date, end_date):
-
-    date_fmt = "%Y-%m-%dT%H:%M:%SZ"
-    to_date = lambda x: x.strftime(date_fmt)
     
     start_dt = datetime.strptime(start_date, date_fmt)
     max_dt = datetime.strptime(end_date, date_fmt) 
