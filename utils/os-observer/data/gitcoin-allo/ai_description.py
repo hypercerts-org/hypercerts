@@ -19,8 +19,7 @@ def summarize(text_blob, max_tokens=1250, tries=0):
     openai.api_key = os.environ['OPENAI_API_KEY']
 
     text_blob = " ".join(tokens[:(max_tokens-500)])
-    print(len(tokens[:(max_tokens-500)]))
-    return
+
     prompt = (f"Consider the following text:\n\n"
               f"---\n\n"
               f"{text_blob}\n\n"
