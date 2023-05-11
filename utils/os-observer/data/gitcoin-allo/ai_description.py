@@ -18,7 +18,7 @@ def summarize(text_blob, max_tokens=1250, tries=0):
     load_dotenv()
     openai.api_key = os.environ['OPENAI_API_KEY']
 
-    text_blob = " ".join(tokens[:(max_tokens-500)])
+    text_blob = " ".join(tokens[:(max_tokens-200)])
 
     prompt = (f"Consider the following text:\n\n"
               f"---\n\n"
@@ -34,7 +34,7 @@ def summarize(text_blob, max_tokens=1250, tries=0):
             model="text-davinci-003",
             prompt=prompt,
             temperature=0.5,
-            max_tokens=(max_tokens*2),
+            max_tokens=200,
             n=1,
             stop=None
         )
@@ -55,4 +55,4 @@ def summarize(text_blob, max_tokens=1250, tries=0):
         print(e)        
         time.sleep(30)
 
-        return summarize(text_blob, max_tokens)
+        return summarize(text_blob, max_tokens, tries)
