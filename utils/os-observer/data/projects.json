@@ -2,1105 +2,553 @@
   {
     "name": "Layer 2 Landscape",
     "github_org": "truffle-box",
-    "wallets": [
-      {
-        "address": "0x7a48A728d9Fd2d5a55c545c4378E5bA909349E90",
-        "type": "EOA",
-        "ens": "faina.eth"
-      }
-    ],
+    "wallets": ["0x7a48A728d9Fd2d5a55c545c4378E5bA909349E90"],
     "description": "Technically this nomination is for the the Truffle Optimism Box, which allows developers to use boilerplate to create Optimism dapps. This educational tool led to my broader effort to spread information about the Layer 2/Scaling ecosystem's development via my Twitter account (@bitsplaining), w/ a weekly educational thread, for which I'd like to accept this nomination."
   },
   {
     "name": "EthereansOS",
     "github_org": "EthereansOS",
-    "wallets": [
-      {
-        "address": "0xdc0090f8aDD5DB06De0897A54e753af143668668",
-        "type": "EOA",
-        "ens": "nonlabs.eth"
-      }
-    ],
+    "wallets": ["0xdc0090f8aDD5DB06De0897A54e753af143668668"],
     "description": "Ethereans is a decentralized nation that uses secure DeFi routines for seamless transactions, self-sovereign on-chain governance with granular control over its resources, and specialized assets that are interoperable across marketplaces and DEX\u2019s. Everything in the nation is powered by generalized smart contract factories built on EthereansOS."
   },
   {
     "name": "Gitcoin",
     "github_org": "gitcoinco",
-    "wallets": [
-      {
-        "address": "0xc92D76E01BD4e7CE25819c94FC6c3aea7b2Cd155",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xc92D76E01BD4e7CE25819c94FC6c3aea7b2Cd155"],
     "description": "For the past 5 years Gitcoin has been focused on building and funding digital public goods. By popularizing these concepts, it's helped spark a trend across the industry of giving back and supporting Ethereum developers. Through its implementation of quadratic funding specifically, it's helped fund projects like ethers.js, Hardhat, POAP, Prysm, and even Optimism itself."
   },
   {
     "name": "Kernel",
     "github_org": "kernel-community",
-    "wallets": [
-      {
-        "address": "0x7DAC9Fc15C1Db4379D75A6E3f330aE849dFfcE18",
-        "type": "Safe",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x7DAC9Fc15C1Db4379D75A6E3f330aE849dFfcE18"],
     "description": "Kernel is peer-to-peer learning environment, growing one block at a time. Traditionally, each block accommodates 250 individuals and runs for 8 weeks. In two years, and after 7 Kernel blocks, there are: - 1,800 Kernel fellows (see more here: https://www.kernel.community/en/love) - 470 Kernel \"adventures\": web3 projects, protocols, writings & research - 70+ Kernel projects who have raised $1MM"
   },
   {
     "name": "ERC-5560: Redeemable NFTs",
     "github_org": "ATO-nft",
-    "wallets": [
-      {
-        "address": "0x5874D5D530D1f969FD962579c445A0f3A8682D48",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x5874D5D530D1f969FD962579c445A0f3A8682D48"],
     "description": "The EIP-5560 (Redeemable NFTs) adds a redeem function to EIP-721. It can be implemented when an NFT issuer wants his/her NFT to be redeemed for a physical object. An increasing amount of NFT issuers such as artists, fine art galeries, auction houses, brands and others want to offer a physical object to the holder of a given NFT. This standard allows EIP-721 NFTs to signal reedemability."
   },
   {
     "name": "Slither",
     "github_org": "crytic",
-    "wallets": [
-      {
-        "address": "0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0"],
     "description": "Slither is a Solidity static analysis framework written in Python. It runs a suite of vulnerability detectors, prints visual information about contract details, and provides an API to easily write custom analyses. Slither enables developers to find vulnerabilities, to enhance their code comprehension, and to quickly prototype custom analyses."
   },
   {
     "name": "Eneagon by zenbit.eth",
     "github_org": "zenbitETH",
-    "wallets": [
-      {
-        "address": "0xeCB4C1245665e8A1F43826355aaB0Dd6bF336e05",
-        "type": "EOA",
-        "ens": "zenbit.eth"
-      }
-    ],
+    "wallets": ["0xeCB4C1245665e8A1F43826355aaB0Dd6bF336e05"],
     "description": "A prefiltering platform for RPGF, based on the bicameral governance model from Optimism. Developers are able to mint PG Projects as NFTs and set multiple development stages to be retroactively funded. These stages are tracked from GitHub milestones, any user can get rewards by donating to these, while stakeholders can mint SBT to evaluate the progress and deliver funds after completing each stage."
   },
   {
     "name": "Pocket Network",
     "github_org": "pokt-network",
-    "wallets": [
-      {
-        "address": "0x5F1Feefc4BB7a414096cCF070BeEF94da8Ff88A6",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x5F1Feefc4BB7a414096cCF070BeEF94da8Ff88A6"],
     "description": "Pocket Network is a decentralized web3 infrastructure provider focused on optimizing the developer experience with scalable, reliable, fast, and privacy-centric services. As of writing this, in the past 24 hours, Pocket Network has served 1.4B requests across 25 networks. This traffic is served by over 150 independent 3rd party node operators on a mix of bare-metal and cloud providers."
   },
   {
     "name": "ETHGlobal",
     "github_org": "ethglobal",
-    "wallets": [
-      {
-        "address": "0x336DEe4022d6CC2F95cfe9e0949B9E0EDDAC457D",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x336DEe4022d6CC2F95cfe9e0949B9E0EDDAC457D"],
     "description": "ETHGlobal is the largest developer focused community in Ethereum. Most known for their hackathons, ETHGlobal has run 50+ hackathons around the world and online. To support builders at any point in their journey, ETHGlobal builds products for its developer community's success including: Hackathon (online/in-person), Guides (self-directed education), Summits (online/in-person), Jobs, and more."
   },
   {
     "name": "EthernautDAO",
     "github_org": "ethernautdao",
-    "wallets": [
-      {
-        "address": "0x2431BFA47bB3d494Bd720FaC71960F27a54b6FE7",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x2431BFA47bB3d494Bd720FaC71960F27a54b6FE7"],
     "description": "We are a developer's bridge from web2 to web3. We pair senior solidity devs with senior web2 devs for a 2-month crash course to expand the blockchain teams. We also started the distribution of a soulbond token called EXP on optimism to have an on-chain attestation of developer contributors."
   },
   {
     "name": "Prettier Solidity",
     "github_org": "prettier-solidity",
-    "wallets": [
-      {
-        "address": "0xFc756d8632A19CEbd76560CE0A6967279E32131b",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xFc756d8632A19CEbd76560CE0A6967279E32131b"],
     "description": "Prettier Solidity is a Prettier plugin for formatting Solidity code. It's the de-facto formatter for the Solidity language, used by multiple projects including Optimism itself."
   },
   {
     "name": "ITU Blockchain",
     "github_org": "itublockchain",
-    "wallets": [
-      {
-        "address": "0xBEC643BD5b7F5e9190617CA4187ef0455950C51C",
-        "type": "EOA",
-        "ens": "itublockchain.eth"
-      }
-    ],
+    "wallets": ["0xBEC643BD5b7F5e9190617CA4187ef0455950C51C"],
     "description": "ITU Blockchain is the first and largest university blockchain community established in Turkey. The mission of ITU Blockchain is primarily to increase blockchain literacy and awareness in its geography and to educate its community to develop qualified projects. With its nearly 3000 members, it organizes face-to-face and online educations and events every year."
   },
   {
     "name": "Blobscan",
     "github_org": "Blobscan",
-    "wallets": [
-      {
-        "address": "0xd228A0054246577d9c6F978d11Ab9405AE566c5D",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xd228A0054246577d9c6F978d11Ab9405AE566c5D"],
     "description": "Blobscan is the first EIP4844 Blob Transaction explorer, a web-based application that offers a seamless experience for navigating and indexing blob data. The explorer will have data gas metrics to help users understand the costs associated with this new transaction type, blob data decoding for each rollup, and an API to manipulate blobs."
   },
   {
     "name": "Rigoblock",
     "github_org": "RigoBlock",
-    "wallets": [
-      {
-        "address": "0x080f08076e8EAdC66006C3CbFEd28a34918A1fA6",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x080f08076e8EAdC66006C3CbFEd28a34918A1fA6"],
     "description": "Rigoblock is a fully open source and free to use smart contracts protocol that facilitates the interaction with DeFi applications and the organization of tokens and group of token holders in smart wallets. It has been live on Optimism since November 2022. Rigoblock liquidity has generated more than 50MM USD token swap volume on Ethereum mainnet."
   },
   {
     "name": "Akula",
     "github_org": "akula-bft",
-    "wallets": [
-      {
-        "address": "0x9d6d3b09F8AC8615805bd82e53B80D956F451CFa",
-        "type": "EOA",
-        "ens": "vorot93.eth"
-      }
-    ],
+    "wallets": ["0x9d6d3b09F8AC8615805bd82e53B80D956F451CFa"],
     "description": "Fastest Ethereum node ever built"
   },
   {
     "name": "Blockscout",
     "github_org": "blockscout",
-    "wallets": [
-      {
-        "address": "0x242ba6d68FfEb4a098B591B32d370F973FF882B7",
-        "type": "Safe",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x242ba6d68FfEb4a098B591B32d370F973FF882B7"],
     "description": "Blockscout is the first fully-featured open-source blockchain explorer available for use by any EVM chain. Blockscout currently supports 120+ different chains. We are currently working on 2.0 version: https://docs.blockscout.com/about/roadmap/blockscout-2.0 WIP: https://eth-goerli.blockscout.com/ OP instances will be among the first where 2.0 will be deployed in Q2 this year."
   },
   {
     "name": "blst by Supranational",
     "github_org": "supranational",
-    "wallets": [
-      {
-        "address": "0x0a6CD04Ca9Ce730c709276C6868D9F2C4D9Ef1D6",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x0a6CD04Ca9Ce730c709276C6868D9F2C4D9Ef1D6"],
     "description": "blst is a BLS12-381 signature library focused on performance and security. The library has undergone security audits and formal verification, and supports assembly backends for x86 and ARM platforms. Currently blst is used by all of the Eth2 / Ethereum consensus clients (Prysm, Lighthouse, Teku, Nimbus, and Lodestar). blst is a critical component for enabling scalability and performance of PoS."
   },
   {
     "name": "Sugar",
     "github_org": "velodrome-finance",
-    "wallets": [
-      {
-        "address": "0x892Ff98a46e5bd141E2D12618f4B2Fe6284debac",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x892Ff98a46e5bd141E2D12618f4B2Fe6284debac"],
     "description": "Sugar makes Velodrome devs life sweeter Sugar was born as the need to unify the 10+ contracts handling Velodrome into an easy to use interface with full access to the normalized dataset representing the real-time state of our protocol."
   },
   {
     "name": "Boardroom",
     "github_org": "boardroom-inc",
-    "wallets": [
-      {
-        "address": "0xF6a4475a006b28b9996c92bEE27DEEDc38032cDe",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xF6a4475a006b28b9996c92bEE27DEEDc38032cDe"],
     "description": "Boardroom is a comprehensive and user-friendly governance dashboard helping increase participation in voting and decision-making in DAOs. It allows token holders, from institutions to contributors, to influence the direction of their projects by making faster, smarter, and more informed governance decisions. The Governance API makes this data accessible to any stakeholder or developer."
   },
   {
     "name": "Nethermind",
     "github_org": "NethermindEth",
-    "wallets": [
-      {
-        "address": "0xBc11295936Aa79d594139de1B2e12629414F3BDB",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xBc11295936Aa79d594139de1B2e12629414F3BDB"],
     "description": "Nethermind is a team of world-class builders and researchers. We empower enterprises and developers worldwide to access and build upon the decentralized web. Our work touches every part of the Web3 ecosystem, from our Nethermind node to fundamental cryptography research and application-layer protocol development. We\u2019re passionate builders solving Ethereum\u2019s most difficult challenges."
   },
   {
     "name": "DexKit",
     "github_org": "DexKit",
-    "wallets": [
-      {
-        "address": "0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f"],
     "description": "We offer no code solutions for (digital) artists, collectors and crypto projects, allowing them to deploy crypto focused websites. Clients that use our white label tool can customize everything within the app: look and feel, fees, customize pages, add custom domains, among others. This specific tool is a CMS focused on crypto content. We also provide a collection wizard powered by AI."
   },
   {
     "name": "Nested",
     "github_org": "NestedFi",
-    "wallets": [
-      {
-        "address": "0xf944069B489F1ebfF4C3C6a6014d58cBEf7C7009",
-        "type": "EOA",
-        "ens": "nestedfi.eth"
-      }
-    ],
+    "wallets": ["0xf944069B489F1ebfF4C3C6a6014d58cBEf7C7009"],
     "description": "The crypto world suffers from general over-complication and unbearable user experience that dissuade people from getting involved. Nested is a crypto trading/investing platform that breaks that trend by revolutionizing the accessibility to web3 in a way that is unprecedentedly simple, social and safe."
   },
   {
     "name": "RadicalxChange Foundation",
     "github_org": "RadicalxChange",
-    "wallets": [
-      {
-        "address": "0x3945D766185E2264900C84faC10958B3619C2bD4",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x3945D766185E2264900C84faC10958B3619C2bD4"],
     "description": "RadicalxChange (RxC) is a global movement for next-generation political economies. We\u2019re committed to advancing plurality, equality, community, an decentralization through upgrading democracy, markets, the data economy, the commons, and identity. Founded by economist Glen Weyl in 2018, the RadicalxChange Foundation is a 501(c)(3) nonprofit dedicated to advancing the RxC movement."
   },
   {
     "name": "Nimbus",
     "github_org": "status-im",
-    "wallets": [
-      {
-        "address": "0x4F0E571C956d54658FD9eBee5e5B4279eB5e765a",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x4F0E571C956d54658FD9eBee5e5B4279eB5e765a"],
     "description": "Nimbus is a client implementation for both Ethereum\u2019s consensus layer and execution layer that strives to be as lightweight as possible in terms of resources used. This allows it to perform well on embedded systems, embedded devices \u2013 including Raspberry Pis and mobile devices."
   },
   {
     "name": "Erigon",
     "github_org": "ledgerwatch",
-    "wallets": [
-      {
-        "address": "0x9D20893054afC4A74b856089c44F9A09d1C38Db0",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x9D20893054afC4A74b856089c44F9A09d1C38Db0"],
     "description": "Erigon is an implementation of Ethereum (execution client), on the efficiency frontier. Archive Node by default."
   },
   {
     "name": "rotki",
     "github_org": "rotki",
-    "wallets": [
-      {
-        "address": "0x9531C059098e3d194fF87FebB587aB07B30B1306",
-        "type": "EOA",
-        "ens": "rotki.eth"
-      }
-    ],
+    "wallets": ["0x9531C059098e3d194fF87FebB587aB07B30B1306"],
     "description": "rotki is an open source portfolio tracking, analytics & accounting tool that protects your privacy. The mission of rotki is to bring transparency for crypto through the use of open source. Unlike virtually every other competing service which consists of closed source SaaS onto which you are forced to hand over all your financial data, with rotki your data is stored encrypted locally."
   },
   {
     "name": "ChugSplash",
     "github_org": "chugsplash",
-    "wallets": [
-      {
-        "address": "0x6D308C0535FA135516a2A0c493001e62088B065D",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x6D308C0535FA135516a2A0c493001e62088B065D"],
     "description": "Dev tool for securely deploying and upgrading smart contracts. ChugSplash spun out of OP Labs, where it was designed for Optimism's deployments. Key features: -Define deployments/upgrades declaratively (5-10x less code than deployment scripts) -Consistent addresses across networks via Create2 -Fully deterministic and atomic -Approve upgrades with a single tiny txn -Automatic Etherscan verification"
   },
   {
     "name": "Hyperledger Besu",
     "github_org": "hyperledger",
-    "wallets": [
-      {
-        "address": "0xAb7A08Be21dFEcd4c9902995F3e30A2659b564E1",
-        "type": "0xSplits",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xAb7A08Be21dFEcd4c9902995F3e30A2659b564E1"],
     "description": "Hyperledger Besu is an open-source Java implementation of Ethereum's EL. Built initially for enterprise adoption, Besu has private and permissioning features. It's an actively developed Mainnet client. Besu has helped in shaping standards & core development since its beginning as Pantheon. Besu's unique Bonsai tries maintain the lowest storage requirements on Mainnet and it has a stand-alone EVM."
   },
   {
     "name": "Lodestar",
     "github_org": "ChainSafe",
-    "wallets": [
-      {
-        "address": "0xc8F9f8C913d6fF031c65e3bF7c7a51Ad1f3a86E5",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xc8F9f8C913d6fF031c65e3bF7c7a51Ad1f3a86E5"],
     "description": "Lodestar is a Typescript ecosystem for Ethereum consensus, developed by ChainSafe Systems. Our flagship product is our production-capable beacon chain and validator client. In addition, we maintain public repositories of useful tools for public use. Some of these libraries include BLS, SSZ, Discv5, Gossipsub, and Noise."
   },
   {
     "name": "Commons Stack",
     "github_org": "commons-stack",
-    "wallets": [
-      {
-        "address": "0x8110d1D04ac316fdCACe8f24fD60C86b810AB15A",
-        "type": "EOA",
-        "ens": "commonsstack.eth"
-      }
-    ],
+    "wallets": ["0x8110d1D04ac316fdCACe8f24fD60C86b810AB15A"],
     "description": "Commons Stack builds 'Commons', tokenized communities supporting public goods. To achieve this, years of research have gone into developing cultural frameworks that reinforce Ostrom\u2019s principles of governing commons, novel tools such as the Augmented Bonding Curve, Conviction Voting & Praise reward system, and a radically inclusive methodology (Collaborative Economics) for launching a Commons."
   },
   {
     "name": "L2BEAT",
     "github_org": "l2beat",
-    "wallets": [
-      {
-        "address": "0xeA78912803bE5E356EaC2b8e127D4BA87230A48e",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xeA78912803bE5E356EaC2b8e127D4BA87230A48e"],
     "description": "L2BEAT is an Ethereum Layer Two (L2) scaling analysis and research website. We compare Ethereum L2s by monitoring their usage & TVL-related metrics, verifying their documentation against the source code, and manually assessing associated risks. We have created a risk framework for L2s and bridges, along with open-source monitoring tools that check for changes in their smart contracts' parameters."
   },
   {
     "name": "MerkleTreeJS",
     "github_org": "merkletreejs",
-    "wallets": [
-      {
-        "address": "0x358fdcCDE25e0aae7fBA01F088Da89b08aBF61DB",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x358fdcCDE25e0aae7fBA01F088Da89b08aBF61DB"],
     "description": "MerkleTreeJS is a TypeScript NPM package to construct merkle trees, generate proofs, and verify roots and proofs."
   },
   {
     "name": "BwareLabs",
     "github_org": "bwarelabs",
-    "wallets": [
-      {
-        "address": "0xb8950c47E8B9e539601cB47A167DE8bf4Cb1289E",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xb8950c47E8B9e539601cB47A167DE8bf4Cb1289E"],
     "description": "BwareLabs is a web3 infrastructure company providing decentralized RPC/WSS APIs, validator, indexing and bridge operator services. Our core objective is to improve the developer experience within a blockchain ecosystem. Blast is our main product, which is a decentralized API platform with support for 18 networks currently. From there developers can get easy access to RPC and WSS endpoints."
   },
   {
     "name": "Keccak hashing",
     "github_org": "XKCP",
-    "wallets": [
-      {
-        "address": "0x399aA07a970ea3711d002566cafDBe021f9DD0E8",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x399aA07a970ea3711d002566cafDBe021f9DD0E8"],
     "description": "The Keccak project started in 2008 for the development of the Keccak hash function, winner of SHA3 competition and used in Ethereum. The project is a multi discipline effort of cryptography, software and hardware development. All the developments are open source, no patents and several incentives for 3rd party security analysis. The project is still active for providing improved implementations"
   },
   {
     "name": "Ipsilon",
     "github_org": "ipsilon",
-    "wallets": [
-      {
-        "address": "0xF96Aa4A25fDe246d9dD498B145F52Fab0eAd29f3",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xF96Aa4A25fDe246d9dD498B145F52Fab0eAd29f3"],
     "description": "Ipsilon is a research team focusing on the execution environment of Ethereum (aka the EVM or any future versions of it). We provide analysis and implementation of own and third party proposals (i.e. new EIPs proposing changes to the EVM), provide tooling (evmc, evmone, fizzy), and support existing teams (e.g. Solidity, go-ethereum, Silkworm, Erigon) with implementation and analysis."
   },
   {
     "name": "dm3 protocol",
     "github_org": "corpus-io",
-    "wallets": [
-      {
-        "address": "0x11Ee133A1408FE2d7c62296D7eB33F234b774503",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x11Ee133A1408FE2d7c62296D7eB33F234b774503"],
     "description": "The project consists of 3 parts: Optimism-Resolver: a trustless resolver for ENS utilizing CCIP. The verification is done using Merkle-proofs for all used slots. dm3 \u2013 web3 messaging protocol: a lean messaging protocol with focus on e2ee, decentralization, scalability, and interoperability. dm3 embedded components: messaging components to embed in dApps to add interoperable messaging to dApps."
   },
   {
     "name": "L2planet",
     "github_org": "l2planet",
-    "wallets": [
-      {
-        "address": "0x40170fA69481D9B197e226E63317B49dB3c2db02",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x40170fA69481D9B197e226E63317B49dB3c2db02"],
     "description": "Layer 2 Planet is a research community that develops various products. Initially, we focused on a bi-weekly newsletter covering Layer 2 solutions. Now, we have a dApp store on our website. Going forward, our aim is to increase website traffic and provide more technical educational resources about Layer2 solutions and taking a role on big adaption."
   },
   {
     "name": "CryptoZombies",
     "github_org": "CryptozombiesHQ",
-    "wallets": [
-      {
-        "address": "0xbb105E3c6D6406A3F0aAB98cD8D0E3a127bD6436",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xbb105E3c6D6406A3F0aAB98cD8D0E3a127bD6436"],
     "description": "CryptoZombies is an interactive school that teaches you all things technical about blockchains. It teaches students to write smart contracts by making their own crypto-collectibles game."
   },
   {
     "name": "TypeChain",
     "github_org": "dethcrypto",
-    "wallets": [
-      {
-        "address": "0x4d2F0Efdb2AD1d709d8522E7b5aa9f5181563617",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x4d2F0Efdb2AD1d709d8522E7b5aa9f5181563617"],
     "description": "dETH is organization focused on improving Ethereum Developer Experience. * TypeChain - generates TypeScript typings for Ethereum smart contacts, * dETH Code - is Visual Studio Code for reading smart contracts, * dETH Tools - a set of small tools useful for smart contract engineers,"
   },
   {
     "name": "Launchifi",
     "github_org": "Launchifi",
-    "wallets": [
-      {
-        "address": "0x64249ED5Ef7a004d268A508092851e987482a175",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x64249ED5Ef7a004d268A508092851e987482a175"],
     "description": "Launchifi is a blockchain platform that enables you to launch anything to the blockchain without coding. The platform provides a secure, multi-chain compatible, and gas-optimized solution for deploying smart contracts. Pre-built contracts, advanced setups, and industry-leading integrations are available. Contracts that we currently include are tokens, NFTs, Staking, Auctions, and LP Tokens."
   },
   {
     "name": "ScopeLift (Flexible Voting & Umbra)",
     "github_org": "ScopeLift",
-    "wallets": [
-      {
-        "address": "0x5C04E7808455ee0e22c2773328C151d0DD79dC62",
-        "type": "EOA",
-        "ens": "scopelift.eth"
-      }
-    ],
+    "wallets": ["0x5C04E7808455ee0e22c2773328C151d0DD79dC62"],
     "description": "Flexible Voting is an extension to the widely used OpenZeppelin DAO Governor that enables powerful new voting patterns for voting through client contracts. This new building block allows arbitrary delegate contracts to be developed which can unlock all kinds of new use cases. Umbra is a stealth address protocol for EVM networks. Umbra enables privacy preserving payments where the receiver's identity is not revealed. Umbra is simple, low gas solution for getting paid privately, that's been in development for nearly 3 years."
   },
   {
     "name": "NFTEarth",
     "github_org": "NFTEarth",
-    "wallets": [
-      {
-        "address": "0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"],
     "description": "NFTEarth is an NFT marketplace for buying and selling NFTs on L2. In addition to being a marketplace, the protocol has a native token, $NFTE, and is building out the NFTEarth \"NFT Hub\" - which aims to server as a one-stop-shop for NFT creators, collectors, and DAOs looking to generate NFT art, deploy and manage contracts, and create allowlists as well as Mint embeds for their NFTs."
   },
   {
     "name": "Filosof\u00eda C\u00f3digo",
     "github_org": "FilosofiaCodigo",
-    "wallets": [
-      {
-        "address": "0xb6F5414bAb8d5ad8F33E37591C02f7284E974FcB",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xb6F5414bAb8d5ad8F33E37591C02f7284E974FcB"],
     "description": "Filosof\u00eda C\u00f3digo is a YouTube channel that explains step by step how to program Smart contracts in Solidity. It also includes explanatory videos on Ethereum and L2 scalability. In addition accompanies each video detailed programming articles on Solidity, all information is available and free. Key Stats: * Available Spanish, English and French * 50+ tutorials * Video + Blog articles"
   },
   {
     "name": "Infinitism (ERC-4337)",
     "github_org": "eth-infinitism",
-    "wallets": [
-      {
-        "address": "0x6A957e69A251D37CfD1F538F18EC1416FbdfA501",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x6A957e69A251D37CfD1F538F18EC1416FbdfA501"],
     "description": "ERC-4337 standardizes account abstraction on all EVM chains without the need for consensus-layer protocol changes. It defines a way to implement and use account abstraction on EVM chains, with a focus on L2. Our goal is to bring the 10X usability improvement that the ecosystem needs, to support the next billion users."
   },
   {
     "name": "DefiLlama",
     "github_org": "DefiLlama",
-    "wallets": [
-      {
-        "address": "0x3754a10c1cA723961068B2653109E6201982Dd9c",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x3754a10c1cA723961068B2653109E6201982Dd9c"],
     "description": "DefiLlama is an OpenSource project that tracks metrics for DeFi protocols (TVL, volume, fees, revenue, treasury...) transparently, making our data available for free to everybody. On top of that we've built: - LlamaPay, a payments tool used by multiple optimism protocols such as Velodrome - LlamaSwap, a dex meta-aggregator - our free price & metrics API and we maintain ChainList."
   },
   {
     "name": "Otterspace",
     "github_org": "otterspace-xyz",
-    "wallets": [
-      {
-        "address": "0x2696170bf5fD36320c3932fd9e85fe5b798385FE",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x2696170bf5fD36320c3932fd9e85fe5b798385FE"],
     "description": "Otterspace develops easy-to-use tools for internet-native communities to create & distribute Badges (non-transferable NFTs) on Optimism. Badges enable communities to: 1. Increase member engagement via non-financial rewards 2. Reduce manual workload & improve security via automated permission (e.g. through Guild, CollabLand) 3. Implement on-chain, portable membership & reputation models"
   },
   {
     "name": "EthereumETL",
     "github_org": "blockchain-etl",
-    "wallets": [
-      {
-        "address": "0x9FD0C742D81B6f08817F3eF11D09Cb4a9f54eE5f",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x9FD0C742D81B6f08817F3eF11D09Cb4a9f54eE5f"],
     "description": "EthereumETL has been described as the most useful open-source project for facilitating data science on Ethereum data. In addition, a BigQuery Ethereum dataset published together with Google using EthereumETL has already proved useful for many companies and people: it empowers research and data science, and enables data-driven applications development."
   },
   {
     "name": "TrueBlocks",
     "github_org": "TrueBlocks",
-    "wallets": [
-      {
-        "address": "0x89D107a9F019B4DC5dCa227d991c89e4E7251Ff5",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x89D107a9F019B4DC5dCa227d991c89e4E7251Ff5"],
     "description": "TrueBlocks creates a shared, naturally sharded index of addresses for any EVM-based chain (including Optimism). This allows ultra-fast access to the underlying chain data and runs 100% locally. The near-zero cost of operation promotes a true public good. A video explainer is here: https://loom.com/share/fd75d19f1dc946498c4ea0344517c2c6. For detailed info, see here: https://urlis.net/i98eydu0."
   },
   {
     "name": "Snapshot",
     "github_org": "snapshot-labs",
-    "wallets": [
-      {
-        "address": "0x3E87e5BCE4dEb09FeE5045EF15E18f873212E6A7",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x3E87e5BCE4dEb09FeE5045EF15E18f873212E6A7"],
     "description": "Snapshot is a platform that enables decentralized autonomous organization (DAO) governance. Snapshot provides a way for DAO members to cast votes on proposals and make decisions collectively, without the need for a centralized authority. By using Snapshot, DAOs can increase transparency and accountability in their decision-making processes."
   },
   {
     "name": "timdaub\u2019s work as ETH Magician",
     "github_org": "attestate",
-    "wallets": [
-      {
-        "address": "0x005241438cAF3eaCb05bB6543151f7AF894C5B58",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x005241438cAF3eaCb05bB6543151f7AF894C5B58"],
     "description": "Attestate is my bootstrapped online venture. Over a multi-year period, I've been working on foundational technology that accelerates the vision of blockchains as \"attestable\" knowledge graphs for permissions and credible neutral data storage. I've paid out-of-pocket to travel to conferences, and I've run workshops, done talks, and written standards."
   },
   {
     "name": "BanklessDAO Projects",
     "github_org": "BanklessDAO",
-    "wallets": [
-      {
-        "address": "0x745ce2Af76E9a6EBa65CC0cAcaa9eA109bB7FaBd",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x745ce2Af76E9a6EBa65CC0cAcaa9eA109bB7FaBd"],
     "description": "BanklessDAO\u2019s mission is to create user-friendly onramps for people to discover decentralized financial technologies through education, media, and culture. To further that mission, BanklessDAO produces educational content via its newsletters and Bankless Publishing on various crypto-related topics, including Layer 2 scaling solutions such as Optimism. We also make use of Mirror/OP functionality."
   },
   {
     "name": "Gelato",
     "github_org": "gelatodigital",
-    "wallets": [
-      {
-        "address": "0x01ea687Be2937D4Bfd9e302b8dbD3be8d9bDb14e",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x01ea687Be2937D4Bfd9e302b8dbD3be8d9bDb14e"],
     "description": "Gelato is Web3\u2019s decentralized backend empowering builders to create augmented smart contracts that are automated, gasless and off-chain aware on all major EVM-compatible blockchains. Gelato has already emerged as the preferred choice for some of the most important Web3 projects and is powering 200+ decentralized applications and handling tens of thousands of transactions each day."
   },
   {
     "name": "Messari Protocol Services",
     "github_org": "messari",
-    "wallets": [
-      {
-        "address": "0x47A6a1B6492B6dF811606B8294A02b4268e86dAD",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x47A6a1B6492B6dF811606B8294A02b4268e86dAD"],
     "description": "Our work falls under 3 buckets: Subgraph development - We've built standardized subgraphs for most of the top Optimism projects. Data dashboards - Charting TVL, trading volume, revenue, liquidity added/removed from both the macro level and on an individual pool basis. Governance reporting - Breaking down governance structures and looking at voter/delegate analysis"
   },
   {
     "name": "Orbiter Finance",
     "github_org": "Orbiter-Finance",
-    "wallets": [
-      {
-        "address": "0x10C7EEbf2fF90807CA24347cD9c7d4a42345D583",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x10C7EEbf2fF90807CA24347cD9c7d4a42345D583"],
     "description": "Orbiter Finance is a decentralised cross-rollup bridge that aims to offer infrastructure at Layer 2 and permits instant, low-cost transactions of Ethereum-native assets. We support cross-rollup transfers among Ethereum, Optimism, StarkNet, zkSync, Loopring, Arbitrum, Arbitrum Nova, Polygon, BNB Chain, ZKSpace, Immutable X, dYdX, Metis and Boba."
   },
   {
     "name": "Chainlist",
     "github_org": "DefiLlama",
-    "wallets": [
-      {
-        "address": "0xAEcaeDc21C3ea0D84C596C126E2FD2e51E54D274",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xAEcaeDc21C3ea0D84C596C126E2FD2e51E54D274"],
     "description": "Chainlist tracks all public RPCs available for each EVM network, along with their latency, blockheight and the privacy policy of the provider, which we summarize into easy-to-compare snippets. This allows users to switch networks/RPCs safely and to maintain privacy without having to spend hours sifting through legal docs."
   },
   {
     "name": "Solhint",
     "github_org": "protofire",
-    "wallets": [
-      {
-        "address": "0x5fC34D03cFdf145Db5f3c5B5558e39a4164AAa30",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x5fC34D03cFdf145Db5f3c5B5558e39a4164AAa30"],
     "description": "Solhint is a Solidity linter. A tool that helps solidity devs to write standardized smart contracts code, taking care of code quality, order, readability, style guides, preventing known bugs, and giving security alerts. Has been a pretty popular tool within the Ethereum community. It is also an open source tool considered a public good in the ecossystem."
   },
   {
     "name": "Vyper",
     "github_org": "vyperlang",
-    "wallets": [
-      {
-        "address": "0xAbfA48BCc0F96Fc70be7a4156b0a74Ea350167fD",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xAbfA48BCc0F96Fc70be7a4156b0a74Ea350167fD"],
     "description": "Vyper is a contract-oriented, pythonic programming language that targets the Ethereum Virtual Machine (EVM)"
   },
   {
     "name": "OPCraft & MUD (Lattice)",
     "github_org": "latticexyz",
-    "wallets": [
-      {
-        "address": "0xFb74562ec4e55c4BE2800b79a60e10ab6175Fa3a",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xFb74562ec4e55c4BE2800b79a60e10ab6175Fa3a"],
     "description": "Lattice is facilitating complex on-chain projects with MUD (https://mud.dev): an application framework for Ethereum & Autonomous Worlds (https://shortest.link/autonomous) MUD helps developers be more ambitious on-chain: using the OP Stack and MUD, we built OPCraft \u2014 an on-chain Voxel Game (https://shortest.link/opcraft) \u2014 and we enabled dozens of team to push the envelope of Dapps. see below:"
   },
   {
     "name": "OpenZeppelin",
     "github_org": "openzeppelin",
-    "wallets": [
-      {
-        "address": "0x41f89516DbFDfF2A902AdD2E141C3c22b561BFBc",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x41f89516DbFDfF2A902AdD2E141C3c22b561BFBc"],
     "description": "OpenZeppelin provides security products to build, automate, and operate decentralized applications. We also protect leading organizations by performing security audits on their systems and products."
   },
   {
     "name": "Scry",
     "github_org": "ScryProtocol",
-    "wallets": [
-      {
-        "address": "0x9D31e30003f253563Ff108BC60B16Fdf2c93abb5",
-        "type": "EOA",
-        "ens": "pay.eth"
-      }
-    ],
+    "wallets": ["0x9D31e30003f253563Ff108BC60B16Fdf2c93abb5"],
     "description": "Scrys Open Oracle Frameworks an infrastructure for oracles for developers to access external data in a fully permissionless and decentralized way. The infrastructure allows devs to self deploy high scale oracles for any API with the contracts, nodes and front end all ready to use in <15m. This allows devs to create oracles using their own reputable signers in their communities. Uniswap for data."
   },
   {
     "name": "BuidlGuidl",
     "github_org": "BuidlGuidl",
-    "wallets": [
-      {
-        "address": "0xa81a6a910FeD20374361B35C451a4a44F86CeD46",
-        "type": "EOA",
-        "ens": "signer.buidlguidl.eth"
-      }
-    ],
+    "wallets": ["0xa81a6a910FeD20374361B35C451a4a44F86CeD46"],
     "description": "A curated group of Ethereum builders creating products, prototypes, and tutorials to enrich the web3 ecosystem. We mentor developers and orgs through the SpeedRun and beyond."
   },
   {
     "name": "Node Guardians",
     "github_org": "Nodeguardians",
-    "wallets": [
-      {
-        "address": "0x6ef87E0Aaadb2c3d07fD98a098Af5FaD0aD45811",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x6ef87E0Aaadb2c3d07fD98a098Af5FaD0aD45811"],
     "description": "Node Guardians is an RPG that caters to seasoned Solidity devs. We provide over 60 hours of Solidity in the form of CTF & programming problems for free. We've built a custom pipeline to evaluate the users code and verify whether it meets certain criteria. Hackers can unlock soul-bound (off-chain) collectibles that represent their progress in the game."
   },
   {
     "name": "eth.limo",
     "github_org": "ethlimo",
-    "wallets": [
-      {
-        "address": "0xB352bB4E2A4f27683435f153A259f1B207218b1b",
-        "type": "EOA",
-        "ens": "ethdotlimo.eth"
-      }
-    ],
+    "wallets": ["0xB352bB4E2A4f27683435f153A259f1B207218b1b"],
     "description": "eth.limo is a privacy-preserving ENS gateway, enabling users to access Ethereum-native dApps and content. LIMO represents a shift in dweb adoption by providing an alternative means of accessing ENS resolvable content. LIMO takes public gateway services a step further by enforcing strong privacy guarantees such as never logging IP addresses or engaging in TCP fingerprinting."
   },
   {
     "name": "Cannon",
     "github_org": "usecannon",
-    "wallets": [
-      {
-        "address": "0x07Aeeb7E544A070a2553e142828fb30c214a1F86",
-        "type": "EOA",
-        "ens": "noahlitvin.eth"
-      }
-    ],
+    "wallets": ["0x07Aeeb7E544A070a2553e142828fb30c214a1F86"],
     "description": "Cannon is an 'Infrastructure as Code' tool (like Terraform) for Foundry and Hardhat. Users generate Cannonfiles instead of deploy scripts for a declarative approach to managing protocols, including upgrades and configuration. Deployment information can be shared on the registry (hosted on Ethereum and IPFS) to be used in other Cannonfiles and run for local testing and development."
   },
   {
     "name": "Lighthouse",
     "github_org": "sigp",
-    "wallets": [
-      {
-        "address": "0x0ad5d3975258776cF81b9dcbe6fF4ed0Ae82b29e",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x0ad5d3975258776cF81b9dcbe6fF4ed0Ae82b29e"],
     "description": "Lighthouse is an Ethereum consensus client that connects to other Ethereum consensus clients to form a resilient and decentralized proof-of-stake blockchain. It is one if the most used Ethereum consensus clients, focused on performance and security. It is free and open source with the most permissive license we could find (Apache 2.0)."
   },
   {
     "name": "Smock",
     "github_org": "defi-wonderland",
-    "wallets": [
-      {
-        "address": "0x4f2188dfD474E502Ea67D09bE3E58b761B6AEEB7",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x4f2188dfD474E502Ea67D09bE3E58b761B6AEEB7"],
     "description": "Smock is the Solidity mocking library. It is installed as a Hardhat plugin which can be used to create mock Solidity contracts entirely in JavaScript (or TypeScript!). With Smock, writing tests for smart contracts becomes incredibly easy, improving the ecosystem's security. First built by Optimism in March 2021 and later, in July 2021, Wonderland took the mission to rewrite it in a scalable way"
   },
   {
     "name": "Dapp-Learning",
     "github_org": "Dapp-Learning-DAO",
-    "wallets": [
-      {
-        "address": "0x1F7b953113f4dFcBF56a1688529CC812865840e1",
-        "type": "EOA",
-        "ens": "dapplearning.eth"
-      }
-    ],
+    "wallets": ["0x1F7b953113f4dFcBF56a1688529CC812865840e1"],
     "description": "We are designed for developers to step into blockchain DAPP development, where they can learn **DeFi, NFT, DAO, CRYPTO** projects. We hope we could not only give junior developers a feasible and easy-to-use blockchain **DAPP** learning roadmap, but also present advanced developers  with a platform for communication and cooperation."
   },
   {
     "name": "0xPARC",
     "github_org": "0xparc",
-    "wallets": [
-      {
-        "address": "0x5401745963974c22F8f8254a2A904Ea5f54ddc22",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x5401745963974c22F8f8254a2A904Ea5f54ddc22"],
     "description": "The 0xPARC Foundation promotes application-level innovation on Ethereum. Our primary areas of focus are: - Cryptography: ZK, MPC, and more. - Autonomous Worlds: funding projects like Lattice, Dark Forest, DFDAO, etc - Education: we organize learning residencies, hackathons, and conferences on ZK and AW. 0xPARC funds infrastructure work, research, and groups that would otherwise be underfunded."
   },
   {
     "name": "Clique",
     "github_org": "CliqueOfficial",
-    "wallets": [
-      {
-        "address": "0x003eB864477C8858BEC0916E23785AcA46f6ba34",
-        "type": "EOA",
-        "ens": "2046inc.eth"
-      }
-    ],
+    "wallets": ["0x003eB864477C8858BEC0916E23785AcA46f6ba34"],
     "description": "Clique builds a new type of primitives, identity oracles, that bring web2 user behavior and identity data on-chain. Establishing more robust reputation and identity systems on-chain, and bridging the gap between value-creating activities in web2 and incentive distribution in web3. We use advanced cryptographic tools like ZKP, TEE, and MPC to design modular privacy-preserving pipelines."
   },
   {
     "name": "JiffyScan",
     "github_org": "jiffy-labs",
-    "wallets": [
-      {
-        "address": "0xdd347ad6aA6D26ae6840ed3574E6Ce4b0E002066",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xdd347ad6aA6D26ae6840ed3574E6Ce4b0E002066"],
     "description": "JiffyScan is the first (and only) block explorer built for EIP-4337 confirming transactions. It shows the transactions as per the new entities introduced: userOp, Bundle, Bundler, Entrypoint, etc. This is needed for the wallets which will onboard users leveraging this new Smart Contract Wallet standard. PS: Candide Wallet is launching on Optimism and we will support its adoption."
   },
   {
     "name": "NiceNode",
     "github_org": "NiceNode",
-    "wallets": [
-      {
-        "address": "0x9cce47E9cF12C6147c9844adBB81fE85880c4df4",
-        "type": "EOA",
-        "ens": "nicenode.eth"
-      }
-    ],
+    "wallets": ["0x9cce47E9cF12C6147c9844adBB81fE85880c4df4"],
     "description": "NiceNode aims to provide an easy set up to run an Ethereum node in no-time on every modern computer without any technical knowledge. By running a node you become part of a global movement to decentralize a world of information. NiceNode is being designed to easily support new node types such as layer 2 and web3 nodes. It is FOSS and available on Mac, Windows, and Linux."
   },
   {
     "name": "Giveth",
     "github_org": "Giveth",
-    "wallets": [
-      {
-        "address": "0x4D9339dd97db55e3B9bCBE65dE39fF9c04d1C2cd",
-        "type": "Safe",
-        "ens": "giv.eth"
-      }
-    ],
+    "wallets": ["0x4D9339dd97db55e3B9bCBE65dE39fF9c04d1C2cd"],
     "description": "Giveth is a donation platform built on Ethereum, rewarding and empowering those who give to projects, to society, and to the world. We are building a business model that provides value in the nonprofit sector and public goods. We were founded in 2016 and have a core team consisting of ~20 with 50+ regular Giveth contributors, including many well-known names in the space."
   },
   {
     "name": "Gov",
     "github_org": "w3hc",
-    "wallets": [
-      {
-        "address": "0xa30189949cD8F662582b10eB6E353374419EDf67",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xa30189949cD8F662582b10eB6E353374419EDf67"],
     "description": "Gov is a DAO framework built with Open Zeppelin\u2019s Governor contract in combination with NFTs. It provides a retroactive funding tool that fits the needs of everyday people. We recently deployed the first pilot to OP Mainnet (the Web3 Hackers Collective) and we\u2019re getting ready to launch more pilots in the coming weeks. We just released the beta version and the Next.js UI is currently under dev."
   },
   {
     "name": "GiveStation",
     "github_org": "givestation",
-    "wallets": [
-      {
-        "address": "0x4243CFB8D5cEfA0087E3cf8E9aeA86e6ec38E0D9",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x4243CFB8D5cEfA0087E3cf8E9aeA86e6ec38E0D9"],
     "description": "What is GiveStation ? A multi-chain Give-To-Earn grant platform where contributors get rewarded for funding public goods, ideas and projects in web3."
   },
   {
     "name": "CryptoStats",
     "github_org": "crypto-stats",
-    "wallets": [
-      {
-        "address": "0x69aa21403244889832609963B0028e337a834953",
-        "type": "EOA",
-        "ens": "cryptostats.eth"
-      }
-    ],
+    "wallets": ["0x69aa21403244889832609963B0028e337a834953"],
     "description": "CryptoStats is a project focused on making trustworthy blockchain data open and accessible to all. In addition to maintaining an extensive library of data metrics, CryptoStats operates a number of popular info-sites, such as CryptoFees.info, L2Fees.info, and more."
   },
   {
     "name": "Pairwise",
     "github_org": "GeneralMagicio",
-    "wallets": [
-      {
-        "address": "0xc8D65E1Bd67f16522e3117B980E1c9D2CaeB9dC3",
-        "type": "EOA",
-        "ens": "generalmagic.eth"
-      }
-    ],
+    "wallets": ["0xc8D65E1Bd67f16522e3117B980E1c9D2CaeB9dC3"],
     "description": "Say goodbye to endless forum scrolling and hello to easy, efficient and fun community signaling with Pairwise! Our open-source, snapshot-style voting dapp, based on the big brain algorithm research out of Colony in 2018, offers a fast-paced and intuitive experience, perfect for the next generation of DAOs. Join us in revolutionizing governance with the power of algorithms."
   },
   {
     "name": "Questbook",
     "github_org": "questbook",
-    "wallets": [
-      {
-        "address": "0x89Ce0f71D7387a580c6C07032f74f393a65d77F4",
-        "type": "EOA",
-        "ens": "questbook.eth"
-      }
-    ],
+    "wallets": ["0x89Ce0f71D7387a580c6C07032f74f393a65d77F4"],
     "description": "Questbook is a decentralized grant management platform. The platform is open-sourced, on-chain, and deployed on Optimism. Using the tool, - Grant managers have facilitated grants worth $2.1M. - 1500+ Builders have applied for various grants, reported milestones and funding, and received feedback. - The entire lifecycle for every grant proposal is transparent for the community to view."
   },
   {
     "name": "Web3j",
     "github_org": "web3j",
-    "wallets": [
-      {
-        "address": "0xe8a17e2f1bd4bFcBfBecb8a90be08780949a0cac",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xe8a17e2f1bd4bFcBfBecb8a90be08780949a0cac"],
     "description": "Web3j is the JVM integration library for EVM blockchains. It provides similar functionality to web3.js + Truffle in that supports the development, testing and deployment of Solidity contracts for the Java and Android platforms. The following deck provides a lot of background about the library https://4968969.fs1.hubspotusercontent-na1.net/hubfs/4968969/Web3j%20overview%20June%202022.pdf."
   },
   {
     "name": "Guild",
     "github_org": "agoraxyz",
-    "wallets": [
-      {
-        "address": "0xa934b56be3eC0bDdfA8BFD1cb141E66d1bBd0F69",
-        "type": "EOA",
-        "ens": "agoraxyz.eth"
-      }
-    ],
+    "wallets": ["0xa934b56be3eC0bDdfA8BFD1cb141E66d1bBd0F69"],
     "description": "Guild is an infrastructure for platformless memberships and community building. Built around the Guild Model (requirements, roles, rewards), anyone can create modular memberships based on composable on-chain and off-chain data. These can be used to gate off-chain rewards (access to Discord, Telegram, Google folders & files, Github), on-chain rewards (POAP), or custom applications (via our SDK)."
   },
   {
     "name": "Protocol Guild",
     "github_org": "protocolguild",
-    "wallets": [
-      {
-        "address": "0x42a43f000adc215af8B1896Ed09C2d1B0f81cDfB",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x42a43f000adc215af8B1896Ed09C2d1B0f81cDfB"],
     "description": "The Protocol Guild helps Ethereum's ecosystem + community fund core protocol development: a foundational Public Good for all. The Guild curates a weighted membership registry of ~128 active contributors, which anyone can donate to via a single Ethereum address. Donations are vested to members over time, creating long-term stewarding incentives. Learn more: https://bit.ly/PG-docs"
   },
   {
     "name": "Ante",
     "github_org": "antefinance",
-    "wallets": [
-      {
-        "address": "0xa5b4f91FDE4E35Be891eA97C47D1052D8a4D75f7",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xa5b4f91FDE4E35Be891eA97C47D1052D8a4D75f7"],
     "description": "Ante is a protocol framework that allows anybody to create on-chain guarantees for any smart contract system. Ante tests can be written to test any on-chain condition with payouts handled without any third parties. With enough coverage and tests on a given project, a decentralized and visual trust can then be gathered on that respective project."
   },
   {
     "name": "Esteroids",
     "github_org": "esteroids",
-    "wallets": [
-      {
-        "address": "0xD8228a0bE7322834101B1a5DA62CfBa28BD810C8",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xD8228a0bE7322834101B1a5DA62CfBa28BD810C8"],
     "description": "Esteroids (esteroids.eth) is a search engine for .eth websites. Esteroids indexes ENS+IPFS websites (called .eth websites), makes them searchable, and highlights the main ones. While the .eth web previously offered a variety of .eth websites, it lacked the tools to collect, explore and showcase them. We launched Esteroids in April 2021 in order to give .eth websites a dedicated search engine."
   },
   {
     "name": "LlamaFolio",
     "github_org": "llamafolio",
-    "wallets": [
-      {
-        "address": "0x2cd0ac587Fc0E6FBcF8A47A449971649E7dab835",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x2cd0ac587Fc0E6FBcF8A47A449971649E7dab835"],
     "description": "Open source, permissionless, privacy conscious. A portfolio tracker, the llama way!"
   },
   {
     "name": "Praise",
     "github_org": "givepraise",
-    "wallets": [
-      {
-        "address": "0x0B7246eF74Ca7b37Fdc3D15be4f0b49876622F95",
-        "type": "EOA",
-        "ens": "givepraise.eth"
-      }
-    ],
+    "wallets": ["0x0B7246eF74Ca7b37Fdc3D15be4f0b49876622F95"],
     "description": "Praise is a community intelligence system that promotes active participation and collaboration through peer recognition and rewards. We help communities become more intelligent, productive and inclusive by providing a simple way for community members to acknowledge, praise and reward each other\u2019s contributions."
   },
   {
     "name": "Forta",
     "github_org": "forta-network",
-    "wallets": [
-      {
-        "address": "0x516D34d147DDa218cbEC1EADA374ca2ceC1a6e93",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x516D34d147DDa218cbEC1EADA374ca2ceC1a6e93"],
     "description": "Forta is a real-time detection network for security monitoring of blockchain activity. Forta comprises a decentralized network of independent node operators that scan all transactions and block-by-block state changes for outlier transactions and threats. Developers can build detection bots (piece of script that monitors the activity) and machine learning models, and run them on the network."
   },
   {
     "name": "Teku",
     "github_org": "ConsenSys",
-    "wallets": [
-      {
-        "address": "0xFF7B65dDc2Ffb7f6AC527b4C2F048946B3A5eaF3",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xFF7B65dDc2Ffb7f6AC527b4C2F048946B3A5eaF3"],
     "description": "Teku is an Ethereum consensus client, fully open source and Apache 2 licensed. Teku has been in production on the beacon chain since genesis and contributes significantly to client-diversity on the consensus layer, which is vital for the security and safety of layer 2 solutions built on Ethereum."
   },
   {
     "name": "Chaineye",
     "github_org": "DeFiEye",
-    "wallets": [
-      {
-        "address": "0xE6D7b9Fb31B93E542f57c7B6bfa0a5a48EfC9D0f",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0xE6D7b9Fb31B93E542f57c7B6bfa0a5a48EfC9D0f"],
     "description": "ChainEye aims to build world-leading free and open-source analytical tools. Currently, it has the following core functions 1. Optimism on-chain Map 2. Bridge comparison 3. Stablecoin dashboard 4. RPC list 5. Gas monitor 6. Web3 security (coming) Launched in Q4 2021, Chaineye has over 100k user visits. It is incubated by the leading Web3 research community Biteye with 200K+ members in Asia."
   },
   {
     "name": "Synpress",
     "github_org": "Synthetixio",
-    "wallets": [
-      {
-        "address": "0x7b57c388e6149b5c197B925037602d5B6bafFbCc",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x7b57c388e6149b5c197B925037602d5B6bafFbCc"],
     "description": "Synpress is e2e testing framework based on Cypress.io and playwright with support for metamask. It's a pioneer tool in web3 e2e testing with potential to evolve into a decentralized network of test runners (and CI provider) in future. It\u2019s currently used by multiple different projects on Optimism network (~140 repos on Github): https://github.com/Synthetixio/synpress/network/dependents"
   },
   {
     "name": "Revoke.cash",
     "github_org": "RevokeCash",
-    "wallets": [
-      {
-        "address": "0xe126b3E5d052f1F575828f61fEBA4f4f2603652a",
-        "type": "EOA",
-        "ens": "kalis.eth"
-      }
-    ],
+    "wallets": ["0xe126b3E5d052f1F575828f61fEBA4f4f2603652a"],
     "description": "Revoke.cash is a suite of web3 security tools. It offers a dashboard to manage token and NFT allowances on Optimism and 30+ other chains. It also provides a browser extension that warns users when they are about to perform potentially harmful actions, such as approvals or NFT listings."
   },
   {
     "name": "wagmi",
     "github_org": "wagmi-dev",
-    "wallets": [
-      {
-        "address": "0xd2135CfB216b74109775236E36d4b433F1DF507B",
-        "type": "EOA",
-        "ens": "wagmi-dev.eth"
-      }
-    ],
+    "wallets": ["0xd2135CfB216b74109775236E36d4b433F1DF507B"],
     "description": "wagmi is a collection of React Hooks containing everything you need to start working with Ethereum. It\u2019s used at organizations like ENS, Sushi, LooksRare, WalletConnect, Stripe Crypto, and Gitcoin. wagmi makes it easy to \"Connect Wallet,\" display ENS and balance information, sign messages, interact with contracts, and much more \u2014 all with caching, request deduplication, and persistence."
   },
   {
     "name": "0xSplits",
     "github_org": "0xSplits",
-    "wallets": [
-      {
-        "address": "0x9ebC8E61f87A301fF25a606d7C06150f856F24E2",
-        "type": "EOA",
-        "ens": null
-      }
-    ],
+    "wallets": ["0x9ebC8E61f87A301fF25a606d7C06150f856F24E2"],
     "description": "0xSplits is a suite of smart contracts & tools that allows devs and end users to securely and efficiently share onchain revenue. Our current offerings include splits (immutable, mutable, & liquid), waterfalls (preference stacks), and vests (multi-stream, single beneficiary) as well as the accompanying subgraphs, sdk, & UI."
   },
   {
     "name": "Flipside Crypto",
     "github_org": "FlipsideCrypto",
-    "wallets": [
-      {
-        "address": "0x1ef753934C40a72a60EaB12A68B6f8854439AA78",
-        "type": "EOA",
-        "ens": "flipsidecrypto1.eth"
-      }
-    ],
+    "wallets": ["0x1ef753934C40a72a60EaB12A68B6f8854439AA78"],
     "description": "Flipside Crypto has worked alongside the OP Labs team to make Optimism data more accessible and help bootstrap Optimism\u2019s ecosystem-wide attestation / identity efforts. The data tables, SDK, API, and other core services are offered as free public goods - enabling the creation of a wide range of products and tools for Optimism. Flipside is also an active and devoted OP delegate."
   }
 ]

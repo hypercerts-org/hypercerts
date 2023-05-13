@@ -1,136 +1,171 @@
 from dotenv import load_dotenv
 import json
+import logging
 import os
 import pandas as pd
 from supabase import create_client, Client
 import sys
 
-from src.github_events import execute_org_query
-from src.zerion_scraper import convert_csvs_to_records
+from validate_github_org import validate_github_org
+from validate_eth_address import get_address_data
+
+from events.github_events import execute_org_query
+from events.zerion_scraper import convert_csvs_to_records
 
 
 START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
 QUERIES = ["merged PR", "issue", "created PR"]
 
 
+PROJECTS_TABLE = 'projects'
+WALLETS_TABLE = 'wallets'
+EVENTS_TABLE = 'events'
+
+
 # -------------- DATABASE SETUP -------------- #
 
-load_dotenv()
-url = os.environ.get("SUPABASE_URL")
-key = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+def supabase_client() -> Client:
+    load_dotenv()
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
+    return create_client(url, key)
 
-projects_table = 'projects'
-wallets_table = 'wallets'
-events_table = 'events'
-
-# -------------- HELPER FUNCTIONS -------------- #
+supabase = supabase_client()
 
 
-def supabase_client():
-    return supabase
+# -------------- DATABASE OPS ---------------- #
 
 
-def fetch_col(table_name, col_name):
-    data, _ = (supabase
-        .table(table_name)
-        .select(col_name)
+def select_all(table):
+    response = (supabase
+        .table(table)
+        .select('*')
         .execute())
-    result = [x[col_name] for x in data[1]]
-    return result
+    return response.data
 
 
-def insert_wallet(wallet_data):
-    data, count = (supabase
-        .table(wallets_table)
-        .insert(wallet_data)
-        .execute())    
-    print(f"Successfully added {wallet_data['address']} to the wallets table.")
-    return data[1][0]
-
-
-def insert_project(project_data):
-    data, count = (supabase
-        .table(projects_table)
-        .insert(project_data)
+def select_col(table, col):
+    response = (supabase
+        .table(table)
+        .select(col)
         .execute())
-    print(f"Successfully added {project_data['name']} to the projects table.")
-    return data[1][0]
+    lst = [x[col] for x in response.data]
+    return lst
 
 
-def bulk_insert_events(records):
-    data, count = (supabase
-        .table(events_table)
+def select_project(project_id):
+    response = (supabase
+        .table(PROJECTS_TABLE)
+        .select('*')
+        .eq('id', project_id)
+        .execute())
+    if response.data:
+        return response.data[0]
+
+
+def insert(table, records):
+    response = (supabase
+        .table(table)
         .insert(records)
         .execute())
-    return data    
+    return response.data
 
 
-def batch_bulk_insert_events(records, batch_size):
-    batches = [
-        records[i:i + batch_size] 
-        for i in range(0, len(records), batch_size)
-    ]
-    for event_batch in batches:
-        bulk_insert_events(event_batch)
+def bulk_insert(table, records, lim=2000):
+    for i in range(0, len(records), lim):
+        insert(table, records[i:i + lim])
 
 
-def check_if_events_exist(project_id, event_type):
-    data, count = (supabase
-        .table(events_table)
-        .select("id, event_type")
-        .eq("project_id", project_id)
-        .eq("event_type", event_type)                
-        .execute())
-    return len(data[1]) > 0
 
 # -------------- DB INSERT SCRIPTS -------------- #
 
-def insert_projects_and_wallets_from_json(json_path):
+
+def insert_project(project):
+
+    name = project['name']
+    github_org = project['github_org']
+    description = project.get('description')
+
+    record = dict(
+        name=name, 
+        github_org=github_org, 
+        description=description
+    )
+    
+    response = (supabase
+        .table(PROJECTS_TABLE)
+        .select('id, name, github_org')
+        .ilike('name', f'%{name}%')
+        .execute())
+
+    if response.data:
+        logging.info(f"DUPLICATE PROJECT: {record} -> {response.data}")
+        return response.data
+
+    response = (supabase
+        .table(PROJECTS_TABLE)
+        .select('id, name, github_org')
+        .ilike('github_org', f'%{github_org}%')
+        .execute())
+
+    if response.data:
+        logging.info(f"DUPLICATE PROJECT: {record} -> {response.data}")
+        return response.data
+    
+    return insert(PROJECTS_TABLE, record)
+
+
+def insert_wallet(wallet_data):
+
+    address = wallet_data['address']
+
+    response = (supabase
+        .table(WALLETS_TABLE)
+        .select('id, project_id')
+        .ilike('address', f'%{address}%')
+        .execute())
+
+    if response.data:
+        logging.info(f"DUPLICATE WALLET: {address} -> {response.data}")
+        return response.data
+
+    return insert(WALLETS_TABLE, wallet_data)
+
+
+# -------------- POPULATE DB SCRIPTS------------- #
+
+
+def populate_from_json(json_path):
+    
     with open(json_path, 'r') as f:
         projects_data = json.load(f)
 
-    existing_orgs = fetch_col(projects_table, 'github_org')
-    existing_wallets = fetch_col(wallets_table, 'address')
-
     for project in projects_data:
-        if project['github_org'] not in existing_orgs: 
-            project_wallets = project.pop('wallets')
-            project_data = insert_project(project)
-            project_id = project_data['id']
-            existing_orgs.append(project_data['github_org'])
+        if not validate_github_org(project['github_org']):
+            logging.info(f"INVALID GITHUB: {project['github_org']}")
+            continue
+        results = insert_project(project)
+        project_id = results[0]['id']
+        for address in project['wallets']:
+            address_data = get_address_data(address)
+            address_data.update({'project_id': project_id})
+            if not address_data:
+                logging.info(f"INVALID WALLET: {address}")
+                continue
+            insert_wallet(address_data)
 
-            for wallet in project_wallets:
-                if wallet['address'] not in existing_wallets:
-                    wallet.update({'project_id': project_id})
-                    wallet_data = insert_wallet(wallet)
-                    existing_wallets.append(wallet_data['address'])
 
+def insert_project_github_events(query_num, project_id, start_date, end_date):
 
-def insert_project_github_events(query_num, project_id, github_org):
+    project_data = select_project(project_id)
+    github_org = project_data['github_org']
 
-    events = execute_org_query(query_num, github_org, start, end)
+    events = execute_org_query(query_num, github_org, start_date, end_date)
     for event in events:
         event.update({"project_id": project_id, "amount": 1})
 
-    batch_bulk_insert_events(events, 2000)
-    print(f"Successfully added {len(events)} events for project {github_org}")          
-
-
-def insert_all_events():
-
-    data, count = (supabase
-        .table(projects_table)
-        .select('id', 'github_org')
-        .execute())
-
-    projects = data[1]
-    for query_num, query_type in enumerate(QUERIES):
-        for project in projects:            
-            if check_if_events_exist(project['id'], query_type):
-                continue
-            print("\n***", project['github_org'], "***")
-            insert_project_github_events(query_num, project['id'], project['github_org'])
+    bulk_insert(EVENTS_TABLE, events)
+    logging.info(f"Successfully added {len(events)} events for project {github_org}")
 
 
 def insert_zerion_transactions():
@@ -151,8 +186,9 @@ def insert_zerion_transactions():
 
 
 if __name__ == "__main__":
-    pass
+    
+    populate_from_json("data/gitcoin-allo/allo.json")
+    #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+    #insert_project_github_events(1, 1, start, end)
 
-    #insert_projects_and_wallets_from_json("data/projects.json")
-    #insert_all_events()
     #insert_zerion_transactions()

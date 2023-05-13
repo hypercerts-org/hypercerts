@@ -109,9 +109,9 @@ def get_gitcoin_grants_transfers():
 
 
 if __name__ == '__main__':
-    #data = get_optimism_fdn_transfers()
-    data = get_gitcoin_grants_transfers()
+    data = get_optimism_fdn_transfers()
+    #data = get_gitcoin_grants_transfers()
 
     import pandas as pd
-    pd.DataFrame(data).to_csv("~/Desktop/text.csv")
+    pd.DataFrame(data).to_csv("~/Desktop/op_transfers.csv")
     print(len(data), data[-1])
