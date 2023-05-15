@@ -27,28 +27,22 @@ GRANTS = {
         "action": "tokentx",
         "token_symbols": ['OP']
     },
-    "Gitcoin Grants": {
+    "Gitcoin Grants - Test": {
         "chain": "mainnet",
         "address": "0x7d655c57f71464B6f83811C55D84009Cd9f5221C",
         "action": "txlist",
         "token_symbols": ['ETH', 'DAI']
-    },
-    "Gitcoin: Eth Infra Beta Round": {
-        "chain": "mainnet",
-        "address": "0xda2f26b30e8f5aa9cbe9c5b7ed58e1ca81d0ebf2",
-        "action": "txlistinternal"
     }
 }
 
 
 def convert_timestamp(ts):
-    fmt = "%Y-%m-%dT%H:%M:%SZ"
+
+    fmt = "%Y-%m-%d %H:%M:%S"
     return datetime.fromtimestamp(int(ts)).strftime(fmt)
 
 
-def get_txs(grant, start=0):
-
-    grant_data = GRANTS.get(grant)
+def get_txs(grant_data, start=0):
     
     if grant_data['chain'] == 'optimism':
         subdomain = "api-optimistic"
@@ -82,36 +76,23 @@ def get_transfers(grant):
         return
 
     data = []
-    print(tx_data[-1])
     for x in tx_data:
         data.append({
-            'date': convert_timestamp(x['timeStamp']),
-            'from': x['from'],
-            'to': x['to'],
+            'timestamp': convert_timestamp(x['timeStamp']),
+            'data_source': 'etherscan',
+            'event_type': 'grant',
             'amount': float(x['value']) / (10**int(x.get('tokenDecimal', 18))),
-            #'token': x['tokenSymbol']
+            'details': x
         })
 
     return data
 
 
-def get_optimism_fdn_transfers():
-
-    data = get_transfers("Optimism RetroPGF")
-    return data    
-
-
-def get_gitcoin_grants_transfers():
-
-    data = get_transfers("Gitcoin: Eth Infra Beta Round")
-    return data        
-
-
-
 if __name__ == '__main__':
-    data = get_optimism_fdn_transfers()
-    #data = get_gitcoin_grants_transfers()
 
-    import pandas as pd
-    pd.DataFrame(data).to_csv("~/Desktop/op_transfers.csv")
-    print(len(data), data[-1])
+    grant = GRANTS.get("Optimism RetroPGF")
+    data = get_transfers(grant)
+    print(data[-1])
+    print(len(data))
+
+    #data = get_gitcoin_grants_transfers()

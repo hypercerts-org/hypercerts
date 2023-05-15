@@ -11,6 +11,7 @@ from validate_eth_address import get_address_data
 
 from events.github_events import execute_org_query
 from events.zerion_scraper import convert_csvs_to_records
+from events.funding_rounds import get_transfers
 
 
 START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
@@ -19,7 +20,8 @@ QUERIES = ["merged PR", "issue", "created PR"]
 
 PROJECTS_TABLE = 'projects'
 WALLETS_TABLE = 'wallets'
-EVENTS_TABLE = 'events'
+EVENTS_TABLE = 'events_duplicate'
+FUNDING_TABLE = 'funding'
 
 
 # -------------- DATABASE SETUP -------------- #
@@ -53,11 +55,11 @@ def select_col(table, col):
     return lst
 
 
-def select_project(project_id):
+def select_row(table, row_id):
     response = (supabase
-        .table(PROJECTS_TABLE)
+        .table(table)
         .select('*')
-        .eq('id', project_id)
+        .eq('id', row_id)
         .execute())
     if response.data:
         return response.data[0]
@@ -131,6 +133,41 @@ def insert_wallet(wallet_data):
     return insert(WALLETS_TABLE, wallet_data)
 
 
+def insert_grant_funding(funding_id):
+
+    funding_data = select_row(FUNDING_TABLE, funding_id)
+    if not funding_data:
+        return
+
+    grant = {
+            "chain": funding_data['chain'],
+            "address": funding_data['address'],
+            "token": [funding_data['token']],
+            "action": "tokentx"
+    }
+    transfers_data = get_transfers(grant)
+
+    if not transfers_data:
+        return
+
+    wallet_mapping = {
+        w['address'].lower():w['id']
+        for w in select_all(WALLETS_TABLE)
+    }
+
+    events_data = []
+    for event in transfers_data:
+        addr = event['details'].get('to')
+        if addr:
+            project_id = wallet_mapping.get(addr.lower())
+            if project_id:
+                event.update({'project_id': project_id})
+                event['details'].update({'funding_id': funding_id})
+                events_data.append(event)
+
+    return insert(EVENTS_TABLE, events_data)
+
+
 # -------------- POPULATE DB SCRIPTS------------- #
 
 
@@ -156,7 +193,7 @@ def populate_from_json(json_path):
 
 def insert_project_github_events(query_num, project_id, start_date, end_date):
 
-    project_data = select_project(project_id)
+    project_data = select_row(PROJECTS_TABLE, project_id)
     github_org = project_data['github_org']
 
     events = execute_org_query(query_num, github_org, start_date, end_date)
@@ -184,9 +221,15 @@ def insert_zerion_transactions():
             .execute())
 
 
+# -------------- MAIN SCRIPT -------------------- #
+
+
 if __name__ == "__main__":
     
+    #pass
+
     #populate_from_json("data/gitcoin-allo/allo.json")
-    start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
-    insert_project_github_events(1, 1, start, end)
+    #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+    #insert_project_github_events(1, 1, start, end)
     #insert_zerion_transactions()
+    insert_grant_funding(15)
