@@ -22,8 +22,7 @@ import { TransferRestrictions } from "./types/hypercerts.js";
 
 export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
 
-export { HypercertClient };
-export { TransferRestrictions };
+export { HypercertClient, TransferRestrictions };
 
 export { HypercertsStorage, HypercertMinting };
 
