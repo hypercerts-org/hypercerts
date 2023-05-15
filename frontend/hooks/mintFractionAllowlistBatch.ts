@@ -4,7 +4,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { SUPABASE_TABLE } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { supabase } from "../lib/supabase-client";
-import { verifyFractionClaim } from "../lib/verify-fraction-claim";
+import { ClaimProof, verifyFractionClaim } from "../lib/verify-fraction-claim";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
@@ -17,7 +17,6 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { ClaimProof } from "@hypercerts-org/hypercerts-sdk";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
