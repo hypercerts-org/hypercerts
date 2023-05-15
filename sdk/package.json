@@ -73,7 +73,7 @@
     "clean": "rm -rf ./dist",
     "prebuild": "yarn clean && yarn types:json && yarn graph:build:esm",
     "prepack": "yarn build",
-    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",
+    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest --maxWorkers=2",
     "types:json": "yarn run json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
   },
   "type": "module"
