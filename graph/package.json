@@ -23,10 +23,10 @@
     "test": "graph test"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.49.0",
-    "@graphprotocol/graph-ts": "0.30.0"
+    "@graphprotocol/graph-cli": "0.44.0",
+    "@graphprotocol/graph-ts": "0.29.3"
   },
   "devDependencies": {
-    "matchstick-as": "^0.5.2"
+    "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts"
   }
 }
