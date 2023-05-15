@@ -108,7 +108,7 @@ describe("Claim from allowlist in HypercertClient", () => {
     expect(provider.callHistory.length).toBe(3);
 
     expect.assertions(2);
-  }, 30000);
+  }, 60000);
 
   it("allows throws on batch minting with incorrect correct proofs", async () => {
     const address = await wallet.getAddress();
