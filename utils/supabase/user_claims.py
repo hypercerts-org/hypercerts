@@ -111,7 +111,8 @@ def append_to_csv_file(tokens: list, csv_filepath: str = CSV_FILEPATH) -> None:
 
     df = pd.read_csv(csv_filepath, index_col="tokenId")
     for token in tokens:
-        df = df.append(pd.Series(token, name=token["tokenId"]))
+        new_row = pd.Series(token, name=token["tokenId"])
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
     df.to_csv(csv_filepath)
 
