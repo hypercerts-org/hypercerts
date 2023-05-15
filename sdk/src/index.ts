@@ -39,5 +39,4 @@ export type {
   ClaimTokensByClaimQuery,
   Allowlist,
   AllowlistEntry,
-  ClaimProof,
 };
