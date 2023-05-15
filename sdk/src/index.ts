@@ -17,8 +17,8 @@ import type { HypercertClaimdata } from "./types/claimdata.js";
 import type { HypercertMetadata } from "./types/metadata.js";
 import { formatHypercertData } from "./utils/formatter.js";
 import { validateClaimData, validateMetaData, validateAllowlist } from "./validator/index.js";
-import type { Allowlist, AllowlistEntry, ClaimProof } from "./types/hypercerts.js";
 import { TransferRestrictions } from "./types/hypercerts.js";
+import type { Allowlist, AllowlistEntry, ClaimProof } from "./types/hypercerts.js";
 
 export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
 
