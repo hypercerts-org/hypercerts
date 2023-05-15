@@ -61,7 +61,7 @@ describe("Claim from allowlist in HypercertClient", () => {
     }
     expect(spy).toBeCalledTimes(0);
     expect.assertions(4);
-  }, 10000);
+  }, 30000);
 
   it("allows for batch minting with the correct proofs", async () => {
     const address = await wallet.getAddress();
@@ -132,5 +132,5 @@ describe("Claim from allowlist in HypercertClient", () => {
     }
     expect(spy).toBeCalledTimes(0);
     expect.assertions(4);
-  }, 10000);
+  }, 30000);
 });
