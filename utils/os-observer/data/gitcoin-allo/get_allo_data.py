@@ -46,7 +46,7 @@ def convert_timestamp(timestamp):
     if isinstance(timestamp, str):
         timestamp = int(timestamp)
     dt = datetime.fromtimestamp(timestamp)
-    return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def flatten_dict(d):
@@ -103,6 +103,7 @@ def get_allo_data():
             funding_round_data.append({
                 "ecosystem": "Gitcoin",
                 "name": funding_round['metadata']['name'],
+                "address": round_id,
                 "token": "DAI" if funding_round['token'] == DAI_ADDRESS else funding_round['token'],
                 "amount": amount, 
                 'start_date': convert_timestamp(start_time), 
@@ -146,7 +147,9 @@ def get_allo_data():
     with open(JSON_PATH_RAW, 'w') as f:
          json.dump(project_data, f, indent=4)    
 
-    pd.DataFrame(funding_round_data).to_csv(ROUND_DATA_CSV)
+    df = pd.DataFrame(funding_round_data)
+    df.index.name = 'id'
+    df.to_csv(ROUND_DATA_CSV)
 
 
 if __name__ == '__main__':
