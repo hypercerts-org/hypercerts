@@ -76,7 +76,6 @@ def bulk_insert(table, records, lim=2000):
         insert(table, records[i:i + lim])
 
 
-
 # -------------- DB INSERT SCRIPTS -------------- #
 
 
@@ -187,8 +186,7 @@ def insert_zerion_transactions():
 
 if __name__ == "__main__":
     
-    populate_from_json("data/gitcoin-allo/allo.json")
-    #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
-    #insert_project_github_events(1, 1, start, end)
-
+    #populate_from_json("data/gitcoin-allo/allo.json")
+    start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+    insert_project_github_events(1, 1, start, end)
     #insert_zerion_transactions()

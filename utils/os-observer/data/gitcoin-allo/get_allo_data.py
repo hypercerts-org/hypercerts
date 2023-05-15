@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import logging
 import pandas as pd
@@ -9,9 +10,11 @@ from ai_description import summarize
 # https://github.com/gitcoinco/allo-indexer
 CHAIN_NUM      = "1"
 CHAINSAUCE_URL = "https://indexer-grants-stack.gitcoin.co/data/"
-JSON_PATH_RAW  = "allo_raw.json"
-JSON_PATH      = "allo.json"
-ROUND_DATA_CSV = "round_data.csv"
+JSON_PATH_RAW  = "data/gitcoin-allo/allo_raw.json"
+JSON_PATH      = "data/gitcoin-allo/allo.json"
+ROUND_DATA_CSV = "data/gitcoin-allo/round_data.csv"
+DAI_ADDRESS    = "0x6b175474e89094c44da98b954eedeac495271d0f"
+START_TIME     = 1682424000
 
 
 def setup_logging():
@@ -36,6 +39,14 @@ def extract_github_owner(string):
             return match.group(1) or match.group(2) or match.group(3)
 
     return None
+
+
+def convert_timestamp(timestamp):
+
+    if isinstance(timestamp, str):
+        timestamp = int(timestamp)
+    dt = datetime.fromtimestamp(timestamp)
+    return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def flatten_dict(d):
@@ -84,15 +95,20 @@ def get_allo_data():
     for funding_round in round_data:
         
         details = flatten_dict(funding_round)
-        round_id = funding_round['id']        
-        funding_round_data.append({
-            "ecosystem": "Gitcoin",
-            "name": funding_round['metadata']['name'],
-            "amount": funding_round['matchAmountUSD'], 
-            'start_date': funding_round['roundStartTime'], 
-            'end_date': funding_round['roundEndTime'],
-            'details': details
-        })
+        round_id = funding_round['id']
+        start_time = int(funding_round['roundStartTime'])
+        amount = int(funding_round['matchAmount']) / (10**18)
+
+        if  start_time >= START_TIME and amount > 1:        
+            funding_round_data.append({
+                "ecosystem": "Gitcoin",
+                "name": funding_round['metadata']['name'],
+                "token": "DAI" if funding_round['token'] == DAI_ADDRESS else funding_round['token'],
+                "amount": amount, 
+                'start_date': convert_timestamp(start_time), 
+                'end_date': convert_timestamp(funding_round['roundEndTime']),
+                'details': details
+            })
 
         logging.info(f"Gathering data for round: {funding_round['metadata']['name']}...")
         url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "projects.json"])
@@ -136,4 +152,4 @@ def get_allo_data():
 if __name__ == '__main__':
     setup_logging()
     get_allo_data()
-    clean_allo_data()
+    #clean_allo_data()
