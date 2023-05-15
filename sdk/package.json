@@ -18,7 +18,7 @@
   "dependencies": {
     "@graphprotocol/client-add-source-name": "^1.0.16",
     "@graphprotocol/client-cli": "^2.2.15",
-    "@hypercerts-org/hypercerts-protocol": "0.0.10",
+    "@hypercerts-org/hypercerts-protocol": "*",
     "@openzeppelin/merkle-tree": "^1.0.4",
     "@types/jest": "^29.2.5",
     "ajv": "^8.11.2",
@@ -73,7 +73,7 @@
     "clean": "rm -rf ./dist",
     "prebuild": "yarn clean && yarn types:json && yarn graph:build:esm",
     "prepack": "yarn build",
-    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest --maxWorkers=2",
+    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",
     "types:json": "yarn run json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
   },
   "type": "module"

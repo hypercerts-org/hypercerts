@@ -1,4 +1,4 @@
-import { BigNumberish, BytesLike } from "ethers";
+import { BigNumberish } from "ethers";
 
 /**
  * Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
@@ -26,10 +26,3 @@ export type AllowlistEntry = {
  * Helper type to allow for a more readable Allowlist type
  */
 export type Allowlist = AllowlistEntry[];
-
-export type ClaimProof = {
-  claimId: BigNumberish;
-  units: BigNumberish;
-  proof: BytesLike[];
-  root?: BytesLike;
-};
