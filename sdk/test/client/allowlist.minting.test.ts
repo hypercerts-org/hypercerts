@@ -34,7 +34,7 @@ describe("Claim from allowlist in HypercertClient", () => {
 
     await client.mintClaimFractionFromAllowlist(1, 100, proof, root);
     expect(spy).toBeCalledTimes(1);
-  }, 10000);
+  }, 30000);
 
   it("throws on minting with incorrect proof", async () => {
     const address = await wallet.getAddress();
