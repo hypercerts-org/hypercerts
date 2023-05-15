@@ -19,6 +19,7 @@ w3 = Web3(Web3.HTTPProvider(f"https://eth-mainnet.g.alchemy.com/v2/{ALCHEMY_KEY}
 op = Web3(Web3.HTTPProvider(f"https://opt-mainnet.g.alchemy.com/v2/{ALCHEMY_KEY_OP}"))
 
 # Grants Database
+# TODO refactor to pull from Supabase
 GRANTS = {
     "Optimism RetroPGF": {
         "chain": "optimism",
@@ -104,7 +105,6 @@ def get_gitcoin_grants_transfers():
 
     data = get_transfers("Gitcoin: Eth Infra Beta Round")
     return data        
-
 
 
 
