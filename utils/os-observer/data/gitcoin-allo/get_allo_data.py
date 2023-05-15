@@ -104,6 +104,7 @@ def get_allo_data():
                 "ecosystem": "Gitcoin",
                 "name": funding_round['metadata']['name'],
                 "address": round_id,
+                "chain": "mainnet",
                 "token": "DAI" if funding_round['token'] == DAI_ADDRESS else funding_round['token'],
                 "amount": amount, 
                 'start_date': convert_timestamp(start_time), 
