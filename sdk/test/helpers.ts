@@ -1,9 +1,39 @@
-import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
+import { BigNumber, ContractReceipt, ContractTransaction, ethers } from "ethers";
 
-import { HypercertMetadata } from "../src/index.js";
+import { Allowlist, AllowlistEntry, HypercertMetadata } from "../src/index.js";
 import { formatHypercertData } from "../src/utils/formatter.js";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 export type TestDataType = Parameters<typeof formatHypercertData>[0];
+
+const getAllowlist = ({
+  size = 10,
+  units = 100,
+  address,
+}: {
+  size?: number;
+  units?: number;
+  address?: string;
+}): { allowlist: Allowlist; merkleTree: StandardMerkleTree<ethers.BigNumberish[]> } => {
+  const allowlist: Allowlist = [];
+  for (let i = 0; i < size; i++) {
+    const allowListEntry: AllowlistEntry = {
+      address: ethers.Wallet.createRandom().address,
+      units: BigNumber.from(units),
+    };
+    allowlist.push(allowListEntry);
+  }
+
+  if (address) {
+    allowlist[0].address = address;
+  }
+
+  const merkleTree = StandardMerkleTree.of(
+    allowlist.map((p) => [p.address, p.units]),
+    ["address", "uint256"],
+  );
+  return { allowlist, merkleTree };
+};
 
 const getRawInputData = (overrides?: Partial<TestDataType>): Partial<TestDataType> => {
   const testData = {
@@ -68,4 +98,4 @@ const mockContractResponse = (): Promise<ContractTransaction> => {
   return Promise.resolve(transaction);
 };
 
-export { getFormattedMetadata, getRawInputData, mockContractResponse };
+export { getAllowlist, getFormattedMetadata, getRawInputData, mockContractResponse };
