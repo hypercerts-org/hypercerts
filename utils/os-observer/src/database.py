@@ -20,7 +20,7 @@ QUERIES = ["merged PR", "issue", "created PR"]
 
 PROJECTS_TABLE = 'projects'
 WALLETS_TABLE = 'wallets'
-EVENTS_TABLE = 'events_duplicate'
+EVENTS_TABLE = 'events'
 FUNDING_TABLE = 'funding'
 
 
@@ -226,10 +226,10 @@ def insert_zerion_transactions():
 
 if __name__ == "__main__":
     
-    #pass
+    pass
 
     #populate_from_json("data/gitcoin-allo/allo.json")
     #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
     #insert_zerion_transactions()
-    insert_grant_funding(15)
+    #insert_grant_funding(15)
