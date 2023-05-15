@@ -1,0 +1,14 @@
+# ignore local storage artifacts
+.env
+__pycache__/
+.DS_Store
+.ipynb_checkpoints/
+*.log
+*.ipynb
+data/temp/
+data/convert.py
+data/projects.yaml
+data/*.csv
+data/gitcoin-allo/*.json
+data/gitcoin-allo/*.csv
+

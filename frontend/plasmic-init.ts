@@ -15,6 +15,7 @@ import {
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
+import { SupabaseToChart } from "./components/supabase-to-chart";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -31,7 +32,7 @@ export const PLASMIC = initPlasmicLoader({
   ],
   // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
-  preview: false,
+  preview: true,
 });
 
 /**
@@ -459,6 +460,48 @@ PLASMIC.registerComponent(SupabaseQuery, {
   },
   providesData: true,
   importPath: "./components/supabase-query",
+});
+
+PLASMIC.registerComponent(SupabaseToChart, {
+  name: "SupabaseToChart",
+  props: {
+    variableName: {
+      type: "string",
+      helpText: "Name to use in Plasmic data picker",
+    },
+    children: "slot",
+    loading: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+    ignoreLoading: {
+      type: "boolean",
+      helpText: "Don't show 'loading' even if we're still loading data",
+    },
+    githubOrgs: {
+      type: "array",
+      defaultValue: [],
+      helpText: "List of GitHub orgs to compare",
+    },
+    eventTypes: {
+      type: "array",
+      defaultValue: [],
+      helpText: "List of event types to display",
+    },
+    startDate: {
+      type: "string",
+      helpText: "e.g. 2022-04-01",
+    },
+    endDate: {
+      type: "string",
+      helpText: "e.g. 2022-04-01",
+    },
+  },
+  providesData: true,
+  importPath: "./components/supabase-to-chart",
 });
 
 PLASMIC.registerComponent(ClaimAllFractionsButton, {

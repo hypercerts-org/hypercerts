@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "turbo run build",
+    "build:frontend": "turbo run build --filter=hypercerts-frontend",
     "build:site": "turbo run build --filter=hypercerts-frontend --filter=hypercerts-docs --filter=hypercerts-protocol && yarn copy",
     "build:defender": "turbo run build --filter=hypercerts-defender",
     "build:graph": "turbo run build --filter=hypercerts-graph",
