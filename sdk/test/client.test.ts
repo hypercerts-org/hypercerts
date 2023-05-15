@@ -1,10 +1,9 @@
 import { expect } from "chai";
 import { ethers } from "ethers";
 
-import { HypercertClient, HypercertMetadata } from "../src/index.js";
+import { HypercertClient, HypercertMetadata, TransferRestrictions, Allowlist } from "../src/index.js";
 import HypercertsStorage from "../src/storage.js";
 import { ClientError, UnsupportedChainError } from "../src/types/errors.js";
-import { Allowlist, TransferRestrictions } from "../src/types/hypercerts.js";
 import { reloadEnv } from "./setup-tests.js";
 
 describe("HypercertClient", () => {

@@ -26,7 +26,11 @@ type HypercertsMinterType = {
     totalUnits: BigNumberish,
     transferRestriction: TransferRestrictions,
   ) => Promise<ContractTransaction>;
-  transferRestrictions: { AllowAll: 0; DisallowAll: 1; FromCreatorOnly: 2 };
+  transferRestrictions: {
+    AllowAll: 0;
+    DisallowAll: 1;
+    FromCreatorOnly: 2;
+  };
 };
 
 /**
@@ -62,7 +66,11 @@ const HypercertMinting = ({ provider, chainConfig }: HypercertsMinterProps): Hyp
   return {
     contract,
     mintHypercert,
-    transferRestrictions: TransferRestrictions,
+    transferRestrictions: {
+      AllowAll: 0,
+      DisallowAll: 1,
+      FromCreatorOnly: 2,
+    },
   };
 };
 
