@@ -149,9 +149,10 @@ export default class HypercertClient implements HypercertClientInterface {
     // check if the sum of the fractions is equal to the total units
     const totalUnits = await this.contract["unitsOf(uint256)"](claimId);
     const sumFractions = fractions.reduce((a, b) => BigNumber.from(a).add(b), BigNumber.from(0));
-    if (sumFractions !== totalUnits)
+    if (!BigNumber.from(sumFractions).eq(totalUnits))
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
+    console.log("CALLING SPLIT FREACTION");
     return this.contract.splitFraction(signerAddress, claimId, fractions);
   };
 
