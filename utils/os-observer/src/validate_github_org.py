@@ -30,13 +30,14 @@ def validate_github_org(owner):
     try:
         response_json = response.json()
         response.raise_for_status()
+        data = response_json['data']
     except:
         print(f"Encountered error retrieving repos for https://github.com/{owner}.")
-        print(f"Response JSON: {json.dumps(response.json(), indent=2)}")
+        print(response_json)
         return False
 
-    data = response_json['data'].get('organization')
-    if data:
+    org = data.get('organization')
+    if org:
     	return True
 
     print(f"No valid organization / repositories found for https://github.com/{owner}")

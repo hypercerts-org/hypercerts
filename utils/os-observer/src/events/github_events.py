@@ -4,7 +4,7 @@ import json
 import os
 import requests
 
-from src.graphql_queries import QUERIES
+from .graphql_queries import QUERIES
 
 # -------------- HELPER FUNCTIONS -------------- #
 

@@ -22,12 +22,12 @@ supabase: Client = create_client(url, key)
 
 def fetch_list_of_wallets():
     
-    data, count = (supabase
+    response = (supabase
         .table('wallets')
         .select('address, project_id')
         .execute())
     
-    return data[1]
+    return response.data
 
 # -------------------- SCRAPER -------------------- #
 
@@ -186,12 +186,12 @@ def convert_csvs_to_records():
 
 if __name__ == '__main__':
     
-    test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
+    #test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
     # consolidate_csvs()
     
-    # wallet_data = fetch_list_of_wallets()
-    # for w in wallet_data:
-    #     addr = w['address']
-    #     retrieve_wallet_history(addr)
+    wallet_data = fetch_list_of_wallets()
+    for w in wallet_data:
+        addr = w['address']
+        retrieve_wallet_history(addr, override=True)
 
     # r = convert_csvs_to_records()
