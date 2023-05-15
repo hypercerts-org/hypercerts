@@ -7,7 +7,7 @@ import { HypercertMetadata, validateMetaData } from "./index.js";
 import HypercertsStorage from "./storage.js";
 import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
 import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
-import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
+import { Allowlist, ClaimProof, TransferRestrictions } from "./types/hypercerts.js";
 import { getConfig } from "./utils/config.js";
 import { validateAllowlist } from "./validator/index.js";
 
@@ -231,5 +231,34 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+  };
+
+  batchMintClaimFractionFromAllowlist = async (proofs: ClaimProof[]): Promise<ContractTransaction> => {
+    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
+    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+
+    const signerAddress = await this.config.signer.getAddress();
+
+    //verify the proof using the OZ merkle tree library
+    for (const proofSet of proofs) {
+      const { root, proof, units } = proofSet;
+      if (root && root.length > 0) {
+        const verified = StandardMerkleTree.verify(
+          root.toString(),
+          ["address", "uint"],
+          [signerAddress, units],
+          proof.map((value) => value.toString()),
+        );
+        if (!verified) throw new MintingError("Merkle proof verification failed", { root, proof });
+      }
+    }
+
+    const bytesProofs = proofs.map((proof) => proof.proof);
+    const claimIds = proofs.map((proof) => proof.claimId);
+    const units = proofs.map((proof) => proof.units);
+
+    console.log("calling contract");
+
+    return this.contract.batchMintClaimsFromAllowlists(signerAddress, bytesProofs, claimIds, units);
   };
 }
