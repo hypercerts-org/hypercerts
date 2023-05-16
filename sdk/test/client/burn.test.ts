@@ -32,7 +32,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
     expect(provider.callHistory.length).toBe(5);
-  }, 10000);
+  });
 
   it("throws on burning fraction not owned by signer", async () => {
     const otherUser = await other.getAddress();
