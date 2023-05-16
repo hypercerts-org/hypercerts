@@ -28,7 +28,7 @@ New queries should have the following fields:
 
 - `$org`: the Github organization name (eg, `hypercerts-org`)
 - `$since`: a Github compatible timestamp, eg, `2022-01-01T00:00:00Z`
-- '$until`: a Github compatible timestamp, eg, `2023-04-22T00:00:00Z`
+- `$until`: a Github compatible timestamp, eg, `2023-04-22T00:00:00Z`
 
 **Query:**
 
@@ -59,7 +59,7 @@ New queries should have the following fields:
     }
   }
 }
-
+```
 ## Normalizing Query Results
 
 The result should then be normalized as follows:
@@ -91,4 +91,3 @@ If your query requires variables, you can provide them in the "Query Variables" 
 ### Rate Limiting
 
 The GitHub API limits each request to 100 records and 10 pages. This means you can't extract more than 1000 records from a single query. You can break the query up into smaller pieces by reducing the date range, or providing other filtering parameters.
-```
