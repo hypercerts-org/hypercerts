@@ -1,4 +1,4 @@
-import { BigNumberish, BytesLike } from "ethers";
+import { BigNumberish } from "ethers";
 
 /**
  * Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
@@ -6,11 +6,13 @@ import { BigNumberish, BytesLike } from "ethers";
  * @dev DisallowAll: All transfers are disallowed
  * @dev FromCreatorOnly: Only the creator can transfer the Hypercert
  */
-export enum TransferRestrictions {
-  AllowAll = 0,
-  DisallowAll = 1,
-  FromCreatorOnly = 2,
-}
+export const TransferRestrictions = {
+  AllowAll: 0,
+  DisallowAll: 1,
+  FromCreatorOnly: 2,
+} as const;
+
+export type TransferRestrictions = (typeof TransferRestrictions)[keyof typeof TransferRestrictions];
 
 /**
  * Allowlist entry for Hypercerts matching the definitions in the Hypercerts protocol
@@ -26,10 +28,3 @@ export type AllowlistEntry = {
  * Helper type to allow for a more readable Allowlist type
  */
 export type Allowlist = AllowlistEntry[];
-
-export type ClaimProof = {
-  claimId: BigNumberish;
-  units: BigNumberish;
-  proof: BytesLike[];
-  root?: BytesLike;
-};
