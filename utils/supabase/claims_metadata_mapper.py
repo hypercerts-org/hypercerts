@@ -158,7 +158,7 @@ def main():
 
     if new_claims:
         store_claims_in_supabase(new_claims)
-        #append_to_csv_file(new_claims)
+        append_to_csv_file(new_claims)
     
 
 
