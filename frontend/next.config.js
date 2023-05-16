@@ -20,6 +20,14 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
+  settings: {
+    next: {
+      rootDir: "/frontend",
+    },
+  },
+  rules: {
+    "@next/next/no-html-link-for-pages": ["/docs", "/cors-proxy"],
+  },
 };
 
 module.exports = nextConfig;

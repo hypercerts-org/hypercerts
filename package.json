@@ -50,6 +50,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Network-Goods/hypercerts.git"
+    "url": "git+https://github.com/hypercerts-org/hypercerts.git"
   }
 }

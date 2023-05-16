@@ -1830,6 +1830,13 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@dlsl/hardhat-markup@^1.0.0-rc.7":
+  version "1.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@dlsl/hardhat-markup/-/hardhat-markup-1.0.0-rc.7.tgz#965ab141478e5b55d206befd5c9f1130f1af607e"
+  integrity sha512-8uMQxeUyI6QgJfdcdn/8FHXj//Utoi7ttnw8Zmh8QPf7fj1HTWQSBtHzICGpr6warxmfku/RHDl7DsPN5MwGzA==
+  dependencies:
+    json2md "^2.0.0"
+
 "@docsearch/css@3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.3.3.tgz#f9346c9e24602218341f51b8ba91eb9109add434"
@@ -6501,10 +6508,10 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@rainbow-me/rainbowkit@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@rainbow-me/rainbowkit/-/rainbowkit-0.8.1.tgz#de93b55a4629cdd33a9acf6a8699a7cd70b29ccd"
-  integrity sha512-A8BjihvgCY/xjQWOpqgOce+uO4mmIV4Qlo3XMF87kk5WNmyLLaPx2oYTJQz1uOinWE77h4G0HozJr5wnrermgw==
+"@rainbow-me/rainbowkit@^0.12.12":
+  version "0.12.14"
+  resolved "https://registry.yarnpkg.com/@rainbow-me/rainbowkit/-/rainbowkit-0.12.14.tgz#7fd737e480fde08749e9e0e0b25c5de92f879ead"
+  integrity sha512-G7/uYl6TrDS7eiQauc5GEWQ09wCV91hs7xZqj3Af1wsLmbnJM2paUEMs0NI4rbvw0yiMkfoNYMZ2Wfl7NQLKaA==
   dependencies:
     "@vanilla-extract/css" "1.9.1"
     "@vanilla-extract/dynamic" "2.0.2"
@@ -16532,6 +16539,11 @@ indent-string@^4.0.0:
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-4.0.0.tgz#624f8f4497d619b2d9768531d58f4122854d7251"
   integrity sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==
 
+indento@^1.1.13:
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/indento/-/indento-1.1.13.tgz#751331b327c04740eeb7be40c5606e6e255c9e36"
+  integrity sha512-YZWk3mreBEM7sBPddsiQnW9Z8SGg/gNpFfscJq00HCDS7pxcQWWWMSVKJU7YkTRyDu1Zv2s8zaK8gQWKmCXHlg==
+
 infima@0.2.0-alpha.43:
   version "0.2.0-alpha.43"
   resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.43.tgz#f7aa1d7b30b6c08afef441c726bac6150228cbe0"
@@ -18969,6 +18981,13 @@ json-text-sequence@~0.1.0:
   integrity sha512-L3mEegEWHRekSHjc7+sc8eJhba9Clq1PZ8kMkzf8OxElhXc8O4TS5MwcVlj9aEbm5dr81N90WHC5nAz3UO971w==
   dependencies:
     delimit-stream "0.1.0"
+
+json2md@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/json2md/-/json2md-2.0.0.tgz#9ea4404183b836c39dfa886b4bbf25c8186694eb"
+  integrity sha512-4PIMtD0zTfQZWcUId1EyHY2BQ2EG/imHWHkGFbXYPlczW8G6wPJA/BRVN3e5v6NPwFUCcoFvUsCeo6rzV2CWww==
+  dependencies:
+    indento "^1.1.13"
 
 json5@2.2.3, json5@^2.1.2, json5@^2.2.2, json5@^2.2.3:
   version "2.2.3"

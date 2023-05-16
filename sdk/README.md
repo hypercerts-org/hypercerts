@@ -5,11 +5,15 @@
 ### Configuration
 
 1. Obtain your own storage keys. We use both NFT.storage (for NFT metadata) and web3.storage (for other data).
-  - Create an API key on [NFT.Storage](https://nft.storage/) by going [here](https://nft.storage/manage). Add this to your config.
-  - Create an API key on [web3.storage](https://web3.storage/) by going [here](https://web3.storage/manage). Add this to your config.
+
+- Create an API key on [NFT.Storage](https://nft.storage/) by going [here](https://nft.storage/manage). Add this to your
+  config.
+- Create an API key on [web3.storage](https://web3.storage/) by going [here](https://web3.storage/manage). Add this to
+  your config.
 
 2. Configure your keys
-  - Copy `.env.template` to `.env` and add your keys.
+
+- Copy `.env.template` to `.env` and add your keys.
 
 ### Dependencies
 
@@ -25,7 +29,7 @@ yarn build
 
 ## Interface
 
-[API documentation](/docs/API.md)
+[API documentation](https://hypercerts.org/docs/developer/api/sdk)
 [Graph playground](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet)
 
 ## Packages
@@ -48,10 +52,9 @@ GraphQL client for Hypercerts with predefined queries and client
 - Graph entities
 - Hypercert domain
 
-
 -- to be rewritten:
-* Example metadata schema's
-* Yup validation
 
+- Example metadata schema's
+- Yup validation
 
 Wrapper for [Graph-client](https://github.com/graphprotocol/graph-client)
