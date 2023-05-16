@@ -6,12 +6,12 @@ import pandas as pd
 from supabase import create_client, Client
 import sys
 
-from validate_github_org import validate_github_org
-from validate_eth_address import get_address_data
+from src.validate_github_org import validate_github_org
+from src.validate_eth_address import get_address_data
 
-from events.github_events import execute_org_query
-from events.zerion_scraper import convert_csvs_to_records
-from events.funding_rounds import get_transfers
+from src.events.github_events import execute_org_query
+from src.events.zerion_scraper import convert_csvs_to_records
+from src.events.funding_rounds import get_transfers
 
 
 START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
