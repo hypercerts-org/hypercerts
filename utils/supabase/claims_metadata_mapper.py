@@ -143,9 +143,9 @@ def append_to_csv_file(claims: list, csv_filepath: str = CSV_FILEPATH) -> None:
 
     df = pd.read_csv(csv_filepath, index_col="claimId")
     for claim in claims:
-        df = df.append(pd.Series(claim, name=claim["claimId"]))
-
-    df.to_csv(csv_filepath)
+        new_row = pd.Series(claim, name=token["claimId"])
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df.to_csv(csv_filepath)
 
 
 def main():
@@ -158,7 +158,7 @@ def main():
 
     if new_claims:
         store_claims_in_supabase(new_claims)
-        append_to_csv_file(new_claims)
+        #append_to_csv_file(new_claims)
     
 
 
