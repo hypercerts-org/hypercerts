@@ -1,5 +1,5 @@
 import { hypercertsStorage } from "../lib/hypercerts-storage";
-import { firstClaims } from "@hypercerts-org/hypercerts-sdk";
+import { firstClaims, QueryParams } from "@hypercerts-org/hypercerts-sdk";
 import { useQuery } from "@tanstack/react-query";
 
 export const useClaimMetadata = (cid?: string | null) =>
@@ -7,6 +7,6 @@ export const useClaimMetadata = (cid?: string | null) =>
     cid ? hypercertsStorage.getMetadata(cid) : null,
   );
 
-export const useListFirstClaims = () => {
-  return useQuery(["firstClaims"], () => firstClaims(10));
+export const useListFirstClaims = (params?: QueryParams) => {
+  return useQuery(["firstClaims"], () => firstClaims(params));
 };

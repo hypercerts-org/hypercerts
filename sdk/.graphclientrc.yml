@@ -22,3 +22,7 @@ documents:
 
 codegen:
   contextType: "MeshContext & { chainName: string }"
+
+plugins:
+  - pollingLive:
+      defaultInterval: 5000
