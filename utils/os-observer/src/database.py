@@ -6,12 +6,12 @@ import pandas as pd
 from supabase import create_client, Client
 import sys
 
-from src.validate_github_org import validate_github_org
-from src.validate_eth_address import get_address_data
+from validate_github_org import validate_github_org
+from validate_eth_address import get_address_data
 
-from src.events.github_events import execute_org_query
-from src.events.zerion_scraper import convert_csvs_to_records
-from src.events.funding_rounds import get_transfers
+from events.github_events import execute_org_query
+from events.zerion_scraper import convert_csvs_to_records
+from events.funding_rounds import get_transfers
 
 
 START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
@@ -183,11 +183,11 @@ def populate_from_json(json_path):
         results = insert_project(project)
         project_id = results[0]['id']
         for address in project['wallets']:
-            address_data = get_address_data(address)
-            address_data.update({'project_id': project_id})
+            address_data = get_address_data(address)            
             if not address_data:
                 logging.info(f"INVALID WALLET: {address}")
                 continue
+            address_data.update({'project_id': project_id})
             insert_wallet(address_data)
 
 
@@ -226,9 +226,8 @@ def insert_zerion_transactions():
 
 if __name__ == "__main__":
     
-    pass
-
-    #populate_from_json("data/gitcoin-allo/allo.json")
+    pass 
+    #populate_from_json("data/op-rpgf2/updated_projects.json")
     #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
     #insert_zerion_transactions()
