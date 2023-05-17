@@ -4,7 +4,7 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { StorageError } from "../types/errors.js";
+import { InvalidOrMissingError, StorageError } from "../types/errors.js";
 import { EasEvaluation, Evaluation, IpfsEvaluation } from "../types/evaluation.js";
 import EasEvaluator from "./eas.js";
 
@@ -58,12 +58,18 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     const evaluationData = evaluation.evaluation;
     if (isEasEvaluation(evaluationData)) {
       console.log("EAS");
-      data = this.eas.signOfflineEvaluation(evaluation);
+      data = { ...evaluationData, signedData: await this.eas.signOfflineEvaluation(evaluation) };
     } else if (isIpfsEvaluation(evaluationData)) {
       console.log("IPFS");
       //TODO Do we want users to sign this as well? Or is IPFS more for any raw data?
-      data = evaluation;
+      data = evaluationData;
     }
+
+    if (!data) {
+      throw new Error("No data found for evaluation");
+    }
+
+    evaluation.evaluation = data;
 
     return this.storage.storeData(data);
   };
