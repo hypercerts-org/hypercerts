@@ -7,26 +7,12 @@
 
 export interface Evaluation {
   hypercert: {
-    chainID: string;
+    chainId: string;
     contract: string;
-    claimID: string;
+    claimId: string;
     [k: string]: unknown;
   };
-  evaluation: {
-    type: "EAS" | "IPFS";
-    oneOf?: [
-      {
-        properties: {
-          type: { const: "EAS" };
-          uid: { type: "string" };
-          contract: { type: "string"; pattern: "^0x[0-9a-fA-F]{40}$" };
-        };
-        required: ["type", "uid", "contract"];
-      },
-      { properties: { type: { const: "IPFS" }; cid: { type: "string" } }; required: ["type", "cid"] },
-    ];
-    [k: string]: unknown;
-  };
+  evaluation: EasEvaluation | IpfsEvaluation;
   hypercertRegion: {
     impactScope?: string[];
     /**
@@ -43,5 +29,17 @@ export interface Evaluation {
     contributors?: string[];
     [k: string]: unknown;
   };
+  [k: string]: unknown;
+}
+export interface EasEvaluation {
+  type: "EAS";
+  chainId: string;
+  contract: string;
+  uid: string;
+  [k: string]: unknown;
+}
+export interface IpfsEvaluation {
+  type: "IPFS";
+  cid: string;
   [k: string]: unknown;
 }

@@ -3,6 +3,7 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID } from "./constants.js";
+import HypercertEvaluator from "./evaluations/index.js";
 import { HypercertMetadata, validateMetaData } from "./index.js";
 import HypercertsStorage from "./storage.js";
 import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
@@ -10,6 +11,7 @@ import { ClientError, MalformedDataError, MintingError, StorageError } from "./t
 import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
 import { getConfig } from "./utils/config.js";
 import { validateAllowlist } from "./validator/index.js";
+import { TypedDataSigner } from "@ethersproject/abstract-signer";
 
 /**
  * Hypercerts client factory
@@ -21,8 +23,10 @@ import { validateAllowlist } from "./validator/index.js";
 export default class HypercertClient implements HypercertClientInterface {
   config: HypercertClientConfig;
   storage: HypercertsStorage;
+  evaluator: HypercertEvaluator;
   provider: ethers.providers.Provider;
-  signer?: ethers.Signer;
+  //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
+  signer?: ethers.Signer & TypedDataSigner;
   contract: HypercertMinter;
   readonly: boolean;
 
@@ -33,11 +37,15 @@ export default class HypercertClient implements HypercertClientInterface {
       config.provider ??
       new ethers.providers.JsonRpcProvider(this.config.rpcUrl) ??
       ethers.getDefaultProvider("goerli");
-    this.signer = this.config.signer ?? undefined;
+    this.signer = this.config.signer ?? new ethers.VoidSigner("");
 
     this.contract = <HypercertMinter>(
       new ethers.Contract(this.config.contractAddress, HypercertMinterABI, this.signer || this.provider)
     );
+
+    this.evaluator = new HypercertEvaluator({
+      config: { chainId: this.config.chainId, address: "", signer: this.signer, storage: this.storage },
+    });
 
     this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;
     if (this.readonly) {

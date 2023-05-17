@@ -4,56 +4,30 @@
     "hypercert": {
       "type": "object",
       "properties": {
-        "chainID": {
-          "type": "string"
+        "chainId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{1,}$"
         },
         "contract": {
           "type": "string",
           "pattern": "^0x[0-9a-fA-F]{40}$"
         },
-        "claimID": {
-          "type": "string"
+        "claimId": {
+          "type": "string",
+          "pattern": "^\\d+$"
         }
       },
-      "required": ["chainID", "contract", "claimID"]
+      "required": ["chainId", "contract", "claimId"]
     },
     "evaluation": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["EAS", "IPFS"]
+      "oneOf": [
+        {
+          "$ref": "#/definitions/easEvaluation"
         },
-        "oneOf": [
-          {
-            "properties": {
-              "type": {
-                "const": "EAS"
-              },
-              "uid": {
-                "type": "string"
-              },
-              "contract": {
-                "type": "string",
-                "pattern": "^0x[0-9a-fA-F]{40}$"
-              }
-            },
-            "required": ["type", "uid", "contract"]
-          },
-          {
-            "properties": {
-              "type": {
-                "const": "IPFS"
-              },
-              "cid": {
-                "type": "string"
-              }
-            },
-            "required": ["type", "cid"]
-          }
-        ]
-      },
-      "required": ["type", "chainID", "contract", "uid"]
+        {
+          "$ref": "#/definitions/ipfsEvaluation"
+        }
+      ]
     },
     "hypercertRegion": {
       "type": "object",
@@ -95,5 +69,41 @@
       }
     }
   },
-  "required": ["hypercert", "evaluation", "hypercertRegion"]
+  "required": ["hypercert", "evaluation", "hypercertRegion"],
+  "definitions": {
+    "easEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "EAS"
+        },
+        "chainId": {
+          "type": "string"
+        },
+        "contract": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "uid": {
+          "type": "string",
+          "pattern": "^\\d+$"
+        }
+      },
+      "required": ["type", "chainId", "contract", "uid"]
+    },
+    "ipfsEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "IPFS"
+        },
+        "cid": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "cid"]
+    }
+  }
 }

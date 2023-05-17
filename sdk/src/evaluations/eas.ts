@@ -1,24 +1,18 @@
 import { Offchain, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
-import { InvalidOrMissingError } from "src/types/errors.js";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
+import { InvalidOrMissingError } from "../types/errors.js";
+import { EasEvaluation, Evaluation } from "../types/evaluation.js";
 
-type EASConfigType = {
+type EasEvaluatorConfig = {
   address: string;
-  version: string;
   chainId: number;
+  signer: TypedDataSigner;
 };
 
-type Evaluation = {
-  claimId: string;
-  contract: string;
-  uri: string;
-};
-
-export default class EasAttestor {
-  EAS_CONFIG: EASConfigType;
+export default class EasEvaluator {
   offChain: Offchain;
   schemaEncoder: SchemaEncoder;
   signer: TypedDataSigner;
@@ -26,41 +20,40 @@ export default class EasAttestor {
   constructor({
     config = { chainId: DEFAULT_CHAIN_ID, address: "", signer: new ethers.VoidSigner("") },
   }: {
-    config?: { address: string; chainId: number; signer: TypedDataSigner };
+    config?: EasEvaluatorConfig;
   }) {
-    this.EAS_CONFIG = {
-      address: config.address,
-      version: "0.26",
-      chainId: config?.chainId,
-    };
-
-    this.offChain = new Offchain(this.EAS_CONFIG);
-    this.schemaEncoder = new SchemaEncoder("uint256 eventId, uint8 voteIndex");
+    this.offChain = new Offchain({ address: config.address, chainId: config.chainId, version: "0.26" });
+    this.schemaEncoder = new SchemaEncoder("uint256 chainId, address contract, uint256 claimId, string uri");
     this.signer = config.signer;
   }
 
-  submitEvaluation = async (evaluation: Evaluation) => {
+  signOfflineEvaluation = async (evaluation: Evaluation) => {
+    const evaluationData = evaluation.evaluation as EasEvaluation;
     // Initialize SchemaEncoder with the schema string
     const encodedData = this.schemaEncoder.encodeData([
-      { name: "claimId", value: evaluation.claimId, type: "uint256" },
-      { name: "contract", value: evaluation.contract, type: "address" },
-      { name: "uri", value: evaluation.uri, type: "string" },
+      { name: "chainId", value: evaluationData.chainId, type: "uint256" },
+      { name: "contract", value: evaluationData.contract, type: "address" },
+      { name: "claimId", value: evaluation.hypercert.claimId, type: "uint256" },
+      { name: "uri", value: evaluationData.uid, type: "string" },
     ]);
 
     if (!encodedData) {
       throw new InvalidOrMissingError("Encoding evaluation data returned invalid string", "encodedData");
     }
 
+    // Example schema on Sepolia
+    // https://sepolia.easscan.org/schema/view/0xbe6ab02c9907680b9b7d6eb8dac5b590eec64a30e863d6f2d1ce2d853990be27
     const offchainAttestation = await this.offChain.signOffchainAttestation(
       {
-        recipient: "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165",
+        // TODO who will be the recipient? The contract it points to? The creator?
+        recipient: evaluation.hypercert.contract,
         // Unix timestamp of when attestation expires. (0 for no expiration)
         expirationTime: 0,
         // Unix timestamp of current time
         time: Date.now(),
         revocable: true,
         nonce: 0,
-        schema: "0xb16fa048b0d597f5a821747eba64efa4762ee5143e9a80600d0005386edfc995",
+        schema: "0xbe6ab02c9907680b9b7d6eb8dac5b590eec64a30e863d6f2d1ce2d853990be27",
         refUID: "0x0000000000000000000000000000000000000000000000000000000000000000",
         data: encodedData,
       },
