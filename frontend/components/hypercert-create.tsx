@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import qs from "qs";
 import React, { ReactNode } from "react";
 import { toast } from "react-toastify";
-import { useNetwork } from "wagmi";
+import { useBalance, useNetwork } from "wagmi";
 import * as Yup from "yup";
 import { useMintClaimSDK } from "../hooks/mintClaimSDK";
 import {
@@ -300,6 +300,9 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
   const { hideModal } = useContractModal();
   const confetti = useConfetti();
   const { client } = useHypercertClient();
+  const { data: balance, isLoading: balanceLoading } = useBalance({
+    address: address as `0x${string}`,
+  });
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -351,6 +354,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
+          if (!balanceLoading && balance && balance.value.isZero()) {
+            console.log("No balance");
+            toast(`No balance found for wallet ${address}`, { type: "error" });
+            return;
+          }
           if (!address) {
             console.log("User not connected");
             toast("Please connect your wallet", { type: "error" });
