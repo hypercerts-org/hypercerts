@@ -6,9 +6,27 @@ const sdkConfig = { chainName: config.graphName };
 
 const sdk = getBuiltGraphSDK(sdkConfig);
 
-export const claimsByOwner = async (owner: string) =>
+type QueryParams = {
+  orderDirections: "asc" | "desc";
+  skip: number;
+  first: number;
+  paginate: boolean;
+  live: boolean;
+  [key: string]: any;
+};
+
+const defaultQueryParams: QueryParams = {
+  orderDirections: "desc",
+  skip: 0,
+  first: 100,
+  paginate: false,
+  live: false,
+};
+
+export const claimsByOwner = async (owner: string, params: QueryParams = defaultQueryParams) =>
   sdk.ClaimsByOwner({
     owner,
+    ...params,
   });
 
 export const claimById = async (id: string) =>
@@ -16,7 +34,7 @@ export const claimById = async (id: string) =>
     id,
   });
 
-export const firstClaims = async (first: number) =>
+export const firstClaims = async (params: QueryParams = defaultQueryParams) =>
   sdk.RecentClaims({
-    first,
+    ...params,
   });
