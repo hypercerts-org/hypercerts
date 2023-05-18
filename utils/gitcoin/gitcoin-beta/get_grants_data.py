@@ -10,11 +10,10 @@ import requests
 # https://github.com/gitcoinco/allo-indexer
 CHAIN_NUM      = "1"
 CHAINSAUCE_URL = "https://indexer-grants-stack.gitcoin.co/data/"
-JSON_PATH_RAW  = "data/gitcoin-allo/allo_raw.json"
-JSON_PATH      = "data/gitcoin-allo/allo.json"
-ROUND_DATA_CSV = "data/gitcoin-allo/round_data.csv"
-DAI_ADDRESS    = "0x6b175474e89094c44da98b954eedeac495271d0f"
 START_TIME     = 1682424000
+
+ROUNDS_DATA    = "data/funding-round-data.json"
+PROJECTS_DATA  = "data/projects-data.json"
 
 
 def setup_logging():
@@ -79,75 +78,64 @@ def get_funding_rounds():
             funding_round_data.append({
                 "roundId": funding_round['id'],
                 "roundName": funding_round['metadata']['name'],
-                "backgroundColor": "blue",
-                "backgroundVectorArt": "contours"
+                "backgroundColor": "blue",          # manually updated later
+                "backgroundVectorArt": "contours"   # manually updated later
             })
 
-    with open('data/funding_round_data.json', 'w') as f:
+    with open(ROUNDS_DATA, 'w') as f:
         json.dump(funding_round_data, f, indent=4)   
+
+    return funding_round_data
 
 
 def get_allo_data():
 
-    round_url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds.json"])
-    r = requests.get(round_url)
-    round_data = r.json()
-
-    funding_round_data = []
-    project_data = []
-    for funding_round in round_data:
+    with open(ROUNDS_DATA) as f:
+        funding_round_data = json.load(f)
+    
+    projects_data = {}
+    for funding_round in funding_round_data:
         
-        round_id = funding_round['id']
-        start_time = int(funding_round['roundStartTime'])
-        votes = funding_round['votes']
+        round_id = funding_round['roundId']
+        round_name = funding_round['roundName']
+        logging.info(f"Gathering data for round: {round_name}...")
 
-        if start_time >= START_TIME and votes > 10:        
-            funding_round_data.append({
-                "roundId": round_id,
-                "roundName": funding_round['metadata']['name'],
-                "backgroundColor": "blue",
-                "backgroundVectorArt": "contours"
-            })
+        url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "projects.json"])
+        projects_json = requests.get(url).json()
 
-        # logging.info(f"Gathering data for round: {funding_round['metadata']['name']}...")
-        # url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "projects.json"])
-        # projects_json = requests.get(url).json()
+        for project in projects_json:    
 
-        # for project in projects_json:    
-
-        #     if project['status'] != "APPROVED":
-        #         continue
+            if project['status'] != "APPROVED":
+                continue
             
-        #     application = project['metadata']['application']
-        #     application.pop('answers')
-        #     application['project'].pop('credentials')
-        #     details = flatten_dict(application)
+            projectId = project.get('id')
+            if projects_data.get(projectId):
+                projects_data[projectId]['fundingRounds'].append(round_name)
+                continue
 
-        #     name = details.pop('project.title')
-        #     description = details.pop('project.description')
-        #     address = details.pop('recipient')
+            app = flatten_dict(project['metadata']['application'])
+            projects_data.update({
+                projectId: {                    
+                    'name': app.get('project.title'),
+                    'description': app.get('project.description'),
+                    'address': app.get('recipient'),
+                    'logoImg': app.get('project.logoImg'),
+                    'bannerImg': app.get('project.bannerImg'),
+                    'externalLink':  app.get('project.website'),
+                    'backgroundColor': funding_round['backgroundColor'],
+                    'backgroundVectorArt': funding_round['backgroundVectorArt'],
+                    'fundingRounds': [round_name] 
+                }
+            }) 
 
-        #     # only ingest projects with valid githubs
-        #     github = extract_github_owner(details.get('project.projectGithub'))
-        #     if not github:
-        #         github = extract_github_owner(details.get('project.userGithub'))
+        logging.info(f"... obtained {len(projects_data)} projects.")
 
-        #     project_data.append({
-        #         'name': name,               
-        #         'github_org': github,
-        #         'wallets': [address.lower()],
-        #         'description': description,
-        #         'details': details
-        #     })
+    with open(PROJECTS_DATA, 'w') as f:
+        json.dump(projects_data, f, indent=4)    
 
-        # logging.info(f"... obtained {len(project_data)} projects.")
-
-    with open('temp.json', 'w') as f:
-         json.dump(funding_round_data, f, indent=4)    
-
-    # df = pd.DataFrame(funding_round_data)
-    # df.index.name = 'id'
-    # df.to_csv(ROUND_DATA_CSV)
+    df = pd.DataFrame(projects_data).T
+    df.index.name = 'id'
+    df.to_csv("data/projects.csv")
 
 
 # def clean_allo_data():
@@ -173,3 +161,4 @@ def get_allo_data():
 
 if __name__ == "__main__":
     get_funding_rounds()
+    get_allo_data()

@@ -12,14 +12,26 @@
     "imagesDirectory": "data/images/",
     "rounds": [
       {
-        "roundId": "0x12BB5bBbFE596dbc489d209299B8302c3300fa40",
-        "roundName": "Web3 Open Source Software Round",
-        "backgroundColor": "blue",
-        "backgroundVectorArt": "contours"
-      },
-      {
         "roundId": "0xdf22a2C8F6BA9376fF17EE13E6154B784ee92094",
         "roundName": "Ethereum Infrastructure",
+        "backgroundColor": "purple",
+        "backgroundVectorArt": "octagonals"
+      },
+      {
+        "roundId": "0x9E669c0A6e075F14ba9d9D98C3580aD67E20ec38",
+        "roundName": "Token Engineering",
+        "backgroundColor": "purple",
+        "backgroundVectorArt": "octagonals"
+      },
+      {
+        "roundId": "0xF1C021DF6Dc6b2dC2E5A837CDFDDC2f42503233B",
+        "roundName": "Mantle Grants 1",
+        "backgroundColor": "purple",
+        "backgroundVectorArt": "octagonals"
+      },
+      {
+        "roundId": "0x6e8dC2e623204D61b0E59E668702654aE336c9f7",
+        "roundName": "DeSci (Decentralized Science)",
         "backgroundColor": "purple",
         "backgroundVectorArt": "octagonals"
       },
@@ -48,26 +60,20 @@
         "backgroundVectorArt": "circles"
       },
       {
-        "roundId": "0x9E669c0A6e075F14ba9d9D98C3580aD67E20ec38",
-        "roundName": "Token Engineering",
-        "backgroundColor": "purple",
-        "backgroundVectorArt": "octagonals"
+        "roundId": "0x64aa545C9C63944f8e765d9a65eda3cbbDc6e620",
+        "roundName": "ReFi Local Nodes",
+        "backgroundColor": "green",
+        "backgroundVectorArt": "circles"
       },
       {
-        "roundId": "0x9C3B81967EafBA0a451E324417DD4F3F353b997b",
-        "roundName": "Web3 Social",
+        "roundId": "0x12BB5bBbFE596dbc489d209299B8302c3300fa40",
+        "roundName": "Web3 Open Source Software Round",
         "backgroundColor": "blue",
         "backgroundVectorArt": "contours"
       },
       {
-        "roundId": "0xF1C021DF6Dc6b2dC2E5A837CDFDDC2f42503233B",
-        "roundName": "Mantle Grants 1",
-        "backgroundColor": "purple",
-        "backgroundVectorArt": "octagonals"
-      },
-      {
-        "roundId": "0x6e8dC2e623204D61b0E59E668702654aE336c9f7",
-        "roundName": "DeSci (Decentralized Science)",
+        "roundId": "0x9C3B81967EafBA0a451E324417DD4F3F353b997b",
+        "roundName": "Web3 Social",
         "backgroundColor": "blue",
         "backgroundVectorArt": "contours"
       },
@@ -88,12 +94,6 @@
         "roundName": "Crypto Advocacy",
         "backgroundColor": "blue",
         "backgroundVectorArt": "contours"
-      },
-      {
-        "roundId": "0x64aa545C9C63944f8e765d9a65eda3cbbDc6e620",
-        "roundName": "ReFi Local Nodes",
-        "backgroundColor": "green",
-        "backgroundVectorArt": "circles"
       }
     ]
   }
