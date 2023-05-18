@@ -18,5 +18,5 @@
     "target": "es6"
   },
   "include": ["./tasks", "./test", "./typechain"],
-  "files": ["./hardhat.config.ts", "./rollup.config.mjs"]
+  "files": ["./hardhat.config.ts"]
 }

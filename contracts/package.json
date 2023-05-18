@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/hypercerts-protocol",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -12,24 +12,11 @@
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "packageManager": "yarn@3.2.4",
   "resolutions": {
     "solhint/@solidity-parser/parser": "^0.14.5"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "package.json"
-  ],
-  "private": true,
-  "workspaces": {
-    "nohoist": [
-      "@rollup/**",
-      "rollup**/",
-      "rollup-plugin**/"
-    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -46,17 +33,12 @@
     "@openzeppelin/hardhat-defender": "^1.8.2",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-typescript": "^11.1.0",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "@typechain/ethers-v5": "^10.2.0",
     "@typechain/hardhat": "^6.1.5",
     "@types/chai": "^4.3.4",
     "@types/mocha": "9.1.0",
     "@types/node": "^18.11.11",
-    "@types/rollup-plugin-auto-external": "^2.0.2",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "chai": "^4.3.7",
@@ -76,12 +58,6 @@
     "prettier": "^2.7.1",
     "prettier-plugin-solidity": "^1.0.0-beta.24",
     "rimraf": "^3.0.2",
-    "rollup": "^3.20.7",
-    "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-delete": "^2.0.0",
-    "rollup-plugin-dts": "^5.3.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-typescript2": "^0.34.1",
     "shx": "^0.3.4",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
@@ -101,11 +77,12 @@
     "template"
   ],
   "scripts": {
-    "build": "yarn build:deploy",
-    "build:deploy": "yarn build:hardhat && rollup -c",
+    "build": "yarn build:hardhat",
     "build:forge": "forge build",
-    "build:hardhat": "hardhat compile",
-    "clean": "rimraf cache out abi dist cache_hardhat artifacts",
+    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
+    "build:ts": "npx tsc --build tsconfig.build.json",
+    "build:declarations": "shx cp ./typechain/*.d.ts ./dist/src/types",
+    "clean": "rimraf cache out",
     "docs": "hardhat dodoc",
     "lint:disabled": "yarn lint:sol && yarn prettier:check",
     "lint:sol": "solhint \"{src,test}/**/*.sol\"",
