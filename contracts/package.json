@@ -18,6 +18,13 @@
   "resolutions": {
     "solhint/@solidity-parser/parser": "^0.14.5"
   },
+  "workspaces": {
+    "nohoist": [
+      "prettier-plugin-solidity",
+      "solhint-plugin-prettier",
+      "solhint"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
