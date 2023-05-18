@@ -21,6 +21,7 @@ def summarize(text_blob, max_tokens=1250, tries=0):
         return text_blob
 
     text_blob = " ".join(tokens[:(max_tokens-200)])
+    print(len(tokens), "out of", max_tokens, "max", len(text_blob))
 
     prompt = (f"Consider the following text:\n\n"
               f"---\n\n"
@@ -50,14 +51,14 @@ def summarize(text_blob, max_tokens=1250, tries=0):
     except Exception as e:
 
         tries += 1
-        if tries == 3:
+        if tries == 5:
             print(f"Aborting process after {tries} tries.")
             return "aborted"
 
         print(e)        
-        time.sleep(30)
+        time.sleep(10)
 
-        return summarize(text_blob, max_tokens, tries)
+        return summarize(text_blob, max_tokens-250, tries)
 
 
 def process_projects():
