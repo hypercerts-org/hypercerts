@@ -3,9 +3,9 @@
 __pycache__/
 .DS_Store
 *.csv
+*.png
+*.sql
 *.pickle
 *.ipynb
-links.txt
 .ipynb_checkpoints/
-data/projects/*.json
-data/github/*.json
+data/project_urls.html

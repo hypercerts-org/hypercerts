@@ -1,0 +1,7 @@
+openai
+pandas
+pillow
+python-dotenv
+requests
+urllib3
+web3
