@@ -5,12 +5,14 @@
     3) add the path to the ts.config.build.json under the { include: [...] } configuration.
     4) bump package.json version to publish a new package to npm.
 */
+// ABIs
+import ERC1155UpgradeableABI from "../abi/ERC1155Upgradeable.json" assert { type: "json" };
+import HypercertMinterABI from "../abi/HypercertMinter.json" assert { type: "json" };
+import IHypercertTokenABI from "../abi/IHypercertToken.json" assert { type: "json" };
+import SemiFungible1155ABI from "../abi/SemiFungible1155.json" assert { type: "json" };
 
 // ABIs
-export { default as HypercertMinterABI } from "../abi/HypercertMinter.json";
-export { default as IHypercertTokenABI } from "../abi/IHypercertToken.json";
-export { default as SemiFungible1155ABI } from "../abi/SemiFungible1155.json";
-export { default as ERC1155UpgradeableABI } from "../abi/ERC1155Upgradeable.json";
+export { HypercertMinterABI, IHypercertTokenABI, SemiFungible1155ABI, ERC1155UpgradeableABI };
 
 // Interfaces
 export type { IHypercertToken } from "../typechain/src/interfaces/IHypercertToken";
