@@ -7,8 +7,8 @@
   "license": "Apache-2.0",
   "source": "src/index.ts",
   "typedocMain": "src/index.ts",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "testEnvironment": "jsdom",
   "files": [
     "dist",
