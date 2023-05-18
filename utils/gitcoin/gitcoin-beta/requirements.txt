@@ -2,6 +2,8 @@ openai
 pandas
 pillow
 python-dotenv
+re
 requests
+unicodedata2
 urllib3
 web3

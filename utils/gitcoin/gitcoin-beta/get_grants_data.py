@@ -1,9 +1,11 @@
 from datetime import datetime
 import json
 import logging
+import os
 import pandas as pd
 import re
 import requests
+import unicodedata
 
 # from ai_description import summarize
 
@@ -29,23 +31,14 @@ def setup_logging():
     )
 
 
-def extract_github_owner(string):
+def convert_to_filename(string):
 
-    pattern = r"(?:https?://)?(?:www\.)?github\.com/([A-Za-z0-9-]+)/?(?:.*)?$|@([A-Za-z0-9-]+)|([A-Za-z0-9-]+)"
-    if isinstance(string, str):
-        match = re.search(pattern, string)
-        if match:
-            return match.group(1) or match.group(2) or match.group(3)
-
-    return None
-
-
-def convert_timestamp(timestamp):
-
-    if isinstance(timestamp, str):
-        timestamp = int(timestamp)
-    dt = datetime.fromtimestamp(timestamp)
-    return dt.strftime("%Y-%m-%d %H:%M:%S")
+    normalized_string = unicodedata.normalize('NFKD', string)
+    stripped_string = ''.join(c for c in normalized_string if not unicodedata.combining(c))
+    valid_filename = re.sub(r'[:/\s.]+', '_', stripped_string)
+    valid_filename = re.sub(r'[^\x00-\x7F]+', '', valid_filename)
+    valid_filename = valid_filename.strip('_')
+    return valid_filename
 
 
 def flatten_dict(d):
@@ -59,106 +52,119 @@ def flatten_dict(d):
             flattened_dict.update({f"{key}.{i}": item for i, item in enumerate(value)})
         else:
             flattened_dict[key] = value
-    return flattened_dict      
+    return flattened_dict
 
 
-def get_funding_rounds():    
+def get_funding_rounds():
 
     round_url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds.json"])
     r = requests.get(round_url)
     round_data = r.json()
 
-    funding_round_data = []
-    for funding_round in round_data:
-        
-        start_time = int(funding_round['roundStartTime'])
-        votes = funding_round['votes']
-        # filter out older and testing rounds
-        if start_time >= START_TIME and votes > 10:        
-            funding_round_data.append({
-                "roundId": funding_round['id'],
-                "roundName": funding_round['metadata']['name'],
-                "backgroundColor": "blue",          # manually updated later
-                "backgroundVectorArt": "contours"   # manually updated later
-            })
+    funding_round_data = [
+        {
+            "roundId": r['id'],
+            "roundName": r['metadata']['name'],
+            "backgroundColor": "blue",  # manually updated later
+            "backgroundVectorArt": "contours"  # manually updated later
+        }
+        for r in round_data
+        if int(r['roundStartTime']) >= START_TIME and r['votes'] > 10
+    ]
 
     with open(ROUNDS_DATA, 'w') as f:
-        json.dump(funding_round_data, f, indent=4)   
-
-    return funding_round_data
+        json.dump(funding_round_data, f, indent=4)
 
 
 def get_allo_data():
-
     with open(ROUNDS_DATA) as f:
         funding_round_data = json.load(f)
-    
+
     projects_data = {}
     for funding_round in funding_round_data:
-        
         round_id = funding_round['roundId']
         round_name = funding_round['roundName']
-        logging.info(f"Gathering data for round: {round_name}...")
+        logging.info(f"Gathering projects data for round: {round_name}...")
 
         url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "projects.json"])
         projects_json = requests.get(url).json()
 
-        for project in projects_json:    
-
+        for project in projects_json:
             if project['status'] != "APPROVED":
                 continue
-            
+
             projectId = project.get('id')
             if projects_data.get(projectId):
                 projects_data[projectId]['fundingRounds'].append(round_name)
                 continue
 
             app = flatten_dict(project['metadata']['application'])
-            projects_data.update({
-                projectId: {                    
-                    'name': app.get('project.title'),
-                    'description': app.get('project.description'),
-                    'address': app.get('recipient'),
-                    'logoImg': app.get('project.logoImg'),
-                    'bannerImg': app.get('project.bannerImg'),
-                    'externalLink':  app.get('project.website'),
-                    'backgroundColor': funding_round['backgroundColor'],
-                    'backgroundVectorArt': funding_round['backgroundVectorArt'],
-                    'fundingRounds': [round_name] 
-                }
-            }) 
+            name = app.get('project.title')
+            valid_filename = convert_to_filename(name)
+            projects_data[projectId] = {
+                'name': name,
+                'filename': valid_filename,
+                'description': app.get('project.description'),
+                'address': app.get('recipient'),
+                'logoImg': app.get('project.logoImg'),
+                'bannerImg': app.get('project.bannerImg'),
+                'externalLink': app.get('project.website'),
+                'backgroundColor': funding_round['backgroundColor'],
+                'backgroundVectorArt': funding_round['backgroundVectorArt'],
+                'fundingRounds': [round_name]
+            }
+            logging.info(f"Normalized data for project: {name}")
 
-        logging.info(f"... obtained {len(projects_data)} projects.")
+        logging.info(f"Obtained {len(projects_data)} projects in round {round_name}.")
 
     with open(PROJECTS_DATA, 'w') as f:
-        json.dump(projects_data, f, indent=4)    
+        json.dump(projects_data, f, indent=4)
 
     df = pd.DataFrame(projects_data).T
     df.index.name = 'id'
     df.to_csv("data/projects.csv")
 
 
-# def clean_allo_data():
+def get_allowlists():
 
-#     with open(JSON_PATH_RAW) as f:
-#         project_data = json.load(f) 
+    path = "data/allowlists/"
+    if not os.path.exists(path):
+        os.makedirs(path)
 
-#     project_data = list({project['github_org']: project for project in project_data}.values())
+    with open(ROUNDS_DATA) as f:
+        funding_round_data = json.load(f)
 
-#     for i, project in enumerate(project_data):
-#         descr = project.get('description')
-#         descr = summarize(descr)
-#         if descr == "aborted":
-#             log.error(f"Aborted project {i} ({project['name']})")
-#             break
+    votes_data = []
+    for funding_round in funding_round_data:
+        round_id = funding_round['roundId']
+        round_name = funding_round['roundName']
+        logging.info(f"Gathering voting data for round: {round_name}...")
 
-#         project.update({'description': descr})
-#         logging.info(f"Cleaned project {project['name']} with GitHub org {project['github_org']}")
-        
-#     with open(JSON_PATH, 'w') as f:
-#          json.dump(project_data, f, indent=4)
+        url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "votes.json"])
+        votes_json = requests.get(url).json()
+        votes_data.extend(votes_json)
+
+    df = pd.DataFrame(votes_data)
+
+    for project in df['projectId'].unique():
+        dff = (
+            df[df['projectId'] == project]
+            .groupby('voter')['amountUSD']
+            .sum()
+            .sort_values(ascending=False)
+            .reset_index()
+            .rename(columns={'voter': 'address'})
+        )
+        dff.index.name = 'index'
+
+        # Round the hypercert quantity UP to the nearest integer
+        dff['fractions'] = dff['amountUSD'].apply(lambda x: int(x) + 1)
+        dff.drop(columns='amountUSD', inplace=True)
+
+        dff.to_csv(f"{path}{project}.csv")
 
 
 if __name__ == "__main__":
     get_funding_rounds()
     get_allo_data()
+    get_allowlists()
