@@ -159,6 +159,7 @@ def get_allowlists():
 
         # Round the hypercert quantity UP to the nearest integer
         dff['fractions'] = dff['amountUSD'].apply(lambda x: int(x) + 1)
+        dff['address'] = dff['address'].apply(lambda x: x.lower())
         dff.drop(columns='amountUSD', inplace=True)
 
         dff.to_csv(f"{path}{project}.csv")
