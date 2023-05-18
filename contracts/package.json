@@ -15,13 +15,9 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "packageManager": "yarn@3.2.4",
-  "resolutions": {
-    "solhint/@solidity-parser/parser": "^0.14.5"
-  },
   "workspaces": {
     "nohoist": [
       "prettier-plugin-solidity",
-      "solhint-plugin-prettier",
       "solhint"
     ]
   },
@@ -67,7 +63,6 @@
     "rimraf": "^3.0.2",
     "shx": "^0.3.4",
     "solhint": "^3.3.7",
-    "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.1",
