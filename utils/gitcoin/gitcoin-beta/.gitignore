@@ -3,9 +3,8 @@
 __pycache__/
 .DS_Store
 *.csv
-*.pickle
+*.png
 *.ipynb
-links.txt
+*.log
 .ipynb_checkpoints/
-data/projects/*.json
-data/github/*.json
+data/*
