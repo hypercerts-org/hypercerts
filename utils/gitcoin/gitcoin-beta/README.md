@@ -47,4 +47,4 @@ To initialize the data, you will need to gather information about the Funding Ro
    - Extract and resize banner images for all projects (stored as PNG files locally in `data/img/`)
    - Use GPT to generate a 2-3 sentence description and <30 character work scope for each project (stored as JSON files locally in `data/`)
    - Upload allowlists and banner images to web3.storage (the CIDs are stored locally in `data/cids.json`)
-   - Create a custom hypercert minting link for each project (a table with each project and its minting link is stored locally in `data/projects.csv`
+   - Create a custom hypercert minting link for each project (a table with each project and its minting link is stored locally in `data/minting_urls.csv`
