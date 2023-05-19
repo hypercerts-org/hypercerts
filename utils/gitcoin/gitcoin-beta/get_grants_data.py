@@ -5,7 +5,6 @@ import os
 import pandas as pd
 import re
 import requests
-import unicodedata
 
 # from ai_description import summarize
 
@@ -29,16 +28,6 @@ def setup_logging():
             logging.StreamHandler()
         ]
     )
-
-
-def convert_to_filename(string):
-
-    normalized_string = unicodedata.normalize('NFKD', string)
-    stripped_string = ''.join(c for c in normalized_string if not unicodedata.combining(c))
-    valid_filename = re.sub(r'[:/\s.]+', '_', stripped_string)
-    valid_filename = re.sub(r'[^\x00-\x7F]+', '', valid_filename)
-    valid_filename = valid_filename.strip('_')
-    return valid_filename
 
 
 def flatten_dict(d):
@@ -100,10 +89,8 @@ def get_allo_data():
 
             app = flatten_dict(project['metadata']['application'])
             name = app.get('project.title')
-            valid_filename = convert_to_filename(name)
             projects_data[projectId] = {
                 'name': name,
-                'filename': valid_filename,
                 'description': app.get('project.description'),
                 'address': app.get('recipient'),
                 'logoImg': app.get('project.logoImg'),
@@ -166,6 +153,10 @@ def get_allowlists():
 
 
 if __name__ == "__main__":
-    get_funding_rounds()
+    
+    # TODO: set colors and vectors dynamically
+    # Currently requires manually overriding a default color/vector combo
+    #get_funding_rounds()
+
     get_allo_data()
     get_allowlists()
