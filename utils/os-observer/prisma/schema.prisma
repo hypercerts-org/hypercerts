@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model projects {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  name        String
+  github_org  String
+  description String
+
+  wallets wallets[]
+  events  events[]
+}
+
+model wallets {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  address    String?
+  project_id String   @db.Uuid
+  type       String?
+  ens        String?
+
+  project projects @relation(fields: [project_id], references: [id])
+}
+
+model events {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_id  String    @db.Uuid
+  event_time  DateTime? @db.Timestamptz(3)
+  event_type  String?
+  contributor String?
+  amount      Decimal?  @db.Money
+  details     Json?
+
+  project projects @relation(fields: [project_id], references: [id])
+}
+
+model funding {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ecosystem  String?
+  name       String?
+  address    String?
+  token      String?
+  amount     Decimal?  @db.Money
+  start_date DateTime? @db.Timestamptz(3)
+  end_date   DateTime? @db.Timestamptz(3)
+  details    Json?
+  chain      String?
+}
