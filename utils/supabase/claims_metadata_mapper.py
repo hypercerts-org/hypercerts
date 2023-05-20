@@ -76,21 +76,20 @@ def retrieve_ipfs_file(cid: str) -> dict:
 
 def create_claim_record(claim, metadata):
     """Creates a claim record from the given claim and metadata."""
-    if not metadata:
-        print(f"Skipping claim {claim['id']} due to missing metadata.")
-        return None
-
-    hypercert = metadata["hypercert"]
-    return {
+    record = {
         "claimId": claim["id"],
         "createdAt": int(claim["creation"]),
-        "title": metadata["name"],
         "creatorAddress": claim["creator"],
         "totalUnits": int(claim["totalUnits"]),
         "date": timestamp_to_date_string(claim["creation"]),
-        "properties": metadata.get("properties"),
-        "hypercert": hypercert
     }
+    if metadata:
+        record.update({
+            "title": metadata["name"],
+            "properties": metadata.get("properties"),
+            "hypercert": hypercert
+        })
+    return record
 
 
 def parse_claims(list_of_claims: list, existing_claims: list) -> list:
@@ -143,7 +142,7 @@ def append_to_csv_file(claims: list, csv_filepath: str = CSV_FILEPATH) -> None:
 
     df = pd.read_csv(csv_filepath, index_col="claimId")
     for claim in claims:
-        new_row = pd.Series(claim, name=token["claimId"])
+        new_row = pd.Series(claim, name=claim["claimId"])
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         df.to_csv(csv_filepath)
 
