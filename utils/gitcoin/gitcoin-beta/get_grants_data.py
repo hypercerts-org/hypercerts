@@ -6,7 +6,7 @@ import pandas as pd
 import re
 import requests
 
-# from ai_description import summarize
+from get_ens import get_ens
 
 # https://github.com/gitcoinco/allo-indexer
 CHAIN_NUM      = "1"
@@ -89,10 +89,12 @@ def get_allo_data():
 
             app = flatten_dict(project['metadata']['application'])
             name = app.get('project.title')
+            address = get_ens(app.get('recipient'))
+            
             projects_data[projectId] = {
                 'name': name,
                 'description': app.get('project.description'),
-                'address': app.get('recipient'),
+                'address': address,
                 'logoImg': app.get('project.logoImg'),
                 'bannerImg': app.get('project.bannerImg'),
                 'externalLink': app.get('project.website'),
