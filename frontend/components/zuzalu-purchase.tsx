@@ -10,7 +10,7 @@ import {
   usePrepareSendTransaction,
   useSendTransaction,
 } from "wagmi";
-import { BigNumber, utils } from "ethers";
+import { utils } from "ethers";
 import * as Yup from "yup";
 import { useAccountLowerCase } from "../hooks/account";
 import { useConfetti } from "./confetti";
@@ -168,12 +168,12 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
   const { data: balance, isLoading: balanceLoading } = useBalance({
     address: address as `0x${string}`,
   });
-  const [value, setValue] = React.useState<BigNumber | undefined>();
+  const [ethValue, setEthValue] = React.useState<number | undefined>();
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
   const { config } = usePrepareSendTransaction({
     request: {
       to: DESTINATION_ADDRESS,
-      value,
+      value: utils.parseEther(`${ethValue}`),
     },
     onError(error) {
       setWagmiErr(error);
@@ -207,8 +207,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
           const dollarArray = _.values(valuesInDollars);
           const totalUSD = _.sum(dollarArray);
           const totalETH = totalUSD / ETH_PRICE;
-          const totalWei = utils.parseEther(`${totalETH}`);
-          setValue(totalWei);
+          setEthValue(totalETH);
         }}
         initialValues={{ ...DEFAULT_FORM_DATA }}
         enableReinitialize
@@ -230,7 +229,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
             console.warn("No balance");
             toast(`No balance found for wallet ${address}`, { type: "error" });
             return;
-          } else if (!value || value.isZero()) {
+          } else if (!ethValue || ethValue <= 0) {
             console.warn("No values selected");
             toast(`Please select some hypercerts`, { type: "error" });
             return;
@@ -241,6 +240,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
             .from("zuzalu-purchase")
             .insert({
               address,
+              ethValue,
               values,
             });
           if (supabaseError) {
