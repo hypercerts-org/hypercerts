@@ -230,6 +230,10 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
             console.warn("No balance");
             toast(`No balance found for wallet ${address}`, { type: "error" });
             return;
+          } else if (!value || value.isZero()) {
+            console.warn("No values selected");
+            toast(`Please select some hypercerts`, { type: "error" });
+            return;
           }
 
           // Write to supabase
