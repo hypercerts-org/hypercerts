@@ -21,10 +21,8 @@ import { supabase } from "../lib/supabase-client";
  * Constants
  */
 const FORM_SELECTOR = "currentForm";
-const DESTINATION_ADDRESS = "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f";
-export const CHAIN_ID = 5;
-//const DESTINATION_ADDRESS = "zuzalu.eth";
-//export const CHAIN_ID = 1;
+const DESTINATION_ADDRESS = "zuzalu.eth";
+export const CHAIN_ID = 1;
 const ETH_PRICE = 1847.79;
 export const MIN_PERCENTAGE = 0;
 export const MAX_PERCENTAGE = 100;
