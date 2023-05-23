@@ -168,7 +168,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
   const { data: balance, isLoading: balanceLoading } = useBalance({
     address: address as `0x${string}`,
   });
-  const [ethValue, setEthValue] = React.useState<number | undefined>();
+  const [ethValue, setEthValue] = React.useState<number>(0);
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
   const { config } = usePrepareSendTransaction({
     request: {
@@ -229,7 +229,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
             console.warn("No balance");
             toast(`No balance found for wallet ${address}`, { type: "error" });
             return;
-          } else if (!ethValue || ethValue <= 0) {
+          } else if (ethValue <= 0) {
             console.warn("No values selected");
             toast(`Please select some hypercerts`, { type: "error" });
             return;
