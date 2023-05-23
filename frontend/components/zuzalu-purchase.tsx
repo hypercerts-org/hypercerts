@@ -29,14 +29,14 @@ export const MAX_PERCENTAGE = 100;
 
 // In USD
 const pricePerPercent: ZuzaluPurchaseFormData = {
-  percentBuyingZuzalu001: 200,
-  percentBuyingZuzalu002: 100,
-  percentBuyingZuzalu003: 400,
-  percentBuyingZuzalu004: 400,
-  percentBuyingZuzalu005: 300,
-  percentBuyingZuzalu006: 200,
+  percentBuyingZuzalu001: 150,
+  percentBuyingZuzalu002: 50,
+  percentBuyingZuzalu003: 150,
+  percentBuyingZuzalu004: 200,
+  percentBuyingZuzalu005: 50,
+  percentBuyingZuzalu006: 100,
   percentBuyingZuzalu007: 100,
-  percentBuyingZuzalu008: 400,
+  percentBuyingZuzalu008: 100,
   percentBuyingZuzalu009: 50,
   percentBuyingZuzalu010: 50,
   percentBuyingZuzalu011: 150,
