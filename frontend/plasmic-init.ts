@@ -12,6 +12,7 @@ import {
   FormDropZone,
   FormCheckbox,
 } from "./components/forms";
+import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
@@ -354,6 +355,22 @@ PLASMIC.registerComponent(FormCheckbox, {
     },
   },
   importPath: "./components/forms",
+});
+
+PLASMIC.registerComponent(ZuzaluPurchaseForm, {
+  name: "ZuzaluPurchaseForm",
+  description: "Zuzalu Contribution Form",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/zuzalu-purchase",
 });
 
 PLASMIC.registerComponent(Tooltip, {
