@@ -262,7 +262,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
               emojis: ["🌈", "⚡️", "💥", "✨", "💫", "🌸"],
             }));
           setSubmitting(false);
-          push("/app/zuzalu/billboard");
+          push("/app/zuzalu/confirm");
         }}
       >
         {(formikProps: FormikProps<ZuzaluPurchaseFormData>) => (
