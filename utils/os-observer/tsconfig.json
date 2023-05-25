@@ -2,13 +2,9 @@
     "compilerOptions": {
     "rootDir": "src",
       "outDir": "dist",
-      "esModuleInterop": true,
-      "noImplicitAny": false,
+      "noImplicitAny": true,
       "strictNullChecks": true,
-      "jsx": "react-jsx",
-      "target": "esnext",
-      "moduleResolution": "node",
-      "strict": false,
+      "strict": true,
       "skipLibCheck": true,
       "resolveJsonModule": true
     },
