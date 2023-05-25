@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
+    "rootDir": "src",
       "outDir": "dist",
       "esModuleInterop": true,
       "noImplicitAny": false,
       "strictNullChecks": true,
-      "noEmit": true,
       "jsx": "react-jsx",
       "target": "esnext",
       "moduleResolution": "node",
@@ -12,6 +12,9 @@
       "skipLibCheck": true,
       "resolveJsonModule": true
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
+    "include": [
+        "src/index.ts"
+    ]
   }
   
