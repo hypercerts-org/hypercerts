@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+    "rootDir": "src",
+      "outDir": "dist",
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true
+    },
+    "exclude": ["node_modules"],
+    "include": [
+        "src/index.ts"
+    ]
+  }
+  
