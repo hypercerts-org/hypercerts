@@ -1,12 +1,23 @@
 {
-"name": "my-prisma-project",
-"version": "1.0.0",
-"description": "",
-"main": "index.js",
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
-"keywords": [],
-"author": "",
-"license": "ISC"
+    "name": "my-prisma-project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsc-watch --onSuccess \"node .\""
+    },
+    "prisma": {
+        "schema": "prisma/schema.prisma"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "prisma": "^4.13.0",
+        "tsc-watch": "^6.0.4",
+        "typescript": "^5.0.4"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.14.1"
+    }
 }
