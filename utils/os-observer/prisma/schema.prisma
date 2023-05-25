@@ -31,11 +31,12 @@ model wallets {
 
 model events {
   id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
   project_id  String     @db.Uuid
   event_time  DateTime?  @db.Timestamptz(3)
   event_type  String?
   contributor String?
-  amount      Decimal?   @db.Money
+  amount      Float?
   details     Json?
   event_enum  EventType?
 

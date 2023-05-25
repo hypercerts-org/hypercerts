@@ -24,11 +24,12 @@ CREATE TABLE "wallets" (
 -- CreateTable
 CREATE TABLE "events" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+	"created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "project_id" UUID NOT NULL,
     "event_time" TIMESTAMPTZ(3),
     "event_type" TEXT,
     "contributor" TEXT,
-    "amount" MONEY,
+    "amount" double precision,
     "details" JSONB,
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
