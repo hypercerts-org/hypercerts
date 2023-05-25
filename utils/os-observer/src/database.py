@@ -23,6 +23,13 @@ WALLETS_TABLE = 'wallets'
 EVENTS_TABLE = 'events'
 FUNDING_TABLE = 'funding'
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='logging.log'
+)
+
 
 # -------------- DATABASE SETUP -------------- #
 
@@ -198,7 +205,7 @@ def insert_project_github_events(query_num, project_id, start_date, end_date):
 
     events = execute_org_query(query_num, github_org, start_date, end_date)
     for event in events:
-        event.update({"project_id": project_id, "amount": 1})
+        event.update({"project_id": project_id})
 
     bulk_insert(EVENTS_TABLE, events)
     logging.info(f"Successfully added {len(events)} events for project {github_org}")
@@ -226,9 +233,17 @@ def insert_zerion_transactions():
 
 if __name__ == "__main__":
     
-    pass 
-    #populate_from_json("data/op-rpgf2/updated_projects.json")
-    #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+    #populate_from_json("data/op-rpgf2/projects.json")
+    #populate_from_json("data/gitcoin-allo/allo.json")
+
+    start, end = '2018-01-01T00:00:00Z', '2023-05-24T00:00:00Z'
+    project_ids = select_col(PROJECTS_TABLE, 'id')
+    for query_num in range(0,3):
+        for pid in project_ids:            
+            insert_project_github_events(query_num, pid, start, end)
+
+    
+    #start, end = '2022-01-01T00:00:00Z', '2023-05-24T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
     #insert_zerion_transactions()
     #insert_grant_funding(15)
