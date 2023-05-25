@@ -30,13 +30,14 @@ model wallets {
 }
 
 model events {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  project_id  String    @db.Uuid
-  event_time  DateTime? @db.Timestamptz(3)
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_id  String     @db.Uuid
+  event_time  DateTime?  @db.Timestamptz(3)
   event_type  String?
   contributor String?
-  amount      Decimal?  @db.Money
+  amount      Decimal?   @db.Money
   details     Json?
+  event_enum  EventType?
 
   project projects @relation(fields: [project_id], references: [id])
 }
@@ -52,4 +53,14 @@ model funding {
   end_date   DateTime? @db.Timestamptz(3)
   details    Json?
   chain      String?
+}
+
+model caching_pointer {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  event_enum EventType
+  pointer    Json
+}
+
+enum EventType {
+  GITHUB_CREATED_PR
 }
