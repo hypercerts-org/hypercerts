@@ -1,10 +1,9 @@
-import { BigNumberish } from "ethers";
 import React from "react";
 import { useBurnFraction } from "../hooks/burnFraction";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
-export const BurnFractionButton = (claimId: BigNumberish) => {
+export const BurnFractionButton = (fractionId: string, disabled: boolean) => {
   const { push } = useRouter();
 
   const { write } = useBurnFraction({
@@ -17,9 +16,9 @@ export const BurnFractionButton = (claimId: BigNumberish) => {
    */
 
   const handleClick = () => {
-    write(claimId);
+    write(fractionId);
   };
-  return <Button onClick={handleClick} />;
+  return <Button disabled={disabled} onClick={handleClick} />;
 };
 
 export default BurnFractionButton;
