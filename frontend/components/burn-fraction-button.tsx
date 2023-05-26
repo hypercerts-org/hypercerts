@@ -18,7 +18,11 @@ export const BurnFractionButton = (fractionId: string, disabled: boolean) => {
   const handleClick = () => {
     write(fractionId);
   };
-  return <Button disabled={disabled} onClick={handleClick} />;
+  return (
+    <Button disabled={disabled} onClick={handleClick}>
+      Burn
+    </Button>
+  );
 };
 
 export default BurnFractionButton;
