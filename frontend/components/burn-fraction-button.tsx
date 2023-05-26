@@ -14,6 +14,7 @@ export const BurnFractionButton = ({
   disabled,
   className,
 }: BurnFractionButtonProps) => {
+
   const { push } = useRouter();
 
   const { write } = useBurnFraction({
