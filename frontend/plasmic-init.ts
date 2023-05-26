@@ -12,6 +12,8 @@ import {
   FormDropZone,
   FormCheckbox,
 } from "./components/forms";
+import { BurnFractionButton } from "./components/burn-fraction-button";
+
 import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
@@ -529,4 +531,14 @@ PLASMIC.registerComponent(ClaimAllFractionsButton, {
     disabled: "boolean",
   },
   importPath: "./components/claim-all-fractions-button",
+});
+
+PLASMIC.registerComponent(BurnFractionButton, {
+  name: "BurnFractionButton",
+  description: "Button that will burn the fraction currently selected",
+  props: {
+    fractionId: "string",
+    disabled: "boolean",
+  },
+  importPath: "./components/burn-fraction-button",
 });
