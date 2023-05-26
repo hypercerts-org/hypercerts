@@ -257,17 +257,19 @@ def populate_db():
                 logging.info(f"\nAdding `{pid}` for project id: {pid}")
                 insert_project_github_events(query_num, pid, start, end)
 
+    # insert all zerion data (saved locally as csvs)
+    insert_zerion_transactions()
+
 
 
 if __name__ == "__main__":
     
 
-    populate_db()
-                
-    #insert_project_github_events(query_num, pid, start, end)
-
-    
+    #populate_db()
+    insert_zerion_transactions()
+     
+    # testing           
     #start, end = '2022-01-01T00:00:00Z', '2023-05-24T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
-    #insert_zerion_transactions()
+    
     #insert_grant_funding(15)
