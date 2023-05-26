@@ -99,21 +99,47 @@ def retrieve_wallet_history(wallet_address, override=False):
     download_zerion_history(driver, wallet_address)
     driver.quit()
 
+
+def run_scraper(override=False):
+
+    try:
+        
+        test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
+
+        wallet_data = fetch_list_of_wallets()
+        for w in wallet_data:
+            addr = w['address']
+            retrieve_wallet_history(addr, override=override)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        print("Attempting to download the appropriate ChromeDriver...")
+
+        try:
+            webdriver.Chrome(ChromeDriverManager().install())
+            print("ChromeDriver installation successful.")
+            print("Please run the script again to continue.")
+        except Exception as e:
+            print("Failed to download ChromeDriver. Please install it manually.")
+            print(f"Error message: {e}")
+
 # -------------------- ETL HELPERS -------------------- #
 
-strs = [
+STR_FIELDS = [
     'Transaction Type', 'Status', 'Chain',
     'Buy Currency', 'Buy Currency Address', 'Buy Fiat Currency',
     'Sell Currency', 'Sell Currency Address', 'Sell Fiat Currency',
     'Fee Currency', 'Fee Fiat Currency',
     'Tx Hash', 'Link', 'Timestamp'
 ]
-flts = [
+
+FLT_FIELDS = [
     'Buy Amount', 'Buy Fiat Amount',
     'Sell Amount', 'Sell Fiat Amount',
     'Fee Amount', 'Fee Fiat Amount'
 ]
-FIELDS = strs + flts
+
+FIELDS = STR_FIELDS + FLT_FIELDS
 
 
 def to_numeric(x):
@@ -127,83 +153,65 @@ def to_numeric(x):
                 return to_numeric(x.split("\n")[0])
 
 
-def classify_event(buy, sell, fee):
-    if buy > 0 and sell > 0:
-        event_type = "exchange"
-        amount = buy - sell - fee
-    elif buy > 0:
-        event_type = "income"
-        amount = buy - fee
-    elif sell > 0:
-        event_type = "expense"
-        amount = sell + fee
-    else:
-        event_type = "fee"
-        amount = fee
-
-    return event_type, amount
+def classify_event(event_type, status, buy, sell, fee):
+    if status == 'Confirmed':
+        if event_type == 'receive':
+            return ('funds received', buy)
+        if event_type == 'send':
+            return ('funds sent', sell+fee)
+    return ('transaction executed', fee)
 
 
-def consolidate_csvs():
+def consolidate_csvs(storage_dir):
+
     wallet_data = fetch_list_of_wallets()
     wallet_mapping = {w['address'].lower(): w['project_id'] for w in wallet_data}
-    csv_paths = [f for f in os.listdir(STORAGE_DIR) if ".csv" in f]
+    csv_paths = [f for f in os.listdir(storage_dir) if f.endswith(".csv")]
 
     dfs = []
     for file in csv_paths:
-        df = pd.read_csv(f"{STORAGE_DIR}/{file}", usecols=FIELDS)
+        df = pd.read_csv(os.path.join(storage_dir, file), usecols=FIELDS)
         for c in df.columns:
-            if c in flts:
+            if c in FLT_FIELDS:
                 df[c] = df[c].apply(to_numeric)
         df.fillna("", inplace=True)
 
-        wallet = file.replace(".csv", "").lower()
-        df['wallet'] = wallet
-        df['details'] = df.apply(lambda x: dict(x), axis=1)
-
-        df['project_id'] = wallet_mapping.get(wallet)
-        df['data_source'] = 'zerion'
-        df['timestamp'] = df['Timestamp']
+        wallet = os.path.splitext(file)[0].lower()                
+        project_id = wallet_mapping.get(wallet)
+        if not project_id:
+            print(f"Unable to locate a project associated with wallet {wallet}")
+            continue
+        
+        df['details'] = df.apply(lambda x: {'data': dict(x), 'source': 'zerion'}, axis=1)
+        df['project_id'] = project_id
+        df['event_time'] = df['Timestamp']
         df['event_type'], df['amount'] = zip(
             *df.apply(lambda x: classify_event(
+                x['Transaction Type'],
+                x['Status'],
                 x['Buy Fiat Amount'],
                 x['Sell Fiat Amount'],
-                x['Fee Fiat Amount']),
-                axis=1))
+                x['Fee Fiat Amount']
+            ), axis=1)
+        )
 
         df.drop(columns=FIELDS, inplace=True)
-        df.drop(columns=['wallet'], inplace=True)
         dfs.append(df)
 
     return pd.concat(dfs, axis=0, ignore_index=True)
 
 
 def convert_csvs_to_records():
-    df = consolidate_csvs()
+    df = consolidate_csvs(STORAGE_DIR)
     records = df.to_dict(orient='records')
     return records
 
+# -------------------- MAIN SCRIPT -------------------- #
+
 
 if __name__ == '__main__':
-    try:
-        #test = retrieve_wallet_history('0xc44F30Be3eBBEfdDBB5a85168710b4f0e18f4Ff0')
-        # consolidate_csvs()
+    
+    #run_scraper(override=False)
+    r = convert_csvs_to_records()
 
-        wallet_data = fetch_list_of_wallets()
-        for w in wallet_data:
-            addr = w['address']
-            retrieve_wallet_history(addr, override=True)
-
-        # r = convert_csvs_to_records()
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print("Attempting to download the appropriate ChromeDriver...")
-
-        try:
-            webdriver.Chrome(ChromeDriverManager().install())
-            print("ChromeDriver installation successful.")
-            print("Please run the script again to continue.")
-        except Exception as e:
-            print("Failed to download ChromeDriver. Please install it manually.")
-            print(f"Error message: {e}")
+    
