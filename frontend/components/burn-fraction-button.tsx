@@ -3,7 +3,18 @@ import { useBurnFraction } from "../hooks/burnFraction";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
-export const BurnFractionButton = (fractionId: string, disabled: boolean) => {
+type BurnFractionButtonProps = {
+  fractionId: string;
+  disabled: boolean;
+  className: string;
+};
+
+export const BurnFractionButton = ({
+  fractionId,
+  disabled,
+  className,
+}: BurnFractionButtonProps) => {
+
   const { push } = useRouter();
 
   const { write } = useBurnFraction({
@@ -19,7 +30,7 @@ export const BurnFractionButton = (fractionId: string, disabled: boolean) => {
     write(fractionId);
   };
   return (
-    <Button disabled={disabled} onClick={handleClick}>
+    <Button className={className} disabled={disabled} onClick={handleClick}>
       Burn
     </Button>
   );
