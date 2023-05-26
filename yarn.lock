@@ -16030,7 +16030,7 @@ hardhat@2.13.1:
     uuid "^8.3.2"
     ws "^7.4.6"
 
-hardhat@^2.12.3:
+hardhat@^2.13.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/hardhat/-/hardhat-2.14.0.tgz#b60c74861494aeb1b50803cf04cc47865a42b87a"
   integrity sha512-73jsInY4zZahMSVFurSK+5TNCJTXMv+vemvGia0Ac34Mm19fYp6vEPVGF3sucbumszsYxiTT2TbS8Ii2dsDSoQ==
