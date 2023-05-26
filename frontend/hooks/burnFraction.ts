@@ -16,19 +16,21 @@ export const useBurnFraction = ({
     preparing: "Preparing to burn fraction",
     burning: "Burning hypercert fraction",
     waiting: "Awaiting confirmation",
-    complete: "Done minting",
+    complete: "Done burning",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
   const initializeBurn = async (claimId: BigNumberish) => {
-    setStep("burning");
+    setStep("preparing");
     try {
       const tx = await client.burnClaimFraction(claimId);
-      setStep("waiting");
+      setStep("burning");
 
       const receipt = await tx.wait();
+      setStep("waiting");
+
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -48,13 +50,14 @@ export const useBurnFraction = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
     }
   };
 
   return {
     write: async (claimId: BigNumberish) => {
       showModal({ stepDescriptions });
-      setStep("preparing");
       await initializeBurn(claimId);
     },
     readOnly: isLoading || !client || client.readonly,
