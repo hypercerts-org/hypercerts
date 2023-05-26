@@ -26,9 +26,10 @@ export const CHAIN_ID = 1;
 const ETH_PRICE = 1847.79;
 export const MIN_PERCENTAGE = 0;
 export const MAX_PERCENTAGE = 100;
+const MAX_TEXT_LENGTH = 100;
 
 // In USD
-const pricePerPercent: ZuzaluPurchaseFormData = {
+const pricePerPercent: Omit<ZuzaluPurchaseFormData, "textForSponsor"> = {
   percentBuyingZuzalu001: 150,
   percentBuyingZuzalu002: 50,
   percentBuyingZuzalu003: 150,
@@ -51,6 +52,7 @@ const pricePerPercent: ZuzaluPurchaseFormData = {
   percentBuyingZuzalu020: 150,
   percentBuyingZuzalu021: 150,
   percentBuyingZuzalu022: 150,
+  percentBuyingZuzalu023: 150,
 };
 
 const DEFAULT_FORM_DATA: ZuzaluPurchaseFormData = {
@@ -76,6 +78,8 @@ const DEFAULT_FORM_DATA: ZuzaluPurchaseFormData = {
   percentBuyingZuzalu020: 0,
   percentBuyingZuzalu021: 0,
   percentBuyingZuzalu022: 0,
+  percentBuyingZuzalu023: 0,
+  textForSponsor: "",
 };
 
 interface ZuzaluPurchaseFormData {
@@ -101,6 +105,8 @@ interface ZuzaluPurchaseFormData {
   percentBuyingZuzalu020: number | string;
   percentBuyingZuzalu021: number | string;
   percentBuyingZuzalu022: number | string;
+  percentBuyingZuzalu023: number | string;
+  textForSponsor: string;
 }
 
 /**
@@ -152,6 +158,11 @@ const ValidationSchema = Yup.object().shape({
   percentBuyingZuzalu020: PercentageSchema,
   percentBuyingZuzalu021: PercentageSchema,
   percentBuyingZuzalu022: PercentageSchema,
+  percentBuyingZuzalu023: PercentageSchema,
+  textForSponsor: Yup.string().max(
+    MAX_TEXT_LENGTH,
+    `Must be at most ${MAX_TEXT_LENGTH} characters`,
+  ),
 });
 
 export interface ZuzaluPurchaseFormProps {
@@ -193,18 +204,28 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
         validateOnMount={true}
         validate={(values) => {
           // console.log(values);
-          const parsedValues = _.mapValues(values, (v: string | number) =>
-            typeof v == "string" ? parseFloat(v) : v,
+          // Get just the percentages
+          const filteredValues = _.pickBy(values, (v, k) =>
+            k.startsWith("percentBuyingZuzalu"),
           );
+          // Parse any strings
+          const parsedValues = _.mapValues(
+            filteredValues,
+            (v: string | number) => (typeof v == "string" ? parseFloat(v) : v),
+          );
+          // Remove all NaNs
           const cleanedValues = _.mapValues(parsedValues, (v: number) =>
             isNaN(v) ? 0 : v,
           );
+          // Calculate value in dollars
           const valuesInDollars = _.mergeWith(
             cleanedValues,
             pricePerPercent,
             (percent, price) => percent * price,
           );
+          // Extract just dollar amounts
           const dollarArray = _.values(valuesInDollars);
+          // Calculate equivalent total ETH
           const totalUSD = _.sum(dollarArray);
           const totalETH = totalUSD / ETH_PRICE;
           setEthValue(totalETH);
@@ -242,6 +263,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
               address,
               ethValue,
               values,
+              textForSponsor: values.textForSponsor,
             });
           if (supabaseError) {
             console.error("Supabase error", supabaseError);
