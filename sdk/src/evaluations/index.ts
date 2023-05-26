@@ -4,13 +4,11 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { InvalidOrMissingError, StorageError } from "../types/errors.js";
-import { EasEvaluation, Evaluation, IpfsEvaluation } from "../types/evaluation.js";
+import { StorageError } from "../types/errors.js";
+import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, IPFSEvaluation } from "../types/evaluation.js";
 import EasEvaluator from "./eas.js";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-
-type EvaluationTypes = EasEvaluation | IpfsEvaluation;
 
 type HypercertEvaluatorConfig = {
   chainId: number;
@@ -20,7 +18,7 @@ type HypercertEvaluatorConfig = {
 };
 
 export interface EvaluatorInterface {
-  submitEvaluation: (evaluation: Evaluation) => Promise<CIDString>;
+  submitEvaluation: (evaluation: HypercertEvaluationSchema) => Promise<CIDString>;
 }
 
 export default class HypercertEvaluator implements EvaluatorInterface {
@@ -49,40 +47,36 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     });
   }
 
-  submitEvaluation = async (evaluation: Evaluation): Promise<CIDString> => {
+  submitEvaluation = async (evaluation: HypercertEvaluationSchema): Promise<CIDString> => {
     if (this.storage.readonly) {
       throw new StorageError("Storage is in readonly mode");
     }
 
-    let data;
-    const evaluationData = evaluation.evaluation;
-    if (isEasEvaluation(evaluationData)) {
+    let evaluationToStore: HypercertEvaluationSchema | undefined;
+
+    if (isEasEvaluation(evaluation.evaluationSource)) {
       console.log("EAS");
-      data = { ...evaluationData, signedData: await this.eas.signOfflineEvaluation(evaluation) };
-    } else if (isIpfsEvaluation(evaluationData)) {
+      const signedData = await this.eas.signOfflineEvaluation(evaluation.evaluationData);
+      const evaluationData = { ...evaluation.evaluationData, ...signedData };
+      evaluationToStore = { ...evaluation, evaluationData };
+    } else if (isIpfsEvaluation(evaluation.evaluationSource)) {
       console.log("IPFS");
       //TODO Do we want users to sign this as well? Or is IPFS more for any raw data?
-      data = evaluationData;
+      evaluationToStore = evaluation;
     }
 
-    if (!data) {
-      throw new Error("No data found for evaluation");
+    if (!evaluationToStore) {
+      throw new Error("Evaluation source not supported");
     }
 
-    evaluation.evaluation = data;
-
-    return this.storage.storeData(data);
+    return this.storage.storeData(evaluationToStore);
   };
 }
 
-const isEasEvaluation = (evaluation: EvaluationTypes): evaluation is EasEvaluation => {
-  const validated = true;
-
-  return validated;
+const isEasEvaluation = (evaluationSource: EvaluationSource): evaluationSource is EASEvaluation => {
+  return evaluationSource.type === "EAS";
 };
 
-const isIpfsEvaluation = (evaluation: EvaluationTypes): evaluation is IpfsEvaluation => {
-  const validated = true;
-
-  return validated;
+const isIpfsEvaluation = (evaluationSource: EvaluationSource): evaluationSource is IPFSEvaluation => {
+  return evaluationSource.type === "IPFS";
 };

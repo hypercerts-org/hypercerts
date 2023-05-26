@@ -5,40 +5,47 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Evaluation {
-  hypercert: {
-    chainId: string;
-    contract: string;
-    claimId: string;
-    [k: string]: unknown;
-  };
-  evaluation: EasEvaluation | IpfsEvaluation;
-  hypercertRegion: {
-    impactScope?: string[];
-    /**
-     * @minItems 2
-     * @maxItems 2
-     */
-    impact_timeframe?: [number, number];
-    workScope?: string[];
-    /**
-     * @minItems 2
-     * @maxItems 2
-     */
-    work_timeframe?: [number, number];
-    contributors?: string[];
-    [k: string]: unknown;
-  };
+export type EvaluationSource = EASEvaluation | IPFSEvaluation;
+
+/**
+ * Schema for evaluating Hypercerts accross different sources and evaluation types
+ */
+export interface HypercertEvaluationSchema {
+  creator: string;
+  evaluationData: EvaluationData;
+  evaluationSource: EvaluationSource;
   [k: string]: unknown;
 }
-export interface EasEvaluation {
+export interface EvaluationData {
+  type: "duplicate";
+  evaluation: DuplicateEvaluation;
+  explanation: Explanation;
+  [k: string]: unknown;
+}
+export interface DuplicateEvaluation {
+  type: "duplicate";
+  duplicateHypercerts: Hypercert[];
+  realHypercert: Hypercert;
+  [k: string]: unknown;
+}
+export interface Hypercert {
+  chainID: string;
+  contract: string;
+  claimID: string;
+  [k: string]: unknown;
+}
+export interface Explanation {
+  reason?: string;
+  [k: string]: unknown;
+}
+export interface EASEvaluation {
   type: "EAS";
-  chainId: string;
+  chainID: string;
   contract: string;
   uid: string;
   [k: string]: unknown;
 }
-export interface IpfsEvaluation {
+export interface IPFSEvaluation {
   type: "IPFS";
   cid: string;
   [k: string]: unknown;
