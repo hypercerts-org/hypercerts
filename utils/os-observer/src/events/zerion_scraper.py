@@ -206,12 +206,12 @@ def convert_csvs_to_records():
     records = df.to_dict(orient='records')
     return records
 
-# -------------------- MAIN SCRIPT -------------------- #
 
+# -------------------- MAIN SCRIPT -------------------- #
 
 if __name__ == '__main__':
     
-    #run_scraper(override=False)
-    r = convert_csvs_to_records()
+    run_scraper(override=False)
+    # convert_csvs_to_records()
 
     
