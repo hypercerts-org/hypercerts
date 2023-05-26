@@ -11,15 +11,17 @@ import type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "./global.js";
 import { HypercertMinting, HypercertsStorage } from "./operator/index.js";
 import { claimById, claimsByOwner, firstClaims } from "./queries/claims.js";
 import { fractionById, fractionsByClaim, fractionsByOwner } from "./queries/fractions.js";
+import type { QueryParams } from "./queries/utils.js";
 import HypercertMinterABI from "./resources/HypercertMinter.js";
 // Types
 import type { HypercertClaimdata } from "./types/claimdata.js";
-import type { HypercertMetadata } from "./types/metadata.js";
-import { formatHypercertData } from "./utils/formatter.js";
-import { validateClaimData, validateMetaData, validateAllowlist } from "./validator/index.js";
 import { TransferRestrictions } from "./types/hypercerts.js";
 import type { Allowlist, AllowlistEntry } from "./types/hypercerts.js";
+import type { HypercertMetadata } from "./types/metadata.js";
+import { formatHypercertData } from "./utils/formatter.js";
+import { validateAllowlist, validateClaimData, validateMetaData } from "./validator/index.js";
 
+export type { QueryParams };
 export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
 
 export { HypercertClient, TransferRestrictions };

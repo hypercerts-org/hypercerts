@@ -4,15 +4,22 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["PLASMIC_PROJECT_ID", "PLASMIC_PROJECT_API_TOKEN"],
       "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
     "deploy": {
       "dependsOn": ["build", "lint", "test"]
     },
-    "dev": {},
+    "dev": {
+      "persistent": true
+    },
     "lint": {},
     "sentry:sourcemaps": {},
-    "test": {}
+    "test": {},
+    "@hypercerts-org/frontend#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["out/**", ".next/**"],
+      "env": ["PLASMIC_PROJECT_ID", "PLASMIC_PROJECT_API_TOKEN"],
+      "cache": false
+    }
   }
 }

@@ -74,23 +74,22 @@ def retrieve_ipfs_file(cid: str) -> dict:
     return None
 
 
-def create_claim_record(claim, metadata):
+def create_claim_record(claim: dict, metadata: dict) -> dict:
     """Creates a claim record from the given claim and metadata."""
-    if not metadata:
-        print(f"Skipping claim {claim['id']} due to missing metadata.")
-        return None
-
-    hypercert = metadata["hypercert"]
-    return {
+    record = {
         "claimId": claim["id"],
         "createdAt": int(claim["creation"]),
-        "title": metadata["name"],
         "creatorAddress": claim["creator"],
         "totalUnits": int(claim["totalUnits"]),
         "date": timestamp_to_date_string(claim["creation"]),
-        "properties": metadata.get("properties"),
-        "hypercert": hypercert
     }
+    if metadata:
+        record.update({
+            "title": metadata["name"],
+            "properties": metadata.get("properties"),
+            "hypercert": metadata.get("hypercert")
+        })
+    return record
 
 
 def parse_claims(list_of_claims: list, existing_claims: list) -> list:
@@ -118,8 +117,8 @@ def store_claims_in_supabase(claims: list):
 
 def fetch_claim_ids_from_supabase() -> list:
     """Fetches claim IDs from the Supabase table."""
-    data, _ = supabase.table(TABLE_NAME).select("claimId").execute()
-    claims = data[1]
+    response = supabase.table(TABLE_NAME).select("claimId").execute()
+    claims = response.data
     claim_ids = [c["claimId"] for c in claims]
     print(f"Supabase shows a total of {len(claim_ids)} hypercert claims.")
     return claim_ids
@@ -127,8 +126,8 @@ def fetch_claim_ids_from_supabase() -> list:
 
 def save_supabase_snapshot_to_csv(csv_filepath: str = CSV_FILEPATH) -> None:
     """Saves a snapshot of the Supabase table to a CSV file."""
-    data, _ = supabase.table(TABLE_NAME).select("*").execute()
-    claims = data[1]
+    response = supabase.table(TABLE_NAME).select("*").execute()
+    claims = response.data
     df = pd.DataFrame(claims)
     df.set_index("claimId", inplace=True)
     df.to_csv(csv_filepath)
@@ -143,13 +142,15 @@ def append_to_csv_file(claims: list, csv_filepath: str = CSV_FILEPATH) -> None:
 
     df = pd.read_csv(csv_filepath, index_col="claimId")
     for claim in claims:
-        df = df.append(pd.Series(claim, name=claim["claimId"]))
-
-    df.to_csv(csv_filepath)
+        new_row = pd.Series(claim, name=claim["claimId"])
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df.to_csv(csv_filepath)
 
 
 def main():
-    #save_supabase_snapshot_to_csv()
+    
+    save_supabase_snapshot_to_csv()
+    
     claims_data = get_all_claims()
     existing_claim_ids = fetch_claim_ids_from_supabase()
     new_claims = parse_claims(claims_data, existing_claim_ids)
@@ -157,8 +158,7 @@ def main():
     if new_claims:
         store_claims_in_supabase(new_claims)
         append_to_csv_file(new_claims)
-        fetch_claim_ids_from_supabase()
-
+    
 
 if __name__ == "__main__":
     main()

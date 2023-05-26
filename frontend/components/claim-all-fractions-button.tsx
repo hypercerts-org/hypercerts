@@ -5,6 +5,8 @@ import {
 } from "../hooks/mintFractionAllowlistBatch";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { useBalance } from "wagmi";
 
 const LOCALSTORAGE_KEY = "claimAllFractionsTime";
 const DELAY = 5 * 60 * 1000; // 5 minutes
@@ -27,6 +29,9 @@ export const ClaimAllFractionsButton = ({
   disabled?: boolean;
 }) => {
   const { address } = useAccountLowerCase();
+  const { data: balance, isLoading: balanceLoading } = useBalance({
+    address: address as `0x${string}`,
+  });
 
   const router = useRouter();
   const { data: claimIds } = useGetAllEligibility(address ?? "");
@@ -39,11 +44,21 @@ export const ClaimAllFractionsButton = ({
     },
   });
 
+  const handleClaim = () => {
+    if (!balanceLoading && balance && balance.value.isZero()) {
+      console.log("No balance");
+      toast(`No balance found for wallet ${address}`, { type: "error" });
+      return;
+    }
+
+    write();
+  };
+
   return (
     <Button
       disabled={!claimIds?.length || disabled}
       className={className}
-      onClick={() => write()}
+      onClick={() => handleClaim()}
       variant="outlined"
       size="small"
     >

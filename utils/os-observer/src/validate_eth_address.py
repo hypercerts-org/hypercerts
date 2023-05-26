@@ -22,7 +22,8 @@ SAFES = [
     w3.eth.get_code(Web3.toChecksumAddress(x.lower())) 
     for x in [
         "0x4D9339dd97db55e3B9bCBE65dE39fF9c04d1C2cd",
-        "0x7DAC9Fc15C1Db4379D75A6E3f330aE849dFfcE18"
+        "0x7DAC9Fc15C1Db4379D75A6E3f330aE849dFfcE18",
+        "0x70CCBE10F980d80b7eBaab7D2E3A73e87D67B775"
     ]
 ]
 

@@ -14,6 +14,7 @@ import { MeshResolvedSource } from '@graphql-mesh/runtime';
 import { MeshTransform, MeshPlugin } from '@graphql-mesh/types';
 import GraphqlHandler from "@graphql-mesh/graphql"
 import { parse } from 'graphql';
+import UsePollingLive from "@graphprotocol/client-polling-live";
 import BareMerger from "@graphql-mesh/merger-bare";
 import { printWithCache } from '@graphql-mesh/utils';
 import { createMeshHTTPHandler, MeshHTTPHandler } from '@graphql-mesh/http';
@@ -842,6 +843,16 @@ sources[0] = {
           transforms: hypercertsTransforms
         }
 const additionalTypeDefs = [parse("extend type Claim {\n  chainName: String!\n}\n\nextend type ClaimToken {\n  chainName: String!\n}"),] as any[];
+additionalEnvelopPlugins[0] = await UsePollingLive({
+          ...({
+  "defaultInterval": 5000
+}),
+          logger: logger.child("pollingLive"),
+          cache,
+          pubsub,
+          baseDir,
+          importFn,
+        })
 const additionalResolvers = await Promise.all([
         import("../src/utils/resolvers.ts")
             .then(m => m.resolvers || m.default || m)
@@ -941,13 +952,18 @@ export function getBuiltGraphSDK<TGlobalContext = any, TOperationContext = any>(
 }
 export type ClaimsByOwnerQueryVariables = Exact<{
   owner?: InputMaybe<Scalars['Bytes']>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 }>;
 
 
 export type ClaimsByOwnerQuery = { claims: Array<Pick<Claim, 'chainName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
 
 export type RecentClaimsQueryVariables = Exact<{
+  orderDirection?: InputMaybe<OrderDirection>;
   first?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -962,6 +978,9 @@ export type ClaimByIdQuery = { claim?: Maybe<Pick<Claim, 'chainName' | 'contract
 
 export type ClaimTokensByOwnerQueryVariables = Exact<{
   owner?: InputMaybe<Scalars['Bytes']>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -972,6 +991,9 @@ export type ClaimTokensByOwnerQuery = { claimTokens: Array<(
 
 export type ClaimTokensByClaimQueryVariables = Exact<{
   claimId: Scalars['String'];
+  orderDirection?: InputMaybe<OrderDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -989,8 +1011,13 @@ export type ClaimTokenByIdQuery = { claimToken?: Maybe<(
 
 
 export const ClaimsByOwnerDocument = gql`
-    query ClaimsByOwner($owner: Bytes = "") {
-  claims(where: {owner: $owner}) {
+    query ClaimsByOwner($owner: Bytes = "", $orderDirection: OrderDirection, $first: Int, $skip: Int) {
+  claims(
+    where: {owner: $owner}
+    skip: $skip
+    first: $first
+    orderDirection: $orderDirection
+  ) {
     chainName
     contract
     tokenID
@@ -1003,8 +1030,8 @@ export const ClaimsByOwnerDocument = gql`
 }
     ` as unknown as DocumentNode<ClaimsByOwnerQuery, ClaimsByOwnerQueryVariables>;
 export const RecentClaimsDocument = gql`
-    query RecentClaims($first: Int = 10) {
-  claims(orderDirection: desc, orderBy: creation, first: $first) {
+    query RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {
+  claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {
     chainName
     contract
     tokenID
@@ -1031,8 +1058,13 @@ export const ClaimByIdDocument = gql`
 }
     ` as unknown as DocumentNode<ClaimByIdQuery, ClaimByIdQueryVariables>;
 export const ClaimTokensByOwnerDocument = gql`
-    query ClaimTokensByOwner($owner: Bytes = "") {
-  claimTokens(where: {owner: $owner}) {
+    query ClaimTokensByOwner($owner: Bytes = "", $orderDirection: OrderDirection, $first: Int, $skip: Int) {
+  claimTokens(
+    where: {owner: $owner}
+    skip: $skip
+    first: $first
+    orderDirection: $orderDirection
+  ) {
     chainName
     id
     owner
@@ -1048,8 +1080,13 @@ export const ClaimTokensByOwnerDocument = gql`
 }
     ` as unknown as DocumentNode<ClaimTokensByOwnerQuery, ClaimTokensByOwnerQueryVariables>;
 export const ClaimTokensByClaimDocument = gql`
-    query ClaimTokensByClaim($claimId: String!) {
-  claimTokens(where: {claim: $claimId}) {
+    query ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {
+  claimTokens(
+    where: {claim: $claimId}
+    skip: $skip
+    first: $first
+    orderDirection: $orderDirection
+  ) {
     chainName
     id
     owner
