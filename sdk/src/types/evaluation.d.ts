@@ -5,6 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type EvaluationData = DuplicateEvaluation | SimpleTextEvaluation;
 export type EvaluationSource = EASEvaluation | IPFSEvaluation;
 
 /**
@@ -16,36 +17,28 @@ export interface HypercertEvaluationSchema {
   evaluationSource: EvaluationSource;
   [k: string]: unknown;
 }
-export interface EvaluationData {
-  type: "duplicate" | "simpleText";
-  evaluation: DuplicateEvaluation | SimpleTextEvaluation;
-  explanation: Explanation;
-  [k: string]: unknown;
-}
 export interface DuplicateEvaluation {
   type: "duplicate";
-  duplicateHypercerts: Hypercert[];
-  realHypercert: Hypercert;
+  duplicateHypercerts: HypercertPointer[];
+  realHypercert: HypercertPointer;
+  explanation: string;
   [k: string]: unknown;
 }
-export interface Hypercert {
-  chainID: string;
+export interface HypercertPointer {
+  chainId: string;
   contract: string;
-  claimID: string;
+  claimId: string;
   [k: string]: unknown;
 }
 export interface SimpleTextEvaluation {
   type: "simpleText";
+  hypercert: HypercertPointer;
   text: string;
-  [k: string]: unknown;
-}
-export interface Explanation {
-  reason?: string;
   [k: string]: unknown;
 }
 export interface EASEvaluation {
   type: "EAS";
-  chainID: string;
+  chainId: string;
   contract: string;
   uid: string;
   [k: string]: unknown;

@@ -19,26 +19,14 @@
   "definitions": {
     "EvaluationData": {
       "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["duplicate", "simpleText"]
+      "oneOf": [
+        {
+          "$ref": "#/definitions/DuplicateEvaluation"
         },
-        "evaluation": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/DuplicateEvaluation"
-            },
-            {
-              "$ref": "#/definitions/SimpleTextEvaluation"
-            }
-          ]
-        },
-        "explanation": {
-          "$ref": "#/definitions/Explanation"
+        {
+          "$ref": "#/definitions/SimpleTextEvaluation"
         }
-      },
-      "required": ["type", "evaluation", "explanation"]
+      ]
     },
     "DuplicateEvaluation": {
       "type": "object",
@@ -50,14 +38,17 @@
         "duplicateHypercerts": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Hypercert"
+            "$ref": "#/definitions/HypercertPointer"
           }
         },
         "realHypercert": {
-          "$ref": "#/definitions/Hypercert"
+          "$ref": "#/definitions/HypercertPointer"
+        },
+        "explanation": {
+          "type": "string"
         }
       },
-      "required": ["type", "duplicateHypercerts", "realHypercert"]
+      "required": ["type", "duplicateHypercerts", "realHypercert", "explanation"]
     },
     "SimpleTextEvaluation": {
       "type": "object",
@@ -66,11 +57,14 @@
           "type": "string",
           "const": "simpleText"
         },
+        "hypercert": {
+          "$ref": "#/definitions/HypercertPointer"
+        },
         "text": {
           "type": "string"
         }
       },
-      "required": ["type", "text"]
+      "required": ["type", "hypercert", "text"]
     },
     "EvaluationSource": {
       "type": "object",
@@ -90,7 +84,7 @@
           "type": "string",
           "const": "EAS"
         },
-        "chainID": {
+        "chainId": {
           "type": "string",
           "pattern": "^0x[0-9a-fA-F]+$"
         },
@@ -102,7 +96,7 @@
           "type": "string"
         }
       },
-      "required": ["type", "chainID", "contract", "uid"]
+      "required": ["type", "chainId", "contract", "uid"]
     },
     "IPFSEvaluation": {
       "type": "object",
@@ -117,10 +111,10 @@
       },
       "required": ["type", "cid"]
     },
-    "Hypercert": {
+    "HypercertPointer": {
       "type": "object",
       "properties": {
-        "chainID": {
+        "chainId": {
           "type": "string",
           "pattern": "^0x[0-9a-fA-F]+$"
         },
@@ -128,20 +122,11 @@
           "type": "string",
           "pattern": "^0x[0-9a-fA-F]{40}$"
         },
-        "claimID": {
+        "claimId": {
           "type": "string"
         }
       },
-      "required": ["chainID", "contract", "claimID"]
-    },
-    "Explanation": {
-      "type": "object",
-      "properties": {
-        "reason": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": true
+      "required": ["chainId", "contract", "claimId"]
     }
   }
 }

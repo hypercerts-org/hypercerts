@@ -23,6 +23,8 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Deployment } = {
   } as const,
 };
 
+// Example schema on Sepolia
+// https://sepolia.easscan.org/schema/view/0xe542f797c9407ccb56e539d14c83718bf35c1d0f3c768bc2623aca56badfde51
 const EAS_SCHEMAS = {
   sepolia: {
     duplicate: {

@@ -4,13 +4,17 @@ import { isAddress } from "ethers/lib/utils.js";
 
 import claimDataSchema from "../resources/schema/claimdata.json";
 import metaDataSchema from "../resources/schema/metadata.json";
+import evaluationSchema from "../resources/schema/evaluation.json";
 import { HypercertClaimdata } from "../types/claimdata.js";
 import { Allowlist } from "../types/hypercerts.js";
 import { HypercertMetadata } from "../types/metadata.js";
+import { DuplicateEvaluation, SimpleTextEvaluation } from "src/types/evaluation.js";
 
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
 ajv.addSchema(claimDataSchema, "claimData");
+ajv.addSchema(evaluationSchema.definitions.DuplicateEvaluation, "duplicateEvaluation");
+ajv.addSchema(evaluationSchema.definitions.SimpleTextEvaluation, "simpleTextEvaluation");
 
 type ValidationResult = {
   valid: boolean;
@@ -76,4 +80,52 @@ const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
   return { valid: Object.keys(errors).length === 0, errors };
 };
 
-export { validateMetaData, validateClaimData, validateAllowlist };
+const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationResult => {
+  const schemaName = "duplicateEvaluation";
+  const validate = ajv.getSchema<DuplicateEvaluation>(schemaName);
+  if (!validate) {
+    return { valid: false, errors: { schema: "Schema not found" } };
+  }
+
+  if (!validate(data)) {
+    const errors: Record<string, string> = {};
+    for (const e of validate.errors || []) {
+      const key = e.params.missingProperty || "other";
+      if (key && e.message) {
+        errors[key] = e.message;
+      }
+    }
+    return { valid: false, errors };
+  }
+
+  return { valid: true, errors: {} };
+};
+
+const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): ValidationResult => {
+  const schemaName = "simpleTextEvaluation";
+  const validate = ajv.getSchema<SimpleTextEvaluation>(schemaName);
+  if (!validate) {
+    return { valid: false, errors: { schema: "Schema not found" } };
+  }
+
+  if (!validate(data)) {
+    const errors: Record<string, string> = {};
+    for (const e of validate.errors || []) {
+      const key = e.params.missingProperty || "other";
+      if (key && e.message) {
+        errors[key] = e.message;
+      }
+    }
+    return { valid: false, errors };
+  }
+
+  return { valid: true, errors: {} };
+};
+
+export {
+  validateMetaData,
+  validateClaimData,
+  validateAllowlist,
+  validateDuplicateEvaluationData,
+  validateSimpleTextEvaluationData,
+};

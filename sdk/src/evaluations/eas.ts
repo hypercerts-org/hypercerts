@@ -3,8 +3,9 @@ import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID, EAS_SCHEMAS } from "../constants.js";
-import { InvalidOrMissingError } from "../types/errors.js";
-import { DuplicateEvaluation, EvaluationData } from "../types/evaluation.js";
+import { InvalidOrMissingError, MalformedDataError } from "../types/errors.js";
+import { DuplicateEvaluation, EvaluationData, SimpleTextEvaluation } from "../types/evaluation.js";
+import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "src/validator/index.js";
 
 type EasEvaluatorConfig = {
   address: string;
@@ -25,45 +26,85 @@ export default class EasEvaluator {
     this.signer = config.signer;
   }
 
-  signOfflineEvaluation = async (evaluation: EvaluationData) => {
-    let encodedData;
-    if (evaluation.type === "duplicate") {
-      const data = evaluation.evaluation as DuplicateEvaluation;
-      const realHypercert = data.realHypercert;
-      const schemaEncoder = new SchemaEncoder(EAS_SCHEMAS["sepolia"].duplicate.schema);
-
-      // Initialize SchemaEncoder with the schema string
-      // TODO validate schema values
-      encodedData = schemaEncoder.encodeData([
-        { name: "chainId", value: realHypercert.chainId as string, type: "uint256" },
-        { name: "contract", value: realHypercert.contract as string, type: "address" },
-        { name: "claimId", value: realHypercert.claimId as string, type: "uint256" },
-      ]);
-    }
-
-    if (!encodedData) {
-      throw new InvalidOrMissingError("Encoding evaluation data returned invalid string", "encodedData");
-    }
-
-    // Example schema on Sepolia
-    // https://sepolia.easscan.org/schema/view/0xe542f797c9407ccb56e539d14c83718bf35c1d0f3c768bc2623aca56badfde51
-    const offchainAttestation = await this.offChain.signOffchainAttestation(
+  getSignature = async (encodedData: string, recipient: string, schema: string) => {
+    return await this.offChain.signOffchainAttestation(
       {
         // TODO who will be the recipient? The contract it points to? The creator?
-        recipient: evaluation.evaluation.realHypercert.contract,
+        recipient,
         // Unix timestamp of when attestation expires. (0 for no expiration)
         expirationTime: 0,
         // Unix timestamp of current time
         time: Date.now(),
         revocable: true,
         nonce: 0,
-        schema: "0xe542f797c9407ccb56e539d14c83718bf35c1d0f3c768bc2623aca56badfde51",
+        schema,
         refUID: "0x0000000000000000000000000000000000000000000000000000000000000000",
         data: encodedData,
       },
       this.signer as TypedDataSigner,
     );
+  };
 
-    return offchainAttestation;
+  signOfflineEvaluation = async (evaluation: EvaluationData) => {
+    if (isDuplicateEvaluation(evaluation)) {
+      const validation = validateDuplicateEvaluationData(evaluation);
+      if (!validation.valid) {
+        throw new MalformedDataError("Invalid evaluation data", { errors: validation.errors });
+      }
+
+      const schema = EAS_SCHEMAS["sepolia"].duplicate.schema;
+      const schemaEncoder = new SchemaEncoder(schema);
+      const recipient = evaluation.realHypercert.contract;
+
+      // Initialize SchemaEncoder with the schema string
+      // TODO validate schema values
+      const encodedData = schemaEncoder.encodeData([
+        { name: "chainId", value: evaluation.realHypercert.chainId as string, type: "uint256" },
+        { name: "contract", value: evaluation.realHypercert.contract as string, type: "address" },
+        { name: "claimId", value: evaluation.realHypercert.claimId as string, type: "uint256" },
+      ]);
+
+      return this.getSignature(encodedData, recipient, schema);
+    }
+
+    if (isSimpleTextEvaluation(evaluation)) {
+      const validation = validateSimpleTextEvaluationData(evaluation);
+      if (!validation.valid) {
+        throw new MalformedDataError("Invalid evaluation data", { errors: validation.errors });
+      }
+
+      const schema = EAS_SCHEMAS["sepolia"].contentHash.schema;
+      const schemaEncoder = new SchemaEncoder(schema);
+      const recipient = evaluation.hypercert.contract;
+
+      const contentHash = ethers.utils.id(evaluation.text);
+
+      // Initialize SchemaEncoder with the schema string
+      // TODO validate schema values
+      const encodedData = schemaEncoder.encodeData([{ name: "contentHash", value: contentHash, type: "bytes32" }]);
+
+      return this.getSignature(encodedData, recipient, schema);
+    }
+
+    if (assertNever(evaluation)) {
+      throw new InvalidOrMissingError("Encoding evaluation data returned invalid string", "encodedData");
+    }
   };
 }
+
+const isDuplicateEvaluation = (evaluation: EvaluationData): evaluation is DuplicateEvaluation => {
+  return (
+    evaluation.type === "duplicate" &&
+    "realHypercert" in evaluation &&
+    "duplicateHypercerts" in evaluation &&
+    "explanation" in evaluation
+  );
+};
+
+const isSimpleTextEvaluation = (evaluation: EvaluationData): evaluation is SimpleTextEvaluation => {
+  return evaluation.type === "simpleText" && "hypercert" in evaluation && "text" in evaluation;
+};
+
+const assertNever = (evaluation: never): never => {
+  throw new Error(`Unexpected evaluation type: ${evaluation}`);
+};
