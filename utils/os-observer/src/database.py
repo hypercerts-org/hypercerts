@@ -23,6 +23,13 @@ WALLETS_TABLE = 'wallets'
 EVENTS_TABLE = 'events'
 FUNDING_TABLE = 'funding'
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='logging.log'
+)
+
 
 # -------------- DATABASE SETUP -------------- #
 
@@ -34,7 +41,6 @@ def supabase_client() -> Client:
 
 supabase = supabase_client()
 
-
 # -------------- DATABASE OPS ---------------- #
 
 
@@ -42,6 +48,16 @@ def select_all(table):
     response = (supabase
         .table(table)
         .select('*')
+        .execute())
+    return response.data
+
+
+def select_all_project_events(project_id, event_type):
+    response = (supabase
+        .table(EVENTS_TABLE)
+        .select('*')
+        .eq('project_id', project_id)
+        .eq('event_type', event_type)
         .execute())
     return response.data
 
@@ -198,7 +214,7 @@ def insert_project_github_events(query_num, project_id, start_date, end_date):
 
     events = execute_org_query(query_num, github_org, start_date, end_date)
     for event in events:
-        event.update({"project_id": project_id, "amount": 1})
+        event.update({"project_id": project_id})
 
     bulk_insert(EVENTS_TABLE, events)
     logging.info(f"Successfully added {len(events)} events for project {github_org}")
@@ -223,12 +239,37 @@ def insert_zerion_transactions():
 
 # -------------- MAIN SCRIPT -------------------- #
 
+def populate_db():
+
+    # populate projects and wallet addresses
+    populate_from_json("data/op-rpgf2/projects.json")
+    populate_from_json("data/gitcoin-allo/allo.json")
+
+    # populate github events
+    start, end = '2018-01-01T00:00:00Z', '2023-05-25T00:00:00Z'
+    project_ids = select_col(PROJECTS_TABLE, 'id')
+    for query_num, query_name in enumerate(QUERIES):
+        for pid in project_ids:            
+            existing_entries = select_all_project_events(pid, query_name)
+            if len(existing_entries):
+                logging.info(f"\nSkipping `{pid}` for project id: {pid}")
+            else:
+                logging.info(f"\nAdding `{pid}` for project id: {pid}")
+                insert_project_github_events(query_num, pid, start, end)
+
+    # insert all zerion data (saved locally as csvs)
+    insert_zerion_transactions()
+
+
 
 if __name__ == "__main__":
     
-    pass 
-    #populate_from_json("data/op-rpgf2/updated_projects.json")
-    #start, end = '2023-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
+
+    #populate_db()
+    insert_zerion_transactions()
+     
+    # testing           
+    #start, end = '2022-01-01T00:00:00Z', '2023-05-24T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
-    #insert_zerion_transactions()
+    
     #insert_grant_funding(15)
