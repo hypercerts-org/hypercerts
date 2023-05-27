@@ -86,9 +86,7 @@ export default class EasEvaluator {
       return this.getSignature(encodedData, recipient, schema);
     }
 
-    if (assertNever(evaluation)) {
-      throw new InvalidOrMissingError("Encoding evaluation data returned invalid string", "encodedData");
-    }
+    assertNever(evaluation);
   };
 }
 

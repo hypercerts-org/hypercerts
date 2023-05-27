@@ -52,31 +52,23 @@ export default class HypercertEvaluator implements EvaluatorInterface {
       throw new StorageError("Storage is in readonly mode");
     }
 
-    let evaluationToStore: HypercertEvaluationSchema | undefined;
-
     if (isEasEvaluation(evaluation.evaluationSource)) {
-      console.log("EAS");
       const signedData = await this.eas.signOfflineEvaluation(evaluation.evaluationData);
       const evaluationData = { ...evaluation.evaluationData, ...signedData };
-      evaluationToStore = { ...evaluation, evaluationData };
-    } else if (isIpfsEvaluation(evaluation.evaluationSource)) {
-      console.log("IPFS");
-      //TODO Do we want users to sign this as well? Or is IPFS more for any raw data?
-      evaluationToStore = evaluation;
+      const evaluationToStore = { ...evaluation, evaluationData };
+
+      return this.storage.storeData(evaluationToStore);
     }
 
-    if (!evaluationToStore) {
-      throw new Error("Evaluation source not supported");
-    }
-
-    return this.storage.storeData(evaluationToStore);
+    throw new Error(`Unexpected evaluation source: ${evaluation.evaluationSource}`);
   };
 }
 
 const isEasEvaluation = (evaluationSource: EvaluationSource): evaluationSource is EASEvaluation => {
-  return evaluationSource.type === "EAS";
-};
-
-const isIpfsEvaluation = (evaluationSource: EvaluationSource): evaluationSource is IPFSEvaluation => {
-  return evaluationSource.type === "IPFS";
+  return (
+    evaluationSource.type === "EAS" &&
+    "chainId" in evaluationSource &&
+    "contract" in evaluationSource &&
+    "uid" in evaluationSource
+  );
 };
