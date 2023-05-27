@@ -8,7 +8,7 @@
 export type EvaluationSource = EASEvaluation | IPFSEvaluation;
 
 /**
- * Schema for evaluating Hypercerts accross different sources and evaluation types
+ * Schema for evaluating Hypercerts across different sources and evaluation types
  */
 export interface HypercertEvaluationSchema {
   creator: string;
@@ -17,8 +17,8 @@ export interface HypercertEvaluationSchema {
   [k: string]: unknown;
 }
 export interface EvaluationData {
-  type: "duplicate";
-  evaluation: DuplicateEvaluation;
+  type: "duplicate" | "simpleText";
+  evaluation: DuplicateEvaluation | SimpleTextEvaluation;
   explanation: Explanation;
   [k: string]: unknown;
 }
@@ -32,6 +32,11 @@ export interface Hypercert {
   chainID: string;
   contract: string;
   claimID: string;
+  [k: string]: unknown;
+}
+export interface SimpleTextEvaluation {
+  type: "simpleText";
+  text: string;
   [k: string]: unknown;
 }
 export interface Explanation {
