@@ -537,6 +537,11 @@ PLASMIC.registerComponent(BurnFractionButton, {
   name: "BurnFractionButton",
   description: "Button that will burn the fraction currently selected",
   props: {
+    text: {
+      type: "string",
+      defaultValue: "Burn",
+      helpText: "Text to display on button",
+    },
     fractionId: "string",
     disabled: "boolean",
   },
