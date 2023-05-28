@@ -40,7 +40,8 @@
     "format:staged": "lint-staged",
     "lint": "turbo run lint --concurrency=100%",
     "serve:build": "yarn serve build",
-    "test": "turbo run test --concurrency=100%",
+    "start:os-observer": "turbo run start --filter=@hypercerts-org/os-observer --",
+    "test": "turbo run test --concurrency=1",
     "prepare": "husky install"
   },
   "devDependencies": {
