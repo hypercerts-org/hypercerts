@@ -15,6 +15,9 @@
     },
     "lint": {},
     "sentry:sourcemaps": {},
+    "start": {
+      "cache": false
+    },
     "test": {},
     "@hypercerts-org/frontend#build": {
       "dependsOn": ["^build"],

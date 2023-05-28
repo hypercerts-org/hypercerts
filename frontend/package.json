@@ -25,6 +25,7 @@
     "@graphprotocol/client-cli": "^2.2.16",
     "@hypercerts-org/hypercerts-protocol": "*",
     "@hypercerts-org/hypercerts-sdk": "*",
+    "@hypercerts-org/os-observer": "*",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
