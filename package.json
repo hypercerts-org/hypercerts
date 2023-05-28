@@ -13,6 +13,7 @@
       "docs",
       "frontend",
       "graph",
+      "os-observer",
       "sdk"
     ],
     "nohoist": [

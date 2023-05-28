@@ -60,17 +60,17 @@ New queries should have the following fields:
   }
 }
 ```
+
 ## Normalizing Query Results
 
 The result should then be normalized as follows:
 
- - `id` (auto-generated)
- - `project_id` (the name of the Github organization being queried)
- - `observer_id` (the name of the query)
- - `timestamp` (when the event occured on Github)
- - `amount` (always set to 1.0)
- - `details` (a flattened JSON of all the other information returned by the query)
-
+- `id` (auto-generated)
+- `project_id` (the name of the Github organization being queried)
+- `observer_id` (the name of the query)
+- `timestamp` (when the event occured on Github)
+- `amount` (always set to 1.0)
+- `details` (a flattened JSON of all the other information returned by the query)
 
 ## Testing Queries
 
