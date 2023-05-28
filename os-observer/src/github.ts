@@ -1,6 +1,6 @@
-import { gql } from "graphql-request"
+import { gql } from "graphql-request";
 
-const query = gql`
+export const query = gql`
         {{
           search(
             query: "org:{org} is:pr is:merged merged:{since}..{until}" 
@@ -30,19 +30,18 @@ const query = gql`
               }}
             }}
           }}
-        }}`
-
+        }}`;
 
 // startDate == since
 // endDate == until
-const variables = {
+export const variables = {
   first: 100,
   after: "null",
   org: "truffle-box",
-}
+};
 
 // from python:
-// test = execute_org_query(0, "truffle-box", "2022-01-01T00:00:00Z", "2023-04-22T00:00:00Z")  
+// test = execute_org_query(0, "truffle-box", "2022-01-01T00:00:00Z", "2023-04-22T00:00:00Z")
 
 // Date strings are first run through this function
 // date_fmt = "%Y-%m-%dT%H:%M:%SZ"

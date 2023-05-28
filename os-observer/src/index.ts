@@ -13,20 +13,20 @@ async function getPointerForEventType<T extends EventType>(
     return null;
   }
 
-  return <any>pointer.pointer;
+  return pointer.pointer as any;
 }
 
-type EventTypePointerLookup = {
+interface EventTypePointerLookup {
   [EventType.GITHUB_CREATED_PR]: GithubCreatedPrPointer;
-};
+}
 
-type GithubCreatedPrPointer = {
+interface GithubCreatedPrPointer {
   lastFetch: string;
-};
+}
 
 async function main() {
   const pointer = await getPointerForEventType(EventType.GITHUB_CREATED_PR);
   console.log(pointer);
 }
 
-(() => main())();
+main();
