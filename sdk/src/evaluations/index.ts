@@ -4,9 +4,10 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { StorageError } from "../types/errors.js";
+import { MalformedDataError, StorageError } from "../types/errors.js";
 import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, IPFSEvaluation } from "../types/evaluation.js";
 import EasEvaluator from "./eas.js";
+import { isAddress } from "ethers/lib/utils.js";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -42,6 +43,10 @@ export default class HypercertEvaluator implements EvaluatorInterface {
   }
 
   submitEvaluation = async (evaluation: HypercertEvaluationSchema): Promise<CIDString> => {
+    if (!isAddress(evaluation.creator)) {
+      throw new MalformedDataError(`Invalid creator address: ${evaluation.creator}`);
+    }
+
     if (isEasEvaluation(evaluation.evaluationSource)) {
       const signedData = await this.eas.signOfflineEvaluation(evaluation.evaluationData);
       const evaluationData = { ...evaluation.evaluationData, signedData };

@@ -6,7 +6,7 @@ import { MockProvider } from "ethereum-waffle";
 import { reloadEnv } from "../setup-tests.js";
 import { expect, jest } from "@jest/globals";
 import { getEvaluationData } from "../helpers.js";
-import { StorageError } from "../../src/types/errors.js";
+import { MalformedDataError, StorageError } from "../../src/types/errors.js";
 
 describe("HypercertEvaluator", () => {
   const provider = new MockProvider();
@@ -77,6 +77,7 @@ describe("HypercertEvaluator", () => {
 
     it("should throw an error for unexpected evaluation source", async () => {
       const evaluation = {
+        creator: signer.address,
         evaluationSource: {
           type: "invalid",
         },
@@ -86,9 +87,31 @@ describe("HypercertEvaluator", () => {
         },
       };
 
-      await expect(evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema)).rejects.toThrowError(
-        /Unexpected evaluation source:/,
-      );
+      try {
+        await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
+      } catch (e) {
+        expect(e).toBeInstanceOf(Error);
+        let error = e as StorageError;
+        expect(error.message).toEqual(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
+      }
+
+      expect.assertions(2);
+    });
+
+    it("should throw an error for invalid creator address", async () => {
+      const evaluation = {
+        creator: "bob",
+      };
+
+      try {
+        await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
+      } catch (e) {
+        expect(e).toBeInstanceOf(MalformedDataError);
+        let error = e as MalformedDataError;
+        expect(error.message).toEqual(`Invalid creator address: ${evaluation.creator.toString()}`);
+      }
+
+      expect.assertions(2);
     });
   });
 });
