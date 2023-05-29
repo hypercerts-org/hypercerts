@@ -6,7 +6,7 @@ import { setupServer } from "msw/node";
 import { Web3Storage } from "web3.storage";
 
 import HypercertsStorage from "../../src/storage.js";
-import { logger } from "../../src/utils/logger.js";
+import logger from "../../src/utils/logger.js";
 import mockData from "../res/mockData.js";
 import mockMetadata from "../res/mockMetadata.js";
 

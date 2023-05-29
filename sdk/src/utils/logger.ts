@@ -1,36 +1,52 @@
-import { createLogger, format, transports } from "winston";
+export enum Log {
+  Error = 0,
+  Warn,
+  Info,
+  Debug,
+}
 
-const { cli, align, combine, timestamp, printf } = format;
+const getLogLevel = () => {
+  const level = process.env.LOG_LEVEL;
+  switch (level) {
+    case "0":
+      return Log.Error;
+    case "1":
+      return Log.Warn;
+    case "2":
+      return Log.Info;
+    case "3":
+      return Log.Debug;
+    default:
+      return Log.Info;
+  }
+};
 
-const consoleFormat = combine(
-  cli(),
-  timestamp(),
-  align(),
-  printf(info => {
-    return `${info.timestamp} - ${info.level}:  [${info.label}]: ${info.message} ${
-      info.metadata ? JSON.stringify(info.metadata) : ""
-    }`;
-  }),
-);
+const logger = {
+  error: (error: Error, label?: string) => {
+    console.error(`[error][${label ?? error.name}]: ${error.message} `);
+  },
 
-// Log levels
-// error: 0
-// warn: 1
-// info: 2
-// http: 3
-// verbose: 4
-// debug: 5
-// silly: 6
+  warn: (message: string, label?: string, ...data: unknown[]) => {
+    if (getLogLevel() < Log.Warn) return;
+    let logMessage = `[warn]${label ? `[${label}]` : ""}: ${message}`;
 
-const logger = createLogger({
-  level: process.env.LOG_LEVEL || "info",
-  format: consoleFormat,
-  defaultMeta: { service: "hypercerts-sdk" },
-  transports: [
-    new transports.Console({
-      format: consoleFormat,
-    }),
-  ],
-});
+    console.warn(logMessage, ...data);
+  },
 
-export { logger };
+  info: (message: string, label?: string, ...data: unknown[]) => {
+    if (getLogLevel() < Log.Info) return;
+    let logMessage = `[info]${label ? `[${label}]` : ""}: ${message}`;
+
+    console.info(logMessage, ...data);
+  },
+
+  debug: (message: string, label?: string, ...data: unknown[]) => {
+    if (getLogLevel() < Log.Debug) return;
+
+    let logMessage = `[debug]${label ? `[${label}]` : ""}: ${message}`;
+
+    console.debug(logMessage, ...data);
+  },
+};
+
+export default logger;

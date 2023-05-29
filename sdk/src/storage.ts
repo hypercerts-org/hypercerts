@@ -10,7 +10,7 @@ import { validateMetaData } from "./index.js";
 import { HypercertStorageInterface, HypercertStorageProps } from "./types/client.js";
 import { MalformedDataError, StorageError } from "./types/errors.js";
 import { HypercertMetadata } from "./types/metadata.js";
-import { logger } from "./utils/logger.js";
+import logger from "./utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -29,11 +29,11 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       web3StorageToken ?? process.env.WEB3_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
     if (!_nftStorageToken || _nftStorageToken === "") {
-      logger.error(`NFT Storage API key is missing or invalid: ${_nftStorageToken}}`);
+      logger.warn(`NFT Storage API key is missing or invalid: ${_nftStorageToken}}`);
     }
 
     if (!_web3StorageToken || _web3StorageToken === "") {
-      logger.error(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
+      logger.warn(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
     }
 
     if (_nftStorageToken !== undefined && _web3StorageToken !== undefined) {
@@ -61,7 +61,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       throw new MalformedDataError(`Invalid metadata.`, { errors: validation.errors });
     }
 
-    logger.debug("Storing HypercertMetaData:", { metadata: data });
+    logger.debug("Storing HypercertMetaData: ", "storage", [data]);
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
 
     const cid: CIDString = await this.nftStorageClient.storeBlob(blob);
@@ -113,7 +113,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     }
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const files = [new File([blob], "data.json")];
-    logger.debug("Storing blob of: ", data);
+    logger.debug("Storing blob of: ", "storage", [data]);
     const cid: CIDString = await this.web3StorageClient.put(files, { wrapWithDirectory: false });
 
     if (!cid) {
@@ -157,7 +157,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`, "storage");
 
     return axios.get(nftStorageGatewayLink).then((result) => result.data);
   }

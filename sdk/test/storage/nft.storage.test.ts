@@ -6,7 +6,7 @@ import { NFTStorage } from "nft.storage";
 import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError } from "../../src/types/errors.js";
 import { HypercertMetadata } from "../../src/types/metadata.js";
-import { logger } from "../../src/utils/logger.js";
+import logger from "../../src/utils/logger.js";
 import { getFormattedMetadata } from "../helpers.js";
 import mockData from "../res/mockData.js";
 import mockMetadata from "../res/mockMetadata.js";

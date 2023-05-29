@@ -10,6 +10,7 @@ import { ClientError, MalformedDataError, MintingError, StorageError } from "./t
 import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
 import { getConfig } from "./utils/config.js";
 import { validateAllowlist } from "./validator/index.js";
+import logger from "./utils/logger.js";
 
 /**
  * Hypercerts client factory
@@ -41,11 +42,7 @@ export default class HypercertClient implements HypercertClientInterface {
 
     this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;
     if (this.readonly) {
-      console.log("HypercertsClient is in readonly mode");
-      console.log("HypercertsClient signer: ", this.signer);
-      console.log("HypercertsClient provider: ", this.provider);
-      console.log("HypercertsClient contract address: ", this.contract.address);
-      console.log("HypercertsClient storage: ", this.storage);
+      logger.warn("HypercertsClient is in readonly mode", "client");
     }
   }
 
@@ -152,7 +149,6 @@ export default class HypercertClient implements HypercertClientInterface {
     if (!BigNumber.from(sumFractions).eq(totalUnits))
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
-    console.log("CALLING SPLIT FREACTION");
     return this.contract.splitFraction(signerAddress, claimId, fractions);
   };
 
