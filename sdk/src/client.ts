@@ -75,7 +75,9 @@ export default class HypercertClient implements HypercertClientInterface {
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
 
-    return this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction, overrides);
+    return overrides
+      ? this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction, overrides)
+      : this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction);
   };
 
   /**
@@ -121,14 +123,16 @@ export default class HypercertClient implements HypercertClientInterface {
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
 
-    return this.contract.createAllowlist(
-      this.config.signer.getAddress(),
-      totalUnits,
-      tree.root,
-      cid,
-      transferRestriction,
-      overrides,
-    );
+    return overrides
+      ? this.contract.createAllowlist(
+          this.config.signer.getAddress(),
+          totalUnits,
+          tree.root,
+          cid,
+          transferRestriction,
+          overrides,
+        )
+      : this.contract.createAllowlist(this.config.signer.getAddress(), totalUnits, tree.root, cid, transferRestriction);
   };
 
   /**
@@ -156,7 +160,9 @@ export default class HypercertClient implements HypercertClientInterface {
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
     console.log("CALLING SPLIT FREACTION");
-    return this.contract.splitFraction(signerAddress, claimId, fractions, overrides);
+    return overrides
+      ? this.contract.splitFraction(signerAddress, claimId, fractions, overrides)
+      : this.contract.splitFraction(signerAddress, claimId, fractions);
   };
 
   /**
@@ -180,7 +186,9 @@ export default class HypercertClient implements HypercertClientInterface {
       });
     }
 
-    return this.contract.mergeFractions(signerAddress, claimIds, overrides);
+    return overrides
+      ? this.contract.mergeFractions(signerAddress, claimIds, overrides)
+      : this.contract.mergeFractions(signerAddress, claimIds);
   };
 
   /**
@@ -199,7 +207,9 @@ export default class HypercertClient implements HypercertClientInterface {
     if (claim !== signerAddress)
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimId });
 
-    return this.contract.burnFraction(signerAddress, claimId, overrides);
+    return overrides
+      ? this.contract.burnFraction(signerAddress, claimId, overrides)
+      : this.contract.burnFraction(signerAddress, claimId);
   };
 
   /**
@@ -234,6 +244,8 @@ export default class HypercertClient implements HypercertClientInterface {
       if (!verified) throw new MintingError("Merkle proof verification failed", { root, proof });
     }
 
-    return this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides);
+    return overrides
+      ? this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
+      : this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
   };
 }
