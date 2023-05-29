@@ -44,7 +44,10 @@ export default class HypercertClient implements HypercertClientInterface {
     );
 
     this.evaluator = new HypercertEvaluator({
-      config: { chainId: this.config.chainId, address: "", signer: this.signer, storage: this.storage },
+      chainId: this.config.chainId,
+      address: "",
+      signer: this.signer,
+      storage: this.storage,
     });
 
     this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;

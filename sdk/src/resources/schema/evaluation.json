@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://github.com/hypercerts-org/hypercerts/hypercert-schema.json",
+  "$id": "hypercerts/evaluation.json",
   "title": "Hypercert Evaluation Schema",
   "description": "Schema for evaluating Hypercerts across different sources and evaluation types",
   "type": "object",

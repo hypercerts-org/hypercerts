@@ -13,8 +13,7 @@ import { DuplicateEvaluation, SimpleTextEvaluation } from "src/types/evaluation.
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
 ajv.addSchema(claimDataSchema, "claimData");
-ajv.addSchema(evaluationSchema.definitions.DuplicateEvaluation, "duplicateEvaluation");
-ajv.addSchema(evaluationSchema.definitions.SimpleTextEvaluation, "simpleTextEvaluation");
+ajv.addSchema(evaluationSchema, "evaluation.json");
 
 type ValidationResult = {
   valid: boolean;
@@ -81,8 +80,7 @@ const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
 };
 
 const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationResult => {
-  const schemaName = "duplicateEvaluation";
-  const validate = ajv.getSchema<DuplicateEvaluation>(schemaName);
+  const validate = ajv.getSchema<DuplicateEvaluation>("evaluation.json#/definitions/DuplicateEvaluation");
   if (!validate) {
     return { valid: false, errors: { schema: "Schema not found" } };
   }
@@ -102,8 +100,7 @@ const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationR
 };
 
 const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): ValidationResult => {
-  const schemaName = "simpleTextEvaluation";
-  const validate = ajv.getSchema<SimpleTextEvaluation>(schemaName);
+  const validate = ajv.getSchema<SimpleTextEvaluation>("evaluation.json#/definitions/SimpleTextEvaluation");
   if (!validate) {
     return { valid: false, errors: { schema: "Schema not found" } };
   }

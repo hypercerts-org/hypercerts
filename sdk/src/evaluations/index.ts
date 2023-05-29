@@ -11,10 +11,10 @@ import EasEvaluator from "./eas.js";
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 type HypercertEvaluatorConfig = {
-  chainId: number;
-  address: string;
-  signer: ethers.Signer & TypedDataSigner;
-  storage: HypercertsStorage;
+  chainId?: number;
+  address?: string;
+  signer?: ethers.Signer & TypedDataSigner;
+  storage?: HypercertsStorage;
 };
 
 export interface EvaluatorInterface {
@@ -27,40 +27,30 @@ export default class HypercertEvaluator implements EvaluatorInterface {
   eas: EasEvaluator;
 
   constructor({
-    config = {
-      chainId: DEFAULT_CHAIN_ID,
-      address: EASContractAddress,
-      signer: new ethers.VoidSigner(""),
-      storage: new HypercertsStorage({}),
-    },
-  }: {
-    config?: HypercertEvaluatorConfig;
-  }) {
-    this.signer = config.signer;
-    this.storage = config.storage;
+    chainId = DEFAULT_CHAIN_ID,
+    address = EASContractAddress,
+    signer = new ethers.VoidSigner(""),
+    storage = new HypercertsStorage({}),
+  }: HypercertEvaluatorConfig) {
+    this.signer = signer;
+    this.storage = storage;
     this.eas = new EasEvaluator({
-      config: {
-        address: config.address,
-        chainId: config.chainId,
-        signer: this.signer,
-      },
+      address,
+      chainId,
+      signer: this.signer,
     });
   }
 
   submitEvaluation = async (evaluation: HypercertEvaluationSchema): Promise<CIDString> => {
-    if (this.storage.readonly) {
-      throw new StorageError("Storage is in readonly mode");
-    }
-
     if (isEasEvaluation(evaluation.evaluationSource)) {
       const signedData = await this.eas.signOfflineEvaluation(evaluation.evaluationData);
-      const evaluationData = { ...evaluation.evaluationData, ...signedData };
+      const evaluationData = { ...evaluation.evaluationData, signedData };
       const evaluationToStore = { ...evaluation, evaluationData };
 
       return this.storage.storeData(evaluationToStore);
     }
 
-    throw new Error(`Unexpected evaluation source: ${evaluation.evaluationSource}`);
+    throw new Error(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
   };
 }
 

@@ -3,30 +3,26 @@ import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID, EAS_SCHEMAS } from "../constants.js";
-import { InvalidOrMissingError, MalformedDataError } from "../types/errors.js";
+import { MalformedDataError } from "../types/errors.js";
 import { DuplicateEvaluation, EvaluationData, SimpleTextEvaluation } from "../types/evaluation.js";
-import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "src/validator/index.js";
+import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
 
 type EasEvaluatorConfig = {
-  address: string;
-  chainId: number;
-  signer: TypedDataSigner;
+  address?: string;
+  chainId?: number;
+  signer?: TypedDataSigner;
 };
 
 export default class EasEvaluator {
   offChain: Offchain;
   signer: TypedDataSigner;
 
-  constructor({
-    config = { chainId: DEFAULT_CHAIN_ID, address: "", signer: new ethers.VoidSigner("") },
-  }: {
-    config?: EasEvaluatorConfig;
-  }) {
-    this.offChain = new Offchain({ address: config.address, chainId: config.chainId, version: "0.26" });
-    this.signer = config.signer;
+  constructor({ chainId = DEFAULT_CHAIN_ID, address = "", signer = new ethers.VoidSigner("") }: EasEvaluatorConfig) {
+    this.offChain = new Offchain({ address, chainId, version: "0.26" });
+    this.signer = signer;
   }
 
-  getSignature = async (encodedData: string, recipient: string, schema: string) => {
+  getSignature = async (encodedData: string, recipient: string, schemaUid: string) => {
     return await this.offChain.signOffchainAttestation(
       {
         // TODO who will be the recipient? The contract it points to? The creator?
@@ -37,11 +33,11 @@ export default class EasEvaluator {
         time: Date.now(),
         revocable: true,
         nonce: 0,
-        schema,
+        schema: schemaUid,
         refUID: "0x0000000000000000000000000000000000000000000000000000000000000000",
         data: encodedData,
       },
-      this.signer as TypedDataSigner,
+      this.signer,
     );
   };
 
@@ -52,8 +48,8 @@ export default class EasEvaluator {
         throw new MalformedDataError("Invalid evaluation data", { errors: validation.errors });
       }
 
-      const schema = EAS_SCHEMAS["sepolia"].duplicate.schema;
-      const schemaEncoder = new SchemaEncoder(schema);
+      const duplicateSchema = EAS_SCHEMAS["sepolia"].duplicate;
+      const schemaEncoder = new SchemaEncoder(duplicateSchema.schema);
       const recipient = evaluation.realHypercert.contract;
 
       // Initialize SchemaEncoder with the schema string
@@ -64,7 +60,7 @@ export default class EasEvaluator {
         { name: "claimId", value: evaluation.realHypercert.claimId as string, type: "uint256" },
       ]);
 
-      return this.getSignature(encodedData, recipient, schema);
+      return this.getSignature(encodedData, recipient, duplicateSchema.uid);
     }
 
     if (isSimpleTextEvaluation(evaluation)) {
@@ -73,8 +69,8 @@ export default class EasEvaluator {
         throw new MalformedDataError("Invalid evaluation data", { errors: validation.errors });
       }
 
-      const schema = EAS_SCHEMAS["sepolia"].contentHash.schema;
-      const schemaEncoder = new SchemaEncoder(schema);
+      const simpleTextSchema = EAS_SCHEMAS["sepolia"].contentHash;
+      const schemaEncoder = new SchemaEncoder(simpleTextSchema.schema);
       const recipient = evaluation.hypercert.contract;
 
       const contentHash = ethers.utils.id(evaluation.text);
@@ -83,7 +79,7 @@ export default class EasEvaluator {
       // TODO validate schema values
       const encodedData = schemaEncoder.encodeData([{ name: "contentHash", value: contentHash, type: "bytes32" }]);
 
-      return this.getSignature(encodedData, recipient, schema);
+      return this.getSignature(encodedData, recipient, simpleTextSchema.uid);
     }
 
     assertNever(evaluation);
