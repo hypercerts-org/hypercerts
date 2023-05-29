@@ -36,7 +36,7 @@ def fetch_list_of_wallets():
 DOWNLOAD_DIR = os.getcwd()
 STORAGE_DIR = "data/temp"
 
-SLEEP = 5
+SLEEP = 10
 MAX_TRIES = 5
 
 
@@ -56,7 +56,7 @@ def download_zerion_history(driver, wallet_address):
 
     try:
         print("Clicking download button...")
-        button = WebDriverWait(driver, SLEEP * 5).until(
+        button = WebDriverWait(driver, SLEEP * 2).until(
             EC.element_to_be_clickable((By.XPATH, "//button[contains(.,'Download CSV')]"))
         )
         button.click()

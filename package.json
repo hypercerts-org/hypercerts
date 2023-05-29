@@ -13,6 +13,7 @@
       "docs",
       "frontend",
       "graph",
+      "os-observer",
       "sdk"
     ],
     "nohoist": [
@@ -22,7 +23,6 @@
   "scripts": {
     "build": "turbo run build --concurrency=100%",
     "build:frontend": "turbo run build --filter=@hypercerts-org/frontend",
-    "build:site": "turbo run build --filter=@hypercerts-org/frontend --filter=@hypercerts-org/docs --filter=hypercerts-protocol && yarn copy",
     "build:contracts": "turbo run build --filter=hypercerts-protocol",
     "build:defender": "turbo run build --filter=hypercerts-defender",
     "build:graph": "turbo run build --filter=@hypercerts-org/graph",
@@ -34,14 +34,14 @@
     "deploy:cors-proxy": "turbo run deploy --filter=@hypercerts-org/cors-proxy --parallel",
     "deploy:defender": "turbo run deploy --filter=hypercerts-defender --parallel",
     "deploy:graph": "turbo run deploy --filter=@hypercerts-org/graph --parallel",
-    "deploy:site": "yarn build:site && yarn sentry:sourcemaps",
+    "deploy:site": "turbo run build --filter=@hypercerts-org/docs --filter=hypercerts-protocol && turbo run deploy --filter=@hypercerts-org/frontend && yarn copy",
     "dev:cors-proxy": "turbo run dev --filter=@hypercerts-org/cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=@hypercerts-org/frontend --parallel",
     "format:staged": "lint-staged",
     "lint": "turbo run lint --concurrency=100%",
-    "sentry:sourcemaps": "turbo run sentry:sourcemaps --filter=@hypercerts-org/frontend",
     "serve:build": "yarn serve build",
-    "test": "turbo run test --concurrency=100%",
+    "start:os-observer": "turbo run start --filter=@hypercerts-org/os-observer --",
+    "test": "turbo run test --concurrency=1",
     "prepare": "husky install"
   },
   "devDependencies": {

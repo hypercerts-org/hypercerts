@@ -7,13 +7,17 @@
       "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
     "deploy": {
-      "dependsOn": ["build", "lint", "test"]
+      "dependsOn": ["build"],
+      "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
     "dev": {
       "persistent": true
     },
     "lint": {},
     "sentry:sourcemaps": {},
+    "start": {
+      "cache": false
+    },
     "test": {},
     "@hypercerts-org/frontend#build": {
       "dependsOn": ["^build"],

@@ -4,12 +4,14 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
 type BurnFractionButtonProps = {
+  text: string;
   fractionId: string;
   disabled: boolean;
   className: string;
 };
 
 export const BurnFractionButton = ({
+  text = "Burn",
   fractionId,
   disabled,
   className,
@@ -30,7 +32,7 @@ export const BurnFractionButton = ({
   };
   return (
     <Button className={className} disabled={disabled} onClick={handleClick}>
-      Burn
+      {text}
     </Button>
   );
 };
