@@ -2,7 +2,7 @@ import {
   fractionsByClaim,
   fractionsByOwner,
   fractionById,
-} from "@hypercerts-org/hypercerts-sdk";
+} from "@hypercerts-org/sdk";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFractionsByOwner = (owner: string) =>

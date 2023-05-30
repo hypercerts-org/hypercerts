@@ -7,13 +7,13 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { parseAllowlistCsv } from "../lib/parsing";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
 import {
   HypercertMetadata,
   HypercertMinting,
   AllowlistEntry,
   Allowlist,
-} from "@hypercerts-org/hypercerts-sdk";
+} from "@hypercerts-org/sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber } from "ethers";
 import _ from "lodash";

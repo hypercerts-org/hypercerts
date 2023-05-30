@@ -1,10 +1,7 @@
 import { spawn } from "../lib/common";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
-import * as sdk from "@hypercerts-org/hypercerts-sdk";
-import {
-  ClaimByIdQuery,
-  ClaimTokensByClaimQuery,
-} from "@hypercerts-org/hypercerts-sdk";
+import * as sdk from "@hypercerts-org/sdk";
+import { ClaimByIdQuery, ClaimTokensByClaimQuery } from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import qs from "qs";
 import React, { ReactNode } from "react";

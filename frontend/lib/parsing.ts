@@ -1,4 +1,4 @@
-import { Allowlist } from "@hypercerts-org/hypercerts-sdk";
+import { Allowlist } from "@hypercerts-org/sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
 import { isAddress } from "ethers/lib/utils";

@@ -1,5 +1,5 @@
 import type { TypedDataSigner } from "@ethersproject/abstract-signer";
-import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
+import { HypercertMinter } from "@hypercerts-org/contracts";
 import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 import HypercertEvaluator from "src/evaluations/index.js";

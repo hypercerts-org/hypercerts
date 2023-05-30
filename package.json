@@ -23,10 +23,10 @@
   "scripts": {
     "build": "turbo run build --concurrency=100%",
     "build:frontend": "turbo run build --filter=@hypercerts-org/frontend",
-    "build:contracts": "turbo run build --filter=hypercerts-protocol",
+    "build:contracts": "turbo run build --filter=@hypercerts-org/contracts",
     "build:defender": "turbo run build --filter=hypercerts-defender",
     "build:graph": "turbo run build --filter=@hypercerts-org/graph",
-    "build:sdk": "turbo run build --filter=hypercerts-sdk",
+    "build:sdk": "turbo run build --filter=@hypercerts-org/sdk",
     "copy": "yarn copy:frontend && yarn copy:docs && yarn copy:html",
     "copy:docs": "mkdir -p ./build/docs/ && cp -r ./docs/build/* ./build/docs/",
     "copy:frontend": "mkdir -p ./build/ && cp -r ./frontend/out/* ./build/ && cp ./frontend/_redirects ./build/",

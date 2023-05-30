@@ -7,7 +7,7 @@ import { supabase } from "../lib/supabase-client";
 import { ClaimProof, verifyFractionClaim } from "../lib/verify-fraction-claim";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import { HypercertClient } from "@hypercerts-org/hypercerts-sdk";
+import { HypercertClient } from "@hypercerts-org/sdk";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { ethers } from "ethers";
 import { useSigner } from "wagmi";

@@ -1,5 +1,5 @@
 {
-  "name": "@hypercerts-org/hypercerts-protocol",
+  "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
   "version": "0.0.11",
   "author": {

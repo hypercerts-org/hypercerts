@@ -1,6 +1,6 @@
 // Validation
 // Protocol
-import * as protocol from "@hypercerts-org/hypercerts-protocol";
+import * as protocol from "@hypercerts-org/contracts";
 
 // Graph
 import { execute } from "../.graphclient/index.js";

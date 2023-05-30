@@ -1,4 +1,4 @@
-import { HypercertMinter, HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
+import { HypercertMinter, HypercertMinterABI } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
