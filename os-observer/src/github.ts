@@ -1,37 +1,42 @@
-import { gql } from "graphql-request";
+import { gql, request } from "graphql-request";
 import { PrismaClient, EventType } from "@prisma/client";
 
 export const query = gql`
-        {{
-          search(
-            query: "org:{org} is:pr is:merged merged:{since}..{until}" 
-            first: $first
-            after: $after
-            type: ISSUE
-          ) {{
-            pageInfo {{
-              hasNextPage
-              endCursor
-            }}
-            nodes {{
-              ... on PullRequest {{
-                createdAt
-                mergedAt
-                mergedBy {{
-                  login
-                }}
-                author {{
-                  login                  
-                }}  
-                title
-                repository {{
-                  name
-                }}
-                url
-              }}
-            }}
-          }}
-        }}`;
+  {
+    rateLimit {
+      limit
+      cost
+      remaining
+      resetAt
+    }
+    search(
+      query: "org:gitcoinco is:issue -reason:NOT_PLANNED"
+      first: 100
+      type: ISSUE
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        ... on Issue {
+          createdAt
+          closedAt
+          author {
+            login
+          }
+          title
+          repository {
+            name
+          }
+          url
+          state
+          stateReason
+        }
+      }
+    }
+  }
+`;
 
 // startDate == since
 // endDate == until
@@ -81,6 +86,23 @@ export async function main() {
 
 export function fetchGithubRepo() {
   return "Hello World";
+}
+
+export interface GithubOrg {
+  type: "githubOrg";
+  name: string;
+}
+
+export interface GithubRepo {
+  type: "githubRepo";
+  name: string;
+  owner: string;
+}
+
+function fetchGithub(orgOrRepo: GithubOrg | GithubRepo) {
+  switch (orgOrRepo.type) {
+    case "githubOrg":
+  }
 }
 
 //main();
