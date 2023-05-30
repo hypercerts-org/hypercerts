@@ -4,12 +4,13 @@ import { ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { useEffect, useState } from "react";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
+import { TypedDataSigner } from "@ethersproject/abstract-signer";
 
 type ClientProps = {
   chainId: number;
   provider?: ethers.providers.Provider;
   rpcUrl?: string;
-  signer?: ethers.Signer;
+  signer?: ethers.Signer & TypedDataSigner;
 };
 
 const storage = hypercertsStorage;
@@ -30,7 +31,7 @@ export const useHypercertClient = () => {
       const config: ClientProps = {
         chainId: await signer.getChainId(),
         provider: signer.provider,
-        signer,
+        signer: signer as ethers.Signer & TypedDataSigner,
       };
 
       const client = new HypercertClient({ config, storage });
