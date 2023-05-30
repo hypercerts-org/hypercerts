@@ -1,13 +1,12 @@
-import { CommonArgs } from "../../cli.js";
 import { getOrgRepos } from "./getOrgRepos.js";
 import { getRepoIssues } from "./getRepoIusses.js";
 
-export interface FetchGithubArgs extends CommonArgs {
+export interface GithubIssuesArgs {
   name: string;
   owner?: string;
 }
 
-export async function fetchGithub(args: FetchGithubArgs) {
+export async function fetchGithubIssues(args: GithubIssuesArgs) {
   if (args.owner) {
     fetchForRepo(args.name, args.owner);
   } else {

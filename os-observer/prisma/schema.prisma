@@ -7,61 +7,135 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model projects {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  name        String
-  github_org  String
-  description String
+// Used to track a group of people, who may be producing many artifacts 
+model Organization {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt
 
-  wallets wallets[]
-  events  events[]
+  // Human-readable name for the organization
+  name            String
+  // The GitHub organization slug (e.g "hypercerts-org")
+  githubOrg       String
+  // Human-readable description for the organization
+  description     String?
+
+  // RELATIONS
+  // Associated artifacts
+  artifacts       Artifact[]
+  // Associated events
+  events          Event[]
+  // Associated event source pointers
+  eventSourcePtrs EventSourcePointer[]
 }
 
-model wallets {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  address    String?
-  project_id String   @db.Uuid
-  type       String?
-  ens        String?
+// A particular piece of work created by an organization
+// TODO: if we really want to have separate tables for wallets, repositories, etc, we can turn this into a union type later
+//    https://dev.to/reggi/working-with-unions-within-prisma-nm6
+model Artifact {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt
 
-  project projects @relation(fields: [project_id], references: [id])
+  // Relation to the Organization
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  organizationId  Int
+  
+  // The type of artifact
+  type            ArtifactType
+  // The namespace of `name`
+  namespace       ArtifactNamespace
+  // A unique identifier for this artifact within the namespace
+  name            String
+  // An optional URL to learn more about this artifact
+  url             String?
+  // Catch-all for other data we want to store
+  details         Json?
+
+  // RELATIONS
+  // Associated events
+  events          Event[]
+  // Associated event source pointers
+  eventSourcePtrs EventSourcePointer[]
 }
 
-model events {
-  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at  DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
-  project_id  String     @db.Uuid
-  event_time  DateTime?  @db.Timestamptz(3)
-  event_type  String?
-  contributor String?
-  amount      Float?
-  details     Json?
-  event_enum  EventType?
+// An event that happened to an artifact
+// An event stream is identified by its (organization, artifact, eventType)
+model Event {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt
 
-  project projects @relation(fields: [project_id], references: [id])
+  // Relation to the Organization
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  organizationId  Int
+  // Relation to the Artifact
+  artifact        Artifact      @relation(fields: [artifactId], references: [id])
+  artifactId      Int
+  // Type of event
+  eventType       EventType?
+  // Time the event happened
+  eventTime       DateTime?     @db.Timestamptz(3)
+  // Who is the source of the event?
+  contributor     String?
+  // Depending on the event type, this may reflect some count or amount
+  amount          Float?
+  // Catch-all for other data we want to store with the event
+  details         Json?
 }
 
-model funding {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  ecosystem  String?
-  name       String?
-  address    String?
-  token      String?
-  amount     Decimal?  @db.Money
-  start_date DateTime? @db.Timestamptz(3)
-  end_date   DateTime? @db.Timestamptz(3)
-  details    Json?
-  chain      String?
-}
+model EventSourcePointer {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt
 
-model caching_pointer {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  event_enum EventType
-  pointer    Json
+  // Relation to the Organization
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  organizationId  Int
+  // Relation to the Artifact
+  artifact        Artifact      @relation(fields: [artifactId], references: [id])
+  artifactId      Int
+  // Type of event
+  eventType       EventType?
+  pointer         Json
 }
 
 enum EventType {
-  GITHUB_CREATED_PR
+  // Financing events
+  FUNDING
+  // Source code management events
+  PULL_REQUEST_CREATED
+  PULL_REQUEST_MERGED
+  COMMIT_CODE
+  // Project management events
+  ISSUE_FILED
+  ISSUE_CLOSED
+  // Software dependency events
+  DOWNSTREAM_DEPENDENCY_COUNT
+  UPSTREAM_DEPENDENCY_COUNT
+  DOWNLOADS
+  // Usage events
+  CONTRACT_INVOKED
+  USERS_INTERACTED
+}
+
+enum ArtifactType {
+  // On-chain artifacts
+  EOA_ADDRESS
+  SAFE_ADDRESS
+  CONTRACT_ADDRESS
+  // Software artifacts
+  GIT_REPOSITORY
+  NPM_PACKAGE
+}
+
+enum ArtifactNamespace {
+  // Blockchains
+  ETHEREUM
+  OPTIMISM
+  GOERLI
+  // Software
+  GITHUB
+  GITLAB
+  NPM_REGISTRY
 }
