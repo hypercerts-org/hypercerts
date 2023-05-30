@@ -1,10 +1,15 @@
 import { HypercertClient } from "@hypercerts-org/sdk";
-import { hypercertsStorage } from "../lib/hypercerts-storage";
+
 import { ethers } from "ethers";
-import { useSigner } from "wagmi";
+import { Chain, useNetwork, useProvider, useSigner } from "wagmi";
 import { useEffect, useState } from "react";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
+import {
+  DEFAULT_CHAIN_ID,
+  NFT_STORAGE_TOKEN,
+  WEB3_STORAGE_TOKEN,
+} from "../lib/config";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
+import { FetchSignerResult } from "@wagmi/core";
 
 type ClientProps = {
   chainId: number;
@@ -13,40 +18,60 @@ type ClientProps = {
   signer?: ethers.Signer & TypedDataSigner;
 };
 
-const storage = hypercertsStorage;
-
 const defaultClient = new HypercertClient({
-  config: {
-    chainId: DEFAULT_CHAIN_ID,
-  },
-  storage,
+  chainId: DEFAULT_CHAIN_ID,
+  nftStorageToken: NFT_STORAGE_TOKEN,
+  web3StorageToken: WEB3_STORAGE_TOKEN,
 });
 
 export const useHypercertClient = () => {
   const [client, setClient] = useState<HypercertClient>(defaultClient);
   const { data: signer, isLoading } = useSigner();
+  const { chain } = useNetwork();
+  const provider = useProvider();
 
   useEffect(() => {
-    const loadClientFromSigner = async (signer: ethers.Signer) => {
-      const config: ClientProps = {
-        chainId: await signer.getChainId(),
-        provider: signer.provider,
-        signer: signer as ethers.Signer & TypedDataSigner,
-      };
+    const loadClient = async (
+      signer?: FetchSignerResult<ethers.Signer> | undefined,
+      chain?: Chain,
+      provider?: ethers.providers.Provider,
+    ) => {
+      if (signer && chain && provider) {
+        const config: ClientProps = {
+          chainId: chain.id,
+          provider: provider || signer.provider,
+          signer: signer as ethers.Signer & TypedDataSigner,
+        };
 
-      const client = new HypercertClient({ config, storage });
+        const client = new HypercertClient(config);
 
-      setClient(client);
+        setClient(client);
+      }
+
+      if (!signer && chain && provider) {
+        const config: ClientProps = {
+          chainId: chain.id,
+          provider: provider,
+        };
+
+        const client = new HypercertClient(config);
+
+        setClient(client);
+      }
+
+      if (!signer && !provider && chain) {
+        const config: ClientProps = {
+          chainId: chain.id,
+        };
+
+        const client = new HypercertClient(config);
+
+        setClient(client);
+      }
     };
 
-    if (signer) {
-      loadClientFromSigner(signer);
-    }
-
-    if (!signer) {
-      setClient(defaultClient);
-    }
-  }, [signer, isLoading]);
+    loadClient(signer, chain, provider);
+  }, [chain, provider, signer, isLoading]);
 
   return { client, isLoading };
 };

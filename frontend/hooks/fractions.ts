@@ -1,19 +1,35 @@
-import {
-  fractionsByClaim,
-  fractionsByOwner,
-  fractionById,
-} from "@hypercerts-org/sdk";
 import { useQuery } from "@tanstack/react-query";
+import { useHypercertClient } from "./hypercerts-client";
 
-export const useFractionsByOwner = (owner: string) =>
-  useQuery(["graph", "fractions", "owner", owner], () =>
-    fractionsByOwner(owner),
-  );
+export const useFractionsByOwner = (owner: string) => {
+  const {
+    client: { indexer },
+  } = useHypercertClient();
 
-export const useFractionsByClaim = (claimId: string) =>
-  useQuery(["graph", "fractions", "claim", claimId], () =>
-    fractionsByClaim(claimId),
-  );
+  return useQuery({
+    queryKey: ["graph", "fractions", "owner", owner],
+    queryFn: () => indexer.fractionsByOwner(owner),
+  });
+};
 
-export const useFractionById = (fractionId: string) =>
-  useQuery(["graph", "fractions", fractionId], () => fractionById(fractionId));
+export const useFractionsByClaim = (claimId: string) => {
+  const {
+    client: { indexer },
+  } = useHypercertClient();
+
+  useQuery({
+    queryKey: ["graph", "fractions", "claim", claimId],
+    queryFn: () => indexer.fractionsByClaim(claimId),
+  });
+};
+
+export const useFractionById = (fractionId: string) => {
+  const {
+    client: { indexer },
+  } = useHypercertClient();
+
+  useQuery({
+    queryKey: ["graph", "fractions", fractionId],
+    queryFn: () => indexer.fractionById(fractionId),
+  });
+};

@@ -6,17 +6,25 @@ import { HypercertMetadata, formatHypercertData } from "../../src/index.js";
 import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
 import { TestDataType, getRawInputData } from "../helpers.js";
+import { reloadEnv } from "../setup-tests.js";
 
 describe("mintClaim in HypercertClient", () => {
+  // beforeAll(() => {
+  //   delete process.env.NFT_STORAGE_TOKEN;
+  //   delete process.env.WEB3_STORAGE_TOKEN;
+  //   delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
+  //   delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+  // });
+
+  // afterAll(() => reloadEnv());
+
   it("mints a hypercerts", async () => {
     const provider = new MockProvider();
 
     const [wallet] = provider.getWallets();
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({
-      config: { chainId: 5, provider, signer },
-    });
+    const client = new HypercertClient({ chainId: 5, provider, signer });
 
     expect(client.readonly).toBe(false);
 
@@ -35,9 +43,7 @@ describe("mintClaim in HypercertClient", () => {
     const provider = new MockProvider();
     const [wallet] = provider.getWallets();
 
-    const client = new HypercertClient({
-      config: { chainId: 5, signer: wallet },
-    });
+    const client = new HypercertClient({ chainId: 5, signer: wallet });
 
     expect(client.readonly).toBe(false);
 
@@ -60,9 +66,7 @@ describe("mintClaim in HypercertClient", () => {
     const [wallet] = provider.getWallets();
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({
-      config: { chainId: 5, provider, signer },
-    });
+    const client = new HypercertClient({ chainId: 5, provider, signer });
 
     expect(client.readonly).toBe(false);
 

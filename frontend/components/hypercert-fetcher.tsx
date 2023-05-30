@@ -1,10 +1,14 @@
 import { spawn } from "../lib/common";
 import { hypercertsStorage } from "../lib/hypercerts-storage";
-import * as sdk from "@hypercerts-org/sdk";
-import { ClaimByIdQuery, ClaimTokensByClaimQuery } from "@hypercerts-org/sdk";
+import {
+  ClaimByIdQuery,
+  ClaimTokensByClaimQuery,
+  HypercertMetadata,
+} from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import qs from "qs";
 import React, { ReactNode } from "react";
+import { useHypercertClient } from "../hooks/hypercerts-client";
 
 // The name used to pass data into the Plasmic DataProvider
 const DATAPROVIDER_NAME = "hypercertData";
@@ -33,7 +37,7 @@ export interface HypercertFetcherProps {
 
 export type HypercertData = ClaimByIdQuery &
   Partial<ClaimTokensByClaimQuery> & {
-    metadata?: sdk.HypercertMetadata;
+    metadata?: HypercertMetadata;
   };
 
 export function HypercertFetcher(props: HypercertFetcherProps) {
@@ -48,6 +52,9 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
     byMetadataUri,
   } = props;
   const [data, setData] = React.useState<HypercertData | undefined>();
+  const {
+    client: { indexer },
+  } = useHypercertClient();
 
   React.useEffect(() => {
     spawn(
@@ -69,12 +76,12 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           : byClaimId ?? qClaimId;
         // Get the claim
         if (claimId) {
-          const result = await sdk.claimById(claimId);
+          const result = await indexer.claimById(claimId);
           newData.claim = result.claim;
         }
         // Get the fraction tokens
         if (claimId) {
-          const result = await sdk.fractionsByClaim(claimId);
+          const result = await indexer.fractionsByClaim(claimId);
           newData.claimTokens = result.claimTokens;
         }
         // Get the metadata
