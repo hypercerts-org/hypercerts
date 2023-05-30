@@ -18,10 +18,11 @@ import type { HypercertClaimdata } from "./types/claimdata.js";
 import { TransferRestrictions } from "./types/hypercerts.js";
 import type { Allowlist, AllowlistEntry } from "./types/hypercerts.js";
 import type { HypercertMetadata } from "./types/metadata.js";
+import type { HypercertClientConfig } from "./types/client.js";
 import { formatHypercertData } from "./utils/formatter.js";
 import { validateAllowlist, validateClaimData, validateMetaData } from "./validator/index.js";
 
-export type { QueryParams };
+export type { QueryParams, HypercertClientConfig };
 export { validateMetaData, validateClaimData, validateAllowlist, formatHypercertData };
 
 export { HypercertClient, TransferRestrictions };

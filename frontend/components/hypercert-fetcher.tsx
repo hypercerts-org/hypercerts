@@ -1,5 +1,4 @@
 import { spawn } from "../lib/common";
-import { hypercertsStorage } from "../lib/hypercerts-storage";
 import {
   ClaimByIdQuery,
   ClaimTokensByClaimQuery,
@@ -53,7 +52,7 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
   } = props;
   const [data, setData] = React.useState<HypercertData | undefined>();
   const {
-    client: { indexer },
+    client: { indexer, storage },
   } = useHypercertClient();
 
   React.useEffect(() => {
@@ -68,9 +67,11 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
         );
         const hashQuery = qs.parse(hashQueryString);
         const searchQuery = qs.parse(searchQueryString);
+
         // Take preference with the hash querystring
         const qClaimId = (hashQuery[QUERYSTRING_SELECTOR] ??
           searchQuery[QUERYSTRING_SELECTOR]) as string;
+
         const claimId = useQueryString
           ? qClaimId ?? byClaimId
           : byClaimId ?? qClaimId;
@@ -88,10 +89,12 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
         const metadataUri = useQueryString
           ? newData?.claim?.uri ?? byMetadataUri
           : byMetadataUri ?? newData?.claim?.uri;
+
         if (metadataUri) {
-          const result = await hypercertsStorage.getMetadata(metadataUri);
+          const result = await storage.getMetadata(metadataUri);
           newData.metadata = result;
         }
+
         console.log(
           `Hypercert name='${newData.metadata?.name}' claimId=${claimId}, metadataUri=${metadataUri}: `,
           newData,

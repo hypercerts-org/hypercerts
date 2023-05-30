@@ -1,7 +1,7 @@
-import { HypercertClient } from "@hypercerts-org/sdk";
+import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 
 import { ethers } from "ethers";
-import { Chain, useNetwork, useProvider, useSigner } from "wagmi";
+import { Chain, useNetwork, useSigner, useProvider } from "wagmi";
 import { useEffect, useState } from "react";
 import {
   DEFAULT_CHAIN_ID,
@@ -10,13 +10,6 @@ import {
 } from "../lib/config";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { FetchSignerResult } from "@wagmi/core";
-
-type ClientProps = {
-  chainId: number;
-  provider?: ethers.providers.Provider;
-  rpcUrl?: string;
-  signer?: ethers.Signer & TypedDataSigner;
-};
 
 const defaultClient = new HypercertClient({
   chainId: DEFAULT_CHAIN_ID,
@@ -36,36 +29,16 @@ export const useHypercertClient = () => {
       chain?: Chain,
       provider?: ethers.providers.Provider,
     ) => {
-      if (signer && chain && provider) {
-        const config: ClientProps = {
-          chainId: chain.id,
-          provider: provider || signer.provider,
-          signer: signer as ethers.Signer & TypedDataSigner,
+      if (signer && provider) {
+        const _signer = signer?.connect(provider);
+
+        const config: Partial<HypercertClientConfig> = {
+          chainId: chain?.id ?? undefined,
+          provider: provider ?? undefined,
+          signer: (_signer as ethers.Signer & TypedDataSigner) ?? undefined,
         };
 
         const client = new HypercertClient(config);
-
-        setClient(client);
-      }
-
-      if (!signer && chain && provider) {
-        const config: ClientProps = {
-          chainId: chain.id,
-          provider: provider,
-        };
-
-        const client = new HypercertClient(config);
-
-        setClient(client);
-      }
-
-      if (!signer && !provider && chain) {
-        const config: ClientProps = {
-          chainId: chain.id,
-        };
-
-        const client = new HypercertClient(config);
-
         setClient(client);
       }
     };
