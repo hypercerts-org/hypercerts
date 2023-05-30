@@ -1,6 +1,8 @@
+import type { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
 import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
+import HypercertEvaluator from "src/evaluations/index.js";
 import HypercertsStorage from "src/storage.js";
 
 import { Allowlist, TransferRestrictions } from "./hypercerts.js";
@@ -18,7 +20,7 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment & {
   provider?: ethers.providers.Provider;
   rpcUrl?: string;
-  signer?: ethers.Signer;
+  signer?: ethers.Signer & TypedDataSigner;
 };
 
 /**
@@ -63,6 +65,7 @@ export type HypercertClientProps = {
  * @param provider - Ethers provider
  * @param contract - Hypercerts contract
  * @param storage - Hypercerts storage
+ * @param evaluator - Hypercerts
  * @param mintClaim - Wrapper function to mint a Hypercert claim
  * @param createAllowlist - Wrapper function to mint a Hypercert claim with an allowlist
  * @param splitClaimUnits - Wrapper function to split a Hypercert claim into multiple claims
@@ -76,6 +79,7 @@ export interface HypercertClientInterface {
   provider: ethers.providers.Provider;
   contract: HypercertMinter;
   storage: HypercertsStorage;
+  evaluator: HypercertEvaluator;
   mintClaim: (
     metaData: HypercertMetadata,
     totalUnits: BigNumberish,

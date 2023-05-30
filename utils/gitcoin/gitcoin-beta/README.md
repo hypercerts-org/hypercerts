@@ -24,7 +24,7 @@ To initialize the data, you will need to gather information about the Funding Ro
 
 2. This will extract data from Gitcoin's allo protocol and create a file called `data/funding-round-data.json`
 
-3. Open the file and modify any of the styling for hypercert background colors and vector art. 
+3. Open the file and modify any of the styling for hypercert background colors and vector art.
 
 ```
   {
@@ -34,6 +34,7 @@ To initialize the data, you will need to gather information about the Funding Ro
     "backgroundVectorArt": "contours"  // YOU MAY EDIT THIS
   }
 ```
+
 4. Comment out `get_funding_rounds` in the `main` function so it doesn't overwrite your new settings
 
 # Generating Hypercerts

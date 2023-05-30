@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "hypercerts/evaluation.json",
+  "title": "Hypercert Evaluation Schema",
+  "description": "Schema for evaluating Hypercerts across different sources and evaluation types",
+  "type": "object",
+  "properties": {
+    "creator": {
+      "type": "string"
+    },
+    "evaluationData": {
+      "$ref": "#/definitions/EvaluationData"
+    },
+    "evaluationSource": {
+      "$ref": "#/definitions/EvaluationSource"
+    }
+  },
+  "required": ["creator", "evaluationData", "evaluationSource"],
+  "definitions": {
+    "EvaluationData": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/DuplicateEvaluation"
+        },
+        {
+          "$ref": "#/definitions/SimpleTextEvaluation"
+        }
+      ]
+    },
+    "DuplicateEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "duplicate"
+        },
+        "duplicateHypercerts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HypercertPointer"
+          }
+        },
+        "realHypercert": {
+          "$ref": "#/definitions/HypercertPointer"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "duplicateHypercerts", "realHypercert", "explanation"]
+    },
+    "SimpleTextEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "simpleText"
+        },
+        "hypercert": {
+          "$ref": "#/definitions/HypercertPointer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "hypercert", "text"]
+    },
+    "EvaluationSource": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/EASEvaluation"
+        },
+        {
+          "$ref": "#/definitions/IPFSEvaluation"
+        }
+      ]
+    },
+    "EASEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "EAS"
+        },
+        "chainId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]+$"
+        },
+        "contract": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "uid": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "chainId", "contract", "uid"]
+    },
+    "IPFSEvaluation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "IPFS"
+        },
+        "cid": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "cid"]
+    },
+    "HypercertPointer": {
+      "type": "object",
+      "properties": {
+        "chainId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]+$"
+        },
+        "contract": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "claimId": {
+          "type": "string"
+        }
+      },
+      "required": ["chainId", "contract", "claimId"]
+    }
+  }
+}

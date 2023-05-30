@@ -2,6 +2,7 @@ import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
 
 import { HypercertMetadata } from "../src/index.js";
 import { formatHypercertData } from "../src/utils/formatter.js";
+import { DuplicateEvaluation, HypercertEvaluationSchema, SimpleTextEvaluation } from "src/types/evaluation.js";
 
 export type TestDataType = Parameters<typeof formatHypercertData>[0];
 
@@ -68,4 +69,86 @@ const mockContractResponse = (): Promise<ContractTransaction> => {
   return Promise.resolve(transaction);
 };
 
-export { getFormattedMetadata, getRawInputData, mockContractResponse };
+const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): HypercertEvaluationSchema => {
+  let mockData: HypercertEvaluationSchema = {
+    creator: "0x17ec8597ff92C3F44523bDc65BF0f1bE632917ff",
+    evaluationData: {
+      type: "duplicate",
+      duplicateHypercerts: [
+        {
+          chainId: "0x1",
+          contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+          claimId: "1",
+        },
+        {
+          chainId: "0x1",
+          contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+          claimId: "2",
+        },
+      ],
+      realHypercert: {
+        chainId: "0x1",
+        contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+        claimId: "3",
+      },
+      explanation: "These hypercerts are duplicates",
+    },
+    evaluationSource: {
+      type: "EAS",
+      chainId: "0x1",
+      contract: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
+      uid: "0x1234567890abcdef",
+    },
+  };
+
+  return { ...mockData, ...overrides };
+};
+
+const getDuplicateEvaluationData = (overrides?: Partial<DuplicateEvaluation>): DuplicateEvaluation => {
+  let mockData: DuplicateEvaluation = {
+    type: "duplicate",
+    duplicateHypercerts: [
+      {
+        chainId: "0x1",
+        contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+        claimId: "1",
+      },
+      {
+        chainId: "0x1",
+        contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+        claimId: "2",
+      },
+    ],
+    realHypercert: {
+      chainId: "0x1",
+      contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      claimId: "3",
+    },
+    explanation: "These hypercerts are duplicates",
+  };
+
+  return { ...mockData, ...overrides };
+};
+
+const getSimpleTextEvaluationData = (overrides?: Partial<SimpleTextEvaluation>): SimpleTextEvaluation => {
+  let mockData: SimpleTextEvaluation = {
+    type: "simpleText",
+    text: "This is a simple text evaluation",
+    hypercert: {
+      chainId: "0x1",
+      contract: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      claimId: "3",
+    },
+  };
+
+  return { ...mockData, ...overrides };
+};
+
+export {
+  getFormattedMetadata,
+  getRawInputData,
+  mockContractResponse,
+  getEvaluationData,
+  getDuplicateEvaluationData,
+  getSimpleTextEvaluationData,
+};
