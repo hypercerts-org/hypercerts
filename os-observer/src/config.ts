@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export const requireEnv = (identifier: string) => {
   const value = process.env[identifier];
 

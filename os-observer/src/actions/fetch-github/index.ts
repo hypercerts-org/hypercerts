@@ -1,6 +1,6 @@
 import { CommonArgs } from "../../cli.js";
-import { fetchGithubRepo } from "../../github.js";
-import { getRepoId } from "./getRepoId.js";
+import { getOrgRepos } from "./getOrgRepos.js";
+import { getRepoIssues } from "./getRepoIusses.js";
 
 export interface FetchGithubArgs extends CommonArgs {
   name: string;
@@ -9,12 +9,22 @@ export interface FetchGithubArgs extends CommonArgs {
 
 export async function fetchGithub(args: FetchGithubArgs) {
   if (args.owner) {
-    getRepoId({
-      type: "githubRepo",
-      name: args.name,
-      owner: args.owner,
-    });
+    fetchForRepo(args.name, args.owner);
+  } else {
+    fetchForOrg(args.name);
   }
+}
 
-  console.log(args);
+async function fetchForRepo(repoName: string, repoOwner: string) {
+  const repoIssues = await getRepoIssues(`${repoOwner}/${repoName}`);
+  console.log(repoName, repoIssues.length);
+}
+
+async function fetchForOrg(orgName: string) {
+  const repoIDs = await getOrgRepos(orgName);
+
+  for (const repoID of repoIDs) {
+    const repoIssues = await getRepoIssues(repoID);
+    console.log(repoID, repoIssues.length);
+  }
 }

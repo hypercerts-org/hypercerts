@@ -2,10 +2,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { handleError } from "./utils/error.js";
-import {
-  FetchGithubArgs,
-  fetchGithub,
-} from "./actions/fetch-github/fetch-github.js";
+import { FetchGithubArgs, fetchGithub } from "./actions/fetch-github/index.js";
 
 export interface CommonArgs {
   yes?: boolean;
