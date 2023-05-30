@@ -1,7 +1,7 @@
 import { MockProvider, deployMockContract } from "ethereum-waffle";
 
 import HypercertClient from "../../src/client.js";
-import { HypercertMinterABI } from "@hypercerts-org/hypercerts-protocol";
+import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { BigNumber } from "ethers";
 import { ClientError } from "../../src/types/errors.js";
 
