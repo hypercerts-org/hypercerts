@@ -1,4 +1,4 @@
-import { gql, GraphQLClient } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
 import { GITHUB_GRAPHQL_API, GITHUB_TOKEN } from "../../config.js";
 
 export const graphQLClient = new GraphQLClient(GITHUB_GRAPHQL_API, {

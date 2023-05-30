@@ -7,9 +7,9 @@ type PageInfo = {
   endCursor: string;
 };
 
-// type HasPageInfo<T extends Record<string | number, any>, K extends Path<T>> = Choose<T, K> extends PageInfo ? K : never;
 // TODO: return type should error if not array
 // TODO: pageInfoPath should locate a PageInfo object
+// type HasPageInfo<T extends Record<string | number, any>, K extends Path<T>> = Choose<T, K> extends PageInfo ? K : never;
 
 // typescript can't infer T because it's not passed in (like in getPath), and K can't be inferred precisely without writing
 // out the entire path again. So we curry the function. Sorry for the mess...
