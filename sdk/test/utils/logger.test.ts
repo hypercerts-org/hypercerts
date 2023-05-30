@@ -1,12 +1,14 @@
+import { reloadEnv } from "../setup-tests.js";
 import logger from "../../src/utils/logger.js";
 import { jest } from "@jest/globals";
 
 describe("logger", () => {
   beforeEach(() => {
+    delete process.env.LOG_LEVEL;
     jest.spyOn(console, "error").mockImplementation(() => {});
     jest.spyOn(console, "warn").mockImplementation(() => {});
-    jest.spyOn(console, "debug").mockImplementation(() => {});
     jest.spyOn(console, "info").mockImplementation(() => {});
+    jest.spyOn(console, "debug").mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -14,7 +16,8 @@ describe("logger", () => {
   });
 
   describe("skip logging", () => {
-    it("should not log a debug message to the console", () => {
+    it("by default it should not log a debug message to the console", () => {
+      console.log("process.env.LOG_LEVEL", process.env.LOG_LEVEL);
       const message = "Test debug";
       logger.debug(message);
 
@@ -70,6 +73,31 @@ describe("logger", () => {
       logger.info(message, label);
 
       expect(console.info).toHaveBeenCalledWith(`[info][${label}]: ${message}`);
+    });
+  });
+
+  describe("debug", () => {
+    beforeEach(() => {
+      process.env.LOG_LEVEL = "debug";
+    });
+
+    afterEach(() => {
+      delete process.env.LOG_LEVEL;
+      reloadEnv();
+    });
+    it("should log a debug message to the console", () => {
+      const message = "Test debug";
+      logger.debug(message);
+
+      expect(console.debug).toHaveBeenCalledWith(`[debug]: ${message}`);
+    });
+
+    it("should log a debug message with a custom label to the console", () => {
+      const message = "Test debug";
+      const label = "Test label";
+      logger.debug(message, label);
+
+      expect(console.debug).toHaveBeenCalledWith(`[debug][${label}]: ${message}`);
     });
   });
 });

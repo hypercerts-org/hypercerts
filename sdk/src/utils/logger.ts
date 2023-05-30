@@ -8,13 +8,13 @@ export enum Log {
 const getLogLevel = () => {
   const level = process.env.LOG_LEVEL;
   switch (level) {
-    case "0":
+    case "error":
       return Log.Error;
-    case "1":
+    case "warn":
       return Log.Warn;
-    case "2":
+    case "info":
       return Log.Info;
-    case "3":
+    case "debug":
       return Log.Debug;
     default:
       return Log.Info;
