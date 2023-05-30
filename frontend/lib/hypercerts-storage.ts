@@ -1,5 +1,5 @@
 import { NFT_STORAGE_TOKEN, WEB3_STORAGE_TOKEN } from "./config";
-import { HypercertsStorage } from "@hypercerts-org/hypercerts-sdk";
+import { HypercertsStorage } from "@hypercerts-org/sdk";
 
 export const hypercertsStorage = new HypercertsStorage({
   nftStorageToken: NFT_STORAGE_TOKEN,

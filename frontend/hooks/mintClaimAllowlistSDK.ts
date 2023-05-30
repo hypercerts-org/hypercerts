@@ -9,7 +9,7 @@ import {
   TransferRestrictions,
   Allowlist,
   AllowlistEntry,
-} from "@hypercerts-org/hypercerts-sdk";
+} from "@hypercerts-org/sdk";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";

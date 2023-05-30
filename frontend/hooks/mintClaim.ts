@@ -6,11 +6,8 @@ import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
-import {
-  HypercertMetadata,
-  HypercertMinting,
-} from "@hypercerts-org/hypercerts-sdk";
+import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
+import { HypercertMetadata, HypercertMinting } from "@hypercerts-org/sdk";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

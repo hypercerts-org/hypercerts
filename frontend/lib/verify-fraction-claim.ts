@@ -1,5 +1,5 @@
 import { hypercertsStorage } from "./hypercerts-storage";
-import { claimById } from "@hypercerts-org/hypercerts-sdk";
+import { claimById } from "@hypercerts-org/sdk";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 export type ClaimProof = {

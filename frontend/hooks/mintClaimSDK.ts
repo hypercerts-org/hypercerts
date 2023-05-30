@@ -1,10 +1,7 @@
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
-import {
-  HypercertMetadata,
-  TransferRestrictions,
-} from "@hypercerts-org/hypercerts-sdk";
+import { HypercertMetadata, TransferRestrictions } from "@hypercerts-org/sdk";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 

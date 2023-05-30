@@ -1,5 +1,5 @@
 import { hypercertsStorage } from "../lib/hypercerts-storage";
-import { firstClaims, QueryParams } from "@hypercerts-org/hypercerts-sdk";
+import { firstClaims, QueryParams } from "@hypercerts-org/sdk";
 import { useQuery } from "@tanstack/react-query";
 
 export const useClaimMetadata = (cid?: string | null) =>

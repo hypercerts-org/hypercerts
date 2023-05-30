@@ -1,4 +1,4 @@
-import { HypercertMinter } from "@hypercerts-org/hypercerts-protocol";
+import { HypercertMinter } from "@hypercerts-org/contracts";
 import { BigNumberish, ContractTransaction, ethers } from "ethers";
 
 import { HypercertMetadata, HypercertMinterABI, HypercertsStorage, validateMetaData } from "../index.js";

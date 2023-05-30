@@ -4,7 +4,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
-import { HyperCertMinterFactory } from "@hypercerts-org/hypercerts-protocol";
+import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
 import { BigNumber, BigNumberish } from "ethers";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -61,7 +61,7 @@ export const useMintFractionAllowlist = ({
     args: [address! as HexString, _proof!, _claimId!, _units!],
     abi: HyperCertMinterFactory.abi,
     functionName: "mintClaimFromAllowlist",
-    onError: error => {
+    onError: (error) => {
       parseError(error, "the fallback");
       toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
         type: "error",
