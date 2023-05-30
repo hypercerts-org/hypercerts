@@ -25,24 +25,22 @@ yargs(hideBin(process.argv))
     describe: "Automatic yes to all prompts",
     default: false,
   })
-  .command("fetch-github", "Fetch GitHub data", (yags) => {
-    return yags.command<GithubIssuesArgs>(
-      "repo",
-      "github repo",
-      (yargs) => {
-        return yargs
-          .option("owner", {
-            type: "string",
-            describe: "repo owner",
-          })
-          .option("name", {
-            type: "string",
-            describe: "repo name",
-          });
-      },
-      (argv) => handleError(fetchGithubIssues(argv)),
-    );
-  })
+  .command<GithubIssuesArgs>(
+    "githubIssues",
+    "Fetch GitHub Issues",
+    (yargs) => {
+      return yargs
+        .option("owner", {
+          type: "string",
+          describe: "GitHub repository owner",
+        })
+        .option("name", {
+          type: "string",
+          describe: "GitHub repository name",
+        });
+    },
+    (argv) => handleError(fetchGithubIssues(argv)),
+  )
   .command<GithubCommitsArgs>(
     "githubCommits",
     "Fetch GitHub commits",
