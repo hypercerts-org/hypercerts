@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { PrismaClient, EventType } from "@prisma/client";
+import { EventSourceFunction, ApiReturnType } from "../utils/api.js";
 
 export const query = gql`
         {{
@@ -49,8 +49,7 @@ export const variables = {
 // def to_date(date):
 // return date.strftime(date_fmt)
 
-const prisma = new PrismaClient();
-
+/**
 async function getPointerForEventType<T extends EventType>(
   event_type: EventType,
 ): Promise<EventTypePointerLookup[T] | null> {
@@ -78,9 +77,21 @@ export async function main() {
   const pointer = await getPointerForEventType(EventType.GITHUB_CREATED_PR);
   console.log(pointer);
 }
+*/
 
-export function fetchGithubRepo() {
-  return "Hello World";
+export interface GithubCommitsArgs {
+  org: string;
+  repo: string;
 }
+
+export const githubCommits: EventSourceFunction<GithubCommitsArgs> = async (
+  args: GithubCommitsArgs,
+): Promise<ApiReturnType> => {
+  console.log(args);
+  return {
+    _type: "upToDate",
+    cached: true,
+  };
+};
 
 //main();
