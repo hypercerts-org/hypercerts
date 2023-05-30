@@ -72,6 +72,7 @@ export default class HypercertClient implements HypercertClientInterface {
     metaData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: TransferRestrictions,
+    overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
@@ -85,7 +86,9 @@ export default class HypercertClient implements HypercertClientInterface {
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
 
-    return this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction);
+    return overrides
+      ? this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction, overrides)
+      : this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction);
   };
 
   /**
@@ -103,6 +106,7 @@ export default class HypercertClient implements HypercertClientInterface {
     metaData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: TransferRestrictions,
+    overrides?: ethers.Overrides,
   ) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
@@ -130,13 +134,16 @@ export default class HypercertClient implements HypercertClientInterface {
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
 
-    return this.contract.createAllowlist(
-      this.config.signer.getAddress(),
-      totalUnits,
-      tree.root,
-      cid,
-      transferRestriction,
-    );
+    return overrides
+      ? this.contract.createAllowlist(
+          this.config.signer.getAddress(),
+          totalUnits,
+          tree.root,
+          cid,
+          transferRestriction,
+          overrides,
+        )
+      : this.contract.createAllowlist(this.config.signer.getAddress(), totalUnits, tree.root, cid, transferRestriction);
   };
 
   /**
@@ -147,7 +154,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @param fractions - Fractions of the Hypercert claim to split
    * @returns Contract transaction
    */
-  splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[]) => {
+  splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[], overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
 
@@ -164,7 +171,9 @@ export default class HypercertClient implements HypercertClientInterface {
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
     console.log("CALLING SPLIT FREACTION");
-    return this.contract.splitFraction(signerAddress, claimId, fractions);
+    return overrides
+      ? this.contract.splitFraction(signerAddress, claimId, fractions, overrides)
+      : this.contract.splitFraction(signerAddress, claimId, fractions);
   };
 
   /**
@@ -173,7 +182,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @param claimIds - Hypercert claim ids
    * @returns Contract transaction
    */
-  mergeClaimUnits = async (claimIds: BigNumberish[]) => {
+  mergeClaimUnits = async (claimIds: BigNumberish[], overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
 
@@ -188,7 +197,9 @@ export default class HypercertClient implements HypercertClientInterface {
       });
     }
 
-    return this.contract.mergeFractions(signerAddress, claimIds);
+    return overrides
+      ? this.contract.mergeFractions(signerAddress, claimIds, overrides)
+      : this.contract.mergeFractions(signerAddress, claimIds);
   };
 
   /**
@@ -197,7 +208,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @param claimId - Hypercert claim id
    * @returns Contract transaction
    */
-  burnClaimFraction = async (claimId: BigNumberish) => {
+  burnClaimFraction = async (claimId: BigNumberish, overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
 
@@ -207,7 +218,9 @@ export default class HypercertClient implements HypercertClientInterface {
     if (claim !== signerAddress)
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimId });
 
-    return this.contract.burnFraction(signerAddress, claimId);
+    return overrides
+      ? this.contract.burnFraction(signerAddress, claimId, overrides)
+      : this.contract.burnFraction(signerAddress, claimId);
   };
 
   /**
@@ -224,6 +237,7 @@ export default class HypercertClient implements HypercertClientInterface {
     units: BigNumberish,
     proof: BytesLike[],
     root?: BytesLike,
+    overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
     if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
@@ -241,6 +255,8 @@ export default class HypercertClient implements HypercertClientInterface {
       if (!verified) throw new MintingError("Merkle proof verification failed", { root, proof });
     }
 
-    return this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+    return overrides
+      ? this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
+      : this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
   };
 }

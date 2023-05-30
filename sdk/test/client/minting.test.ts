@@ -53,4 +53,34 @@ describe("mintClaim in HypercertClient", () => {
     expect(spy).toBeCalledTimes(0);
     expect.assertions(4);
   });
+
+  it("mints a hypercerts with override params", async () => {
+    const provider = new MockProvider();
+
+    const [wallet] = provider.getWallets();
+    const signer = wallet.connect(provider);
+
+    const client = new HypercertClient({
+      config: { chainId: 5, provider, signer },
+    });
+
+    expect(client.readonly).toBe(false);
+
+    const rawData = getRawInputData() as TestDataType;
+    const { data: formattedData } = formatHypercertData(rawData);
+
+    const spy = jest.spyOn(provider, "sendTransaction");
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "FALSE_VALUE" });
+    } catch (e) {
+      expect((e as Error).message).toMatch(/invalid BigNumber string/);
+    }
+
+    await client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "100" });
+
+    expect(spy).toBeCalledTimes(1);
+  }, 10000);
 });
