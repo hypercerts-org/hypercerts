@@ -33,8 +33,7 @@
     "nft.storage": "^7.0.0",
     "ts-jest": "^29.0.3",
     "ts-mocha": "^10.0.0",
-    "web3.storage": "^4.4.0",
-    "winston": "^3.8.2"
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
