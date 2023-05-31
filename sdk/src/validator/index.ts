@@ -5,10 +5,13 @@ import { isAddress } from "ethers/lib/utils.js";
 import claimDataSchema from "../resources/schema/claimdata.json";
 import metaDataSchema from "../resources/schema/metadata.json";
 import evaluationSchema from "../resources/schema/evaluation.json";
-import { HypercertClaimdata } from "../types/claimdata.js";
-import { Allowlist } from "../types/hypercerts.js";
-import { HypercertMetadata } from "../types/metadata.js";
-import { DuplicateEvaluation, SimpleTextEvaluation } from "src/types/evaluation.js";
+import {
+  HypercertClaimdata,
+  Allowlist,
+  HypercertMetadata,
+  DuplicateEvaluation,
+  SimpleTextEvaluation,
+} from "../types/index.js";
 
 const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");

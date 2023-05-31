@@ -4,7 +4,7 @@ import { CONTRACT_ADDRESS } from "../lib/config";
 import { SUPABASE_TABLE } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { supabase } from "../lib/supabase-client";
-import { ClaimProof, verifyFractionClaim } from "../lib/verify-fraction-claim";
+import { ClaimProof, useVerifyFractionClaim } from "./verifyFractionClaim";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
@@ -25,6 +25,7 @@ export const useMintFractionAllowlistBatch = ({
 }) => {
   const { setStep, showModal, hideModal } = useContractModal();
   const { address } = useAccountLowerCase();
+  const { verifyFractionClaim } = useVerifyFractionClaim();
 
   const { data: claimIds } = useGetAllEligibility(address ?? "");
   const parseBlockchainError = useParseBlockchainError();

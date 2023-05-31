@@ -3,15 +3,25 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID } from "./constants.js";
-import HypercertEvaluator from "./evaluations/index.js";
-import { HypercertMetadata, validateMetaData } from "./index.js";
-import HypercertsStorage from "./storage.js";
-import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
-import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
-import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
+
+import {
+  Allowlist,
+  TransferRestrictions,
+  HypercertClientConfig,
+  HypercertClientInterface,
+  ClientError,
+  MalformedDataError,
+  MintingError,
+  StorageError,
+  HypercertMetadata,
+} from "./types/index.js";
+
 import { getConfig } from "./utils/config.js";
-import { validateAllowlist } from "./validator/index.js";
+import { validateAllowlist, validateMetaData } from "./validator/index.js";
 import logger from "./utils/logger.js";
+
+import HypercertEvaluator from "./evaluations/index.js";
+import HypercertsStorage from "./storage.js";
 import HypercertIndexer from "./indexer.js";
 
 /**

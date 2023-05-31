@@ -7,9 +7,13 @@ import { CIDString, NFTStorage } from "nft.storage";
 import { Blob, File, Web3Storage } from "web3.storage";
 
 import { validateMetaData } from "./index.js";
-import { HypercertStorageConfig, HypercertStorageInterface } from "./types/client.js";
-import { MalformedDataError, StorageError } from "./types/errors.js";
-import { HypercertMetadata } from "./types/metadata.js";
+import {
+  HypercertStorageConfig,
+  HypercertStorageInterface,
+  HypercertMetadata,
+  MalformedDataError,
+  StorageError,
+} from "./types/index.js";
 import logger from "./utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");

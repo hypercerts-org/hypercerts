@@ -1,6 +1,6 @@
 import { getBuiltGraphSDK } from "../.graphclient/index.js";
-import { QueryParams, defaultQueryParams } from "./indexer/utils.js";
-import { HypercertIndexerInterface } from "./types/indexer.js";
+import { defaultQueryParams } from "./indexer/utils.js";
+import { HypercertIndexerInterface, QueryParams } from "./types/index.js";
 
 export default class HypercertIndexer implements HypercertIndexerInterface {
   private _graphClient;

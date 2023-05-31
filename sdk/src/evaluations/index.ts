@@ -4,8 +4,7 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { MalformedDataError, StorageError } from "../types/errors.js";
-import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, IPFSEvaluation } from "../types/evaluation.js";
+import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, MalformedDataError } from "../types/index.js";
 import EasEvaluator from "./eas.js";
 import { isAddress } from "ethers/lib/utils.js";
 

@@ -1,18 +1,9 @@
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
-import { CONTRACT_ADDRESS } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
-import { HexString } from "../types/web3";
-import { useAccountLowerCase } from "./account";
-import { HyperCertMinterFactory } from "@hypercerts-org/contracts";
-import { BigNumber, BigNumberish } from "ethers";
-import { useEffect, useState } from "react";
+import { BigNumberish } from "ethers";
 import { toast } from "react-toastify";
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useHypercertClient } from "./hypercerts-client";
 
 export const useMintFractionAllowlist = ({
   onComplete,
@@ -21,97 +12,63 @@ export const useMintFractionAllowlist = ({
   onComplete?: () => void;
   enabled: boolean;
 }) => {
+  const { client, isLoading } = useHypercertClient();
   const { setStep, showModal } = useContractModal();
-  const { address } = useAccountLowerCase();
-
-  const parseBlockchainError = useParseBlockchainError();
-
-  const [_claimId, setClaimId] = useState<BigNumber>();
-  const [_units, setUnits] = useState<BigNumber>();
-  const [_proof, setProof] = useState<HexString[]>();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
-    writing: "Minting fraction",
+    minting: "Minting fraction",
+    waiting: "Awaiting confirmation",
     complete: "Done minting",
   };
 
-  const write = (
-    proof: string[],
-    claimId: BigNumberish,
-    units: BigNumberish,
-  ) => {
-    setClaimId(BigNumber.from(claimId));
-    setUnits(BigNumber.from(units));
-    setProof(proof as HexString[]);
-    setStep("initial");
-    showModal({ stepDescriptions });
-  };
-
   const parseError = useParseBlockchainError();
-  const {
-    config,
-    error: prepareError,
-    isError: isPrepareError,
-    isLoading: isLoadingPrepareContractWrite,
-    isSuccess: isReadyToWrite,
-  } = usePrepareContractWrite({
-    address: CONTRACT_ADDRESS,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    args: [address! as HexString, _proof!, _claimId!, _units!],
-    abi: HyperCertMinterFactory.abi,
-    functionName: "mintClaimFromAllowlist",
-    onError: (error) => {
-      parseError(error, "the fallback");
-      toast(parseBlockchainError(error, mintInteractionLabels.toastError), {
+
+  const initializeWrite = async (
+    claimID: BigNumberish,
+    units: BigNumberish,
+    proof: string[],
+  ) => {
+    setStep("minting");
+    try {
+      const tx = await client.mintClaimFractionFromAllowlist(
+        claimID,
+        units,
+        proof,
+      );
+      setStep("waiting");
+
+      const receipt = await tx.wait();
+      if (receipt.status === 0) {
+        toast("Minting failed", {
+          type: "error",
+        });
+        console.error(receipt);
+      }
+      if (receipt.status === 1) {
+        toast(mintInteractionLabels.toastSuccess, { type: "success" });
+
+        setStep("complete");
+        onComplete?.();
+      }
+    } catch (error) {
+      toast(parseError(error, mintInteractionLabels.toastError), {
         type: "error",
       });
       console.error(error);
-    },
-    onSuccess: () => {
-      setStep("writing");
-    },
-    enabled:
-      enabled &&
-      _proof !== undefined &&
-      _claimId !== undefined &&
-      _units !== undefined,
-  });
-
-  const {
-    data,
-    error: writeError,
-    isError: isWriteError,
-    isLoading: isLoadingContractWrite,
-    write: writeSync,
-  } = useContractWrite(config);
-
-  const {
-    isLoading: isLoadingWaitForTransaction,
-    isError: isWaitError,
-    error: waitError,
-  } = useWaitForTransaction({
-    hash: data?.hash,
-    onSuccess: () => {
-      toast(mintInteractionLabels.toastFractionSuccess, { type: "success" });
-      setStep("complete");
-      onComplete?.();
-    },
-  });
-
-  useEffect(() => {
-    if (isReadyToWrite) {
-      writeSync?.();
     }
-  }, [isReadyToWrite]);
+  };
 
   return {
-    write,
-    isLoading:
-      isLoadingPrepareContractWrite ||
-      isLoadingContractWrite ||
-      isLoadingWaitForTransaction,
-    isError: isPrepareError || isWriteError || isWaitError,
-    error: prepareError || writeError || waitError,
+    write: async (
+      proof: string[],
+      claimId: BigNumberish,
+      units: BigNumberish,
+    ) => {
+      showModal({ stepDescriptions });
+      setStep("initial");
+      await initializeWrite(claimId, units, proof);
+    },
+    readOnly: !enabled || isLoading || !client || client.readonly,
   };
 };
