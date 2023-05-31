@@ -1,27 +1,61 @@
-import { Offchain, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { EAS, Offchain, SchemaEncoder, SignedOffchainAttestation } from "@ethereum-attestation-service/eas-sdk";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID, EAS_SCHEMAS } from "../constants.js";
-import { MalformedDataError, DuplicateEvaluation, EvaluationData, SimpleTextEvaluation } from "../types/index.js";
+import {
+  MalformedDataError,
+  DuplicateEvaluation,
+  EvaluationData,
+  SimpleTextEvaluation,
+  HypercertClientConfig,
+  InvalidOrMissingError,
+} from "../types/index.js";
 import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
+import { HypercertEvaluatorConfig } from "../types/index.js";
 
-type EasEvaluatorConfig = {
-  address?: string;
-  chainId?: number;
-  signer?: TypedDataSigner;
-};
-
+/**
+ * The EasEvaluator class provides methods for signing off-chain attestations of evaluations.
+ * Schemas are stored on-chain in the Ethereum Attestation Service (EAS) contract.
+ */
 export default class EasEvaluator {
+  /**
+   * The Offchain instance used for signing off-chain attestations.
+   */
   offChain: Offchain;
-  signer: TypedDataSigner;
 
-  constructor({ chainId = DEFAULT_CHAIN_ID, address = "", signer = new ethers.VoidSigner("") }: EasEvaluatorConfig) {
-    this.offChain = new Offchain({ address, chainId, version: "0.26" });
-    this.signer = signer;
+  /**
+   * The TypedDataSigner instance used for signing typed data.
+   */
+  signer: ethers.Signer & TypedDataSigner;
+
+  /**
+   * Creates a new EasEvaluator instance.
+   * @param {EasEvaluatorConfig} config - The configuration options for the EasEvaluator instance.
+   */
+  constructor(config: Partial<HypercertClientConfig>) {
+    for (const prop of ["easeContractAddress", "chainId", "signer"]) {
+      if (!(prop in config) || config[prop as keyof HypercertClientConfig] === undefined) {
+        throw new InvalidOrMissingError(`Invalid or missing config value:`, prop.toString());
+      }
+    }
+
+    this.offChain = new Offchain({ address: config.easContractAddress!, chainId: config.chainId!, version: "0.26" });
+    this.signer = config.signer as ethers.Signer & TypedDataSigner;
   }
 
-  getSignature = async (encodedData: string, recipient: string, schemaUid: string) => {
+  /**
+   * Gets a signature for an off-chain attestation.
+   * @param {string} encodedData - The encoded data to sign.
+   * @param {string} recipient - The address of the recipient of the attestation.
+   * @param {string} schemaUid - The UID of the schema to use for the attestation.
+   * @returns {Promise<SignedOffchainAttestation>} - The signature for the attestation.
+   */
+  getSignature = async (
+    encodedData: string,
+    recipient: string,
+    schemaUid: string,
+  ): Promise<SignedOffchainAttestation> => {
     return await this.offChain.signOffchainAttestation(
       {
         // TODO who will be the recipient? The contract it points to? The creator?
@@ -40,6 +74,12 @@ export default class EasEvaluator {
     );
   };
 
+  /**
+   * Signs an offline evaluation.
+   * @param {EvaluationData} evaluation - The evaluation data to sign.
+   * @returns {Promise<SignedOffchainAttestation>} - The signature for the evaluation.
+   * @throws {MalformedDataError} - If the evaluation data is malformed.
+   */
   signOfflineEvaluation = async (evaluation: EvaluationData) => {
     if (isDuplicateEvaluation(evaluation)) {
       const validation = validateDuplicateEvaluationData(evaluation);

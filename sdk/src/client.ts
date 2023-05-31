@@ -42,6 +42,10 @@ export default class HypercertClient implements HypercertClientInterface {
   private _contract: HypercertMinter;
   readonly: boolean;
 
+  /**
+   * Creates a new instance of the `HypercertClient` class.
+   * @param config The configuration options for the client.
+   */
   constructor(config = { chainId: DEFAULT_CHAIN_ID } as Partial<HypercertClientConfig>) {
     this._config = getConfig(config);
     this._provider = this._config.provider;
@@ -64,13 +68,30 @@ export default class HypercertClient implements HypercertClientInterface {
     }
   }
 
+  /**
+   * Gets the storage layer for the client.
+   * @returns The storage layer.
+   */
   get storage(): HypercertsStorage {
     return this._storage;
   }
 
+  /**
+   * Gets the indexer for the client.
+   * @returns The indexer.
+   */
   get indexer(): HypercertIndexer {
     return this._indexer;
   }
+
+  /**
+   * Gets the HypercertMinter contract used by the client.
+   * @returns The contract.
+   */
+  get contract(): HypercertMinter {
+    return this._contract;
+  }
+
   /**
    * Mint a Hypercert claim
    * @dev Mints a Hypercert claim with the given metadata, total units and transfer restrictions
@@ -85,8 +106,7 @@ export default class HypercertClient implements HypercertClientInterface {
     transferRestriction: TransferRestrictions,
     overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     // validate metadata
     const { valid, errors } = validateMetaData(metaData);
@@ -119,8 +139,7 @@ export default class HypercertClient implements HypercertClientInterface {
     transferRestriction: TransferRestrictions,
     overrides?: ethers.Overrides,
   ) => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     // validate allowlist
     const { valid: validAllowlist, errors: allowlistErrors } = validateAllowlist(allowList, totalUnits);
@@ -172,8 +191,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @returns Contract transaction
    */
   splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[], overrides?: ethers.Overrides) => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     // check if claim exists and is owned by the signer
     const signerAddress = await this._config.signer.getAddress();
@@ -199,8 +217,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @returns Contract transaction
    */
   mergeClaimUnits = async (claimIds: BigNumberish[], overrides?: ethers.Overrides) => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     // check if all claims exist and are owned by the signer
     const signerAddress = await this._config.signer.getAddress();
@@ -225,8 +242,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @returns Contract transaction
    */
   burnClaimFraction = async (claimId: BigNumberish, overrides?: ethers.Overrides) => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     // check if claim exists and is owned by the signer
     const signerAddress = await this._config.signer.getAddress();
@@ -255,8 +271,7 @@ export default class HypercertClient implements HypercertClientInterface {
     root?: BytesLike,
     overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
+    this.checkWritable();
 
     const signerAddress = await this._config.signer.getAddress();
 
@@ -274,5 +289,10 @@ export default class HypercertClient implements HypercertClientInterface {
     return overrides
       ? this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
       : this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+  };
+
+  private checkWritable = () => {
+    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
   };
 }
