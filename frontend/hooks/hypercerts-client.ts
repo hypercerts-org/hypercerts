@@ -30,20 +30,18 @@ export const useHypercertClient = () => {
       provider?: ethers.providers.Provider,
     ) => {
       if (signer && provider) {
-        const _signer = signer?.connect(provider);
-
-        const config: Partial<HypercertClientConfig> = {
-          chainId: chain?.id ?? undefined,
-          provider: provider ?? undefined,
-          signer: (_signer as ethers.Signer & TypedDataSigner) ?? undefined,
-        };
-
-        const client = new HypercertClient(config);
+        const client = new HypercertClient({
+          chainId: chain?.id,
+          provider,
+          signer,
+        });
         setClient(client);
       }
     };
 
-    loadClient(signer, chain, provider);
+    if (!isLoading) {
+      loadClient(signer, chain, provider);
+    }
   }, [chain, provider, signer, isLoading]);
 
   return { client, isLoading };

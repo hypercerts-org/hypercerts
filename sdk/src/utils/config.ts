@@ -37,10 +37,6 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     ...getWeb3StorageToken(overrides),
   } as HypercertClientConfig;
 
-  if (overrides.signer?._isSigner) {
-    config.signer = overrides.signer;
-  }
-
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
       logger.warn(`Cannot get chain config. ${key} is possibly undefined`);
@@ -55,7 +51,7 @@ const getChainId = (overrides: Partial<HypercertClientConfig>) => {
     return { chainId: overrides.chainId };
   }
 
-  return process.env.DEFAULT_CHAIN_ID ? { chainId: parseInt(process.env.DEFAULT_CHAIN_ID || "") } : {};
+  return process.env.DEFAULT_CHAIN_ID ? { chainId: parseInt(process.env.DEFAULT_CHAIN_ID) } : {};
 };
 
 const getChainName = (overrides: Partial<HypercertClientConfig>) => {
@@ -116,9 +112,10 @@ const getProvider = (overrides: Partial<HypercertClientConfig>) => {
 };
 
 const getSigner = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.signer) {
+  if (overrides.signer?._isSigner) {
     return { signer: overrides.signer };
   }
+
   return process.env.PRIVATE_KEY
     ? { signer: new ethers.Wallet(process.env.PRIVATE_KEY) }
     : { signer: new ethers.VoidSigner("") };

@@ -29,7 +29,7 @@ export default class HypercertClient implements HypercertClientInterface {
   private _indexer: HypercertIndexer;
   private _provider: ethers.providers.Provider;
   //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
-  private _signer?: ethers.Signer & TypedDataSigner;
+  private _signer?: ethers.Signer;
   private _contract: HypercertMinter;
   readonly: boolean;
 
@@ -42,21 +42,13 @@ export default class HypercertClient implements HypercertClientInterface {
       new ethers.Contract(this._config.contractAddress, HypercertMinterABI, this._signer || this._provider)
     );
 
-    this._storage = new HypercertsStorage({
-      nftStorageToken: this._config.nftStorageToken,
-      web3StorageToken: this._config.web3StorageToken,
-    });
+    this._storage = new HypercertsStorage(this._config);
 
-    this._indexer = new HypercertIndexer({ graphName: this._config.graphName });
+    this._indexer = new HypercertIndexer(this._config);
 
-    this._evaluator = new HypercertEvaluator({
-      chainId: this._config.chainId,
-      address: "",
-      signer: this._signer,
-      storage: this._storage,
-    });
+    this._evaluator = new HypercertEvaluator(this._config);
 
-    this.readonly = !this._signer || !this._provider || this._contract.address === undefined || this._storage.readonly;
+    this.readonly = !this._signer || !this._provider || !this._contract.address || this._storage.readonly;
 
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");

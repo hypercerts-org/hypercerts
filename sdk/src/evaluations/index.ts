@@ -14,7 +14,7 @@ const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepo
 type HypercertEvaluatorConfig = {
   chainId?: number;
   address?: string;
-  signer?: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer;
   storage?: HypercertsStorage;
 };
 
@@ -33,7 +33,7 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     signer = new ethers.VoidSigner(""),
     storage = new HypercertsStorage({}),
   }: HypercertEvaluatorConfig) {
-    this.signer = signer;
+    this.signer = signer as ethers.Signer & TypedDataSigner;
     this.storage = storage;
     this.eas = new EasEvaluator({
       address,

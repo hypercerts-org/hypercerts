@@ -19,7 +19,7 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig & {
     provider: ethers.providers.Provider;
-    signer: ethers.Signer & TypedDataSigner;
+    signer: ethers.Signer;
     rpcUrl?: string;
   };
 
