@@ -15,7 +15,9 @@ describe("mintClaim in HypercertClient", () => {
     const signer = wallet.connect(provider);
 
     const client = new HypercertClient({
-      config: { chainId: 5, provider, signer },
+      chainId: 5,
+      provider,
+      signer,
     });
 
     expect(client.readonly).toBe(false);
@@ -36,7 +38,9 @@ describe("mintClaim in HypercertClient", () => {
     const [wallet] = provider.getWallets();
 
     const client = new HypercertClient({
-      config: { chainId: 5, signer: wallet },
+      chainId: 5,
+      provider,
+      signer: wallet.connect(provider),
     });
 
     expect(client.readonly).toBe(false);
@@ -61,7 +65,9 @@ describe("mintClaim in HypercertClient", () => {
     const signer = wallet.connect(provider);
 
     const client = new HypercertClient({
-      config: { chainId: 5, provider, signer },
+      chainId: 5,
+      provider,
+      signer,
     });
 
     expect(client.readonly).toBe(false);

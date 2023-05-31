@@ -6,23 +6,22 @@ import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { QueryClient } from "@tanstack/query-core";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode } from "react";
 import {
   configureChains,
-  createClient,
   WagmiConfig,
   useNetwork,
   Chain,
+  createClient,
 } from "wagmi";
 import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient();
 const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
 const { provider, webSocketProvider, chains } = configureChains(ALL_CHAINS, [
   publicProvider(),

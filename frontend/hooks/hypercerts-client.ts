@@ -1,52 +1,54 @@
+import {
+  DEFAULT_CHAIN_ID,
+  NFT_STORAGE_TOKEN,
+  WEB3_STORAGE_TOKEN,
+} from "../lib/config";
 import { HypercertClient } from "@hypercerts-org/sdk";
-import { hypercertsStorage } from "../lib/hypercerts-storage";
 import { ethers } from "ethers";
-import { useSigner } from "wagmi";
 import { useEffect, useState } from "react";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
-
-type ClientProps = {
-  chainId: number;
-  provider?: ethers.providers.Provider;
-  rpcUrl?: string;
-  signer?: ethers.Signer & TypedDataSigner;
-};
-
-const storage = hypercertsStorage;
+import { useAccount, Connector } from "wagmi";
 
 const defaultClient = new HypercertClient({
-  config: {
-    chainId: DEFAULT_CHAIN_ID,
-  },
-  storage,
+  chainId: DEFAULT_CHAIN_ID,
+  nftStorageToken: NFT_STORAGE_TOKEN,
+  web3StorageToken: WEB3_STORAGE_TOKEN,
 });
 
 export const useHypercertClient = () => {
   const [client, setClient] = useState<HypercertClient>(defaultClient);
-  const { data: signer, isLoading } = useSigner();
+  const [isLoading, setIsLoading] = useState(false);
+  const { connector } = useAccount();
 
   useEffect(() => {
-    const loadClientFromSigner = async (signer: ethers.Signer) => {
-      const config: ClientProps = {
-        chainId: await signer.getChainId(),
-        provider: signer.provider,
-        signer: signer as ethers.Signer & TypedDataSigner,
-      };
+    const loadClient = async (connector: Connector) => {
+      setIsLoading(true);
 
-      const client = new HypercertClient({ config, storage });
+      const { signer, provider } = await connector
+        .getProvider()
+        .then((provider) => {
+          const _provider = new ethers.providers.Web3Provider(provider);
+          const signer = _provider.getSigner();
+          return { provider: _provider, signer };
+        });
 
-      setClient(client);
+      const chainId = await connector.getChainId();
+
+      if (chainId) {
+        const client = new HypercertClient({
+          chainId,
+          provider,
+          signer,
+        });
+        setClient(client);
+      }
+
+      setIsLoading(false);
     };
 
-    if (signer) {
-      loadClientFromSigner(signer);
+    if (connector) {
+      loadClient(connector);
     }
-
-    if (!signer) {
-      setClient(defaultClient);
-    }
-  }, [signer, isLoading]);
+  }, [connector]);
 
   return { client, isLoading };
 };

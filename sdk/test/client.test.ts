@@ -2,7 +2,6 @@ import { expect } from "chai";
 import { ethers } from "ethers";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions, Allowlist } from "../src/index.js";
-import HypercertsStorage from "../src/storage.js";
 import { ClientError, UnsupportedChainError } from "../src/types/errors.js";
 import { reloadEnv } from "./setup-tests.js";
 
@@ -25,17 +24,16 @@ describe("HypercertClient", () => {
 
   it("should be able to create a new instance", () => {
     const signer = ethers.Wallet.createRandom();
-    const storage = new HypercertsStorage({ nftStorageToken: "test", web3StorageToken: "test" });
 
-    const config = { chainId: 5, signer };
-    const client = new HypercertClient({ config, storage });
+    const config = { chainId: 5, signer, nftStorageToken: "test", web3StorageToken: "test" };
+    const client = new HypercertClient(config);
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;
   });
 
   it("should throw an error when the chainId is not supported", () => {
     try {
-      new HypercertClient({ config: { chainId: 1337 } });
+      new HypercertClient({ chainId: 1337 });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e instanceof UnsupportedChainError).to.be.true;

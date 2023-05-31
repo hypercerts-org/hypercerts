@@ -4,7 +4,7 @@ import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
-import { formatHypercertData } from "@hypercerts-org/sdk/dist";
+import { formatHypercertData } from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
