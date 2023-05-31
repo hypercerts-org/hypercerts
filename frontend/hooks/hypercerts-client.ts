@@ -1,15 +1,12 @@
-import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
-
-import { ethers } from "ethers";
-import { Chain, useNetwork, useSigner, useProvider } from "wagmi";
-import { useEffect, useState } from "react";
 import {
   DEFAULT_CHAIN_ID,
   NFT_STORAGE_TOKEN,
   WEB3_STORAGE_TOKEN,
 } from "../lib/config";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
-import { FetchSignerResult } from "@wagmi/core";
+import { HypercertClient } from "@hypercerts-org/sdk";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { useAccount, Connector } from "wagmi";
 
 const defaultClient = new HypercertClient({
   chainId: DEFAULT_CHAIN_ID,
@@ -19,30 +16,39 @@ const defaultClient = new HypercertClient({
 
 export const useHypercertClient = () => {
   const [client, setClient] = useState<HypercertClient>(defaultClient);
-  const { data: signer, isLoading } = useSigner();
-  const { chain } = useNetwork();
-  const provider = useProvider();
+  const [isLoading, setIsLoading] = useState(false);
+  const { connector } = useAccount();
 
   useEffect(() => {
-    const loadClient = async (
-      signer?: FetchSignerResult<ethers.Signer> | undefined,
-      chain?: Chain,
-      provider?: ethers.providers.Provider,
-    ) => {
-      if (signer && provider) {
+    const loadClient = async (connector: Connector) => {
+      setIsLoading(true);
+
+      const { signer, provider } = await connector
+        .getProvider()
+        .then((provider) => {
+          const _provider = new ethers.providers.Web3Provider(provider);
+          const signer = _provider.getSigner();
+          return { provider: _provider, signer };
+        });
+
+      const chainId = await connector.getChainId();
+
+      if (chainId) {
         const client = new HypercertClient({
-          chainId: chain?.id,
+          chainId,
           provider,
           signer,
         });
         setClient(client);
       }
+
+      setIsLoading(false);
     };
 
-    if (!isLoading) {
-      loadClient(signer, chain, provider);
+    if (connector) {
+      loadClient(connector);
     }
-  }, [chain, provider, signer, isLoading]);
+  }, [connector]);
 
   return { client, isLoading };
 };
