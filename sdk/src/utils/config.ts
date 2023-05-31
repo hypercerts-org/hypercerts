@@ -1,9 +1,7 @@
-import { UnsupportedChainError } from "../types/errors.js";
+import { HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
-import { HypercertClientConfig } from "../types/client.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
-import { isAddress } from "ethers/lib/utils.js";
 
 /**
  * Get the configuration for the SDK

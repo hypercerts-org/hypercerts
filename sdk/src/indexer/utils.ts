@@ -1,9 +1,4 @@
-export type QueryParams = {
-  orderDirections: "asc" | "desc";
-  skip: number;
-  first: number;
-  [key: string]: any;
-};
+import { QueryParams } from "../types/index.js";
 
 export const defaultQueryParams: QueryParams = {
   orderDirections: "desc",

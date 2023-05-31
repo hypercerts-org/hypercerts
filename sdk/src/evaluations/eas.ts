@@ -3,8 +3,7 @@ import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID, EAS_SCHEMAS } from "../constants.js";
-import { MalformedDataError } from "../types/errors.js";
-import { DuplicateEvaluation, EvaluationData, SimpleTextEvaluation } from "../types/evaluation.js";
+import { MalformedDataError, DuplicateEvaluation, EvaluationData, SimpleTextEvaluation } from "../types/index.js";
 import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
 
 type EasEvaluatorConfig = {

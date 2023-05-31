@@ -1,11 +1,10 @@
-import type { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
-import HypercertsStorage from "src/storage.js";
+import HypercertsStorage from "../storage.js";
 
 import { Allowlist, TransferRestrictions } from "./hypercerts.js";
 import { HypercertMetadata } from "./metadata.js";
-import HypercertIndexer from "src/indexer.js";
+import HypercertIndexer from "../indexer.js";
 
 export type SupportedChainIds = 5 | 10;
 
@@ -77,8 +76,6 @@ export interface HypercertClientState {
 
 /**
  * Hypercerts client methods
- * @param storage - Hypercerts storage getter
- * @param indexer - Hypercerts indexer getter
  * @param mintClaim - Wrapper function to mint a Hypercert claim
  * @param createAllowlist - Wrapper function to mint a Hypercert claim with an allowlist
  * @param splitClaimUnits - Wrapper function to split a Hypercert claim into multiple claims
