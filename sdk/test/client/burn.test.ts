@@ -22,7 +22,12 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const signer = user.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
 
     expect(client.readonly).toBe(false);
 
@@ -39,7 +44,12 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const signer = user.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
 
     expect(client.readonly).toBe(false);
 
@@ -67,7 +77,12 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const signer = user.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
 
     expect(client.readonly).toBe(false);
 

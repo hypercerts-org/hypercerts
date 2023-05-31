@@ -36,12 +36,13 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       logger.warn(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
     }
 
-    if (_nftStorageToken !== undefined && _web3StorageToken !== undefined) {
+    if (!_nftStorageToken || !_web3StorageToken) {
+      logger.warn("HypercertsStorage is read only", "storage");
+      this.readonly = true;
+    } else {
       this.nftStorageClient = new NFTStorage({ token: _nftStorageToken });
       this.web3StorageClient = new Web3Storage({ token: _web3StorageToken });
       this.readonly = false;
-    } else {
-      logger.warn("HypercertsStorage is read only", "storage");
     }
   }
 

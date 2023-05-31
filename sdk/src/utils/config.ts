@@ -3,6 +3,7 @@ import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { HypercertClientConfig } from "../types/client.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
+import { isAddress } from "ethers/lib/utils.js";
 
 /**
  * Get the configuration for the SDK
@@ -47,11 +48,13 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
 };
 
 const getChainId = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.chainId) {
+  if (overrides?.chainId) {
     return { chainId: overrides.chainId };
   }
 
-  return process.env.DEFAULT_CHAIN_ID ? { chainId: parseInt(process.env.DEFAULT_CHAIN_ID) } : {};
+  return process.env.DEFAULT_CHAIN_ID
+    ? { chainId: parseInt(process.env.DEFAULT_CHAIN_ID) }
+    : { chainId: DEFAULT_CHAIN_ID };
 };
 
 const getChainName = (overrides: Partial<HypercertClientConfig>) => {
@@ -74,7 +77,7 @@ const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
   if (overrides.contractAddress) {
     return { contractAddress: overrides.contractAddress };
   }
-  return process.env.CONTRACT_ADDRESS ? { contractAddress: process.env.CONTRACT_ADDRESS } : {};
+  return process.env.CONTRACT_ADDRESS ? { contractAddress: process.env.CONTRACT_ADDRESS } : undefined;
 };
 
 const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {

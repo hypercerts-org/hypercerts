@@ -12,7 +12,6 @@ import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
 import { getConfig } from "./utils/config.js";
 import { validateAllowlist } from "./validator/index.js";
 import logger from "./utils/logger.js";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import HypercertIndexer from "./indexer.js";
 
 /**

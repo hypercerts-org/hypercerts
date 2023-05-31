@@ -25,7 +25,12 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
 
     expect(client.readonly).toBe(false);
 
@@ -46,8 +51,12 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -72,8 +81,12 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     try {
@@ -99,8 +112,12 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     try {
@@ -135,8 +152,12 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     await client.mergeClaimUnits([fractionId, fractionId.add(1)]);
@@ -156,8 +177,12 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -184,8 +209,12 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const signer = wallet.connect(provider);
 
-    const client = new HypercertClient({ chainId: 5, provider, signer, contractAddress: mockMinter.address });
-
+    const client = new HypercertClient({
+      chainId: 5,
+      provider,
+      signer,
+      contractAddress: mockMinter.address,
+    });
     expect(client.readonly).toBe(false);
 
     try {
