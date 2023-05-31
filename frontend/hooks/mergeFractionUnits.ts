@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { BigNumberish } from "ethers";
 
-export const useSplitFractionUnitsSDK = ({
+export const useMergeFractionUnits = ({
   onComplete,
 }: {
   onComplete?: () => void;
@@ -14,26 +14,23 @@ export const useSplitFractionUnitsSDK = ({
 
   const stepDescriptions = {
     preparing: "Preparing to merge fraction values",
-    merging: "Splitting fraction units on-chain",
+    merging: "Merging values on-chain",
     waiting: "Awaiting confirmation",
-    complete: "Done splitting",
+    complete: "Done merging",
   };
 
   const { setStep, showModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const initializeWrite = async (
-    id: BigNumberish,
-    fractions: BigNumberish[],
-  ) => {
-    setStep("splitting");
+  const initializeWrite = async (ids: BigNumberish[]) => {
+    setStep("merging");
     try {
-      const tx = await client.splitClaimUnits(id, fractions);
+      const tx = await client.mergeClaimUnits(ids);
       setStep("waiting");
 
       const receipt = await tx.wait();
       if (receipt.status === 0) {
-        toast("Splitting failed", {
+        toast("Merging failed", {
           type: "error",
         });
         console.error(receipt);
@@ -53,10 +50,10 @@ export const useSplitFractionUnitsSDK = ({
   };
 
   return {
-    write: async (id: BigNumberish, fractions: BigNumberish[]) => {
+    write: async (ids: BigNumberish[]) => {
       showModal({ stepDescriptions });
       setStep("preparing");
-      await initializeWrite(id, fractions);
+      await initializeWrite(ids);
     },
     readOnly: isLoading || !client || client.readonly,
   };
