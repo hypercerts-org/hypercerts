@@ -44,19 +44,24 @@ For more information on how to use the SDK, check out the
 That's it! With these simple steps, you can start using the Hypercert SDK in your own projects. Don't forget to set your
 environment variables for your NFT.storage and web3.storage API keys in your .env file.
 
-### Client config properties
+## Config
 
-| \| Property        | Type                 | Description                            |
-| ------------------ | -------------------- | -------------------------------------- |
-| `chainId`          | `number`             | The chain ID of the network to use.    |
-| `chainName`        | `string`             | The name of the network to use.        |
-| `contractAddress`  | `string`             | The address of the Hypercert contract. |
-| `rpcUrl`           | `string`             | The URL of the RPC endpoint to use.    |
-| `graphName`        | `string`             | The name of the Gsubgraph to use.      |
-| `provider`         | `providers.Provider` | A custom Ethereum provider to use.     |
-| `signer`           | `Signer`             | A custom Ethereum signer to use.       |
-| `nftStorageToken`  | `string`             | Your NFT.storage API key.              |
-| `web3StorageToken` | `string`             | Your web3.storage API key.             |
+The SDK will try to determine the `DEFAULT_CHAIN_ID` and use that to inform the configuration. We allow for `overrides`
+when creating the SDK by passing configuration variables. Finally, when not defaults or overrides are found, we check
+the environment variables.
+
+### Read-only mode
+
+The SDK client will be in read-only mode if any of the following conditions are true:
+
+- The client was initialized without a signer or provider.
+- The client was initialized with a provider but not a signer.
+- The client was initialized with a signer but not a provider.
+- The contract address is not set.
+- The storage layer is in read-only mode.
+
+If any of these conditions are true, the readonly property of the HypercertClient instance will be set to true, and a
+warning message will be logged indicating that the client is in read-only mode.
 
 ### Defaults
 
@@ -65,6 +70,8 @@ explanation of each constant:
 
 `DEFAULT_CHAIN_ID`: This constant defines the default chain ID to use if no chain ID is specified. In this case, the
 default chain ID is set to 5, which corresponds to the Goerli testnet.
+
+Based on `DEFAULT_CHAIN_ID` the SDK will select a `DEPLOYMENT`.
 
 `DEPLOYMENTS`: This constant defines the deployments that are managed by the Hypercert system. Each Deployment object
 contains information about a specific deployment, including the chain ID, chain name, contract address, and graph name.
@@ -82,8 +89,19 @@ For example:
 }
 ```
 
-`EAS_SCHEMAS`: This constant defines the schemas that are used by the Hypercert system to validate and parse evaluation
-data.
+### Client config properties
+
+| \| Property        | Type                 | Description                            |
+| ------------------ | -------------------- | -------------------------------------- |
+| `chainId`          | `number`             | The chain ID of the network to use.    |
+| `chainName`        | `string`             | The name of the network to use.        |
+| `contractAddress`  | `string`             | The address of the Hypercert contract. |
+| `rpcUrl`           | `string`             | The URL of the RPC endpoint to use.    |
+| `graphName`        | `string`             | The name of the Gsubgraph to use.      |
+| `provider`         | `providers.Provider` | A custom Ethereum provider to use.     |
+| `signer`           | `Signer`             | A custom Ethereum signer to use.       |
+| `nftStorageToken`  | `string`             | Your NFT.storage API key.              |
+| `web3StorageToken` | `string`             | Your web3.storage API key.             |
 
 ### Environment variables
 

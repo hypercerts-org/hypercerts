@@ -4,46 +4,86 @@
 
 ## Table of contents
 
-### Enumerations
+### References
 
-- [TransferRestrictions](enums/TransferRestrictions.md)
+- [ClaimTokensByClaimQuery](modules.md#claimtokensbyclaimquery)
 
 ### Classes
 
+- [ClientError](classes/ClientError.md)
+- [FetchError](classes/FetchError.md)
+- [HyperCertMinterFactory](classes/HyperCertMinterFactory.md)
 - [HypercertClient](classes/HypercertClient.md)
-- [HypercertsStorage](classes/HypercertsStorage.md)
+- [InvalidOrMissingError](classes/InvalidOrMissingError.md)
+- [MalformedDataError](classes/MalformedDataError.md)
+- [MintingError](classes/MintingError.md)
+- [StorageError](classes/StorageError.md)
+- [UnknownSchemaError](classes/UnknownSchemaError.md)
+- [UnsupportedChainError](classes/UnsupportedChainError.md)
 
 ### Interfaces
 
+- [DuplicateEvaluation](interfaces/DuplicateEvaluation.md)
+- [EASEvaluation](interfaces/EASEvaluation.md)
 - [HypercertClaimdata](interfaces/HypercertClaimdata.md)
+- [HypercertClientInterface](interfaces/HypercertClientInterface.md)
+- [HypercertClientMethods](interfaces/HypercertClientMethods.md)
+- [HypercertClientState](interfaces/HypercertClientState.md)
+- [HypercertEvaluationSchema](interfaces/HypercertEvaluationSchema.md)
+- [HypercertIndexerInterface](interfaces/HypercertIndexerInterface.md)
 - [HypercertMetadata](interfaces/HypercertMetadata.md)
+- [HypercertMinter](interfaces/HypercertMinter.md)
+- [HypercertPointer](interfaces/HypercertPointer.md)
+- [HypercertStorageInterface](interfaces/HypercertStorageInterface.md)
+- [IHypercertToken](interfaces/IHypercertToken.md)
+- [IPFSEvaluation](interfaces/IPFSEvaluation.md)
+- [SimpleTextEvaluation](interfaces/SimpleTextEvaluation.md)
+- [TypedError](interfaces/TypedError.md)
 
 ### Type Aliases
 
 - [Allowlist](modules.md#allowlist)
 - [AllowlistEntry](modules.md#allowlistentry)
+- [Deployment](modules.md#deployment)
+- [EvaluationData](modules.md#evaluationdata)
+- [EvaluationSource](modules.md#evaluationsource)
+- [HypercertClientConfig](modules.md#hypercertclientconfig)
+- [HypercertClientProps](modules.md#hypercertclientprops)
+- [HypercertEvaluatorConfig](modules.md#hypercertevaluatorconfig)
+- [HypercertStorageConfig](modules.md#hypercertstorageconfig)
+- [HypercertsSdkError](modules.md#hypercertssdkerror)
+- [QueryParams](modules.md#queryparams)
+- [SupportedChainIds](modules.md#supportedchainids)
+- [TransferRestrictions](modules.md#transferrestrictions)
+
+### Properties
+
 - [ClaimByIdQuery](modules.md#claimbyidquery)
-- [ClaimTokensByClaimQuery](modules.md#claimtokensbyclaimquery)
+- [HypercertMinterABI](modules.md#hypercertminterabi)
+- [IHypercertTokenABI](modules.md#ihypercerttokenabi)
 
 ### Variables
 
-- [HyperCertMinterFactory](modules.md#hypercertminterfactory)
-- [HypercertMinterABI](modules.md#hypercertminterabi)
+- [INDEFINITE_DATE_STRING](modules.md#indefinite_date_string)
+- [TransferRestrictions](modules.md#transferrestrictions-1)
 
 ### Functions
 
-- [HypercertMinting](modules.md#hypercertminting)
-- [claimById](modules.md#claimbyid)
-- [claimsByOwner](modules.md#claimsbyowner)
 - [execute](modules.md#execute)
-- [firstClaims](modules.md#firstclaims)
+- [formatDate](modules.md#formatdate)
 - [formatHypercertData](modules.md#formathypercertdata)
-- [fractionById](modules.md#fractionbyid)
-- [fractionsByClaim](modules.md#fractionsbyclaim)
-- [fractionsByOwner](modules.md#fractionsbyowner)
+- [formatUnixTime](modules.md#formatunixtime)
 - [validateAllowlist](modules.md#validateallowlist)
 - [validateClaimData](modules.md#validateclaimdata)
+- [validateDuplicateEvaluationData](modules.md#validateduplicateevaluationdata)
 - [validateMetaData](modules.md#validatemetadata)
+- [validateSimpleTextEvaluationData](modules.md#validatesimpletextevaluationdata)
+
+## References
+
+### ClaimTokensByClaimQuery
+
+Renames and re-exports [ClaimByIdQuery](modules.md#claimbyidquery)
 
 ## Type Aliases
 
@@ -55,7 +95,7 @@ Helper type to allow for a more readable Allowlist type
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:28](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/types/hypercerts.ts#L28)
+[sdk/src/types/hypercerts.ts:30](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L30)
 
 ---
 
@@ -82,125 +122,247 @@ Number of units allocated to the recipient
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:20](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/types/hypercerts.ts#L20)
+[sdk/src/types/hypercerts.ts:22](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L22)
 
 ---
+
+### Deployment
+
+Ƭ **Deployment**: `Object`
+
+Represents a deployment of a contract on a specific network.
+
+#### Type declaration
+
+| Name              | Type     | Description                                                |
+| :---------------- | :------- | :--------------------------------------------------------- |
+| `chainId`         | `number` | The ID of the network on which the contract is deployed.   |
+| `chainName`       | `string` | The name of the network on which the contract is deployed. |
+| `contractAddress` | `string` | The address of the deployed contract.                      |
+| `graphName`       | `string` | The name of the subgraph that indexes the contract events. |
+
+#### Defined in
+
+[sdk/src/types/client.ts:16](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L16)
+
+---
+
+### EvaluationData
+
+Ƭ **EvaluationData**: [`DuplicateEvaluation`](interfaces/DuplicateEvaluation.md) \| [`SimpleTextEvaluation`](interfaces/SimpleTextEvaluation.md)
+
+This file was automatically generated by json-schema-to-typescript.
+DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file,
+and run json-schema-to-typescript to regenerate this file.
+
+#### Defined in
+
+[sdk/src/types/evaluation.d.ts:8](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/evaluation.d.ts#L8)
+
+---
+
+### EvaluationSource
+
+Ƭ **EvaluationSource**: [`EASEvaluation`](interfaces/EASEvaluation.md) \| [`IPFSEvaluation`](interfaces/IPFSEvaluation.md)
+
+#### Defined in
+
+[sdk/src/types/evaluation.d.ts:9](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/evaluation.d.ts#L9)
+
+---
+
+### HypercertClientConfig
+
+Ƭ **HypercertClientConfig**: [`Deployment`](modules.md#deployment) & [`HypercertStorageConfig`](modules.md#hypercertstorageconfig) & [`HypercertEvaluatorConfig`](modules.md#hypercertevaluatorconfig) & { `provider`: `ethers.providers.Provider` ; `rpcUrl?`: `string` }
+
+Configuration options for the Hypercert client.
+
+#### Defined in
+
+[sdk/src/types/client.ts:30](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L30)
+
+---
+
+### HypercertClientProps
+
+Ƭ **HypercertClientProps**: `Object`
+
+The props for the Hypercert client.
+
+#### Type declaration
+
+| Name      | Type                                                                    | Description                                         |
+| :-------- | :---------------------------------------------------------------------- | :-------------------------------------------------- |
+| `config?` | `Partial`<[`HypercertClientConfig`](modules.md#hypercertclientconfig)\> | The configuration options for the Hypercert client. |
+
+#### Defined in
+
+[sdk/src/types/client.ts:96](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L96)
+
+---
+
+### HypercertEvaluatorConfig
+
+Ƭ **HypercertEvaluatorConfig**: `Omit`<`PartialTypedDataConfig`, `"address"`\> & { `easContractAddress`: `string` ; `signer`: `ethers.Signer` }
+
+Configuration options for the Hypercert evaluator.
+
+**`Note`**
+
+The signer is required for submitting evaluations.
+
+#### Defined in
+
+[sdk/src/types/client.ts:54](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L54)
+
+---
+
+### HypercertStorageConfig
+
+Ƭ **HypercertStorageConfig**: `Object`
+
+Configuration options for the Hypercert storage layer.
+
+**`Note`**
+
+The API tokens are optional, but required for storing data on NFT.storage and Web3.storage.
+
+#### Type declaration
+
+| Name                | Type     | Description                     |
+| :------------------ | :------- | :------------------------------ |
+| `nftStorageToken?`  | `string` | The API token for NFT.storage.  |
+| `web3StorageToken?` | `string` | The API token for Web3.storage. |
+
+#### Defined in
+
+[sdk/src/types/client.ts:43](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L43)
+
+---
+
+### HypercertsSdkError
+
+Ƭ **HypercertsSdkError**: [`FetchError`](classes/FetchError.md) \| [`InvalidOrMissingError`](classes/InvalidOrMissingError.md) \| [`MalformedDataError`](classes/MalformedDataError.md) \| [`MintingError`](classes/MintingError.md) \| [`StorageError`](classes/StorageError.md) \| [`UnsupportedChainError`](classes/UnsupportedChainError.md) \| [`UnknownSchemaError`](classes/UnknownSchemaError.md)
+
+#### Defined in
+
+[sdk/src/types/errors.ts:152](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L152)
+
+---
+
+### QueryParams
+
+Ƭ **QueryParams**: `Object`
+
+#### Index signature
+
+▪ [key: `string`]: `any`
+
+#### Type declaration
+
+| Name              | Type                |
+| :---------------- | :------------------ |
+| `first`           | `number`            |
+| `orderDirections` | `"asc"` \| `"desc"` |
+| `skip`            | `number`            |
+
+#### Defined in
+
+[sdk/src/types/indexer.ts:10](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/indexer.ts#L10)
+
+---
+
+### SupportedChainIds
+
+Ƭ **SupportedChainIds**: `5` \| `10`
+
+#### Defined in
+
+[sdk/src/types/client.ts:11](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L11)
+
+---
+
+### TransferRestrictions
+
+Ƭ **TransferRestrictions**: typeof [`TransferRestrictions`](modules.md#transferrestrictions-1)[keyof typeof [`TransferRestrictions`](modules.md#transferrestrictions-1)]
+
+#### Defined in
+
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L9)
+
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L15)
+
+## Properties
 
 ### ClaimByIdQuery
 
-Ƭ **ClaimByIdQuery**: `Object`
-
-#### Type declaration
-
-| Name     | Type                                                                                                                                        |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| `claim?` | `Maybe`<`Pick`<`Claim`, `"chainName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>\> |
-
-#### Defined in
-
-[sdk/.graphclient/index.ts:961](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/.graphclient/index.ts#L961)
-
----
-
-### ClaimTokensByClaimQuery
-
-Ƭ **ClaimTokensByClaimQuery**: `Object`
-
-#### Type declaration
-
-| Name          | Type                                                                                      |
-| :------------ | :---------------------------------------------------------------------------------------- |
-| `claimTokens` | `Pick`<`ClaimToken`, `"chainName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\>[] |
-
-#### Defined in
-
-[sdk/.graphclient/index.ts:978](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/.graphclient/index.ts#L978)
-
-## Variables
-
-### HyperCertMinterFactory
-
-• **HyperCertMinterFactory**: typeof `HypercertMinter__factory`
-
-#### Defined in
-
-[sdk/src/index.ts:31](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/index.ts#L31)
+• **ClaimByIdQuery**: `any`
 
 ---
 
 ### HypercertMinterABI
 
-• `Const` **HypercertMinterABI**: ({ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| { `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| { `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous?`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
+• **HypercertMinterABI**: ({ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| { `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| { `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous?`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
 
 #### Defined in
 
-[sdk/src/resources/HypercertMinter.ts:1](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/resources/HypercertMinter.ts#L1)
+contracts/dist/abi/HypercertMinter.json:1
+
+---
+
+### IHypercertTokenABI
+
+• **IHypercertTokenABI**: ({ `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = true; `internalType`: `string` = "uint256"; `name`: `string` = "claimID"; `type`: `string` = "uint256" }[] ; `name`: `string` = "ClaimStored"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous?`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "unitsOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = "units"; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
+
+#### Defined in
+
+contracts/dist/abi/IHypercertToken.json:1
+
+## Variables
+
+### INDEFINITE_DATE_STRING
+
+• `Const` **INDEFINITE_DATE_STRING**: `"indefinite"`
+
+#### Defined in
+
+[sdk/src/utils/formatter.ts:4](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/utils/formatter.ts#L4)
+
+---
+
+### TransferRestrictions
+
+• `Const` **TransferRestrictions**: `Object`
+
+Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
+
+**`Dev`**
+
+AllowAll: All transfers are allowed
+
+**`Dev`**
+
+DisallowAll: All transfers are disallowed
+
+**`Dev`**
+
+FromCreatorOnly: Only the creator can transfer the Hypercert
+
+#### Type declaration
+
+| Name              | Type |
+| :---------------- | :--- |
+| `AllowAll`        | `0`  |
+| `DisallowAll`     | `1`  |
+| `FromCreatorOnly` | `2`  |
+
+#### Defined in
+
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L9)
+
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/hypercerts.ts#L15)
 
 ## Functions
-
-### HypercertMinting
-
-▸ **HypercertMinting**(`«destructured»`): `HypercertsMinterType`
-
-**`Deprecated`**
-
-Refactored this funtionality into the client
-
-#### Parameters
-
-| Name             | Type                    |
-| :--------------- | :---------------------- |
-| `«destructured»` | `HypercertsMinterProps` |
-
-#### Returns
-
-`HypercertsMinterType`
-
-#### Defined in
-
-[sdk/src/operator/hypercerts-minting.ts:35](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/operator/hypercerts-minting.ts#L35)
-
----
-
-### claimById
-
-▸ **claimById**(`id`): `Promise`<[`ClaimByIdQuery`](modules.md#claimbyidquery)\>
-
-#### Parameters
-
-| Name | Type     |
-| :--- | :------- |
-| `id` | `string` |
-
-#### Returns
-
-`Promise`<[`ClaimByIdQuery`](modules.md#claimbyidquery)\>
-
-#### Defined in
-
-[sdk/src/queries/claims.ts:14](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/claims.ts#L14)
-
----
-
-### claimsByOwner
-
-▸ **claimsByOwner**(`owner`): `Promise`<`ClaimsByOwnerQuery`\>
-
-#### Parameters
-
-| Name    | Type     |
-| :------ | :------- |
-| `owner` | `string` |
-
-#### Returns
-
-`Promise`<`ClaimsByOwnerQuery`\>
-
-#### Defined in
-
-[sdk/src/queries/claims.ts:9](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/claims.ts#L9)
-
----
 
 ### execute
 
@@ -226,23 +388,23 @@ node_modules/@graphql-mesh/runtime/typings/types.d.ts:25
 
 ---
 
-### firstClaims
+### formatDate
 
-▸ **firstClaims**(`first`): `Promise`<`RecentClaimsQuery`\>
+▸ **formatDate**(`date`): `string`
 
 #### Parameters
 
-| Name    | Type     |
-| :------ | :------- |
-| `first` | `number` |
+| Name   | Type   |
+| :----- | :----- |
+| `date` | `Date` |
 
 #### Returns
 
-`Promise`<`RecentClaimsQuery`\>
+`string`
 
 #### Defined in
 
-[sdk/src/queries/claims.ts:19](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/claims.ts#L19)
+[sdk/src/utils/formatter.ts:13](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/utils/formatter.ts#L13)
 
 ---
 
@@ -281,67 +443,27 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:28](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/utils/formatter.ts#L28)
+[sdk/src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/utils/formatter.ts#L27)
 
 ---
 
-### fractionById
+### formatUnixTime
 
-▸ **fractionById**(`fractionId`): `Promise`<`ClaimTokenByIdQuery`\>
-
-#### Parameters
-
-| Name         | Type     |
-| :----------- | :------- |
-| `fractionId` | `string` |
-
-#### Returns
-
-`Promise`<`ClaimTokenByIdQuery`\>
-
-#### Defined in
-
-[sdk/src/queries/fractions.ts:19](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/fractions.ts#L19)
-
----
-
-### fractionsByClaim
-
-▸ **fractionsByClaim**(`claimId`): `Promise`<[`ClaimTokensByClaimQuery`](modules.md#claimtokensbyclaimquery)\>
+▸ **formatUnixTime**(`seconds`): `string`
 
 #### Parameters
 
 | Name      | Type     |
 | :-------- | :------- |
-| `claimId` | `string` |
+| `seconds` | `number` |
 
 #### Returns
 
-`Promise`<[`ClaimTokensByClaimQuery`](modules.md#claimtokensbyclaimquery)\>
+`string`
 
 #### Defined in
 
-[sdk/src/queries/fractions.ts:14](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/fractions.ts#L14)
-
----
-
-### fractionsByOwner
-
-▸ **fractionsByOwner**(`owner`): `Promise`<`ClaimTokensByOwnerQuery`\>
-
-#### Parameters
-
-| Name    | Type     |
-| :------ | :------- |
-| `owner` | `string` |
-
-#### Returns
-
-`Promise`<`ClaimTokensByOwnerQuery`\>
-
-#### Defined in
-
-[sdk/src/queries/fractions.ts:9](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/queries/fractions.ts#L9)
+[sdk/src/utils/formatter.ts:5](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/utils/formatter.ts#L5)
 
 ---
 
@@ -349,16 +471,20 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 ▸ **validateAllowlist**(`data`, `units`): `Object`
 
+Validates the data for an allowlist.
+
 #### Parameters
 
-| Name    | Type                                |
-| :------ | :---------------------------------- |
-| `data`  | [`Allowlist`](modules.md#allowlist) |
-| `units` | `BigNumberish`                      |
+| Name    | Type                                | Description                                 |
+| :------ | :---------------------------------- | :------------------------------------------ |
+| `data`  | [`Allowlist`](modules.md#allowlist) | The data to validate.                       |
+| `units` | `BigNumberish`                      | The total number of units in the allowlist. |
 
 #### Returns
 
 `Object`
+
+A `ValidationResult` object indicating whether the data is valid and any errors that were found.
 
 | Name     | Type                                        |
 | :------- | :------------------------------------------ |
@@ -367,7 +493,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/validator/index.ts:62](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/validator/index.ts#L62)
+[sdk/src/validator/index.ts:89](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/validator/index.ts#L89)
 
 ---
 
@@ -375,19 +501,47 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 ▸ **validateClaimData**(`data`): `ValidationResult`
 
+Validates the data for a simple text evaluation.
+
 #### Parameters
 
-| Name   | Type                                                     |
-| :----- | :------------------------------------------------------- |
-| `data` | [`HypercertClaimdata`](interfaces/HypercertClaimdata.md) |
+| Name   | Type                                                     | Description           |
+| :----- | :------------------------------------------------------- | :-------------------- |
+| `data` | [`HypercertClaimdata`](interfaces/HypercertClaimdata.md) | The data to validate. |
 
 #### Returns
 
 `ValidationResult`
 
+A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+
 #### Defined in
 
-[sdk/src/validator/index.ts:41](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/validator/index.ts#L41)
+[sdk/src/validator/index.ts:62](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/validator/index.ts#L62)
+
+---
+
+### validateDuplicateEvaluationData
+
+▸ **validateDuplicateEvaluationData**(`data`): `ValidationResult`
+
+Validates the data for a duplicate evaluation.
+
+#### Parameters
+
+| Name   | Type                                                       | Description           |
+| :----- | :--------------------------------------------------------- | :-------------------- |
+| `data` | [`DuplicateEvaluation`](interfaces/DuplicateEvaluation.md) | The data to validate. |
+
+#### Returns
+
+`ValidationResult`
+
+A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+
+#### Defined in
+
+[sdk/src/validator/index.ts:111](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/validator/index.ts#L111)
 
 ---
 
@@ -395,16 +549,44 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 ▸ **validateMetaData**(`data`): `ValidationResult`
 
+Validates the data for a simple text evaluation.
+
 #### Parameters
 
-| Name   | Type                                                   |
-| :----- | :----------------------------------------------------- |
-| `data` | [`HypercertMetadata`](interfaces/HypercertMetadata.md) |
+| Name   | Type                                                   | Description           |
+| :----- | :----------------------------------------------------- | :-------------------- |
+| `data` | [`HypercertMetadata`](interfaces/HypercertMetadata.md) | The data to validate. |
 
 #### Returns
 
 `ValidationResult`
 
+A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+
 #### Defined in
 
-[sdk/src/validator/index.ts:20](https://github.com/Network-Goods/hypercerts/blob/759a46d/sdk/src/validator/index.ts#L20)
+[sdk/src/validator/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/validator/index.ts#L36)
+
+---
+
+### validateSimpleTextEvaluationData
+
+▸ **validateSimpleTextEvaluationData**(`data`): `ValidationResult`
+
+Validates the data for a simple text evaluation.
+
+#### Parameters
+
+| Name   | Type                                                         | Description           |
+| :----- | :----------------------------------------------------------- | :-------------------- |
+| `data` | [`SimpleTextEvaluation`](interfaces/SimpleTextEvaluation.md) | The data to validate. |
+
+#### Returns
+
+`ValidationResult`
+
+A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+
+#### Defined in
+
+[sdk/src/validator/index.ts:136](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/validator/index.ts#L136)

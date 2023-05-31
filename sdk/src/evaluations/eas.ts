@@ -1,8 +1,8 @@
-import { EAS, Offchain, SchemaEncoder, SignedOffchainAttestation } from "@ethereum-attestation-service/eas-sdk";
+import { Offchain, SchemaEncoder, SignedOffchainAttestation } from "@ethereum-attestation-service/eas-sdk";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
-import { DEFAULT_CHAIN_ID, EAS_SCHEMAS } from "../constants.js";
+import { EAS_SCHEMAS } from "../constants.js";
 import {
   MalformedDataError,
   DuplicateEvaluation,
@@ -12,7 +12,6 @@ import {
   InvalidOrMissingError,
 } from "../types/index.js";
 import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
-import { HypercertEvaluatorConfig } from "../types/index.js";
 
 /**
  * The EasEvaluator class provides methods for signing off-chain attestations of evaluations.
@@ -34,9 +33,9 @@ export default class EasEvaluator {
    * @param {EasEvaluatorConfig} config - The configuration options for the EasEvaluator instance.
    */
   constructor(config: Partial<HypercertClientConfig>) {
-    for (const prop of ["easeContractAddress", "chainId", "signer"]) {
+    for (const prop of ["easContractAddress", "chainId", "signer"]) {
       if (!(prop in config) || config[prop as keyof HypercertClientConfig] === undefined) {
-        throw new InvalidOrMissingError(`Invalid or missing config value:`, prop.toString());
+        throw new InvalidOrMissingError(`Invalid or missing config value: ${prop}`, prop.toString());
       }
     }
 

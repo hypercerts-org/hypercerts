@@ -9,12 +9,10 @@ import {
   EvaluationSource,
   HypercertClientConfig,
   HypercertEvaluationSchema,
-  HypercertEvaluatorConfig,
   MalformedDataError,
 } from "../types/index.js";
 import EasEvaluator from "./eas.js";
 import { isAddress } from "ethers/lib/utils.js";
-import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 

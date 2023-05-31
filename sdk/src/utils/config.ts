@@ -35,6 +35,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     ...getSigner(overrides),
     ...getNftStorageToken(overrides),
     ...getWeb3StorageToken(overrides),
+    ...getEasContractAddress(overrides),
   } as HypercertClientConfig;
 
   for (const [key, value] of Object.entries(config)) {
@@ -153,4 +154,12 @@ const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
   }
 
   return {};
+};
+
+const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
+  if (overrides.easContractAddress) {
+    return { easContractAddress: overrides.easContractAddress };
+  }
+
+  return { easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e" };
 };
