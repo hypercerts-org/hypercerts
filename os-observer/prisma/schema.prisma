@@ -16,7 +16,7 @@ model Organization {
   // Human-readable name for the organization
   name            String
   // The GitHub organization slug (e.g "hypercerts-org")
-  githubOrg       String
+  githubOrg       String?       @unique
   // Human-readable description for the organization
   description     String?
 
@@ -59,6 +59,22 @@ model Artifact {
   eventSourcePtrs EventSourcePointer[]
 }
 
+// Represents someone that is associated with an event
+// e.g. a source of funding, a code contributor, etc.
+model Contributor {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt
+
+  // Currently just an arbitrary string
+  name            String
+  // TODO add more fields as necessary
+
+  // RELATIONS
+  // Associated events
+  events          Event[]
+}
+
 // An event that happened to an artifact
 // An event stream is identified by its (organization, artifact, eventType)
 model Event {
@@ -77,7 +93,9 @@ model Event {
   // Time the event happened
   eventTime       DateTime?     @db.Timestamptz(3)
   // Who is the source of the event?
-  contributor     String?
+  // Relation to the Contributor
+  contributor     Contributor   @relation(fields: [contributorId], references: [id])
+  contributorId   Int
   // Depending on the event type, this may reflect some count or amount
   amount          Float?
   // Catch-all for other data we want to store with the event
