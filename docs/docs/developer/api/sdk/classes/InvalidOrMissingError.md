@@ -36,7 +36,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L59)
+[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L59)
 
 ## Properties
 
@@ -50,7 +50,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:55](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L55)
+[sdk/src/types/errors.ts:55](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L55)
 
 ---
 
@@ -64,7 +64,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:57](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L57)
+[sdk/src/types/errors.ts:57](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L57)
 
 ---
 
@@ -78,7 +78,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:56](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L56)
+[sdk/src/types/errors.ts:56](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L56)
 
 ---
 
@@ -98,4 +98,4 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:58](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L58)
+[sdk/src/types/errors.ts:58](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L58)

@@ -39,7 +39,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:90](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L90)
+[sdk/src/types/client.ts:90](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L90)
 
 ---
 
@@ -67,7 +67,7 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:76](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L76)
+[sdk/src/types/client.ts:76](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L76)
 
 ---
 
@@ -95,7 +95,7 @@ A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:83](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L83)
+[sdk/src/types/client.ts:83](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L83)
 
 ---
 
@@ -123,4 +123,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:69](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/client.ts#L69)
+[sdk/src/types/client.ts:69](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L69)

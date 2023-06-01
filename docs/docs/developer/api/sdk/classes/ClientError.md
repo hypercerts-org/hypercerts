@@ -36,7 +36,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:25](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L25)
+[sdk/src/types/errors.ts:25](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L25)
 
 ## Properties
 
@@ -50,7 +50,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:21](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L21)
+[sdk/src/types/errors.ts:21](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L21)
 
 ---
 
@@ -64,7 +64,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:23](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L23)
+[sdk/src/types/errors.ts:23](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L23)
 
 ---
 
@@ -78,7 +78,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L22)
+[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L22)
 
 ---
 
@@ -96,4 +96,4 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:24](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L24)
+[sdk/src/types/errors.ts:24](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L24)

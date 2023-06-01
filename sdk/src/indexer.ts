@@ -4,6 +4,7 @@ import { HypercertIndexerInterface, QueryParams } from "./types/index.js";
 
 /**
  * A class that provides indexing functionality for Hypercerts.
+ * @class HypercertIndexer
  */
 export default class HypercertIndexer implements HypercertIndexerInterface {
   /** The Graph client used by the indexer. */

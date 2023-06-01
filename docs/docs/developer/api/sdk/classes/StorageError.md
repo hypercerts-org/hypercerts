@@ -36,7 +36,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:92](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L92)
+[sdk/src/types/errors.ts:92](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L92)
 
 ## Properties
 
@@ -50,7 +50,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L88)
+[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L88)
 
 ---
 
@@ -64,7 +64,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L90)
+[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L90)
 
 ---
 
@@ -78,7 +78,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L89)
+[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L89)
 
 ---
 
@@ -96,4 +96,4 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:91](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L91)
+[sdk/src/types/errors.ts:91](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L91)

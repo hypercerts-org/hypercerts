@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[sdk/src/types/errors.ts:13](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L13)
+[sdk/src/types/errors.ts:13](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L13)
 
 ---
 
@@ -79,7 +79,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1053
 
 #### Defined in
 
-[sdk/src/types/errors.ts:14](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L14)
+[sdk/src/types/errors.ts:14](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L14)
 
 ---
 

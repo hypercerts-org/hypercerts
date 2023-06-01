@@ -36,7 +36,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:126](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L126)
+[sdk/src/types/errors.ts:126](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L126)
 
 ## Properties
 
@@ -50,7 +50,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L122)
+[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L122)
 
 ---
 
@@ -64,7 +64,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:124](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L124)
+[sdk/src/types/errors.ts:124](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L124)
 
 ---
 
@@ -78,7 +78,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L123)
+[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L123)
 
 ---
 
@@ -96,4 +96,4 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:125](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L125)
+[sdk/src/types/errors.ts:125](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L125)

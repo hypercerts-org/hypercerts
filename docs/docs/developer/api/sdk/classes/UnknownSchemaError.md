@@ -37,7 +37,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:109](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L109)
+[sdk/src/types/errors.ts:109](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L109)
 
 ## Properties
 
@@ -51,7 +51,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L105)
+[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L105)
 
 ---
 
@@ -65,7 +65,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:107](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L107)
+[sdk/src/types/errors.ts:107](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L107)
 
 ---
 
@@ -79,7 +79,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L106)
+[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L106)
 
 ---
 
@@ -99,4 +99,4 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:108](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L108)
+[sdk/src/types/errors.ts:108](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L108)

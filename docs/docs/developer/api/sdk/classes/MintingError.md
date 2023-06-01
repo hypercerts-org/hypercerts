@@ -36,7 +36,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:75](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L75)
+[sdk/src/types/errors.ts:75](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L75)
 
 ## Properties
 
@@ -50,7 +50,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:71](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L71)
+[sdk/src/types/errors.ts:71](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L71)
 
 ---
 
@@ -64,7 +64,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:73](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L73)
+[sdk/src/types/errors.ts:73](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L73)
 
 ---
 
@@ -78,7 +78,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:72](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L72)
+[sdk/src/types/errors.ts:72](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L72)
 
 ---
 
@@ -96,4 +96,4 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:74](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L74)
+[sdk/src/types/errors.ts:74](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L74)

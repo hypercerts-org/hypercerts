@@ -37,7 +37,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:144](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L144)
+[sdk/src/types/errors.ts:144](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L144)
 
 ## Properties
 
@@ -51,7 +51,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L140)
+[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L140)
 
 ---
 
@@ -65,7 +65,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:142](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L142)
+[sdk/src/types/errors.ts:142](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L142)
 
 ---
 
@@ -79,7 +79,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:141](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L141)
+[sdk/src/types/errors.ts:141](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L141)
 
 ---
 
@@ -99,4 +99,4 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:143](https://github.com/Network-Goods/hypercerts/blob/fceb7f4/sdk/src/types/errors.ts#L143)
+[sdk/src/types/errors.ts:143](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L143)

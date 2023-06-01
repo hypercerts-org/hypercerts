@@ -1,11 +1,15 @@
 import { HypercertMinterABI, IHypercertTokenABI, HyperCertMinterFactory } from "@hypercerts-org/contracts";
 import type { HypercertMinter, IHypercertToken } from "@hypercerts-org/contracts";
 
-// Protocol
+/**
+ * Protocol
+ */
 export { HyperCertMinterFactory, HypercertMinterABI, IHypercertTokenABI };
 export type { HypercertMinter, IHypercertToken };
 
-// Graph
+/**
+ * Graph
+ */
 import { execute } from "../.graphclient/index.js";
 
 // Wrapper clients
