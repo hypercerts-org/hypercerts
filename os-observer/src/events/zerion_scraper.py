@@ -207,6 +207,19 @@ def convert_csvs_to_records():
     return records
 
 
+def identify_funding_events():
+    records = convert_csvs_to_records()
+    funding_events = []
+    for r in records:
+        if r['event_type'] != 'funds received':
+            continue
+        details = r.pop('details')['data']
+        r.update(details)
+        funding_events.append(r)
+    return funding_events
+
+
+
 # -------------------- MAIN SCRIPT -------------------- #
 
 if __name__ == '__main__':

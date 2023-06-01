@@ -14,7 +14,6 @@ from events.zerion_scraper import convert_csvs_to_records
 from events.funding_rounds import get_transfers
 
 
-START, END = '2021-01-01T00:00:00Z', '2023-04-30T00:00:00Z'
 QUERIES = ["merged PR", "issue", "created PR"]
 
 
@@ -231,7 +230,7 @@ def insert_zerion_transactions():
     ]
 
     for batch in batches:
-        data, count = (supabase
+        response = (supabase
             .table("events")
             .insert(batch)
             .execute())
@@ -264,12 +263,9 @@ def populate_db():
 
 if __name__ == "__main__":
     
-
     #populate_db()
     insert_zerion_transactions()
      
     # testing           
     #start, end = '2022-01-01T00:00:00Z', '2023-05-24T00:00:00Z'
     #insert_project_github_events(1, 1, start, end)
-    
-    #insert_grant_funding(15)
