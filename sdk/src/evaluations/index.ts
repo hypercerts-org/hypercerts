@@ -4,41 +4,44 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, MalformedDataError } from "../types/index.js";
+import {
+  EASEvaluation,
+  EvaluationSource,
+  HypercertClientConfig,
+  HypercertEvaluationSchema,
+  MalformedDataError,
+} from "../types/index.js";
 import EasEvaluator from "./eas.js";
 import { isAddress } from "ethers/lib/utils.js";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
-type HypercertEvaluatorConfig = {
-  chainId?: number;
-  address?: string;
-  signer?: ethers.Signer;
-  storage?: HypercertsStorage;
-};
-
 export interface EvaluatorInterface {
+  /**
+   * Submits an evaluation to the prefered storage system.
+   * @param {HypercertEvaluationSchema} evaluation - The evaluation to submit.
+   * @returns {Promise<CIDString>} - The CID of the submitted evaluation.
+   */
   submitEvaluation: (evaluation: HypercertEvaluationSchema) => Promise<CIDString>;
 }
 
 export default class HypercertEvaluator implements EvaluatorInterface {
   signer: ethers.Signer & TypedDataSigner;
+
   storage: HypercertsStorage;
+
   eas: EasEvaluator;
 
-  constructor({
-    chainId = DEFAULT_CHAIN_ID,
-    address = EASContractAddress,
-    signer = new ethers.VoidSigner(""),
-    storage = new HypercertsStorage({}),
-  }: HypercertEvaluatorConfig) {
-    this.signer = signer as ethers.Signer & TypedDataSigner;
-    this.storage = storage;
-    this.eas = new EasEvaluator({
-      address,
-      chainId,
-      signer: this.signer,
-    });
+  constructor(
+    config = {
+      chainId: DEFAULT_CHAIN_ID,
+      easContractAddress: EASContractAddress,
+      signer: new ethers.VoidSigner(""),
+    } as Partial<HypercertClientConfig>,
+  ) {
+    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    this.storage = new HypercertsStorage(config);
+    this.eas = new EasEvaluator(config);
   }
 
   submitEvaluation = async (evaluation: HypercertEvaluationSchema): Promise<CIDString> => {
@@ -49,9 +52,8 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     if (isEasEvaluation(evaluation.evaluationSource)) {
       const signedData = await this.eas.signOfflineEvaluation(evaluation.evaluationData);
       const evaluationData = { ...evaluation.evaluationData, signedData };
-      const evaluationToStore = { ...evaluation, evaluationData };
 
-      return this.storage.storeData(evaluationToStore);
+      return this.storage.storeData({ ...evaluation, evaluationData });
     }
 
     throw new Error(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);

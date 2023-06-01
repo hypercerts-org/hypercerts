@@ -18,11 +18,21 @@ ajv.addSchema(metaDataSchema, "metaData");
 ajv.addSchema(claimDataSchema, "claimData");
 ajv.addSchema(evaluationSchema, "evaluation.json");
 
+/**
+ * The result of a validation.
+ * @property valid - Whether the data is valid.
+ * @property errors - A map of errors, where the key is the field that failed validation and the value is the error message.
+ */
 type ValidationResult = {
   valid: boolean;
   errors: Record<string, string>;
 };
 
+/**
+ * Validates the data for a simple text evaluation.
+ * @param data The data to validate.
+ * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ */
 const validateMetaData = (data: HypercertMetadata): ValidationResult => {
   const schemaName = "metaData";
   const validate = ajv.getSchema<HypercertMetadata>(schemaName);
@@ -44,6 +54,11 @@ const validateMetaData = (data: HypercertMetadata): ValidationResult => {
   return { valid: true, errors: {} };
 };
 
+/**
+ * Validates the data for a simple text evaluation.
+ * @param data The data to validate.
+ * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ */
 const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
   const schemaName = "claimData";
   const validate = ajv.getSchema<HypercertClaimdata>(schemaName);
@@ -65,6 +80,12 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
   return { valid: true, errors: {} };
 };
 
+/**
+ * Validates the data for an allowlist.
+ * @param data The data to validate.
+ * @param units The total number of units in the allowlist.
+ * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ */
 const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
   const errors: Record<string, string | string[]> = {};
   const totalUnits = data.reduce((acc, curr) => acc.add(curr.units), BigNumber.from(0));
@@ -82,6 +103,11 @@ const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
   return { valid: Object.keys(errors).length === 0, errors };
 };
 
+/**
+ * Validates the data for a duplicate evaluation.
+ * @param data The data to validate.
+ * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ */
 const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationResult => {
   const validate = ajv.getSchema<DuplicateEvaluation>("evaluation.json#/definitions/DuplicateEvaluation");
   if (!validate) {
@@ -102,6 +128,11 @@ const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationR
   return { valid: true, errors: {} };
 };
 
+/**
+ * Validates the data for a simple text evaluation.
+ * @param data The data to validate.
+ * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ */
 const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): ValidationResult => {
   const validate = ajv.getSchema<SimpleTextEvaluation>("evaluation.json#/definitions/SimpleTextEvaluation");
   if (!validate) {
