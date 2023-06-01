@@ -1,7 +1,7 @@
 import npmFetch from "npm-registry-fetch";
 import { EventSourceFunction, ApiReturnType } from "../utils/api.js";
 import { logger } from "../utils/logger.js";
-import { getGithubOrgFromUrl } from "../utils/parsing.js";
+import { parseGithubUrl } from "../utils/parsing.js";
 
 export interface NpmDownloadsArgs {
   name: string;
@@ -26,7 +26,10 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
 
   // Check if the organization exists
   const repoUrl = pkgManifest?.repository?.url ?? "";
-  const githubOrg = getGithubOrgFromUrl(repoUrl);
+  const { owner: githubOrg } = parseGithubUrl(repoUrl) ?? {};
+  if (!githubOrg) {
+    logger.warn(`Unable to find the GitHub organization for ${name}`);
+  }
   console.log(githubOrg);
 
   // Get the latest event source pointer

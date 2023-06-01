@@ -1,33 +1,44 @@
-import { getGithubOrgFromUrl } from "../src/utils/parsing.js";
+import { parseGithubUrl } from "../src/utils/parsing.js";
 
 describe("parsing", () => {
   it("parses github git+https urls", () => {
     const url = "git+https://github.com/hypercerts-org/hypercerts.git";
-    const org = getGithubOrgFromUrl(url);
-    expect(org).toEqual("hypercerts-org");
+    const result = parseGithubUrl(url);
+    expect(result).not.toBeNull();
+    expect(result?.owner).toEqual("hypercerts-org");
+    expect(result?.name).toEqual("hypercerts");
   });
 
   it("parses github ssh urls", () => {
     const url = "ssh://github.com/hypercerts-org/hypercerts.git";
-    const org = getGithubOrgFromUrl(url);
-    expect(org).toEqual("hypercerts-org");
+    const result = parseGithubUrl(url);
+    expect(result).not.toBeNull();
+    expect(result?.owner).toEqual("hypercerts-org");
+    expect(result?.name).toEqual("hypercerts");
   });
 
   it("parses multi-part github ssh urls", () => {
     const url = "ssh://github.com/hypercerts-org/hypercerts/sdk";
-    const org = getGithubOrgFromUrl(url);
-    expect(org).toEqual("hypercerts-org");
+    const result = parseGithubUrl(url);
+    expect(result).not.toBeNull();
+    expect(result?.owner).toEqual("hypercerts-org");
+    expect(result?.name).toEqual("hypercerts");
   });
 
-  it("doesn't parses gitlab ssh urls", () => {
+  it("doesn't parse gitlab ssh urls", () => {
     const url = "ssh://gitlab.com/hypercerts-org/hypercerts.git";
-    const org = getGithubOrgFromUrl(url);
-    expect(org).toEqual(null);
+    const result = parseGithubUrl(url);
+    expect(result).toBeNull();
   });
 
-  it("doesn't parses malformed urls", () => {
+  it("doesn't parse malformed urls", () => {
     const url = "hypercerts-org/hypercerts.git";
-    const org = getGithubOrgFromUrl(url);
-    expect(org).toEqual(null);
+    const result = parseGithubUrl(url);
+    expect(result).toBeNull();
+  });
+
+  it("doesn't parse falsey values", () => {
+    const result = parseGithubUrl(false);
+    expect(result).toBeNull();
   });
 });
