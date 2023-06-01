@@ -36,13 +36,15 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L59)
+[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L90)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.InvalidOrMissingError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.InvalidOrMissingError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +52,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:55](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L55)
+[sdk/src/types/errors.ts:86](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L86)
 
 ---
 
@@ -60,11 +62,11 @@ The provided value was undefined or empty
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:57](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L57)
+[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L88)
 
 ---
 
@@ -74,17 +76,19 @@ The provided value was undefined or empty
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:56](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L56)
+[sdk/src/types/errors.ts:87](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L87)
 
 ---
 
 ### payload
 
 • **payload**: `Object`
+
+Additional error payload.
 
 #### Type declaration
 
@@ -98,4 +102,4 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:58](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L58)
+[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L89)

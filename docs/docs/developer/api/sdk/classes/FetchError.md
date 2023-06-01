@@ -36,13 +36,15 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:42](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L42)
+[sdk/src/types/errors.ts:73](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L73)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.FetchError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.FetchError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +52,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:38](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L38)
+[sdk/src/types/errors.ts:69](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L69)
 
 ---
 
@@ -60,11 +62,11 @@ Fails fetching a remote resource
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:40](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L40)
+[sdk/src/types/errors.ts:71](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L71)
 
 ---
 
@@ -74,17 +76,19 @@ Fails fetching a remote resource
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:39](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L39)
+[sdk/src/types/errors.ts:70](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L70)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Index signature
 
@@ -96,4 +100,4 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:41](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L41)
+[sdk/src/types/errors.ts:72](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L72)

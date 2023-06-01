@@ -23,25 +23,25 @@ The state of the Hypercert client.
 
 ### contract
 
-• **contract**: [`HypercertMinter`](HypercertMinter.md)
+• **contract**: [`HypercertMinter`](internal.HypercertMinter.md)
 
 The contract used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:117](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L117)
+[sdk/src/types/client.ts:121](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L121)
 
 ---
 
 ### indexer
 
-• **indexer**: `default`
+• **indexer**: [`default`](../classes/internal.default-2.md)
 
 The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:115](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L115)
+[sdk/src/types/client.ts:119](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L119)
 
 ---
 
@@ -53,7 +53,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:111](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L111)
+[sdk/src/types/client.ts:115](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L115)
 
 ---
 
@@ -65,4 +65,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:113](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L113)
+[sdk/src/types/client.ts:117](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L117)

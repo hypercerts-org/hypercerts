@@ -36,13 +36,15 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:126](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L126)
+[sdk/src/types/errors.ts:157](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L157)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.MalformedDataError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.MalformedDataError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +52,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L122)
+[sdk/src/types/errors.ts:153](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L153)
 
 ---
 
@@ -60,11 +62,11 @@ Data doesn't conform to expectations
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:124](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L124)
+[sdk/src/types/errors.ts:155](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L155)
 
 ---
 
@@ -74,17 +76,19 @@ Data doesn't conform to expectations
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L123)
+[sdk/src/types/errors.ts:154](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L154)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Index signature
 
@@ -96,4 +100,4 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:125](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L125)
+[sdk/src/types/errors.ts:156](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L156)

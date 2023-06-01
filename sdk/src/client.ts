@@ -1,28 +1,26 @@
-import { HypercertMinter, HypercertMinterABI } from "@hypercerts-org/contracts";
+import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID } from "./constants.js";
-
+import HypercertEvaluator from "./evaluations/index.js";
+import HypercertIndexer from "./indexer.js";
+import HypercertsStorage from "./storage.js";
 import {
   Allowlist,
-  TransferRestrictions,
+  ClientError,
   HypercertClientConfig,
   HypercertClientInterface,
-  ClientError,
+  HypercertMetadata,
+  HypercertMinter,
   MalformedDataError,
   MintingError,
   StorageError,
-  HypercertMetadata,
+  TransferRestrictions,
 } from "./types/index.js";
-
 import { getConfig } from "./utils/config.js";
-import { validateAllowlist, validateMetaData } from "./validator/index.js";
 import logger from "./utils/logger.js";
-
-import HypercertEvaluator from "./evaluations/index.js";
-import HypercertsStorage from "./storage.js";
-import HypercertIndexer from "./indexer.js";
+import { validateAllowlist, validateMetaData } from "./validator/index.js";
 
 /**
  * Hypercerts client factory

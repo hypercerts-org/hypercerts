@@ -2,6 +2,10 @@
 
 # Interface: HypercertIndexerInterface
 
+## Implemented by
+
+- [`default`](../classes/internal.default-2.md)
+
 ## Table of contents
 
 ### Properties
@@ -18,11 +22,11 @@
 
 ### claimById
 
-• **claimById**: (`id`: `string`) => `Promise`<`ClaimByIdQuery`\>
+• **claimById**: (`id`: `string`) => `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
 
 #### Type declaration
 
-▸ (`id`): `Promise`<`ClaimByIdQuery`\>
+▸ (`id`): `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
 
 ##### Parameters
 
@@ -32,21 +36,21 @@
 
 ##### Returns
 
-`Promise`<`ClaimByIdQuery`\>
+`Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L20)
+[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L20)
 
 ---
 
 ### claimsByOwner
 
-• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`ClaimsByOwnerQuery`\>
+• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<`ClaimsByOwnerQuery`\>
+▸ (`owner`, `params?`): `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 ##### Parameters
 
@@ -57,21 +61,21 @@
 
 ##### Returns
 
-`Promise`<`ClaimsByOwnerQuery`\>
+`Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L19)
+[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L19)
 
 ---
 
 ### firstClaims
 
-• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`RecentClaimsQuery`\>
+• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 #### Type declaration
 
-▸ (`params?`): `Promise`<`RecentClaimsQuery`\>
+▸ (`params?`): `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 ##### Parameters
 
@@ -81,21 +85,21 @@
 
 ##### Returns
 
-`Promise`<`RecentClaimsQuery`\>
+`Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L21)
+[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L21)
 
 ---
 
 ### fractionById
 
-• **fractionById**: (`fractionId`: `string`) => `Promise`<`ClaimTokenByIdQuery`\>
+• **fractionById**: (`fractionId`: `string`) => `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 #### Type declaration
 
-▸ (`fractionId`): `Promise`<`ClaimTokenByIdQuery`\>
+▸ (`fractionId`): `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 ##### Parameters
 
@@ -105,21 +109,21 @@
 
 ##### Returns
 
-`Promise`<`ClaimTokenByIdQuery`\>
+`Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L24)
+[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L24)
 
 ---
 
 ### fractionsByClaim
 
-• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`ClaimTokensByClaimQuery`\>
+• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
 
 #### Type declaration
 
-▸ (`claimId`, `params?`): `Promise`<`ClaimTokensByClaimQuery`\>
+▸ (`claimId`, `params?`): `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
 
 ##### Parameters
 
@@ -130,21 +134,21 @@
 
 ##### Returns
 
-`Promise`<`ClaimTokensByClaimQuery`\>
+`Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L23)
+[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L23)
 
 ---
 
 ### fractionsByOwner
 
-• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`ClaimTokensByOwnerQuery`\>
+• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<`ClaimTokensByOwnerQuery`\>
+▸ (`owner`, `params?`): `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 ##### Parameters
 
@@ -155,11 +159,11 @@
 
 ##### Returns
 
-`Promise`<`ClaimTokensByOwnerQuery`\>
+`Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L22)
+[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L22)
 
 ---
 
@@ -169,4 +173,4 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L18)
+[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L18)

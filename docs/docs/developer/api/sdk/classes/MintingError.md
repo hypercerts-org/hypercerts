@@ -36,13 +36,15 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:75](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L75)
+[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L106)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.MintingError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.MintingError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +52,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:71](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L71)
+[sdk/src/types/errors.ts:102](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L102)
 
 ---
 
@@ -60,11 +62,11 @@ Minting transaction failed
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:73](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L73)
+[sdk/src/types/errors.ts:104](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L104)
 
 ---
 
@@ -74,17 +76,19 @@ Minting transaction failed
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:72](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L72)
+[sdk/src/types/errors.ts:103](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L103)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Index signature
 
@@ -96,4 +100,4 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:74](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L74)
+[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L105)

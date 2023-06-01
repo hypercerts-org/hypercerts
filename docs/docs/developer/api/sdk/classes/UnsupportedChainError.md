@@ -37,13 +37,15 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:144](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L144)
+[sdk/src/types/errors.ts:175](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L175)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.UnsupportedChainError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.UnsupportedChainError`
+
+The type of error.
 
 #### Implementation of
 
@@ -51,7 +53,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L140)
+[sdk/src/types/errors.ts:171](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L171)
 
 ---
 
@@ -61,11 +63,11 @@ Please file an issue
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:142](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L142)
+[sdk/src/types/errors.ts:173](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L173)
 
 ---
 
@@ -75,17 +77,19 @@ Please file an issue
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:141](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L141)
+[sdk/src/types/errors.ts:172](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L172)
 
 ---
 
 ### payload
 
 • **payload**: `Object`
+
+Additional error payload.
 
 #### Type declaration
 
@@ -99,4 +103,4 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:143](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L143)
+[sdk/src/types/errors.ts:174](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L174)

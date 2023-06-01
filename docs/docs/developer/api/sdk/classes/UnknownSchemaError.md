@@ -37,13 +37,15 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:109](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L109)
+[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L140)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.UnknownSchemaError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.UnknownSchemaError`
+
+The type of error.
 
 #### Implementation of
 
@@ -51,7 +53,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L105)
+[sdk/src/types/errors.ts:136](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L136)
 
 ---
 
@@ -61,11 +63,11 @@ Schema could not be loaded
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:107](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L107)
+[sdk/src/types/errors.ts:138](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L138)
 
 ---
 
@@ -75,17 +77,19 @@ Schema could not be loaded
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L106)
+[sdk/src/types/errors.ts:137](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L137)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Type declaration
 
@@ -99,4 +103,4 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:108](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L108)
+[sdk/src/types/errors.ts:139](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L139)

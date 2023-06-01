@@ -47,7 +47,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:172](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L172)
+[sdk/src/types/client.ts:176](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L176)
 
 ---
 
@@ -78,7 +78,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:145](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L145)
+[sdk/src/types/client.ts:149](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L149)
 
 ---
 
@@ -106,7 +106,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:165](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L165)
+[sdk/src/types/client.ts:169](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L169)
 
 ---
 
@@ -136,7 +136,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:131](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L131)
+[sdk/src/types/client.ts:135](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L135)
 
 ---
 
@@ -166,7 +166,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:181](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L181)
+[sdk/src/types/client.ts:185](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L185)
 
 ---
 
@@ -195,4 +195,4 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:158](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L158)
+[sdk/src/types/client.ts:162](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L162)

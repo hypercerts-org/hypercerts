@@ -27,11 +27,19 @@ import { HypercertClient } from "@hypercerts-org/sdk";
 ```js
 const client = new HypercertClient({
   chainId: 5,
+  provider,
+  signer,
+  nftStorageToken,
+  web3StorageToken,
 });
 ```
 
-Use the client object to interact with the Hypercert network. For example, you can use the `client.mintClaim` method to
-create a new claim:
+> **Note** If there's no `signer`, `provider`, `nftStorageToken` or `web3StorageToken` provided, the client will run in
+> [read-only mode](#read-only-mode)
+
+4. Use the client object to interact with the Hypercert network.
+
+For example, you can use the `client.mintClaim` method to create a new claim:
 
 ```js
 const tx = await client.mintClaim(
@@ -43,6 +51,12 @@ const tx = await client.mintClaim(
 ```
 
 This will validate the metadata, store it on IPFS, create a new hypercert on-chain and return a transaction receipt.
+
+You can also use the client to query the subgraph and retrieve which claims an address owns:
+
+```js
+const claims = await client.indexer.fractionsByOwner(owner),
+```
 
 For more information on how to use the SDK, check out the
 [developer documentation](https://hypercerts.org/docs/developer/) and the
@@ -105,8 +119,8 @@ For example:
 | `contractAddress`  | `string`             | The address of the Hypercert contract. |
 | `rpcUrl`           | `string`             | The URL of the RPC endpoint to use.    |
 | `graphName`        | `string`             | The name of the Gsubgraph to use.      |
-| `provider`         | `providers.Provider` | A custom Ethereum provider to use.     |
-| `signer`           | `Signer`             | A custom Ethereum signer to use.       |
+| `provider`         | `providers.Provider` | A custom provider to use.              |
+| `signer`           | `Signer`             | A custom signer to use.                |
 | `nftStorageToken`  | `string`             | Your NFT.storage API key.              |
 | `web3StorageToken` | `string`             | Your web3.storage API key.             |
 
@@ -117,8 +131,8 @@ To determine the missing configuration values the SDK defaults to the following 
 | Environment Variable             | Description                                                                                         |
 | -------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `DEFAULT_CHAIN_ID`               | Specifies the default chain ID to use if no chain ID is specified.                                  |
-| `CONTRACT_ADDRESS`               | Specifies the contract address to use for the Hypercert system.                                     |
-| `RPC_URL`                        | Specifies the RPC URL to use for the Ethereum network.                                              |
+| `CONTRACT_ADDRESS`               | Specifies the contract address to use for the Hypercert protocol.                                   |
+| `RPC_URL`                        | Specifies the RPC URL to use for the evm-compatible network.                                        |
 | `PRIVATE_KEY`                    | Specifies the private key to use for signing transactions.                                          |
 | `NFT_STORAGE_TOKEN`              | Specifies the NFT.storage API token to use for storing Hypercert metadata.                          |
 | `NEXT_PUBLIC_NFT_STORAGE_TOKEN`  | Specifies the NFT.storage API token to use for storing Hypercert metadata in a Next.js application. |

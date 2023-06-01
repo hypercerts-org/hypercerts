@@ -8,11 +8,14 @@
 
 - [ClaimTokensByClaimQuery](modules.md#claimtokensbyclaimquery)
 
+### Modules
+
+- [internal](modules/internal.md)
+
 ### Classes
 
 - [ClientError](classes/ClientError.md)
 - [FetchError](classes/FetchError.md)
-- [HyperCertMinterFactory](classes/HyperCertMinterFactory.md)
 - [HypercertClient](classes/HypercertClient.md)
 - [InvalidOrMissingError](classes/InvalidOrMissingError.md)
 - [MalformedDataError](classes/MalformedDataError.md)
@@ -32,10 +35,8 @@
 - [HypercertEvaluationSchema](interfaces/HypercertEvaluationSchema.md)
 - [HypercertIndexerInterface](interfaces/HypercertIndexerInterface.md)
 - [HypercertMetadata](interfaces/HypercertMetadata.md)
-- [HypercertMinter](interfaces/HypercertMinter.md)
 - [HypercertPointer](interfaces/HypercertPointer.md)
 - [HypercertStorageInterface](interfaces/HypercertStorageInterface.md)
-- [IHypercertToken](interfaces/IHypercertToken.md)
 - [IPFSEvaluation](interfaces/IPFSEvaluation.md)
 - [SimpleTextEvaluation](interfaces/SimpleTextEvaluation.md)
 - [TypedError](interfaces/TypedError.md)
@@ -59,8 +60,6 @@
 ### Properties
 
 - [ClaimByIdQuery](modules.md#claimbyidquery)
-- [HypercertMinterABI](modules.md#hypercertminterabi)
-- [IHypercertTokenABI](modules.md#ihypercerttokenabi)
 
 ### Variables
 
@@ -95,7 +94,7 @@ Helper type to allow for a more readable Allowlist type
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:30](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L30)
+[sdk/src/types/hypercerts.ts:30](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L30)
 
 ---
 
@@ -122,7 +121,7 @@ Number of units allocated to the recipient
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:22](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L22)
+[sdk/src/types/hypercerts.ts:22](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L22)
 
 ---
 
@@ -143,7 +142,7 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-[sdk/src/types/client.ts:16](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L16)
+[sdk/src/types/client.ts:20](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L20)
 
 ---
 
@@ -157,7 +156,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:8](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/evaluation.d.ts#L8)
+[sdk/src/types/evaluation.d.ts:8](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L8)
 
 ---
 
@@ -167,7 +166,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:9](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/evaluation.d.ts#L9)
+[sdk/src/types/evaluation.d.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L9)
 
 ---
 
@@ -179,7 +178,7 @@ Configuration options for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:30](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L30)
+[sdk/src/types/client.ts:34](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L34)
 
 ---
 
@@ -197,7 +196,7 @@ The props for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:96](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L96)
+[sdk/src/types/client.ts:100](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L100)
 
 ---
 
@@ -213,7 +212,7 @@ The signer is required for submitting evaluations.
 
 #### Defined in
 
-[sdk/src/types/client.ts:54](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L54)
+[sdk/src/types/client.ts:58](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L58)
 
 ---
 
@@ -236,7 +235,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/client.ts:43](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L43)
+[sdk/src/types/client.ts:47](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L47)
 
 ---
 
@@ -246,7 +245,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/errors.ts:152](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L152)
+[sdk/src/types/errors.ts:183](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L183)
 
 ---
 
@@ -268,7 +267,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:10](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/indexer.ts#L10)
+[sdk/src/types/indexer.ts:10](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L10)
 
 ---
 
@@ -278,7 +277,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/client.ts:11](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L11)
+[sdk/src/types/client.ts:10](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L10)
 
 ---
 
@@ -288,35 +287,15 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L15)
 
 ## Properties
 
 ### ClaimByIdQuery
 
 • **ClaimByIdQuery**: `any`
-
----
-
-### HypercertMinterABI
-
-• **HypercertMinterABI**: ({ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| { `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| { `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous?`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
-
-#### Defined in
-
-contracts/dist/abi/HypercertMinter.json:1
-
----
-
-### IHypercertTokenABI
-
-• **IHypercertTokenABI**: ({ `anonymous`: `boolean` = false; `inputs`: { `indexed`: `boolean` = true; `internalType`: `string` = "uint256"; `name`: `string` = "claimID"; `type`: `string` = "uint256" }[] ; `name`: `string` = "ClaimStored"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| { `anonymous?`: `undefined` = false; `inputs`: { `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "unitsOf"; `outputs`: { `internalType`: `string` = "uint256"; `name`: `string` = "units"; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]
-
-#### Defined in
-
-contracts/dist/abi/IHypercertToken.json:1
 
 ## Variables
 
@@ -326,7 +305,7 @@ contracts/dist/abi/IHypercertToken.json:1
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:4](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/utils/formatter.ts#L4)
+[sdk/src/utils/formatter.ts:4](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L4)
 
 ---
 
@@ -358,9 +337,9 @@ FromCreatorOnly: Only the creator can transfer the Hypercert
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L15)
 
 ## Functions
 
@@ -404,13 +383,13 @@ node_modules/@graphql-mesh/runtime/typings/types.d.ts:25
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:13](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/utils/formatter.ts#L13)
+[sdk/src/utils/formatter.ts:13](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L13)
 
 ---
 
 ### formatHypercertData
 
-▸ **formatHypercertData**(`«destructured»`): `FormatResult`
+▸ **formatHypercertData**(`«destructured»`): [`FormatResult`](modules/internal.md#formatresult)
 
 Formats input data to an object containing HypercertMetadata including appropriate labels
 
@@ -439,11 +418,11 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Returns
 
-`FormatResult`
+[`FormatResult`](modules/internal.md#formatresult)
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/utils/formatter.ts#L27)
+[sdk/src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L27)
 
 ---
 
@@ -463,7 +442,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:5](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/utils/formatter.ts#L5)
+[sdk/src/utils/formatter.ts:5](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L5)
 
 ---
 
@@ -493,13 +472,13 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:89](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/validator/index.ts#L89)
+[sdk/src/validator/index.ts:89](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L89)
 
 ---
 
 ### validateClaimData
 
-▸ **validateClaimData**(`data`): `ValidationResult`
+▸ **validateClaimData**(`data`): [`ValidationResult`](modules/internal.md#validationresult)
 
 Validates the data for a simple text evaluation.
 
@@ -511,19 +490,19 @@ Validates the data for a simple text evaluation.
 
 #### Returns
 
-`ValidationResult`
+[`ValidationResult`](modules/internal.md#validationresult)
 
 A `ValidationResult` object indicating whether the data is valid and any errors that were found.
 
 #### Defined in
 
-[sdk/src/validator/index.ts:62](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/validator/index.ts#L62)
+[sdk/src/validator/index.ts:62](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L62)
 
 ---
 
 ### validateDuplicateEvaluationData
 
-▸ **validateDuplicateEvaluationData**(`data`): `ValidationResult`
+▸ **validateDuplicateEvaluationData**(`data`): [`ValidationResult`](modules/internal.md#validationresult)
 
 Validates the data for a duplicate evaluation.
 
@@ -535,19 +514,19 @@ Validates the data for a duplicate evaluation.
 
 #### Returns
 
-`ValidationResult`
+[`ValidationResult`](modules/internal.md#validationresult)
 
 A `ValidationResult` object indicating whether the data is valid and any errors that were found.
 
 #### Defined in
 
-[sdk/src/validator/index.ts:111](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/validator/index.ts#L111)
+[sdk/src/validator/index.ts:111](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L111)
 
 ---
 
 ### validateMetaData
 
-▸ **validateMetaData**(`data`): `ValidationResult`
+▸ **validateMetaData**(`data`): [`ValidationResult`](modules/internal.md#validationresult)
 
 Validates the data for a simple text evaluation.
 
@@ -559,19 +538,19 @@ Validates the data for a simple text evaluation.
 
 #### Returns
 
-`ValidationResult`
+[`ValidationResult`](modules/internal.md#validationresult)
 
 A `ValidationResult` object indicating whether the data is valid and any errors that were found.
 
 #### Defined in
 
-[sdk/src/validator/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/validator/index.ts#L36)
+[sdk/src/validator/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L36)
 
 ---
 
 ### validateSimpleTextEvaluationData
 
-▸ **validateSimpleTextEvaluationData**(`data`): `ValidationResult`
+▸ **validateSimpleTextEvaluationData**(`data`): [`ValidationResult`](modules/internal.md#validationresult)
 
 Validates the data for a simple text evaluation.
 
@@ -583,10 +562,10 @@ Validates the data for a simple text evaluation.
 
 #### Returns
 
-`ValidationResult`
+[`ValidationResult`](modules/internal.md#validationresult)
 
 A `ValidationResult` object indicating whether the data is valid and any errors that were found.
 
 #### Defined in
 
-[sdk/src/validator/index.ts:136](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/validator/index.ts#L136)
+[sdk/src/validator/index.ts:136](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L136)

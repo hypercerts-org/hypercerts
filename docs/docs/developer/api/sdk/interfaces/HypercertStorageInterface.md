@@ -4,6 +4,10 @@
 
 The interface for the Hypercert storage layer.
 
+## Implemented by
+
+- [`default`](../classes/internal.default.md)
+
 ## Table of contents
 
 ### Properties
@@ -39,7 +43,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:90](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L90)
+[sdk/src/types/client.ts:94](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L94)
 
 ---
 
@@ -67,7 +71,7 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:76](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L76)
+[sdk/src/types/client.ts:80](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L80)
 
 ---
 
@@ -95,7 +99,7 @@ A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:83](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L83)
+[sdk/src/types/client.ts:87](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L87)
 
 ---
 
@@ -123,4 +127,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:69](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/client.ts#L69)
+[sdk/src/types/client.ts:73](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L73)

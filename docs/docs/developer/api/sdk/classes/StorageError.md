@@ -36,13 +36,15 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:92](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L92)
+[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L123)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.StorageError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.StorageError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +52,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L88)
+[sdk/src/types/errors.ts:119](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L119)
 
 ---
 
@@ -60,11 +62,11 @@ Fails storing to a remote resource
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L90)
+[sdk/src/types/errors.ts:121](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L121)
 
 ---
 
@@ -74,17 +76,19 @@ Fails storing to a remote resource
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L89)
+[sdk/src/types/errors.ts:120](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L120)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Index signature
 
@@ -96,4 +100,4 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:91](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L91)
+[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L122)

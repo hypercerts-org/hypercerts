@@ -2,6 +2,8 @@
 
 # Interface: TypedError
 
+An interface for errors that have a specific type.
+
 ## Hierarchy
 
 - `Error`
@@ -24,48 +26,19 @@
 ### Properties
 
 - [\_\_type](TypedError.md#__type)
-- [message](TypedError.md#message)
-- [name](TypedError.md#name)
 - [payload](TypedError.md#payload)
-- [stack](TypedError.md#stack)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md)
+
+The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:13](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L13)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Inherited from
-
-Error.message
-
-#### Defined in
-
-node_modules/typescript/lib/lib.es5.d.ts:1054
-
----
-
-### name
-
-• **name**: `string`
-
-#### Inherited from
-
-Error.name
-
-#### Defined in
-
-node_modules/typescript/lib/lib.es5.d.ts:1053
+[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L22)
 
 ---
 
@@ -73,24 +46,12 @@ node_modules/typescript/lib/lib.es5.d.ts:1053
 
 • `Optional` **payload**: `Object`
 
+Additional error payload.
+
 #### Index signature
 
 ▪ [key: `string`]: `unknown`
 
 #### Defined in
 
-[sdk/src/types/errors.ts:14](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L14)
-
----
-
-### stack
-
-• `Optional` **stack**: `string`
-
-#### Inherited from
-
-Error.stack
-
-#### Defined in
-
-node_modules/typescript/lib/lib.es5.d.ts:1055
+[sdk/src/types/errors.ts:27](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L27)

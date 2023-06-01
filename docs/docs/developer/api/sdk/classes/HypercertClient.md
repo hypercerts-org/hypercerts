@@ -73,7 +73,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:49](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L49)
+[sdk/src/client.ts:47](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L47)
 
 ## Properties
 
@@ -83,37 +83,37 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:35](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L35)
+[sdk/src/client.ts:33](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L33)
 
 ---
 
 ### \_contract
 
-• `Private` **\_contract**: [`HypercertMinter`](../interfaces/HypercertMinter.md)
+• `Private` **\_contract**: [`HypercertMinter`](../interfaces/internal.HypercertMinter.md)
 
 #### Defined in
 
-[sdk/src/client.ts:42](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L42)
+[sdk/src/client.ts:40](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L40)
 
 ---
 
 ### \_evaluator
 
-• `Private` **\_evaluator**: `default`
+• `Private` **\_evaluator**: [`default`](internal.default-1.md)
 
 #### Defined in
 
-[sdk/src/client.ts:37](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L37)
+[sdk/src/client.ts:35](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L35)
 
 ---
 
 ### \_indexer
 
-• `Private` **\_indexer**: `default`
+• `Private` **\_indexer**: [`default`](internal.default-2.md)
 
 #### Defined in
 
-[sdk/src/client.ts:38](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L38)
+[sdk/src/client.ts:36](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L36)
 
 ---
 
@@ -123,7 +123,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:39](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L39)
+[sdk/src/client.ts:37](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L37)
 
 ---
 
@@ -133,17 +133,17 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:41](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L41)
+[sdk/src/client.ts:39](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L39)
 
 ---
 
 ### \_storage
 
-• `Private` **\_storage**: `default`
+• `Private` **\_storage**: [`default`](internal.default.md)
 
 #### Defined in
 
-[sdk/src/client.ts:36](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L36)
+[sdk/src/client.ts:34](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L34)
 
 ---
 
@@ -159,19 +159,19 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/client.ts:43](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L43)
+[sdk/src/client.ts:41](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L41)
 
 ## Accessors
 
 ### contract
 
-• `get` **contract**(): [`HypercertMinter`](../interfaces/HypercertMinter.md)
+• `get` **contract**(): [`HypercertMinter`](../interfaces/internal.HypercertMinter.md)
 
 Gets the HypercertMinter contract used by the client.
 
 #### Returns
 
-[`HypercertMinter`](../interfaces/HypercertMinter.md)
+[`HypercertMinter`](../interfaces/internal.HypercertMinter.md)
 
 The contract.
 
@@ -181,19 +181,19 @@ The contract.
 
 #### Defined in
 
-[sdk/src/client.ts:91](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L91)
+[sdk/src/client.ts:89](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L89)
 
 ---
 
 ### indexer
 
-• `get` **indexer**(): `default`
+• `get` **indexer**(): [`default`](internal.default-2.md)
 
 Gets the indexer for the client.
 
 #### Returns
 
-`default`
+[`default`](internal.default-2.md)
 
 The indexer.
 
@@ -203,19 +203,19 @@ The indexer.
 
 #### Defined in
 
-[sdk/src/client.ts:83](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L83)
+[sdk/src/client.ts:81](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L81)
 
 ---
 
 ### storage
 
-• `get` **storage**(): `default`
+• `get` **storage**(): [`default`](internal.default.md)
 
 Gets the storage layer for the client.
 
 #### Returns
 
-`default`
+[`default`](internal.default.md)
 
 The storage layer.
 
@@ -225,7 +225,7 @@ The storage layer.
 
 #### Defined in
 
-[sdk/src/client.ts:75](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L75)
+[sdk/src/client.ts:73](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L73)
 
 ## Methods
 
@@ -258,7 +258,7 @@ HypercertClientInterface.burnClaimFraction
 
 #### Defined in
 
-[sdk/src/client.ts:244](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L244)
+[sdk/src/client.ts:242](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L242)
 
 ---
 
@@ -272,7 +272,7 @@ HypercertClientInterface.burnClaimFraction
 
 #### Defined in
 
-[sdk/src/client.ts:294](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L294)
+[sdk/src/client.ts:292](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L292)
 
 ---
 
@@ -312,7 +312,7 @@ HypercertClientInterface.createAllowlist
 
 #### Defined in
 
-[sdk/src/client.ts:135](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L135)
+[sdk/src/client.ts:133](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L133)
 
 ---
 
@@ -345,7 +345,7 @@ HypercertClientInterface.mergeClaimUnits
 
 #### Defined in
 
-[sdk/src/client.ts:219](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L219)
+[sdk/src/client.ts:217](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L217)
 
 ---
 
@@ -380,7 +380,7 @@ HypercertClientInterface.mintClaim
 
 #### Defined in
 
-[sdk/src/client.ts:103](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L103)
+[sdk/src/client.ts:101](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L101)
 
 ---
 
@@ -420,7 +420,7 @@ HypercertClientInterface.mintClaimFractionFromAllowlist
 
 #### Defined in
 
-[sdk/src/client.ts:267](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L267)
+[sdk/src/client.ts:265](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L265)
 
 ---
 
@@ -458,4 +458,4 @@ HypercertClientInterface.splitClaimUnits
 
 #### Defined in
 
-[sdk/src/client.ts:193](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/client.ts#L193)
+[sdk/src/client.ts:191](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/client.ts#L191)

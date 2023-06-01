@@ -2,7 +2,7 @@
 
 # Class: ClientError
 
-Fails fetching a remote resource
+An error that is caused by a problem with the client.
 
 ## Implements
 
@@ -27,22 +27,26 @@ Fails fetching a remote resource
 
 • **new ClientError**(`message`, `payload?`)
 
+Creates a new instance of the ClientError class.
+
 #### Parameters
 
-| Name       | Type     |
-| :--------- | :------- |
-| `message`  | `string` |
-| `payload?` | `Object` |
+| Name       | Type     | Description               |
+| :--------- | :------- | :------------------------ |
+| `message`  | `string` | The error message.        |
+| `payload?` | `Object` | Additional error payload. |
 
 #### Defined in
 
-[sdk/src/types/errors.ts:25](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L25)
+[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L59)
 
 ## Properties
 
 ### \_\_type
 
-• **\_\_type**: `ErrorType` = `ErrorType.ClientError`
+• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.ClientError`
+
+The type of error.
 
 #### Implementation of
 
@@ -50,7 +54,7 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:21](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L21)
+[sdk/src/types/errors.ts:37](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L37)
 
 ---
 
@@ -58,13 +62,15 @@ Fails fetching a remote resource
 
 • **message**: `string`
 
+The error message.
+
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[message](../interfaces/TypedError.md#message)
+TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:23](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L23)
+[sdk/src/types/errors.ts:47](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L47)
 
 ---
 
@@ -72,19 +78,23 @@ Fails fetching a remote resource
 
 • **name**: `string` = `"ClientError"`
 
+The name of the error.
+
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[name](../interfaces/TypedError.md#name)
+TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L22)
+[sdk/src/types/errors.ts:42](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L42)
 
 ---
 
 ### payload
 
 • `Optional` **payload**: `Object`
+
+Additional error payload.
 
 #### Index signature
 
@@ -96,4 +106,4 @@ Fails fetching a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:24](https://github.com/Network-Goods/hypercerts/blob/e1b6279/sdk/src/types/errors.ts#L24)
+[sdk/src/types/errors.ts:52](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L52)
