@@ -1,4 +1,4 @@
-import { parseGithubUrl } from "../src/utils/parsing.js";
+import { parseGithubUrl } from "../../src/utils/parsing.js";
 
 describe("parsing", () => {
   it("parses github git+https urls", () => {

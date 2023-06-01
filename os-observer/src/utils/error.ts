@@ -1,6 +1,15 @@
 import chalk from "chalk";
 import { logger } from "./logger.js";
 
+// Expecting a value
+export class NullOrUndefinedValueError extends Error {}
+
+// Explicit assert fails
+export class AssertionError extends Error {}
+
+// Invalid inputs to a function
+export class InvalidInputError extends Error {}
+
 /**
  * Represents an error that doesn't need to be forwarded to Sentry.
  * These are usually errors that are the user's fault
