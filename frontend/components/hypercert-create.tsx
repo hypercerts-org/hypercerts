@@ -4,7 +4,7 @@ import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
-import { formatHypercertData } from "@hypercerts-org/sdk/dist";
+import { formatHypercertData } from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
@@ -16,11 +16,11 @@ import React, { ReactNode } from "react";
 import { toast } from "react-toastify";
 import { useBalance, useNetwork } from "wagmi";
 import * as Yup from "yup";
-import { useMintClaimSDK } from "../hooks/mintClaimSDK";
+import { useMintClaim } from "../hooks/mintClaim";
 import {
-  useMintClaimAllowlistSDK,
+  useMintClaimAllowlist,
   DEFAULT_ALLOWLIST_PERCENTAGE,
-} from "../hooks/mintClaimAllowlistSDK";
+} from "../hooks/mintClaimAllowlist";
 import { useHypercertClient } from "../hooks/hypercerts-client";
 
 /**
@@ -326,11 +326,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
     push("/app/dashboard");
   };
 
-  const { write: mintClaim } = useMintClaimSDK({
+  const { write: mintClaim } = useMintClaim({
     onComplete,
   });
 
-  const { write: mintClaimAllowlist } = useMintClaimAllowlistSDK({
+  const { write: mintClaimAllowlist } = useMintClaimAllowlist({
     onComplete,
   });
 

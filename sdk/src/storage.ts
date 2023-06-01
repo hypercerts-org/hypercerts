@@ -7,9 +7,13 @@ import { CIDString, NFTStorage } from "nft.storage";
 import { Blob, File, Web3Storage } from "web3.storage";
 
 import { validateMetaData } from "./index.js";
-import { HypercertStorageInterface, HypercertStorageProps } from "./types/client.js";
-import { MalformedDataError, StorageError } from "./types/errors.js";
-import { HypercertMetadata } from "./types/metadata.js";
+import {
+  HypercertStorageConfig,
+  HypercertStorageInterface,
+  HypercertMetadata,
+  MalformedDataError,
+  StorageError,
+} from "./types/index.js";
 import logger from "./utils/logger.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
@@ -22,7 +26,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   nftStorageClient?: NFTStorage;
   web3StorageClient?: Web3Storage;
 
-  constructor({ nftStorageToken, web3StorageToken }: HypercertStorageProps) {
+  constructor({ nftStorageToken, web3StorageToken }: HypercertStorageConfig) {
     const _nftStorageToken =
       nftStorageToken ?? process.env.NFT_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     const _web3StorageToken =
@@ -36,12 +40,13 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       logger.warn(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
     }
 
-    if (_nftStorageToken !== undefined && _web3StorageToken !== undefined) {
+    if (!_nftStorageToken || !_web3StorageToken) {
+      logger.warn("HypercertsStorage is read only", "storage");
+      this.readonly = true;
+    } else {
       this.nftStorageClient = new NFTStorage({ token: _nftStorageToken });
       this.web3StorageClient = new Web3Storage({ token: _web3StorageToken });
       this.readonly = false;
-    } else {
-      logger.warn("Storage is read only");
     }
   }
 

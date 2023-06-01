@@ -4,8 +4,7 @@ import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
 import HypercertsStorage from "../storage.js";
-import { MalformedDataError, StorageError } from "../types/errors.js";
-import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, IPFSEvaluation } from "../types/evaluation.js";
+import { EASEvaluation, EvaluationSource, HypercertEvaluationSchema, MalformedDataError } from "../types/index.js";
 import EasEvaluator from "./eas.js";
 import { isAddress } from "ethers/lib/utils.js";
 
@@ -14,7 +13,7 @@ const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepo
 type HypercertEvaluatorConfig = {
   chainId?: number;
   address?: string;
-  signer?: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer;
   storage?: HypercertsStorage;
 };
 
@@ -33,7 +32,7 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     signer = new ethers.VoidSigner(""),
     storage = new HypercertsStorage({}),
   }: HypercertEvaluatorConfig) {
-    this.signer = signer;
+    this.signer = signer as ethers.Signer & TypedDataSigner;
     this.storage = storage;
     this.eas = new EasEvaluator({
       address,

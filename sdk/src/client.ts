@@ -3,16 +3,26 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
 import { DEFAULT_CHAIN_ID } from "./constants.js";
-import HypercertEvaluator from "./evaluations/index.js";
-import { HypercertMetadata, validateMetaData } from "./index.js";
-import HypercertsStorage from "./storage.js";
-import { HypercertClientConfig, HypercertClientInterface, HypercertClientProps } from "./types/client.js";
-import { ClientError, MalformedDataError, MintingError, StorageError } from "./types/errors.js";
-import { Allowlist, TransferRestrictions } from "./types/hypercerts.js";
+
+import {
+  Allowlist,
+  TransferRestrictions,
+  HypercertClientConfig,
+  HypercertClientInterface,
+  ClientError,
+  MalformedDataError,
+  MintingError,
+  StorageError,
+  HypercertMetadata,
+} from "./types/index.js";
+
 import { getConfig } from "./utils/config.js";
-import { validateAllowlist } from "./validator/index.js";
+import { validateAllowlist, validateMetaData } from "./validator/index.js";
 import logger from "./utils/logger.js";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
+
+import HypercertEvaluator from "./evaluations/index.js";
+import HypercertsStorage from "./storage.js";
+import HypercertIndexer from "./indexer.js";
 
 /**
  * Hypercerts client factory
@@ -22,41 +32,45 @@ import { TypedDataSigner } from "@ethersproject/abstract-signer";
  * @param storage - Hypercerts storage object
  */
 export default class HypercertClient implements HypercertClientInterface {
-  config: HypercertClientConfig;
-  storage: HypercertsStorage;
-  evaluator: HypercertEvaluator;
-  provider: ethers.providers.Provider;
+  private _config: HypercertClientConfig;
+  private _storage: HypercertsStorage;
+  private _evaluator: HypercertEvaluator;
+  private _indexer: HypercertIndexer;
+  private _provider: ethers.providers.Provider;
   //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
-  signer?: ethers.Signer & TypedDataSigner;
-  contract: HypercertMinter;
+  private _signer?: ethers.Signer;
+  private _contract: HypercertMinter;
   readonly: boolean;
 
-  constructor({ config = { chainId: DEFAULT_CHAIN_ID }, storage }: HypercertClientProps) {
-    this.config = getConfig(config);
-    this.storage = storage ?? new HypercertsStorage({});
-    this.provider =
-      config.provider ??
-      new ethers.providers.JsonRpcProvider(this.config.rpcUrl) ??
-      ethers.getDefaultProvider("goerli");
-    this.signer = this.config.signer ?? new ethers.VoidSigner("");
+  constructor(config = { chainId: DEFAULT_CHAIN_ID } as Partial<HypercertClientConfig>) {
+    this._config = getConfig(config);
+    this._provider = this._config.provider;
+    this._signer = this._config.signer;
 
-    this.contract = <HypercertMinter>(
-      new ethers.Contract(this.config.contractAddress, HypercertMinterABI, this.signer || this.provider)
+    this._contract = <HypercertMinter>(
+      new ethers.Contract(this._config.contractAddress, HypercertMinterABI, this._signer || this._provider)
     );
 
-    this.evaluator = new HypercertEvaluator({
-      chainId: this.config.chainId,
-      address: "",
-      signer: this.signer,
-      storage: this.storage,
-    });
+    this._storage = new HypercertsStorage(this._config);
 
-    this.readonly = !this.signer || !this.provider || this.contract.address === undefined || this.storage.readonly;
+    this._indexer = new HypercertIndexer(this._config);
+
+    this._evaluator = new HypercertEvaluator(this._config);
+
+    this.readonly = !this._signer || !this._provider || !this._contract.address || this._storage.readonly;
+
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
     }
   }
 
+  get storage(): HypercertsStorage {
+    return this._storage;
+  }
+
+  get indexer(): HypercertIndexer {
+    return this._indexer;
+  }
   /**
    * Mint a Hypercert claim
    * @dev Mints a Hypercert claim with the given metadata, total units and transfer restrictions
@@ -72,7 +86,7 @@ export default class HypercertClient implements HypercertClientInterface {
     overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
     // validate metadata
     const { valid, errors } = validateMetaData(metaData);
@@ -84,8 +98,8 @@ export default class HypercertClient implements HypercertClientInterface {
     const cid = await this.storage.storeMetadata(metaData);
 
     return overrides
-      ? this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction, overrides)
-      : this.contract.mintClaim(this.config.signer.getAddress(), totalUnits, cid, transferRestriction);
+      ? this._contract.mintClaim(this._config.signer.getAddress(), totalUnits, cid, transferRestriction, overrides)
+      : this._contract.mintClaim(this._config.signer.getAddress(), totalUnits, cid, transferRestriction);
   };
 
   /**
@@ -106,7 +120,7 @@ export default class HypercertClient implements HypercertClientInterface {
     overrides?: ethers.Overrides,
   ) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
     // validate allowlist
     const { valid: validAllowlist, errors: allowlistErrors } = validateAllowlist(allowList, totalUnits);
@@ -132,15 +146,21 @@ export default class HypercertClient implements HypercertClientInterface {
     const cid = await this.storage.storeMetadata(metaData);
 
     return overrides
-      ? this.contract.createAllowlist(
-          this.config.signer.getAddress(),
+      ? this._contract.createAllowlist(
+          this._config.signer.getAddress(),
           totalUnits,
           tree.root,
           cid,
           transferRestriction,
           overrides,
         )
-      : this.contract.createAllowlist(this.config.signer.getAddress(), totalUnits, tree.root, cid, transferRestriction);
+      : this._contract.createAllowlist(
+          this._config.signer.getAddress(),
+          totalUnits,
+          tree.root,
+          cid,
+          transferRestriction,
+        );
   };
 
   /**
@@ -153,24 +173,23 @@ export default class HypercertClient implements HypercertClientInterface {
    */
   splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[], overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
     // check if claim exists and is owned by the signer
-    const signerAddress = await this.config.signer.getAddress();
-    const claim = await this.contract.ownerOf(claimId);
+    const signerAddress = await this._config.signer.getAddress();
+    const claim = await this._contract.ownerOf(claimId);
     if (claim !== signerAddress)
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimId });
 
     // check if the sum of the fractions is equal to the total units
-    const totalUnits = await this.contract["unitsOf(uint256)"](claimId);
+    const totalUnits = await this._contract["unitsOf(uint256)"](claimId);
     const sumFractions = fractions.reduce((a, b) => BigNumber.from(a).add(b), BigNumber.from(0));
     if (!BigNumber.from(sumFractions).eq(totalUnits))
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
-    console.log("CALLING SPLIT FREACTION");
     return overrides
-      ? this.contract.splitFraction(signerAddress, claimId, fractions, overrides)
-      : this.contract.splitFraction(signerAddress, claimId, fractions);
+      ? this._contract.splitFraction(signerAddress, claimId, fractions, overrides)
+      : this._contract.splitFraction(signerAddress, claimId, fractions);
   };
 
   /**
@@ -181,11 +200,11 @@ export default class HypercertClient implements HypercertClientInterface {
    */
   mergeClaimUnits = async (claimIds: BigNumberish[], overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
     // check if all claims exist and are owned by the signer
-    const signerAddress = await this.config.signer.getAddress();
-    const claims = await Promise.all(claimIds.map(async (id) => ({ id, owner: await this.contract.ownerOf(id) })));
+    const signerAddress = await this._config.signer.getAddress();
+    const claims = await Promise.all(claimIds.map(async (id) => ({ id, owner: await this._contract.ownerOf(id) })));
     if (claims.some((c) => c.owner !== signerAddress)) {
       const invalidClaimIDs = claims.filter((c) => c.owner !== signerAddress).map((c) => c.id);
       throw new ClientError("One or more claims are not owned by the signer", {
@@ -195,8 +214,8 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? this.contract.mergeFractions(signerAddress, claimIds, overrides)
-      : this.contract.mergeFractions(signerAddress, claimIds);
+      ? this._contract.mergeFractions(signerAddress, claimIds, overrides)
+      : this._contract.mergeFractions(signerAddress, claimIds);
   };
 
   /**
@@ -207,17 +226,17 @@ export default class HypercertClient implements HypercertClientInterface {
    */
   burnClaimFraction = async (claimId: BigNumberish, overrides?: ethers.Overrides) => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
     // check if claim exists and is owned by the signer
-    const signerAddress = await this.config.signer.getAddress();
-    const claim = await this.contract.ownerOf(claimId);
+    const signerAddress = await this._config.signer.getAddress();
+    const claim = await this._contract.ownerOf(claimId);
     if (claim !== signerAddress)
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimId });
 
     return overrides
-      ? this.contract.burnFraction(signerAddress, claimId, overrides)
-      : this.contract.burnFraction(signerAddress, claimId);
+      ? this._contract.burnFraction(signerAddress, claimId, overrides)
+      : this._contract.burnFraction(signerAddress, claimId);
   };
 
   /**
@@ -237,9 +256,9 @@ export default class HypercertClient implements HypercertClientInterface {
     overrides?: ethers.Overrides,
   ): Promise<ContractTransaction> => {
     if (this.readonly) throw new ClientError("Client is readonly", { client: this });
-    if (!this.config.signer) throw new ClientError("Client signer is not set", { client: this });
+    if (!this._config.signer) throw new ClientError("Client signer is not set", { client: this });
 
-    const signerAddress = await this.config.signer.getAddress();
+    const signerAddress = await this._config.signer.getAddress();
 
     //verify the proof using the OZ merkle tree library
     if (root && root.length > 0) {
@@ -253,7 +272,7 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
-      : this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+      ? this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
+      : this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
   };
 }
