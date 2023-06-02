@@ -20,13 +20,10 @@ model Organization {
   // Human-readable description for the organization
   description     String?
 
+
   // RELATIONS
   // Associated artifacts
   artifacts       Artifact[]
-  // Associated events
-  events          Event[]
-  // Associated event source pointers
-  eventSourcePtrs EventSourcePointer[]
 }
 
 // A particular piece of work created by an organization
@@ -37,9 +34,9 @@ model Artifact {
   createdAt       DateTime      @default(now()) @db.Timestamptz(3)
   updatedAt       DateTime      @updatedAt
 
-  // Relation to the Organization
-  organization    Organization  @relation(fields: [organizationId], references: [id])
-  organizationId  Int
+  // Relation to the Organization if one exists
+  organization    Organization?  @relation(fields: [organizationId], references: [id])
+  organizationId  Int?
   
   // The type of artifact
   type            ArtifactType
@@ -51,6 +48,8 @@ model Artifact {
   url             String?
   // Catch-all for other data we want to store
   details         Json?
+  // A combination of the type, namespace, and name must be unique
+  @@unique([type, namespace, name])
 
   // RELATIONS
   // Associated events
@@ -82,9 +81,6 @@ model Event {
   createdAt       DateTime      @default(now()) @db.Timestamptz(3)
   updatedAt       DateTime      @updatedAt
 
-  // Relation to the Organization
-  organization    Organization  @relation(fields: [organizationId], references: [id])
-  organizationId  Int
   // Relation to the Artifact
   artifact        Artifact      @relation(fields: [artifactId], references: [id])
   artifactId      Int
@@ -107,14 +103,14 @@ model EventSourcePointer {
   createdAt       DateTime      @default(now()) @db.Timestamptz(3)
   updatedAt       DateTime      @updatedAt
 
-  // Relation to the Organization
-  organization    Organization  @relation(fields: [organizationId], references: [id])
-  organizationId  Int
   // Relation to the Artifact
   artifact        Artifact      @relation(fields: [artifactId], references: [id])
   artifactId      Int
   // Type of event
-  eventType       EventType?
+  eventType       EventType
+  // This tuple must be unique!
+  @@unique([artifactId, eventType ])
+
   pointer         Json
 }
 
