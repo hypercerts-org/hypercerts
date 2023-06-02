@@ -95,18 +95,20 @@ describe("HypercertTokens", () => {
 });
 
 describe("Hypercert", () => {
-  it("get all from owner", () => {
-    const tokens = [
-      genClaimTokens(1, { owner: "test0", units: "100" }),
-      genClaimTokens(2, { owner: "test1", units: "100" }),
-      genClaimTokens(3, { owner: "test2", units: "100" }),
-    ].reduce((a, c) => a.concat(c));
-    const hypercert = new Hypercert(
-      { claim: genClaim() },
-      { claimTokens: tokens },
-    );
-    expect(hypercert.getTokensFor("test0").percentage()).toEqual(10);
-    expect(hypercert.getTokensFor("test1").percentage()).toEqual(20);
-    expect(hypercert.getTokensFor("test2").percentage()).toEqual(30);
+  describe("getTokenFor", () => {
+    it("get token for specific addresses and calculate percentages", () => {
+      const tokens = [
+        genClaimTokens(1, { owner: "test0", units: "100" }),
+        genClaimTokens(2, { owner: "test1", units: "100" }),
+        genClaimTokens(3, { owner: "test2", units: "100" }),
+      ].reduce((a, c) => a.concat(c));
+      const hypercert = new Hypercert(
+        { claim: genClaim() },
+        { claimTokens: tokens },
+      );
+      expect(hypercert.getTokensFor("test0").percentage()).toEqual(10);
+      expect(hypercert.getTokensFor("test1").percentage()).toEqual(20);
+      expect(hypercert.getTokensFor("test2").percentage()).toEqual(30);
+    });
   });
 });
