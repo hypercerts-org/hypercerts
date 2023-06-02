@@ -1,6 +1,10 @@
 import _ from "lodash";
 import dayjs from "dayjs";
-import { hasDuplicates, hasMissingDays } from "../../src/events/npm.js";
+import {
+  hasDuplicates,
+  getMissingDays,
+  formatDate,
+} from "../../src/events/npm.js";
 
 const makeData = (dateStrings: string[]) =>
   dateStrings.map((dateString) => ({
@@ -24,23 +28,26 @@ describe("npm tests", () => {
   });
 
   it("hasMissingDays - works", () => {
-    let result = hasMissingDays(
+    let result = getMissingDays(
       makeData(["2021-01-01", "2021-01-02", "2021-01-03"]),
       dayjs("2021-01-01"),
       dayjs("2021-01-03"),
     );
-    expect(result).toEqual(false);
-    result = hasMissingDays(
+    expect(result.length).toEqual(0);
+    result = getMissingDays(
       makeData(["2021-01-01", "2021-01-03"]),
       dayjs("2021-01-01"),
       dayjs("2021-01-03"),
     );
-    expect(result).toEqual(true);
+    expect(result.length).toEqual(1);
+    expect(result.map(formatDate)).toEqual(
+      expect.arrayContaining(["2021-01-02"]),
+    );
   });
 
   it("hasMissingDays - start must not be after end date", () => {
     expect(() => {
-      hasMissingDays(
+      getMissingDays(
         makeData(["2021-01-01", "2021-01-02", "2021-01-03"]),
         dayjs("2021-01-04"),
         dayjs("2021-01-03"),
@@ -49,26 +56,32 @@ describe("npm tests", () => {
   });
 
   it("hasMissingDays - treats dates inclusively", () => {
-    let result = hasMissingDays(
+    let result = getMissingDays(
       makeData(["2021-01-01", "2021-01-02", "2021-01-03"]),
       dayjs("2021-01-01"),
       dayjs("2021-01-04"),
     );
-    expect(result).toEqual(true);
-    result = hasMissingDays(
+    expect(result.length).toEqual(1);
+    expect(result.map(formatDate)).toEqual(
+      expect.arrayContaining(["2021-01-04"]),
+    );
+    result = getMissingDays(
       makeData(["2021-01-01", "2021-01-02", "2021-01-03"]),
       dayjs("2020-12-31"),
       dayjs("2021-01-03"),
     );
-    expect(result).toEqual(true);
+    expect(result.length).toEqual(1);
+    expect(result.map(formatDate)).toEqual(
+      expect.arrayContaining(["2020-12-31"]),
+    );
   });
 
   it("hasMissingDays - works across months and years", () => {
-    const result = hasMissingDays(
+    const result = getMissingDays(
       makeData(["2021-12-31", "2022-01-01", "2022-01-02"]),
       dayjs("2021-12-31"),
       dayjs("2022-01-02"),
     );
-    expect(result).toEqual(false);
+    expect(result.length).toEqual(0);
   });
 });

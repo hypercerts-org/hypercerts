@@ -1,5 +1,18 @@
 import { ADT } from "ts-adt";
 
+export interface CommonArgs {
+  // Auto-respond yes to any user-prompts (useful for CI)
+  yes?: boolean;
+  // Mark the query for auto-crawling
+  // Note: we currently ignore this when false, only updating the column when true
+  autocrawl?: boolean;
+}
+
+export interface ApiInterface<Args> {
+  command: string;
+  func: EventSourceFunction<Args>;
+}
+
 export interface EventSourceFunction<Args> {
   (args: Args): Promise<ApiReturnType>;
 }
