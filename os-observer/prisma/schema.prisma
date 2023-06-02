@@ -67,6 +67,7 @@ model Contributor {
 
   // Currently just an arbitrary string
   name            String
+  namespace       ContributorNamespace
   // TODO add more fields as necessary
 
   // RELATIONS
@@ -85,15 +86,15 @@ model Event {
   artifact        Artifact      @relation(fields: [artifactId], references: [id])
   artifactId      Int
   // Type of event
-  eventType       EventType?
+  eventType       EventType
   // Time the event happened
-  eventTime       DateTime?     @db.Timestamptz(3)
+  eventTime       DateTime      @db.Timestamptz(3)
   // Who is the source of the event?
   // Relation to the Contributor
-  contributor     Contributor   @relation(fields: [contributorId], references: [id])
-  contributorId   Int
+  contributor     Contributor?  @relation(fields: [contributorId], references: [id])
+  contributorId   Int?
   // Depending on the event type, this may reflect some count or amount
-  amount          Float?
+  amount          Float
   // Catch-all for other data we want to store with the event
   details         Json?
 }
@@ -118,7 +119,7 @@ model EventSourcePointer {
   // The relevant pointer information on where we left off
   pointer         Json
   // Should the we auto-crawl this source?
-  autoCrawl       Boolean?
+  autocrawl       Boolean?
 }
 
 enum EventType {
@@ -159,4 +160,8 @@ enum ArtifactNamespace {
   GITHUB
   GITLAB
   NPM_REGISTRY
+}
+
+enum ContributorNamespace {
+  GITHUB_USER
 }

@@ -4,7 +4,7 @@ import { hideBin } from "yargs/helpers";
 import { handleError } from "./utils/error.js";
 import { EventSourceFunction } from "./utils/api.js";
 import { GithubCommitsArgs, githubCommits } from "./events/github.js";
-import { NpmDownloadsArgs, npmDownloads } from "./events/npm.js";
+import { NpmDownloadsArgs, NpmDownloadsInterface } from "./events/npm.js";
 
 const callLibrary = async <Args>(
   func: EventSourceFunction<Args>,
@@ -16,6 +16,16 @@ const callLibrary = async <Args>(
 };
 
 yargs(hideBin(process.argv))
+  .option("yes", {
+    type: "boolean",
+    describe: "Automatic yes to all prompts",
+    default: false,
+  })
+  .option("autocrawl", {
+    type: "boolean",
+    describe: "Mark the query for auto-crawling",
+    default: false,
+  })
   .command<GithubCommitsArgs>(
     "githubCommits",
     "Fetch GitHub commits",
@@ -34,7 +44,7 @@ yargs(hideBin(process.argv))
     (argv) => handleError(callLibrary(githubCommits, argv)),
   )
   .command<NpmDownloadsArgs>(
-    "npmDownloads",
+    NpmDownloadsInterface.command,
     "Fetch NPM downloads",
     (yags) => {
       yags
@@ -44,7 +54,7 @@ yargs(hideBin(process.argv))
         })
         .demandOption(["name"]);
     },
-    (argv) => handleError(callLibrary(npmDownloads, argv)),
+    (argv) => handleError(callLibrary(NpmDownloadsInterface.func, argv)),
   )
   .demandCommand()
   .strict()
