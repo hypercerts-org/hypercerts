@@ -53,10 +53,50 @@ interface Issue {
   stateReason: string | null;
 }
 
+export function formatGithubDate(date: Date): string {
+  const ye = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    year: "numeric",
+  }).format(date);
+  const mo = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    month: "2-digit",
+  }).format(date);
+  const da = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    day: "2-digit",
+  }).format(date);
+  const ho = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    hour: "2-digit",
+    hour12: false,
+  }).format(date);
+  const mi = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    minute: "2-digit",
+  })
+    .format(date)
+    .padStart(2, "0");
+  const se = new Intl.DateTimeFormat("en", {
+    timeZone: "GMT",
+    second: "2-digit",
+  })
+    .format(date)
+    .padStart(2, "0");
+
+  return `${ye}-${mo}-${da}T${ho}:${mi}:${se}Z`;
+}
+
 export async function getRepoIssues(
   repoNameWithOwner: string,
+  startDate: Date,
+  currentDate: Date,
 ): Promise<Issue[]> {
-  const searchString = `repo:${repoNameWithOwner} is:issue -reason:NOT_PLANNED`;
+  const startDateStr = formatGithubDate(startDate);
+  const currentDateStr = formatGithubDate(currentDate);
+
+  const searchString = `repo:${repoNameWithOwner} is:issue -reason:NOT_PLANNED created:${startDateStr}..${currentDateStr}`;
+  console.log(`search string: ${searchString}`);
 
   const variables = {
     searchString,

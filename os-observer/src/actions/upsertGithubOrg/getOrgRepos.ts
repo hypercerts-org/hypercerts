@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { unpaginate } from "./unpaginate.js";
+import { unpaginate } from "../fetchGithubIssues/unpaginate.js";
 
 const query = gql`
   query getOrgRepos($name: String!, $cursor: String) {
@@ -20,6 +20,8 @@ const query = gql`
         edges {
           node {
             nameWithOwner
+            url
+            name
           }
         }
       }
@@ -44,16 +46,20 @@ interface Data {
       };
       edges: [
         {
-          node: {
-            nameWithOwner: string;
-          };
+          node: Repository;
         },
       ];
     };
   };
 }
 
-export async function getOrgRepos(orgName: string): Promise<string[]> {
+export interface Repository {
+  nameWithOwner: string;
+  url: string;
+  name: string;
+}
+
+export async function getOrgRepos(orgName: string): Promise<Repository[]> {
   const variables = {
     name: orgName,
   };
@@ -65,5 +71,5 @@ export async function getOrgRepos(orgName: string): Promise<string[]> {
     variables,
   );
 
-  return nodes.map((node) => node.node.nameWithOwner);
+  return nodes.map((node) => node.node);
 }

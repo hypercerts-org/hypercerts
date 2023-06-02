@@ -30,13 +30,13 @@ export function unpaginate<T extends Record<string | number, any>>() {
         cursor: cursor,
       });
 
+      const newItems: any[] = getPath(data, dataPath);
+      items.push(...newItems);
+
       const pageInfo: PageInfo = getPath(data, pageInfoPath);
       if (!pageInfo.hasNextPage) {
         break;
       }
-
-      const newItems: any[] = getPath(data, dataPath);
-      items.push(...newItems);
 
       cursor = pageInfo.endCursor;
 

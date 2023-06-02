@@ -2,13 +2,14 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { handleError } from "./utils/error.js";
-import {
-  GithubIssuesArgs,
-  fetchGithubIssues,
-} from "./actions/fetchGithubIssues/index.js";
 import { EventSourceFunction } from "./utils/api.js";
 import { GithubCommitsArgs, githubCommits } from "./events/github.js";
 import { NpmDownloadsArgs, npmDownloads } from "./events/npm.js";
+import { fetchEvents, FetchEventsArgs } from "./fetchEvents.js";
+import {
+  upsertGithubOrg,
+  UpsertGithubOrgArgs,
+} from "./actions/upsertGithubOrg/index.js";
 
 const callLibrary = async <Args>(
   func: EventSourceFunction<Args>,
@@ -25,21 +26,33 @@ yargs(hideBin(process.argv))
     describe: "Automatic yes to all prompts",
     default: false,
   })
-  .command<GithubIssuesArgs>(
-    "githubIssues",
-    "Fetch GitHub Issues",
+  .command<UpsertGithubOrgArgs>(
+    "upsertGithubOrg",
+    "Create a new org and/or update repos+event pointers for it",
     (yargs) => {
       return yargs
-        .option("owner", {
-          type: "string",
-          describe: "GitHub repository owner",
-        })
         .option("name", {
           type: "string",
-          describe: "GitHub repository name",
+        })
+        .option("githubOrg", {
+          type: "string",
         });
     },
-    (argv) => handleError(fetchGithubIssues(argv)),
+    (argv) => handleError(upsertGithubOrg(argv)),
+  )
+  .command<FetchEventsArgs>(
+    "fetchEvents",
+    "Fetch new events",
+    (yargs) => {
+      return yargs
+        .option("artifactId", {
+          type: "number",
+        })
+        .option("eventType", {
+          type: "string",
+        });
+    },
+    (argv) => handleError(fetchEvents(argv)),
   )
   .command<GithubCommitsArgs>(
     "githubCommits",
