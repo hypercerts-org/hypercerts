@@ -1,9 +1,7 @@
 import BN from "bn.js";
 import { HypercertTokens, Hypercert } from "./hypercert";
 import { ClaimToken, Claim } from "@hypercerts-org/sdk";
-import crypto from "crypto";
 import { randomAddress, randomTokenID } from "./test-utils";
-import { random } from "lodash";
 
 type GenClaimTokenOptions = {
   contract?: string;
