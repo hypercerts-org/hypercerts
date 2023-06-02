@@ -45,8 +45,9 @@
   "dependencies": {
     "@prisma/client": "^4.14.1",
     "chalk": "^5.2.0",
-    "dotenv": "^16.0.3",
+    "dayjs": "^1.11.7",
     "graphql-request": "^6.1.0",
+    "lodash": "^4.17.21",
     "npm-registry-fetch": "^14.0.5",
     "ts-adt": "^2.1.2",
     "winston": "^3.9.0",

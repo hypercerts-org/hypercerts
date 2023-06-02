@@ -109,9 +109,16 @@ model EventSourcePointer {
   // Type of event
   eventType       EventType
   // This tuple must be unique!
-  @@unique([artifactId, eventType ])
+  @@unique([ artifactId, eventType ])
 
+  // Used to run a command to get data
+  queryCommand    String
+  // Arguments to the query command
+  queryArgs       Json
+  // The relevant pointer information on where we left off
   pointer         Json
+  // Should the we auto-crawl this source?
+  autoCrawl       Boolean?
 }
 
 enum EventType {
