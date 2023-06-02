@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { HypercertTokens, Hypercert } from "./hypercert";
+import { HypercertTokens, FullHypercert } from "./hypercert";
 import { ClaimToken, Claim } from "@hypercerts-org/sdk";
 import { randomAddress, randomTokenID } from "./test-utils";
 
@@ -31,13 +31,13 @@ function genClaimTokens(
   return tokens;
 }
 
-function genClaim(): Claim {
+function genClaim(totalUnits: string): Claim {
   return {
     id: `0x$(randomAddress())-$(randomTokenID())`,
     creation: "",
     contract: randomAddress(),
     tokenID: randomTokenID(),
-    totalUnits: "1000",
+    totalUnits: totalUnits,
     chainName: "test",
   };
 }
@@ -98,17 +98,20 @@ describe("Hypercert", () => {
   describe("getTokenFor", () => {
     it("get token for specific addresses and calculate percentages", () => {
       const tokens = [
-        genClaimTokens(1, { owner: "test0", units: "100" }),
-        genClaimTokens(2, { owner: "test1", units: "100" }),
-        genClaimTokens(3, { owner: "test2", units: "100" }),
+        genClaimTokens(1, { owner: "deadbeef0", units: "100" }),
+        genClaimTokens(2, { owner: "deadbeef1", units: "100" }),
+        genClaimTokens(3, { owner: "deadbeef2", units: "100" }),
       ].reduce((a, c) => a.concat(c));
-      const hypercert = new Hypercert(
-        { claim: genClaim() },
+      const hypercert = new FullHypercert(
+        { claim: genClaim("1000") },
         { claimTokens: tokens },
       );
-      expect(hypercert.getTokensFor("test0").percentage()).toEqual(10);
-      expect(hypercert.getTokensFor("test1").percentage()).toEqual(20);
-      expect(hypercert.getTokensFor("test2").percentage()).toEqual(30);
+      expect(hypercert.getTokensFor("deadbeef0").percentage()).toEqual(10);
+
+      // Include test for caps in the owner address
+      expect(hypercert.getTokensFor("DEADbeef1").percentage()).toEqual(20);
+      expect(hypercert.getTokensFor("deadbeef1").percentage()).toEqual(20);
+      expect(hypercert.getTokensFor("deadbeef2").percentage()).toEqual(30);
     });
   });
 });

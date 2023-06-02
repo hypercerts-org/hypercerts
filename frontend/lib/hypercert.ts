@@ -2,9 +2,65 @@ import {
   ClaimByIdQuery,
   ClaimTokensByClaimQuery,
   HypercertMetadata,
+  HypercertClient,
 } from "@hypercerts-org/sdk";
 import BN from "bn.js";
 
+export interface Hypercert {
+  getTokensFor(owner: string): HypercertTokens;
+  metadata?: HypercertMetadata;
+  claim?: ClaimByIdQuery["claim"];
+  claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
+  name: string;
+  totalUnits: BN;
+  metadataUri: string;
+}
+
+type LoadOptions = {
+  claimId?: string;
+  metadataUri?: string;
+  overrideMetadataUri?: boolean;
+};
+
+export async function loadHypercert(
+  client: HypercertClient,
+  options: LoadOptions,
+): Promise<Hypercert> {
+  if (options.claimId) {
+    const claimQueryResp = await client.indexer.claimById(options.claimId);
+    const claimTokensQueryResp = await client.indexer.fractionsByClaim(
+      options.claimId,
+    );
+    const hypercert = new FullHypercert(claimQueryResp, claimTokensQueryResp);
+    // Get the metadata assuming that the metadata uri is set
+    const metadataUri =
+      options.overrideMetadataUri && options.metadataUri
+        ? options.metadataUri
+        : claimQueryResp.claim?.uri;
+    if (metadataUri) {
+      const metadata = await client.storage.getMetadata(metadataUri);
+      hypercert.metadata = metadata;
+    }
+    return hypercert;
+  } else {
+    if (options.metadataUri) {
+      const metadata = await client.storage.getMetadata(options.metadataUri);
+      return new MetadataOnlyHypercert(options.metadataUri, metadata);
+    }
+    throw new Error(
+      "A metadataUri or claimId are required to load a hypercert",
+    );
+  }
+}
+
+/**
+ * HypercertTokens is a collection of tokens. This can be any arbitrary set of
+ * tokens. Through this you can sum up the units of a given collection of tokens
+ * or calculate the percentage of total share percentage.
+ *
+ * This is intended to contain tokens of the same hypercert. There aren't guards
+ * to ensure that all of these tokens relate to the same hypercert.
+ */
 export class HypercertTokens {
   totalUnits: BN;
   tokens: ClaimTokensByClaimQuery["claimTokens"];
@@ -39,22 +95,42 @@ export class HypercertTokens {
   }
 }
 
-export interface HypercertView {
-  getTokensFor(owner: string): HypercertTokens;
-  metadata?: HypercertMetadata;
-  claim: ClaimByIdQuery["claim"];
-  claimTokens: ClaimTokensByClaimQuery["claimTokens"];
-  name: string;
-  totalUnits: BN;
+export class MetadataOnlyHypercert implements Hypercert {
+  claim?: ClaimByIdQuery["claim"];
+  claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
+  metadata: HypercertMetadata;
+  metadataUri: string;
+
+  constructor(metadataUri: string, metadata: HypercertMetadata) {
+    this.metadata = metadata;
+    this.metadataUri = metadataUri;
+  }
+
+  getTokensFor(_owner: string): HypercertTokens {
+    throw new Error(
+      "Cannot retrieve tokens. This view contains hypercert metadata only",
+    );
+  }
+
+  get totalUnits(): BN {
+    throw new Error(
+      "Cannot retrieve tokens. This view contains hypercert metadata only",
+    );
+  }
+
+  get name(): string {
+    return this.metadata.name;
+  }
 }
 
 /**
- * Hypercert is a view of a given hypercert from the SDK.
+ * FullHypercert is a fully resolved hypercert with the claim, tokens, and
+ * metadata
  *
  * The intent is for plasmic consumers of this object to be able to interogate
  * this view for more natural usage of the hypercerts data in plasmic.
  */
-export class Hypercert implements HypercertView {
+export class FullHypercert implements Hypercert {
   // Introduce no breaking change by providing the same interface as the
   // previous HypercertData type
   claim: ClaimByIdQuery["claim"];
@@ -75,7 +151,7 @@ export class Hypercert implements HypercertView {
    * @returns
    */
   getTokensFor(address: string): HypercertTokens {
-    address = address.toLocaleLowerCase();
+    address = address.toLowerCase();
     return new HypercertTokens(
       this.claimTokens.filter((t) => t.owner == address),
       this.totalUnits,
@@ -88,5 +164,9 @@ export class Hypercert implements HypercertView {
 
   get totalUnits(): BN {
     return new BN(this.claim?.totalUnits ?? 1);
+  }
+
+  get metadataUri(): string {
+    return this.claim?.uri ?? "";
   }
 }
