@@ -1,6 +1,8 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertClaimdata
+[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / [internal](../modules/internal.md) / HypercertClaimdata
 
 # Interface: HypercertClaimdata
+
+[internal](../modules/internal.md).HypercertClaimdata
 
 Properties of an impact claim
 
@@ -12,12 +14,12 @@ Properties of an impact claim
 
 ### Properties
 
-- [contributors](HypercertClaimdata.md#contributors)
-- [impact_scope](HypercertClaimdata.md#impact_scope)
-- [impact_timeframe](HypercertClaimdata.md#impact_timeframe)
-- [rights](HypercertClaimdata.md#rights)
-- [work_scope](HypercertClaimdata.md#work_scope)
-- [work_timeframe](HypercertClaimdata.md#work_timeframe)
+- [contributors](internal.HypercertClaimdata.md#contributors)
+- [impact_scope](internal.HypercertClaimdata.md#impact_scope)
+- [impact_timeframe](internal.HypercertClaimdata.md#impact_timeframe)
+- [rights](internal.HypercertClaimdata.md#rights)
+- [work_scope](internal.HypercertClaimdata.md#work_scope)
+- [work_timeframe](internal.HypercertClaimdata.md#work_timeframe)
 
 ## Properties
 
@@ -41,7 +43,7 @@ Contributors
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:53](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L53)
+[sdk/src/types/metadata.d.ts:92](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L92)
 
 ---
 
@@ -66,7 +68,7 @@ Scopes of impact
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L15)
+[sdk/src/types/metadata.d.ts:54](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L54)
 
 ---
 
@@ -90,7 +92,7 @@ Impact time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:44](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L44)
+[sdk/src/types/metadata.d.ts:83](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L83)
 
 ---
 
@@ -115,7 +117,7 @@ Rights
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:62](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L62)
+[sdk/src/types/metadata.d.ts:101](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L101)
 
 ---
 
@@ -140,7 +142,7 @@ Scopes of work
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:25](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L25)
+[sdk/src/types/metadata.d.ts:64](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L64)
 
 ---
 
@@ -164,4 +166,4 @@ Work time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:35](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/claimdata.d.ts#L35)
+[sdk/src/types/metadata.d.ts:74](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L74)

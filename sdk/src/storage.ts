@@ -15,46 +15,54 @@ import {
   StorageError,
 } from "./types/index.js";
 import logger from "./utils/logger.js";
+import { getConfig } from "./utils/config.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
 /**
- * Client wrapper for Web3.storage and NFT.storage
+ * A class that provides storage functionality for Hypercerts.
  */
 export default class HypercertsStorage implements HypercertStorageInterface {
+  /** Whether the storage is read-only. */
   readonly: boolean = true;
+  /** The NFT storage client. */
   nftStorageClient?: NFTStorage;
+  /** The Web3 storage client. */
   web3StorageClient?: Web3Storage;
 
-  constructor({ nftStorageToken, web3StorageToken }: HypercertStorageConfig) {
-    const _nftStorageToken =
-      nftStorageToken ?? process.env.NFT_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-    const _web3StorageToken =
-      web3StorageToken ?? process.env.WEB3_STORAGE_TOKEN ?? process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+  /**
+   * Creates a new instance of the `HypercertsStorage` class.
+   * @param overrides The configuration overrides for the storage.
+   */
+  constructor(overrides: Partial<HypercertStorageConfig>) {
+    const { nftStorageToken, web3StorageToken } = getConfig(overrides);
 
-    if (!_nftStorageToken || _nftStorageToken === "") {
-      logger.warn(`NFT Storage API key is missing or invalid: ${_nftStorageToken}}`);
+    if (!nftStorageToken || nftStorageToken === "") {
+      logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
     }
 
-    if (!_web3StorageToken || _web3StorageToken === "") {
-      logger.warn(`Web3 Storage API key is missing or invalid: ${_web3StorageToken}`);
+    if (!web3StorageToken || web3StorageToken === "") {
+      logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
     }
 
-    if (!_nftStorageToken || !_web3StorageToken) {
+    if (!nftStorageToken || !web3StorageToken) {
       logger.warn("HypercertsStorage is read only", "storage");
       this.readonly = true;
     } else {
-      this.nftStorageClient = new NFTStorage({ token: _nftStorageToken });
-      this.web3StorageClient = new Web3Storage({ token: _web3StorageToken });
+      this.nftStorageClient = new NFTStorage({ token: nftStorageToken });
+      this.web3StorageClient = new Web3Storage({ token: web3StorageToken });
       this.readonly = false;
     }
   }
 
   /**
-   * Stores NFT metadata into NFT.storage
-   * @param data
-   * @param targetClient
-   * @returns
+   * Stores metadata for a Hypercert.
+   * @param data The metadata to store.
+   * @returns A Promise that resolves to the CID of the stored metadata.
+   * @throws A `StorageError` if the storage client is not configured.
+   * @throws A `MalformedDataError` if the metadata is invalid.
+   * @notice Because we pay for storage quotas, this data is stored best effort.
+   * If you are using our default keys, we may delete older data if we hit our storage quota.
    */
   public async storeMetadata(data: HypercertMetadata): Promise<CIDString> {
     if (this.readonly || !this.nftStorageClient) {
@@ -80,9 +88,11 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   }
 
   /**
-   * Retrieves NFT metadata from NFT.storage
-   * @param cidOrIpfsUri
-   * @returns
+   * Gets metadata for a Hypercert.
+   * @param cidOrIpfsUri The CID or IPFS URI of the metadata to get.
+   * @returns A Promise that resolves to the metadata.
+   * @throws A `StorageError` if the storage client is not configured or the metadata cannot be retrieved.
+   * @throws A `MalformedDataError` if the metadata is invalid. E.g. unknown schema
    */
   public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
@@ -104,13 +114,13 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   }
 
   /**
-   * Store arbitrary JSON data into web3.storage
-   * - Even though web3.storage takes a list of files, we'll assume we're only storing 1 JSON blob
-   * - Because we pay for storage quotas, this data is stored best effort.
-   * - If you are using our default keys, we may delete older data if we hit our storage quota
-   * @param data
-   * @param targetClient
-   * @returns
+   * Stores arbitrary data in Web3 storage.
+   * @param data The data to store.
+   * @returns A Promise that resolves to the CID of the stored data.
+   * @throws A `StorageError` if the storage client is not configured.
+   * @notice Even though web3.storage takes a list of files, we'll assume we're only storing 1 JSON blob.
+   * Because we pay for storage quotas, this data is stored best effort.
+   * If you are using our default keys, we may delete older data if we hit our storage quota.
    */
   public async storeData(data: unknown): Promise<CIDString> {
     if (this.readonly || !this.web3StorageClient) {
@@ -129,9 +139,10 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   }
 
   /**
-   * Get arbitrary data from web3.storage. Use with caution because there's no guarantee that the data will be there or safe.
-   * @param cidOrIpfsUri
-   * @returns JSON data or error
+   * Gets arbitrary data from Web3 storage.
+   * @param cidOrIpfsUri The CID or IPFS URI of the data to get.
+   * @returns A Promise that resolves to the data.
+   * @throws A `StorageError` if the storage client is not configured or the data cannot be retrieved.
    */
   public async getData(cidOrIpfsUri: string) {
     /**

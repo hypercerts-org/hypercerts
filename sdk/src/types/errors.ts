@@ -1,3 +1,6 @@
+/**
+ * An enumeration of error types that can be thrown by the Hypercert SDK.
+ */
 enum ErrorType {
   ClientError = "ClientError",
   FetchError = "FetchError",
@@ -9,25 +12,53 @@ enum ErrorType {
   UnknownSchemaError = "UnknownSchemaError",
 }
 
+/**
+ * An interface for errors that have a specific type.
+ */
 export interface TypedError extends Error {
+  /**
+   * The type of error.
+   */
   __type: ErrorType;
+
+  /**
+   * Additional error payload.
+   */
   payload?: { [key: string]: unknown };
 }
 
 /**
- * Fails fetching a remote resource
+ * An error that is caused by a problem with the client.
  */
 export class ClientError implements TypedError {
+  /**
+   * The type of error.
+   */
   __type = ErrorType.ClientError;
+
+  /**
+   * The name of the error.
+   */
   name = "ClientError";
+
+  /**
+   * The error message.
+   */
   message: string;
+
+  /**
+   * Additional error payload.
+   */
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the ClientError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 

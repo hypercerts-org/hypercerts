@@ -1,25 +1,36 @@
-import { HypercertMinterABI, IHypercertTokenABI, HyperCertMinterFactory } from "@hypercerts-org/contracts";
+import { HyperCertMinterFactory, HypercertMinterABI, IHypercertTokenABI } from "@hypercerts-org/contracts";
 import type { HypercertMinter, IHypercertToken } from "@hypercerts-org/contracts";
 
-// Protocol
+import { execute } from "../.graphclient/index.js";
+import HypercertClient from "./client.js";
+
+/**
+ * Protocol
+ */
 export { HyperCertMinterFactory, HypercertMinterABI, IHypercertTokenABI };
 export type { HypercertMinter, IHypercertToken };
 
-// Graph
-import { execute } from "../.graphclient/index.js";
+/**
+ * Client
+ */
+export { HypercertClient };
 
-// Wrapper clients
-import HypercertClient from "./client.js";
-
-// Types
+/**
+ * Types
+ */
 export * from "./types/index.js";
 
-// Validators
+/**
+ * Validators
+ */
 export * from "./validator/index.js";
 
-// Formatters
+/**
+ * Formatters
+ */
 export * from "./utils/formatter.js";
 
-// Clients
-export { HypercertClient };
+/**
+ * Graph
+ */
 export { execute };
