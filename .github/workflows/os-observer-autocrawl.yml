@@ -1,18 +1,11 @@
-name: os-observer
+name: os-observer-autocrawl
 
 # Trigger the workflow when:
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      command:
-        description: 'Command to run'
-        required: true
-        default: 'fetch-github'
-        type: choice
-        options:
-        - "fetch-github"
-        - "fetch-opencollective" 
+  schedule:
+    # Every day at 14:00 UTC = 07:00 PDT
+    - cron: '0 14 * * *'
 
 jobs:
   fetch-data:
@@ -33,4 +26,4 @@ jobs:
       - name: Install
         run: yarn install --immutable
       - name: Run
-        run: yarn start:os-observer ${{ inputs.command }}
+        run: yarn start:os-observer runAutocrawl

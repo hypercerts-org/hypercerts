@@ -83,6 +83,14 @@ export function ensureArray<T>(x: T | T[] | undefined): T[] {
 }
 
 /**
+ * Return an object type that can be used for comparisons
+ * @param record
+ * @returns
+ */
+export const normalizeToObject = <PointerType>(record?: any) =>
+  safeCast(_.toPlainObject(record) as Partial<PointerType>);
+
+/**
  * Explicitly mark that a cast is safe.
  * e.g. `safeCast(x as string[])`.
  */
