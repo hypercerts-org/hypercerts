@@ -15,16 +15,21 @@ import {
   ApiReturnType,
   CommonArgs,
 } from "../utils/api.js";
-import { assert, safeCast } from "../utils/common.js";
-import { InvalidInputError } from "../utils/error.js";
+import {
+  assert,
+  ensureString,
+  ensureArray,
+  ensureNumber,
+  safeCast,
+} from "../utils/common.js";
+import { InvalidInputError, MalformedDataError } from "../utils/error.js";
 import { logger } from "../utils/logger.js";
 import { parseGithubUrl } from "../utils/parsing.js";
 
 // API endpoint to query
 const NPM_HOST = "https://api.npmjs.org/";
 // npm was initially released 2010-01-12
-//const DEFAULT_START_DATE = "2010-01-01";
-const DEFAULT_START_DATE = "2023-05-01";
+const DEFAULT_START_DATE = "2010-01-01";
 const NPM_DOWNLOADS_COMMAND = "npmDownloads";
 
 // date format used by NPM APIs
@@ -46,6 +51,13 @@ const makeNpmEventSourcePointer = (lastDate: Dayjs): NpmEventSourcePointer => ({
 interface DayDownloads {
   downloads: number;
   day: string;
+}
+
+function createDayDownloads(x: any): DayDownloads {
+  return {
+    downloads: ensureNumber(x.downloads),
+    day: ensureString(x.day),
+  };
 }
 
 /**
@@ -119,24 +131,45 @@ async function getDailyDownloads(
   start: Dayjs,
   end: Dayjs,
 ): Promise<DayDownloads[]> {
-  const results: DayDownloads[] = [];
   const dateRange = `${formatDate(start)}:${formatDate(end)}`;
   const endpoint = `/downloads/range/${dateRange}/${name}`;
   logger.debug(`Fetching ${endpoint}`);
-  const currentResults = await npmFetch.json(endpoint, { registry: NPM_HOST });
-  logger.info(JSON.stringify(currentResults, null, 2));
+  const results = await npmFetch
+    .json(endpoint, { registry: NPM_HOST })
+    .catch((err) => {
+      logger.warn("Error fetching from NPM API: ", err);
+      return;
+    });
+  // If we encounter an error, just return an empty array
+  if (!results) {
+    return [];
+  }
+  //logger.info(JSON.stringify(fetchResults, null, 2));
+  const resultStart = dayjs(ensureString(results.start));
+  const resultEnd = dayjs(ensureString(results.end));
+  const resultDownloads = ensureArray(results.downloads).map(
+    createDayDownloads,
+  );
+  logger.info(
+    `Got ${resultDownloads.length} results from ${formatDate(
+      resultStart,
+    )} to ${formatDate(resultEnd)}`,
+  );
 
-  /**
-  if (currentResults.start) {
+  // If we got all the data, we're good
+  if (start.isSame(resultStart, "day") && end.isSame(resultEnd, "day")) {
+    return [...resultDownloads];
+  } else if (!end.isSame(resultEnd, "day")) {
+    // Assume that NPM will always give us the newest data first
+    throw new MalformedDataError(
+      `Expected end date ${formatDate(end)} but got ${formatDate(resultEnd)}`,
+    );
+  } else {
+    // If we didn't get all the data, recurse
+    const missingEnd = resultStart.subtract(1, "day");
+    const missingResults = await getDailyDownloads(name, start, missingEnd);
+    return [...missingResults, ...resultDownloads];
   }
-  if (currentResults.end) {
-  }
-  */
-  if (currentResults.downloads && Array.isArray(currentResults.downloads)) {
-    results.push(...currentResults.downloads);
-  }
-
-  return results;
 }
 
 /**
@@ -151,7 +184,7 @@ export function getMissingDays(
   start: Dayjs,
   end: Dayjs,
 ): Dayjs[] {
-  if (start.isAfter(end)) {
+  if (start.isAfter(end, "day")) {
     throw new InvalidInputError(
       `Start date ${formatDate(start)} is after end date ${formatDate(end)}`,
     );
@@ -162,7 +195,7 @@ export function getMissingDays(
   const dateSet = new Set(downloads.map((d) => d.day));
   for (
     let datePtr = dayjs(start);
-    datePtr.isBefore(end) || datePtr.isSame(end);
+    datePtr.isBefore(end, "day") || datePtr.isSame(end, "day");
     datePtr = datePtr.add(1, "day")
   ) {
     if (!dateSet.has(formatDate(datePtr))) {
@@ -219,7 +252,7 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
   const end = dayjs().subtract(1, "day");
 
   // Short circuit if we're already up to date
-  if (end.isBefore(start)) {
+  if (end.isBefore(start, "day")) {
     return {
       _type: "upToDate",
       cached: true,
@@ -231,7 +264,10 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
 
   // Check for correctness of data
   assert(!hasDuplicates(downloads), "Duplicate dates found in result");
-  const missingDays = getMissingDays(downloads, start, end);
+  // If this is the first time running this query, just check that we have the last day
+  const missingDays = !previousPointer.lastDate
+    ? getMissingDays(downloads, end, end)
+    : getMissingDays(downloads, start, end);
   assert(
     missingDays.length === 0,
     `Missing dates found in result: ${missingDays.map(formatDate).join(", ")}`,
