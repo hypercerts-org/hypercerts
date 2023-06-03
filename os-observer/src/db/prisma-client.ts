@@ -5,20 +5,11 @@ import {
   ArtifactType,
   EventType,
   Prisma,
-  EventSourcePointer,
 } from "@prisma/client";
-import { assert, safeCast } from "../utils/common.js";
+import { assert, normalizeToObject } from "../utils/common.js";
 
 export const prisma = new PrismaClient();
 export { ArtifactNamespace, ArtifactType, EventType };
-
-/**
- * Return an object type that can be used for comparisons
- * @param record
- * @returns
- */
-const normalizePointer = <PointerType>(record: EventSourcePointer | null) =>
-  safeCast(_.toPlainObject(record?.pointer) as Partial<PointerType>);
 
 /**
  * Before you do any work to fetch data, use this to retrieve the EventSourcePointer
@@ -42,7 +33,7 @@ export async function getEventSourcePointer<PointerType>(
     },
   });
   // Safe because `Partial` means they're all optional props anyway
-  return normalizePointer<PointerType>(record);
+  return normalizeToObject<PointerType>(record?.pointer);
 }
 
 /**
@@ -82,7 +73,7 @@ export async function insertData<PointerType>(
     // Make sure that the pointer hasn't changed
     assert(
       _.isEqual(
-        normalizePointer<PointerType>(dbCheckEvtSrcPtr),
+        normalizeToObject<PointerType>(dbCheckEvtSrcPtr?.pointer),
         previousPointer,
       ),
       `EventSourcePointer has changed. Aborting. Expected$ ${JSON.stringify(

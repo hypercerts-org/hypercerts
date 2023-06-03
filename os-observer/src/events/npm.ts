@@ -218,9 +218,11 @@ export function hasDuplicates(downloads: DayDownloads[]): boolean {
 /**
  * Entrypoint arguments
  */
-export type NpmDownloadsArgs = CommonArgs & {
-  name: string;
-};
+export type NpmDownloadsArgs = Partial<
+  CommonArgs & {
+    name: string;
+  }
+>;
 
 /**
  * Get all of the daily downloads for a package
@@ -230,6 +232,10 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
   args: NpmDownloadsArgs,
 ): Promise<ApiReturnType> => {
   const { name, autocrawl } = args;
+
+  if (!name) {
+    throw new InvalidInputError("Missing required argument: name");
+  }
   logger.info(`NPM Downloads: fetching for ${name}`);
 
   // Add the organization and artifact into the database

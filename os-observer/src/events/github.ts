@@ -1,5 +1,10 @@
 import { gql } from "graphql-request";
-import { EventSourceFunction, ApiReturnType } from "../utils/api.js";
+import {
+  EventSourceFunction,
+  ApiInterface,
+  ApiReturnType,
+  CommonArgs,
+} from "../utils/api.js";
 
 export const query = gql`
         {{
@@ -79,10 +84,12 @@ export async function main() {
 }
 */
 
-export interface GithubCommitsArgs {
-  org: string;
-  repo: string;
-}
+export type GithubCommitsArgs = Partial<
+  CommonArgs & {
+    org: string;
+    repo: string;
+  }
+>;
 
 export const githubCommits: EventSourceFunction<GithubCommitsArgs> = async (
   args: GithubCommitsArgs,
@@ -95,3 +102,9 @@ export const githubCommits: EventSourceFunction<GithubCommitsArgs> = async (
 };
 
 //main();
+
+export const GITHUB_COMMITS_COMMAND = "githubCommits";
+export const GithubCommitsInterface: ApiInterface<GithubCommitsArgs> = {
+  command: GITHUB_COMMITS_COMMAND,
+  func: githubCommits,
+};

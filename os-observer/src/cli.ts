@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { RunAutocrawlArgs, runAutocrawl } from "./actions/autocrawl.js";
 import { handleError } from "./utils/error.js";
 import { EventSourceFunction } from "./utils/api.js";
-import { GithubCommitsArgs, githubCommits } from "./events/github.js";
+import { GithubCommitsArgs, GithubCommitsInterface } from "./events/github.js";
 import { NpmDownloadsArgs, NpmDownloadsInterface } from "./events/npm.js";
 
 const callLibrary = async <Args>(
@@ -15,6 +16,10 @@ const callLibrary = async <Args>(
   console.log(result);
 };
 
+/**
+ * When adding a new fetcher, please remember to add it to both this registry and yargs
+ */
+export const FETCHER_REGISTRY = [GithubCommitsInterface, NpmDownloadsInterface];
 yargs(hideBin(process.argv))
   .option("yes", {
     type: "boolean",
@@ -26,8 +31,16 @@ yargs(hideBin(process.argv))
     describe: "Mark the query for auto-crawling",
     default: false,
   })
+  .command<RunAutocrawlArgs>(
+    "runAutocrawl",
+    "Iterate over EventSourcePointer table and update all data marked for autocrawl",
+    (yags) => {
+      yags;
+    },
+    (argv) => handleError(runAutocrawl(argv)),
+  )
   .command<GithubCommitsArgs>(
-    "githubCommits",
+    GithubCommitsInterface.command,
     "Fetch GitHub commits",
     (yags) => {
       yags
@@ -41,7 +54,7 @@ yargs(hideBin(process.argv))
         })
         .demandOption(["org", "repo"]);
     },
-    (argv) => handleError(callLibrary(githubCommits, argv)),
+    (argv) => handleError(callLibrary(GithubCommitsInterface.func, argv)),
   )
   .command<NpmDownloadsArgs>(
     NpmDownloadsInterface.command,
