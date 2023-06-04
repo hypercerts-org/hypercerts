@@ -31,6 +31,8 @@ const NPM_HOST = "https://api.npmjs.org/";
 // npm was initially released 2010-01-12
 const DEFAULT_START_DATE = "2010-01-01";
 const NPM_DOWNLOADS_COMMAND = "npmDownloads";
+// Only get data up to 2 days ago, accounting for incomplete days and time zones
+const TODAY_MINUS = 2;
 
 // date format used by NPM APIs
 export const formatDate = (date: Dayjs) => date.format("YYYY-MM-DD");
@@ -247,7 +249,7 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
     dbArtifact.id,
     EventType.DOWNLOADS,
   );
-  logger.info("EventSourcePointer: ", previousPointer);
+  logger.info(`EventSourcePointer: ${JSON.stringify(previousPointer)}`);
 
   // Start 1 day after the last date we have
   const start = dayjs(previousPointer.lastDate ?? DEFAULT_START_DATE).add(
@@ -255,7 +257,12 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
     "day",
   );
   // Today's counts may not yet be complete
-  const end = dayjs().subtract(1, "day");
+  const end = dayjs().subtract(TODAY_MINUS, "day");
+  logger.info(
+    `Fetching from start=${formatDate(start)} to end=${formatDate(
+      end,
+    )}. Today is ${formatDate(dayjs())}`,
+  );
 
   // Short circuit if we're already up to date
   if (end.isBefore(start, "day")) {
