@@ -4,15 +4,33 @@
 
 ### Setup
 
+Pre-requisites:
+
+- [Docker runtime](https://docs.docker.com/engine/install/) - for running a local Supabase instance
+
 Install your npm dependencies
 
 ```bash
 yarn install
 ```
 
-> Note: the codebase is currently set up to just work directly off the production database. In the future, we should allow for local dev databases.
+It is recommended you test any code changes against a development Supabase instance first.
+Please do not develop against the production database.
+This script will run a local Supabase server as a background service using docker.
 
-You can check if the code schema is in sync with your database schema by running:
+```bash
+yarn db:start
+# yarn db:stop   # to stop the background service
+```
+
+After starting the Supabase instance, you will get the URL and keys.
+Copy `.env.example` to `.env` and populate the `DATABASE_URL`.
+
+> Note: It is also possible to create a new throwaway project on supabase.com and use that instead.
+
+### After pulling latest changes
+
+After running `git pull`, make sure to run any missing migrations to make sure your local database schema matches the codebase.
 
 ```bash
 yarn db:migrate

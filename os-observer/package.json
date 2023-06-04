@@ -20,6 +20,8 @@
   "scripts": {
     "build": "prisma generate && tsc",
     "db:migrate": "prisma migrate dev",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
     "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
     "lint": "tsc --noEmit && yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint --ignore-path ../.gitignore --max-warnings 0 --cache .",
@@ -37,6 +39,7 @@
     "jest": "^29.5.0",
     "prettier": "^2.8.8",
     "prisma": "^4.13.0",
+    "supabase": "^1.64.8",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
