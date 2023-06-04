@@ -1,30 +1,23 @@
-name: os-observer-manual
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: deploy-os-observer
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 # Trigger the workflow when:
 on:
+  # A push occurs to one of the matched branches.
+  push:
+    branches:
+      - main 
+    paths:
+      - os-observer/prisma/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      command:
-        description: 'Command to run'
-        required: true
-        default: 'npmDownloads'
-        type: choice
-        options:
-        - "npmDownloads"
-        - "githubCommits" 
-      args:
-        description: 'Arguments to pass to the command'
-        required: false
-        default: ''
-        type: string
 
 jobs:
-  fetch-data:
+  deploy-os-observer:
     # NOTE: This name appears in GitHub's Checks API.
-    name: fetch-data
+    name: deploy-os-observer
     environment: os-observer 
     runs-on: ubuntu-latest
     steps:
@@ -39,5 +32,5 @@ jobs:
           node-version: "18.x"
       - name: Install
         run: yarn install --immutable
-      - name: Run
-        run: yarn start:os-observer ${{ inputs.command }} ${{ inputs.args }}
+      - name: Run migrations
+        run: yarn deploy:os-observer
