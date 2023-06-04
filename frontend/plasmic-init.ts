@@ -13,12 +13,12 @@ import {
   FormCheckbox,
 } from "./components/forms";
 import { BurnFractionButton } from "./components/burn-fraction-button";
-
 import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
 import { SupabaseToChart } from "./components/supabase-to-chart";
+import { TableauView } from "./components/tableau-view";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -546,4 +546,16 @@ PLASMIC.registerComponent(BurnFractionButton, {
     disabled: "boolean",
   },
   importPath: "./components/burn-fraction-button",
+});
+
+PLASMIC.registerComponent(TableauView, {
+  name: "TableauView",
+  description: "Button that will burn the fraction currently selected",
+  props: {
+    projectLink: {
+      type: "string",
+      helpText: "Share link from Tableau",
+    },
+  },
+  importPath: "./components/tableau-view",
 });
