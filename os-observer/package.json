@@ -22,6 +22,7 @@
     "db:migrate": "prisma migrate dev",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
+    "deploy": "yarn db:migrate",
     "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
     "lint": "tsc --noEmit && yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint --ignore-path ../.gitignore --max-warnings 0 --cache .",

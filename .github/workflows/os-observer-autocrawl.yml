@@ -1,4 +1,6 @@
 name: os-observer-autocrawl
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 # Trigger the workflow when:
 on:
