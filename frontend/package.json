@@ -29,6 +29,7 @@
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
+    "@observablehq/runtime": "5",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@plasmicapp/loader-nextjs": "^1.0.284",
     "@rainbow-me/rainbowkit": "0.12.13",
