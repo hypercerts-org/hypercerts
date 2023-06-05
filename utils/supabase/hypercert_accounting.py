@@ -1,5 +1,6 @@
 import os
 import json
+import pandas as pd
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 JSON_OUTPATH = "data/hypercertAccounting.json"
+CSV_OUTPATH = "data/hypercertAccounting.csv"
 RATE_LIMIT = 1000
 
 
@@ -245,5 +247,59 @@ def update_hypercert_accounting(json_filepath: str = JSON_OUTPATH) -> None:
         json.dump(claims_data, f, indent=4)
 
 
+def reconcile_claims(json_filepath: str = JSON_OUTPATH) -> None:
+    """
+    Reconciles claims data and generates a CSV report.
+
+    Args:
+        json_filepath: Path to the JSON file containing claims data.
+
+    Returns:
+        None
+    """
+    with open(json_filepath) as f:
+        claims_data = json.load(f)
+
+    results = []
+    for claim in claims_data:
+        allowlist = {}
+
+        def create_entry(address, units, slots):
+            return {
+                'address': address,
+                'claimId': claim['claimId'],
+                'claimName': claim['metadata']['name'],
+                'creator': claim['creatorAddress'] == address,
+                'units': units,
+                'claimed': 0,
+                'supabase': False,
+                'slots': slots
+            }
+
+        for (address, units) in claim['allowlist']:
+            if address in allowlist:
+                allowlist[address]['units'] += units
+                allowlist[address]['slots'] += 1
+            else:
+                allowlist[address] = create_entry(address, units, 1)
+
+        for user_claim in claim['userClaims']:
+            owner = user_claim['owner']
+            num_units = int(user_claim['units'])
+            if owner not in allowlist:
+                allowlist[owner] = create_entry(owner, 0, 0)
+            allowlist[owner]['claimed'] += num_units
+
+        for address in claim['supabaseList']:
+            if address in allowlist:
+                allowlist[address]['supabase'] = True
+
+        results.extend(allowlist.values())
+
+    df = pd.DataFrame(results)
+    df.to_csv(CSV_OUTPATH, index=False)
+
+
 if __name__ == "__main__":
-    update_hypercert_accounting()
+    #update_hypercert_accounting()
+    reconcile_claims()
