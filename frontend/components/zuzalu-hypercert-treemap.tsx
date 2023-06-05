@@ -3,7 +3,7 @@ import { Runtime, Inspector } from "@observablehq/runtime";
 import notebook from "c857fa5c110524ee";
 
 export function ZuzaluHypercertTreemap() {
-  const chartRef = useRef();
+  const chartRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const runtime = new Runtime();
     runtime.module(notebook, (name) => {
@@ -12,5 +12,10 @@ export function ZuzaluHypercertTreemap() {
     return () => runtime.dispose();
   }, []);
 
-  return <>Credit: Zuzualu hypercerts by category by hypercerts</>;
+  return (
+    <>
+      <div ref={chartRef} />
+      <p>Credit: Zuzualu hypercerts by category by hypercerts,</p>
+    </>
+  );
 }
