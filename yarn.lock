@@ -6401,6 +6401,30 @@
   dependencies:
     semver "^7.3.5"
 
+"@observablehq/inspector@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@observablehq/inspector/-/inspector-5.0.0.tgz#7dec08d4fa20dfb79977ce62f7cc4a814b44e595"
+  integrity sha512-Vvg/TQdsZTUaeYbH0IKxYEz37FbRO6kdowoz2PrHLQif54NC1CjEihEjg+ZMSBn587GQxTFABu0CGkFZgtR1UQ==
+  dependencies:
+    isoformat "^0.2.0"
+
+"@observablehq/runtime@5":
+  version "5.7.3"
+  resolved "https://registry.yarnpkg.com/@observablehq/runtime/-/runtime-5.7.3.tgz#7fe7ecf5acfe6bfcca7390e4b6c108dce661dcda"
+  integrity sha512-9EDcW+zMBSgH8Sep9UdeMA3AQHWVYvoutJSlLyXO84gpzsCDbyE3WUmMZ9TxPI/sE9YBj6tFHPIOul5cZxDXwg==
+  dependencies:
+    "@observablehq/inspector" "^5.0.0"
+    "@observablehq/stdlib" "^5.0.0"
+
+"@observablehq/stdlib@^5.0.0":
+  version "5.7.3"
+  resolved "https://registry.yarnpkg.com/@observablehq/stdlib/-/stdlib-5.7.3.tgz#660878d262ae5aa068533e4615ceb2eca4a7ec4f"
+  integrity sha512-xL6KrjUfuWZsZtvnKWJ3Fg0SXyFwubQd1K/2SfU8QvuYxOyVPrGEdLekhaCjI7NiD5Wd9ZnDB7ZMLtI11n07ow==
+  dependencies:
+    d3-array "^3.2.0"
+    d3-dsv "^3.0.1"
+    d3-require "^1.3.0"
+
 "@oclif/core@2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.0.7.tgz#a17a85dfa105dda120fbc5647432010feaa97a9e"
@@ -11094,6 +11118,10 @@ bytes@3.1.2, bytes@^3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.2.tgz#8b0beeb98605adf1b128fa4386403c009e0221a5"
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
 
+"c857fa5c110524ee@https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3":
+  version "512.0.0"
+  resolved "https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3#5c240c6b9a338808ec8af7d4afe3831df22c553b"
+
 cac@^6.7.14:
   version "6.7.14"
   resolved "https://registry.yarnpkg.com/cac/-/cac-6.7.14.tgz#804e1e6f506ee363cb0e3ccbb09cad5dd9870959"
@@ -12626,7 +12654,7 @@ d3-delaunay@6:
     d3-dispatch "1 - 3"
     d3-selection "3"
 
-"d3-dsv@1 - 3", d3-dsv@3:
+"d3-dsv@1 - 3", d3-dsv@3, d3-dsv@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/d3-dsv/-/d3-dsv-3.0.1.tgz#c63af978f4d6a0d084a52a673922be2160789b73"
   integrity sha512-UG6OvdI5afDIFP9w4G0mNq50dSOsXHJaRE8arAS5o9ApWnIElp8GZw1Dun8vP8OyHOZ/QJUKUJwxiiCCnUwm+Q==
@@ -12699,6 +12727,11 @@ d3-random@3:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/d3-random/-/d3-random-3.0.1.tgz#d4926378d333d9c0bfd1e6fa0194d30aebaa20f4"
   integrity sha512-FXMe9GfxTxqd5D6jFsQ+DJ8BJS4E/fT5mqqdjovykEB2oFbTMDVdg1MGFxfQW+FBOGoB++k8swBrgwSHT1cUXQ==
+
+d3-require@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/d3-require/-/d3-require-1.3.0.tgz#2b97f5e2ebcb64ac0c63c11f30056aea1c74f0ec"
+  integrity sha512-XaNc2azaAwXhGjmCMtxlD+AowpMfLimVsAoTMpqrvb8CWoA4QqyV12mc4Ue6KSoDvfuS831tsumfhDYxGd4FGA==
 
 d3-scale-chromatic@3:
   version "3.0.0"
@@ -18281,6 +18314,11 @@ isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
+
+isoformat@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/isoformat/-/isoformat-0.2.1.tgz#2526344a4276a101b2881848dc337d1d2ae74494"
+  integrity sha512-tFLRAygk9NqrRPhJSnNGh7g7oaVWDwR0wKh/GM2LgmPa50Eg4UfyaCO4I8k6EqJHl1/uh2RAD6g06n5ygEnrjQ==
 
 isomorphic-unfetch@^3.0.0:
   version "3.1.0"
