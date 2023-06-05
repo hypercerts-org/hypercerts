@@ -57,18 +57,42 @@ def get_transaction_count(client, addr):
 
 
 def get_address_data(address):
-    
-    try:
-        addr = Web3.toChecksumAddress(address.lower())
-    except:
-        addr = address
-        print(f"Checksum address {address} not found on Ethereum Mainnet.")
-        return None
 
-    result = dict(
-        address=addr,
-        type=get_address_type(addr),
-        ens=get_ens(addr)
-    )
-    print("Success:", result)
+    def checksum(a):
+        try:
+            return Web3.toChecksumAddress(a.lower())
+        except Exception as e:
+            print(e)
+            return None
+
+    
+    result = {
+        'address': None,
+        'type': None,
+        'ens': None
+    }
+
+    if not isinstance(address, str):
+        result.update({
+            'type': "Missing"
+        })
+    elif "oeth:" in address:
+        address = address.replace("oeth:","")
+        result.update({
+            'address': address,
+            'type': "Safe (OP)"
+        })
+    elif len(address) == 42:
+        address = checksum(address)
+        result.update({
+            'address': address,
+            'type': get_address_type(address),
+            'ens': get_ens(address)
+        })
+    else:
+        result.update({
+            'type': "Needs Review"
+        })
+
     return result
+
