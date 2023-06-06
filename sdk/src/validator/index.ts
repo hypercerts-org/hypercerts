@@ -97,6 +97,10 @@ const validateAllowlist = (data: AllowlistEntry[], units: BigNumberish) => {
     ] = `Total units in allowlist must match total units [expected: ${units}, got: ${totalUnits.toString()}]`;
   }
 
+  if (totalUnits.eq(0)) {
+    errors["units"] = "Total units in allowlist must be greater than 0";
+  }
+
   const filteredAddresses = data.filter((entry) => !isAddress(entry.address));
   if (filteredAddresses.length > 0) {
     errors["address"] = filteredAddresses.map((entry) => entry.address);

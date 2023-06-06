@@ -156,13 +156,10 @@ export default class HypercertClient implements HypercertClientInterface {
     const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
     const cidMerkle = await this.storage.storeData(JSON.stringify(tree.dump()));
 
-    if (!cidMerkle) throw new StorageError("Unable to store allowlist on IPFS");
-
     metaData.allowList = cidMerkle;
+
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
-
-    console.log("All checks passed, minting claim...");
 
     return overrides
       ? this._contract.createAllowlist(

@@ -28,14 +28,12 @@ const getAllowlist = (overrides?: { size?: number; address?: `0x${string}` }) =>
   }
 
   if (overrides?.address) {
-    allowlist.pop();
-    allowlist.push({ address: overrides.address, units: "1" });
+    allowlist[0].address = overrides.address;
   }
   //add a valid address once to the allowlist
 
   const mappedAllowlist = allowlist.map((entry) => [entry.address.toString(), entry.units.toString()]);
 
-  console.log("Mapped ALlow list: ", mappedAllowlist);
   const merkleTree = StandardMerkleTree.of(mappedAllowlist, ["address", "uint256"]);
 
   const totalUnits = allowlist.reduce((acc, entry) => acc.add(entry.units), BigNumber.from(0));
