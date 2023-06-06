@@ -63,7 +63,7 @@ export const useMintFractionAllowlistBatch = ({
     setStep("minting");
     try {
       const tx = await client.batchMintClaimFractionsFromAllowlists(
-        claimIds,
+        (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
         units,
         proofs,
       );
