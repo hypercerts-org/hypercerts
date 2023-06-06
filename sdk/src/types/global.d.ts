@@ -1,3 +1,3 @@
-import type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "../../.graphclient/index.ts";
+import type { ClaimByIdQuery, ClaimTokensByClaimQuery, ClaimToken, Claim } from "../../.graphclient/index.ts";
 
-export type { ClaimByIdQuery, ClaimTokensByClaimQuery };
+export type { ClaimByIdQuery, ClaimTokensByClaimQuery, ClaimToken, Claim };
