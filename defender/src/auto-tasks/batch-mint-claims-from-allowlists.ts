@@ -62,7 +62,6 @@ export async function handler(event: AutotaskEvent) {
   // Wait for transaction to be confirmed for 5 blocks
   if (await tx.wait(5)) {
     console.log("Transaction confirmed");
-    tx.confirmations;
     const deleteResult = await client
       .from(network.supabaseTableName)
       .delete()
