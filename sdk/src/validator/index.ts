@@ -1,15 +1,17 @@
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import Ajv from "ajv";
 import { BigNumber, BigNumberish } from "ethers";
 import { isAddress } from "ethers/lib/utils.js";
 
 import claimDataSchema from "../resources/schema/claimdata.json";
-import metaDataSchema from "../resources/schema/metadata.json";
 import evaluationSchema from "../resources/schema/evaluation.json";
+import metaDataSchema from "../resources/schema/metadata.json";
 import {
-  HypercertClaimdata,
-  Allowlist,
-  HypercertMetadata,
+  AllowlistEntry,
   DuplicateEvaluation,
+  HypercertClaimdata,
+  HypercertMetadata,
+  MintingError,
   SimpleTextEvaluation,
 } from "../types/index.js";
 
@@ -86,7 +88,7 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
  * @param units The total number of units in the allowlist.
  * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
  */
-const validateAllowlist = (data: Allowlist, units: BigNumberish) => {
+const validateAllowlist = (data: AllowlistEntry[], units: BigNumberish) => {
   const errors: Record<string, string | string[]> = {};
   const totalUnits = data.reduce((acc, curr) => acc.add(curr.units), BigNumber.from(0));
   if (!totalUnits.eq(units)) {
@@ -153,10 +155,50 @@ const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): Validatio
   return { valid: true, errors: {} };
 };
 
+/**
+ * Verifies a Merkle proof for a given address and units.
+ * @param root The Merkle root hash to verify against.
+ * @param signerAddress The address to verify.
+ * @param units The units to verify.
+ * @param proof The Merkle proof to verify.
+ * @throws {MintingError} If the Merkle proof verification fails.
+ */
+function verifyMerkleProof(root: string, signerAddress: string, units: BigNumberish, proof: string[]): void {
+  if (!isAddress(signerAddress)) {
+    throw new MintingError("Invalid address", { signerAddress });
+  }
+
+  const verified = StandardMerkleTree.verify(root, ["address", "uint256"], [signerAddress, units], proof);
+  if (!verified) {
+    throw new MintingError("Merkle proof verification failed", { root, proof });
+  }
+}
+
+/**
+ * Batch verifies Merkle proofs for multiple roots, units and proofs for a single address
+ * @param roots The Merkle root hashes to verify against.
+ * @param signerAddress The address to verify.
+ * @param units The units to verify.
+ * @param proofs The Merkle proofs to verify.
+ * @throws {MintingError} If the Merkle proof verification fails.
+ * @notice Wrapper around `verifyMerkleProof` to batch verify multiple proofs
+ */
+function verifyMerkleProofs(roots: string[], signerAddress: string, units: BigNumberish[], proofs: string[][]) {
+  if (roots.length !== units.length || units.length !== proofs.length) {
+    throw new MintingError("Invalid input", { roots, units, proofs });
+  }
+
+  for (let i = 0; i < roots.length; i++) {
+    verifyMerkleProof(roots[i], signerAddress, units[i], proofs[i]);
+  }
+}
+
 export {
   validateMetaData,
   validateClaimData,
   validateAllowlist,
+  verifyMerkleProof,
+  verifyMerkleProofs,
   validateDuplicateEvaluationData,
   validateSimpleTextEvaluationData,
 };

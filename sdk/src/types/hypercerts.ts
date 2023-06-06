@@ -23,8 +23,3 @@ export type AllowlistEntry = {
   address: string;
   units: BigNumberish;
 };
-
-/**
- * Helper type to allow for a more readable Allowlist type
- */
-export type Allowlist = AllowlistEntry[];
