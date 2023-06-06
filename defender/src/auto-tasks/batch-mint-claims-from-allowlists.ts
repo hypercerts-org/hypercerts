@@ -60,7 +60,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Formatted claim ids", formattedClaimIds);
 
   // Wait for transaction to be confirmed for 5 blocks
-  if (await tx.wait(5)) {
+  if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     console.log("Transaction confirmed");
     const deleteResult = await client
       .from(network.supabaseTableName)
