@@ -13,6 +13,8 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 JSON_OUTPATH = "data/hypercertAccounting.json"
 CSV_OUTPATH = "data/hypercertAccounting.csv"
+SUPABASE_UPDATE = "data/hypercertErrors.csv"
+
 RATE_LIMIT = 1000
 
 
@@ -149,6 +151,22 @@ def fetch_addresses_from_supabase(claim_id: str) -> list:
     return addresses
 
 
+def fetch_hidden_hypercerts() -> list:
+    """
+    Fetches hypercerts that are supposed to be hidden from users.
+
+    Returns:
+        List of claimIds.
+    """
+    response = (supabase
+                .table("claims-metadata-mapping")
+                .select("claimId")
+                .eq("hidden", True)
+                .execute())
+    claims = [x["claimId"] for x in response.data]
+    return claims
+
+
 def create_claim_record(claim: dict) -> dict:
     """
     Creates a claim record from the given claim and metadata.
@@ -260,8 +278,13 @@ def reconcile_claims(json_filepath: str = JSON_OUTPATH) -> None:
     with open(json_filepath) as f:
         claims_data = json.load(f)
 
+    hidden_claims = fetch_hidden_hypercerts()
+
     results = []
     for claim in claims_data:
+        if claim['claimId'] in hidden_claims:
+            continue
+            
         allowlist = {}
 
         def create_entry(address, units, slots):
@@ -297,9 +320,13 @@ def reconcile_claims(json_filepath: str = JSON_OUTPATH) -> None:
         results.extend(allowlist.values())
 
     df = pd.DataFrame(results)
+    df['error'] = df.apply(lambda x: not(x['supabase']) and not(x['claimed']), axis=1)
     df.to_csv(CSV_OUTPATH, index=False)
-
+    
+    df_error = df[df['error']][['address', 'claimId']].sort_values(by='address')
+    df_error.to_csv(SUPABASE_UPDATE, index=False)
+    
 
 if __name__ == "__main__":
-    #update_hypercert_accounting()
+    update_hypercert_accounting()
     reconcile_claims()
