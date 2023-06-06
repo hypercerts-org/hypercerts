@@ -36,7 +36,7 @@ Fails storing to a remote resource
 
 #### Defined in
 
-[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L123)
+[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L123)
 
 ## Properties
 
@@ -52,7 +52,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:119](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L119)
+[sdk/src/types/errors.ts:119](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L119)
 
 ---
 
@@ -66,7 +66,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:121](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L121)
+[sdk/src/types/errors.ts:121](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L121)
 
 ---
 
@@ -80,7 +80,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:120](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L120)
+[sdk/src/types/errors.ts:120](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L120)
 
 ---
 
@@ -100,4 +100,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L122)
+[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L122)

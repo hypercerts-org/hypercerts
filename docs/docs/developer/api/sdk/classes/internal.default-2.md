@@ -50,7 +50,7 @@ Creates a new instance of the `HypercertIndexer` class.
 
 #### Defined in
 
-[sdk/src/indexer.ts:17](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L17)
+[sdk/src/indexer.ts:17](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L17)
 
 ## Properties
 
@@ -73,7 +73,7 @@ The Graph client used by the indexer.
 
 #### Defined in
 
-[sdk/src/indexer.ts:11](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L11)
+[sdk/src/indexer.ts:11](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L11)
 
 ## Accessors
 
@@ -104,7 +104,7 @@ The Graph client.
 
 #### Defined in
 
-[sdk/src/indexer.ts:25](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L25)
+[sdk/src/indexer.ts:25](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L25)
 
 ## Methods
 
@@ -132,7 +132,7 @@ HypercertIndexerInterface.claimById
 
 #### Defined in
 
-[sdk/src/indexer.ts:46](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L46)
+[sdk/src/indexer.ts:46](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L46)
 
 ---
 
@@ -161,7 +161,7 @@ HypercertIndexerInterface.claimsByOwner
 
 #### Defined in
 
-[sdk/src/indexer.ts:35](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L35)
+[sdk/src/indexer.ts:35](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L35)
 
 ---
 
@@ -189,7 +189,7 @@ HypercertIndexerInterface.firstClaims
 
 #### Defined in
 
-[sdk/src/indexer.ts:56](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L56)
+[sdk/src/indexer.ts:56](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L56)
 
 ---
 
@@ -217,7 +217,7 @@ HypercertIndexerInterface.fractionById
 
 #### Defined in
 
-[sdk/src/indexer.ts:90](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L90)
+[sdk/src/indexer.ts:90](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L90)
 
 ---
 
@@ -246,7 +246,7 @@ HypercertIndexerInterface.fractionsByClaim
 
 #### Defined in
 
-[sdk/src/indexer.ts:79](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L79)
+[sdk/src/indexer.ts:79](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L79)
 
 ---
 
@@ -275,4 +275,4 @@ HypercertIndexerInterface.fractionsByOwner
 
 #### Defined in
 
-[sdk/src/indexer.ts:67](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/indexer.ts#L67)
+[sdk/src/indexer.ts:67](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/indexer.ts#L67)

@@ -39,7 +39,7 @@ Creates a new EasEvaluator instance.
 
 #### Defined in
 
-[sdk/src/evaluations/eas.ts:35](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/evaluations/eas.ts#L35)
+[sdk/src/evaluations/eas.ts:35](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/eas.ts#L35)
 
 ## Properties
 
@@ -51,7 +51,7 @@ The Offchain instance used for signing off-chain attestations.
 
 #### Defined in
 
-[sdk/src/evaluations/eas.ts:24](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/evaluations/eas.ts#L24)
+[sdk/src/evaluations/eas.ts:24](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/eas.ts#L24)
 
 ---
 
@@ -63,7 +63,7 @@ The TypedDataSigner instance used for signing typed data.
 
 #### Defined in
 
-[sdk/src/evaluations/eas.ts:29](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/evaluations/eas.ts#L29)
+[sdk/src/evaluations/eas.ts:29](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/eas.ts#L29)
 
 ## Methods
 
@@ -89,7 +89,7 @@ Gets a signature for an off-chain attestation.
 
 #### Defined in
 
-[sdk/src/evaluations/eas.ts:53](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/evaluations/eas.ts#L53)
+[sdk/src/evaluations/eas.ts:53](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/eas.ts#L53)
 
 ---
 
@@ -117,4 +117,4 @@ Signs an offline evaluation.
 
 #### Defined in
 
-[sdk/src/evaluations/eas.ts:82](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/evaluations/eas.ts#L82)
+[sdk/src/evaluations/eas.ts:82](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/eas.ts#L82)

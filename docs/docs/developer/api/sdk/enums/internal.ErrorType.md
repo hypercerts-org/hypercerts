@@ -27,7 +27,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:5](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L5)
+[sdk/src/types/errors.ts:5](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L5)
 
 ---
 
@@ -37,7 +37,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:6](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L6)
+[sdk/src/types/errors.ts:6](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L6)
 
 ---
 
@@ -47,7 +47,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:7](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L7)
+[sdk/src/types/errors.ts:7](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L7)
 
 ---
 
@@ -57,7 +57,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:8](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L8)
+[sdk/src/types/errors.ts:8](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L8)
 
 ---
 
@@ -67,7 +67,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L9)
+[sdk/src/types/errors.ts:9](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L9)
 
 ---
 
@@ -77,7 +77,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:10](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L10)
+[sdk/src/types/errors.ts:10](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L10)
 
 ---
 
@@ -87,7 +87,7 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:12](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L12)
+[sdk/src/types/errors.ts:12](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L12)
 
 ---
 
@@ -97,4 +97,4 @@ An enumeration of error types that can be thrown by the Hypercert SDK.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:11](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L11)
+[sdk/src/types/errors.ts:11](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L11)
