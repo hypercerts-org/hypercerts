@@ -59,12 +59,15 @@ export async function handler(event: AutotaskEvent) {
   );
   console.log("Formatted claim ids", formattedClaimIds);
 
-  const deleteResult = await client
-    .from(network.supabaseTableName)
-    .delete()
-    .eq("address", fromAddress)
-    .in("claimId", formattedClaimIds)
-    .select();
+  if (tx.wait(10)) {
+    console.log("Transaction confirmed");
+    const deleteResult = await client
+      .from(network.supabaseTableName)
+      .delete()
+      .eq("address", fromAddress)
+      .in("claimId", formattedClaimIds)
+      .select();
 
-  console.log("delete result", deleteResult);
+    console.log("delete result", deleteResult);
+  }
 }
