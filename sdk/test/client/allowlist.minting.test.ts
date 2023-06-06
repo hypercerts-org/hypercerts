@@ -3,7 +3,7 @@ import { MockProvider, deployMockContract } from "ethereum-waffle";
 
 import { HypercertClient, HypercertMinterABI } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
-import { TransferRestrictions } from "../../src/types/index.js";
+import { HypercertMetadata, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
 
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
@@ -18,7 +18,6 @@ describe("Allows for minting claims from an allowlist", () => {
   };
 
   beforeEach(() => {
-    // Clear all instances and calls to constructor and all methods:
     jest.clearAllMocks();
   });
 
@@ -45,11 +44,15 @@ describe("Allows for minting claims from an allowlist", () => {
 
     const storeMetadataMock = jest
       .spyOn(HypercertsStorage.prototype, "storeMetadata")
-      .mockResolvedValue(mockCorrectMetadataCid);
+      .mockImplementation(async (data: HypercertMetadata) => {
+        console.log("HIT MOCK");
+        return mockCorrectMetadataCid;
+      });
 
-    const storeDataMock = jest
-      .spyOn(HypercertsStorage.prototype, "storeData")
-      .mockResolvedValue(mockCorrectMetadataCid);
+    const storeDataMock = jest.spyOn(HypercertsStorage.prototype, "storeData").mockImplementation(async (data) => {
+      console.log("HIT MOCK");
+      return mockCorrectMetadataCid;
+    });
 
     await minter.mock.createAllowlist.returns();
     await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
@@ -58,7 +61,6 @@ describe("Allows for minting claims from an allowlist", () => {
 
     await expect(storeMetadataMock).toHaveBeenCalledTimes(1);
 
-    // await expect(storeWeb3StorageMock).toHaveBeenCalledTimes(1);
     await expect(provider.callHistory.length).toBe(3);
-  }, 20000);
+  }, 15000);
 });
