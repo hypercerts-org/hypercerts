@@ -1,6 +1,6 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, ContractReceipt, ContractTransaction, ethers } from "ethers";
+import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction, ethers } from "ethers";
 
 import { HypercertMetadata, HypercertMinterABI } from "../src/index.js";
 import {
@@ -17,14 +17,14 @@ export type TestDataType = Parameters<typeof formatHypercertData>[0];
  * Builds allowlist and merkle tree
  * @param overrides contains the size and a valid ethereum address that should be present once in the allowlist
  */
-const getAllowlist = (overrides?: { size?: number; address?: `0x${string}` }) => {
+const getAllowlist = (overrides?: { size?: number; address?: `0x${string}`; units?: BigNumberish }) => {
   //generate allowlist array based on possible overrides
   const size = overrides?.size || 10;
   let allowlist: AllowlistEntry[] = new Array();
   for (let i = 0; i < size; i++) {
     const address = ethers.Wallet.createRandom().address;
 
-    allowlist.push({ address, units: "1" });
+    allowlist.push({ address, units: overrides?.units || "1" });
   }
 
   if (overrides?.address) {
