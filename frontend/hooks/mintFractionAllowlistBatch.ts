@@ -8,7 +8,6 @@ import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 
@@ -23,9 +22,6 @@ export const useMintFractionAllowlistBatch = ({
 
   const { data: claimIds } = useGetAllEligibility(address ?? "");
   const parseError = useParseBlockchainError();
-
-  const [_units, setUnits] = useState<BigNumber[]>();
-  const [_proofs, setProofs] = useState<HexString[][]>();
 
   const { client, isLoading } = useHypercertClient();
 

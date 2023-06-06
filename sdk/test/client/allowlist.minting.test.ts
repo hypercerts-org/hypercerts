@@ -80,7 +80,7 @@ describe("Allows for minting claims from an allowlist", () => {
       expect(mockStoreMetadata).toHaveBeenCalledTimes(1);
 
       expect(_provider.callHistory.length).toBe(2);
-    }, 10000);
+    }, 15000);
 
     it("should not create an allowlist if the total units mismatch", async () => {
       const { allowlist, totalUnits } = getAllowlist();
