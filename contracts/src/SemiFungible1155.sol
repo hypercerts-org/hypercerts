@@ -315,6 +315,33 @@ contract SemiFungible1155 is
         emit ValueTransfer(getBaseType(_tokenID), _tokenID, 0, value);
     }
 
+    /// @dev Batch burn the token at `_tokenIsD` owned by `_account`
+    /// @dev Not allowed to burn base type.
+    /// @dev `_tokenIDs` must hold all value declared at base type
+    function _batchBurnToken(address _account, uint256[] memory _tokenIDs) internal {
+        if (_account != _msgSender() && !isApprovedForAll(_account, _msgSender())) revert Errors.NotApprovedOrOwner();
+
+        // ERC115 requires values
+        uint256[] memory claimIDs = new uint256[](len);
+        address[] memory toTokens = new uint256[](len);
+        uint256[] memory claimUnits = new uint256[](len);
+        uint256[] memory values = new uint256[](len);
+
+        for (uint256 i; i < len; i++) {
+            uint256 _tokenId = _tokenIDs[i];
+            uint256 value = tokenValues[_tokenID];
+
+            delete tokenValues[_tokenID];
+
+            claimIDs[i] = getBaseType(_tokenId);
+            claimUnits[i] = value;
+            values[i] = 1;
+        }
+
+        _burnBatch(_account, _tokenIDs, values);
+        emit BatchValueTransfer(claimIDs, _tokenIDs, toTokens, claimUnits);
+    }
+
     /// TRANSFERS
 
     // The following functions are overrides required by Solidity.
