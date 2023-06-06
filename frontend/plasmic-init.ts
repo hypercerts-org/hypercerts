@@ -551,6 +551,8 @@ PLASMIC.registerComponent(BurnFractionButton, {
 PLASMIC.registerComponent(ZuzaluHypercertTreemap, {
   name: "ZuzaluHypercertTreemap",
   description: "Zuzalu Hypercert Treemap from observerablehq",
-  props: {},
+  props: {
+    children: "slot",
+  },
   importPath: "./components/zuzalu-hypercert-treemap",
 });

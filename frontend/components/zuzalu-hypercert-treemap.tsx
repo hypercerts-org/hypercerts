@@ -1,8 +1,23 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, ReactNode } from "react";
 import { Runtime, Inspector } from "@observablehq/runtime";
 import notebook from "c857fa5c110524ee";
 
-export function ZuzaluHypercertTreemap() {
+export interface ZuzaluHypercertTreemapProps {
+  className?: string;
+  children?: ReactNode;
+}
+
+const defaultChildren = (
+  <p>
+    Credit:
+    <a href="https://observablehq.com/d/c857fa5c110524ee">
+      Zuzualu hypercerts by category by hypercerts
+    </a>
+  </p>
+);
+
+export function ZuzaluHypercertTreemap(props: ZuzaluHypercertTreemapProps) {
+  const { className, children } = props;
   const chartRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const runtime = new Runtime();
@@ -13,9 +28,9 @@ export function ZuzaluHypercertTreemap() {
   }, []);
 
   return (
-    <>
+    <div className={className}>
       <div ref={chartRef} />
-      <p>Credit: Zuzualu hypercerts by category by hypercerts,</p>
-    </>
+      {children ?? defaultChildren}
+    </div>
   );
 }
