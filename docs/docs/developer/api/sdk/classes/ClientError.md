@@ -38,7 +38,7 @@ Creates a new instance of the ClientError class.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L59)
+[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L59)
 
 ## Properties
 
@@ -54,7 +54,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:37](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L37)
+[sdk/src/types/errors.ts:37](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L37)
 
 ---
 
@@ -70,7 +70,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:47](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L47)
+[sdk/src/types/errors.ts:47](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L47)
 
 ---
 
@@ -86,7 +86,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:42](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L42)
+[sdk/src/types/errors.ts:42](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L42)
 
 ---
 
@@ -106,4 +106,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:52](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L52)
+[sdk/src/types/errors.ts:52](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L52)

@@ -74,7 +74,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:47](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L47)
+[sdk/src/client.ts:47](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L47)
 
 ## Properties
 
@@ -84,7 +84,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:33](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L33)
+[sdk/src/client.ts:33](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L33)
 
 ---
 
@@ -94,7 +94,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:40](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L40)
+[sdk/src/client.ts:40](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L40)
 
 ---
 
@@ -104,7 +104,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:35](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L35)
+[sdk/src/client.ts:35](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L35)
 
 ---
 
@@ -114,7 +114,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:36](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L36)
+[sdk/src/client.ts:36](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L36)
 
 ---
 
@@ -124,7 +124,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:37](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L37)
+[sdk/src/client.ts:37](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L37)
 
 ---
 
@@ -134,7 +134,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:39](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L39)
+[sdk/src/client.ts:39](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L39)
 
 ---
 
@@ -144,7 +144,7 @@ Creates a new instance of the `HypercertClient` class.
 
 #### Defined in
 
-[sdk/src/client.ts:34](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L34)
+[sdk/src/client.ts:34](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L34)
 
 ---
 
@@ -160,7 +160,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/client.ts:41](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L41)
+[sdk/src/client.ts:41](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L41)
 
 ## Accessors
 
@@ -182,7 +182,7 @@ The contract.
 
 #### Defined in
 
-[sdk/src/client.ts:89](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L89)
+[sdk/src/client.ts:89](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L89)
 
 ---
 
@@ -204,7 +204,7 @@ The indexer.
 
 #### Defined in
 
-[sdk/src/client.ts:81](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L81)
+[sdk/src/client.ts:81](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L81)
 
 ---
 
@@ -226,7 +226,7 @@ The storage layer.
 
 #### Defined in
 
-[sdk/src/client.ts:73](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L73)
+[sdk/src/client.ts:73](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L73)
 
 ## Methods
 
@@ -268,7 +268,7 @@ HypercertClientInterface.batchMintClaimFractionsFromAllowlists
 
 #### Defined in
 
-[sdk/src/client.ts:300](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L300)
+[sdk/src/client.ts:300](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L300)
 
 ---
 
@@ -301,7 +301,7 @@ HypercertClientInterface.burnClaimFraction
 
 #### Defined in
 
-[sdk/src/client.ts:241](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L241)
+[sdk/src/client.ts:241](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L241)
 
 ---
 
@@ -315,7 +315,7 @@ HypercertClientInterface.burnClaimFraction
 
 #### Defined in
 
-[sdk/src/client.ts:326](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L326)
+[sdk/src/client.ts:326](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L326)
 
 ---
 
@@ -355,7 +355,7 @@ HypercertClientInterface.createAllowlist
 
 #### Defined in
 
-[sdk/src/client.ts:133](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L133)
+[sdk/src/client.ts:133](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L133)
 
 ---
 
@@ -388,7 +388,7 @@ HypercertClientInterface.mergeClaimUnits
 
 #### Defined in
 
-[sdk/src/client.ts:216](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L216)
+[sdk/src/client.ts:216](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L216)
 
 ---
 
@@ -423,7 +423,7 @@ HypercertClientInterface.mintClaim
 
 #### Defined in
 
-[sdk/src/client.ts:101](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L101)
+[sdk/src/client.ts:101](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L101)
 
 ---
 
@@ -463,7 +463,7 @@ HypercertClientInterface.mintClaimFractionFromAllowlist
 
 #### Defined in
 
-[sdk/src/client.ts:264](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L264)
+[sdk/src/client.ts:264](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L264)
 
 ---
 
@@ -501,4 +501,4 @@ HypercertClientInterface.splitClaimUnits
 
 #### Defined in
 
-[sdk/src/client.ts:190](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/client.ts#L190)
+[sdk/src/client.ts:190](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/client.ts#L190)

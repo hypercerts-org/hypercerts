@@ -37,7 +37,7 @@ Please file an issue
 
 #### Defined in
 
-[sdk/src/types/errors.ts:175](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L175)
+[sdk/src/types/errors.ts:175](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L175)
 
 ## Properties
 
@@ -53,7 +53,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:171](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L171)
+[sdk/src/types/errors.ts:171](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L171)
 
 ---
 
@@ -67,7 +67,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:173](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L173)
+[sdk/src/types/errors.ts:173](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L173)
 
 ---
 
@@ -81,7 +81,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:172](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L172)
+[sdk/src/types/errors.ts:172](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L172)
 
 ---
 
@@ -103,4 +103,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:174](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L174)
+[sdk/src/types/errors.ts:174](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L174)

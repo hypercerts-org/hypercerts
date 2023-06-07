@@ -37,7 +37,7 @@ Schema could not be loaded
 
 #### Defined in
 
-[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L140)
+[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L140)
 
 ## Properties
 
@@ -53,7 +53,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:136](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L136)
+[sdk/src/types/errors.ts:136](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L136)
 
 ---
 
@@ -67,7 +67,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:138](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L138)
+[sdk/src/types/errors.ts:138](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L138)
 
 ---
 
@@ -81,7 +81,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:137](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L137)
+[sdk/src/types/errors.ts:137](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L137)
 
 ---
 
@@ -103,4 +103,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:139](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L139)
+[sdk/src/types/errors.ts:139](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L139)

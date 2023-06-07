@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L20)
+[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L20)
 
 ---
 
@@ -65,7 +65,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L19)
+[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L19)
 
 ---
 
@@ -89,7 +89,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L21)
+[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L21)
 
 ---
 
@@ -113,7 +113,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L24)
+[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L24)
 
 ---
 
@@ -138,7 +138,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L23)
+[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L23)
 
 ---
 
@@ -163,7 +163,7 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L22)
+[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L22)
 
 ---
 
@@ -173,4 +173,4 @@
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/indexer.ts#L18)
+[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L18)
