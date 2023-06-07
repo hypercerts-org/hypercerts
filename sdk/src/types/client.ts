@@ -4,7 +4,7 @@ import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 
 import HypercertIndexer from "../indexer.js";
-import { Allowlist, TransferRestrictions } from "./hypercerts.js";
+import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
 import { HypercertMetadata } from "./metadata.js";
 
 export type SupportedChainIds = 5 | 10;
@@ -148,7 +148,7 @@ export interface HypercertClientMethods {
    * @returns A Promise that resolves to the transaction receipt
    */
   createAllowlist: (
-    allowList: Allowlist,
+    allowList: AllowlistEntry[],
     metaData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: TransferRestrictions,
@@ -187,5 +187,21 @@ export interface HypercertClientMethods {
     claimId: BigNumberish,
     units: BigNumberish,
     proof: BytesLike[],
+  ) => Promise<ContractTransaction>;
+
+  /**
+   * Batch mints a claim fraction from an allowlist
+   * @param claimIds Array of the IDs of the claims to mint fractions for.
+   * @param units Array of the number of units for each fraction.
+   * @param proofs Array of Merkle proofs for the allowlists.
+   * @returns A Promise that resolves to the transaction receipt
+   * @note The length of the arrays must be equal.
+   * @note The order of the arrays must be equal.
+   * @returns A Promise that resolves to the transaction receipt
+   */
+  batchMintClaimFractionsFromAllowlists: (
+    claimIds: BigNumberish[],
+    units: BigNumberish[],
+    proofs: BytesLike[][],
   ) => Promise<ContractTransaction>;
 }

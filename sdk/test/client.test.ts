@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { ethers } from "ethers";
 
-import { HypercertClient, HypercertMetadata, TransferRestrictions, Allowlist } from "../src/index.js";
-import { ClientError, UnsupportedChainError } from "../src/types/errors.js";
+import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
+import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
 import { reloadEnv } from "./setup-tests.js";
 
 describe("HypercertClient", () => {
@@ -70,7 +70,7 @@ describe("HypercertClient", () => {
 
     // createAllowlist
     try {
-      const allowlist: Allowlist = [{ address: "0x0000000", units: 100 }];
+      const allowlist: AllowlistEntry[] = [{ address: "0x0000000", units: 100 }];
       const metaData = { name: "test" } as HypercertMetadata;
       const totalUnits = 1;
       const transferRestrictions = TransferRestrictions.AllowAll;
@@ -136,6 +136,26 @@ describe("HypercertClient", () => {
       const root = "0x4";
 
       await client.mintClaimFractionFromAllowlist(claimId, units, proof, root);
+      expect.fail("Should throw ClientError");
+    } catch (e) {
+      expect(e instanceof ClientError).to.be.true;
+
+      const error = e as ClientError;
+      expect(error.message).to.eq("Client is readonly");
+      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+    }
+
+    // batchMintClaimFractionsFromAllowlist
+    try {
+      const claimIds = [1, 2];
+      const units = [100, 200];
+      const proofs = [
+        ["0x1", "0x2", "0x3"],
+        ["0x4", "0x5", "0x6"],
+      ];
+      const roots = ["0x7", "0x8"];
+
+      await client.batchMintClaimFractionsFromAllowlists(claimIds, units, proofs, roots);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e instanceof ClientError).to.be.true;

@@ -7,7 +7,7 @@ import HypercertEvaluator from "./evaluations/index.js";
 import HypercertIndexer from "./indexer.js";
 import HypercertsStorage from "./storage.js";
 import {
-  Allowlist,
+  AllowlistEntry,
   ClientError,
   HypercertClientConfig,
   HypercertClientInterface,
@@ -20,7 +20,7 @@ import {
 } from "./types/index.js";
 import { getConfig } from "./utils/config.js";
 import logger from "./utils/logger.js";
-import { validateAllowlist, validateMetaData } from "./validator/index.js";
+import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator/index.js";
 
 /**
  * Hypercerts client factory
@@ -131,7 +131,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * @returns Contract transaction
    */
   createAllowlist = async (
-    allowList: Allowlist,
+    allowList: AllowlistEntry[],
     metaData: HypercertMetadata,
     totalUnits: BigNumberish,
     transferRestriction: TransferRestrictions,
@@ -156,9 +156,8 @@ export default class HypercertClient implements HypercertClientInterface {
     const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
     const cidMerkle = await this.storage.storeData(JSON.stringify(tree.dump()));
 
-    if (!cidMerkle) throw new StorageError("Unable to store allowlist on IPFS");
-
     metaData.allowList = cidMerkle;
+
     // store metadata on IPFS
     const cid = await this.storage.storeMetadata(metaData);
 
@@ -275,18 +274,53 @@ export default class HypercertClient implements HypercertClientInterface {
 
     //verify the proof using the OZ merkle tree library
     if (root && root.length > 0) {
-      const verified = StandardMerkleTree.verify(
+      verifyMerkleProof(
         root.toString(),
-        ["address", "uint"],
-        [signerAddress, units],
-        proof.map((value) => value.toString()),
+        signerAddress,
+        units,
+        proof.map((p) => p.toString()),
       );
-      if (!verified) throw new MintingError("Merkle proof verification failed", { root, proof });
     }
 
     return overrides
       ? this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
       : this._contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+  };
+
+  /**
+   * Batch mints a claim fraction from an allowlist
+   * @param claimIds Array of the IDs of the claims to mint fractions for.
+   * @param units Array of the number of units for each fraction.
+   * @param proofs Array of Merkle proofs for the allowlists.
+   * @returns A Promise that resolves to the transaction receipt
+   * @note The length of the arrays must be equal.
+   * @note The order of the arrays must be equal.
+   * @returns A Promise that resolves to the transaction receipt
+   */
+  batchMintClaimFractionsFromAllowlists = async (
+    claimIds: BigNumberish[],
+    units: BigNumberish[],
+    proofs: BytesLike[][],
+    roots?: BytesLike[],
+    overrides?: ethers.Overrides,
+  ): Promise<ContractTransaction> => {
+    this.checkWritable();
+
+    const signerAddress = await this._config.signer.getAddress();
+
+    //verify the proof using the OZ merkle tree library
+    if (roots && roots.length > 0) {
+      verifyMerkleProofs(
+        roots.map((r) => r.toString()),
+        signerAddress,
+        units,
+        proofs.map((p) => p.map((p) => p.toString())),
+      );
+    }
+
+    return overrides
+      ? this._contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units, overrides)
+      : this._contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units);
   };
 
   private checkWritable = () => {

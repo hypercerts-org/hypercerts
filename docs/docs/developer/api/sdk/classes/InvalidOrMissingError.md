@@ -36,7 +36,7 @@ The provided value was undefined or empty
 
 #### Defined in
 
-[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L90)
+[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L90)
 
 ## Properties
 
@@ -52,7 +52,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:86](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L86)
+[sdk/src/types/errors.ts:86](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L86)
 
 ---
 
@@ -66,7 +66,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L88)
+[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L88)
 
 ---
 
@@ -80,7 +80,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:87](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L87)
+[sdk/src/types/errors.ts:87](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L87)
 
 ---
 
@@ -102,4 +102,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L89)
+[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/types/errors.ts#L89)

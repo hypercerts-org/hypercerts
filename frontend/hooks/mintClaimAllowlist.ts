@@ -3,17 +3,16 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { parseAllowlistCsv } from "../lib/parsing";
 import { useAccountLowerCase } from "./account";
+import { useHypercertClient } from "./hypercerts-client";
 import {
   HypercertMetadata,
   validateAllowlist,
   TransferRestrictions,
-  Allowlist,
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
+import { BigNumberish } from "ethers";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import { useHypercertClient } from "./hypercerts-client";
-import { BigNumberish } from "ethers";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
 
@@ -40,7 +39,7 @@ export const useMintClaimAllowlist = ({
     allowlistUrl: string,
     allowlistPercentage: number,
   ): Promise<{
-    allowlist: Allowlist;
+    allowlist: AllowlistEntry[];
     totalSupply: BigNumberish;
     valid: boolean;
     errors: any;
@@ -50,7 +49,7 @@ export const useMintClaimAllowlist = ({
     const htmlResult = await fetch(allowlistUrl, { method: "GET" });
     const htmlText = await htmlResult.text();
     try {
-      const allowlist: Allowlist = parseAllowlistCsv(htmlText, [
+      const allowlist: AllowlistEntry[] = parseAllowlistCsv(htmlText, [
         {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           address: address!,
