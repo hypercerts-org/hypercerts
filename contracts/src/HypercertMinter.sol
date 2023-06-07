@@ -142,22 +142,18 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     /// @notice Burn a claimtoken
     /// @dev see {IHypercertToken}
     function batchBurnFraction(address _account, uint256[] memory _tokenIDs) external whenNotPaused {
-        _batchBurnToken(_account, _tokenID);
+        _batchBurnToken(_account, _tokenIDs);
     }
 
     /// @notice Burn a claimtoken; override is needed to update values
     /// @dev see {ERC1155Burnable}
-    function burn(address account, uint256[] memory ids, uint256[] memory values) public override whenNotPaused {
+    function burn(address account, uint256 id, uint256 value) public override whenNotPaused {
         _burnToken(account, id);
     }
 
     /// @notice Batch burn claimtokens; override is needed to update values
     /// @dev see {ERC1155Burnable}
-    function batchBurn(
-        address account,
-        uint256[] calldata ids,
-        uint256[] calldata values
-    ) public override whenNotPaused {
+    function burnBatch(address account, uint256[] memory ids, uint256[] memory values) public override whenNotPaused {
         _batchBurnToken(account, ids);
     }
 
