@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:35](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L35)
+[sdk/src/evaluations/index.ts:35](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L35)
 
 ## Properties
 
@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:33](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L33)
+[sdk/src/evaluations/index.ts:33](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L33)
 
 ---
 
@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:29](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L29)
+[sdk/src/evaluations/index.ts:29](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L29)
 
 ---
 
@@ -68,7 +68,7 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:31](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L31)
+[sdk/src/evaluations/index.ts:31](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L31)
 
 ## Methods
 
@@ -96,4 +96,4 @@ EvaluatorInterface.submitEvaluation
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:47](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L47)
+[sdk/src/evaluations/index.ts:47](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L47)

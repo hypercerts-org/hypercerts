@@ -40,4 +40,4 @@ Submits an evaluation to the prefered storage system.
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:25](https://github.com/Network-Goods/hypercerts/blob/1e395d9/sdk/src/evaluations/index.ts#L25)
+[sdk/src/evaluations/index.ts:25](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/evaluations/index.ts#L25)
