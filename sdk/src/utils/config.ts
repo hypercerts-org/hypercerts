@@ -1,4 +1,4 @@
-import { HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
+import { Deployment, HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
@@ -13,16 +13,34 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const { chainId } = getChainId(overrides);
 
-  if (!chainId || (chainId !== 5 && chainId !== 10)) {
-    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
+  let baseDeployment: Deployment & { unsafeForceOverridenValues?: boolean };
+
+  if (overrides.unsafeForceOverridenValues) {
+    if (!overrides.chainName || !overrides.contractAddress || !overrides.graphName) {
+      throw new UnsupportedChainError(
+        `attempted to override with chainId=${chainId}, but requires chainName, graphName, and contractAddress to be set`,
+        chainId,
+      );
+    }
+    baseDeployment = {
+      chainId: chainId,
+      chainName: overrides.chainName,
+      contractAddress: overrides.contractAddress,
+      graphName: overrides.graphName,
+      unsafeForceOverridenValues: overrides.unsafeForceOverridenValues,
+    };
+  } else {
+    if (!chainId || [5, 10].indexOf(chainId) === -1) {
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
+    }
+
+    baseDeployment = DEPLOYMENTS[chainId];
+    if (!baseDeployment) {
+      throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
+    }
   }
 
-  const baseDeployment = DEPLOYMENTS[chainId];
-  if (!baseDeployment) {
-    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
-  }
-
-  const config = {
+  let config = {
     // Start with the hardcoded values
     ...baseDeployment,
     // Let the user override from environment variables
