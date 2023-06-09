@@ -5,7 +5,7 @@ set -euxo pipefail
 # end testing with playwright
 
 REPO_DIR=${REPO_DIR:-}
-HYPERCERTS_LOCAL_TESTING_ADDRESS=${HYPERCERTS_LOCAL_TESTING_ADDRESS:-}
+LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS:-}
 deploy_json=/deploy.json
 
 function hardhat() {
@@ -37,9 +37,9 @@ echo "Deploy the contract"
 hardhat deploy --output "$deploy_json"
 
 # Transfer token to a specific account if that account has been specified
-if [[ ! -z "${HYPERCERTS_LOCAL_TESTING_ADDRESS}" ]]; then
-    echo "Funding ${HYPERCERTS_LOCAL_TESTING_ADDRESS}"
-    hardhat transfer-from-test-account --dest "$HYPERCERTS_LOCAL_TESTING_ADDRESS" --amount 1000
+if [[ ! -z "${LOCAL_TESTING_ADDRESS}" ]]; then
+    echo "Funding ${LOCAL_TESTING_ADDRESS}"
+    hardhat transfer-from-test-account --dest "$LOCAL_TESTING_ADDRESS" --amount 5000
 fi
 
 contract_address=$(jq '.address' -r "$deploy_json")
@@ -50,9 +50,9 @@ export NEXT_PUBLIC_DEFAULT_CHAIN_ID=31337
 export NEXT_PUBLIC_CHAIN_NAME=hardhat
 export NEXT_PUBLIC_GRAPH_NAME=hypercerts-hardhat
 export NEXT_PUBLIC_CONTRACT_ADDRESS="${contract_address}"
-export NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDEN_VALUES=1
-#export NEXT_PUBLIC_GRAPH_URL=
+export NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDE_CONFIG=1
 export NEXT_PUBLIC_RPC_URL=http://localhost:8545
+#export NEXT_PUBLIC_GRAPH_URL=http://localhost:8000
 export PLASMIC_PROJECT_ID="$PLASMIC_PROJECT_ID"
 export PLASMIC_PROJECT_API_TOKEN="$PLASMIC_PROJECT_API_TOKEN"
 

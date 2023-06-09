@@ -1,0 +1,99 @@
+version: '3'
+
+volumes:
+  node_modules:
+  postgres_storage:
+  ipfs_staging:
+  ipfs_data:
+
+services:
+  initialize:
+    image: node:18
+    command: yarn install --non-interactive --frozen-lockfile
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+  localchain: 
+    image: node:18
+    ports:
+      - "8545:8545"
+    working_dir: /usr/src/app/contracts
+    command: yarn hardhat node
+    depends_on:
+      initialize:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8545"]
+      interval: 1s
+      timeout: 15s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+  app:
+    image: node:18
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    command: bash docker/bootstrap.sh
+    depends_on:
+      localchain:
+        condition: service_healthy
+    environment:
+      - PLASMIC_PROJECT_ID=${PLASMIC_PROJECT_ID}
+      - PLASMIC_PROJECT_API_TOKEN=${PLASMIC_PROJECT_API_TOKEN}
+      - LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS}
+      - LOCALHOST_NETWORK_URL=http://localchain:8545
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+  ipfs:
+    image: ipfs/kubo
+    command: daemon --offline --migrate=true --agent-version-suffic=docker
+    ports:
+      - "8080:8080"
+      - "5001:5001"
+      - "4001:4001"
+    volumes:
+      - ipfs_staging:/export
+      - ipfs_data:/data/ipfs
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  graph:
+    # If you're on an M1 mac you will want to build this image locally.
+    image: graphprotocol/graph-node:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - postgres_host=postgres
+      - postgres_port=5432
+      - postgres_user=postgres
+      - postgres_pass=postgres
+      - postgres_db=graph-node
+      - ipfs=ipfs:5001
+      - ethereum=http://localchain:8545
+    ports:
+      # HTTP
+      - "8000:8000"
+      # WS
+      - "8001:8001"
+      # JSON-RPC
+      - "8020:8020"
+      # Indexing status
+      - "8030:8030"
+
+  # supabase:
+  #   image: hypercerts/supabase
+  #   build:
+  #     context: docker
+  #     dockerfile: docker/supabase.Dockerfile
