@@ -11126,8 +11126,8 @@ bytes@3.1.2, bytes@^3.1.0:
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
 
 "c857fa5c110524ee@https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3":
-  version "512.0.0"
-  resolved "https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3#5c240c6b9a338808ec8af7d4afe3831df22c553b"
+  version "515.0.0"
+  resolved "https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3#ac5df935cb20ebc84f250063f9b517065b6539f3"
 
 cac@^6.7.14:
   version "6.7.14"
