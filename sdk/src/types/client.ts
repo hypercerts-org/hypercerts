@@ -39,6 +39,8 @@ export type HypercertClientConfig = Deployment &
     provider: ethers.providers.Provider;
     /** The URL of the RPC endpoint used to interact with the evm-chain. */
     rpcUrl?: string;
+    /** Force the use of overridden values */
+    unsafeForceOverrideConfig?: boolean;
   };
 
 /**

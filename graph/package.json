@@ -20,6 +20,8 @@
     "create-local": "graph create --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "remove-local": "graph remove --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hypercerts-admin/hypercerts-testnet",
+    "create_with_env": "graph create --node $GRAPH_URL $SUBGRAPH_NAME",
+    "deploy_with_env": "graph deploy --node $GRAPH_URL --ipfs $IPFS_URL --version-label=$VERSION_LABEL $SUBGRAPH_NAME $SUBGRAPH_MANIFEST",
     "test": "graph test"
   },
   "dependencies": {

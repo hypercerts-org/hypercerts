@@ -13,9 +13,9 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const { chainId } = getChainId(overrides);
 
-  let baseDeployment: Deployment & { unsafeForceOverridenValues?: boolean };
+  let baseDeployment: Deployment & { unsafeForceOverrideConfig?: boolean };
 
-  if (overrides.unsafeForceOverridenValues) {
+  if (overrides.unsafeForceOverrideConfig) {
     if (!overrides.chainName || !overrides.contractAddress || !overrides.graphName) {
       throw new UnsupportedChainError(
         `attempted to override with chainId=${chainId}, but requires chainName, graphName, and contractAddress to be set`,
@@ -27,7 +27,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       chainName: overrides.chainName,
       contractAddress: overrides.contractAddress,
       graphName: overrides.graphName,
-      unsafeForceOverridenValues: overrides.unsafeForceOverridenValues,
+      unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
     if (!chainId || [5, 10].indexOf(chainId) === -1) {

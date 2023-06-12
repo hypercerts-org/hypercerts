@@ -2,13 +2,16 @@ version: '3'
 
 volumes:
   node_modules:
+  graph_modules:
   postgres_storage:
   ipfs_staging:
   ipfs_data:
+  subgraph.yaml:
 
 services:
-  initialize:
+  install:
     image: node:18
+    working_dir: /usr/src/app
     command: yarn install --non-interactive --frozen-lockfile
     volumes:
       - ../:/usr/src/app
@@ -20,7 +23,7 @@ services:
     working_dir: /usr/src/app/contracts
     command: yarn hardhat node
     depends_on:
-      initialize:
+      install:
         condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8545"]
@@ -31,12 +34,10 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
-  app:
+  after_localchain:
     image: node:18
     working_dir: /usr/src/app
-    ports:
-      - "3000:3000"
-    command: bash docker/bootstrap.sh
+    command: bash docker/after_localchain.sh
     depends_on:
       localchain:
         condition: service_healthy
@@ -48,9 +49,29 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - postgres_storage:/postgres
+      - ipfs_staging:/ipfs_staging
+      - ipfs_data:/ipfs_data
+  frontend:
+    image: node:18
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    command: bash docker/frontend.sh
+    depends_on:
+      after_localchain:
+        condition: service_completed_successfully
+      after_graph:
+        condition: service_completed_successfully
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
   ipfs:
     image: ipfs/kubo
-    command: daemon --offline --migrate=true --agent-version-suffic=docker
+    command: daemon --offline --migrate=true --agent-version-suffix=docker
+    depends_on:
+      after_localchain:
+        condition: service_completed_successfully
     ports:
       - "8080:8080"
       - "5001:5001"
@@ -60,9 +81,24 @@ services:
       - ipfs_data:/data/ipfs
   postgres:
     image: postgres:15
+    restart: always
+    user: postgres
+    depends_on:
+      after_localchain:
+        condition: service_completed_successfully
+    # Required command for the graph
+    command: [
+      "postgres",
+      "-cshared_preload_libraries=pg_stat_statements"
+    ]
+    volumes:
+      - postgres_storage:/var/lib/postgresql/data
+      - ./postgres.init.d:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: graph-node
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
@@ -70,30 +106,56 @@ services:
       retries: 5
   graph:
     # If you're on an M1 mac you will want to build this image locally.
-    image: graphprotocol/graph-node:latest
+    image: hypercerts-org/test-graph-node:latest
     depends_on:
       postgres:
         condition: service_healthy
+      localchain:
+        condition: service_healthy
     environment:
-      - postgres_host=postgres
-      - postgres_port=5432
-      - postgres_user=postgres
-      - postgres_pass=postgres
-      - postgres_db=graph-node
-      - ipfs=ipfs:5001
-      - ethereum=http://localchain:8545
+      postgres_host: postgres
+      postgres_port: 5432
+      postgres_user: postgres
+      postgres_pass: postgres
+      postgres_db: graph
+      ipfs: ipfs:5001
+      ethereum: hardhat:http://localchain:8545
     ports:
-      # HTTP
-      - "8000:8000"
       # WS
       - "8001:8001"
       # JSON-RPC
       - "8020:8020"
       # Indexing status
       - "8030:8030"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  graph_proxy:
+    image: nginx
+    volumes:
+      - ./nginx/graph_nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      graph:
+        condition: service_healthy
+    ports:
+      - "8000:80"
+  after_graph:
+    image: node:18
+    depends_on:
+      graph:
+        condition: service_healthy
+    working_dir: /usr/src/app
+    command: bash docker/after_graph.sh
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+      #- graph_modules:/usr/src/app/graph/node_modules
 
-  # supabase:
-  #   image: hypercerts/supabase
-  #   build:
-  #     context: docker
-  #     dockerfile: docker/supabase.Dockerfile
+  # # supabase:
+  # #   image: hypercerts/supabase
+  # #   build:
+  # #     context: docker
+  # #     dockerfile: docker/supabase.Dockerfile
