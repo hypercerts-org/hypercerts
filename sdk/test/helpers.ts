@@ -1,10 +1,45 @@
-import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { MockProvider, deployMockContract } from "ethereum-waffle";
+import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction, ethers } from "ethers";
 
-import { HypercertMetadata } from "../src/index.js";
+import { HypercertMetadata, HypercertMinterABI } from "../src/index.js";
+import {
+  AllowlistEntry,
+  DuplicateEvaluation,
+  HypercertEvaluationSchema,
+  SimpleTextEvaluation,
+} from "../src/types/index.js";
 import { formatHypercertData } from "../src/utils/formatter.js";
-import { DuplicateEvaluation, HypercertEvaluationSchema, SimpleTextEvaluation } from "src/types/evaluation.js";
 
 export type TestDataType = Parameters<typeof formatHypercertData>[0];
+
+/**
+ * Builds allowlist and merkle tree
+ * @param overrides contains the size and a valid ethereum address that should be present once in the allowlist
+ */
+const getAllowlist = (overrides?: { size?: number; address?: `0x${string}`; units?: BigNumberish }) => {
+  //generate allowlist array based on possible overrides
+  const size = overrides?.size || 10;
+  let allowlist: AllowlistEntry[] = new Array();
+  for (let i = 0; i < size; i++) {
+    const address = ethers.Wallet.createRandom().address;
+
+    allowlist.push({ address, units: overrides?.units || "1" });
+  }
+
+  if (overrides?.address) {
+    allowlist[0].address = overrides.address;
+  }
+  //add a valid address once to the allowlist
+
+  const mappedAllowlist = allowlist.map((entry) => [entry.address.toString(), entry.units.toString()]);
+
+  const merkleTree = StandardMerkleTree.of(mappedAllowlist, ["address", "uint256"]);
+
+  const totalUnits = allowlist.reduce((acc, entry) => acc.add(entry.units), BigNumber.from(0));
+
+  return { allowlist, merkleTree, totalUnits };
+};
 
 const getRawInputData = (overrides?: Partial<TestDataType>): Partial<TestDataType> => {
   const testData = {
@@ -145,6 +180,7 @@ const getSimpleTextEvaluationData = (overrides?: Partial<SimpleTextEvaluation>):
 };
 
 export {
+  getAllowlist,
   getFormattedMetadata,
   getRawInputData,
   mockContractResponse,

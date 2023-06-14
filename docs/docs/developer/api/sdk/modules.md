@@ -6,6 +6,8 @@
 
 ### References
 
+- [Claim](modules.md#claim)
+- [ClaimToken](modules.md#claimtoken)
 - [ClaimTokensByClaimQuery](modules.md#claimtokensbyclaimquery)
 
 ### Modules
@@ -43,7 +45,6 @@
 
 ### Type Aliases
 
-- [Allowlist](modules.md#allowlist)
 - [AllowlistEntry](modules.md#allowlistentry)
 - [Deployment](modules.md#deployment)
 - [EvaluationData](modules.md#evaluationdata)
@@ -77,26 +78,28 @@
 - [validateDuplicateEvaluationData](modules.md#validateduplicateevaluationdata)
 - [validateMetaData](modules.md#validatemetadata)
 - [validateSimpleTextEvaluationData](modules.md#validatesimpletextevaluationdata)
+- [verifyMerkleProof](modules.md#verifymerkleproof)
+- [verifyMerkleProofs](modules.md#verifymerkleproofs)
 
 ## References
+
+### Claim
+
+Renames and re-exports [ClaimByIdQuery](modules.md#claimbyidquery)
+
+---
+
+### ClaimToken
+
+Renames and re-exports [ClaimByIdQuery](modules.md#claimbyidquery)
+
+---
 
 ### ClaimTokensByClaimQuery
 
 Renames and re-exports [ClaimByIdQuery](modules.md#claimbyidquery)
 
 ## Type Aliases
-
-### Allowlist
-
-Ƭ **Allowlist**: [`AllowlistEntry`](modules.md#allowlistentry)[]
-
-Helper type to allow for a more readable Allowlist type
-
-#### Defined in
-
-[sdk/src/types/hypercerts.ts:30](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L30)
-
----
 
 ### AllowlistEntry
 
@@ -121,7 +124,7 @@ Number of units allocated to the recipient
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:22](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L22)
+[sdk/src/types/hypercerts.ts:22](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/hypercerts.ts#L22)
 
 ---
 
@@ -142,7 +145,7 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-[sdk/src/types/client.ts:20](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L20)
+[sdk/src/types/client.ts:21](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L21)
 
 ---
 
@@ -156,7 +159,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:8](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L8)
+[sdk/src/types/evaluation.d.ts:8](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/evaluation.d.ts#L8)
 
 ---
 
@@ -166,7 +169,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L9)
+[sdk/src/types/evaluation.d.ts:9](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/evaluation.d.ts#L9)
 
 ---
 
@@ -178,7 +181,7 @@ Configuration options for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:34](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L34)
+[sdk/src/types/client.ts:35](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L35)
 
 ---
 
@@ -196,7 +199,7 @@ The props for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:100](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L100)
+[sdk/src/types/client.ts:101](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L101)
 
 ---
 
@@ -212,7 +215,7 @@ The signer is required for submitting evaluations.
 
 #### Defined in
 
-[sdk/src/types/client.ts:58](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L58)
+[sdk/src/types/client.ts:59](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L59)
 
 ---
 
@@ -235,7 +238,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/client.ts:47](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L47)
+[sdk/src/types/client.ts:48](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L48)
 
 ---
 
@@ -245,7 +248,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/errors.ts:183](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L183)
+[sdk/src/types/errors.ts:183](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L183)
 
 ---
 
@@ -267,7 +270,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:10](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/indexer.ts#L10)
+[sdk/src/types/indexer.ts:10](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/indexer.ts#L10)
 
 ---
 
@@ -277,7 +280,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/client.ts:10](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L10)
+[sdk/src/types/client.ts:10](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L10)
 
 ---
 
@@ -287,9 +290,9 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/hypercerts.ts#L15)
 
 ## Properties
 
@@ -305,7 +308,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:4](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L4)
+[sdk/src/utils/formatter.ts:4](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/utils/formatter.ts#L4)
 
 ---
 
@@ -337,9 +340,9 @@ FromCreatorOnly: Only the creator can transfer the Hypercert
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/hypercerts.ts#L15)
 
 ## Functions
 
@@ -383,7 +386,7 @@ node_modules/@graphql-mesh/runtime/typings/types.d.ts:25
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:13](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L13)
+[sdk/src/utils/formatter.ts:13](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/utils/formatter.ts#L13)
 
 ---
 
@@ -422,7 +425,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L27)
+[sdk/src/utils/formatter.ts:27](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/utils/formatter.ts#L27)
 
 ---
 
@@ -442,7 +445,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:5](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/utils/formatter.ts#L5)
+[sdk/src/utils/formatter.ts:5](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/utils/formatter.ts#L5)
 
 ---
 
@@ -454,10 +457,10 @@ Validates the data for an allowlist.
 
 #### Parameters
 
-| Name    | Type                                | Description                                 |
-| :------ | :---------------------------------- | :------------------------------------------ |
-| `data`  | [`Allowlist`](modules.md#allowlist) | The data to validate.                       |
-| `units` | `BigNumberish`                      | The total number of units in the allowlist. |
+| Name    | Type                                            | Description                                 |
+| :------ | :---------------------------------------------- | :------------------------------------------ |
+| `data`  | [`AllowlistEntry`](modules.md#allowlistentry)[] | The data to validate.                       |
+| `units` | `BigNumberish`                                  | The total number of units in the allowlist. |
 
 #### Returns
 
@@ -472,7 +475,7 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:89](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L89)
+[sdk/src/validator/index.ts:91](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L91)
 
 ---
 
@@ -496,7 +499,7 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:62](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L62)
+[sdk/src/validator/index.ts:64](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L64)
 
 ---
 
@@ -520,7 +523,7 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:111](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L111)
+[sdk/src/validator/index.ts:117](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L117)
 
 ---
 
@@ -544,7 +547,7 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L36)
+[sdk/src/validator/index.ts:38](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L38)
 
 ---
 
@@ -568,4 +571,66 @@ A `ValidationResult` object indicating whether the data is valid and any errors 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:136](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/validator/index.ts#L136)
+[sdk/src/validator/index.ts:142](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L142)
+
+---
+
+### verifyMerkleProof
+
+▸ **verifyMerkleProof**(`root`, `signerAddress`, `units`, `proof`): `void`
+
+Verifies a Merkle proof for a given address and units.
+
+**`Throws`**
+
+If the Merkle proof verification fails.
+
+#### Parameters
+
+| Name            | Type           | Description                             |
+| :-------------- | :------------- | :-------------------------------------- |
+| `root`          | `string`       | The Merkle root hash to verify against. |
+| `signerAddress` | `string`       | The address to verify.                  |
+| `units`         | `BigNumberish` | The units to verify.                    |
+| `proof`         | `string`[]     | The Merkle proof to verify.             |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[sdk/src/validator/index.ts:170](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L170)
+
+---
+
+### verifyMerkleProofs
+
+▸ **verifyMerkleProofs**(`roots`, `signerAddress`, `units`, `proofs`): `void`
+
+Batch verifies Merkle proofs for multiple roots, units and proofs for a single address
+
+**`Throws`**
+
+If the Merkle proof verification fails.
+
+**`Notice`**
+
+Wrapper around `verifyMerkleProof` to batch verify multiple proofs
+
+#### Parameters
+
+| Name            | Type             | Description                               |
+| :-------------- | :--------------- | :---------------------------------------- |
+| `roots`         | `string`[]       | The Merkle root hashes to verify against. |
+| `signerAddress` | `string`         | The address to verify.                    |
+| `units`         | `BigNumberish`[] | The units to verify.                      |
+| `proofs`        | `string`[][]     | The Merkle proofs to verify.              |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[sdk/src/validator/index.ts:190](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L190)

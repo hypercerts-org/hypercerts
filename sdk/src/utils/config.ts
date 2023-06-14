@@ -97,7 +97,7 @@ const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
     case 5:
       return { graphName: "hypercerts-testnet" };
     case 10:
-      return { chainName: "hypercerts-optimism-mainnet" };
+      return { graphName: "hypercerts-optimism-mainnet" };
     default:
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
   }

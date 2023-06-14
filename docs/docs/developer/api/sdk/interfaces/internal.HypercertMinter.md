@@ -6,6 +6,10 @@
 
 Hypercert contract interface.
 
+**`Notice`**
+
+hacky loop to get typedoc to generate all the docs
+
 ## Hierarchy
 
 - `HypercertMinter`

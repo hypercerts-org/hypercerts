@@ -46,7 +46,7 @@ Creates a new instance of the `HypercertsStorage` class.
 
 #### Defined in
 
-[sdk/src/storage.ts:37](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L37)
+[sdk/src/storage.ts:37](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L37)
 
 ## Properties
 
@@ -58,7 +58,7 @@ The NFT storage client.
 
 #### Defined in
 
-[sdk/src/storage.ts:29](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L29)
+[sdk/src/storage.ts:29](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L29)
 
 ---
 
@@ -70,7 +70,7 @@ Whether the storage is read-only.
 
 #### Defined in
 
-[sdk/src/storage.ts:27](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L27)
+[sdk/src/storage.ts:27](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L27)
 
 ---
 
@@ -82,7 +82,7 @@ The Web3 storage client.
 
 #### Defined in
 
-[sdk/src/storage.ts:31](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L31)
+[sdk/src/storage.ts:31](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L31)
 
 ## Methods
 
@@ -114,7 +114,7 @@ HypercertStorageInterface.getData
 
 #### Defined in
 
-[sdk/src/storage.ts:147](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L147)
+[sdk/src/storage.ts:147](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L147)
 
 ---
 
@@ -150,7 +150,7 @@ HypercertStorageInterface.getMetadata
 
 #### Defined in
 
-[sdk/src/storage.ts:97](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L97)
+[sdk/src/storage.ts:97](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L97)
 
 ---
 
@@ -170,7 +170,7 @@ HypercertStorageInterface.getMetadata
 
 #### Defined in
 
-[sdk/src/storage.ts:181](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L181)
+[sdk/src/storage.ts:181](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L181)
 
 ---
 
@@ -208,7 +208,7 @@ HypercertStorageInterface.storeData
 
 #### Defined in
 
-[sdk/src/storage.ts:125](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L125)
+[sdk/src/storage.ts:125](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L125)
 
 ---
 
@@ -249,4 +249,4 @@ HypercertStorageInterface.storeMetadata
 
 #### Defined in
 
-[sdk/src/storage.ts:67](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/storage.ts#L67)
+[sdk/src/storage.ts:67](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/storage.ts#L67)

@@ -24,7 +24,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:15](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L15)
+[sdk/src/types/evaluation.d.ts:15](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/evaluation.d.ts#L15)
 
 ---
 
@@ -34,7 +34,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:16](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L16)
+[sdk/src/types/evaluation.d.ts:16](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/evaluation.d.ts#L16)
 
 ---
 
@@ -44,4 +44,4 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:17](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/evaluation.d.ts#L17)
+[sdk/src/types/evaluation.d.ts:17](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/evaluation.d.ts#L17)

@@ -1,4 +1,4 @@
-import { Allowlist } from "@hypercerts-org/sdk";
+import { AllowlistEntry } from "@hypercerts-org/sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
 import { isAddress } from "ethers/lib/utils";
@@ -17,7 +17,7 @@ export function parseAllowlistCsv(
     address: string;
     percentage: number;
   }[] = [],
-): Allowlist {
+): AllowlistEntry[] {
   // Parse CSV
   const { data: rawData, errors } = Papa.parse(csv, {
     header: true,

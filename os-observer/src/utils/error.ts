@@ -10,6 +10,9 @@ export class AssertionError extends Error {}
 // Invalid inputs to a function
 export class InvalidInputError extends Error {}
 
+// Data is malformed
+export class MalformedDataError extends Error {}
+
 /**
  * Represents an error that doesn't need to be forwarded to Sentry.
  * These are usually errors that are the user's fault

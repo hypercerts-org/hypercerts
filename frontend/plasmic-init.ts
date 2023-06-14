@@ -13,13 +13,13 @@ import {
   FormCheckbox,
 } from "./components/forms";
 import { BurnFractionButton } from "./components/burn-fraction-button";
-
 import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
 import { SupabaseToChart } from "./components/supabase-to-chart";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
+import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
@@ -546,4 +546,13 @@ PLASMIC.registerComponent(BurnFractionButton, {
     disabled: "boolean",
   },
   importPath: "./components/burn-fraction-button",
+});
+
+PLASMIC.registerComponent(ZuzaluHypercertTreemap, {
+  name: "ZuzaluHypercertTreemap",
+  description: "Zuzalu Hypercert Treemap from observerablehq",
+  props: {
+    children: "slot",
+  },
+  importPath: "./components/zuzalu-hypercert-treemap",
 });

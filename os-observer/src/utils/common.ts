@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { AssertionError, NullOrUndefinedValueError } from "./error.js";
 
 /**
@@ -39,6 +40,55 @@ export function ensure<T>(x: T | null | undefined, msg: string): T {
     return x;
   }
 }
+
+/**
+ * Asserts that a value is a string.
+ * @param x
+ * @returns
+ */
+export function ensureString(x: any) {
+  if (_.isString(x)) {
+    return x;
+  } else {
+    throw new Error(`Expected string, but got ${typeof x}`);
+  }
+}
+
+/**
+ * Asserts that a value is a number
+ * @param x
+ * @returns
+ */
+export function ensureNumber(x: any) {
+  if (_.isNumber(x)) {
+    return x;
+  } else {
+    throw new Error(`Expected number, but got ${typeof x}`);
+  }
+}
+
+/**
+ * Asserts that a value is an array.
+ * @param x
+ * @returns
+ */
+export function ensureArray<T>(x: T | T[] | undefined): T[] {
+  if (x == null) {
+    return [];
+  } else if (Array.isArray(x)) {
+    return x;
+  } else {
+    return [x];
+  }
+}
+
+/**
+ * Return an object type that can be used for comparisons
+ * @param record
+ * @returns
+ */
+export const normalizeToObject = <PointerType>(record?: any) =>
+  safeCast(_.toPlainObject(record) as Partial<PointerType>);
 
 /**
  * Explicitly mark that a cast is safe.

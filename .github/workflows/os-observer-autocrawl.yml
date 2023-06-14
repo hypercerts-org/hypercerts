@@ -1,0 +1,31 @@
+name: os-observer-autocrawl
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+# Trigger the workflow when:
+on:
+  workflow_dispatch:
+  schedule:
+    # Every day at 14:00 UTC = 07:00 PDT
+    - cron: '0 14 * * *'
+
+jobs:
+  fetch-data:
+    # NOTE: This name appears in GitHub's Checks API.
+    name: fetch-data
+    environment: os-observer 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: "18.x"
+      - name: Install
+        run: yarn install --immutable
+      - name: Run
+        run: yarn start:os-observer runAutocrawl

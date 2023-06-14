@@ -36,7 +36,7 @@ Minting transaction failed
 
 #### Defined in
 
-[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L106)
+[sdk/src/types/errors.ts:106](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L106)
 
 ## Properties
 
@@ -52,7 +52,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:102](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L102)
+[sdk/src/types/errors.ts:102](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L102)
 
 ---
 
@@ -66,7 +66,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:104](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L104)
+[sdk/src/types/errors.ts:104](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L104)
 
 ---
 
@@ -80,7 +80,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:103](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L103)
+[sdk/src/types/errors.ts:103](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L103)
 
 ---
 
@@ -100,4 +100,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L105)
+[sdk/src/types/errors.ts:105](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L105)

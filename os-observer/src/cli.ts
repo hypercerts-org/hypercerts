@@ -1,15 +1,11 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { RunAutocrawlArgs, runAutocrawl } from "./actions/autocrawl.js";
 import { handleError } from "./utils/error.js";
 import { EventSourceFunction } from "./utils/api.js";
-import { GithubCommitsArgs, githubCommits } from "./events/github.js";
-import { NpmDownloadsArgs, npmDownloads } from "./events/npm.js";
-import { fetchEvents, FetchEventsArgs } from "./fetchEvents.js";
-import {
-  upsertGithubOrg,
-  UpsertGithubOrgArgs,
-} from "./actions/upsertGithubOrg/index.js";
+import { GithubCommitsArgs, GithubCommitsInterface } from "./events/github.js";
+import { NpmDownloadsArgs, NpmDownloadsInterface } from "./events/npm.js";
 
 const callLibrary = async <Args>(
   func: EventSourceFunction<Args>,
@@ -20,42 +16,31 @@ const callLibrary = async <Args>(
   console.log(result);
 };
 
+/**
+ * When adding a new fetcher, please remember to add it to both this registry and yargs
+ */
+export const FETCHER_REGISTRY = [GithubCommitsInterface, NpmDownloadsInterface];
 yargs(hideBin(process.argv))
   .option("yes", {
     type: "boolean",
     describe: "Automatic yes to all prompts",
     default: false,
   })
-  .command<UpsertGithubOrgArgs>(
-    "upsertGithubOrg",
-    "Create a new org and/or update repos+event pointers for it",
-    (yargs) => {
-      return yargs
-        .option("name", {
-          type: "string",
-        })
-        .option("githubOrg", {
-          type: "string",
-        });
+  .option("autocrawl", {
+    type: "boolean",
+    describe: "Mark the query for auto-crawling",
+    default: false,
+  })
+  .command<RunAutocrawlArgs>(
+    "runAutocrawl",
+    "Iterate over EventSourcePointer table and update all data marked for autocrawl",
+    (yags) => {
+      yags;
     },
-    (argv) => handleError(upsertGithubOrg(argv)),
-  )
-  .command<FetchEventsArgs>(
-    "fetchEvents",
-    "Fetch new events",
-    (yargs) => {
-      return yargs
-        .option("artifactId", {
-          type: "number",
-        })
-        .option("eventType", {
-          type: "string",
-        });
-    },
-    (argv) => handleError(fetchEvents(argv)),
+    (argv) => handleError(runAutocrawl(argv)),
   )
   .command<GithubCommitsArgs>(
-    "githubCommits",
+    GithubCommitsInterface.command,
     "Fetch GitHub commits",
     (yags) => {
       yags
@@ -69,10 +54,10 @@ yargs(hideBin(process.argv))
         })
         .demandOption(["org", "repo"]);
     },
-    (argv) => handleError(callLibrary(githubCommits, argv)),
+    (argv) => handleError(callLibrary(GithubCommitsInterface.func, argv)),
   )
   .command<NpmDownloadsArgs>(
-    "npmDownloads",
+    NpmDownloadsInterface.command,
     "Fetch NPM downloads",
     (yags) => {
       yags
@@ -82,7 +67,7 @@ yargs(hideBin(process.argv))
         })
         .demandOption(["name"]);
     },
-    (argv) => handleError(callLibrary(npmDownloads, argv)),
+    (argv) => handleError(callLibrary(NpmDownloadsInterface.func, argv)),
   )
   .demandCommand()
   .strict()

@@ -1,40 +1,65 @@
 import dayjs, { Dayjs } from "dayjs";
 import _ from "lodash";
 import npmFetch from "npm-registry-fetch";
-import { EventSourceFunction, ApiReturnType } from "../utils/api.js";
-import { safeCast } from "../utils/common.js";
-import { logger } from "../utils/logger.js";
-import { parseGithubUrl } from "../utils/parsing.js";
 import {
-  prisma,
   ArtifactNamespace,
   ArtifactType,
   EventType,
+  getEventSourcePointer,
+  insertData,
+  prisma,
 } from "../db/prisma-client.js";
-import { InvalidInputError } from "../utils/error.js";
-import { assert } from "../utils/common.js";
+import {
+  EventSourceFunction,
+  ApiInterface,
+  ApiReturnType,
+  CommonArgs,
+} from "../utils/api.js";
+import {
+  assert,
+  ensureString,
+  ensureArray,
+  ensureNumber,
+  safeCast,
+} from "../utils/common.js";
+import { InvalidInputError, MalformedDataError } from "../utils/error.js";
+import { logger } from "../utils/logger.js";
+import { parseGithubUrl } from "../utils/parsing.js";
 
 // API endpoint to query
 const NPM_HOST = "https://api.npmjs.org/";
 // npm was initially released 2010-01-12
 const DEFAULT_START_DATE = "2010-01-01";
+const NPM_DOWNLOADS_COMMAND = "npmDownloads";
+// Only get data up to 2 days ago, accounting for incomplete days and time zones
+const TODAY_MINUS = 2;
 
 // date format used by NPM APIs
-const formatDate = (date: Dayjs) => date.format("YYYY-MM-DD");
+export const formatDate = (date: Dayjs) => date.format("YYYY-MM-DD");
 // human-readable URL for a package
-export const getNpmUrl = (name: string) =>
-  `https://www.npmjs.com/package/${name}`;
+const getNpmUrl = (name: string) => `https://www.npmjs.com/package/${name}`;
 
 /**
  * What we expect to store in the EventSourcePointer DB table
  */
-interface EventSourcePointer {
+interface NpmEventSourcePointer {
   lastDate: string;
 }
+
+const makeNpmEventSourcePointer = (lastDate: Dayjs): NpmEventSourcePointer => ({
+  lastDate: formatDate(lastDate),
+});
 
 interface DayDownloads {
   downloads: number;
   day: string;
+}
+
+function createDayDownloads(x: any): DayDownloads {
+  return {
+    downloads: ensureNumber(x.downloads),
+    day: ensureString(x.day),
+  };
 }
 
 /**
@@ -108,14 +133,45 @@ async function getDailyDownloads(
   start: Dayjs,
   end: Dayjs,
 ): Promise<DayDownloads[]> {
-  const results: DayDownloads[] = [];
   const dateRange = `${formatDate(start)}:${formatDate(end)}`;
   const endpoint = `/downloads/range/${dateRange}/${name}`;
   logger.debug(`Fetching ${endpoint}`);
-  const result = await npmFetch.json(endpoint, { registry: NPM_HOST });
-  logger.info(JSON.stringify(result, null, 2));
+  const results = await npmFetch
+    .json(endpoint, { registry: NPM_HOST })
+    .catch((err) => {
+      logger.warn("Error fetching from NPM API: ", err);
+      return;
+    });
+  // If we encounter an error, just return an empty array
+  if (!results) {
+    return [];
+  }
+  //logger.info(JSON.stringify(fetchResults, null, 2));
+  const resultStart = dayjs(ensureString(results.start));
+  const resultEnd = dayjs(ensureString(results.end));
+  const resultDownloads = ensureArray(results.downloads).map(
+    createDayDownloads,
+  );
+  logger.info(
+    `Got ${resultDownloads.length} results from ${formatDate(
+      resultStart,
+    )} to ${formatDate(resultEnd)}`,
+  );
 
-  return results;
+  // If we got all the data, we're good
+  if (start.isSame(resultStart, "day") && end.isSame(resultEnd, "day")) {
+    return [...resultDownloads];
+  } else if (!end.isSame(resultEnd, "day")) {
+    // Assume that NPM will always give us the newest data first
+    throw new MalformedDataError(
+      `Expected end date ${formatDate(end)} but got ${formatDate(resultEnd)}`,
+    );
+  } else {
+    // If we didn't get all the data, recurse
+    const missingEnd = resultStart.subtract(1, "day");
+    const missingResults = await getDailyDownloads(name, start, missingEnd);
+    return [...missingResults, ...resultDownloads];
+  }
 }
 
 /**
@@ -125,29 +181,30 @@ async function getDailyDownloads(
  * @param end
  * @returns
  */
-export function hasMissingDays(
+export function getMissingDays(
   downloads: DayDownloads[],
   start: Dayjs,
   end: Dayjs,
-): boolean {
-  if (start.isAfter(end)) {
+): Dayjs[] {
+  if (start.isAfter(end, "day")) {
     throw new InvalidInputError(
       `Start date ${formatDate(start)} is after end date ${formatDate(end)}`,
     );
   }
 
   // According to spec, searches must be sublinear
+  const missingDays: Dayjs[] = [];
   const dateSet = new Set(downloads.map((d) => d.day));
   for (
     let datePtr = dayjs(start);
-    datePtr.isBefore(end) || datePtr.isSame(end);
+    datePtr.isBefore(end, "day") || datePtr.isSame(end, "day");
     datePtr = datePtr.add(1, "day")
   ) {
     if (!dateSet.has(formatDate(datePtr))) {
-      return true;
+      missingDays.push(datePtr);
     }
   }
-  return false;
+  return missingDays;
 }
 
 /**
@@ -163,9 +220,11 @@ export function hasDuplicates(downloads: DayDownloads[]): boolean {
 /**
  * Entrypoint arguments
  */
-export interface NpmDownloadsArgs {
-  name: string;
-}
+export type NpmDownloadsArgs = Partial<
+  CommonArgs & {
+    name: string;
+  }
+>;
 
 /**
  * Get all of the daily downloads for a package
@@ -174,7 +233,11 @@ export interface NpmDownloadsArgs {
 export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
   args: NpmDownloadsArgs,
 ): Promise<ApiReturnType> => {
-  const { name } = args;
+  const { name, autocrawl } = args;
+
+  if (!name) {
+    throw new InvalidInputError("Missing required argument: name");
+  }
   logger.info(`NPM Downloads: fetching for ${name}`);
 
   // Add the organization and artifact into the database
@@ -182,59 +245,75 @@ export const npmDownloads: EventSourceFunction<NpmDownloadsArgs> = async (
 
   // Get the latest event source pointer
   logger.debug("Getting latest event source pointer");
-  const dbEventSourcePointer = await prisma.eventSourcePointer.findUnique({
-    where: {
-      artifactId_eventType: {
-        artifactId: dbArtifact.id,
-        eventType: EventType.DOWNLOADS,
-      },
-    },
-  });
-  logger.info("EventSourcePointer: ", dbEventSourcePointer);
-  const { lastDate } = safeCast(
-    _.toPlainObject(
-      dbEventSourcePointer?.pointer,
-    ) as Partial<EventSourcePointer>,
+  const previousPointer = await getEventSourcePointer<NpmEventSourcePointer>(
+    dbArtifact.id,
+    EventType.DOWNLOADS,
+  );
+  logger.info(`EventSourcePointer: ${JSON.stringify(previousPointer)}`);
+
+  // Start 1 day after the last date we have
+  const start = dayjs(previousPointer.lastDate ?? DEFAULT_START_DATE).add(
+    1,
+    "day",
+  );
+  // Today's counts may not yet be complete
+  const end = dayjs().subtract(TODAY_MINUS, "day");
+  logger.info(
+    `Fetching from start=${formatDate(start)} to end=${formatDate(
+      end,
+    )}. Today is ${formatDate(dayjs())}`,
   );
 
+  // Short circuit if we're already up to date
+  if (end.isBefore(start, "day")) {
+    return {
+      _type: "upToDate",
+      cached: true,
+    };
+  }
+
   // Retrieve any missing data
-  // Start 1 day after the last date we have
-  const start = dayjs(lastDate ?? DEFAULT_START_DATE).add(1, "day");
-  // Today's counts may not yet be complete
-  const end = dayjs().subtract(1, "day");
   const downloads: DayDownloads[] = await getDailyDownloads(name, start, end);
 
   // Check for correctness of data
   assert(!hasDuplicates(downloads), "Duplicate dates found in result");
+  // If this is the first time running this query, just check that we have the last day
+  const missingDays = !previousPointer.lastDate
+    ? getMissingDays(downloads, end, end)
+    : getMissingDays(downloads, start, end);
   assert(
-    !hasMissingDays(downloads, start, end),
-    "Missing dates found in result",
+    missingDays.length === 0,
+    `Missing dates found in result: ${missingDays.map(formatDate).join(", ")}`,
   );
 
   // Transform the data into the format we want to store
+  const dbEntries = downloads.map((d) => ({
+    artifactId: dbArtifact.id,
+    eventType: EventType.DOWNLOADS,
+    eventTime: dayjs(d.day).toDate(),
+    amount: d.downloads,
+  }));
 
   // Populate the database
+  await insertData(
+    dbArtifact.id,
+    EventType.DOWNLOADS,
+    dbEntries,
+    previousPointer,
+    safeCast<Partial<NpmEventSourcePointer>>(makeNpmEventSourcePointer(end)),
+    NPM_DOWNLOADS_COMMAND,
+    safeCast<Partial<NpmDownloadsArgs>>(args),
+    autocrawl,
+  );
 
-  /**
-  const dbEventSourcePointer = await prisma.eventSourcePointer.upsert({
-    where: {
-      artifactId_eventType: {
-        artifactId: dbArtifact.id,
-        eventType: EventType.DOWNLOADS,
-      },
-    },
-    update: {},
-    create: {
-      artifactId: dbArtifact.id,
-      eventType: EventType.DOWNLOADS,
-      pointer: {},
-    },
-  });
-  */
   // Return results
-
   return {
-    _type: "upToDate",
-    cached: true,
+    _type: "success",
+    count: downloads.length,
   };
+};
+
+export const NpmDownloadsInterface: ApiInterface<NpmDownloadsArgs> = {
+  command: NPM_DOWNLOADS_COMMAND,
+  func: npmDownloads,
 };

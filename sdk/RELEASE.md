@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.1.0 Client SDK
+
+- Provides HypercertClient via SDK that exposes wrapper function and key components to the hypercerts protocol
+
 ## 0.0.33
 
 - Adding custom error types to SDK
