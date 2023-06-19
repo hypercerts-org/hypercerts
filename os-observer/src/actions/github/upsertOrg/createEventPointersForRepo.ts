@@ -41,17 +41,13 @@ export async function createEventPointersForRepo(repo: Artifact) {
   const eventSources = await prisma.eventSourcePointer.findMany({
     where: { artifactId: repo.id },
   });
-  const githubRepoEvents = [
-    EventType.ISSUE_FILED,
-    // EventType.ISSUE_CLOSED,
-    // EventType.PULL_REQUEST_CREATED,
-    // EventType.PULL_REQUEST_MERGED,
-    // EventType.COMMIT_CODE,
-  ];
+  const githubRepoEvents = [GithubIssueFiledInterface];
 
   const missingEventSources = githubRepoEvents.filter(
-    (eventType) =>
-      !eventSources.some((eventSource) => eventSource.eventType == eventType),
+    (eventInterface) =>
+      !eventSources.some(
+        (eventSource) => eventSource.eventType == eventInterface.eventType,
+      ),
   );
 
   const pointer: GithubEventPointer = {
@@ -59,17 +55,17 @@ export async function createEventPointersForRepo(repo: Artifact) {
   };
 
   const newEventSources: Prisma.EventSourcePointerCreateManyInput[] =
-    missingEventSources.map((eventType) => {
+    missingEventSources.map((eventInterface) => {
       const queryArgs = {
-        artifactId: repo.id,
-        eventType: eventType,
+        org: owner,
+        repo: repo.name,
       };
 
       return {
         artifactId: repo.id,
-        eventType: eventType,
+        eventType: eventInterface.eventType,
         pointer: pointer as unknown as Prisma.JsonObject,
-        queryCommand: GithubIssueFiledInterface.command,
+        queryCommand: eventInterface.command,
         queryArgs: queryArgs as unknown as Prisma.JsonObject,
       };
     });

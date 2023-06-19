@@ -14,6 +14,10 @@ import {
 } from "../../../utils/github/getRepoIusses.js";
 import { getGithubPointer } from "../../../utils/github/getGithubPointer.js";
 
+export interface GithubApiInterface extends ApiInterface<GithubFetchArgs> {
+  eventType: EventType;
+}
+
 const githubIssueFiled: EventSourceFunction<GithubFetchArgs> = async (
   args: GithubFetchArgs,
 ): Promise<ApiReturnType> => {
@@ -76,7 +80,8 @@ export type GithubFetchArgs = Partial<
 >;
 
 export const GITHUB_COMMITS_COMMAND = "githubIssueFiled";
-export const GithubIssueFiledInterface: ApiInterface<GithubFetchArgs> = {
+export const GithubIssueFiledInterface: GithubApiInterface = {
   command: GITHUB_COMMITS_COMMAND,
   func: githubIssueFiled,
+  eventType: EventType.ISSUE_FILED,
 };
