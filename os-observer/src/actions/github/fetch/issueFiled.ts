@@ -6,7 +6,7 @@ import {
 } from "../../../utils/api.js";
 
 import { EventType, Prisma } from "@prisma/client";
-import { insertData, prisma } from "../../../db/prisma-client.js";
+import { insertData } from "../../../db/prisma-client.js";
 import { GithubEventPointer } from "../upsertOrg/createEventPointersForRepo.js";
 import {
   formatGithubDate,
@@ -21,7 +21,7 @@ export interface GithubApiInterface extends ApiInterface<GithubFetchArgs> {
 const githubIssueFiled: EventSourceFunction<GithubFetchArgs> = async (
   args: GithubFetchArgs,
 ): Promise<ApiReturnType> => {
-  const [dbOrg, dbArtifact, pointer] = await getGithubPointer(
+  const [dbArtifact, pointer] = await getGithubPointer(
     args,
     EventType.ISSUE_FILED,
   );

@@ -1,14 +1,13 @@
-import { Artifact, Organization } from "@prisma/client";
+import { Artifact } from "@prisma/client";
 import { GithubFetchArgs } from "../../actions/github/fetch/issueFiled.js";
 import { GithubEventPointer } from "../../actions/github/upsertOrg/createEventPointersForRepo.js";
 import { EventType, prisma } from "../../db/prisma-client.js";
 import { InvalidInputError } from "../error.js";
-import { logger } from "../logger.js";
 
 export async function getGithubPointer(
   args: GithubFetchArgs,
   eventType: EventType,
-): Promise<[Organization, Artifact, GithubEventPointer]> {
+): Promise<[Artifact, GithubEventPointer]> {
   const { org, repo } = args;
 
   if (!org) {
@@ -61,5 +60,5 @@ export async function getGithubPointer(
     throw new Error(`No pointer found for artifact and event type`);
   }
 
-  return [dbOrg, dbArtifact, pointer.pointer as any];
+  return [dbArtifact, pointer.pointer as any];
 }

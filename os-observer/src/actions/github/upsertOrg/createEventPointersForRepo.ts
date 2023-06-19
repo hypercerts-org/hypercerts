@@ -1,7 +1,6 @@
 import {
   ArtifactNamespace,
   ArtifactType,
-  EventType,
   PrismaClient,
   Prisma,
   Artifact,

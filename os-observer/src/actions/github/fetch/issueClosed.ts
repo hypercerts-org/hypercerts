@@ -6,12 +6,11 @@ import {
 } from "../../../utils/api.js";
 
 import { EventType, Prisma } from "@prisma/client";
-import { insertData, prisma } from "../../../db/prisma-client.js";
+import { insertData } from "../../../db/prisma-client.js";
 import { GithubEventPointer } from "../upsertOrg/createEventPointersForRepo.js";
 import {
   formatGithubDate,
   getRepoIssuesClosed,
-  getRepoIssuesFiled,
 } from "../../../utils/github/getRepoIusses.js";
 import { getGithubPointer } from "../../../utils/github/getGithubPointer.js";
 
@@ -22,7 +21,7 @@ export interface GithubApiInterface extends ApiInterface<GithubFetchArgs> {
 const githubIssueClosed: EventSourceFunction<GithubFetchArgs> = async (
   args: GithubFetchArgs,
 ): Promise<ApiReturnType> => {
-  const [dbOrg, dbArtifact, pointer] = await getGithubPointer(
+  const [dbArtifact, pointer] = await getGithubPointer(
     args,
     EventType.ISSUE_CLOSED,
   );
@@ -40,7 +39,7 @@ const githubIssueClosed: EventSourceFunction<GithubFetchArgs> = async (
   const dbIssues: Prisma.EventCreateManyInput[] = issues.map((issue) => {
     return {
       artifactId: dbArtifact.id,
-      eventTime: issue.closedAt!,
+      eventTime: issue.closedAt as any,
       eventType: EventType.ISSUE_CLOSED,
       amount: 0,
       details: {

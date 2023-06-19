@@ -1,10 +1,4 @@
 import { gql } from "graphql-request";
-import {
-  EventSourceFunction,
-  ApiInterface,
-  ApiReturnType,
-  CommonArgs,
-} from "../utils/api.js";
 
 export const query = gql`
         {{
