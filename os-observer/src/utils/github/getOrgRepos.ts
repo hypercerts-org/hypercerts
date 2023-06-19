@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { unpaginate } from "../fetchGithubIssues/unpaginate.js";
+import { unpaginate } from "./unpaginate.js";
 
 const query = gql`
   query getOrgRepos($name: String!, $cursor: String) {

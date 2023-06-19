@@ -1,6 +1,6 @@
 import { graphQLClient } from "./graphQLClient.js";
 
-import { Path, Choose, getPath } from "../../utils/getPath.js";
+import { Path, Choose, getPath } from "../getPath.js";
 
 type PageInfo = {
   hasNextPage: boolean;
@@ -25,6 +25,7 @@ export function unpaginate<T extends Record<string | number, any>>() {
 
     /* eslint-disable-next-line no-constant-condition */
     while (true) {
+      console.log(cursor);
       const data = await graphQLClient.request<T>(query, {
         ...variables,
         cursor: cursor,
@@ -32,8 +33,14 @@ export function unpaginate<T extends Record<string | number, any>>() {
 
       const newItems: any[] = getPath(data, dataPath);
       items.push(...newItems);
+      console.log(`unpaginated items: ${items.length}`);
+
+      // if (items.length > 400) {
+      //   break;
+      // }
 
       const pageInfo: PageInfo = getPath(data, pageInfoPath);
+      console.log(pageInfo);
       if (!pageInfo.hasNextPage) {
         break;
       }

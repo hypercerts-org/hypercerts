@@ -2,14 +2,14 @@ import { gql } from "graphql-request";
 import { unpaginate } from "./unpaginate.js";
 
 export const query = gql`
-  query getRepoIssues($searchString: String!) {
+  query getRepoIssues($searchString: String!, $cursor: String) {
     rateLimit {
       limit
       cost
       remaining
       resetAt
     }
-    search(query: $searchString, first: 100, type: ISSUE) {
+    search(query: $searchString, first: 100, type: ISSUE, after: $cursor) {
       pageInfo {
         hasNextPage
         endCursor
@@ -87,7 +87,7 @@ export function formatGithubDate(date: Date): string {
   return `${ye}-${mo}-${da}T${ho}:${mi}:${se}Z`;
 }
 
-export async function getRepoIssues(
+export async function getRepoIssuesFiled(
   repoNameWithOwner: string,
   startDate: Date,
   currentDate: Date,
@@ -97,6 +97,30 @@ export async function getRepoIssues(
 
   const searchString = `repo:${repoNameWithOwner} is:issue -reason:NOT_PLANNED created:${startDateStr}..${currentDateStr}`;
   console.log(`search string: ${searchString}`);
+
+  const variables = {
+    searchString,
+  };
+
+  const issues = await unpaginate<Data>()(
+    query,
+    "search.nodes",
+    "search.pageInfo",
+    variables,
+  );
+
+  return issues;
+}
+
+export async function getRepoIssuesClosed(
+  repoNameWithOwner: string,
+  startDate: Date,
+  currentDate: Date,
+): Promise<Issue[]> {
+  const startDateStr = formatGithubDate(startDate);
+  const currentDateStr = formatGithubDate(currentDate);
+
+  const searchString = `repo:${repoNameWithOwner} is:issue -reason:NOT_PLANNED closed:${startDateStr}..${currentDateStr}`;
 
   const variables = {
     searchString,

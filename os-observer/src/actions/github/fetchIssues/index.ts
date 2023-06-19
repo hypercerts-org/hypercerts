@@ -6,12 +6,15 @@ import {
   EventType,
   Prisma,
 } from "@prisma/client";
-import { prisma } from "../../db/prisma-client.js";
+import { prisma } from "../../../db/prisma-client.js";
 import {
   getNameAndOwnerFromUrl,
   GithubEventPointer,
-} from "../upsertGithubOrg/createEventPointersForRepo.js";
-import { formatGithubDate, getRepoIssues } from "./getRepoIusses.js";
+} from "../upsertOrg/createEventPointersForRepo.js";
+import {
+  formatGithubDate,
+  getRepoIssuesFiled,
+} from "../../../utils/github/getRepoIusses.js";
 
 export async function fetchGithubIssues(
   repo: Artifact,
@@ -56,7 +59,7 @@ export async function fetchGithubIssues(
 
   const currentDate = new Date();
 
-  const issues = await getRepoIssues(
+  const issues = await getRepoIssuesFiled(
     `${owner}/${name}`,
     startDate,
     currentDate,

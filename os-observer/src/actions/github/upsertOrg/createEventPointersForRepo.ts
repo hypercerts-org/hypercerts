@@ -6,7 +6,8 @@ import {
   Prisma,
   Artifact,
 } from "@prisma/client";
-import { getRepositoryCreatedAt } from "./getRepositoryCreatedAt.js";
+import { getRepositoryCreatedAt } from "../../../utils/github/getRepositoryCreatedAt.js";
+import { GithubIssueFiledInterface } from "../fetch/issueFiled.js";
 
 export function getNameAndOwnerFromUrl(
   githubUrl: string,
@@ -42,10 +43,10 @@ export async function createEventPointersForRepo(repo: Artifact) {
   });
   const githubRepoEvents = [
     EventType.ISSUE_FILED,
-    EventType.ISSUE_CLOSED,
-    EventType.PULL_REQUEST_CREATED,
-    EventType.PULL_REQUEST_MERGED,
-    EventType.COMMIT_CODE,
+    // EventType.ISSUE_CLOSED,
+    // EventType.PULL_REQUEST_CREATED,
+    // EventType.PULL_REQUEST_MERGED,
+    // EventType.COMMIT_CODE,
   ];
 
   const missingEventSources = githubRepoEvents.filter(
@@ -68,7 +69,7 @@ export async function createEventPointersForRepo(repo: Artifact) {
         artifactId: repo.id,
         eventType: eventType,
         pointer: pointer as unknown as Prisma.JsonObject,
-        queryCommand: "fetchEvents",
+        queryCommand: GithubIssueFiledInterface.command,
         queryArgs: queryArgs as unknown as Prisma.JsonObject,
       };
     });

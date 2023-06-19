@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { graphQLClient } from "../fetchGithubIssues/graphQLClient.js";
+import { graphQLClient } from "./graphQLClient.js";
 
 const query = gql`
   query getRepositoryCreatedAt($owner: String!, $name: String!) {

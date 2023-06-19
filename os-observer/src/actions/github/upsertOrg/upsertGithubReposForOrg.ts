@@ -6,7 +6,7 @@ import {
   Organization,
 } from "@prisma/client";
 
-import { getOrgRepos } from "./getOrgRepos.js";
+import { getOrgRepos } from "../../../utils/github/getOrgRepos.js";
 
 export async function fetchGithubReposForOrg(org: Organization) {
   const prisma = new PrismaClient();

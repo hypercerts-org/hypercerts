@@ -6,7 +6,7 @@ import {
   PrismaClient,
   EventSourcePointer,
 } from "@prisma/client";
-import { fetchGithubIssues } from "./actions/fetchGithubIssues/index.js";
+import { fetchGithubIssues } from "./actions/github/fetchIssues/index.js";
 
 export interface FetchEventsArgs {
   artifactId: number;
