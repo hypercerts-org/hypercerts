@@ -33,14 +33,8 @@ export function unpaginate<T extends Record<string | number, any>>() {
 
       const newItems: any[] = getPath(data, dataPath);
       items.push(...newItems);
-      console.log(`unpaginated items: ${items.length}`);
-
-      // if (items.length > 400) {
-      //   break;
-      // }
 
       const pageInfo: PageInfo = getPath(data, pageInfoPath);
-      console.log(pageInfo);
       if (!pageInfo.hasNextPage) {
         break;
       }
