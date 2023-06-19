@@ -7,6 +7,7 @@ import {
   Artifact,
 } from "@prisma/client";
 import { getRepositoryCreatedAt } from "../../../utils/github/getRepositoryCreatedAt.js";
+import { GithubIssueClosedInterface } from "../fetch/issueClosed.js";
 import { GithubIssueFiledInterface } from "../fetch/issueFiled.js";
 
 export function getNameAndOwnerFromUrl(
@@ -41,7 +42,10 @@ export async function createEventPointersForRepo(repo: Artifact) {
   const eventSources = await prisma.eventSourcePointer.findMany({
     where: { artifactId: repo.id },
   });
-  const githubRepoEvents = [GithubIssueFiledInterface];
+  const githubRepoEvents = [
+    GithubIssueFiledInterface,
+    GithubIssueClosedInterface,
+  ];
 
   const missingEventSources = githubRepoEvents.filter(
     (eventInterface) =>

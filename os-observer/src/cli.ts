@@ -13,6 +13,7 @@ import {
   UpsertGithubOrgInterface,
   UpsertGithubOrgArgs,
 } from "./actions/github/upsertOrg/index.js";
+import { GithubIssueClosedInterface } from "./actions/github/fetch/issueClosed.js";
 
 const callLibrary = async <Args>(
   func: EventSourceFunction<Args>,
@@ -82,6 +83,23 @@ yargs(hideBin(process.argv))
         .demandOption(["org", "repo"]);
     },
     (argv) => handleError(callLibrary(GithubIssueFiledInterface.func, argv)),
+  )
+  .command<GithubFetchArgs>(
+    GithubIssueClosedInterface.command,
+    "Fetch GitHub Issues Closed",
+    (yags) => {
+      yags
+        .option("org", {
+          type: "string",
+          describe: "GitHub organization name",
+        })
+        .option("repo", {
+          type: "string",
+          describe: "GitHub repository name",
+        })
+        .demandOption(["org", "repo"]);
+    },
+    (argv) => handleError(callLibrary(GithubIssueClosedInterface.func, argv)),
   )
   .command<NpmDownloadsArgs>(
     NpmDownloadsInterface.command,
