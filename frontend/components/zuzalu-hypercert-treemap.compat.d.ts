@@ -12,6 +12,6 @@ declare module "@observablehq/runtime" {
   }
 }
 
-declare module "c857fa5c110524ee" {
+declare module "@hypercerts-org/observabletreemap" {
   export const notebook: notebook;
 }

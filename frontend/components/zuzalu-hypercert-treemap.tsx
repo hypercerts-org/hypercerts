@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, ReactNode } from "react";
 import { Runtime, Inspector } from "@observablehq/runtime";
-import notebook from "c857fa5c110524ee";
+import notebook from "@hypercerts-org/observabletreemap";
 
 export interface ZuzaluHypercertTreemapProps {
   className?: string;
