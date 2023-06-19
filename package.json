@@ -14,7 +14,8 @@
       "frontend",
       "graph",
       "os-observer",
-      "sdk"
+      "sdk",
+      "vendor/observabletreemap"
     ],
     "nohoist": [
       "graph"

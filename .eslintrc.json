@@ -11,7 +11,11 @@
     "prettier",
     "next/core-web-vitals"
   ],
-  "ignorePatterns": ["**/graph/generated/*", "**/vendor/*.js"],
+  "ignorePatterns": [
+    "**/graph/generated/*",
+    "**/vendor/*.js",
+    "vendor/**/*.js"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {

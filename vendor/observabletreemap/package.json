@@ -1,0 +1,14 @@
+{
+  "name": "@hypercerts-org/observabletreemap",
+  "main": "c857fa5c110524ee@515.js",
+  "version": "515.0.0",
+  "homepage": "https://observablehq.com/d/c857fa5c110524ee",
+  "author": {
+    "name": "hypercerts",
+    "url": "https://observablehq.com/@hypercerts"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}
