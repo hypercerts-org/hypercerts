@@ -25,7 +25,6 @@ export function unpaginate<T extends Record<string | number, any>>() {
 
     /* eslint-disable-next-line no-constant-condition */
     while (true) {
-      console.log(cursor);
       const data = await graphQLClient.request<T>(query, {
         ...variables,
         cursor: cursor,

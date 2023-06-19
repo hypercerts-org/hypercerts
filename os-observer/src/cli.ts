@@ -55,15 +55,11 @@ yargs(hideBin(process.argv))
     "Add or update a github organization",
     (yags) => {
       yags
-        .option("githubOrg", {
+        .option("orgName", {
           type: "string",
           describe: "GitHub organization name",
         })
-        .option("name", {
-          type: "string",
-          describe: "GitHub organization name",
-        })
-        .demandOption(["githubOrg", "name"]);
+        .demandOption(["orgName"]);
     },
     (argv) => handleError(callLibrary(UpsertGithubOrgInterface.func, argv)),
   )

@@ -96,7 +96,6 @@ export async function getRepoIssuesFiled(
   const currentDateStr = formatGithubDate(currentDate);
 
   const searchString = `repo:${repoNameWithOwner} is:issue -reason:NOT_PLANNED created:${startDateStr}..${currentDateStr}`;
-  console.log(`search string: ${searchString}`);
 
   const variables = {
     searchString,

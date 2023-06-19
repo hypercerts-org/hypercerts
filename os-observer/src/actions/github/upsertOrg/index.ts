@@ -7,12 +7,8 @@ import { fetchGithubReposForOrg as upsertGithubReposForOrg } from "./upsertGithu
 export async function upsertGithubOrg(
   args: UpsertGithubOrgArgs,
 ): Promise<ApiReturnType> {
-  if (!args.name) {
-    throw new InvalidInputError("Missing required argument: name");
-  }
-
-  if (!args.githubOrg) {
-    throw new InvalidInputError("Missing required argument: githubOrg");
+  if (!args.orgName) {
+    throw new InvalidInputError("Missing required argument: orgName");
   }
 
   const prisma = new PrismaClient();
@@ -20,24 +16,22 @@ export async function upsertGithubOrg(
     where: {
       AND: [
         {
-          name: args.name,
+          name: args.orgName,
         },
         {
-          githubOrg: args.githubOrg,
+          githubOrg: args.orgName,
         },
       ],
     },
   });
-
-  console.log(`name: ${args.name}, githubOrg: ${args.githubOrg}`);
 
   if (org) {
     console.log(`Found existing org with id '${org.id}'`);
   } else {
     org = await prisma.organization.create({
       data: {
-        name: args.name,
-        githubOrg: args.githubOrg,
+        name: args.orgName,
+        githubOrg: args.orgName,
       },
     });
 
@@ -55,8 +49,7 @@ export async function upsertGithubOrg(
 
 export type UpsertGithubOrgArgs = Partial<
   CommonArgs & {
-    name: string;
-    githubOrg: string;
+    orgName: string;
   }
 >;
 
