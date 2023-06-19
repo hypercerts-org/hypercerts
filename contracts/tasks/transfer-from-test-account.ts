@@ -1,14 +1,18 @@
-// Transfer eth from a test account
+// Transfer eth from a test account so this can be used in metamask for either
+// automated or local testing
 import { task } from "hardhat/config";
 
-task("transfer-from-test-account", "Transfer localchain ETH from a test account to a different account")
+task("transfer-from-test-account", "Transfer localchain tokens from a test account to an arbitrary account")
   .addParam("dest", "Destination address")
   .addParam("amount", "Token amount")
   .setAction(async ({ dest, amount }, { ethers }) => {
+    const hre = require("hardhat");
     const accounts = await ethers.getSigners();
-    // We should refuse to send if this isn't a test address
-    if (accounts[0].address !== "0xd671a2dD41365e49564d0fCF5F464EAF2E32ebFC") {
-      console.log("Not transferring tokens from a non-test account");
+
+    // We should refuse to send if this isn't a test network
+    if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+      console.error("Not transferring tokens from a non-test account");
+      return;
     }
     const tx = {
       to: dest,
