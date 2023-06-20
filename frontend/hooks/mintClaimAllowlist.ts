@@ -1,19 +1,19 @@
+import { useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { parseAllowlistCsv } from "../lib/parsing";
 import { useAccountLowerCase } from "./account";
+import { useHypercertClient } from "./hypercerts-client";
 import {
   HypercertMetadata,
   validateAllowlist,
   TransferRestrictions,
-  Allowlist,
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
-import _ from "lodash";
-import { toast } from "react-toastify";
-import { useHypercertClient } from "./hypercerts-client";
 import { BigNumberish } from "ethers";
+import _, { set } from "lodash";
+import { toast } from "react-toastify";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
 
@@ -22,6 +22,8 @@ export const useMintClaimAllowlist = ({
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -40,7 +42,7 @@ export const useMintClaimAllowlist = ({
     allowlistUrl: string,
     allowlistPercentage: number,
   ): Promise<{
-    allowlist: Allowlist;
+    allowlist: AllowlistEntry[];
     totalSupply: BigNumberish;
     valid: boolean;
     errors: any;
@@ -50,7 +52,7 @@ export const useMintClaimAllowlist = ({
     const htmlResult = await fetch(allowlistUrl, { method: "GET" });
     const htmlText = await htmlResult.text();
     try {
-      const allowlist: Allowlist = parseAllowlistCsv(htmlText, [
+      const allowlist: AllowlistEntry[] = parseAllowlistCsv(htmlText, [
         {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           address: address!,
@@ -92,6 +94,7 @@ export const useMintClaimAllowlist = ({
 
     try {
       setStep("preparing");
+      setTxPending(true);
 
       const tx = await client.createAllowlist(
         allowlist,
@@ -121,6 +124,7 @@ export const useMintClaimAllowlist = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
@@ -137,6 +141,7 @@ export const useMintClaimAllowlist = ({
       showModal({ stepDescriptions });
       await initializeWrite(metaData, allowlistUrl, allowlistPercentage);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

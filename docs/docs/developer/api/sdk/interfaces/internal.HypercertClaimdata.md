@@ -43,7 +43,7 @@ Contributors
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:92](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L92)
+[sdk/src/types/metadata.d.ts:92](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L92)
 
 ---
 
@@ -68,7 +68,7 @@ Scopes of impact
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:54](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L54)
+[sdk/src/types/metadata.d.ts:54](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L54)
 
 ---
 
@@ -92,7 +92,7 @@ Impact time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:83](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L83)
+[sdk/src/types/metadata.d.ts:83](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L83)
 
 ---
 
@@ -117,7 +117,7 @@ Rights
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:101](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L101)
+[sdk/src/types/metadata.d.ts:101](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L101)
 
 ---
 
@@ -142,7 +142,7 @@ Scopes of work
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:64](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L64)
+[sdk/src/types/metadata.d.ts:64](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L64)
 
 ---
 
@@ -166,4 +166,4 @@ Work time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:74](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/metadata.d.ts#L74)
+[sdk/src/types/metadata.d.ts:74](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/metadata.d.ts#L74)

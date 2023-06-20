@@ -4,12 +4,15 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { BigNumberish } from "ethers";
+import { useState } from "react";
 
 export const useBurnFraction = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -25,6 +28,8 @@ export const useBurnFraction = ({
   const initializeBurn = async (claimId: BigNumberish) => {
     setStep("preparing");
     try {
+      setTxPending(true);
+
       const tx = await client.burnClaimFraction(claimId);
       setStep("burning");
 
@@ -52,6 +57,7 @@ export const useBurnFraction = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
@@ -60,6 +66,7 @@ export const useBurnFraction = ({
       showModal({ stepDescriptions });
       await initializeBurn(claimId);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

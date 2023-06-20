@@ -14,6 +14,7 @@ The methods for the Hypercert client.
 
 ### Properties
 
+- [batchMintClaimFractionsFromAllowlists](HypercertClientMethods.md#batchmintclaimfractionsfromallowlists)
 - [burnClaimFraction](HypercertClientMethods.md#burnclaimfraction)
 - [createAllowlist](HypercertClientMethods.md#createallowlist)
 - [mergeClaimUnits](HypercertClientMethods.md#mergeclaimunits)
@@ -22,6 +23,46 @@ The methods for the Hypercert client.
 - [splitClaimUnits](HypercertClientMethods.md#splitclaimunits)
 
 ## Properties
+
+### batchMintClaimFractionsFromAllowlists
+
+• **batchMintClaimFractionsFromAllowlists**: (`claimIds`: `BigNumberish`[], `units`: `BigNumberish`[], `proofs`: `BytesLike`[][]) => `Promise`<`ContractTransaction`\>
+
+#### Type declaration
+
+▸ (`claimIds`, `units`, `proofs`): `Promise`<`ContractTransaction`\>
+
+Batch mints a claim fraction from an allowlist
+
+**`Note`**
+
+The length of the arrays must be equal.
+
+**`Note`**
+
+The order of the arrays must be equal.
+
+##### Parameters
+
+| Name       | Type             | Description                                           |
+| :--------- | :--------------- | :---------------------------------------------------- |
+| `claimIds` | `BigNumberish`[] | Array of the IDs of the claims to mint fractions for. |
+| `units`    | `BigNumberish`[] | Array of the number of units for each fraction.       |
+| `proofs`   | `BytesLike`[][]  | Array of Merkle proofs for the allowlists.            |
+
+##### Returns
+
+`Promise`<`ContractTransaction`\>
+
+A Promise that resolves to the transaction receipt
+
+A Promise that resolves to the transaction receipt
+
+#### Defined in
+
+[sdk/src/types/client.ts:202](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L202)
+
+---
 
 ### burnClaimFraction
 
@@ -47,13 +88,13 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:176](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L176)
+[sdk/src/types/client.ts:177](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L177)
 
 ---
 
 ### createAllowlist
 
-• **createAllowlist**: (`allowList`: [`Allowlist`](../modules.md#allowlist), `metaData`: [`HypercertMetadata`](HypercertMetadata.md), `totalUnits`: `BigNumberish`, `transferRestriction`: [`TransferRestrictions`](../modules.md#transferrestrictions-1)) => `Promise`<`ContractTransaction`\>
+• **createAllowlist**: (`allowList`: [`AllowlistEntry`](../modules.md#allowlistentry)[], `metaData`: [`HypercertMetadata`](HypercertMetadata.md), `totalUnits`: `BigNumberish`, `transferRestriction`: [`TransferRestrictions`](../modules.md#transferrestrictions-1)) => `Promise`<`ContractTransaction`\>
 
 #### Type declaration
 
@@ -65,7 +106,7 @@ Creates a new allowlist and mints a new claim with the allowlist.
 
 | Name                  | Type                                                           | Description                              |
 | :-------------------- | :------------------------------------------------------------- | :--------------------------------------- |
-| `allowList`           | [`Allowlist`](../modules.md#allowlist)                         | The allowlist for the claim.             |
+| `allowList`           | [`AllowlistEntry`](../modules.md#allowlistentry)[]             | The allowlist for the claim.             |
 | `metaData`            | [`HypercertMetadata`](HypercertMetadata.md)                    | The metadata for the claim.              |
 | `totalUnits`          | `BigNumberish`                                                 | The total number of units for the claim. |
 | `transferRestriction` | [`TransferRestrictions`](../modules.md#transferrestrictions-1) | The transfer restriction for the claim.  |
@@ -78,7 +119,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:149](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L149)
+[sdk/src/types/client.ts:150](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L150)
 
 ---
 
@@ -106,7 +147,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:169](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L169)
+[sdk/src/types/client.ts:170](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L170)
 
 ---
 
@@ -136,7 +177,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:135](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L135)
+[sdk/src/types/client.ts:136](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L136)
 
 ---
 
@@ -166,7 +207,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:185](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L185)
+[sdk/src/types/client.ts:186](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L186)
 
 ---
 
@@ -195,4 +236,4 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:162](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/client.ts#L162)
+[sdk/src/types/client.ts:163](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L163)

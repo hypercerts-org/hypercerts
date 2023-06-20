@@ -9,13 +9,20 @@ from web3 import Web3
 load_dotenv()
 ALCHEMY_KEY    = os.environ['ALCHEMY_KEY']
 ALCHEMY_KEY_OP = os.environ['ALCHEMY_KEY_OP']
+ETHERSCAN_OP   = os.environ['ETHERSCAN_KEY_OP']
 
 # create a web3 connection
-alchemy_url = f"https://eth-mainnet.g.alchemy.com/v2/{ALCHEMY_KEY}"
-w3 = Web3(Web3.HTTPProvider(alchemy_url))
+mainnet_url = f"https://eth-mainnet.g.alchemy.com/v2/{ALCHEMY_KEY}"
+w3 = Web3(Web3.HTTPProvider(mainnet_url))
 ns = ENS.fromWeb3(w3)
 
+optimism_url = f"https://opt-mainnet.g.alchemy.com/v2/{ALCHEMY_KEY_OP}"
+op = Web3(Web3.HTTPProvider(optimism_url))
+
 # get hex codes for checking address/wallet types
+
+# TODO: map Optimism contracts
+
 SPLITS_CODE = w3.eth.get_code("0xD2584c1CF7E3fF11957195732d380DC886F5f05b")
 EOA_CODE = w3.eth.get_code("0xEAF9830bB7a38A3CEbcaCa3Ff9F626C424F3fB55")
 SAFES = [
@@ -56,19 +63,63 @@ def get_transaction_count(client, addr):
         return None
 
 
-def get_address_data(address):
-    
-    try:
-        addr = Web3.toChecksumAddress(address.lower())
-    except:
-        addr = address
-        print(f"Checksum address {address} not found on Ethereum Mainnet.")
+def lookup_op_contract(addr):
+    headers = {'Accept': 'application/json'}
+    url = "&".join([
+        "https://api-optimistic.etherscan.io/api?module=contract&action=getcontractcreation",
+        f"contractaddresses={addr}",
+        f"apikey={ETHERSCAN_OP}"
+    ])
+    response = requests.get(url, headers=headers).json()
+    if response['status'] == '1':
+        return response['result'][0]['contractAddress']
+    else:
         return None
+    
 
-    result = dict(
-        address=addr,
-        type=get_address_type(addr),
-        ens=get_ens(addr)
-    )
-    print("Success:", result)
+def get_address_data(address, tx_count=False):
+
+    def checksum(a):
+        try:
+            return Web3.toChecksumAddress(a.lower())
+        except Exception as e:
+            print(e)
+            return None
+
+    
+    result = {
+        'address': None,
+        'type': None,
+        'ens': None
+    }
+
+    if not isinstance(address, str):
+        result.update({
+            'type': "Missing"
+        })
+    elif "oeth:" in address:
+        address = address.replace("oeth:","")
+        result.update({
+            'address': address,
+            'type': "Safe (OP)"
+        })
+    elif len(address) == 42:
+        address = checksum(address)
+        result.update({
+            'address': address,
+            'type': get_address_type(address),
+            'ens': get_ens(address)
+        })
+    else:
+        result.update({
+            'type': "Needs Review"
+        })
+
+    if tx_count:
+        result.update(dict(
+            eth_count=get_transaction_count(w3, address),
+            op_count=get_transaction_count(op, address)
+        ))
+
     return result
+

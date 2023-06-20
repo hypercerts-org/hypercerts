@@ -35,7 +35,7 @@ export const ClaimAllFractionsButton = ({
 
   const router = useRouter();
   const { data: claimIds } = useGetAllEligibility(address ?? "");
-  const { write, isLoading } = useMintFractionAllowlistBatch({
+  const { write, txPending } = useMintFractionAllowlistBatch({
     onComplete: () => {
       console.log("Minted all of them");
       // Store the current time
@@ -56,12 +56,12 @@ export const ClaimAllFractionsButton = ({
 
   return (
     <Button
-      disabled={!claimIds?.length || disabled}
+      disabled={!claimIds?.length || disabled || txPending}
       className={className}
       onClick={() => handleClaim()}
       variant="outlined"
       size="small"
-      startIcon={isLoading ? <CircularProgress size="1rem" /> : undefined}
+      startIcon={txPending ? <CircularProgress size="1rem" /> : undefined}
     >
       {text}
     </Button>

@@ -38,7 +38,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L22)
+[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L22)
 
 ---
 
@@ -54,4 +54,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:27](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L27)
+[sdk/src/types/errors.ts:27](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L27)

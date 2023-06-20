@@ -36,7 +36,7 @@ Data doesn't conform to expectations
 
 #### Defined in
 
-[sdk/src/types/errors.ts:157](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L157)
+[sdk/src/types/errors.ts:157](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L157)
 
 ## Properties
 
@@ -52,7 +52,7 @@ The type of error.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:153](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L153)
+[sdk/src/types/errors.ts:153](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L153)
 
 ---
 
@@ -66,7 +66,7 @@ TypedError.message
 
 #### Defined in
 
-[sdk/src/types/errors.ts:155](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L155)
+[sdk/src/types/errors.ts:155](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L155)
 
 ---
 
@@ -80,7 +80,7 @@ TypedError.name
 
 #### Defined in
 
-[sdk/src/types/errors.ts:154](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L154)
+[sdk/src/types/errors.ts:154](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L154)
 
 ---
 
@@ -100,4 +100,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:156](https://github.com/Network-Goods/hypercerts/blob/1adf630/sdk/src/types/errors.ts#L156)
+[sdk/src/types/errors.ts:156](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L156)

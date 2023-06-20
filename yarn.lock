@@ -8084,7 +8084,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.11.tgz#b3b790f09cb1696cffcec605de025b088fa4225f"
   integrity sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==
 
-"@types/node@^10.0.3":
+"@types/node@^10.0.3", "@types/node@^10.12.12":
   version "10.17.60"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
@@ -10772,6 +10772,13 @@ blockstore-datastore-adapter@^4.0.0:
     it-pushable "^3.1.0"
     multiformats "^10.0.1"
 
+bn.js-typings@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bn.js-typings/-/bn.js-typings-1.0.1.tgz#00faef56401850b763cee041c0728a9aaf091e7e"
+  integrity sha512-PdV3AEpI5A8mHCt3KgBobIJ+3rhoxxkRl8b0dCGDgGtJNYmN4KTPLHYq7xOSmKF1Kv06aZ5k8QhXbyG73IyhdQ==
+  dependencies:
+    "@types/node" "^10.12.12"
+
 bn.js@4.11.6:
   version "4.11.6"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
@@ -11117,10 +11124,6 @@ bytes@3.1.2, bytes@^3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.2.tgz#8b0beeb98605adf1b128fa4386403c009e0221a5"
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
-
-"c857fa5c110524ee@https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3":
-  version "512.0.0"
-  resolved "https://api.observablehq.com/d/c857fa5c110524ee.tgz?v=3#5c240c6b9a338808ec8af7d4afe3831df22c553b"
 
 cac@^6.7.14:
   version "6.7.14"

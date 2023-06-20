@@ -1,13 +1,9 @@
 import { spawn } from "../lib/common";
-import {
-  ClaimByIdQuery,
-  ClaimTokensByClaimQuery,
-  HypercertMetadata,
-} from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import qs from "qs";
 import React, { ReactNode } from "react";
 import { useHypercertClient } from "../hooks/hypercerts-client";
+import { loadHypercert, Hypercert } from "../lib/hypercert";
 
 // The name used to pass data into the Plasmic DataProvider
 const DATAPROVIDER_NAME = "hypercertData";
@@ -34,11 +30,6 @@ export interface HypercertFetcherProps {
   byMetadataUri?: string; // Fetch by metadataUri; If both are specified, byMetadataUri will override the URI in the claim
 }
 
-export type HypercertData = ClaimByIdQuery &
-  Partial<ClaimTokensByClaimQuery> & {
-    metadata?: HypercertMetadata;
-  };
-
 export function HypercertFetcher(props: HypercertFetcherProps) {
   const {
     className,
@@ -50,15 +41,12 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
     byClaimId,
     byMetadataUri,
   } = props;
-  const [data, setData] = React.useState<HypercertData | undefined>();
-  const {
-    client: { indexer, storage },
-  } = useHypercertClient();
+  const [data, setData] = React.useState<Hypercert | undefined>();
+  const { client } = useHypercertClient();
 
   React.useEffect(() => {
     spawn(
       (async () => {
-        const newData: HypercertData = {};
         const hashQueryString = window.location.hash.slice(
           window.location.hash.startsWith("#") ? 1 : 0,
         );
@@ -75,31 +63,17 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
         const claimId = useQueryString
           ? qClaimId ?? byClaimId
           : byClaimId ?? qClaimId;
-        // Get the claim
-        if (claimId) {
-          const result = await indexer.claimById(claimId);
-          newData.claim = result.claim;
-        }
-        // Get the fraction tokens
-        if (claimId) {
-          const result = await indexer.fractionsByClaim(claimId);
-          newData.claimTokens = result.claimTokens;
-        }
-        // Get the metadata
-        const metadataUri = useQueryString
-          ? newData?.claim?.uri ?? byMetadataUri
-          : byMetadataUri ?? newData?.claim?.uri;
 
-        if (metadataUri) {
-          const result = await storage.getMetadata(metadataUri);
-          newData.metadata = result;
-        }
-
+        const hypercert = await loadHypercert(client, {
+          claimId: claimId,
+          metadataUri: byMetadataUri,
+          overrideMetadataUri: useQueryString && byMetadataUri !== undefined,
+        });
         console.log(
-          `Hypercert name='${newData.metadata?.name}' claimId=${claimId}, metadataUri=${metadataUri}: `,
-          newData,
+          `Hypercert name='${hypercert.name}' claimId=${claimId}, metadataUri=${hypercert.metadataUri}: `,
+          hypercert,
         );
-        setData(newData);
+        setData(hypercert);
       })(),
     );
   }, [useQueryString, byClaimId, byMetadataUri]);

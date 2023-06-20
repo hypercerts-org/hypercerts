@@ -4,12 +4,15 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { BigNumberish } from "ethers";
+import { useState } from "react";
 
 export const useSplitFractionUnits = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -19,7 +22,7 @@ export const useSplitFractionUnits = ({
     complete: "Done splitting",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
   const initializeWrite = async (
@@ -28,6 +31,8 @@ export const useSplitFractionUnits = ({
   ) => {
     setStep("splitting");
     try {
+      setTxPending(true);
+
       const tx = await client.splitClaimUnits(id, fractions);
       setStep("waiting");
 
@@ -49,6 +54,9 @@ export const useSplitFractionUnits = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
+      setTxPending(false);
     }
   };
 
