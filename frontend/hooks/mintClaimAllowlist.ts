@@ -12,7 +12,7 @@ import {
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
 import { BigNumberish } from "ethers";
-import _, { set } from "lodash";
+import _ from "lodash";
 import { toast } from "react-toastify";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;

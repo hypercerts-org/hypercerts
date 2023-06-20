@@ -63,6 +63,7 @@ export const useMergeFractionUnits = ({
       setStep("preparing");
       await initializeWrite(ids);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

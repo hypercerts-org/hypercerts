@@ -77,6 +77,7 @@ export const useMintFractionAllowlist = ({
       setStep("initial");
       await initializeWrite(claimId, units, proof);
     },
+    txPending,
     readOnly: !enabled || isLoading || !client || client.readonly,
   };
 };

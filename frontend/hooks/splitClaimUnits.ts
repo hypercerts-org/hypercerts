@@ -66,6 +66,7 @@ export const useSplitFractionUnits = ({
       setStep("preparing");
       await initializeWrite(id, fractions);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };
