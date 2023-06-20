@@ -10,16 +10,16 @@ volumes:
 
 services:
   install:
-    image: node:18
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
     command: yarn install --non-interactive --frozen-lockfile
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
   localchain: 
-    image: node:18
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
     ports:
-      - "8545:8545"
+      - "${LOCALCHAIN_PORT}:8545"
     working_dir: /usr/src/app/contracts
     command: yarn hardhat node
     depends_on:
@@ -35,7 +35,7 @@ services:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
   after_localchain:
-    image: node:18
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
     command: bash docker/after_localchain.sh
     depends_on:
@@ -45,6 +45,10 @@ services:
       - PLASMIC_PROJECT_ID=${PLASMIC_PROJECT_ID}
       - PLASMIC_PROJECT_API_TOKEN=${PLASMIC_PROJECT_API_TOKEN}
       - LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS}
+      - LOCALCHAIN_PORT=${LOCALCHAIN_PORT}
+      - NEXT_PUBLIC_NFT_STORAGE_TOKEN=${NEXT_PUBLIC_NFT_STORAGE_TOKEN}
+      - NEXT_PUBLIC_WEB3_STORAGE_TOKEN=${NEXT_PUBLIC_WEB3_STORAGE_TOKEN}
+      # This network url is intentionally internal to the docker compose cluster
       - LOCALHOST_NETWORK_URL=http://localchain:8545
     volumes:
       - ../:/usr/src/app
@@ -53,7 +57,7 @@ services:
       - ipfs_staging:/ipfs_staging
       - ipfs_data:/ipfs_data
   frontend:
-    image: node:18
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
@@ -73,9 +77,10 @@ services:
       after_localchain:
         condition: service_completed_successfully
     ports:
-      - "8080:8080"
-      - "5001:5001"
-      - "4001:4001"
+      - "${IPFS_GATEWAY_PORT}:8080"
+      - "${IPFS_API_PORT}:5001"
+      # Don't need to expose the libp2p port at this time.
+      # - "${IPFS_LIBP2P_PORT}:4001"
     volumes:
       - ipfs_staging:/export
       - ipfs_data:/data/ipfs
@@ -105,8 +110,7 @@ services:
       timeout: 5s
       retries: 5
   graph:
-    # If you're on an M1 mac you will want to build this image locally.
-    image: hypercerts-org/test-graph-node:latest
+    image: ghcr.io/hypercerts-org/graph-node-dev:1.0
     depends_on:
       postgres:
         condition: service_healthy
@@ -122,11 +126,11 @@ services:
       ethereum: hardhat:http://localchain:8545
     ports:
       # WS
-      - "8001:8001"
+      - "${GRAPH_WS_PORT}:8001"
       # JSON-RPC
-      - "8020:8020"
+      - "${GRAPH_JSON_RPC_PORT}:8020"
       # Indexing status
-      - "8030:8030"
+      - "${GRAPH_INDEX_STATUS_PORT}:8030"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 5s
@@ -134,6 +138,7 @@ services:
       retries: 10
       start_period: 30s
   graph_proxy:
+    # This proxy is required to fix some CORS issues with the graph
     image: nginx
     volumes:
       - ./nginx/graph_nginx.conf:/etc/nginx/nginx.conf
@@ -141,9 +146,9 @@ services:
       graph:
         condition: service_healthy
     ports:
-      - "8000:80"
+      - "${GRAPH_GRAPHQL_PORT}:80"
   after_graph:
-    image: node:18
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
     depends_on:
       graph:
         condition: service_healthy
@@ -152,10 +157,3 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
-      #- graph_modules:/usr/src/app/graph/node_modules
-
-  # # supabase:
-  # #   image: hypercerts/supabase
-  # #   build:
-  # #     context: docker
-  # #     dockerfile: docker/supabase.Dockerfile

@@ -12,11 +12,6 @@ function hardhat_local() {
     yarn hardhat --network localhost $@
 }
 
-# Install dependencies if needed
-if [[ -z "$(which jq)" ]]; then
-    apt-get update && apt-get install -y jq
-fi
-
 # Clean up stateful data related to any previous invocation of this
 # docker-compose setup
 rm -rf /postgres/*
