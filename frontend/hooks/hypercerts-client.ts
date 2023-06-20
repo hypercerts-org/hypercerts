@@ -26,7 +26,7 @@ export const useHypercertClient = () => {
       const { signer, provider } = await connector
         .getProvider()
         .then((provider) => {
-          const _provider = new ethers.providers.Web3Provider(provider);
+          const _provider = new ethers.providers.Web3Provider(provider, "any");
           const signer = _provider.getSigner();
           return { provider: _provider, signer };
         });
