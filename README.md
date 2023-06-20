@@ -69,6 +69,39 @@ To run a dev server that watches for changes across code and Plasmic, run:
 yarn dev:frontend
 ```
 
+## E2E Local Development
+
+We now have a mostly localized development infrastructure that can be used when
+developing the Dapp. The localized development infrastructure will spin up a
+localchain, graph, and postgres. Your local machine must
+have docker and docker compose installed.
+
+### Setup environment variables
+
+You will then need to create a `.env.local` file in the root of the repository with at the following environment variables:
+
+```
+# Required
+PLASMIC_PROJECT_ID=
+PLASMIC_PROJECT_API_TOKEN=
+NEXT_PUBLIC_NFT_STORAGE_TOKEN=
+NEXT_PUBLIC_WEB3_STORAGE_TOKEN=
+
+# Optional (used to fund an address on the localchain)
+LOCAL_TESTING_ADDRESS=
+```
+
+### Starting the local development infrastructure
+
+Once you have your environment configured you can run the infrastructure like so:
+
+```
+yarn dev:serve-e2e
+```
+
+Once everything is the dapp will be served from http://127.0.0.1:3000. You will
+need to point your metamask to the localchain at 127.0.0.1:8545 with ChainID 31337.
+
 ## Playbooks
 
 For setup and common operations for each subproject, navigate into the respective directory and check out the `README.md`.

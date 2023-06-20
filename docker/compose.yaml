@@ -8,6 +8,7 @@ volumes:
   ipfs_data:
   subgraph.yaml:
 
+
 services:
   install:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
@@ -16,7 +17,7 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
-  localchain: 
+  localchain:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     ports:
       - "${LOCALCHAIN_PORT}:8545"
@@ -26,7 +27,7 @@ services:
       install:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8545"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8545" ]
       interval: 1s
       timeout: 15s
       retries: 5
@@ -92,10 +93,11 @@ services:
       after_localchain:
         condition: service_completed_successfully
     # Required command for the graph
-    command: [
-      "postgres",
-      "-cshared_preload_libraries=pg_stat_statements"
-    ]
+    command:
+      [
+        "postgres",
+        "-cshared_preload_libraries=pg_stat_statements"
+      ]
     volumes:
       - postgres_storage:/var/lib/postgresql/data
       - ./postgres.init.d:/docker-entrypoint-initdb.d
@@ -105,7 +107,7 @@ services:
       POSTGRES_DB: graph-node
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: [ "CMD-SHELL", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -132,7 +134,7 @@ services:
       # Indexing status
       - "${GRAPH_INDEX_STATUS_PORT}:8030"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
       interval: 5s
       timeout: 5s
       retries: 10

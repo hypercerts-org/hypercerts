@@ -40,3 +40,4 @@ coverage.json
 next-env.d.ts
 .idea/
 .vscode/
+graph/.test.subgraph.yaml
