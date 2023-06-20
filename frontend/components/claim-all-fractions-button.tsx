@@ -3,7 +3,7 @@ import {
   useGetAllEligibility,
   useMintFractionAllowlistBatch,
 } from "../hooks/mintFractionAllowlistBatch";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useBalance } from "wagmi";
@@ -35,7 +35,7 @@ export const ClaimAllFractionsButton = ({
 
   const router = useRouter();
   const { data: claimIds } = useGetAllEligibility(address ?? "");
-  const { write } = useMintFractionAllowlistBatch({
+  const { write, isLoading } = useMintFractionAllowlistBatch({
     onComplete: () => {
       console.log("Minted all of them");
       // Store the current time
@@ -61,6 +61,7 @@ export const ClaimAllFractionsButton = ({
       onClick={() => handleClaim()}
       variant="outlined"
       size="small"
+      startIcon={isLoading ? <CircularProgress size="1rem" /> : undefined}
     >
       {text}
     </Button>

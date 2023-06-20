@@ -123,6 +123,7 @@ export const useMintFractionAllowlistBatch = ({
     error: waitError,
   } = useWaitForTransaction({
     hash: data?.hash,
+    confirmations: 5,
     onSuccess: () => {
       // TODO: Remove key value pairs from sheet.best
       toast(mintInteractionLabels.toastBatchSuccess, { type: "success" });
