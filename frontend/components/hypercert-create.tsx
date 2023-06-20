@@ -379,6 +379,12 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
           }
 
           const image = await exportAsImage(IMAGE_SELECTOR);
+
+          if (!image) {
+            setSubmitting(false);
+            return;
+          }
+
           const metaData = formatValuesToMetaData(
             values,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -516,7 +522,18 @@ const exportAsImage = async (id: string) => {
     //useCORS: true,
     proxy: "https://cors-proxy.hypercerts.workers.dev/",
     imageTimeout: 0,
+  }).catch((e) => {
+    toast("Error loading hypercert image . Please contact the team.", {
+      type: "error",
+    });
+    console.error("Error exporting image: ", e);
+    return undefined;
   });
+
+  if (!canvas) {
+    return undefined;
+  }
+
   const image = canvas.toDataURL("image/png", 1.0);
   return image;
 };
