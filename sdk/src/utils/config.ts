@@ -1,4 +1,4 @@
-import { Deployment, HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
+import { Deployment, HypercertClientConfig, UnsupportedChainError, SupportedChainIds } from "../types/index.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
@@ -34,7 +34,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
     }
 
-    baseDeployment = DEPLOYMENTS[chainId];
+    baseDeployment = DEPLOYMENTS[chainId as SupportedChainIds];
     if (!baseDeployment) {
       throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
     }
