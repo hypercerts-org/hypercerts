@@ -33,7 +33,7 @@ export const useBurnFraction = ({
       const tx = await client.burnClaimFraction(claimId);
       setStep("burning");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       setStep("waiting");
 
       if (receipt.status === 0) {

@@ -36,7 +36,7 @@ export const useSplitFractionUnits = ({
       const tx = await client.splitClaimUnits(id, fractions);
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Splitting failed", {
           type: "error",

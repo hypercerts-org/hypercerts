@@ -33,7 +33,7 @@ export const useMergeFractionUnits = ({
       const tx = await client.mergeClaimUnits(ids);
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Merging failed", {
           type: "error",

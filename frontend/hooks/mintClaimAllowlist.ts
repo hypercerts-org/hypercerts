@@ -104,7 +104,7 @@ export const useMintClaimAllowlist = ({
       );
       setStep("writing");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
