@@ -6,6 +6,8 @@ import {
   WEB3_STORAGE_TOKEN,
   OVERRIDE_CHAIN_NAME,
   OVERRIDE_GRAPH_NAME,
+  OVERRIDE_GRAPH_BASE_URL,
+  OVERRIDE_GRAPH_NAMESPACE,
   CONTRACT_ADDRESS,
   UNSAFE_FORCE_OVERRIDE_CONFIG,
 } from "../lib/config";
@@ -26,6 +28,14 @@ function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
 
   if (OVERRIDE_GRAPH_NAME) {
     clientConfig.graphName = OVERRIDE_GRAPH_NAME;
+  }
+
+  if (OVERRIDE_GRAPH_BASE_URL) {
+    clientConfig.graphBaseUrl = OVERRIDE_GRAPH_BASE_URL;
+  }
+
+  if (OVERRIDE_GRAPH_NAMESPACE) {
+    clientConfig.graphNamespace = OVERRIDE_GRAPH_NAMESPACE;
   }
 
   if (CONTRACT_ADDRESS) {

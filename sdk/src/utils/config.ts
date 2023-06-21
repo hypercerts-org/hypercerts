@@ -15,6 +15,9 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
 
   let baseDeployment: Deployment & { unsafeForceOverrideConfig?: boolean };
 
+  console.log(overrides);
+  console.log(overrides);
+
   if (overrides.unsafeForceOverrideConfig) {
     if (!overrides.chainName || !overrides.contractAddress || !overrides.graphName) {
       throw new UnsupportedChainError(
@@ -27,6 +30,8 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       chainName: overrides.chainName,
       contractAddress: overrides.contractAddress,
       graphName: overrides.graphName,
+      graphBaseUrl: overrides.graphBaseUrl || "",
+      graphNamespace: overrides.graphNamespace || "",
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
@@ -48,7 +53,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     ...getChainName(overrides),
     ...getContractAddress(overrides),
     ...getRpcUrl(overrides),
-    ...getGraphName(overrides),
+    ...getGraphConfig(overrides),
     ...getProvider(overrides),
     ...getSigner(overrides),
     ...getNftStorageToken(overrides),
@@ -105,17 +110,27 @@ const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {
   return process.env.RPC_URL ? { rpcUrl: process.env.RPC_URL } : {};
 };
 
-const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.graphName) {
-    return { graphName: overrides.graphName };
+const getGraphConfig = (overrides: Partial<HypercertClientConfig>) => {
+  let config = {
+    graphName: "",
+    graphBaseUrl: "https://api.thegraph.com/subgraphs/name",
+    graphNamespace: "hypercerts-admin",
+  };
+  if (overrides.unsafeForceOverrideConfig) {
+    config.graphBaseUrl = overrides.graphBaseUrl ?? config.graphBaseUrl;
+    config.graphName = overrides.graphName ?? config.graphName;
+    config.graphNamespace = overrides.graphNamespace ?? config.graphNamespace;
+    return config;
   }
 
   const { chainId } = getChainId(overrides);
   switch (chainId) {
     case 5:
-      return { graphName: "hypercerts-testnet" };
+      config.graphName = "hypercerts-testnet";
+      return config;
     case 10:
-      return { graphName: "hypercerts-optimism-mainnet" };
+      config.graphName = "hypercerts-optimism-mainnet";
+      return config;
     default:
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
   }

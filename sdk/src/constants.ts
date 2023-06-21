@@ -14,12 +14,16 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Deployment } = {
     chainName: "goerli",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     graphName: "hypercerts-testnet",
+    graphBaseUrl: "https://api.thegraph.com/subgraphs/name",
+    graphNamespace: "hypercerts-admin",
   } as const,
   10: {
     chainId: 10,
     chainName: "optimism-mainnet",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     graphName: "hypercerts-optimism-mainnet",
+    graphBaseUrl: "https://api.thegraph.com/subgraphs/name",
+    graphNamespace: "hypercerts-admin",
   } as const,
 };
 
