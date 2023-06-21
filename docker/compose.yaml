@@ -80,6 +80,8 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
   ipfs:
     image: ipfs/kubo
     command: daemon --offline --migrate=true --agent-version-suffix=docker

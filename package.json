@@ -15,7 +15,8 @@
       "graph",
       "os-observer",
       "sdk",
-      "vendor/observabletreemap"
+      "vendor/observabletreemap",
+      "e2e-tests"
     ],
     "nohoist": [
       "graph"
@@ -48,6 +49,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
