@@ -1,4 +1,4 @@
-import HypercertEvaluator, { EvaluatorInterface } from "../../src/evaluations/index.js";
+import HypercertEvaluator from "../../src/evaluations/index.js";
 import HypercertsStorage from "../../src/storage.js";
 import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
 import { CIDString } from "nft.storage";

@@ -17,7 +17,6 @@ describe("logger", () => {
 
   describe("skip logging", () => {
     it("by default it should not log a debug message to the console", () => {
-      console.log("process.env.LOG_LEVEL", process.env.LOG_LEVEL);
       const message = "Test debug";
       logger.debug(message);
 

@@ -13,7 +13,6 @@ import { jest } from "@jest/globals";
 
 describe("HypercertIndexer", () => {
   let indexer: HypercertIndexer;
-  let mockGraphClient: any;
 
   beforeEach(() => {
     jest.clearAllMocks();
