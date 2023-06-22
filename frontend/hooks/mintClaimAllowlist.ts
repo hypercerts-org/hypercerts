@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
@@ -21,6 +22,8 @@ export const useMintClaimAllowlist = ({
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -91,6 +94,7 @@ export const useMintClaimAllowlist = ({
 
     try {
       setStep("preparing");
+      setTxPending(true);
 
       const tx = await client.createAllowlist(
         allowlist,
@@ -100,7 +104,7 @@ export const useMintClaimAllowlist = ({
       );
       setStep("writing");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -120,6 +124,7 @@ export const useMintClaimAllowlist = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
@@ -136,6 +141,7 @@ export const useMintClaimAllowlist = ({
       showModal({ stepDescriptions });
       await initializeWrite(metaData, allowlistUrl, allowlistPercentage);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

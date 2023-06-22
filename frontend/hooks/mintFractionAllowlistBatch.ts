@@ -10,12 +10,14 @@ import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
   const { setStep, showModal, hideModal } = useContractModal();
   const { address } = useAccountLowerCase();
   const { verifyFractionClaim } = useVerifyFractionClaim();
@@ -58,6 +60,8 @@ export const useMintFractionAllowlistBatch = ({
 
     setStep("minting");
     try {
+      setTxPending(true);
+
       const tx = await client.batchMintClaimFractionsFromAllowlists(
         (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
         units,
@@ -65,7 +69,7 @@ export const useMintFractionAllowlistBatch = ({
       );
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -83,15 +87,17 @@ export const useMintFractionAllowlistBatch = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      setTxPending(false);
     }
   };
-
   return {
     write: async () => {
       showModal({ stepDescriptions });
       setStep("initial");
       await initializeWrite();
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

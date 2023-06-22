@@ -4,8 +4,11 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { HypercertMetadata, TransferRestrictions } from "@hypercerts-org/sdk";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -15,7 +18,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     complete: "Done minting",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
   const initializeWrite = async (
@@ -24,6 +27,8 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   ) => {
     setStep("minting");
     try {
+      setTxPending(true);
+
       const tx = await client.mintClaim(
         metaData,
         units,
@@ -31,7 +36,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       );
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -49,6 +54,9 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
+      setTxPending(false);
     }
   };
 
@@ -58,6 +66,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       setStep("preparing");
       await initializeWrite(metaData, units);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };
