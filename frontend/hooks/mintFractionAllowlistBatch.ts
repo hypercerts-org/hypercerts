@@ -103,16 +103,20 @@ export const useMintFractionAllowlistBatch = ({
 };
 
 export const useGetAllEligibility = (address: string) => {
-  return useQuery(["get-all-eligibility", address], async () => {
-    const { data, error } = await supabase
-      .from(SUPABASE_TABLE)
-      .select("*")
-      .eq("address", address.toLowerCase());
-    if (error) {
-      console.error("Supabase error:");
-      console.error(error);
-    }
-    const claimIds = data?.map((x) => x.claimId as string);
-    return claimIds ?? [];
-  });
+  return useQuery(
+    ["get-all-eligibility", address],
+    async () => {
+      const { data, error } = await supabase
+        .from(SUPABASE_TABLE)
+        .select("*")
+        .eq("address", address.toLowerCase());
+      if (error) {
+        console.error("Supabase error:");
+        console.error(error);
+      }
+      const claimIds = data?.map((x) => x.claimId as string);
+      return claimIds ?? [];
+    },
+    { enabled: !!address, refetchInterval: 5000 },
+  );
 };
