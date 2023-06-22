@@ -24,10 +24,10 @@ supabase = supabase_client()
 PROJECT_LIST = [
     "ffc69c6c-dbd1-4077-9dc7-1b8be4a7315e",
     "f5a2f3d4-5052-4f21-9017-a1d0ae8cb943",
+    "de43bcbb-612a-4ed7-b493-244a7c6483ff",
     # "e4b43fa9-b807-45f4-93dd-0c523ade875f",
     # "4c6b108c-0c75-49e9-8371-8b5613fe1973",
     # "bc695037-a1d1-400e-b495-18097bb0c66b",
-     "de43bcbb-612a-4ed7-b493-244a7c6483ff",
     # "478a9fad-0453-4f16-aa40-4aea390f8462",
     # "f2727f30-1c71-4611-9c4e-917d22b546ba",
     # "beb3c122-a747-4328-8435-19d6e770609f",
@@ -137,7 +137,6 @@ def generate_kpis(events_dict):
     contrib_counts = Counter([e['contributor'] for e in git_events])
     repo_counts = Counter(e['repo'] for e in git_events)
     event_counts = Counter(e['event_type'] for e in git_events)
-    events_string = ", ".join([f"{k}s - {v}" for k,v in event_counts.items()])
     
     first_date = min([e['timestamp'] for e in git_events])
     last_date = max([e['timestamp'] for e in git_events])
@@ -146,6 +145,8 @@ def generate_kpis(events_dict):
         e['amount'] for e in events_dict['onchain_events']
         if e['event_type'] == "funds received"
     ])
+
+    # dummy figures
     num_users = random.randint(1000,20000)
 
     return {
@@ -154,6 +155,8 @@ def generate_kpis(events_dict):
             "status": "verified",
             "start_period": first_date,
             "end_period": last_date,
+
+            # these are dummy figures
             "smart_contracts_monitored": random.randint(1,10),
             "project_wallets_monitored": random.randint(1,5)
         },
@@ -162,6 +165,8 @@ def generate_kpis(events_dict):
             "github_contributions_count": len(git_events),
             "github_active_repos_count": len(repo_counts),
             "onchain_income": f"${income:,.0f}",
+
+            # these are dummy figures
             "contract_interactions_count": random.randint(20,65000),
             "unique_onchain_users": num_users,
             "active_onchain_users": int(num_users * random.uniform(.05,.5))
