@@ -326,13 +326,14 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
     push("/app/dashboard");
   };
 
-  const { write: mintClaim } = useMintClaim({
+  const { write: mintClaim, txPending: mintClaimPending } = useMintClaim({
     onComplete,
   });
 
-  const { write: mintClaimAllowlist } = useMintClaimAllowlist({
-    onComplete,
-  });
+  const { write: mintClaimAllowlist, txPending: mintClaimAllowlistPending } =
+    useMintClaimAllowlist({
+      onComplete,
+    });
 
   return (
     <div className={className}>
@@ -403,7 +404,10 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
             });
             console.error("SDK formatting errors: ", metaData.errors);
           }
-          setSubmitting(false);
+
+          if (!mintClaimAllowlistPending && !mintClaimPending) {
+            setSubmitting(false);
+          }
         }}
       >
         {(formikProps: FormikProps<HypercertCreateFormData>) => (
