@@ -1,22 +1,30 @@
-import HypercertIndexer from "../../src/indexer.js";
+import { jest } from "@jest/globals";
+
 import {
-  ClaimsByOwnerQuery,
   ClaimByIdQuery,
-  RecentClaimsQuery,
-  ClaimTokensByOwnerQuery,
-  ClaimTokensByClaimQuery,
   ClaimTokenByIdQuery,
+  ClaimTokensByClaimQuery,
+  ClaimTokensByOwnerQuery,
+  ClaimsByOwnerQuery,
+  RecentClaimsQuery,
   Sdk,
 } from "../../.graphclient/index.js";
+import HypercertIndexer from "../../src/indexer.js";
 import { defaultQueryParams } from "../../src/indexer/utils.js";
-import { jest } from "@jest/globals";
 
 describe("HypercertIndexer", () => {
   let indexer: HypercertIndexer;
 
   beforeEach(() => {
-    jest.clearAllMocks();
     indexer = new HypercertIndexer({ graphName: "hypercerts-testnet" });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   it("should call graphClient.ClaimsByOwner with the correct parameters", async () => {

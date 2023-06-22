@@ -10,15 +10,15 @@ import { getAllowlist, getFormattedMetadata } from "../helpers.js";
 
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-const mockStoreMetadata = jest
-  .spyOn(HypercertsStorage.prototype, "storeMetadata")
-  .mockImplementation(async (data: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
-
-const mockStoreData = jest
-  .spyOn(HypercertsStorage.prototype, "storeData")
-  .mockImplementation(async (data) => Promise.resolve(mockCorrectMetadataCid));
-
 describe("Allows for minting claims from an allowlist", () => {
+  const mockStoreMetadata = jest
+    .spyOn(HypercertsStorage.prototype, "storeMetadata")
+    .mockImplementation(async (data: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
+
+  const mockStoreData = jest
+    .spyOn(HypercertsStorage.prototype, "storeData")
+    .mockImplementation(async (data) => Promise.resolve(mockCorrectMetadataCid));
+
   const setUp = async () => {
     const provider = new MockProvider();
     const [user, other, admin] = provider.getWallets();
@@ -38,6 +38,7 @@ describe("Allows for minting claims from an allowlist", () => {
       provider,
       users: { user, other, admin },
       minter,
+      stub,
     };
   };
 
@@ -45,14 +46,16 @@ describe("Allows for minting claims from an allowlist", () => {
   let _provider: MockProvider;
   let _users: { user: any; other: any; admin: any };
   let _minter: MockContract;
+  let _stub: sinon.SinonStub;
 
   beforeAll(async () => {
-    const { client, provider, users, minter } = await setUp();
+    const { client, provider, users, minter, stub } = await setUp();
     // Fast-forward until all timers have been executed
     _client = client;
     _provider = provider;
     _users = users;
     _minter = minter;
+    _stub = stub;
   });
 
   beforeEach(() => {
@@ -61,7 +64,7 @@ describe("Allows for minting claims from an allowlist", () => {
   });
 
   afterAll(() => {
-    sinon.restore();
+    _stub.restore();
     jest.restoreAllMocks();
   });
 

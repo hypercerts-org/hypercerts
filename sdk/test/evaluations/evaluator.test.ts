@@ -1,6 +1,6 @@
-import { expect, jest } from "@jest/globals";
-import { MockProvider } from "ethereum-waffle";
+import { expect } from "@jest/globals";
 import { providers } from "ethers";
+import { Wallet, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 import sinon from "sinon";
 
@@ -11,52 +11,48 @@ import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
 import { getEvaluationData } from "../helpers.js";
 import { reloadEnv } from "../setup-tests.js";
 
-jest.mock("../../src/storage.js");
-
 describe("HypercertEvaluator", () => {
+  let stubSubscription: sinon.SinonStub;
+  let stubStorage: sinon.SinonStub;
+  let signer: Wallet;
+  let evaluator: HypercertEvaluator;
+  const mockCid = "bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u";
+
   beforeAll(() => {
-    sinon.stub(providers.BaseProvider.prototype, "on");
+    stubSubscription = sinon.stub(providers.JsonRpcProvider.prototype, "on");
+    signer = ethers.Wallet.createRandom();
+    evaluator = new HypercertEvaluator({
+      chainId: 5,
+      easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
+      signer,
+    });
+    stubStorage = sinon.stub(evaluator.storage, "storeData").resolves(mockCid);
   });
 
-  const provider = new MockProvider();
-
-  const [wallet] = provider.getWallets();
-  const signer = wallet.connect(provider);
-
-  const evaluator = new HypercertEvaluator({
-    chainId: 5,
-    easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-    signer,
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-    reloadEnv();
+  beforeEach(() => {
+    sinon.resetHistory();
   });
 
   afterAll(() => {
-    sinon.restore();
+    // reloadEnv();
+
+    stubStorage.restore();
+    stubSubscription.restore();
   });
 
   describe("submitEvaluation", () => {
     it("should submit an EAS evaluation", async () => {
-      const mockStoredata = jest.spyOn(HypercertsStorage.prototype, "storeData");
-
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
-
-      mockStoredata.mockResolvedValue("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: await signer.getAddress() });
 
       const result: CIDString = await evaluator.submitEvaluation(evaluation);
 
-      expect(result).toEqual("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
-      expect(mockStoredata).toHaveBeenCalledTimes(1);
+      console.log(result);
 
-      mockStoredata.mockClear();
+      expect(result).toEqual("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
+      sinon.assert.calledOnce(stubStorage);
     });
 
     it("should throw an error for missing signer", async () => {
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
-
       try {
         new HypercertEvaluator({
           chainId: 5,
@@ -73,7 +69,7 @@ describe("HypercertEvaluator", () => {
 
     it("should throw an error for unexpected evaluation source", async () => {
       const evaluation = {
-        creator: signer.address,
+        creator: await signer.getAddress(),
         evaluationSource: {
           type: "invalid",
         },
@@ -116,7 +112,7 @@ describe("HypercertEvaluator", () => {
       delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
       delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: await signer.getAddress() });
 
       const readonlyEvaluator = new HypercertEvaluator({
         chainId: 5,
@@ -125,8 +121,7 @@ describe("HypercertEvaluator", () => {
       });
 
       try {
-        const cid = await readonlyEvaluator.submitEvaluation(evaluation);
-        console.log(cid);
+        await readonlyEvaluator.submitEvaluation(evaluation);
       } catch (e) {
         expect(e).toBeInstanceOf(StorageError);
         let error = e as StorageError;

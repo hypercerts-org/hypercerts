@@ -10,34 +10,36 @@ import logger from "../../src/utils/logger.js";
 import mockData from "../res/mockData.js";
 import mockMetadata from "../res/mockMetadata.js";
 
-const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
-const mockIncorrectMetadataCid = "errrCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
-
-const storeBlobMock = jest.spyOn(Web3Storage.prototype, "put").mockImplementation((_: unknown, __?: unknown) => {
-  logger.debug("Hit mock storeBlob");
-
-  return Promise.resolve(mockCorrectMetadataCid);
-});
-
-const server = setupServer(
-  rest.get(`https://nftstorage.link/ipfs/${mockCorrectMetadataCid}`, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockMetadata));
-  }),
-  rest.get(`https://nftstorage.link/ipfs/${mockIncorrectMetadataCid}`, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockData));
-  }),
-);
-
 describe("Web3.Storage Client", () => {
+  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+  const mockIncorrectMetadataCid = "errrCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+
+  const storeBlobMock = jest.spyOn(Web3Storage.prototype, "put").mockImplementation((_: unknown, __?: unknown) => {
+    logger.debug("Hit mock storeBlob");
+
+    return Promise.resolve(mockCorrectMetadataCid);
+  });
+
+  const server = setupServer(
+    rest.get(`https://nftstorage.link/ipfs/${mockCorrectMetadataCid}`, (_, res, ctx) => {
+      return res(ctx.status(200), ctx.json(mockMetadata));
+    }),
+    rest.get(`https://nftstorage.link/ipfs/${mockIncorrectMetadataCid}`, (_, res, ctx) => {
+      return res(ctx.status(200), ctx.json(mockData));
+    }),
+  );
   const storage = new HypercertsStorage({});
 
   beforeAll(() => server.listen());
 
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    server.resetHandlers();
+    jest.clearAllMocks();
+  });
 
   afterAll(() => {
     server.close();
-    jest.restoreAllMocks();
+    jest.resetAllMocks();
   });
 
   /**

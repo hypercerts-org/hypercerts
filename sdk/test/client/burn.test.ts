@@ -1,24 +1,32 @@
 import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, providers } from "ethers";
+import { BigNumber, Wallet, providers } from "ethers";
 import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
 import { ClientError } from "../../src/types/errors.js";
 
-const provider = new MockProvider();
-const [user, other] = provider.getWallets();
 const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
 
 describe("burn fraction tokens in HypercertClient", () => {
+  let stub: sinon.SinonStub;
+  let provider: MockProvider;
+  let user: Wallet;
+  let other: Wallet;
+  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
+
   beforeAll(() => {
-    sinon.stub(provider, "on");
+    provider = new MockProvider();
+    [user, other] = provider.getWallets();
+
+    stub = sinon.stub(provider, "on");
   });
   beforeEach(() => {
     provider.clearCallHistory();
   });
+
   afterAll(() => {
-    sinon.restore();
+    stub.restore();
   });
 
   it("allows for a hypercert fraction to be burned", async () => {

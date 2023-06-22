@@ -8,8 +8,9 @@ import { StorageError } from "../src/types/errors.js";
 import { reloadEnv } from "./setup-tests.js";
 
 describe("HypercertsStorage", () => {
+  let stub: sinon.SinonStub;
   beforeAll(() => {
-    sinon.stub(providers.BaseProvider.prototype, "on");
+    stub = sinon.stub(providers.BaseProvider.prototype, "on");
 
     delete process.env.NFT_STORAGE_TOKEN;
     delete process.env.WEB3_STORAGE_TOKEN;
@@ -18,7 +19,7 @@ describe("HypercertsStorage", () => {
   });
 
   afterAll(() => {
-    sinon.restore();
+    stub.restore();
     reloadEnv();
   });
 

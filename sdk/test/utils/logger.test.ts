@@ -1,18 +1,26 @@
-import { reloadEnv } from "../setup-tests.js";
-import logger from "../../src/utils/logger.js";
 import { jest } from "@jest/globals";
 
+import logger from "../../src/utils/logger.js";
+import { reloadEnv } from "../setup-tests.js";
+
 describe("logger", () => {
-  beforeEach(() => {
-    delete process.env.LOG_LEVEL;
+  beforeAll(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
     jest.spyOn(console, "warn").mockImplementation(() => {});
     jest.spyOn(console, "info").mockImplementation(() => {});
     jest.spyOn(console, "debug").mockImplementation(() => {});
   });
 
+  beforeEach(() => {
+    delete process.env.LOG_LEVEL;
+  });
+
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   describe("skip logging", () => {

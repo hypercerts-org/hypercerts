@@ -1,22 +1,29 @@
+import { jest } from "@jest/globals";
 import { expect } from "chai";
-import { ethers, providers } from "ethers";
+import { MockProvider } from "ethereum-waffle";
+import { ethers } from "ethers";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
 import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
 import { reloadEnv } from "./setup-tests.js";
 
-describe("HypercertClient", () => {
+describe("HypercertClient setup tests", () => {
+  let stub: sinon.SinonStub;
+  const provider = new MockProvider();
+
   beforeAll(() => {
-    sinon.stub(providers.BaseProvider.prototype, "on");
+    stub = sinon.stub(provider, "on");
   });
-  beforeEach(() => {
+
+  afterEach(() => {
+    jest.clearAllMocks();
     reloadEnv();
   });
 
   afterAll(() => {
-    sinon.restore();
-    reloadEnv();
+    stub.restore();
+    jest.resetAllMocks();
   });
 
   it("should be able to create a new read only instance when missing storage keys", () => {
@@ -25,7 +32,7 @@ describe("HypercertClient", () => {
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    const client = new HypercertClient({});
+    const client = new HypercertClient({ provider });
 
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.true;
@@ -34,7 +41,7 @@ describe("HypercertClient", () => {
   it("should be able to create a new instance", () => {
     const signer = ethers.Wallet.createRandom();
 
-    const config = { chainId: 5, signer, nftStorageToken: "test", web3StorageToken: "test" };
+    const config = { provider, chainId: 5, signer, nftStorageToken: "test", web3StorageToken: "test" };
     const client = new HypercertClient(config);
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;
@@ -42,7 +49,7 @@ describe("HypercertClient", () => {
 
   it("should throw an error when the chainId is not supported", () => {
     try {
-      new HypercertClient({ chainId: 1337 });
+      new HypercertClient({ provider, chainId: 1337 });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e instanceof UnsupportedChainError).to.be.true;
@@ -59,7 +66,7 @@ describe("HypercertClient", () => {
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    const client = new HypercertClient({});
+    const client = new HypercertClient({ provider });
 
     // mintClaim
     try {
