@@ -1,17 +1,25 @@
+import { expect, jest } from "@jest/globals";
+import { MockProvider } from "ethereum-waffle";
+import { providers } from "ethers";
+import { CIDString } from "nft.storage";
+import sinon from "sinon";
+
 import HypercertEvaluator from "../../src/evaluations/index.js";
 import HypercertsStorage from "../../src/storage.js";
-import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
-import { CIDString } from "nft.storage";
-import { MockProvider } from "ethereum-waffle";
-import { reloadEnv } from "../setup-tests.js";
-import { expect, jest } from "@jest/globals";
-import { getEvaluationData } from "../helpers.js";
 import { InvalidOrMissingError, MalformedDataError, StorageError } from "../../src/types/errors.js";
+import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
+import { getEvaluationData } from "../helpers.js";
+import { reloadEnv } from "../setup-tests.js";
 
 jest.mock("../../src/storage.js");
 
 describe("HypercertEvaluator", () => {
+  beforeAll(() => {
+    sinon.stub(providers.BaseProvider.prototype, "on");
+  });
+
   const provider = new MockProvider();
+
   const [wallet] = provider.getWallets();
   const signer = wallet.connect(provider);
 
@@ -24,6 +32,10 @@ describe("HypercertEvaluator", () => {
   afterEach(() => {
     jest.restoreAllMocks();
     reloadEnv();
+  });
+
+  afterAll(() => {
+    sinon.restore();
   });
 
   describe("submitEvaluation", () => {

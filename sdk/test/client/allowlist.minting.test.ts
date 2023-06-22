@@ -1,11 +1,12 @@
 import { jest } from "@jest/globals";
 import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
+import { BigNumber, ethers } from "ethers";
+import sinon from "sinon";
 
 import { HypercertClient, HypercertMinterABI } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
 import { HypercertMetadata, MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
-import { BigNumber, ethers } from "ethers";
 
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
@@ -19,8 +20,10 @@ const mockStoreData = jest
 
 describe("Allows for minting claims from an allowlist", () => {
   const setUp = async () => {
-    const provider = new MockProvider({ ganacheOptions: { logging: { verbose: true } } });
+    const provider = new MockProvider();
     const [user, other, admin] = provider.getWallets();
+    const stub = sinon.stub(provider, "on");
+
     const minter = await deployMockContract(user, HypercertMinterABI);
 
     const client = new HypercertClient({
@@ -58,6 +61,7 @@ describe("Allows for minting claims from an allowlist", () => {
   });
 
   afterAll(() => {
+    sinon.restore();
     jest.restoreAllMocks();
   });
 

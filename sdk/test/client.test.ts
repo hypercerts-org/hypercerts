@@ -1,12 +1,21 @@
 import { expect } from "chai";
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
+import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
 import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
 import { reloadEnv } from "./setup-tests.js";
 
 describe("HypercertClient", () => {
+  beforeAll(() => {
+    sinon.stub(providers.BaseProvider.prototype, "on");
+  });
   beforeEach(() => {
+    reloadEnv();
+  });
+
+  afterAll(() => {
+    sinon.restore();
     reloadEnv();
   });
 
