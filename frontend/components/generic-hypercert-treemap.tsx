@@ -31,9 +31,9 @@ export function GenericHypercertTreemap(props: GenericHypercertTreemapProps) {
     main.redefine("data", data);
 
     // Keeping this here for now because we'd like to get background images
-    //working if we can fix the rendering. The value passed into observable
-    //needs to be an HTMLImageElement. So the commented code doesn't exactly
-    //work yet.
+    // working if we can fix the rendering. The value passed into observable
+    // needs to be an HTMLImageElement. So the commented code doesn't exactly
+    // work yet.
     //main.redefine("zuzaluLogo400x600", backgroundImageUrl);
     return () => runtime.dispose();
   }, []);
