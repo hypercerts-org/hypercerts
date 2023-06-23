@@ -67,8 +67,6 @@ const connectors = connectorsForWallets([
   },
 ]);
 
-const injected = new InjectedConnector({ chains });
-
 const wagmiClient = createClient({
   autoConnect: true,
   provider,
