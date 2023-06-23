@@ -15,13 +15,14 @@ env:
   NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
   NEXT_PUBLIC_SUPABASE_TABLE: ${{ vars.NEXT_PUBLIC_SUPABASE_TABLE }}
+  NEXT_PUBLIC_WALLETCONNECT_ID: ${{ vars.NEXT_PUBLIC_WALLETCONNECT_ID }}
 
 # Trigger the workflow when:
 on:
   # A push occurs to one of the matched branches.
   push:
     branches:
-      - main 
+      - main
   # Or when a pull request event occurs for a pull request against one of the
   # matched branches.
   pull_request:
@@ -50,11 +51,11 @@ jobs:
           # e.g. "Merge 3e621938d65caaa67f8e35d145335d889d470fc8 into 19a39b2f66cd7a165082d1486b2f1eb36ec2354a".
           ref: ${{ github.event.pull_request.head.sha }}
           # Fetch all history so gitlint can check the relevant commits.
-          fetch-depth: '0'
+          fetch-depth: "0"
       - name: Set up Python 3
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
@@ -71,7 +72,7 @@ jobs:
         if: always()
       - name: Build
         run: |
-          yarn build 
+          yarn build
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Lint
@@ -81,6 +82,6 @@ jobs:
         if: always()
       - name: Test
         run: |
-          yarn test 
+          yarn test
         # Always run this step so that all linting errors can be seen at once.
         if: always()
