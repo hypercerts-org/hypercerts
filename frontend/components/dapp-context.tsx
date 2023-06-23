@@ -34,7 +34,6 @@ import {
   createClient,
 } from "wagmi";
 import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { publicProvider } from "wagmi/providers/public";
 
 const DAPP_CONTEXT_NAME = "DappContext";
