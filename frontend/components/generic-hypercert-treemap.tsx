@@ -5,7 +5,7 @@ import notebook from "@hypercerts-org/observabletreemap";
 export interface GenericHypercertTreemapProps {
   className?: string;
   children?: ReactNode;
-  backgroundImageUrl?: string;
+  //backgroundImageUrl?: string;
   data: object;
 }
 
@@ -19,7 +19,7 @@ const defaultChildren = (
 );
 
 export function GenericHypercertTreemap(props: GenericHypercertTreemapProps) {
-  const { className, children, data, backgroundImageUrl } = props;
+  const { className, children, data } = props;
   const chartRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const runtime = new Runtime();
@@ -30,6 +30,7 @@ export function GenericHypercertTreemap(props: GenericHypercertTreemapProps) {
     });
     main.redefine("data", data);
 
+    // TODO: Fix backgroundImages. Leaving this inline for context later.
     // Keeping this here for now because we'd like to get background images
     // working if we can fix the rendering. The value passed into observable
     // needs to be an HTMLImageElement. So the commented code doesn't exactly
