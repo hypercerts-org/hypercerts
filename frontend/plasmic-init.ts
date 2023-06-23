@@ -20,6 +20,7 @@ import { SupabaseQuery } from "./components/supabase-query";
 import { SupabaseToChart } from "./components/supabase-to-chart";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
+import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
@@ -555,4 +556,15 @@ PLASMIC.registerComponent(ZuzaluHypercertTreemap, {
     children: "slot",
   },
   importPath: "./components/zuzalu-hypercert-treemap",
+});
+
+PLASMIC.registerComponent(GenericHypercertTreemap, {
+  name: "GenericHypercertTreemap",
+  description: "Generic Hypercert Treemap from observerablehq",
+  props: {
+    children: "slot",
+    backgroundImageUrl: "imageUrl",
+    data: "object",
+  },
+  importPath: "./components/generic-hypercert-treemap",
 });
