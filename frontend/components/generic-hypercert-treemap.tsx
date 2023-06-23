@@ -13,7 +13,7 @@ const defaultChildren = (
   <p>
     Credit:
     <a href="https://observablehq.com/d/c857fa5c110524ee">
-      Zuzualu hypercerts by category by hypercerts
+      Original notebook: hypercerts by category by hypercerts
     </a>
   </p>
 );
