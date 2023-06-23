@@ -14,6 +14,7 @@ const nextConfig = {
     RPC_URL: process.env.NEXT_PUBLIC_RPC_URL,
     NFT_STORAGE_TOKEN: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
     WEB3_STORAGE_TOKEN: process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
+    WALLETCONNECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
   },
   productionBrowserSourceMaps: true,
   webpack: (config) => {
