@@ -3,12 +3,15 @@ import { burnInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useBurnFraction = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -24,10 +27,12 @@ export const useBurnFraction = ({
   const initializeBurn = async (claimId: bigint) => {
     setStep("preparing");
     try {
+      setTxPending(true);
+
       const tx = await client.burnClaimFraction(claimId);
       setStep("burning");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       setStep("waiting");
 
       if (receipt.status === 0) {
@@ -51,6 +56,7 @@ export const useBurnFraction = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
@@ -59,6 +65,7 @@ export const useBurnFraction = ({
       showModal({ stepDescriptions });
       await initializeBurn(claimId);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

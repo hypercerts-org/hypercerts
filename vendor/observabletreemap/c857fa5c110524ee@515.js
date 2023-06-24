@@ -37,7 +37,7 @@ function _chart(
   const logoHeight = 400; // Adjusted height for the displayed logo size
   const logoX = 300;
   const logoY = 200;
-
+  /*
   svg
     .append("image")
     .attr("xlink:href", logoDataUrl)
@@ -45,7 +45,7 @@ function _chart(
     .attr("height", logoHeight)
     .attr("x", logoX)
     .attr("y", logoY);
-
+*/
   let group = svg.append("g").call(render, treemap(data));
 
   function render(group, root) {

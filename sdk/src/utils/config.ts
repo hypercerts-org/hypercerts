@@ -109,9 +109,21 @@ const getProvider = (overrides: Partial<HypercertClientConfig>) => {
   }
 
   const { rpcUrl } = getRpcUrl(overrides);
-  return rpcUrl
-    ? { provider: new ethers.providers.JsonRpcProvider(rpcUrl) }
-    : { provider: ethers.getDefaultProvider("goerli") };
+
+  const provider = rpcUrl ? new ethers.providers.JsonRpcProvider(rpcUrl, "any") : ethers.getDefaultProvider("goerli");
+
+  provider.on("network", (newNetwork, oldNetwork) => {
+    // When a Provider makes its initial connection, it emits a "network"
+    // event with a null oldNetwork along with the newNetwork. So, if the
+    // oldNetwork exists, it represents a changing network
+
+    if (typeof window === "undefined") return;
+    if (oldNetwork && window.location) {
+      window.location.reload();
+    }
+  });
+
+  return { provider };
 };
 
 const getSigner = (overrides: Partial<HypercertClientConfig>) => {

@@ -21,18 +21,18 @@ import { Chain } from "wagmi";
 
 const publicClientToProvider = (publicClient: PublicClient) => {
   const { chain, transport } = publicClient;
-  const network = {
-    chainId: chain.id,
-    name: chain.name,
-    ensAddress: chain.contracts?.ensRegistry?.address,
-  };
+  // const network = {
+  //   chainId: chain.id,
+  //   name: chain.name,
+  //   ensAddress: chain.contracts?.ensRegistry?.address,
+  // };
   if (transport.type === "fallback")
     return new providers.FallbackProvider(
       (transport.transports as ReturnType<HttpTransport>[]).map(
-        ({ value }) => new providers.JsonRpcProvider(value?.url, network),
+        ({ value }) => new providers.JsonRpcProvider(value?.url, "any"),
       ),
     );
-  return new providers.JsonRpcProvider(transport.url, network);
+  return new providers.JsonRpcProvider(transport.url, "any");
 };
 
 /** Action to convert a viem Public Client to an ethers.js Provider. */
@@ -44,12 +44,12 @@ const getEthersProvider = ({ chainId }: { chainId?: number } = {}) => {
 const walletClientToSigner = (walletClient: WalletClient) => {
   const { account, chain, transport } = walletClient;
   if (!chain) return undefined;
-  const network = {
-    chainId: chain.id,
-    name: chain.name,
-    ensAddress: chain.contracts?.ensRegistry?.address,
-  };
-  const provider = new providers.Web3Provider(transport, network);
+  // const network = {
+  //   chainId: chain.id,
+  //   name: chain.name,
+  //   ensAddress: chain.contracts?.ensRegistry?.address,
+  // };
+  const provider = new providers.Web3Provider(transport, "any");
   const signer = provider.getSigner(account.address);
   return signer;
 };

@@ -37,6 +37,19 @@ export const NETWORKS: NetworkConfig[] = [
 export const encodeName = (network: NetworkConfig, name: string) =>
   `[${network.networkKey}] ${name}`;
 
+export const decodeName = (
+  encodedName: string,
+): { networkKey: string; name: string } => {
+  const regex = /^\[(.+)\]\s(.+)$/;
+  const match = encodedName.match(regex);
+  if (!match) {
+    throw new Error(`Invalid encoded name: ${encodedName}`);
+  }
+  const networkKey = match[1];
+  const name = match[2];
+  return { networkKey, name };
+};
+
 /**
  * From an Autotask name, deduce which NetworkConfig we're using
  * @param name - name post-encoding

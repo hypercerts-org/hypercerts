@@ -1,33 +1,29 @@
 import { jest } from "@jest/globals";
 import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
+import { BigNumber, ethers } from "ethers";
+import sinon from "sinon";
 
 import { HypercertClient, HypercertMinterABI } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
-import {
-  HypercertMetadata,
-  HypercertMinter,
-  MalformedDataError,
-  MintingError,
-  TransferRestrictions,
-} from "../../src/types/index.js";
+import { HypercertMetadata, MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
-import { BigNumber, ethers } from "ethers";
-import { mock } from "node:test";
 
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-const mockStoreMetadata = jest
-  .spyOn(HypercertsStorage.prototype, "storeMetadata")
-  .mockImplementation(async (data: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
-
-const mockStoreData = jest
-  .spyOn(HypercertsStorage.prototype, "storeData")
-  .mockImplementation(async (data) => Promise.resolve(mockCorrectMetadataCid));
-
 describe("Allows for minting claims from an allowlist", () => {
+  const mockStoreMetadata = jest
+    .spyOn(HypercertsStorage.prototype, "storeMetadata")
+    .mockImplementation(async (data: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
+
+  const mockStoreData = jest
+    .spyOn(HypercertsStorage.prototype, "storeData")
+    .mockImplementation(async (data) => Promise.resolve(mockCorrectMetadataCid));
+
   const setUp = async () => {
     const provider = new MockProvider();
     const [user, other, admin] = provider.getWallets();
+    const stub = sinon.stub(provider, "on");
+
     const minter = await deployMockContract(user, HypercertMinterABI);
 
     const client = new HypercertClient({
@@ -42,6 +38,7 @@ describe("Allows for minting claims from an allowlist", () => {
       provider,
       users: { user, other, admin },
       minter,
+      stub,
     };
   };
 
@@ -49,13 +46,16 @@ describe("Allows for minting claims from an allowlist", () => {
   let _provider: MockProvider;
   let _users: { user: any; other: any; admin: any };
   let _minter: MockContract;
+  let _stub: sinon.SinonStub;
 
   beforeAll(async () => {
-    const { client, provider, users, minter } = await setUp();
+    const { client, provider, users, minter, stub } = await setUp();
+    // Fast-forward until all timers have been executed
     _client = client;
     _provider = provider;
     _users = users;
     _minter = minter;
+    _stub = stub;
   });
 
   beforeEach(() => {
@@ -64,6 +64,7 @@ describe("Allows for minting claims from an allowlist", () => {
   });
 
   afterAll(() => {
+    _stub.restore();
     jest.restoreAllMocks();
   });
 
@@ -165,8 +166,6 @@ describe("Allows for minting claims from an allowlist", () => {
           mockRoot,
         );
       } catch (e) {
-        console.log(e);
-
         expect(e instanceof MintingError).toBeTruthy();
 
         const error = e as MintingError;
@@ -254,8 +253,6 @@ describe("Allows for minting claims from an allowlist", () => {
           [firstList.merkleTree.root, mockRoot],
         );
       } catch (e) {
-        console.log(e);
-
         expect(e instanceof MintingError).toBeTruthy();
 
         const error = e as MintingError;

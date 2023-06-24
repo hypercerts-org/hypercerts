@@ -5,7 +5,6 @@ export const useParseBlockchainError = () => {
   const {
     client: { contract },
   } = useHypercertClient();
-
   return (e: any, fallbackMessage: string) => {
     const unparsedErrorData = e?.error?.data?.originalError?.data;
 

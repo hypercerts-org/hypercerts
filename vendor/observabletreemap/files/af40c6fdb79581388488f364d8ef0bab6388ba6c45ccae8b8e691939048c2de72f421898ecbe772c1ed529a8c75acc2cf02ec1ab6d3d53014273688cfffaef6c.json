@@ -31,8 +31,36 @@
       ]
     },
     {
+      "name": "0x5f33...0652",
+      "children": [
+        { "name": "Accommodations", "value": 50 },
+        { "name": "CheckinsGuestRelations", "value": 50 },
+        { "name": "CommunityEventOrganization", "value": 100 },
+        { "name": "Hackathons", "value": 50 },
+        { "name": "Invites", "value": 45 },
+        { "name": "StreamETH", "value": 75 },
+        { "name": "SubeventOrganization", "value": 45 },
+        { "name": "Ticketing", "value": 50 },
+        { "name": "WebsiteDesign", "value": 50 },
+        { "name": "ZupassZapps", "value": 100 },
+        { "name": "AiXCrypto", "value": 45 },
+        { "name": "BuildWeek", "value": 45 },
+        { "name": "CoordinationsDigitalTribes", "value": 45 },
+        { "name": "PublicGoods", "value": 150 },
+        { "name": "ZkWeek", "value": 75 }
+      ]
+    },
+    {
+      "name": "0x8120...6309",
+      "children": [{ "name": "BuildWeek", "value": 15 }]
+    },
+    {
       "name": "0x84c3...0885",
       "children": [{ "name": "CoordinationsDigitalTribes", "value": 30 }]
+    },
+    {
+      "name": "0xjepsen.eth",
+      "children": [{ "name": "CommunityEventOrganization", "value": 200 }]
     },
     {
       "name": "0xMilica",
@@ -61,6 +89,23 @@
       "children": [{ "name": "Invites", "value": 11.655 }]
     },
     {
+      "name": "Alfred",
+      "children": [
+        { "name": "Accommodations", "value": 5 },
+        { "name": "CheckinsGuestRelations", "value": 15 },
+        { "name": "CommunityEventOrganization", "value": 20 },
+        { "name": "Invites", "value": 15 },
+        { "name": "StreamETH", "value": 45 },
+        { "name": "Ticketing", "value": 15 },
+        { "name": "PublicGoods", "value": 45 },
+        { "name": "SyntheticBiology", "value": 45 }
+      ]
+    },
+    {
+      "name": "alucarddavio.eth",
+      "children": [{ "name": "BuildWeek", "value": 15 }]
+    },
+    {
       "name": "AMOR",
       "children": [
         { "name": "CommunityEventOrganization", "value": 20 },
@@ -75,6 +120,7 @@
         { "name": "PublicGoods", "value": 37.5 }
       ]
     },
+    { "name": "bman.eth", "children": [{ "name": "Invites", "value": 150 }] },
     { "name": "Bo", "children": [{ "name": "Invites", "value": 150 }] },
     {
       "name": "borisjose.eth",
@@ -97,8 +143,42 @@
       ]
     },
     {
+      "name": "Caitlin",
+      "children": [{ "name": "LongevityBiotechConference", "value": 1000.5 }]
+    },
+    {
+      "name": "calarsenc",
+      "children": [
+        { "name": "Invites", "value": 15 },
+        { "name": "SubeventOrganization", "value": 15 },
+        { "name": "AiXCrypto", "value": 15 },
+        { "name": "Longevity0-1", "value": 15 },
+        { "name": "LongevityBiotechConference", "value": 15 },
+        { "name": "SunriseCelebrations", "value": 15 }
+      ]
+    },
+    {
       "name": "canaans.xyz",
       "children": [{ "name": "NewCitiesNetworkStates", "value": 150 }]
+    },
+    {
+      "name": "daviost.eth",
+      "children": [{ "name": "Hackathons", "value": 5 }]
+    },
+    {
+      "name": "dcposch.eth",
+      "children": [
+        { "name": "Ticketing", "value": 100 },
+        { "name": "ZupassZapps", "value": 100 }
+      ]
+    },
+    {
+      "name": "descilondon",
+      "children": [
+        { "name": "Accommodations", "value": 50 },
+        { "name": "CheckinsGuestRelations", "value": 50 },
+        { "name": "CommunityEventOrganization", "value": 50 }
+      ]
     },
     {
       "name": "Eduardo Roxius",
@@ -151,7 +231,7 @@
         { "name": "ZupassZapps", "value": 50 },
         { "name": "CoordinationsDigitalTribes", "value": 120 },
         { "name": "PublicGoods", "value": 120 },
-        { "name": "SunriseCelebrations", "value": 75 }
+        { "name": "SunriseCelebrations", "value": 225 }
       ]
     },
     {
@@ -167,6 +247,19 @@
       "children": [{ "name": "NewCitiesNetworkStates", "value": 150 }]
     },
     {
+      "name": "Matt Stephenson",
+      "children": [
+        { "name": "Accommodations", "value": 50 },
+        { "name": "Invites", "value": 60 },
+        { "name": "MontenegroRelations", "value": 20 },
+        { "name": "SubeventOrganization", "value": 30 }
+      ]
+    },
+    {
+      "name": "MetaCartel (¬‿¬)",
+      "children": [{ "name": "CommunityEventOrganization", "value": 8000 }]
+    },
+    {
       "name": "metafranc.eth",
       "children": [
         { "name": "Accommodations", "value": 5 },
@@ -174,6 +267,21 @@
         { "name": "SubeventOrganization", "value": 15 },
         { "name": "Ticketing", "value": 5 }
       ]
+    },
+    {
+      "name": "michaelgeer.eth",
+      "children": [
+        { "name": "Accommodations", "value": 250 },
+        { "name": "CommunityEventOrganization", "value": 600 },
+        { "name": "StreamETH", "value": 750 },
+        { "name": "SubeventOrganization", "value": 450 },
+        { "name": "Longevity0-1", "value": 450 },
+        { "name": "LongevityIntroductorySessions", "value": 450 }
+      ]
+    },
+    {
+      "name": "mikeneuder.eth",
+      "children": [{ "name": "CommunityEventOrganization", "value": 200 }]
     },
     {
       "name": "MiliMaxi.Rehn",
@@ -272,8 +380,51 @@
       ]
     },
     {
+      "name": "rosestorm.eth",
+      "children": [
+        { "name": "Hackathons", "value": 5 },
+        { "name": "ZupassZapps", "value": 10 }
+      ]
+    },
+    {
+      "name": "solderneer.eth",
+      "children": [{ "name": "PublicGoods", "value": 15 }]
+    },
+    {
       "name": "soulseeress.eth",
       "children": [{ "name": "SyntheticBiology", "value": 60 }]
+    },
+    {
+      "name": "thisworks.eth",
+      "children": [{ "name": "Accommodations", "value": 25 }]
+    },
+    {
+      "name": "timbeiko.eth",
+      "children": [
+        { "name": "Accommodations", "value": 5 },
+        { "name": "CheckinsGuestRelations", "value": 5 },
+        { "name": "CommunityEventOrganization", "value": 20 },
+        { "name": "Hackathons", "value": 5 },
+        { "name": "Invites", "value": 15 },
+        { "name": "MontenegroRelations", "value": 10 },
+        { "name": "StreamETH", "value": 15 },
+        { "name": "SubeventOrganization", "value": 15 },
+        { "name": "Ticketing", "value": 5 },
+        { "name": "WebsiteDesign", "value": 10 },
+        { "name": "ZupassZapps", "value": 10 },
+        { "name": "AiXCrypto", "value": 15 },
+        { "name": "BuildWeek", "value": 15 },
+        { "name": "CoordinationsDigitalTribes", "value": 15 },
+        { "name": "JurisdictionsForLongevity", "value": 15 },
+        { "name": "Longevity0-1", "value": 15 },
+        { "name": "LongevityBiotechConference", "value": 15 },
+        { "name": "LongevityIntroductorySessions", "value": 15 },
+        { "name": "NewCitiesNetworkStates", "value": 15 },
+        { "name": "PublicGoods", "value": 15 },
+        { "name": "SunriseCelebrations", "value": 15 },
+        { "name": "SyntheticBiology", "value": 15 },
+        { "name": "ZkWeek", "value": 15 }
+      ]
     },
     {
       "name": "toddwhite.eth",

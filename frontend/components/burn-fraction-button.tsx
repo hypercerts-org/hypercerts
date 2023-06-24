@@ -1,6 +1,6 @@
 import React from "react";
 import { useBurnFraction } from "../hooks/burnFraction";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 
 type BurnFractionButtonProps = {
@@ -18,7 +18,7 @@ export const BurnFractionButton = ({
 }: BurnFractionButtonProps) => {
   const { push } = useRouter();
 
-  const { write } = useBurnFraction({
+  const { write, txPending } = useBurnFraction({
     onComplete: () => push("/app/dashboard"),
   });
   /**
@@ -31,7 +31,12 @@ export const BurnFractionButton = ({
     write(BigInt(fractionId));
   };
   return (
-    <Button className={className} disabled={disabled} onClick={handleClick}>
+    <Button
+      className={className}
+      disabled={disabled || txPending}
+      onClick={handleClick}
+      startIcon={txPending ? <CircularProgress size="1rem" /> : undefined}
+    >
       {text}
     </Button>
   );

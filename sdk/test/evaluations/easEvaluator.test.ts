@@ -1,18 +1,30 @@
-import EasEvaluator from "../../src/evaluations/eas.js";
-import { EAS_SCHEMAS } from "../../src/constants.js";
-import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation.js";
 import { MockProvider } from "ethereum-waffle";
+import sinon from "sinon";
+
+import { EAS_SCHEMAS } from "../../src/constants.js";
+import EasEvaluator from "../../src/evaluations/eas.js";
 import { HypercertClientConfig } from "../../src/index.js";
+import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation.js";
 
 describe("EasEvaluator", () => {
+  let stub: sinon.SinonStub;
   const provider = new MockProvider();
+
+  beforeAll(() => {
+    stub = sinon.stub(provider, "on");
+  });
   const [wallet] = provider.getWallets();
   const signer = wallet.connect(provider);
+
+  afterAll(() => {
+    stub.restore();
+  });
 
   const config = {
     chainId: 5,
     easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
     signer,
+    provider,
   } as Partial<HypercertClientConfig>;
   const easEvaluator = new EasEvaluator(config);
 

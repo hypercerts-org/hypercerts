@@ -3,6 +3,7 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useMintFractionAllowlist = ({
   onComplete,
@@ -11,8 +12,10 @@ export const useMintFractionAllowlist = ({
   onComplete?: () => void;
   enabled: boolean;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -30,6 +33,8 @@ export const useMintFractionAllowlist = ({
   ) => {
     setStep("minting");
     try {
+      setTxPending(true);
+
       const tx = await client.mintClaimFractionFromAllowlist(
         claimID,
         units,
@@ -37,7 +42,7 @@ export const useMintFractionAllowlist = ({
       );
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -55,6 +60,9 @@ export const useMintFractionAllowlist = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
+      setTxPending(false);
     }
   };
 
@@ -64,6 +72,7 @@ export const useMintFractionAllowlist = ({
       setStep("initial");
       await initializeWrite(claimId, units, proof);
     },
+    txPending,
     readOnly: !enabled || isLoading || !client || client.readonly,
   };
 };

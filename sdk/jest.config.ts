@@ -1,5 +1,6 @@
 /** @type {import("ts-jest").JestConfigWithTsJest} */
 export default {
+  globalTeardown: "./test/teardown.ts",
   setupFiles: ["./test/setup-tests.ts"],
   preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   rootDir: ".",

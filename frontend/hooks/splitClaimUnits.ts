@@ -3,12 +3,15 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useSplitFractionUnits = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -18,16 +21,18 @@ export const useSplitFractionUnits = ({
     complete: "Done splitting",
   };
 
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
   const initializeWrite = async (id: bigint, fractions: bigint[]) => {
     setStep("splitting");
     try {
+      setTxPending(true);
+
       const tx = await client.splitClaimUnits(id, fractions);
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Splitting failed", {
           type: "error",
@@ -45,6 +50,9 @@ export const useSplitFractionUnits = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
+      setTxPending(false);
     }
   };
 
@@ -54,6 +62,7 @@ export const useSplitFractionUnits = ({
       setStep("preparing");
       await initializeWrite(id, fractions);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };
