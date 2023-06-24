@@ -12,16 +12,26 @@ import {
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   argentWallet,
-  rabbyWallet,
+  bitskiWallet,
   braveWallet,
-  metaMaskWallet,
   coinbaseWallet,
-  ledgerWallet,
-  safeWallet,
-  zerionWallet,
+  dawnWallet,
+  imTokenWallet,
   injectedWallet,
+  ledgerWallet,
+  metaMaskWallet,
+  mewWallet,
+  okxWallet,
+  omniWallet,
+  phantomWallet,
+  rabbyWallet,
   rainbowWallet,
+  safeWallet,
+  tahoWallet,
+  trustWallet,
   walletConnectWallet,
+  xdefiWallet,
+  zerionWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -44,20 +54,32 @@ const { provider, webSocketProvider, chains } = configureChains(ALL_CHAINS, [
   publicProvider(),
 ]);
 
+const projectId = WALLETCONNECT_ID;
+
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      argentWallet({ chains, projectId: WALLETCONNECT_ID }),
+      argentWallet({ chains, projectId }),
+      bitskiWallet({ chains }),
       braveWallet({ chains }),
       coinbaseWallet({ chains, appName: "Hypercerts" }),
-      ledgerWallet({ chains, projectId: WALLETCONNECT_ID }),
-      metaMaskWallet({ chains, projectId: WALLETCONNECT_ID }),
+      dawnWallet({ chains }),
+      imTokenWallet({ chains, projectId }),
+      ledgerWallet({ chains, projectId }),
+      metaMaskWallet({ chains, projectId }),
+      mewWallet({ chains }),
+      okxWallet({ chains, projectId }),
+      omniWallet({ chains, projectId }),
+      phantomWallet({ chains }),
       rabbyWallet({ chains }),
-      rainbowWallet({ projectId: WALLETCONNECT_ID, chains }),
-      walletConnectWallet({ projectId: WALLETCONNECT_ID, chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
       safeWallet({ chains }),
-      zerionWallet({ chains, projectId: WALLETCONNECT_ID }),
+      tahoWallet({ chains }),
+      trustWallet({ chains, projectId }),
+      xdefiWallet({ chains }),
+      zerionWallet({ chains, projectId }),
     ],
   },
   {
