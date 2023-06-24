@@ -6,8 +6,10 @@ export const useClaimMetadata = (cid?: string | null) => {
   const {
     client: { storage },
   } = useHypercertClient();
-  return useQuery(["ipfs", "claim", "metadata", cid], () =>
-    cid ? storage.getMetadata(cid) : null,
+  return useQuery(
+    ["ipfs", "claim", "metadata", cid],
+    () => (cid ? storage.getMetadata(cid) : null),
+    { enabled: !!cid, refetchInterval: 10000 },
   );
 };
 
@@ -15,5 +17,7 @@ export const useListFirstClaims = (params?: QueryParams) => {
   const {
     client: { indexer },
   } = useHypercertClient();
-  return useQuery(["firstClaims"], () => indexer.firstClaims(params));
+  return useQuery(["firstClaims"], () => indexer.firstClaims(params), {
+    refetchInterval: 10000,
+  });
 };

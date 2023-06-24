@@ -1,5 +1,7 @@
 import { jest } from "@jest/globals";
 import { MockProvider } from "ethereum-waffle";
+import { Wallet } from "ethers";
+import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
 import { HypercertMetadata, formatHypercertData } from "../../src/index.js";
@@ -8,10 +10,27 @@ import { TransferRestrictions } from "../../src/types/hypercerts.js";
 import { TestDataType, getRawInputData } from "../helpers.js";
 
 describe("mintClaim in HypercertClient", () => {
-  it("mints a hypercerts", async () => {
-    const provider = new MockProvider();
+  let stub: sinon.SinonStub;
+  let provider: MockProvider;
+  let wallet: Wallet;
 
-    const [wallet] = provider.getWallets();
+  beforeAll(() => {
+    provider = new MockProvider();
+    wallet = provider.getWallets()[0];
+
+    stub = sinon.stub(provider, "on");
+  });
+  beforeEach(() => {
+    provider.clearCallHistory();
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    stub.restore();
+    jest.resetAllMocks();
+  });
+
+  it("mints a hypercerts", async () => {
     const signer = wallet.connect(provider);
 
     const client = new HypercertClient({
@@ -34,9 +53,6 @@ describe("mintClaim in HypercertClient", () => {
   }, 10000);
 
   it("throws on malformed metadata", async () => {
-    const provider = new MockProvider();
-    const [wallet] = provider.getWallets();
-
     const client = new HypercertClient({
       chainId: 5,
       provider,
@@ -59,9 +75,6 @@ describe("mintClaim in HypercertClient", () => {
   });
 
   it("mints a hypercerts with override params", async () => {
-    const provider = new MockProvider();
-
-    const [wallet] = provider.getWallets();
     const signer = wallet.connect(provider);
 
     const client = new HypercertClient({
