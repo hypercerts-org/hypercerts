@@ -1,4 +1,3 @@
-import BN from "bn.js";
 import { HypercertTokens, FullHypercert } from "./hypercert";
 import { ClaimToken, Claim } from "@hypercerts-org/sdk";
 import { randomAddress, randomTokenID } from "./test-utils";
@@ -87,7 +86,7 @@ describe("HypercertTokens", () => {
         const testTokens = genClaimTokens(e.tokenCount, {
           units: e.tokenUnits,
         });
-        const tokens = new HypercertTokens(testTokens, new BN(e.totalUnits));
+        const tokens = new HypercertTokens(testTokens, BigInt(e.totalUnits));
         expect(tokens.percentage(e.precision)).toEqual(e.expected);
       });
     });

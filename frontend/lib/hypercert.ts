@@ -4,7 +4,6 @@ import {
   HypercertMetadata,
   HypercertClient,
 } from "@hypercerts-org/sdk";
-import BN from "bn.js";
 
 export interface Hypercert {
   getTokensFor(owner: string): HypercertTokens;
@@ -12,7 +11,7 @@ export interface Hypercert {
   claim?: ClaimByIdQuery["claim"];
   claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
   name: string;
-  totalUnits: BN;
+  totalUnits: bigint;
   metadataUri: string;
 }
 
@@ -62,18 +61,21 @@ export async function loadHypercert(
  * to ensure that all of these tokens relate to the same hypercert.
  */
 export class HypercertTokens {
-  totalUnits: BN;
+  totalUnits: bigint;
   tokens: ClaimTokensByClaimQuery["claimTokens"];
 
-  constructor(tokens: ClaimTokensByClaimQuery["claimTokens"], totalUnits: BN) {
+  constructor(
+    tokens: ClaimTokensByClaimQuery["claimTokens"],
+    totalUnits: bigint,
+  ) {
     this.totalUnits = totalUnits;
     this.tokens = tokens;
   }
 
-  get units(): BN {
+  get units(): bigint {
     return this.tokens
-      .map((t) => new BN(t.units))
-      .reduce((a, c) => a.add(c), new BN(0));
+      .map((t) => BigInt(t.units))
+      .reduce((a, c) => a + c, BigInt(0));
   }
 
   percentage(precision?: number): number {
@@ -88,12 +90,22 @@ export class HypercertTokens {
       precision = 15;
     }
 
-    const p = Math.pow(10, precision + 2);
-    const bnP = new BN(p);
+    const p = BigInt(Math.pow(10, precision + 2));
+    const bnP = BigInt(p);
 
-    return (this.units.mul(bnP).divRound(this.totalUnits).toNumber() / p) * 100;
+    return Number((divRound(this.units * bnP, this.totalUnits) / p) * 100n);
   }
 }
+
+const divRound = (numerator: bigint, denominator: bigint): bigint => {
+  const quotient = numerator / denominator;
+  const remainder = numerator % denominator;
+  if (remainder * 2n >= denominator) {
+    return quotient + 1n;
+  } else {
+    return quotient;
+  }
+};
 
 export class MetadataOnlyHypercert implements Hypercert {
   claim?: ClaimByIdQuery["claim"];
@@ -112,7 +124,7 @@ export class MetadataOnlyHypercert implements Hypercert {
     );
   }
 
-  get totalUnits(): BN {
+  get totalUnits(): bigint {
     throw new Error(
       "Cannot retrieve tokens. This view contains hypercert metadata only",
     );
@@ -162,8 +174,8 @@ export class FullHypercert implements Hypercert {
     return this.metadata?.name ?? "";
   }
 
-  get totalUnits(): BN {
-    return new BN(this.claim?.totalUnits ?? 1);
+  get totalUnits(): bigint {
+    return BigInt(this.claim?.totalUnits ?? 1);
   }
 
   get metadataUri(): string {

@@ -28,7 +28,7 @@ export const BurnFractionButton = ({
    */
 
   const handleClick = () => {
-    write(fractionId);
+    write(BigInt(fractionId));
   };
   return (
     <Button className={className} disabled={disabled} onClick={handleClick}>

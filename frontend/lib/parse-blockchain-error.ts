@@ -1,8 +1,11 @@
 import { errorMessages } from "../content/readable-errors";
-import { useHypercertContract } from "../hooks/contracts";
+import { useHypercertClient } from "../hooks/hypercerts-client";
 
 export const useParseBlockchainError = () => {
-  const contract = useHypercertContract();
+  const {
+    client: { contract },
+  } = useHypercertClient();
+
   return (e: any, fallbackMessage: string) => {
     const unparsedErrorData = e?.error?.data?.originalError?.data;
 

@@ -10,12 +10,12 @@ import {
   usePrepareSendTransaction,
   useSendTransaction,
 } from "wagmi";
-import { utils } from "ethers";
 import * as Yup from "yup";
 import { useAccountLowerCase } from "../hooks/account";
 import { useConfetti } from "./confetti";
 import { FormContext } from "./forms";
 import { supabase } from "../lib/supabase-client";
+import { parseEther } from "viem";
 
 /**
  * Constants
@@ -182,10 +182,8 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
   const [ethValue, setEthValue] = React.useState<number>(0);
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
   const { config } = usePrepareSendTransaction({
-    request: {
-      to: DESTINATION_ADDRESS,
-      value: utils.parseEther(`${ethValue}`),
-    },
+    to: DESTINATION_ADDRESS,
+    value: parseEther(`${ethValue}`),
     onError(error) {
       setWagmiErr(error);
     },
@@ -246,7 +244,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
               type: "error",
             });
             return;
-          } else if (!balanceLoading && balance && balance.value.isZero()) {
+          } else if (!balanceLoading && balance && balance.value === 0n) {
             console.warn("No balance");
             toast(`No balance found for wallet ${address}`, { type: "error" });
             return;

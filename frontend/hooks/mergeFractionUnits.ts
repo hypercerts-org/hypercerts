@@ -3,7 +3,6 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
-import { BigNumberish } from "ethers";
 
 export const useMergeFractionUnits = ({
   onComplete,
@@ -22,7 +21,7 @@ export const useMergeFractionUnits = ({
   const { setStep, showModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const initializeWrite = async (ids: BigNumberish[]) => {
+  const initializeWrite = async (ids: bigint[]) => {
     setStep("merging");
     try {
       const tx = await client.mergeClaimUnits(ids);
@@ -50,7 +49,7 @@ export const useMergeFractionUnits = ({
   };
 
   return {
-    write: async (ids: BigNumberish[]) => {
+    write: async (ids: bigint[]) => {
       showModal({ stepDescriptions });
       setStep("preparing");
       await initializeWrite(ids);

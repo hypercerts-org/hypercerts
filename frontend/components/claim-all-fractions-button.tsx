@@ -45,7 +45,7 @@ export const ClaimAllFractionsButton = ({
   });
 
   const handleClaim = () => {
-    if (!balanceLoading && balance && balance.value.isZero()) {
+    if (!balanceLoading && balance && balance.value === 0n) {
       console.log("No balance");
       toast(`No balance found for wallet ${address}`, { type: "error" });
       return;

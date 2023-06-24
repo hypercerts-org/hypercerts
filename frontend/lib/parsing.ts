@@ -1,7 +1,7 @@
 import { AllowlistEntry } from "@hypercerts-org/sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
-import { isAddress } from "ethers/lib/utils";
+import { isAddress } from "viem";
 import _ from "lodash";
 import Papa from "papaparse";
 
