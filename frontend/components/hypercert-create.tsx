@@ -350,10 +350,11 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (!checkWriteable()) {
+          const writeable = await checkWriteable();
+
+          if (!writeable) {
             return;
           }
-
           const image = await exportAsImage(IMAGE_SELECTOR);
           const metaData = formatValuesToMetaData(
             values,

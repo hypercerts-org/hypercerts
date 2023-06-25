@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DappContext from "../components/dapp-context";
 
 /**
  * Use fetchPages() to fetch list of pages that have been created in Plasmic
@@ -94,11 +95,13 @@ export default function CatchallPage(props: {
         pageParams={pageMeta.params}
         pageQuery={router.query}
       >
-        {
-          // pageMeta.displayName contains the name of the component you fetched.
-        }
-        <PlasmicComponent component={pageMeta.displayName} />
-        <ToastContainer theme="dark" position="top-right" />
+        <DappContext>
+          {
+            // pageMeta.displayName contains the name of the component you fetched.
+          }
+          <PlasmicComponent component={pageMeta.displayName} />
+          <ToastContainer theme="dark" position="top-right" />
+        </DappContext>
       </PlasmicRootProvider>
     </ConfettiContainer>
   );

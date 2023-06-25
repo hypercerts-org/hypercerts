@@ -2,6 +2,7 @@ import React from "react";
 import { useBurnFraction } from "../hooks/burnFraction";
 import { Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
+import useCheckWriteable from "../hooks/checkWriteable";
 
 type BurnFractionButtonProps = {
   text: string;
@@ -17,6 +18,7 @@ export const BurnFractionButton = ({
   className,
 }: BurnFractionButtonProps) => {
   const { push } = useRouter();
+  const { checkWriteable, writeable } = useCheckWriteable();
 
   const { write, txPending } = useBurnFraction({
     onComplete: () => push("/app/dashboard"),
@@ -27,13 +29,17 @@ export const BurnFractionButton = ({
    * Related to https://github.com/Network-Goods/hypercerts-protocol/issues/80
    */
 
-  const handleClick = () => {
-    write(BigInt(fractionId));
+  const handleClick = async () => {
+    const writeable = await checkWriteable();
+    if (writeable) {
+      write(BigInt(fractionId));
+    }
   };
+
   return (
     <Button
       className={className}
-      disabled={disabled || txPending}
+      disabled={!writeable || disabled || txPending}
       onClick={handleClick}
       startIcon={txPending ? <CircularProgress size="1rem" /> : undefined}
     >

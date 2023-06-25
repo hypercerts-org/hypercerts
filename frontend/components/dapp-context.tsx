@@ -105,18 +105,18 @@ export function DappContext(props: DappContextProps) {
 
   return (
     <div className={className}>
-      <QueryClientProvider client={queryClient}>
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider chains={chains}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+          <QueryClientProvider client={queryClient}>
             <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
               <ContractInteractionDialogProvider>
                 {children}
                 <ReactQueryDevtools initialIsOpen={false} />
               </ContractInteractionDialogProvider>
             </DataProvider>
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </QueryClientProvider>
+          </QueryClientProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </div>
   );
 }
