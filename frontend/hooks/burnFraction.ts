@@ -29,14 +29,16 @@ export const useBurnFraction = ({
     try {
       setTxPending(true);
 
-      const tx = await client.burnClaimFraction(claimId);
       setStep("burning");
 
-      const receipt = await tx.wait(5);
+      const tx = await client.burnClaimFraction(claimId);
+
       setStep("waiting");
 
+      const receipt = await tx.wait(5);
+
       if (receipt.status === 0) {
-        toast("Minting failed", {
+        toast("Burning failed", {
           type: "error",
         });
         console.error(receipt);
