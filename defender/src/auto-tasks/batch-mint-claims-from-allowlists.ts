@@ -25,6 +25,12 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
+  const provider = new ethers.providers.AlchemyProvider(
+    network.networkKey,
+    ALCHEMY_KEY,
+  );
+
+  // Check data availability
   const body = event.request.body;
   if (!("type" in body) || body.type !== "BLOCK") {
     throw new NotImplementedError("Event body is not a BlockTriggerEvent");
@@ -32,28 +38,43 @@ export async function handler(event: AutotaskEvent) {
   const blockTriggerEvent = body as BlockTriggerEvent;
   const contractAddress = blockTriggerEvent.matchedAddresses[0];
   const fromAddress = blockTriggerEvent.transaction.from;
+  const txnLogs = blockTriggerEvent.transaction.logs;
+  const tx = await provider.getTransaction(blockTriggerEvent.hash);
+
   if (!contractAddress) {
     throw new MissingDataError(`body.matchedAddresses is missing`);
   } else if (!fromAddress) {
     throw new MissingDataError(`body.transaction.from is missing`);
+  } else if (!txnLogs) {
+    throw new MissingDataError(`body.transaction.logs is missing`);
+  } else if (!tx) {
+    throw new MissingDataError(`tx is missing`);
   }
+
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
-  const tx = await provider.getTransaction(blockTriggerEvent.hash);
   const contractInterface = new ethers.utils.Interface(abi);
-  const decodedData = contractInterface.parseTransaction({
-    data: tx.data,
-    value: tx.value,
-  });
 
-  console.log("Transaction: ", JSON.stringify(decodedData, null, 2));
-  const claimIds = decodedData.args["claimIDs"] as string[];
-  console.log("claimIds", claimIds);
+  // Parse events
+  const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
+  const batchTransferEvents = txnEvents.filter((e) => e.name === "LeafClaimed");
+
+  console.log(
+    "BatchTransfer Events: ",
+    JSON.stringify(batchTransferEvents, null, 2),
+  );
+
+  if (batchTransferEvents.length !== 1) {
+    throw new MissingDataError(
+      `Unexpected saw ${batchTransferEvents.length} BatchTransfer events`,
+    );
+  }
+
+  // Get claimIDs
+  const claimIds = batchTransferEvents[0].args["claimIDs"] as string[];
+  console.log("ClaimIDs: ", batchTransferEvents[0].args["claimIDs"].toString());
+
   const formattedClaimIds = claimIds.map(
     (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,
   );
