@@ -22,5 +22,5 @@ prepend_text="# This file is generated for local testing. It should not be commi
 
 printf '%s\n%s\n' "${prepend_text}" "$(cat $SUBGRAPH_MANIFEST)" > $SUBGRAPH_MANIFEST
 
-yarn create_with_env
-yarn deploy_with_env
+yarn create-from-env-args
+yarn deploy-from-env-args
