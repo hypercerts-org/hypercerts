@@ -9,14 +9,13 @@ task("deploy", "Deploy contracts and verify")
       kind: "uups",
       unsafeAllow: ["constructor"],
     });
-    await hypercertMinter.deployed();
+    const contract = await hypercertMinter.deployed();
     console.log(`HypercertMinter is deployed to proxy address: ${hypercertMinter.address}`);
 
     // If the `deploymentFile` option is set then write the deployed address to
     // a json object on disk. This is intended to be deliberate with how we
     // output the contract address and other contract information.
     if (output) {
-      const contract = await hypercertMinter.deployed();
       const txReceipt = await contract.provider.getTransactionReceipt(hypercertMinter.deployTransaction.hash);
       await writeFile(
         output,
