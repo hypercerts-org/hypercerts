@@ -1,26 +1,7 @@
 /**
- * An enumeration of error types that can be thrown by the Hypercert SDK.
- */
-enum ErrorType {
-  ClientError = "ClientError",
-  FetchError = "FetchError",
-  InvalidOrMissingError = "InvalidOrMissingError",
-  MalformedDataError = "MalformedDataError",
-  MintingError = "MintingError",
-  StorageError = "StorageError",
-  UnsupportedChainError = "UnsupportedChainError",
-  UnknownSchemaError = "UnknownSchemaError",
-}
-
-/**
  * An interface for errors that have a specific type.
  */
-export interface TypedError {
-  /**
-   * The type of error.
-   */
-  __type: ErrorType;
-
+export interface CustomError {
   /**
    * Additional error payload.
    */
@@ -30,12 +11,7 @@ export interface TypedError {
 /**
  * An error that is caused by a problem with the client.
  */
-export class ClientError extends Error implements TypedError {
-  /**
-   * The type of error.
-   */
-  __type = ErrorType.ClientError;
-
+export class ClientError extends Error implements CustomError {
   /**
    * Additional error payload.
    */
@@ -56,8 +32,7 @@ export class ClientError extends Error implements TypedError {
 /**
  * Fails fetching a remote resource
  */
-export class FetchError extends Error implements TypedError {
-  __type = ErrorType.FetchError;
+export class FetchError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
 
   /**
@@ -75,8 +50,7 @@ export class FetchError extends Error implements TypedError {
 /**
  * The provided value was undefined or empty
  */
-export class InvalidOrMissingError extends Error implements TypedError {
-  __type = ErrorType.InvalidOrMissingError;
+export class InvalidOrMissingError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
 
   /**
@@ -94,8 +68,7 @@ export class InvalidOrMissingError extends Error implements TypedError {
 /**
  * Minting transaction failed
  */
-export class MintingError extends Error implements TypedError {
-  __type = ErrorType.MintingError;
+export class MintingError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
 
   /**
@@ -113,8 +86,7 @@ export class MintingError extends Error implements TypedError {
 /**
  * Fails storing to a remote resource
  */
-export class StorageError extends Error implements TypedError {
-  __type = ErrorType.StorageError;
+export class StorageError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
 
   /**
@@ -132,8 +104,7 @@ export class StorageError extends Error implements TypedError {
 /**
  * Schema could not be loaded
  */
-export class UnknownSchemaError extends Error implements TypedError {
-  __type = ErrorType.UnknownSchemaError;
+export class UnknownSchemaError extends Error implements CustomError {
   payload?: { schemaName: string };
 
   /**
@@ -151,8 +122,7 @@ export class UnknownSchemaError extends Error implements TypedError {
 /**
  * Data doesn't conform to expectations
  */
-export class MalformedDataError extends Error implements TypedError {
-  __type = ErrorType.MalformedDataError;
+export class MalformedDataError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
 
   /**
@@ -171,8 +141,7 @@ export class MalformedDataError extends Error implements TypedError {
  * This blockchain is not yet supported
  * Please file an issue
  */
-export class UnsupportedChainError extends Error implements TypedError {
-  __type = ErrorType.UnsupportedChainError;
+export class UnsupportedChainError extends Error implements CustomError {
   payload?: { chainID: string | number | undefined };
 
   /**
