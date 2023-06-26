@@ -14,12 +14,12 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   const { chainId } = getChainId(overrides);
 
   if (!chainId || (chainId !== 5 && chainId !== 10)) {
-    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
+    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, { chainID: chainId || "not found" });
   }
 
   const baseDeployment = DEPLOYMENTS[chainId];
   if (!baseDeployment) {
-    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
+    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, { chainID: chainId || "not found" });
   }
 
   const config = {
@@ -69,7 +69,9 @@ const getChainName = (overrides: Partial<HypercertClientConfig>) => {
     case 10:
       return { chainName: "optimism-mainnet" };
     default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
   }
 };
 
@@ -99,7 +101,9 @@ const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
     case 10:
       return { graphName: "hypercerts-optimism-mainnet" };
     default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
   }
 };
 

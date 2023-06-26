@@ -15,7 +15,7 @@ enum ErrorType {
 /**
  * An interface for errors that have a specific type.
  */
-export interface TypedError extends Error {
+export interface TypedError {
   /**
    * The type of error.
    */
@@ -30,21 +30,11 @@ export interface TypedError extends Error {
 /**
  * An error that is caused by a problem with the client.
  */
-export class ClientError implements TypedError {
+export class ClientError extends Error implements TypedError {
   /**
    * The type of error.
    */
   __type = ErrorType.ClientError;
-
-  /**
-   * The name of the error.
-   */
-  name = "ClientError";
-
-  /**
-   * The error message.
-   */
-  message: string;
 
   /**
    * Additional error payload.
@@ -57,6 +47,7 @@ export class ClientError implements TypedError {
    * @param payload Additional error payload.
    */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
   }
@@ -65,101 +56,114 @@ export class ClientError implements TypedError {
 /**
  * Fails fetching a remote resource
  */
-export class FetchError implements TypedError {
+export class FetchError extends Error implements TypedError {
   __type = ErrorType.FetchError;
-  name = "FetchError";
-  message: string;
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the FetchError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * The provided value was undefined or empty
  */
-export class InvalidOrMissingError implements TypedError {
+export class InvalidOrMissingError extends Error implements TypedError {
   __type = ErrorType.InvalidOrMissingError;
-  name = "InvalidOrMissingError";
-  message: string;
-  payload: { keyName: string };
-  constructor(message: string, keyName: string) {
+  payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the InvalidOrMissingError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
+  constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
-    this.payload = { keyName };
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    this.payload = payload;
   }
 }
 
 /**
  * Minting transaction failed
  */
-export class MintingError implements TypedError {
+export class MintingError extends Error implements TypedError {
   __type = ErrorType.MintingError;
-  name = "MintingError";
-  message: string;
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the MintingError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Fails storing to a remote resource
  */
-export class StorageError implements TypedError {
+export class StorageError extends Error implements TypedError {
   __type = ErrorType.StorageError;
-  name = "StorageError";
-  message: string;
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the StorageError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Schema could not be loaded
  */
-export class UnknownSchemaError implements TypedError {
+export class UnknownSchemaError extends Error implements TypedError {
   __type = ErrorType.UnknownSchemaError;
-  name = "UnknownSchemaError";
-  message: string;
   payload?: { schemaName: string };
+
+  /**
+   * Creates a new instance of the UnknownSchemaError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { schemaName: string }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Data doesn't conform to expectations
  */
-export class MalformedDataError implements TypedError {
+export class MalformedDataError extends Error implements TypedError {
   __type = ErrorType.MalformedDataError;
-  name = "MalformedDataError";
-  message: string;
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the MalformedDataError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
@@ -167,16 +171,19 @@ export class MalformedDataError implements TypedError {
  * This blockchain is not yet supported
  * Please file an issue
  */
-export class UnsupportedChainError implements TypedError {
+export class UnsupportedChainError extends Error implements TypedError {
   __type = ErrorType.UnsupportedChainError;
-  name = "UnsupportedChain";
-  message: string;
-  payload: { chainID: string | number };
-  constructor(message: string, chainID: string | number) {
+  payload?: { chainID: string | number | undefined };
+
+  /**
+   * Creates a new instance of the UnsupportedChainError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
+  constructor(message: string, payload?: { chainID: string | number | undefined }) {
+    super(message);
     this.message = message;
-    this.payload = { chainID };
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    this.payload = payload;
   }
 }
 
