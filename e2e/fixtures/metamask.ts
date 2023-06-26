@@ -5,7 +5,8 @@ import { prepareMetamask } from "@synthetixio/synpress/helpers";
 export const test = base.extend<{
   context: BrowserContext;
 }>({
-  context: async (_, use) => {
+  // eslint-disable-next-line
+  context: async ({}, use) => {
     // required for synpress
     global.expect = expect;
     // download metamask
@@ -36,7 +37,13 @@ export const test = base.extend<{
     await initialSetup(chromium, {
       secretWordsOrPrivateKey:
         "test test test test test test test test test test test junk",
-      network: "localhost",
+      network: {
+        name: "hardhat",
+        chainId: 31337,
+        rpcUrl: "http://127.0.0.1:8545",
+        symbol: "TEST",
+        isTestnet: true,
+      },
       password: "Tester@1234",
       enableAdvancedSettings: true,
       enableExperimentalSettings: false,
