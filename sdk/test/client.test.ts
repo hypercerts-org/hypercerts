@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
 import { expect } from "chai";
 import { MockProvider } from "ethereum-waffle";
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
@@ -32,7 +32,7 @@ describe("HypercertClient setup tests", () => {
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    const client = new HypercertClient({ provider });
+    const client = new HypercertClient({ operator: provider });
 
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.true;
@@ -49,7 +49,7 @@ describe("HypercertClient setup tests", () => {
 
   it("should throw an error when the chainId is not supported", () => {
     try {
-      new HypercertClient({ provider, chainId: 1337 });
+      new HypercertClient({ operator: provider, chainId: 1337 });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e instanceof UnsupportedChainError).to.be.true;
@@ -66,7 +66,7 @@ describe("HypercertClient setup tests", () => {
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
 
-    const client = new HypercertClient({ provider });
+    const client = new HypercertClient({ operator: provider });
 
     // mintClaim
     try {

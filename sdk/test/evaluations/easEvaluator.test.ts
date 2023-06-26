@@ -23,8 +23,7 @@ describe("EasEvaluator", () => {
   const config = {
     chainId: 5,
     easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-    signer,
-    provider,
+    operator: signer,
   } as Partial<HypercertClientConfig>;
   const easEvaluator = new EasEvaluator(config);
 

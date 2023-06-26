@@ -1,6 +1,6 @@
 import { Offchain, SchemaEncoder, SignedOffchainAttestation } from "@ethereum-attestation-service/eas-sdk";
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
 
 import { EAS_SCHEMAS } from "../constants.js";
 import {
@@ -33,14 +33,18 @@ export default class EasEvaluator {
    * @param {EasEvaluatorConfig} config - The configuration options for the EasEvaluator instance.
    */
   constructor(config: Partial<HypercertClientConfig>) {
-    for (const prop of ["easContractAddress", "chainId", "signer"]) {
+    for (const prop of ["easContractAddress", "chainId", "operator"]) {
       if (!(prop in config) || config[prop as keyof HypercertClientConfig] === undefined) {
         throw new InvalidOrMissingError(`Invalid or missing config value: ${prop}`, prop.toString());
       }
     }
 
+    if (config.operator instanceof providers.Provider || !config.operator?._isSigner) {
+      throw new InvalidOrMissingError("Invalid operator", "Provider");
+    }
+
     this.offChain = new Offchain({ address: config.easContractAddress!, chainId: config.chainId!, version: "0.26" });
-    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    this.signer = config.operator as ethers.Signer & TypedDataSigner;
   }
 
   /**

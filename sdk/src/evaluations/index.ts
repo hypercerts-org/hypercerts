@@ -10,6 +10,7 @@ import {
   EvaluationSource,
   HypercertClientConfig,
   HypercertEvaluationSchema,
+  InvalidOrMissingError,
   MalformedDataError,
 } from "../types/index.js";
 import EasEvaluator from "./eas.js";
@@ -36,10 +37,14 @@ export default class HypercertEvaluator implements EvaluatorInterface {
     config = {
       chainId: DEFAULT_CHAIN_ID,
       easContractAddress: EASContractAddress,
-      signer: new ethers.VoidSigner(""),
+      operator: new ethers.VoidSigner(""),
     } as Partial<HypercertClientConfig>,
   ) {
-    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    if (config.operator instanceof ethers.providers.Provider) {
+      throw new InvalidOrMissingError("Invalid operator", "Provider");
+    }
+
+    this.signer = config.operator as ethers.Signer & TypedDataSigner;
     this.storage = new HypercertsStorage(config);
     this.eas = new EasEvaluator(config);
   }

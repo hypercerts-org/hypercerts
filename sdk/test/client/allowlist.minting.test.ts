@@ -28,8 +28,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer: user,
+      operator: user,
       contractAddress: minter.address,
     });
 

@@ -39,8 +39,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: user,
       contractAddress: mockMinter.address,
     });
 
@@ -61,8 +60,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: user,
       contractAddress: mockMinter.address,
     });
 
@@ -94,8 +92,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: user,
       contractAddress: mockMinter.address,
     });
 

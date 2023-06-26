@@ -28,11 +28,9 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     // Let the user override from environment variables
     ...getChainId(overrides),
     ...getChainName(overrides),
+    ...getOperator(overrides),
     ...getContractAddress(overrides),
-    ...getRpcUrl(overrides),
     ...getGraphName(overrides),
-    ...getProvider(overrides),
-    ...getSigner(overrides),
     ...getNftStorageToken(overrides),
     ...getWeb3StorageToken(overrides),
     ...getEasContractAddress(overrides),
@@ -80,13 +78,6 @@ const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
   return process.env.CONTRACT_ADDRESS ? { contractAddress: process.env.CONTRACT_ADDRESS } : undefined;
 };
 
-const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.rpcUrl) {
-    return { rpcUrl: overrides.rpcUrl };
-  }
-  return process.env.RPC_URL ? { rpcUrl: process.env.RPC_URL } : {};
-};
-
 const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
   if (overrides.graphName) {
     return { graphName: overrides.graphName };
@@ -103,37 +94,36 @@ const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
   }
 };
 
-const getProvider = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.provider) {
-    return { provider: overrides.provider };
+const getOperator = (overrides: Partial<HypercertClientConfig>) => {
+  let signer: ethers.Signer;
+  let provider: ethers.providers.Provider;
+
+  if (overrides.operator instanceof ethers.providers.Provider) {
+    provider = overrides.operator;
+    provider.on("network", (newNetwork, oldNetwork) => {
+      // When a Provider makes its initial connection, it emits a "network"
+      // event with a null oldNetwork along with the newNetwork. So, if the
+      // oldNetwork exists, it represents a changing network
+
+      if (typeof window === "undefined") return;
+      if (oldNetwork && window.location) {
+        window.location.reload();
+      }
+    });
+
+    return { operator: provider };
   }
 
-  const { rpcUrl } = getRpcUrl(overrides);
-
-  const provider = rpcUrl ? new ethers.providers.JsonRpcProvider(rpcUrl, "any") : ethers.getDefaultProvider("goerli");
-
-  provider.on("network", (newNetwork, oldNetwork) => {
-    // When a Provider makes its initial connection, it emits a "network"
-    // event with a null oldNetwork along with the newNetwork. So, if the
-    // oldNetwork exists, it represents a changing network
-
-    if (typeof window === "undefined") return;
-    if (oldNetwork && window.location) {
-      window.location.reload();
-    }
-  });
-
-  return { provider };
-};
-
-const getSigner = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.signer?._isSigner) {
-    return { signer: overrides.signer };
+  if (overrides.operator instanceof ethers.Signer) {
+    signer = overrides.operator;
+    return { operator: signer };
   }
 
-  return process.env.PRIVATE_KEY
-    ? { signer: new ethers.Wallet(process.env.PRIVATE_KEY) }
-    : { signer: new ethers.VoidSigner("") };
+  if (process.env.PRIVATE_KEY) {
+    return { operator: new ethers.Wallet(process.env.PRIVATE_KEY) };
+  }
+
+  return { operator: ethers.getDefaultProvider(DEFAULT_CHAIN_ID) };
 };
 
 const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) => {

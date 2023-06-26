@@ -35,8 +35,7 @@ describe("mintClaim in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
     });
 
     expect(client.readonly).toBe(false);
@@ -55,8 +54,7 @@ describe("mintClaim in HypercertClient", () => {
   it("throws on malformed metadata", async () => {
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer: wallet.connect(provider),
+      operator: wallet.connect(provider),
     });
 
     expect(client.readonly).toBe(false);
@@ -79,8 +77,7 @@ describe("mintClaim in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
     });
 
     expect(client.readonly).toBe(false);

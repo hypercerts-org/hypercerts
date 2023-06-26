@@ -24,7 +24,7 @@ describe("HypercertEvaluator", () => {
     evaluator = new HypercertEvaluator({
       chainId: 5,
       easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-      signer,
+      operator: signer,
     });
     stubStorage = sinon.stub(evaluator.storage, "storeData").resolves(mockCid);
   });
@@ -117,7 +117,7 @@ describe("HypercertEvaluator", () => {
       const readonlyEvaluator = new HypercertEvaluator({
         chainId: 5,
         easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-        signer,
+        operator: signer,
       });
 
       try {

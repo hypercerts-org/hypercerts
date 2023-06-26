@@ -35,10 +35,8 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
-    /** The  provider used to interact with the evm-chain. */
-    provider: ethers.providers.Provider;
-    /** The URL of the RPC endpoint used to interact with the evm-chain. */
-    rpcUrl?: string;
+    /** The provider is inherently read-only */
+    operator: ethers.providers.Provider | ethers.Signer;
   };
 
 /**
@@ -58,8 +56,6 @@ export type HypercertStorageConfig = {
  */
 export type HypercertEvaluatorConfig = Omit<PartialTypedDataConfig, "address"> & {
   easContractAddress: string;
-  /** The Ethereum signer used to sign transactions. */
-  signer: ethers.Signer;
 };
 
 /**
