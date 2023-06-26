@@ -1,10 +1,10 @@
 import { useAccount, useBalance, useNetwork } from "wagmi";
-import { toast } from "react-toastify";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { useHypercertClient } from "./hypercerts-client";
 import { useEffect, useState } from "react";
+import { isAddress } from "ethers/lib/utils";
 
-const useCheckWriteable = () => {
+const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { client } = useHypercertClient();
@@ -12,60 +12,82 @@ const useCheckWriteable = () => {
     address,
     enabled: !!address,
   });
+  const [checking, setChecking] = useState(false);
   const [writeable, setWriteable] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>();
 
   useEffect(() => {
     const check = async () => {
-      const writeable = await checkWriteable(true);
-      setWriteable(writeable);
+      await checkWriteable();
     };
     check();
   }, [address, isConnected, balance, chain, client]);
 
-  const checkWriteable = async (silent = false) => {
-    if (!address || !isConnected) {
+  const checkWriteable = async () => {
+    setChecking(true);
+
+    if (!isConnected) {
       console.log("User not connected");
-      !silent ? toast("Please connect your wallet", { type: "error" }) : null;
-      return false;
+      setErrors({
+        ...errors,
+        connection:
+          "You appear to not be connected. Please connect your wallet",
+      });
+      setWriteable(false);
+    }
+
+    if (!address || !isAddress(address)) {
+      console.log("No address found");
+      setErrors({
+        ...errors,
+        address: `No -valid- address found [${address}]. Please connect your wallet`,
+      });
+      setWriteable(false);
     }
 
     if (!balance || balance.value == 0n) {
       console.log("No balance");
-      !silent
-        ? toast(`No balance found for wallet ${address}`, { type: "error" })
-        : null;
-      return false;
+      setErrors({ ...errors, balance: "Please add funds to your wallet" });
+      setWriteable(false);
     }
 
     if (!chain) {
       console.log("No chain found");
-      silent ? toast(`No chain found`, { type: "error" }) : null;
-      return false;
+      setErrors({
+        ...errors,
+        chain: "No connection chain found. Please connect your wallet",
+      });
+      setWriteable(false);
     }
 
-    if (chain.id !== DEFAULT_CHAIN_ID) {
-      console.log(
-        `On wrong network. Expect ${DEFAULT_CHAIN_ID} Saw ${chain?.id}`,
-      );
-      silent
-        ? toast("Please connect to the correct network first.", {
-            type: "error",
-          })
-        : null;
-      return false;
+    if (chain && chain.id !== chainID) {
+      console.log(`On wrong network. Expect ${chainID} Saw ${chain?.id}`);
+      setErrors({
+        ...errors,
+        chain: `Wrong network. Please connect to ${chainID}`,
+      });
+      setWriteable(false);
     }
     if (!client || client.readonly) {
-      silent
-        ? toast("Client not found or in readonly mode. Are you connected?", {
-            type: "warning",
-          })
-        : null;
-      return false;
+      console.log(
+        "Client was not found or is in readonly mode. Review your config and connection",
+      );
+      setErrors({
+        ...errors,
+        client:
+          "Client was not found or is in readonly mode. Review your config and connection",
+      });
+      setWriteable(false);
     }
-    return true;
+
+    if (!errors) {
+      setWriteable(true);
+    }
+
+    setChecking(false);
   };
 
-  return { checkWriteable, writeable };
+  return { checking, writeable, errors };
 };
 
 export default useCheckWriteable;

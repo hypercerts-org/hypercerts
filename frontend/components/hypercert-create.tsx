@@ -297,7 +297,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
   const { hideModal } = useContractModal();
   const confetti = useConfetti();
 
-  const { checkWriteable } = useCheckWriteable();
+  const { writeable, errors } = useCheckWriteable();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -350,11 +350,23 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          const writeable = await checkWriteable();
+          if (errors) {
+            for (const error in errors) {
+              toast(errors[error], {
+                type: "error",
+              });
+            }
 
-          if (!writeable) {
             return;
           }
+
+          if (!writeable) {
+            toast("Cannot execute transaction. Check logs for errors", {
+              type: "error",
+            });
+            return;
+          }
+
           const image = await exportAsImage(IMAGE_SELECTOR);
           const metaData = formatValuesToMetaData(
             values,
