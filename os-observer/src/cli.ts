@@ -4,8 +4,16 @@ import { hideBin } from "yargs/helpers";
 import { RunAutocrawlArgs, runAutocrawl } from "./actions/autocrawl.js";
 import { handleError } from "./utils/error.js";
 import { EventSourceFunction } from "./utils/api.js";
-import { GithubCommitsArgs, GithubCommitsInterface } from "./events/github.js";
 import { NpmDownloadsArgs, NpmDownloadsInterface } from "./events/npm.js";
+import {
+  GithubFetchArgs,
+  GithubIssueFiledInterface,
+} from "./actions/github/fetch/issueFiled.js";
+import {
+  UpsertGithubOrgInterface,
+  UpsertGithubOrgArgs,
+} from "./actions/github/upsertOrg/index.js";
+import { GithubIssueClosedInterface } from "./actions/github/fetch/issueClosed.js";
 
 const callLibrary = async <Args>(
   func: EventSourceFunction<Args>,
@@ -19,7 +27,10 @@ const callLibrary = async <Args>(
 /**
  * When adding a new fetcher, please remember to add it to both this registry and yargs
  */
-export const FETCHER_REGISTRY = [GithubCommitsInterface, NpmDownloadsInterface];
+export const FETCHER_REGISTRY = [
+  GithubIssueFiledInterface,
+  NpmDownloadsInterface,
+];
 yargs(hideBin(process.argv))
   .option("yes", {
     type: "boolean",
@@ -39,9 +50,22 @@ yargs(hideBin(process.argv))
     },
     (argv) => handleError(runAutocrawl(argv)),
   )
-  .command<GithubCommitsArgs>(
-    GithubCommitsInterface.command,
-    "Fetch GitHub commits",
+  .command<UpsertGithubOrgArgs>(
+    UpsertGithubOrgInterface.command,
+    "Add or update a github organization",
+    (yags) => {
+      yags
+        .option("orgName", {
+          type: "string",
+          describe: "GitHub organization name",
+        })
+        .demandOption(["orgName"]);
+    },
+    (argv) => handleError(callLibrary(UpsertGithubOrgInterface.func, argv)),
+  )
+  .command<GithubFetchArgs>(
+    GithubIssueFiledInterface.command,
+    "Fetch GitHub Issues Filed",
     (yags) => {
       yags
         .option("org", {
@@ -54,7 +78,24 @@ yargs(hideBin(process.argv))
         })
         .demandOption(["org", "repo"]);
     },
-    (argv) => handleError(callLibrary(GithubCommitsInterface.func, argv)),
+    (argv) => handleError(callLibrary(GithubIssueFiledInterface.func, argv)),
+  )
+  .command<GithubFetchArgs>(
+    GithubIssueClosedInterface.command,
+    "Fetch GitHub Issues Closed",
+    (yags) => {
+      yags
+        .option("org", {
+          type: "string",
+          describe: "GitHub organization name",
+        })
+        .option("repo", {
+          type: "string",
+          describe: "GitHub repository name",
+        })
+        .demandOption(["org", "repo"]);
+    },
+    (argv) => handleError(callLibrary(GithubIssueClosedInterface.func, argv)),
   )
   .command<NpmDownloadsArgs>(
     NpmDownloadsInterface.command,

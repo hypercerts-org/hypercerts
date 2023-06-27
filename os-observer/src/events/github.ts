@@ -1,10 +1,4 @@
 import { gql } from "graphql-request";
-import {
-  EventSourceFunction,
-  ApiInterface,
-  ApiReturnType,
-  CommonArgs,
-} from "../utils/api.js";
 
 export const query = gql`
         {{
@@ -83,28 +77,3 @@ export async function main() {
   console.log(pointer);
 }
 */
-
-export type GithubCommitsArgs = Partial<
-  CommonArgs & {
-    org: string;
-    repo: string;
-  }
->;
-
-export const githubCommits: EventSourceFunction<GithubCommitsArgs> = async (
-  args: GithubCommitsArgs,
-): Promise<ApiReturnType> => {
-  console.log(args);
-  return {
-    _type: "upToDate",
-    cached: true,
-  };
-};
-
-//main();
-
-export const GITHUB_COMMITS_COMMAND = "githubCommits";
-export const GithubCommitsInterface: ApiInterface<GithubCommitsArgs> = {
-  command: GITHUB_COMMITS_COMMAND,
-  func: githubCommits,
-};
