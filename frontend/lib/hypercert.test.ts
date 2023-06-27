@@ -1,6 +1,6 @@
 import { HypercertTokens, FullHypercert } from "./hypercert";
-import { ClaimToken, Claim } from "@hypercerts-org/sdk";
 import { randomAddress, randomTokenID } from "./test-utils";
+import { ClaimToken, Claim } from "@hypercerts-org/sdk";
 
 type GenClaimTokenOptions = {
   contract?: string;
@@ -42,7 +42,7 @@ function genClaim(totalUnits: string): Claim {
 }
 
 describe("HypercertTokens", () => {
-  describe("percentage", () => {
+  describe("percentage - precision 2", () => {
     // Test generator
     const tests: Array<{
       title: string;
@@ -78,6 +78,60 @@ describe("HypercertTokens", () => {
         tokenCount: 3,
         totalUnits: "100000",
         tokenUnits: "25000",
+        expected: 75,
+      },
+    ];
+    tests.forEach((e) => {
+      it(e.title, () => {
+        const testTokens = genClaimTokens(e.tokenCount, {
+          units: e.tokenUnits,
+        });
+        const tokens = new HypercertTokens(testTokens, BigInt(e.totalUnits));
+        expect(tokens.percentage(e.precision)).toEqual(e.expected);
+      });
+    });
+  });
+
+  describe("percentage - precision 15", () => {
+    // Test generator
+    const tests: Array<{
+      title: string;
+      tokenCount: number;
+      totalUnits: string;
+      tokenUnits: string;
+      precision?: number;
+      expected: number;
+    }> = [
+      {
+        title: "calculates 100% for 1 token",
+        tokenCount: 1,
+        totalUnits: "100",
+        tokenUnits: "100",
+        precision: 15,
+        expected: 100,
+      },
+      {
+        title: "calculates 66.67% for 1 token",
+        tokenCount: 1,
+        totalUnits: "3",
+        tokenUnits: "2",
+        precision: 15,
+        expected: 66.6666666666667,
+      },
+      {
+        title: "calculates 66.67% for 2 tokens",
+        tokenCount: 2,
+        totalUnits: "3",
+        tokenUnits: "1",
+        precision: 15,
+        expected: 66.6666666666667,
+      },
+      {
+        title: "calculates 75% for 3 tokens",
+        tokenCount: 3,
+        totalUnits: "100000",
+        tokenUnits: "25000",
+        precision: 15,
         expected: 75,
       },
     ];

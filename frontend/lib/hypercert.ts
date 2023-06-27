@@ -4,6 +4,7 @@ import {
   HypercertMetadata,
   HypercertClient,
 } from "@hypercerts-org/sdk";
+import BN from "bn.js";
 
 export interface Hypercert {
   getTokensFor(owner: string): HypercertTokens;
@@ -61,21 +62,21 @@ export async function loadHypercert(
  * to ensure that all of these tokens relate to the same hypercert.
  */
 export class HypercertTokens {
-  totalUnits: bigint;
+  totalUnits: BN;
   tokens: ClaimTokensByClaimQuery["claimTokens"];
 
   constructor(
     tokens: ClaimTokensByClaimQuery["claimTokens"],
     totalUnits: bigint,
   ) {
-    this.totalUnits = totalUnits;
+    this.totalUnits = new BN(totalUnits.toString());
     this.tokens = tokens;
   }
 
-  get units(): bigint {
+  get units(): BN {
     return this.tokens
-      .map((t) => BigInt(t.units))
-      .reduce((a, c) => a + c, BigInt(0));
+      .map((t) => new BN(t.units))
+      .reduce((a, c) => a.add(c), new BN(0));
   }
 
   percentage(precision?: number): number {
@@ -90,22 +91,13 @@ export class HypercertTokens {
       precision = 15;
     }
 
-    const p = BigInt(Math.pow(10, precision + 2));
-    const bnP = BigInt(p);
+    const pow = precision + 2 <= 15 ? precision + 2 : 15;
+    const p = Math.pow(10, pow);
+    const bnP = new BN(p);
 
-    return Number((divRound(this.units * bnP, this.totalUnits) / p) * 100n);
+    return (this.units.mul(bnP).divRound(this.totalUnits).toNumber() / p) * 100;
   }
 }
-
-const divRound = (numerator: bigint, denominator: bigint): bigint => {
-  const quotient = numerator / denominator;
-  const remainder = numerator % denominator;
-  if (remainder * 2n >= denominator) {
-    return quotient + 1n;
-  } else {
-    return quotient;
-  }
-};
 
 export class MetadataOnlyHypercert implements Hypercert {
   claim?: ClaimByIdQuery["claim"];

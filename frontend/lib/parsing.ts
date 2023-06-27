@@ -1,7 +1,6 @@
-import { AllowlistEntry } from "@hypercerts-org/sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
-import { isAddress } from "viem";
+import { AllowlistEntry } from "@hypercerts-org/sdk";
 import _ from "lodash";
 import Papa from "papaparse";
 
@@ -100,7 +99,9 @@ export const parseListFromString = (
         list = list.map((x) => x.toLowerCase());
         break;
       case "addresses":
-        list = list.map((x) => (isAddress(x) ? x.toLowerCase() : x));
+        list = list.map((x) =>
+          x.match(/^0x[a-fA-F0-9]{40}$/) ? x.toLowerCase() : x,
+        );
         break;
       default:
         assertNever(opts.lowercase);
