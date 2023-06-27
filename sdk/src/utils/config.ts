@@ -1,4 +1,10 @@
-import { Deployment, HypercertClientConfig, UnsupportedChainError, SupportedChainIds } from "../types/index.js";
+import {
+  Deployment,
+  HypercertClientConfig,
+  UnsupportedChainError,
+  SupportedChainIds,
+  ConfigurationError,
+} from "../types/index.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
@@ -15,13 +21,10 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
 
   let baseDeployment: Deployment & { unsafeForceOverrideConfig?: boolean };
 
-  console.log(overrides);
-  console.log(overrides);
-
   if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.chainName || !overrides.contractAddress || !overrides.graphName) {
+    if (!overrides.chainName || !overrides.contractAddress || !overrides.graphUrl) {
       throw new UnsupportedChainError(
-        `attempted to override with chainId=${chainId}, but requires chainName, graphName, and contractAddress to be set`,
+        `attempted to override with chainId=${chainId}, but requires chainName, graphUrl, and contractAddress to be set`,
         chainId,
       );
     }
@@ -29,9 +32,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       chainId: chainId,
       chainName: overrides.chainName,
       contractAddress: overrides.contractAddress,
-      graphName: overrides.graphName,
-      graphBaseUrl: overrides.graphBaseUrl || "",
-      graphNamespace: overrides.graphNamespace || "",
+      graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
@@ -112,24 +113,23 @@ const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {
 
 const getGraphConfig = (overrides: Partial<HypercertClientConfig>) => {
   let config = {
-    graphName: "",
-    graphBaseUrl: "https://api.thegraph.com/subgraphs/name",
-    graphNamespace: "hypercerts-admin",
+    graphUrl: "",
   };
   if (overrides.unsafeForceOverrideConfig) {
-    config.graphBaseUrl = overrides.graphBaseUrl ?? config.graphBaseUrl;
-    config.graphName = overrides.graphName ?? config.graphName;
-    config.graphNamespace = overrides.graphNamespace ?? config.graphNamespace;
+    if (!overrides.graphUrl) {
+      throw new ConfigurationError("A graphUrl must be specified when overriding configuration");
+    }
+    config.graphUrl = overrides.graphUrl;
     return config;
   }
 
   const { chainId } = getChainId(overrides);
   switch (chainId) {
     case 5:
-      config.graphName = "hypercerts-testnet";
+      config.graphUrl = DEPLOYMENTS[5].graphUrl;
       return config;
     case 10:
-      config.graphName = "hypercerts-optimism-mainnet";
+      config.graphUrl = DEPLOYMENTS[10].graphUrl;
       return config;
     default:
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
