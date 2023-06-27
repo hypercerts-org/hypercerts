@@ -40,6 +40,7 @@
     "dev:cors-proxy": "turbo run dev --filter=@hypercerts-org/cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=@hypercerts-org/frontend --parallel",
     "format:staged": "lint-staged",
+    "dev:serve-e2e": "(docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env down || true) && docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env up",
     "lint": "turbo run lint --concurrency=100%",
     "serve:build": "yarn serve build",
     "start:os-observer": "turbo run start --filter=@hypercerts-org/os-observer --",

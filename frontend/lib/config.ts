@@ -67,3 +67,10 @@ export const SUPABASE_TABLE = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_TABLE,
   "NEXT_PUBLIC_SUPABASE_TABLE",
 );
+
+export const UNSAFE_FORCE_OVERRIDE_CONFIG =
+  process.env.NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDE_CONFIG == "1";
+
+export const OVERRIDE_CHAIN_NAME = process.env.NEXT_PUBLIC_CHAIN_NAME;
+
+export const OVERRIDE_GRAPH_URL = process.env.NEXT_PUBLIC_GRAPH_URL;

@@ -10,6 +10,7 @@ enum ErrorType {
   StorageError = "StorageError",
   UnsupportedChainError = "UnsupportedChainError",
   UnknownSchemaError = "UnknownSchemaError",
+  ConfigurationError = "ConfigurationError",
 }
 
 /**
@@ -180,6 +181,20 @@ export class UnsupportedChainError implements TypedError {
   }
 }
 
+/**
+ * The configuration was invalid
+ */
+export class ConfigurationError implements TypedError {
+  __type = ErrorType.ConfigurationError;
+  name = "ConfigurationError";
+  message: string;
+  constructor(message: string) {
+    this.message = message;
+    Object.setPrototypeOf(this, new.target.prototype);
+    Error.captureStackTrace(this);
+  }
+}
+
 export type HypercertsSdkError =
   | FetchError
   | InvalidOrMissingError
@@ -187,4 +202,5 @@ export type HypercertsSdkError =
   | MintingError
   | StorageError
   | UnsupportedChainError
-  | UnknownSchemaError;
+  | UnknownSchemaError
+  | ConfigurationError;

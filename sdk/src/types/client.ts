@@ -25,8 +25,8 @@ export type Deployment = {
   chainName: string;
   /** The address of the deployed contract. */
   contractAddress: string;
-  /** The name of the subgraph that indexes the contract events. */
-  graphName: string;
+  /** The url to the subgraph that indexes the contract events. Override for localized testing */
+  graphUrl: string;
 };
 
 /**
@@ -39,6 +39,8 @@ export type HypercertClientConfig = Deployment &
     provider: ethers.providers.Provider;
     /** The URL of the RPC endpoint used to interact with the evm-chain. */
     rpcUrl?: string;
+    /** Force the use of overridden values */
+    unsafeForceOverrideConfig?: boolean;
   };
 
 /**
