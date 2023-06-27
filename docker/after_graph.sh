@@ -22,5 +22,5 @@ prepend_text="# This file is generated for local testing. It should not be commi
 
 printf '%s\n%s\n' "${prepend_text}" "$(cat $SUBGRAPH_MANIFEST)" > $SUBGRAPH_MANIFEST
 
-yarn create-from-env-args
-yarn deploy-from-env-args
+yarn graph create --node $GRAPH_URL $SUBGRAPH_NAME
+yarn graph deploy --node $GRAPH_URL --ipfs $IPFS_URL --version-label=$VERSION_LABEL $SUBGRAPH_NAME $SUBGRAPH_MANIFEST
