@@ -7,7 +7,6 @@ import {
   PlasmicRootProvider,
   extractPlasmicQueryData,
 } from "@plasmicapp/loader-nextjs";
-import "fastestsmallesttextencoderdecoder";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Error from "next/error";
 import { useRouter } from "next/router";
