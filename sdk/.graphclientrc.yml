@@ -21,7 +21,7 @@ documents:
   - ./src/indexer/queries/*.graphql
 
 codegen:
-  contextType: "MeshContext & { graphUrl: string }"
+  contextType: "MeshContext & { graphUrl: string, chainName: string }"
 
 plugins:
   - pollingLive:
