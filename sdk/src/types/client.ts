@@ -25,16 +25,8 @@ export type Deployment = {
   chainName: string;
   /** The address of the deployed contract. */
   contractAddress: string;
-  /** The name of the subgraph that indexes the contract events. */
-  graphName: string;
-  /** The namespace of the subgraph that indexes the contract events. */
-  graphNamespace: string;
-  /**
-   * The base url for the subgraph. This is usually just
-   * https://api.thegraph.com/subgraphs/name unless using a local deployment of
-   * the subgraph
-   ***/
-  graphBaseUrl: string;
+  /** The url to the subgraph that indexes the contract events. Override for localized testing */
+  graphUrl: string;
 };
 
 /**
