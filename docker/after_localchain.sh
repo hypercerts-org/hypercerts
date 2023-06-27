@@ -9,7 +9,7 @@ LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS:-}
 deploy_json=/deploy.json
 
 function hardhat_local() {
-    yarn hardhat --network localhost $@
+    LOCALHOST_NETWORK_URL=http://localchain:8545 yarn hardhat --network localhost $@
 }
 
 # Clean up stateful data related to any previous invocation of this
@@ -50,10 +50,10 @@ contract_deployed_block_number=$(jq '.blockNumber' -r "$deploy_json")
 echo "Contract address to be loaded: $contract_address"
 
 # Have these here so we can do some interpolating
-NEXT_PUBLIC_GRAPH_NAME=hypercerts-hardhat
-NEXT_PUBLIC_GRAPH_BASE_URL=http://localhost:8000/subgraphs/name
-NEXT_PUBLIC_GRAPH_NAMESPACE=hypercerts-admin
-NEXT_PUBLIC_GRAPH_URL=${NEXT_PUBLIC_GRAPH_BASE_URL}/${NEXT_PUBLIC_GRAPH_NAMESPACE}/${NEXT_PUBLIC_GRAPH_NAME}
+GRAPH_BASE_URL=http://${FRONTEND_GRAPH_HOST}:${FRONTEND_GRAPH_HTTP_PORT}/subgraphs/name
+GRAPH_NAME=hypercerts-hardhat
+GRAPH_NAMESPACE=hypercerts-admin
+NEXT_PUBLIC_GRAPH_URL=${GRAPH_BASE_URL}/${GRAPH_NAMESPACE}/${GRAPH_NAME}
 
 cat <<EOF > /usr/src/app/node_modules/app.env.sh
 # Generate an environment file from the contract deployment
@@ -63,15 +63,12 @@ export NEXT_PUBLIC_CHAIN_NAME=hardhat
 export NEXT_PUBLIC_CONTRACT_ADDRESS="${contract_address}"
 export CONTRACT_DEPLOYED_BLOCK_NUMBER="${contract_deployed_block_number}"
 export NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDE_CONFIG=1
-export NEXT_PUBLIC_RPC_URL=http://localhost:8545
+export NEXT_PUBLIC_RPC_URL=http://${FRONTEND_RPC_HOST}:${FRONTEND_RPC_PORT}
 
-export NEXT_PUBLIC_GRAPH_NAME=${NEXT_PUBLIC_GRAPH_NAME}
-export NEXT_PUBLIC_GRAPH_NAMESPACE=${NEXT_PUBLIC_GRAPH_NAMESPACE}
-export NEXT_PUBLIC_GRAPH_BASE_URL=${NEXT_PUBLIC_GRAPH_BASE_URL}
 export NEXT_PUBLIC_GRAPH_URL=${NEXT_PUBLIC_GRAPH_URL}
 
-export DOCKER_INTERNAL_GRAPH_RPC=http://graph:8020
-export DOCKER_INTERNAL_GRAPH_URL=http://graph:8000
+export DOCKER_INTERNAL_GRAPH_RPC_URL=http://graph:8020
+export DOCKER_INTERNAL_GRAPH_HTTP_URL=http://graph:8000
 export DOCKER_INTERNAL_IPFS_URL=http://ipfs:5001
 export PLASMIC_PROJECT_ID="$PLASMIC_PROJECT_ID"
 export PLASMIC_PROJECT_API_TOKEN="$PLASMIC_PROJECT_API_TOKEN"

@@ -7,7 +7,7 @@ set -euxo pipefail
 # Load application environment variables
 source /usr/src/app/node_modules/app.env.sh
 
-export GRAPH_URL=$DOCKER_INTERNAL_GRAPH_RPC 
+export GRAPH_RPC_URL=$DOCKER_INTERNAL_GRAPH_RPC_URL
 export IPFS_URL=$DOCKER_INTERNAL_IPFS_URL 
 export SUBGRAPH_NAME=hypercerts-admin/hypercerts-hardhat 
 export SUBGRAPH_MANIFEST=.test.subgraph.yaml 
@@ -22,5 +22,5 @@ prepend_text="# This file is generated for local testing. It should not be commi
 
 printf '%s\n%s\n' "${prepend_text}" "$(cat $SUBGRAPH_MANIFEST)" > $SUBGRAPH_MANIFEST
 
-yarn graph create --node $GRAPH_URL $SUBGRAPH_NAME
-yarn graph deploy --node $GRAPH_URL --ipfs $IPFS_URL --version-label=$VERSION_LABEL $SUBGRAPH_NAME $SUBGRAPH_MANIFEST
+yarn graph create --node $GRAPH_RPC_URL $SUBGRAPH_NAME
+yarn graph deploy --node $GRAPH_RPC_URL --ipfs $IPFS_URL --version-label=$VERSION_LABEL $SUBGRAPH_NAME $SUBGRAPH_MANIFEST

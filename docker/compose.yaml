@@ -20,7 +20,7 @@ services:
   localchain:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     ports:
-      - "${LOCALCHAIN_PORT}:8545"
+      - "${FRONTEND_RPC_PORT}:8545"
     working_dir: /usr/src/app/contracts
     command: yarn hardhat node
     depends_on:
@@ -46,11 +46,20 @@ services:
       - PLASMIC_PROJECT_ID=${PLASMIC_PROJECT_ID}
       - PLASMIC_PROJECT_API_TOKEN=${PLASMIC_PROJECT_API_TOKEN}
       - LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS}
-      - LOCALCHAIN_PORT=${LOCALCHAIN_PORT}
+      - FRONTEND_RPC_PORT=${FRONTEND_RPC_PORT}
+      - FRONTEND_RPC_HOST=${FRONTEND_RPC_HOST}
+      - FRONTEND_GRAPH_HOST=${FRONTEND_GRAPH_HOST}
+      - FRONTEND_GRAPH_HTTP_PORT=${FRONTEND_GRAPH_HTTP_PORT}
+      - FRONTEND_GRAPH_WS_PORT=${FRONTEND_GRAPH_WS_PORT}
+      - FRONTEND_GRAPH_JSON_RPC_PORT=${FRONTEND_GRAPH_JSON_RPC_PORT}
+      - FRONTEND_GRAPH_INDEX_STATUS_PORT=${FRONTEND_GRAPH_INDEX_STATUS_PORT}
+      - FRONTEND_IPFS_HOST=${FRONTEND_IPFS_HOST}
+      - FRONTEND_IPFS_LIBP2P_PORT=${FRONTEND_IPFS_LIBP2P_PORT}
+      - FRONTEND_IPFS_API_PORT=${FRONTEND_IPFS_API_PORT}
+      - FRONTEND_IPFS_GATEWAY_PORT=${FRONTEND_IPFS_GATEWAY_PORT}
+      - FRONTEND_PORT=${FRONTEND_PORT}
       - NEXT_PUBLIC_NFT_STORAGE_TOKEN=${NEXT_PUBLIC_NFT_STORAGE_TOKEN}
       - NEXT_PUBLIC_WEB3_STORAGE_TOKEN=${NEXT_PUBLIC_WEB3_STORAGE_TOKEN}
-      # This network url is intentionally internal to the docker compose cluster
-      - LOCALHOST_NETWORK_URL=http://localchain:8545
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
@@ -61,7 +70,7 @@ services:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:3000"
     command: bash docker/frontend.sh
     depends_on:
       after_localchain:
@@ -78,8 +87,8 @@ services:
       after_localchain:
         condition: service_completed_successfully
     ports:
-      - "${IPFS_GATEWAY_PORT}:8080"
-      - "${IPFS_API_PORT}:5001"
+      - "${FRONTEND_IPFS_GATEWAY_PORT}:8080"
+      - "${FRONTEND_IPFS_API_PORT}:5001"
       # Don't need to expose the libp2p port at this time.
       # - "${IPFS_LIBP2P_PORT}:4001"
     volumes:
@@ -128,11 +137,11 @@ services:
       ethereum: hardhat:http://localchain:8545
     ports:
       # WS
-      - "${GRAPH_WS_PORT}:8001"
+      - "${FRONTEND_GRAPH_WS_PORT}:8001"
       # JSON-RPC
-      - "${GRAPH_JSON_RPC_PORT}:8020"
+      - "${FRONTEND_GRAPH_JSON_RPC_PORT}:8020"
       # Indexing status
-      - "${GRAPH_INDEX_STATUS_PORT}:8030"
+      - "${FRONTEND_GRAPH_INDEX_STATUS_PORT}:8030"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
       interval: 5s
@@ -148,7 +157,7 @@ services:
       graph:
         condition: service_healthy
     ports:
-      - "${GRAPH_GRAPHQL_PORT}:80"
+      - "${FRONTEND_GRAPH_HTTP_PORT}:80"
   after_graph:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     depends_on:
