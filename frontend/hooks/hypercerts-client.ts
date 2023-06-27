@@ -5,14 +5,12 @@ import {
   NFT_STORAGE_TOKEN,
   WEB3_STORAGE_TOKEN,
   OVERRIDE_CHAIN_NAME,
-  OVERRIDE_GRAPH_NAME,
-  OVERRIDE_GRAPH_BASE_URL,
-  OVERRIDE_GRAPH_NAMESPACE,
+  OVERRIDE_GRAPH_URL,
   CONTRACT_ADDRESS,
   UNSAFE_FORCE_OVERRIDE_CONFIG,
 } from "../lib/config";
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
-import { ethers } from "ethers";
+import { providers } from "ethers";
 import { type WalletClient, useWalletClient, useNetwork } from "wagmi";
 
 const clientConfig: Partial<HypercertClientConfig> = {
@@ -26,16 +24,8 @@ function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
     clientConfig.chainName = OVERRIDE_CHAIN_NAME;
   }
 
-  if (OVERRIDE_GRAPH_NAME) {
-    clientConfig.graphName = OVERRIDE_GRAPH_NAME;
-  }
-
-  if (OVERRIDE_GRAPH_BASE_URL) {
-    clientConfig.graphBaseUrl = OVERRIDE_GRAPH_BASE_URL;
-  }
-
-  if (OVERRIDE_GRAPH_NAMESPACE) {
-    clientConfig.graphNamespace = OVERRIDE_GRAPH_NAMESPACE;
+  if (OVERRIDE_GRAPH_URL) {
+    clientConfig.graphUrl = OVERRIDE_GRAPH_URL;
   }
 
   if (CONTRACT_ADDRESS) {
@@ -81,17 +71,16 @@ export const useHypercertClient = () => {
     if (chain?.id && signer) {
       setIsLoading(true);
 
-        const config = {
-          chainId,
-          signer,
-        };
-        loadOverridingConfig(config);
-        const client = new HypercertClient(config);
-        setClient(client);
-      }
-
-      setIsLoading(false);
+      const config = {
+        chainId: chain.id,
+        signer,
+      };
+      loadOverridingConfig(config);
+      const client = new HypercertClient(config);
+      setClient(client);
     }
+
+    setIsLoading(false);
   }, [chain?.id, signer]);
 
   return { client, isLoading };
