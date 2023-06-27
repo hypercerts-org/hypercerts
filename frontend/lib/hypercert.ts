@@ -12,7 +12,7 @@ export interface Hypercert {
   claim?: ClaimByIdQuery["claim"];
   claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
   name: string;
-  totalUnits: BN;
+  totalUnits: bigint;
   metadataUri: string;
 }
 
@@ -65,8 +65,11 @@ export class HypercertTokens {
   totalUnits: BN;
   tokens: ClaimTokensByClaimQuery["claimTokens"];
 
-  constructor(tokens: ClaimTokensByClaimQuery["claimTokens"], totalUnits: BN) {
-    this.totalUnits = totalUnits;
+  constructor(
+    tokens: ClaimTokensByClaimQuery["claimTokens"],
+    totalUnits: bigint,
+  ) {
+    this.totalUnits = new BN(totalUnits.toString());
     this.tokens = tokens;
   }
 
@@ -88,7 +91,8 @@ export class HypercertTokens {
       precision = 15;
     }
 
-    const p = Math.pow(10, precision + 2);
+    const pow = precision + 2 <= 15 ? precision + 2 : 15;
+    const p = Math.pow(10, pow);
     const bnP = new BN(p);
 
     return (this.units.mul(bnP).divRound(this.totalUnits).toNumber() / p) * 100;
@@ -112,7 +116,7 @@ export class MetadataOnlyHypercert implements Hypercert {
     );
   }
 
-  get totalUnits(): BN {
+  get totalUnits(): bigint {
     throw new Error(
       "Cannot retrieve tokens. This view contains hypercert metadata only",
     );
@@ -162,8 +166,8 @@ export class FullHypercert implements Hypercert {
     return this.metadata?.name ?? "";
   }
 
-  get totalUnits(): BN {
-    return new BN(this.claim?.totalUnits ?? 1);
+  get totalUnits(): bigint {
+    return BigInt(this.claim?.totalUnits ?? 1);
   }
 
   get metadataUri(): string {

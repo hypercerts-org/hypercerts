@@ -1,6 +1,5 @@
 import { useAccountLowerCase } from "../hooks/account";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
-import { WALLETCONNECT_ID } from "../lib/config";
+import { DEFAULT_CHAIN_ID, WALLETCONNECT_ID } from "../lib/config";
 import { claimedRecently } from "./claim-all-fractions-button";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
@@ -35,22 +34,23 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import {
-  configureChains,
-  WagmiConfig,
-  useNetwork,
+  mainnet,
+  goerli,
+  sepolia,
+  optimism,
+  hardhat,
   Chain,
-  createClient,
-} from "wagmi";
-import { mainnet, goerli, sepolia, optimism, hardhat } from "wagmi/chains";
+} from "viem/chains";
+import { configureChains, WagmiConfig, useNetwork, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
 const queryClient = new QueryClient();
 const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
-const { provider, webSocketProvider, chains } = configureChains(ALL_CHAINS, [
+const { publicClient, chains } = configureChains(ALL_CHAINS, [
   publicProvider(),
 ]);
 
@@ -88,10 +88,9 @@ const connectors = connectorsForWallets([
   },
 ]);
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  provider,
-  webSocketProvider,
+const wagmiConfig = createConfig({
+  autoConnect: false,
+  publicClient,
   connectors,
 });
 
@@ -121,6 +120,10 @@ export interface DappContextProps {
 }
 
 export function DappContext(props: DappContextProps) {
+  useEffect(() => {
+    wagmiConfig.autoConnect();
+  }, []);
+
   const {
     className,
     children,
@@ -156,18 +159,18 @@ export function DappContext(props: DappContextProps) {
 
   return (
     <div className={className}>
-      <QueryClientProvider client={queryClient}>
-        <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider chains={chains}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+          <QueryClientProvider client={queryClient}>
             <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
               <ContractInteractionDialogProvider>
                 {children}
                 <ReactQueryDevtools initialIsOpen={false} />
               </ContractInteractionDialogProvider>
             </DataProvider>
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </QueryClientProvider>
+          </QueryClientProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
-import { BigNumberish } from "ethers";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
@@ -28,8 +27,8 @@ export const useMintFractionAllowlist = ({
   const parseError = useParseBlockchainError();
 
   const initializeWrite = async (
-    claimID: BigNumberish,
-    units: BigNumberish,
+    claimID: bigint,
+    units: bigint,
     proof: string[],
   ) => {
     setStep("minting");
@@ -68,11 +67,7 @@ export const useMintFractionAllowlist = ({
   };
 
   return {
-    write: async (
-      proof: string[],
-      claimId: BigNumberish,
-      units: BigNumberish,
-    ) => {
+    write: async (proof: string[], claimId: bigint, units: bigint) => {
       showModal({ stepDescriptions });
       setStep("initial");
       await initializeWrite(claimId, units, proof);

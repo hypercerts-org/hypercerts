@@ -1,12 +1,14 @@
+import React, { useEffect, useMemo } from "react";
+
 import {
   DEFAULT_CHAIN_ID,
   NFT_STORAGE_TOKEN,
   WEB3_STORAGE_TOKEN,
 } from "../lib/config";
 import { HypercertClient } from "@hypercerts-org/sdk";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import { useAccount, Connector } from "wagmi";
+import { type WalletClient, useWalletClient, useNetwork } from "wagmi";
+
+import { providers } from "ethers";
 
 const defaultClient = new HypercertClient({
   chainId: DEFAULT_CHAIN_ID,
@@ -14,41 +16,45 @@ const defaultClient = new HypercertClient({
   web3StorageToken: WEB3_STORAGE_TOKEN,
 });
 
+const walletClientToSigner = (walletClient: WalletClient) => {
+  const { account, chain, transport } = walletClient;
+  const network = {
+    chainId: chain.id,
+    name: chain.name,
+    ensAddress: chain.contracts?.ensRegistry?.address,
+  };
+  const provider = new providers.Web3Provider(transport, network);
+  const signer = provider.getSigner(account.address);
+  return signer;
+};
+
+const useEthersSigner = ({ chainId }: { chainId?: number } = {}) => {
+  const { data: walletClient } = useWalletClient({ chainId });
+  return useMemo(
+    () => (walletClient ? walletClientToSigner(walletClient) : undefined),
+    [walletClient],
+  );
+};
+
 export const useHypercertClient = () => {
-  const [client, setClient] = useState<HypercertClient>(defaultClient);
-  const [isLoading, setIsLoading] = useState(false);
-  const { connector } = useAccount();
+  const { chain } = useNetwork();
+  const signer = useEthersSigner({ chainId: chain?.id });
+
+  const [client, setClient] = React.useState<HypercertClient>(defaultClient);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
-    const loadClient = async (connector: Connector) => {
+    if (chain?.id && signer) {
       setIsLoading(true);
-
-      const { signer, provider } = await connector
-        .getProvider()
-        .then((provider) => {
-          const _provider = new ethers.providers.Web3Provider(provider, "any");
-          const signer = _provider.getSigner();
-          return { provider: _provider, signer };
-        });
-
-      const chainId = await connector.getChainId();
-
-      if (chainId) {
-        const client = new HypercertClient({
-          chainId,
-          provider,
+      setClient(
+        new HypercertClient({
+          chainId: chain.id,
           signer,
-        });
-        setClient(client);
-      }
-
+        }),
+      );
       setIsLoading(false);
-    };
-
-    if (connector) {
-      loadClient(connector);
     }
-  }, [connector]);
+  }, [chain?.id, signer]);
 
   return { client, isLoading };
 };
