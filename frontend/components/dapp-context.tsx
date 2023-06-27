@@ -4,8 +4,34 @@ import { claimedRecently } from "./claim-all-fractions-button";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  RainbowKitProvider,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import {
+  argentWallet,
+  bitskiWallet,
+  braveWallet,
+  coinbaseWallet,
+  dawnWallet,
+  imTokenWallet,
+  injectedWallet,
+  ledgerWallet,
+  metaMaskWallet,
+  mewWallet,
+  okxWallet,
+  omniWallet,
+  phantomWallet,
+  rabbyWallet,
+  rainbowWallet,
+  safeWallet,
+  tahoWallet,
+  trustWallet,
+  walletConnectWallet,
+  xdefiWallet,
+  zerionWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode, useEffect } from "react";
@@ -28,11 +54,39 @@ const { publicClient, chains } = configureChains(ALL_CHAINS, [
   publicProvider(),
 ]);
 
-const { connectors } = getDefaultWallets({
-  appName: "Hypercerts",
-  chains,
-  projectId: WALLETCONNECT_ID,
-});
+const projectId = WALLETCONNECT_ID;
+
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      argentWallet({ chains, projectId }),
+      bitskiWallet({ chains }),
+      braveWallet({ chains }),
+      coinbaseWallet({ chains, appName: "Hypercerts" }),
+      dawnWallet({ chains }),
+      imTokenWallet({ chains, projectId }),
+      ledgerWallet({ chains, projectId }),
+      metaMaskWallet({ chains, projectId }),
+      mewWallet({ chains }),
+      okxWallet({ chains, projectId }),
+      omniWallet({ chains, projectId }),
+      phantomWallet({ chains }),
+      rabbyWallet({ chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+      safeWallet({ chains }),
+      tahoWallet({ chains }),
+      trustWallet({ chains, projectId }),
+      xdefiWallet({ chains }),
+      zerionWallet({ chains, projectId }),
+    ],
+  },
+  {
+    groupName: "Injected",
+    wallets: [injectedWallet({ chains })],
+  },
+]);
 
 const wagmiConfig = createConfig({
   autoConnect: false,

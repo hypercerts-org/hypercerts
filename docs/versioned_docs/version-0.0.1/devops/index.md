@@ -1,4 +1,4 @@
-# DevOps
+# Devops Playbook
 
 We use this playbook to encapsulate our practices and current setup.
 
