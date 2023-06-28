@@ -3,12 +3,11 @@ import { Page } from "@playwright/test";
 import * as metamask from "@synthetixio/synpress/commands/metamask";
 import { randomUUID } from "crypto";
 
-async function connectWallet(goto: string, page: Page) {
+async function navigateAndEnsureWallet(goto: string, page: Page) {
   await page.goto(goto);
-  await page.locator('button[data-testid="rk-connect-button"]').click();
-
-  await page.locator('button[data-testid="rk-wallet-option-metaMask"]').click();
-  await metamask.acceptAccess();
+  await expect(
+    page.locator('button[data-testid="rk-account-button"]'),
+  ).toBeAttached({ timeout: 5000 });
 }
 
 test.beforeEach(async ({ page }) => {
@@ -16,12 +15,12 @@ test.beforeEach(async ({ page }) => {
   test.setTimeout(120000);
   page.setDefaultTimeout(60000);
 
-  // await page.goto("http://127.0.0.1:3000/");
-  // await page.reload();
-  // await page.locator('button[data-testid="rk-connect-button"]').click();
+  await page.goto("http://127.0.0.1:3000/");
+  await page.reload();
+  await page.locator('button[data-testid="rk-connect-button"]').click();
 
-  // await page.locator('button[data-testid="rk-wallet-option-metaMask"]').click();
-  // await metamask.acceptAccess();
+  await page.locator('button[data-testid="rk-wallet-option-metaMask"]').click();
+  await metamask.acceptAccess();
 });
 
 test("should succeed to mint a token", async ({ page }) => {
@@ -31,13 +30,9 @@ test("should succeed to mint a token", async ({ page }) => {
   const workScope = "Scope1, Scope2";
   const contributors = "Contrib1, Contrib2";
 
-  // Clicking to navigate to the "/app/create" path caused problems.
-  await connectWallet("http://127.0.0.1:3000/app/create", page);
-
-  // Ensure the wallet button is properly loaded
-  await expect(
-    page.locator('button[data-testid="rk-account-button"]'),
-  ).toBeAttached({ timeout: 5000 });
+  // Clicking to navigate to the "/app/create" path caused problems. For now,
+  // ignore clicking on the links with the prefilled fields
+  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
 
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
@@ -62,7 +57,7 @@ test("should fail to mint a token - lacking description", async ({ page }) => {
   const workScope = "Scope1, Scope2";
   const contributors = "";
 
-  await page.getByRole("link").filter({ hasText: "Create" }).click();
+  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
   await page.locator('textarea[name="workScopes"]').fill(workScope);
