@@ -10,7 +10,7 @@ describe("HypercertsIndexer", () => {
   });
 
   it("should be able to create a new instance with valid graphName", () => {
-    const indexer = new HypercertsIndexer({ graphName: "hypercerts-testnet" });
+    const indexer = new HypercertsIndexer({ graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet" });
 
     expect(indexer).to.be.an.instanceOf(HypercertsIndexer);
   });
