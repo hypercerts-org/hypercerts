@@ -72,11 +72,19 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "developer/indexing",
+          id: "developer/querying",
         },
         {
           type: "doc",
           id: "developer/split-merge",
+        },
+        {
+          type: "doc",
+          id: "developer/evaluations",
+        },
+        {
+          type: "doc",
+          id: "developer/burning",
         },
         {
           type: "doc",

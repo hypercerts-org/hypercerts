@@ -1,5 +1,7 @@
 # Split and Merge
 
+> :construction: **NOTE**: This is a work-in-progress and may not be fully functioning yet.
+
 ## Value
 
 ### Split / merge token values

@@ -1,58 +1,84 @@
 # Getting started with JavaScript
 
-or TypeScript
+The Hypercerts SDK makes it easy to integrate Hypercerts into your application or backend with JavaScript/TypeScript.
 
-# Hypercert SDK
+## Quickstart
 
-## Quickstart Guide
+### Installation
 
-1. Install the SDK using npm or yarn:
+Install the SDK using npm or yarn:
 
 ```bash
 npm install @hypercerts-org/sdk
+# OR yarn add @hypercerts-org/sdk
 ```
 
-or
+### Get storage credentials (only required for minting)
 
-```bash
- yarn add @hypercerts-org/sdk
-```
+For now, we store all metadata (e.g. Hypercert claim data) on IPFS using [NFT.Storage](https://nft.storage/) and [web3.storage](https://web3.storage/).
 
-2. Import the SDK into your project:
+In order to mint a Hypercert, you will need to create API tokens for both services, which you can learn more about from their respective guides:
 
-```bash
-import { HypercertClient } from "@hypercerts-org/sdk";
-```
+- [Get an NFT.Storage API token](https://nft.storage/docs/#get-an-api-token)
+- [Get a web3.storage API token](https://web3.storage/docs/how-tos/generate-api-token/)
 
-3. Create a new instance of the HypercertClient class with your configuration options:
+In the future, we want to also support other mechanisms for storing off-chain data.
+
+### Initialize
+
+Import the SDK into your project and create a new instance of `HypercertClient` with your configuration options:
 
 ```js
+import { HypercertClient } from "@hypercerts-org/sdk";
+import { ethers } from "ethers";
+
+// NOTE: you should replace this with your own JSON-RPC provider to the network
+// This should have signing abilities and match the `chainId` passed into HypercertClient
+const operator = ethers.providers.getDefaultProvider("goerli");
+
 const client = new HypercertClient({
   chainId: 5,
-  provider,
-  signer,
+  operator,
   nftStorageToken,
   web3StorageToken,
 });
 ```
 
-> **Note** If there's no `signer`, `provider`, `nftStorageToken` or `web3StorageToken` provided, the client will run in
-> [read-only mode](#read-only-mode)
+> **Note** If there's no `operator`, `nftStorageToken` or `web3StorageToken` provided, the client will run in [read-only mode](#read-only-mode).
 
-4. Use the client object to interact with the Hypercert network.
+### Make a Hypercert
 
-For example, you can use the `client.mintClaim` method to create a new claim:
+Use the client object to interact with the Hypercert network. For example, you can use the `client.mintClaim` method to create a new claim:
 
 ```js
+import {
+  formatHypercertData,
+  TransferRestrictions,
+} from "@hypercerts-org/sdk";
+
+// Format your Hypercert metadata
+const { data: metadata, valid, errors } = formatHypercertData({
+  name,
+  ...
+})
+
+if (!valid) {
+  return console.error(errors);
+}
+
+// Mint your Hypercert!
 const tx = await client.mintClaim(
-  metaData,
+  metadata,
   totalUnits,
-  transferRestriction,
-  overrides,
+  TransferRestrictions.FromCreatorOnly,
 );
 ```
 
 This will validate the metadata, store it on IPFS, create a new hypercert on-chain and return a transaction receipt.
+
+For more details, check out the [Minting Guide](./minting.md).
+
+### Query for Hypercerts
 
 You can also use the client to query the subgraph and retrieve which claims an address owns:
 
@@ -60,36 +86,27 @@ You can also use the client to query the subgraph and retrieve which claims an a
 const claims = await client.indexer.fractionsByOwner(owner),
 ```
 
-For more information on how to use the SDK, check out the
-[developer documentation](https://hypercerts.org/docs/developer/) and the
-[Graph playground](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet).
+For more details, checkout the [Querying guide](./querying.md)
+and our [Graph playground](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-optimism-mainnet).
 
-That's it! With these simple steps, you can start using the Hypercert SDK in your own projects. Don't forget to set your
-environment variables for your NFT.storage and web3.storage API keys in your .env file.
+That's it! With these simple steps, you can start using the Hypercert SDK in your own projects.
 
-## Config
-
-The SDK will try to determine the `DEFAULT_CHAIN_ID` and use that to inform the configuration. We allow for `overrides`
-when creating the SDK by passing configuration variables. Finally, when not defaults or overrides are found, we check
-the environment variables.
+## Configuration
 
 ### Read-only mode
 
 The SDK client will be in read-only mode if any of the following conditions are true:
 
-- The client was initialized without a signer or provider.
-- The client was initialized with a provider but not a signer.
-- The client was initialized with a signer but not a provider.
+- The client was initialized without an operator.
+- The client was initialized with an operator without signing abilities.
 - The contract address is not set.
 - The storage layer is in read-only mode.
 
-If any of these conditions are true, the readonly property of the HypercertClient instance will be set to true, and a
-warning message will be logged indicating that the client is in read-only mode.
+If any of these conditions are true, the read-only property of the `HypercertClient` instance will be set to true, and a warning message will be logged indicating that the client is in read-only mode.
 
 ### Defaults
 
-The constants.ts file defines various constants that are used throughout the Hypercert system. Here's a brief
-explanation of each constant:
+The [constants.ts](https://github.com/hypercerts-org/hypercerts/blob/main/sdk/src/constants.ts) file defines various defaults constants that are used throughout the Hypercert system.
 
 `DEFAULT_CHAIN_ID`: This constant defines the default chain ID to use if no chain ID is specified. In this case, the
 default chain ID is set to 5, which corresponds to the Goerli testnet.
@@ -112,6 +129,9 @@ For example:
 }
 ```
 
+You can select which deployment to use by either passing in a `chainId` configuration parameter or setting the `DEFAULT_CHAIN_ID` environment variable. We allow for `overrides`
+when creating the SDK by passing configuration variables. Finally, when not defaults or overrides are found, we check the environment variables.
+
 ### Client config properties
 
 | \| Property        | Type                 | Description                            |
@@ -128,7 +148,7 @@ For example:
 
 ### Environment variables
 
-To determine the missing configuration values the SDK defaults to the following environment variables:
+You can also configure the SDK via environment variables. If you set both the config parameter and environment variable, the config parameter will take precedent.
 
 | Environment Variable             | Description                                                                                         |
 | -------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -186,20 +206,6 @@ the storage instance to store metadata for a new Hypercert, the indexer instance
 on various criteria, and the contract instance to create new Hypercerts and retrieve existing Hypercerts from the
 contract.
 
-### Burning fraction tokens
-
-```js
-const { TODO } = await hypercerts.burnFraction({ tokenId });
-```
-
-### Respond / or contest an evaluation
-
-Just create an evaluation referencing an evaluation
-
-```js
-
-```
-
 ### Handling Errors
 
 To support debugging we've implemented some custom errors.
@@ -220,20 +226,3 @@ export interface TypedError extends Error {
 | StorageError          | NFT-/Web3 Storage error            | `{ [key: string]: unknown }`                    |
 | UnsupportedChainError | Provided EVM chainID not supported | <code>{ chainID: string &#124; number };</code> |
 | UnknownSchemaError    | Validation schema not found        | `{ schemaName: string }`                        |
-
-### Progress reporting
-
-```js
-const promise = hypercerts.mintClaim(...);
-// TODO see contract-interaction-dialog-context.tsx
-const steps = promise.getSteps();
-/**
- * [
- *  { key: "step1", description: "" }
- *  { key: "step2", description: "" }
- * ]
- **/
-promise.onStep(stepKey => {...});
-promise.onProgress(percent => {...});
-const { claimId } = await promise;
-```
