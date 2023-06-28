@@ -35,7 +35,7 @@ export default class EasEvaluator {
   constructor(config: Partial<HypercertClientConfig>) {
     for (const prop of ["easContractAddress", "chainId", "signer"]) {
       if (!(prop in config) || config[prop as keyof HypercertClientConfig] === undefined) {
-        throw new InvalidOrMissingError(`Invalid or missing config value: ${prop}`, prop.toString());
+        throw new InvalidOrMissingError(`Invalid or missing config value: ${prop}`, { prop: prop.toString() });
       }
     }
 

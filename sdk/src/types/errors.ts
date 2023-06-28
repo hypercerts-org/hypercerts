@@ -1,27 +1,7 @@
 /**
- * An enumeration of error types that can be thrown by the Hypercert SDK.
- */
-enum ErrorType {
-  ClientError = "ClientError",
-  FetchError = "FetchError",
-  InvalidOrMissingError = "InvalidOrMissingError",
-  MalformedDataError = "MalformedDataError",
-  MintingError = "MintingError",
-  StorageError = "StorageError",
-  UnsupportedChainError = "UnsupportedChainError",
-  UnknownSchemaError = "UnknownSchemaError",
-  ConfigurationError = "ConfigurationError",
-}
-
-/**
  * An interface for errors that have a specific type.
  */
-export interface TypedError extends Error {
-  /**
-   * The type of error.
-   */
-  __type: ErrorType;
-
+export interface CustomError {
   /**
    * Additional error payload.
    */
@@ -31,22 +11,7 @@ export interface TypedError extends Error {
 /**
  * An error that is caused by a problem with the client.
  */
-export class ClientError implements TypedError {
-  /**
-   * The type of error.
-   */
-  __type = ErrorType.ClientError;
-
-  /**
-   * The name of the error.
-   */
-  name = "ClientError";
-
-  /**
-   * The error message.
-   */
-  message: string;
-
+export class ClientError extends Error implements CustomError {
   /**
    * Additional error payload.
    */
@@ -58,6 +23,7 @@ export class ClientError implements TypedError {
    * @param payload Additional error payload.
    */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
   }
@@ -66,101 +32,108 @@ export class ClientError implements TypedError {
 /**
  * Fails fetching a remote resource
  */
-export class FetchError implements TypedError {
-  __type = ErrorType.FetchError;
-  name = "FetchError";
-  message: string;
+export class FetchError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the FetchError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * The provided value was undefined or empty
  */
-export class InvalidOrMissingError implements TypedError {
-  __type = ErrorType.InvalidOrMissingError;
-  name = "InvalidOrMissingError";
-  message: string;
-  payload: { keyName: string };
-  constructor(message: string, keyName: string) {
+export class InvalidOrMissingError extends Error implements CustomError {
+  payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the InvalidOrMissingError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
+  constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
-    this.payload = { keyName };
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    this.payload = payload;
   }
 }
 
 /**
  * Minting transaction failed
  */
-export class MintingError implements TypedError {
-  __type = ErrorType.MintingError;
-  name = "MintingError";
-  message: string;
+export class MintingError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the MintingError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Fails storing to a remote resource
  */
-export class StorageError implements TypedError {
-  __type = ErrorType.StorageError;
-  name = "StorageError";
-  message: string;
+export class StorageError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the StorageError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Schema could not be loaded
  */
-export class UnknownSchemaError implements TypedError {
-  __type = ErrorType.UnknownSchemaError;
-  name = "UnknownSchemaError";
-  message: string;
+export class UnknownSchemaError extends Error implements CustomError {
   payload?: { schemaName: string };
+
+  /**
+   * Creates a new instance of the UnknownSchemaError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { schemaName: string }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
 /**
  * Data doesn't conform to expectations
  */
-export class MalformedDataError implements TypedError {
-  __type = ErrorType.MalformedDataError;
-  name = "MalformedDataError";
-  message: string;
+export class MalformedDataError extends Error implements CustomError {
   payload?: { [key: string]: unknown };
+
+  /**
+   * Creates a new instance of the MalformedDataError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
     this.payload = payload;
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
   }
 }
 
@@ -168,39 +141,41 @@ export class MalformedDataError implements TypedError {
  * This blockchain is not yet supported
  * Please file an issue
  */
-export class UnsupportedChainError implements TypedError {
-  __type = ErrorType.UnsupportedChainError;
-  name = "UnsupportedChain";
-  message: string;
-  payload: { chainID: string | number };
-  constructor(message: string, chainID: string | number) {
+export class UnsupportedChainError extends Error implements CustomError {
+  payload?: { chainID: string | number | undefined };
+
+  /**
+   * Creates a new instance of the UnsupportedChainError class.
+   * @param message The error message.
+   * @param payload Additional error payload.
+   */
+  constructor(message: string, payload?: { chainID: string | number | undefined }) {
+    super(message);
     this.message = message;
-    this.payload = { chainID };
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    this.payload = payload;
   }
 }
 
 /**
  * The configuration was invalid
  */
-export class ConfigurationError implements TypedError {
-  __type = ErrorType.ConfigurationError;
-  name = "ConfigurationError";
-  message: string;
-  constructor(message: string) {
+//TODO this is redundant with InvalidOrMissingError???
+export class ConfigurationError extends Error implements CustomError {
+  //Payload can be used to represent missing or invalid configuration
+  payload?: { [key: string]: unknown };
+  constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
     this.message = message;
-    Object.setPrototypeOf(this, new.target.prototype);
-    Error.captureStackTrace(this);
+    this.payload = payload;
   }
 }
 
 export type HypercertsSdkError =
+  | ConfigurationError
   | FetchError
   | InvalidOrMissingError
   | MalformedDataError
   | MintingError
   | StorageError
   | UnsupportedChainError
-  | UnknownSchemaError
-  | ConfigurationError;
+  | UnknownSchemaError;

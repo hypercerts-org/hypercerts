@@ -25,7 +25,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     if (!overrides.chainName || !overrides.contractAddress || !overrides.graphUrl) {
       throw new UnsupportedChainError(
         `attempted to override with chainId=${chainId}, but requires chainName, graphUrl, and contractAddress to be set`,
-        chainId,
+        { chainID: chainId?.toString() || "undefined" },
       );
     }
     baseDeployment = {
@@ -37,12 +37,16 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     };
   } else {
     if (!chainId || [5, 10].indexOf(chainId) === -1) {
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
     }
 
     baseDeployment = DEPLOYMENTS[chainId as SupportedChainIds];
     if (!baseDeployment) {
-      throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
+      throw new UnsupportedChainError(`Default config for chainId=${chainId} is missing in SDK`, {
+        chainID: chainId,
+      });
     }
   }
 
@@ -93,7 +97,9 @@ const getChainName = (overrides: Partial<HypercertClientConfig>) => {
     case 10:
       return { chainName: "optimism-mainnet" };
     default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
   }
 };
 
@@ -132,7 +138,9 @@ const getGraphConfig = (overrides: Partial<HypercertClientConfig>) => {
       config.graphUrl = DEPLOYMENTS[10].graphUrl;
       return config;
     default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
   }
 };
 
