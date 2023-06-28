@@ -55,6 +55,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   contributors: "",
   allowlistUrl: "",
   allowlistPercentage: DEFAULT_ALLOWLIST_PERCENTAGE,
+  deduplicateAllowlist: false,
   agreeContributorsConsent: false,
   agreeTermsConditions: false,
   // Hidden
@@ -81,6 +82,7 @@ interface HypercertCreateFormData {
   contributors: string;
   allowlistUrl: string;
   allowlistPercentage: number;
+  deduplicateAllowlist: boolean;
   agreeContributorsConsent: boolean;
   agreeTermsConditions: boolean;
   // Hidden
