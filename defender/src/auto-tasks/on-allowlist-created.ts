@@ -81,7 +81,7 @@ export async function handler(event: AutotaskEvent) {
   const metadataUri = await contract.functions.uri(tokenId);
   console.log("metadataUri: ", metadataUri);
 
-  const metadata = await getData(metadataUri);
+  const metadata = await getData(metadataUri[0]);
   if (!metadata?.allowList) {
     throw new Error(`No allowlist found`);
   }
