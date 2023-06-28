@@ -1,9 +1,5 @@
-import { useAccountLowerCase } from "../hooks/account";
-import { DEFAULT_CHAIN_ID, WALLETCONNECT_ID } from "../lib/config";
-import { claimedRecently } from "./claim-all-fractions-button";
+import { WALLETCONNECT_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
-import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
 import {
   RainbowKitProvider,
   connectorsForWallets,
@@ -35,18 +31,9 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode, useEffect } from "react";
-import {
-  mainnet,
-  goerli,
-  sepolia,
-  optimism,
-  hardhat,
-  Chain,
-} from "viem/chains";
+import { mainnet, goerli, sepolia, optimism, hardhat } from "viem/chains";
 import { configureChains, WagmiConfig, useNetwork, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-
-const DAPP_CONTEXT_NAME = "DappContext";
 
 const queryClient = new QueryClient();
 const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
@@ -94,29 +81,8 @@ const wagmiConfig = createConfig({
   connectors,
 });
 
-export interface DappContextData {
-  myAddress?: string;
-  defaultChainId?: number;
-  chain?: Chain;
-  chains?: Chain[];
-  waitToClaim?: boolean;
-}
-
-export const DEFAULT_TEST_DATA: DappContextData = {
-  myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f".toLowerCase(),
-  defaultChainId: 5,
-  chain: goerli,
-  chains: ALL_CHAINS,
-  waitToClaim: false,
-};
-
 export interface DappContextProps {
-  className?: string; // Plasmic CSS class
   children?: ReactNode; // Shown by default or if wallet is connected
-  notConnected?: ReactNode; // Shown if wallet is not connected and `showIfNotConnected` is true
-  showIfNotConnected?: boolean; // Show `notConnected` if wallet is not connected
-  testData?: DappContextData; // Test data for
-  useTestData?: boolean; //
 }
 
 export function DappContext(props: DappContextProps) {
@@ -124,54 +90,21 @@ export function DappContext(props: DappContextProps) {
     wagmiConfig.autoConnect();
   }, []);
 
-  const {
-    className,
-    children,
-    notConnected,
-    showIfNotConnected,
-    testData,
-    useTestData,
-  } = props;
-  const [waitToClaim, setWaitToClaim] = React.useState(false);
+  const { children } = props;
 
-  const inEditor = React.useContext(PlasmicCanvasContext);
-  const { address } = useAccountLowerCase();
-  const { chain, chains } = useNetwork();
-  const data: DappContextData =
-    useTestData && testData && inEditor
-      ? testData
-      : {
-          myAddress: address,
-          chain,
-          chains,
-          defaultChainId: DEFAULT_CHAIN_ID,
-          waitToClaim,
-        };
-
-  React.useEffect(() => {
-    // Reaches into window.localStorage, so doing it within a useEffect
-    setWaitToClaim(claimedRecently());
-  });
-
-  if (showIfNotConnected && !data.myAddress && notConnected) {
-    return <div className={className}> {notConnected} </div>;
-  }
+  const { chains } = useNetwork();
 
   return (
-    <div className={className}>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          <QueryClientProvider client={queryClient}>
-            <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
-              <ContractInteractionDialogProvider>
-                {children}
-                <ReactQueryDevtools initialIsOpen={false} />
-              </ContractInteractionDialogProvider>
-            </DataProvider>
-          </QueryClientProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </div>
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>
+        <QueryClientProvider client={queryClient}>
+          <ContractInteractionDialogProvider>
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ContractInteractionDialogProvider>
+        </QueryClientProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 

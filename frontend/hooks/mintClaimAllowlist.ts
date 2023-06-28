@@ -39,6 +39,7 @@ export const useMintClaimAllowlist = ({
   const getAndUpdateAllowlist = async (
     allowlistUrl: string,
     allowlistPercentage: number,
+    deduplicate: boolean,
   ): Promise<{
     allowlist: AllowlistEntry[];
     totalSupply: bigint;
@@ -50,14 +51,18 @@ export const useMintClaimAllowlist = ({
     const htmlResult = await fetch(allowlistUrl, { method: "GET" });
     const htmlText = await htmlResult.text();
     try {
-      const allowlist: AllowlistEntry[] = parseAllowlistCsv(htmlText, [
-        {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          address: address!,
-          // Creator gets the rest for now
-          percentage: 1.0 - allowlistFraction,
-        },
-      ]);
+      const allowlist: AllowlistEntry[] = parseAllowlistCsv(
+        htmlText,
+        deduplicate,
+        [
+          {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            address: address!,
+            // Creator gets the rest for now
+            percentage: 1.0 - allowlistFraction,
+          },
+        ],
+      );
       const totalSupply = allowlist.reduce(
         (acc: bigint, x: AllowlistEntry) => acc + BigInt(x.units.toString()),
         0n,
@@ -76,19 +81,36 @@ export const useMintClaimAllowlist = ({
     metaData: HypercertMetadata,
     allowlistUrl: string,
     allowlistPercentage: number,
+    deduplicate: boolean,
   ) => {
     setStep("validateAllowlist");
 
-    const { allowlist, totalSupply, valid, errors } =
-      await getAndUpdateAllowlist(allowlistUrl, allowlistPercentage);
+    let _totalSupply;
+    let _allowlist: AllowlistEntry[];
 
-    if (!valid) {
-      toast("Errors found in allowlist. Check console for errors.", {
-        type: "error",
-      });
-      for (const error of errors) {
-        console.error(error);
+    try {
+      const { allowlist, totalSupply, valid, errors } =
+        await getAndUpdateAllowlist(
+          allowlistUrl,
+          allowlistPercentage,
+          deduplicate,
+        );
+
+      if (!valid) {
+        toast("Errors found in allowlist. Check console for errors.", {
+          type: "error",
+        });
+        for (const error of errors) {
+          console.error(error);
+        }
+        hideModal();
+        return;
       }
+
+      _totalSupply = totalSupply;
+      _allowlist = allowlist;
+    } catch (e) {
+      console.error("Unhandled Error: ", e);
       hideModal();
       return;
     }
@@ -98,9 +120,9 @@ export const useMintClaimAllowlist = ({
       setTxPending(true);
 
       const tx = await client.createAllowlist(
-        allowlist,
+        _allowlist,
         metaData,
-        totalSupply,
+        _totalSupply,
         TransferRestrictions.FromCreatorOnly,
       );
       setStep("writing");
@@ -134,13 +156,20 @@ export const useMintClaimAllowlist = ({
       metaData,
       allowlistUrl,
       allowlistPercentage,
+      deduplicate,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl: string;
       allowlistPercentage: number;
+      deduplicate: boolean;
     }) => {
       showModal({ stepDescriptions });
-      await initializeWrite(metaData, allowlistUrl, allowlistPercentage);
+      await initializeWrite(
+        metaData,
+        allowlistUrl,
+        allowlistPercentage,
+        deduplicate,
+      );
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,
