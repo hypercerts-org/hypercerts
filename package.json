@@ -15,7 +15,8 @@
       "graph",
       "os-observer",
       "sdk",
-      "vendor/observabletreemap"
+      "vendor/observabletreemap",
+      "e2e-tests"
     ],
     "nohoist": [
       "graph"
@@ -40,7 +41,9 @@
     "dev:cors-proxy": "turbo run dev --filter=@hypercerts-org/cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=@hypercerts-org/frontend --parallel",
     "format:staged": "lint-staged",
-    "dev:serve-e2e": "(docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env down || true) && docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env up",
+    "e2e:serve-for-dev": "(docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env down || true) && docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env up",
+    "e2e:serve-for-test": "(docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env down || true) && ENVIRONMENT=tests docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env --profile testing up",
+    "e2e:clean": "docker-compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env down --volumes",
     "lint": "turbo run lint --concurrency=100%",
     "serve:build": "yarn serve build",
     "start:os-observer": "turbo run start --filter=@hypercerts-org/os-observer --",
@@ -48,6 +51,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
+    "@synthetixio/synpress": "^3.7.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
