@@ -2,7 +2,7 @@ import { parseAllowlistCsv } from "./parsing";
 
 describe("allowlist", () => {
   it("parses simple allowlist", () => {
-    const result = parseAllowlistCsv(
+    const resultDeduped = parseAllowlistCsv(
       `index,address,price,fractions
 0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
 1,0x15c7281842A45465B4cbb8F89111d99e36e5bab8,0.0,50
@@ -10,14 +10,46 @@ describe("allowlist", () => {
 `,
       true,
     );
-    expect(result).toEqual([
+    expect(resultDeduped).toEqual([
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
+    ]);
+
+    const resultNotDeduped = parseAllowlistCsv(
+      `index,address,price,fractions
+0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
+1,0x15c7281842A45465B4cbb8F89111d99e36e5bab8,0.0,50
+2,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
+`,
+      false,
+    );
+    expect(resultNotDeduped).toEqual([
       { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
       { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
       { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
     ]);
   });
 
-  it("parses with duplicates", () => {
+  it("parses with duplication", () => {
+    const result = parseAllowlistCsv(
+      `index,address,price,fractions
+0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
+1,0x15c7281842A45465B4cbb8F89111d99e36e5bab8,0.0,50
+2,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
+3,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
+4,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
+`,
+      true,
+    );
+    expect(result).toEqual([
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 200 },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 80 },
+    ]);
+  });
+
+  it("parses without deduplication", () => {
     const result = parseAllowlistCsv(
       `index,address,price,fractions
 0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
@@ -27,24 +59,6 @@ describe("allowlist", () => {
 4,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
 `,
       false,
-    );
-    expect(result).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 200 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 80 },
-    ]);
-  });
-
-  it("parses without duplication", () => {
-    const result = parseAllowlistCsv(
-      `index,address,price,fractions
-0,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
-1,0x15c7281842A45465B4cbb8F89111d99e36e5bab8,0.0,50
-2,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
-3,0x20326E144532f17f76AcA759e61E19aF20A58ef3,0.0,100
-4,0x1cca19b823afa773b09708d94d2ee6ff96c60057,0.0,40
-`,
-      true,
     );
     expect(result).toEqual([
       { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
