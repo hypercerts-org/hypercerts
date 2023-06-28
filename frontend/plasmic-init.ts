@@ -1,7 +1,7 @@
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
-import { DEFAULT_TEST_DATA } from "./components/dapp-context";
+import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
   FormError,
@@ -104,9 +104,9 @@ PLASMIC.registerComponent(Config, {
 });
 
 PLASMIC.registerComponent(
-  dynamic(() => import("./components/dapp-context"), { ssr: false }),
+  dynamic(() => import("./components/dapp-state"), { ssr: false }),
   {
-    name: "DappContext",
+    name: "DappState",
     description: "This must wrap anything that uses wallet functionality",
     props: {
       children: {
@@ -140,7 +140,7 @@ PLASMIC.registerComponent(
       },
     },
     providesData: true,
-    importPath: "./components/dapp-context",
+    importPath: "./components/dapp-state",
   },
 );
 
