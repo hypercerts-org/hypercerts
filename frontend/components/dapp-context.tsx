@@ -45,6 +45,7 @@ import {
 } from "viem/chains";
 import { configureChains, WagmiConfig, useNetwork, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
+import useCheckWriteable from "../hooks/checkWriteable";
 
 const DAPP_CONTEXT_NAME = "DappContext";
 
@@ -100,6 +101,7 @@ export interface DappContextData {
   chain?: Chain;
   chains?: Chain[];
   waitToClaim?: boolean;
+  writeable?: boolean;
 }
 
 export const DEFAULT_TEST_DATA: DappContextData = {
@@ -108,6 +110,7 @@ export const DEFAULT_TEST_DATA: DappContextData = {
   chain: goerli,
   chains: ALL_CHAINS,
   waitToClaim: false,
+  writeable: true,
 };
 
 export interface DappContextProps {
@@ -137,6 +140,7 @@ export function DappContext(props: DappContextProps) {
   const inEditor = React.useContext(PlasmicCanvasContext);
   const { address } = useAccountLowerCase();
   const { chain, chains } = useNetwork();
+  const { writeable } = useCheckWriteable();
   const data: DappContextData =
     useTestData && testData && inEditor
       ? testData
@@ -146,6 +150,7 @@ export function DappContext(props: DappContextProps) {
           chains,
           defaultChainId: DEFAULT_CHAIN_ID,
           waitToClaim,
+          writeable,
         };
 
   React.useEffect(() => {

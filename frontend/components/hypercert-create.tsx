@@ -384,6 +384,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
                 metaData: metaData.data,
                 allowlistUrl: values.allowlistUrl,
                 allowlistPercentage: values.allowlistPercentage,
+                deduplicate: values.deduplicateAllowlist,
               });
             } else {
               await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
