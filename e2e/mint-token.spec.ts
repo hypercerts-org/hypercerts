@@ -39,8 +39,6 @@ test("should succeed to mint a token", async ({ page }) => {
     page.locator('button[data-testid="rk-account-button"]'),
   ).toBeAttached({ timeout: 5000 });
 
-  await page.pause();
-
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
@@ -57,25 +55,25 @@ test("should succeed to mint a token", async ({ page }) => {
   await expect(page.getByText(testUUID)).toBeAttached({ timeout: 60000 });
 });
 
-// test("should fail to mint a token - lacking description", async ({ page }) => {
-//   const testUUID = randomUUID();
-//   const name = `Test:${testUUID}`;
-//   const description = "This is a description of the hypercert is referencing";
-//   const workScope = "Scope1, Scope2";
-//   const contributors = "";
+test("should fail to mint a token - lacking description", async ({ page }) => {
+  const testUUID = randomUUID();
+  const name = `Test:${testUUID}`;
+  const description = "This is a description of the hypercert is referencing";
+  const workScope = "Scope1, Scope2";
+  const contributors = "";
 
-//   await page.getByRole("link").filter({ hasText: "Create" }).click();
-//   await page.locator('input[name="name"]').fill(name);
-//   await page.locator('textarea[name="description"]').fill(description);
-//   await page.locator('textarea[name="workScopes"]').fill(workScope);
+  await page.getByRole("link").filter({ hasText: "Create" }).click();
+  await page.locator('input[name="name"]').fill(name);
+  await page.locator('textarea[name="description"]').fill(description);
+  await page.locator('textarea[name="workScopes"]').fill(workScope);
 
-//   await page.locator('textarea[name="contributors"]').fill(contributors);
-//   await page.locator('input[name="agreeContributorsConsent"]').check();
-//   await page.locator('input[name="agreeTermsConditions"]').check();
-//   await page.locator('button[class*="HypercertsCreate__button"]').click();
+  await page.locator('textarea[name="contributors"]').fill(contributors);
+  await page.locator('input[name="agreeContributorsConsent"]').check();
+  await page.locator('input[name="agreeTermsConditions"]').check();
+  await page.locator('button[class*="HypercertsCreate__button"]').click();
 
-//   await expect(page.locator('textarea[name="contributors"]')).toHaveAttribute(
-//     "aria-invalid",
-//     "true",
-//   );
-// });
+  await expect(page.locator('textarea[name="contributors"]')).toHaveAttribute(
+    "aria-invalid",
+    "true",
+  );
+});
