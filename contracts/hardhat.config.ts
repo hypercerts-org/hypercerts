@@ -96,10 +96,16 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
+      // Setting this is necessary for metamask to work with hardhat. Otherwise
+      // metamask can't transfer when connected to hardhat's network.
+      initialBaseFeePerGas: 0,
       accounts: {
         mnemonic,
       },
       chainId: chainIds.hardhat,
+    },
+    localhost: {
+      url: process.env.LOCALHOST_NETWORK_URL || "http://127.0.0.1:8545",
     },
     goerli: getChainConfig("goerli"),
     sepolia: getChainConfig("sepolia"),

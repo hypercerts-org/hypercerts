@@ -1,5 +1,4 @@
 import { useAccount } from "wagmi";
-
 /**
  * Addresses come with uppercase from the hook. We use lowercase everywhere else
  **/

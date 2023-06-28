@@ -1,6 +1,4 @@
-[Hypercerts SDK Documentation](README.md) / Exports
-
-# Hypercerts SDK Documentation
+# Hypercerts SDK
 
 ## Table of contents
 

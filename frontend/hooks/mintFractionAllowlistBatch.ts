@@ -7,7 +7,6 @@ import { ClaimProof, useVerifyFractionClaim } from "./verifyFractionClaim";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber } from "ethers";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
@@ -55,7 +54,7 @@ export const useMintFractionAllowlistBatch = ({
 
     const verified = results.filter((x) => x) as ClaimProof[];
 
-    const units = verified.map((x) => BigNumber.from(x.units));
+    const units = verified.map((x) => BigInt(x.units));
     const proofs = verified.map((x) => x.proof as HexString[]);
 
     setStep("minting");
@@ -63,7 +62,7 @@ export const useMintFractionAllowlistBatch = ({
       setTxPending(true);
 
       const tx = await client.batchMintClaimFractionsFromAllowlists(
-        (claimIds || []).map((x) => BigNumber.from(x.split("-")[1])),
+        (claimIds || []).map((x) => BigInt(x.split("-")[1])),
         units,
         proofs,
       );

@@ -1,22 +1,25 @@
 import React, { useRef, useEffect, ReactNode } from "react";
 import { Runtime, Inspector } from "@observablehq/runtime";
 import notebook from "@hypercerts-org/observabletreemap";
+import { PlasmicElement } from "@plasmicapp/host";
 
 export interface GenericHypercertTreemapProps {
   className?: string;
-  children?: ReactNode;
+  children: ReactNode;
   //backgroundImageUrl?: string;
   data: object;
 }
 
-const defaultChildren = (
-  <p>
-    Credit:
-    <a href="https://observablehq.com/d/c857fa5c110524ee">
-      Original notebook: hypercerts by category by hypercerts
-    </a>
-  </p>
-);
+const defaultChildren: PlasmicElement[] = [
+  {
+    type: "text",
+    value: "Credit: Original notebook - hypercerts by category by hypercerts",
+    tag: "a",
+    attrs: {
+      href: "https://observablehq.com/d/c857fa5c110524ee",
+    },
+  },
+];
 
 export function GenericHypercertTreemap(props: GenericHypercertTreemapProps) {
   const { className, children, data } = props;
@@ -42,7 +45,9 @@ export function GenericHypercertTreemap(props: GenericHypercertTreemapProps) {
   return (
     <div className={className}>
       <div ref={chartRef} />
-      {children ?? defaultChildren}
+      {children}
     </div>
   );
 }
+
+GenericHypercertTreemap.defaultChildren = defaultChildren;

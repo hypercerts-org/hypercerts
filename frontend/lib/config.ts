@@ -43,6 +43,11 @@ export const NFT_STORAGE_TOKEN = requireEnv(
   "NEXT_PUBLIC_NFT_STORAGE_TOKEN",
 );
 
+export const WALLETCONNECT_ID = requireEnv(
+  process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+  "NEXT_PUBLIC_WALLETCONNECT_ID",
+);
+
 export const WEB3_STORAGE_TOKEN = requireEnv(
   process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
   "NEXT_PUBLIC_WEB3_STORAGE_TOKEN",
@@ -62,3 +67,10 @@ export const SUPABASE_TABLE = requireEnv(
   process.env.NEXT_PUBLIC_SUPABASE_TABLE,
   "NEXT_PUBLIC_SUPABASE_TABLE",
 );
+
+export const UNSAFE_FORCE_OVERRIDE_CONFIG =
+  process.env.NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDE_CONFIG == "1";
+
+export const OVERRIDE_CHAIN_NAME = process.env.NEXT_PUBLIC_CHAIN_NAME;
+
+export const OVERRIDE_GRAPH_URL = process.env.NEXT_PUBLIC_GRAPH_URL;
