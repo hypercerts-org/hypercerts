@@ -76,8 +76,12 @@ export const useHypercertClient = () => {
         signer,
       };
       loadOverridingConfig(config);
-      const client = new HypercertClient(config);
-      setClient(client);
+      try {
+        const client = new HypercertClient(config);
+        setClient(client);
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     setIsLoading(false);
