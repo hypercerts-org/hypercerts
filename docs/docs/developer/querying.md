@@ -1,14 +1,12 @@
-# Indexing
+# Querying
 
-## Query operations
-
-### Claims
+## Claims
 
 ```js
 const { TODO } = await hypercerts.claimsByOwner({ owner });
 ```
 
-### Fraction tokens
+## Fraction tokens
 
 ```js
 const { TODO } = await hypercerts.fractionsByOwner({ owner });
