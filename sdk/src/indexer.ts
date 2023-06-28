@@ -14,8 +14,10 @@ export default class HypercertIndexer implements HypercertIndexerInterface {
    * Creates a new instance of the `HypercertIndexer` class.
    * @param options The configuration options for the indexer.
    */
-  constructor(options: { graphName?: string }) {
-    this._graphClient = getBuiltGraphSDK({ chainName: options.graphName || "hypercerts-testnet" });
+  constructor(options: { graphUrl?: string }) {
+    this._graphClient = getBuiltGraphSDK({
+      graphUrl: options.graphUrl || "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet",
+    });
   }
 
   /**

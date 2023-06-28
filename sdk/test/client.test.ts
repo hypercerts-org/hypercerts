@@ -56,7 +56,7 @@ describe("HypercertClient setup tests", () => {
 
       const error = e as UnsupportedChainError;
       expect(error.message).to.eq("chainId=1337 is not yet supported");
-      expect(error.payload.chainID).to.eq(1337);
+      expect(Number(error.payload?.chainID)).to.eq(1337);
     }
   });
 

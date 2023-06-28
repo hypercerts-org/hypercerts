@@ -554,6 +554,6 @@ export type _SubgraphErrorPolicy_ =
 
   export type Context = {
       ["Hypercerts"]: { Query: QuerySdk, Mutation: MutationSdk, Subscription: SubscriptionSdk },
-      ["chainName"]: Scalars['ID']
+      ["graphUrl"]: Scalars['ID']
     };
 }

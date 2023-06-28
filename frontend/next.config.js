@@ -10,7 +10,8 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = {
   productionBrowserSourceMaps: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false };
+    // https://github.com/rainbow-me/rainbowkit/blob/main/examples/with-next/next.config.js
+    config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
   },
 };

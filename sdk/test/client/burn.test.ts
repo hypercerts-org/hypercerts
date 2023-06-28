@@ -6,8 +6,6 @@ import sinon from "sinon";
 import HypercertClient from "../../src/client.js";
 import { ClientError } from "../../src/types/errors.js";
 
-const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
-
 describe("burn fraction tokens in HypercertClient", () => {
   let stub: sinon.SinonStub;
   let provider: MockProvider;

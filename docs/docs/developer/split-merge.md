@@ -1,4 +1,4 @@
-# Fungibility
+# Split and Merge
 
 ## Value
 
@@ -11,6 +11,8 @@ const { tokenIds } = await hypercerts.splitFraction({
 });
 const { tokenId } = await hypercerts.mergeFractions({ tokenIds });
 ```
+
+## Claim Data
 
 ### Split / merge claim data
 

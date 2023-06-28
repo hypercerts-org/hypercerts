@@ -57,21 +57,8 @@ export async function handler(event: AutotaskEvent) {
     network.networkKey,
     ALCHEMY_KEY,
   );
-  const tx = await provider.getTransaction(blockTriggerEvent.hash);
   const contractInterface = new ethers.utils.Interface(abi);
-  const decodedData = contractInterface.parseTransaction({
-    data: tx.data,
-    value: tx.value,
-  });
-
-  console.log("Transaction: ", JSON.stringify(decodedData, null, 2));
-  const metadataUri = decodedData.args["_uri"];
-  console.log("MetadataUri", metadataUri);
-  const metadata = await getData(metadataUri);
-  console.log("Metadata", { ...metadata, image: metadata.image?.slice(0, 64) });
-  if (!metadata?.allowList) {
-    throw new Error(`No allowlist found`);
-  }
+  const contract = new ethers.Contract(contractAddress, abi, provider);
 
   const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
   const allowlistCreatedEvents = txnEvents.filter(
@@ -81,13 +68,25 @@ export async function handler(event: AutotaskEvent) {
     "AllowlistCreated Events: ",
     JSON.stringify(allowlistCreatedEvents, null, 2),
   );
+
   if (allowlistCreatedEvents.length !== 1) {
     throw new MissingDataError(
       `Unexpected saw ${allowlistCreatedEvents.length} AllowlistCreated events`,
     );
   }
+
   const tokenId = allowlistCreatedEvents[0].args["tokenID"].toString();
   console.log("TokenId: ", tokenId);
+
+  const metadataUri = await contract.functions.uri(tokenId);
+  console.log("metadataUri: ", metadataUri);
+
+  const metadata = await getData(metadataUri);
+  if (!metadata?.allowList) {
+    throw new Error(`No allowlist found`);
+  }
+
+  console.log("allowlist: ", metadata.allowList);
 
   // Get allowlist
   const treeResponse = await getData(metadata.allowList);

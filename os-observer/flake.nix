@@ -1,7 +1,7 @@
 # https://github.com/prisma/prisma/issues/3026#issuecomment-927258138
 
 {
-  description = "A prisma test proect";
+  description = "A prisma test project";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 

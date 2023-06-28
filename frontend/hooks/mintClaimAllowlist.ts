@@ -11,8 +11,6 @@ import {
   TransferRestrictions,
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
-import { BigNumberish } from "ethers";
-import _ from "lodash";
 import { toast } from "react-toastify";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
@@ -43,7 +41,7 @@ export const useMintClaimAllowlist = ({
     allowlistPercentage: number,
   ): Promise<{
     allowlist: AllowlistEntry[];
-    totalSupply: BigNumberish;
+    totalSupply: bigint;
     valid: boolean;
     errors: any;
   }> => {
@@ -60,14 +58,17 @@ export const useMintClaimAllowlist = ({
           percentage: 1.0 - allowlistFraction,
         },
       ]);
-      const totalSupply = _.sum(allowlist.map((x: AllowlistEntry) => x.units));
+      const totalSupply = allowlist.reduce(
+        (acc: bigint, x: AllowlistEntry) => acc + BigInt(x.units.toString()),
+        0n,
+      );
 
       const { valid, errors } = validateAllowlist(allowlist, totalSupply);
 
       console.log(valid, errors);
       return { allowlist, totalSupply, valid, errors };
     } catch (error) {
-      return { allowlist: [], totalSupply: 0, valid: false, errors: error };
+      return { allowlist: [], totalSupply: 0n, valid: false, errors: error };
     }
   };
 

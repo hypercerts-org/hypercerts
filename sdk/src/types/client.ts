@@ -25,8 +25,8 @@ export type Deployment = {
   chainName: string;
   /** The address of the deployed contract. */
   contractAddress: string;
-  /** The name of the subgraph that indexes the contract events. */
-  graphName: string;
+  /** The url to the subgraph that indexes the contract events. Override for localized testing */
+  graphUrl: string;
 };
 
 /**
@@ -37,6 +37,8 @@ export type HypercertClientConfig = Deployment &
   HypercertEvaluatorConfig & {
     /** The provider is inherently read-only */
     operator: ethers.providers.Provider | ethers.Signer;
+    /** Force the use of overridden values */
+    unsafeForceOverrideConfig?: boolean;
   };
 
 /**
