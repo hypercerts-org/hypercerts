@@ -18,7 +18,7 @@ import {
 import { useNetwork } from "wagmi";
 import useCheckWriteable from "../hooks/checkWriteable";
 
-const DAPP_CONTEXT_NAME = "DappContext";
+const DAPP_STATE_NAME = "DappState";
 
 const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
 
@@ -87,7 +87,7 @@ export function DappState(props: DappStateProps) {
 
   return (
     <div className={className}>
-      <DataProvider name={DAPP_CONTEXT_NAME} data={data}>
+      <DataProvider name={DAPP_STATE_NAME} data={data}>
         {children}
       </DataProvider>
     </div>
