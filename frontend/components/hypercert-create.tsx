@@ -350,7 +350,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (errors) {
+          if (Object.keys(errors as object).length != 0) {
             for (const error in errors) {
               toast(errors[error], {
                 type: "error",
