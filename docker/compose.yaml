@@ -3,6 +3,8 @@ version: '3'
 volumes:
   node_modules:
   graph_modules:
+  sdk_modules:
+  contracts_modules:
   postgres_storage:
   ipfs_staging:
   ipfs_data:
@@ -17,6 +19,9 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
   localchain:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     ports:
@@ -35,6 +40,9 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
   after_localchain:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
@@ -60,13 +68,32 @@ services:
       - FRONTEND_PORT=${FRONTEND_PORT}
       - NEXT_PUBLIC_NFT_STORAGE_TOKEN=${NEXT_PUBLIC_NFT_STORAGE_TOKEN}
       - NEXT_PUBLIC_WEB3_STORAGE_TOKEN=${NEXT_PUBLIC_WEB3_STORAGE_TOKEN}
+      - NEXT_PUBLIC_WALLETCONNECT_ID=${NEXT_PUBLIC_WALLETCONNECT_ID}
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
       - postgres_storage:/postgres
       - ipfs_staging:/ipfs_staging
       - ipfs_data:/ipfs_data
+  tx_client:
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    working_dir: /usr/src/app
+    command: docker/tx_client.sh
+    depends_on:
+      after_graph:
+        condition: service_completed_successfully
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
   frontend:
+    profiles:
+      - testing
     image: ghcr.io/hypercerts-org/node-dev-18:1.0
     working_dir: /usr/src/app
     ports:
@@ -80,6 +107,9 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
   ipfs:
@@ -170,3 +200,6 @@ services:
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
