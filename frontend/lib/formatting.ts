@@ -1,11 +1,7 @@
-import { BigNumber } from "ethers";
 import _ from "lodash";
 
 export const formatScope = (scopeLabel: string) =>
-  scopeLabel
-    .toLowerCase()
-    .replaceAll(/\s+/g, "-")
-    .trim();
+  scopeLabel.toLowerCase().replaceAll(/\s+/g, "-").trim();
 
 export const formatContributors = (contributors: string[]) => {
   if (contributors.length === 0) {
@@ -57,9 +53,13 @@ export const getOpenSeaFractionUrl = (
   tokenId: string,
   contractAddress: string,
 ) => {
-  return `https://testnets.opensea.io/assets/goerli/${contractAddress}/${BigNumber.from(
-    tokenId,
-  ).toNumber()}`;
+  let _tokenId = BigInt(tokenId).toString();
+  // n is appended to BigInt as a string to indicate that it is a BigInt
+  if (_tokenId.endsWith("n")) {
+    _tokenId = _tokenId.slice(0, -1);
+  }
+
+  return `https://testnets.opensea.io/assets/goerli/${contractAddress}/${_tokenId}`;
 };
 
 export const formatAddress = (address: string) =>

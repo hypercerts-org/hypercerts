@@ -1,4 +1,10 @@
-import { HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
+import {
+  Deployment,
+  HypercertClientConfig,
+  UnsupportedChainError,
+  SupportedChainIds,
+  ConfigurationError,
+} from "../types/index.js";
 import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { ethers } from "ethers";
 import logger from "./logger.js";
@@ -13,16 +19,38 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const { chainId } = getChainId(overrides);
 
-  if (!chainId || (chainId !== 5 && chainId !== 10)) {
-    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, { chainID: chainId || "not found" });
+  let baseDeployment: Deployment & { unsafeForceOverrideConfig?: boolean };
+
+  if (overrides.unsafeForceOverrideConfig) {
+    if (!overrides.chainName || !overrides.contractAddress || !overrides.graphUrl) {
+      throw new UnsupportedChainError(
+        `attempted to override with chainId=${chainId}, but requires chainName, graphUrl, and contractAddress to be set`,
+        { chainID: chainId?.toString() || "undefined" },
+      );
+    }
+    baseDeployment = {
+      chainId: chainId,
+      chainName: overrides.chainName,
+      contractAddress: overrides.contractAddress,
+      graphUrl: overrides.graphUrl,
+      unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
+    };
+  } else {
+    if (!chainId || [5, 10].indexOf(chainId) === -1) {
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
+    }
+
+    baseDeployment = DEPLOYMENTS[chainId as SupportedChainIds];
+    if (!baseDeployment) {
+      throw new UnsupportedChainError(`Default config for chainId=${chainId} is missing in SDK`, {
+        chainID: chainId,
+      });
+    }
   }
 
-  const baseDeployment = DEPLOYMENTS[chainId];
-  if (!baseDeployment) {
-    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, { chainID: chainId || "not found" });
-  }
-
-  const config = {
+  let config = {
     // Start with the hardcoded values
     ...baseDeployment,
     // Let the user override from environment variables
@@ -30,7 +58,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     ...getChainName(overrides),
     ...getContractAddress(overrides),
     ...getRpcUrl(overrides),
-    ...getGraphName(overrides),
+    ...getGraphConfig(overrides),
     ...getProvider(overrides),
     ...getSigner(overrides),
     ...getNftStorageToken(overrides),
@@ -89,17 +117,26 @@ const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {
   return process.env.RPC_URL ? { rpcUrl: process.env.RPC_URL } : {};
 };
 
-const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.graphName) {
-    return { graphName: overrides.graphName };
+const getGraphConfig = (overrides: Partial<HypercertClientConfig>) => {
+  let config = {
+    graphUrl: "",
+  };
+  if (overrides.unsafeForceOverrideConfig) {
+    if (!overrides.graphUrl) {
+      throw new ConfigurationError("A graphUrl must be specified when overriding configuration");
+    }
+    config.graphUrl = overrides.graphUrl;
+    return config;
   }
 
   const { chainId } = getChainId(overrides);
   switch (chainId) {
     case 5:
-      return { graphName: "hypercerts-testnet" };
+      config.graphUrl = DEPLOYMENTS[5].graphUrl;
+      return config;
     case 10:
-      return { graphName: "hypercerts-optimism-mainnet" };
+      config.graphUrl = DEPLOYMENTS[10].graphUrl;
+      return config;
     default:
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
         chainID: chainId?.toString() || "undefined",

@@ -1,4 +1,5 @@
 import { ConfettiContainer } from "../components/confetti";
+import DappContext from "../components/dapp-context";
 import { PLASMIC } from "../plasmic-init";
 import {
   PlasmicComponent,
@@ -94,11 +95,13 @@ export default function CatchallPage(props: {
         pageParams={pageMeta.params}
         pageQuery={router.query}
       >
-        {
-          // pageMeta.displayName contains the name of the component you fetched.
-        }
-        <PlasmicComponent component={pageMeta.displayName} />
-        <ToastContainer theme="dark" position="top-right" />
+        <DappContext>
+          {
+            // pageMeta.displayName contains the name of the component you fetched.
+          }
+          <PlasmicComponent component={pageMeta.displayName} />
+          <ToastContainer theme="dark" position="top-right" />
+        </DappContext>
       </PlasmicRootProvider>
     </ConfettiContainer>
   );

@@ -562,8 +562,27 @@ PLASMIC.registerComponent(GenericHypercertTreemap, {
   name: "GenericHypercertTreemap",
   description: "Generic Hypercert Treemap from observerablehq",
   props: {
-    children: "slot",
-    data: "object",
+    children: {
+      type: "slot",
+      defaultValue: GenericHypercertTreemap.defaultChildren,
+    },
+    data: {
+      type: "object",
+      defaultValue: {
+        name: "EXAMPLE",
+        children: [
+          {
+            name: "Example",
+            children: [
+              {
+                name: "Invites",
+                value: 100,
+              },
+            ],
+          },
+        ],
+      },
+    },
   },
   importPath: "./components/generic-hypercert-treemap",
 });

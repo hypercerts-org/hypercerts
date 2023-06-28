@@ -1,10 +1,10 @@
-import { useAccountLowerCase } from "../hooks/account";
+import { useAccount } from "wagmi";
 import { formatAddress } from "../lib/formatting";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React from "react";
 
 export const ConnectWallet = () => {
-  const { address, isConnected } = useAccountLowerCase();
+  const { address, isConnected } = useAccount();
   /**
    * TODO: Sometimes the modal wont close when react strict mode is on.
    * Shouldn't happen in production because strict mode is turned off there

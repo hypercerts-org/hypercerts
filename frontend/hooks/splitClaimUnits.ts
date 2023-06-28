@@ -3,7 +3,6 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
-import { BigNumberish } from "ethers";
 import { useState } from "react";
 
 export const useSplitFractionUnits = ({
@@ -25,10 +24,7 @@ export const useSplitFractionUnits = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const initializeWrite = async (
-    id: BigNumberish,
-    fractions: BigNumberish[],
-  ) => {
+  const initializeWrite = async (id: bigint, fractions: bigint[]) => {
     setStep("splitting");
     try {
       setTxPending(true);
@@ -61,7 +57,7 @@ export const useSplitFractionUnits = ({
   };
 
   return {
-    write: async (id: BigNumberish, fractions: BigNumberish[]) => {
+    write: async (id: bigint, fractions: bigint[]) => {
       showModal({ stepDescriptions });
       setStep("preparing");
       await initializeWrite(id, fractions);

@@ -156,7 +156,22 @@ export class UnsupportedChainError extends Error implements CustomError {
   }
 }
 
+/**
+ * The configuration was invalid
+ */
+//TODO this is redundant with InvalidOrMissingError???
+export class ConfigurationError extends Error implements CustomError {
+  //Payload can be used to represent missing or invalid configuration
+  payload?: { [key: string]: unknown };
+  constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
+    this.message = message;
+    this.payload = payload;
+  }
+}
+
 export type HypercertsSdkError =
+  | ConfigurationError
   | FetchError
   | InvalidOrMissingError
   | MalformedDataError
