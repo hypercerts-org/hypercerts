@@ -101,15 +101,16 @@ export async function handler(event: AutotaskEvent) {
     addresses.push(v[0]);
   }
   console.log("addresses", addresses);
-  const pairs = addresses.map((address) => ({
+  const data = addresses.map((address, index) => ({
     address: address.toLowerCase(),
     claimId: `${contractAddress}-${tokenId}`,
+    fractionCounter: index,
   }));
-  console.log("pairs", pairs);
+  console.log("data", data);
 
   const addResult = await client
     .from(network.supabaseTableName)
-    .insert(pairs)
+    .insert(data)
     .select()
     .then((data) => data.data);
 
