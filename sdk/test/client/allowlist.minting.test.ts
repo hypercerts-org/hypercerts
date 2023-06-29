@@ -13,11 +13,11 @@ const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptge
 describe("Allows for minting claims from an allowlist", () => {
   const mockStoreMetadata = jest
     .spyOn(HypercertsStorage.prototype, "storeMetadata")
-    .mockImplementation(async (data: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
+    .mockImplementation(async (_: HypercertMetadata) => Promise.resolve(mockCorrectMetadataCid));
 
   const mockStoreData = jest
     .spyOn(HypercertsStorage.prototype, "storeData")
-    .mockImplementation(async (data) => Promise.resolve(mockCorrectMetadataCid));
+    .mockImplementation(async (_) => Promise.resolve(mockCorrectMetadataCid));
 
   const setUp = async () => {
     const provider = new MockProvider();
@@ -43,7 +43,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
   let _client: HypercertClient;
   let _provider: MockProvider;
-  let _users: { user: any; other: any; admin: any };
+  let _users: { user: ethers.Wallet; other: ethers.Wallet; admin: ethers.Wallet };
   let _minter: MockContract;
   let _stub: sinon.SinonStub;
 
@@ -139,7 +139,7 @@ describe("Allows for minting claims from an allowlist", () => {
     });
 
     it("should allow to mint a claim from an allowlist with a correct root", async () => {
-      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address });
+      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
 
       await _minter.mock.mintClaimFromAllowlist.returns();
 
@@ -154,7 +154,7 @@ describe("Allows for minting claims from an allowlist", () => {
     });
 
     it("should not allow to mint a claim from an allowlist with an incorrect root", async () => {
-      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address });
+      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
 
       const mockRoot = ethers.utils.formatBytes32String("MOCK_ROOT");
       try {
@@ -205,8 +205,8 @@ describe("Allows for minting claims from an allowlist", () => {
     });
 
     it("should allow to mint a claim from an allowlist with a correct root", async () => {
-      const firstList = getAllowlist({ size: 1, address: _users.user.address });
-      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address });
+      const firstList = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
+      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address as `0x${string}` });
 
       await _minter.mock.batchMintClaimsFromAllowlists.returns();
 
@@ -229,8 +229,8 @@ describe("Allows for minting claims from an allowlist", () => {
     });
 
     it("should not allow to mint a claim from an allowlist with an incorrect root", async () => {
-      const firstList = getAllowlist({ size: 1, address: _users.user.address });
-      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address });
+      const firstList = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
+      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address as `0x${string}` });
 
       await _minter.mock.batchMintClaimsFromAllowlists.returns();
 

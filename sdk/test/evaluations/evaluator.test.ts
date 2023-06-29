@@ -5,11 +5,9 @@ import { CIDString } from "nft.storage";
 import sinon from "sinon";
 
 import HypercertEvaluator from "../../src/evaluations/index.js";
-import HypercertsStorage from "../../src/storage.js";
 import { InvalidOrMissingError, MalformedDataError, StorageError } from "../../src/types/errors.js";
 import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
 import { getEvaluationData } from "../helpers.js";
-import { reloadEnv } from "../setup-tests.js";
 
 describe("HypercertEvaluator", () => {
   let stubSubscription: sinon.SinonStub;
@@ -60,8 +58,8 @@ describe("HypercertEvaluator", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(InvalidOrMissingError);
-        let error = e as InvalidOrMissingError;
-        expect(error.message).toEqual("Invalid or missing config value: signer");
+        const error = e as InvalidOrMissingError;
+        expect(error.message).toEqual("Invalid or missing config value: operator");
       }
 
       expect.assertions(2);
@@ -83,7 +81,7 @@ describe("HypercertEvaluator", () => {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        let error = e as StorageError;
+        const error = e as StorageError;
         expect(error.message).toEqual(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
       }
 
@@ -99,7 +97,7 @@ describe("HypercertEvaluator", () => {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
         expect(e).toBeInstanceOf(MalformedDataError);
-        let error = e as MalformedDataError;
+        const error = e as MalformedDataError;
         expect(error.message).toEqual(`Invalid creator address: ${evaluation.creator.toString()}`);
       }
 
@@ -124,7 +122,7 @@ describe("HypercertEvaluator", () => {
         await readonlyEvaluator.submitEvaluation(evaluation);
       } catch (e) {
         expect(e).toBeInstanceOf(StorageError);
-        let error = e as StorageError;
+        const error = e as StorageError;
         expect(error.message).toEqual("Web3.storage client is not configured");
       }
 

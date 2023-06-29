@@ -1,29 +1,25 @@
-import { jest } from "@jest/globals";
 import { expect } from "chai";
 import { MockProvider } from "ethereum-waffle";
-import { ethers, providers } from "ethers";
+import { ethers } from "ethers";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
 import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
-import { reloadEnv } from "./setup-tests.js";
+import { reloadEnv } from "./setup-env.js";
 
+let stub: sinon.SinonStub;
+const provider = new MockProvider();
 describe("HypercertClient setup tests", () => {
-  let stub: sinon.SinonStub;
-  const provider = new MockProvider();
-
   beforeAll(() => {
     stub = sinon.stub(provider, "on");
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
     reloadEnv();
   });
 
   afterAll(() => {
     stub.restore();
-    jest.resetAllMocks();
   });
 
   it("should be able to create a new read only instance when missing storage keys", () => {
@@ -39,9 +35,9 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should be able to create a new instance", () => {
-    const signer = ethers.Wallet.createRandom();
+    const operator = ethers.Wallet.createRandom();
 
-    const config = { provider, chainId: 5, signer, nftStorageToken: "test", web3StorageToken: "test" };
+    const config = { chainId: 5, operator, nftStorageToken: "test", web3StorageToken: "test" };
     const client = new HypercertClient(config);
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;

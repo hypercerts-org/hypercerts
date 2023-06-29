@@ -66,9 +66,7 @@ describe("EasEvaluator", () => {
 
       expect(signature).toBeDefined();
       expect(signature?.message.schema).toEqual(EAS_SCHEMAS["sepolia"].duplicate.uid);
-      expect(Object.keys(signature!)).toEqual(
-        expect.arrayContaining(["domain", "message", "primaryType", "signature", "types", "uid"]),
-      );
+      expect(signature).toContainKeys(["domain", "message", "primaryType", "signature", "types", "uid"]);
     });
 
     it("should sign a simple text evaluation", async () => {
@@ -86,9 +84,7 @@ describe("EasEvaluator", () => {
 
       expect(signature).toBeDefined();
       expect(signature?.message.schema).toEqual(EAS_SCHEMAS["sepolia"].contentHash.uid);
-      expect(Object.keys(signature!)).toEqual(
-        expect.arrayContaining(["domain", "message", "primaryType", "signature", "types", "uid"]),
-      );
+      expect(signature).toContainKeys(["domain", "message", "primaryType", "signature", "types", "uid"]);
     });
   });
 });

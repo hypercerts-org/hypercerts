@@ -1,14 +1,14 @@
 import { jest } from "@jest/globals";
 
 import logger from "../../src/utils/logger.js";
-import { reloadEnv } from "../setup-tests.js";
+import { reloadEnv } from "../setup-env.js";
 
 describe("logger", () => {
   beforeAll(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-    jest.spyOn(console, "info").mockImplementation(() => {});
-    jest.spyOn(console, "debug").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => jest.fn());
+    jest.spyOn(console, "warn").mockImplementation(() => jest.fn());
+    jest.spyOn(console, "info").mockImplementation(() => jest.fn());
+    jest.spyOn(console, "debug").mockImplementation(() => jest.fn());
   });
 
   beforeEach(() => {

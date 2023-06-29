@@ -1,8 +1,7 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { MockProvider, deployMockContract } from "ethereum-waffle";
 import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction, ethers } from "ethers";
 
-import { HypercertMetadata, HypercertMinterABI } from "../src/index.js";
+import { HypercertMetadata } from "../src/index.js";
 import {
   AllowlistEntry,
   DuplicateEvaluation,
@@ -20,7 +19,7 @@ export type TestDataType = Parameters<typeof formatHypercertData>[0];
 const getAllowlist = (overrides?: { size?: number; address?: `0x${string}`; units?: BigNumberish }) => {
   //generate allowlist array based on possible overrides
   const size = overrides?.size || 10;
-  let allowlist: AllowlistEntry[] = new Array();
+  const allowlist: AllowlistEntry[] = [];
   for (let i = 0; i < size; i++) {
     const address = ethers.Wallet.createRandom().address;
 
@@ -105,7 +104,7 @@ const mockContractResponse = (): Promise<ContractTransaction> => {
 };
 
 const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): HypercertEvaluationSchema => {
-  let mockData: HypercertEvaluationSchema = {
+  const mockData: HypercertEvaluationSchema = {
     creator: "0x17ec8597ff92C3F44523bDc65BF0f1bE632917ff",
     evaluationData: {
       type: "duplicate",
@@ -140,7 +139,7 @@ const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): Hype
 };
 
 const getDuplicateEvaluationData = (overrides?: Partial<DuplicateEvaluation>): DuplicateEvaluation => {
-  let mockData: DuplicateEvaluation = {
+  const mockData: DuplicateEvaluation = {
     type: "duplicate",
     duplicateHypercerts: [
       {
@@ -166,7 +165,7 @@ const getDuplicateEvaluationData = (overrides?: Partial<DuplicateEvaluation>): D
 };
 
 const getSimpleTextEvaluationData = (overrides?: Partial<SimpleTextEvaluation>): SimpleTextEvaluation => {
-  let mockData: SimpleTextEvaluation = {
+  const mockData: SimpleTextEvaluation = {
     type: "simpleText",
     text: "This is a simple text evaluation",
     hypercert: {

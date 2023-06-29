@@ -5,7 +5,7 @@ import { HypercertMetadata } from "src/index.js";
 
 import HypercertsStorage from "../src/storage.js";
 import { StorageError } from "../src/types/errors.js";
-import { reloadEnv } from "./setup-tests.js";
+import { reloadEnv } from "./setup-env.js";
 
 describe("HypercertsStorage", () => {
   let stub: sinon.SinonStub;

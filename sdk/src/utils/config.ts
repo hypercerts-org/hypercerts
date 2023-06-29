@@ -50,7 +50,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
     }
   }
 
-  let config = {
+  const config = {
     // Start with the hardcoded values
     ...baseDeployment,
     // Let the user override from environment variables
@@ -109,7 +109,7 @@ const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
 };
 
 const getGraphConfig = (overrides: Partial<HypercertClientConfig>) => {
-  let config = {
+  const config = {
     graphUrl: "",
   };
   if (overrides.unsafeForceOverrideConfig) {

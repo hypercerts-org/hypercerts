@@ -10,7 +10,6 @@ import {
   EvaluationSource,
   HypercertClientConfig,
   HypercertEvaluationSchema,
-  InvalidOrMissingError,
   MalformedDataError,
 } from "../types/index.js";
 import EasEvaluator from "./eas.js";
@@ -27,11 +26,13 @@ export interface EvaluatorInterface {
 }
 
 export default class HypercertEvaluator implements EvaluatorInterface {
-  signer: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer & TypedDataSigner;
 
   storage: HypercertsStorage;
 
   eas: EasEvaluator;
+
+  readonly = true;
 
   constructor(
     config = {
@@ -40,11 +41,11 @@ export default class HypercertEvaluator implements EvaluatorInterface {
       operator: new ethers.VoidSigner(""),
     } as Partial<HypercertClientConfig>,
   ) {
-    if (config.operator instanceof ethers.providers.Provider) {
-      throw new InvalidOrMissingError("Invalid operator", "Provider");
+    //TODO when expanding the Evaluator functionallity, we should review if readonly makes sense
+    if (config.operator instanceof ethers.Signer) {
+      this.signer = config.operator as ethers.Signer & TypedDataSigner;
+      this.readonly = false;
     }
-
-    this.signer = config.operator as ethers.Signer & TypedDataSigner;
     this.storage = new HypercertsStorage(config);
     this.eas = new EasEvaluator(config);
   }

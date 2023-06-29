@@ -46,6 +46,7 @@
     "esbuild": "^0.17.10",
     "ethereum-waffle": "^4.0.10",
     "it-all": "^2.0.0",
+    "jest-extended": "^4.0.0",
     "json-schema-to-typescript": "^12.0.0",
     "msw": "^1.2.1",
     "nyc": "^15.1.0",
