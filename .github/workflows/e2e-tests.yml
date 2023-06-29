@@ -1,0 +1,61 @@
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: end-to-end tests
+env:
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
+  PLASMIC_PROJECT_ID: ${{ vars.PLASMIC_PROJECT_ID }}
+  PLASMIC_PROJECT_API_TOKEN: ${{ vars.PLASMIC_PROJECT_API_TOKEN }}
+  NEXT_PUBLIC_DEFAULT_CHAIN_ID: ${{ vars.NEXT_PUBLIC_DEFAULT_CHAIN_ID }}
+  NEXT_PUBLIC_CONTRACT_ADDRESS: ${{ vars.NEXT_PUBLIC_CONTRACT_ADDRESS }}
+  NEXT_PUBLIC_GRAPH_URL: ${{ vars.NEXT_PUBLIC_GRAPH_URL }}
+  NEXT_PUBLIC_RPC_URL: ${{ secrets.NEXT_PUBLIC_RPC_URL }}
+  NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+  NEXT_PUBLIC_WEB3_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+  NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+  NEXT_PUBLIC_SUPABASE_TABLE: ${{ vars.NEXT_PUBLIC_SUPABASE_TABLE }}
+  NEXT_PUBLIC_WALLETCONNECT_ID: ${{ secrets.NEXT_PUBLIC_WALLETCONNECT_ID }}
+
+# Trigger the workflow when:
+on:
+  push:
+    branches:
+      #- main
+      - ravenac95/854-* # just filter for this branch for now. FIXME
+  # Or when a pull request event occurs for a pull request against one of the
+  # matched branches.
+  pull_request:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Cancel in progress jobs on new pushes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          # Check out pull request's HEAD commit instead of the merge commit to
+          # prevent gitlint from failing due to too long commit message titles,
+          # e.g. "Merge 3e621938d65caaa67f8e35d145335d889d470fc8 into 19a39b2f66cd7a165082d1486b2f1eb36ec2354a".
+          ref: ${{ github.event.pull_request.head.sha }}
+          # Fetch all history so gitlint can check the relevant commits.
+          fetch-depth: "0"
+      
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.15.0"
+          cache: "yarn"
+      
+      - name: Run e2e tests
+        run: |
+          yarn e2e:run-tests
+      

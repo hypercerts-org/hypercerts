@@ -15,11 +15,13 @@ test.beforeEach(async ({ page }) => {
   test.setTimeout(120000);
   page.setDefaultTimeout(60000);
 
-  await page.goto("http://127.0.0.1:3000/");
+  await page.goto("/");
   await page.reload();
   await page.locator('button[data-testid="rk-connect-button"]').click();
+  await page.screenshot({ path: "debug1.png", fullPage: true });
 
   await page.locator('button[data-testid="rk-wallet-option-metaMask"]').click();
+  await page.screenshot({ path: "debug2.png", fullPage: true });
   await metamask.acceptAccess();
 });
 
@@ -32,7 +34,7 @@ test("should succeed to mint a token", async ({ page }) => {
 
   // Clicking to navigate to the "/app/create" path caused problems. For now,
   // ignore clicking on the links with the prefilled fields
-  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
+  await navigateAndEnsureWallet("/app/create", page);
 
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
@@ -46,7 +48,7 @@ test("should succeed to mint a token", async ({ page }) => {
   await page.locator('button[class*="HypercertsCreate__button"]').click();
   await metamask.confirmTransaction();
 
-  await page.waitForURL("http://127.0.0.1:3000/app/dashboard");
+  await page.waitForURL("/app/dashboard");
   await expect(page.getByText(testUUID)).toBeAttached({ timeout: 60000 });
 });
 
@@ -57,7 +59,7 @@ test("should fail to mint a token - lacking description", async ({ page }) => {
   const workScope = "Scope1, Scope2";
   const contributors = "";
 
-  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
+  await navigateAndEnsureWallet("/app/create", page);
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
   await page.locator('textarea[name="workScopes"]').fill(workScope);

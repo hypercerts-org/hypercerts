@@ -1,6 +1,12 @@
 import { test as base, chromium, type BrowserContext } from "@playwright/test";
 import { initialSetup } from "@synthetixio/synpress/commands/metamask";
 import { prepareMetamask } from "@synthetixio/synpress/helpers";
+import {
+  FRONTEND_HOST,
+  FRONTEND_PORT,
+  FRONTEND_RPC_HOST,
+  FRONTEND_RPC_PORT,
+} from "../utils/constants";
 
 export const test = base.extend<{
   context: BrowserContext;
@@ -29,6 +35,7 @@ export const test = base.extend<{
     const context = await chromium.launchPersistentContext("", {
       headless: false,
       args: browserArgs,
+      baseURL: `http://${FRONTEND_HOST}:${FRONTEND_PORT}`,
     });
     // wait for metamask
     await context.pages()[0].waitForTimeout(10000);
@@ -40,7 +47,7 @@ export const test = base.extend<{
       network: {
         name: "hardhat",
         chainId: 31337,
-        rpcUrl: "http://127.0.0.1:8545",
+        rpcUrl: `http://${FRONTEND_RPC_HOST}:${FRONTEND_RPC_PORT}`,
         symbol: "TEST",
         isTestnet: true,
       },

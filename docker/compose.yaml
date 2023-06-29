@@ -91,6 +91,7 @@ services:
       - sdk_modules:/usr/src/app/sdk/node_modules
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
+    restart: on-failure
   frontend:
     profiles:
       - testing
@@ -112,6 +113,12 @@ services:
       - graph_modules:/usr/src/app/graph/node_modules
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 1s
+      timeout: 15s
+      retries: 30
+      start_period: 100s
   ipfs:
     image: ipfs/kubo
     command: daemon --offline --migrate=true --agent-version-suffix=docker
@@ -159,6 +166,8 @@ services:
         condition: service_healthy
       localchain:
         condition: service_healthy
+      ipfs:
+        condition: service_started
     environment:
       postgres_host: postgres
       postgres_port: 5432
@@ -197,6 +206,33 @@ services:
         condition: service_healthy
     working_dir: /usr/src/app
     command: bash docker/after_graph.sh
+    volumes:
+      - ../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+      - sdk_modules:/usr/src/app/sdk/node_modules
+      - contracts_modules:/usr/src/app/contracts/node_modules
+      - graph_modules:/usr/src/app/graph/node_modules
+  playwright:
+    image: playwright:latest
+    working_dir: /usr/src/app
+    command: docker/run_tests.sh
+    depends_on:
+      after_graph:
+        condition: service_completed_successfully
+      tx_client:
+        condition: service_started
+      frontend:
+        condition: service_healthy
+    environment:
+      - FRONTEND_HOST=frontend
+      - FRONTEND_PORT=3000
+      - FRONTEND_RPC_HOST=localchain
+      - FRONTEND_RPC_PORT=8545
+      - CI=${CI}
+    profiles:
+      - testing
+    ports:
+      - "9300-9400:9300-9400"
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules

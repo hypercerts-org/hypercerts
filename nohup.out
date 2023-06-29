@@ -1,0 +1,266 @@
+/usr/bin/startxfce4: X server already running on display :1
+
+(xfce4-session:19): dbind-WARNING **: 23:45:12.654: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+gpg-agent[61]: directory '/root/.gnupg' created
+gpg-agent[61]: directory '/root/.gnupg/private-keys-v1.d' created
+gpg-agent[62]: gpg-agent (GnuPG) 2.2.27 started
+
+(xfwm4:63): dbind-WARNING **: 23:45:12.742: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(xfwm4:63): GLib-CRITICAL **: 23:45:12.768: g_str_has_prefix: assertion 'prefix != NULL' failed
+
+(xfwm4:63): xfwm4-WARNING **: 23:45:13.259: Another compositing manager is running on screen 0
+
+(xfsettingsd:71): dbind-WARNING **: 23:45:13.286: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(xfsettingsd:71): libupower-glib-WARNING **: 23:45:13.292: Couldn't connect to proxy: Could not connect: No such file or directory
+
+(xfsettingsd:71): GLib-CRITICAL **: 23:45:13.308: g_str_has_prefix: assertion 'prefix != NULL' failed
+
+(xfsettingsd:71): GLib-GObject-CRITICAL **: 23:45:13.310: g_value_get_string: assertion 'G_VALUE_HOLDS_STRING (value)' failed
+
+(xfsettingsd:71): GLib-GObject-CRITICAL **: 23:45:13.312: g_value_get_string: assertion 'G_VALUE_HOLDS_STRING (value)' failed
+
+(xfsettingsd:71): GLib-GObject-CRITICAL **: 23:45:13.316: g_value_get_string: assertion 'G_VALUE_HOLDS_STRING (value)' failed
+
+(xfce4-panel:74): dbind-WARNING **: 23:45:13.357: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(migrate:79): dbind-WARNING **: 23:45:13.374: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(Thunar:78): dbind-WARNING **: 23:45:13.383: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(xfdesktop:87): dbind-WARNING **: 23:45:13.426: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(polkit-gnome-authentication-agent-1:91): dbind-WARNING **: 23:45:13.553: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(polkit-gnome-authentication-agent-1:91): polkit-gnome-1-WARNING **: 23:45:13.554: Error getting authority: Error initializing authority: Could not connect: No such file or directory
+
+(xfsettingsd:90): dbind-WARNING **: 23:45:13.556: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(xfce4-screensaver:92): dbind-WARNING **: 23:45:13.561: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+** (xiccd:93): CRITICAL **: 23:45:13.563: Failed to connect to colord: Could not connect: No such file or directory
+Connection failure: Connection refused
+pa_context_connect() failed: Connection refused
+
+(xfce4-power-manager:100): dbind-WARNING **: 23:45:13.577: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+** (xfce4-power-manager:100): WARNING **: 23:45:13.579: Failed to get name owner: GDBus.Error:org.freedesktop.DBus.Error.NameHasNoOwner: Could not get owner of name 'org.freedesktop.PowerManagement': no such name
+
+
+** (xfce4-power-manager:100): WARNING **: 23:45:13.580: Failed to get name owner: GDBus.Error:org.freedesktop.DBus.Error.NameHasNoOwner: Could not get owner of name 'org.xfce.PowerManager': no such name
+
+
+(xfce4-notifyd:109): dbind-WARNING **: 23:45:13.582: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+Xlib:  extension "DPMS" missing on display ":1.0".
+
+(xfce4-power-manager:100): xfce4-power-manager-WARNING **: 23:45:13.584: Monitor is not DPMS capable
+
+(xfce4-power-manager:100): GLib-GIO-CRITICAL **: 23:45:13.584: g_dbus_connection_signal_subscribe: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(xfce4-power-manager:100): libupower-glib-WARNING **: 23:45:13.607: Couldn't connect to proxy: Could not connect: No such file or directory
+
+** (xfce4-screensaver:92): WARNING **: 23:45:13.609: screensaver already running in this session
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.609: Error getting system bus connection : Could not connect: No such file or directory
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.610: xfpm_polkit_check_auth_intern: assertion 'polkit->priv->proxy != NULL' failed
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.610: xfpm_polkit_check_auth_intern: assertion 'polkit->priv->proxy != NULL' failed
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.611: xfpm_polkit_check_auth_intern: assertion 'polkit->priv->proxy != NULL' failed
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.611: xfpm_polkit_check_auth_intern: assertion 'polkit->priv->proxy != NULL' failed
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.612: Unable to connect to the system bus : Could not connect: No such file or directory
+
+(xfce4-power-manager:100): xfce4-power-manager-WARNING **: 23:45:13.622: could not map keysym 1008ffa8 to keycode
+
+
+(xfce4-power-manager:100): xfce4-power-manager-WARNING **: 23:45:13.626: Unable connect to system bus: Could not connect: No such file or directory
+
+** (xfce4-power-manager:100): WARNING **: 23:45:13.626: No outputs have backlight property
+
+** (xfpm-power-backlight-helper:123): WARNING **: 23:45:13.628: failed to find any devices: Error opening directory ?/sys/class/backlight?: No such file or directory
+
+(xfce4-power-manager:100): xfce4-power-manager-CRITICAL **: 23:45:13.629: Unable to get system bus connection : Could not connect: No such file or directory
+xfce4-panel-Message: 23:45:13.672: Plugin "(null)-7" was not found and has been removed from the configuration
+
+(wrapper-2.0:124): dbind-WARNING **: 23:45:13.685: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(wrapper-2.0:126): dbind-WARNING **: 23:45:13.688: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(wrapper-2.0:125): dbind-WARNING **: 23:45:13.695: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(wrapper-2.0:127): dbind-WARNING **: 23:45:13.698: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(wrapper-2.0:140): dbind-WARNING **: 23:45:13.771: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+(xfdesktop:87): GVFS-RemoteVolumeMonitor-WARNING **: 23:45:13.817: remote volume monitor with dbus name org.gtk.vfs.UDisks2VolumeMonitor is not supported
+
+** (xfdesktop:87): WARNING **: 23:45:13.876: Failed to get system bus: Could not connect: No such file or directory
+
+(wrapper-2.0:127): GLib-GIO-CRITICAL **: 23:45:14.025: g_file_new_for_path: assertion 'path != NULL' failed
+
+(wrapper-2.0:127): GLib-GIO-CRITICAL **: 23:45:14.033: g_file_monitor_file: assertion 'G_IS_FILE (file)' failed
+
+(wrapper-2.0:127): GLib-GObject-WARNING **: 23:45:14.034: invalid (NULL) pointer instance
+
+(wrapper-2.0:127): GLib-GObject-CRITICAL **: 23:45:14.035: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:127): Gtk-WARNING **: 23:45:14.035: Attempting to add a widget with type GtkToggleButton to a container of type XfcePanelPlugin, but the widget is already inside a container of type XfcePanelPlugin, please remove the widget from its existing container first.
+
+** (wrapper-2.0:126): WARNING **: 23:45:14.037: No outputs have backlight property
+
+** (xfpm-power-backlight-helper:174): WARNING **: 23:45:14.039: failed to find any devices: Error opening directory ?/sys/class/backlight?: No such file or directory
+
+(wrapper-2.0:140): libactions-WARNING **: 23:45:14.048: Calling CanShutdown failed GDBus.Error:org.xfce.SessionManager.Error.Failed: Could not connect: No such file or directory
+
+(wrapper-2.0:140): libactions-WARNING **: 23:45:14.049: Calling CanRestart failed GDBus.Error:org.xfce.SessionManager.Error.Failed: Could not connect: No such file or directory
+
+(xfce4-session:19): xfce4-session-WARNING **: 23:45:14.051: failed to run script: Failed to execute child process ?/usr/bin/pm-is-supported? (No such file or directory)
+
+(wrapper-2.0:126): libupower-glib-WARNING **: 23:45:14.054: Couldn't connect to proxy: Could not connect: No such file or directory
+
+(xfce4-session:19): xfce4-session-WARNING **: 23:45:14.057: failed to run script: Failed to execute child process ?/usr/bin/pm-is-supported? (No such file or directory)
+
+(wrapper-2.0:126): GLib-GObject-WARNING **: 23:45:14.059: invalid (NULL) pointer instance
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.062: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:126): GLib-GObject-WARNING **: 23:45:14.062: invalid (NULL) pointer instance
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.063: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(xfce4-session:19): xfce4-session-WARNING **: 23:45:14.064: failed to run script: Failed to execute child process ?/usr/bin/pm-is-supported? (No such file or directory)
+
+(wrapper-2.0:125): Gtk-WARNING **: 23:45:14.064: Negative content width -3 (allocation 1, extents 2x2) while allocating gadget (node button, owner PulseaudioButton)
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.067: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.067: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): GLib-GObject-WARNING **: 23:45:14.068: invalid (NULL) pointer instance
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.068: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.068: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.069: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.069: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.070: up_client_get_lid_is_present: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.070: up_client_get_on_battery: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:140): Gtk-WARNING **: 23:45:14.070: Negative content width -1 (allocation 1, extents 1x1) while allocating gadget (node button, owner XfceArrowButton)
+
+(wrapper-2.0:127): Gtk-WARNING **: 23:45:14.083: Negative content width -3 (allocation 1, extents 2x2) while allocating gadget (node button, owner GtkToggleButton)
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:14.823: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.824: up_client_get_lid_is_present: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:14.824: up_client_get_on_battery: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:15.602: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:15.603: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:15.603: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:15.604: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:15.604: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:15.605: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:126): GLib-GObject-CRITICAL **: 23:45:15.605: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:126): libupower-glib-CRITICAL **: 23:45:16.289: up_client_get_devices_full: assertion 'UP_IS_CLIENT (client)' failed
+xfce4-panel-Message: 23:45:16.292: Plugin power-manager-plugin-9 has been automatically restarted after crash.
+
+(wrapper-2.0:195): dbind-WARNING **: 23:45:16.415: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+
+** (wrapper-2.0:195): WARNING **: 23:45:16.445: No outputs have backlight property
+
+** (xfpm-power-backlight-helper:198): WARNING **: 23:45:16.447: failed to find any devices: Error opening directory ?/sys/class/backlight?: No such file or directory
+
+(wrapper-2.0:195): libupower-glib-WARNING **: 23:45:16.448: Couldn't connect to proxy: Could not connect: No such file or directory
+
+(wrapper-2.0:195): GLib-GObject-WARNING **: 23:45:16.450: invalid (NULL) pointer instance
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.450: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:195): GLib-GObject-WARNING **: 23:45:16.451: invalid (NULL) pointer instance
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.451: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:16.454: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.454: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): GLib-GObject-WARNING **: 23:45:16.454: invalid (NULL) pointer instance
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.455: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.455: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:16.456: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:16.456: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:16.456: up_client_get_lid_is_present: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:16.457: up_client_get_on_battery: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:17.170: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.171: up_client_get_lid_is_present: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.171: up_client_get_on_battery: assertion 'UP_IS_CLIENT (client)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:17.843: g_object_get: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.844: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.845: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:17.845: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.846: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:17.846: up_device_get_object_path: assertion 'UP_IS_DEVICE (device)' failed
+
+(wrapper-2.0:195): GLib-GObject-CRITICAL **: 23:45:17.847: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(wrapper-2.0:195): libupower-glib-CRITICAL **: 23:45:18.495: up_client_get_devices_full: assertion 'UP_IS_CLIENT (client)' failed
+
+(xfdesktop:87): libxfce4ui-WARNING **: 23:46:54.130: ICE I/O Error
+
+(xfsettingsd:71): libxfce4ui-WARNING **: 23:46:54.130: ICE I/O Error
+
+(xfwm4:63): libxfce4ui-WARNING **: 23:46:54.130: ICE I/O Error
+
+(xfce4-power-manager:100): libxfce4ui-WARNING **: 23:46:54.130: ICE I/O Error
+
+(xfce4-panel:74): libxfce4ui-WARNING **: 23:46:54.130: ICE I/O Error
+
+(xfdesktop:87): libxfce4ui-WARNING **: 23:46:54.132: Disconnected from session manager.
+
+(xfsettingsd:71): libxfce4ui-WARNING **: 23:46:54.133: Disconnected from session manager.
+
+(xfwm4:63): libxfce4ui-WARNING **: 23:46:54.135: Disconnected from session manager.
+
+(xfce4-power-manager:100): libxfce4ui-WARNING **: 23:46:54.135: Disconnected from session manager.
+
+(xfce4-panel:74): libxfce4ui-WARNING **: 23:46:54.136: Disconnected from session manager.
+xfsettingsd: Another instance took over. Leaving...
+
+(Thunar:78): thunar-WARNING **: 23:46:56.105: Name 'org.xfce.FileManager' lost on the message dbus.
+
+(xfce4-panel:74): xfce4-panel-CRITICAL **: 23:46:56.105: Name org.xfce.Panel lost on the message dbus, exiting.
+Another notification daemon is running, exiting
+
+(Thunar:78): thunar-WARNING **: 23:46:56.117: Name 'org.freedesktop.FileManager1' lost on the message dbus.
