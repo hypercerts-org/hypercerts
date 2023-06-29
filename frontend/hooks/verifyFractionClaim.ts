@@ -40,6 +40,7 @@ export const useVerifyFractionClaim = () => {
       const tree = StandardMerkleTree.load(JSON.parse(value));
 
       // Find the proof
+      //TODO return all found instead of first
       for (const [i, v] of tree.entries()) {
         if (v[0] === address) {
           const proof = tree.getProof(i);

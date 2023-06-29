@@ -57,6 +57,10 @@ export const useMintFractionAllowlistBatch = ({
     const units = verified.map((x) => BigInt(x.units));
     const proofs = verified.map((x) => x.proof as HexString[]);
 
+    console.log("Verified proofs", verified);
+    console.log("Units", units);
+    console.log("Proofs", proofs);
+
     setStep("minting");
     try {
       setTxPending(true);
