@@ -35,21 +35,24 @@ export const useVerifyFractionClaim = () => {
 
     const value: unknown = treeResponse;
 
+    const results: ClaimProof[] = [];
+
     if (typeof value === "string") {
       // Load the tree
       const tree = StandardMerkleTree.load(JSON.parse(value));
 
       // Find the proof
-      for (const [i, v] of tree.entries()) {
-        if (v[0] === address) {
-          const proof = tree.getProof(i);
-          return {
-            proof,
-            units: Number(v[1]),
+      for (const [leaf, value] of tree.entries()) {
+        if (value[0] === address) {
+          results.push({
+            proof: tree.getProof(leaf),
+            units: Number(value[1]),
             claimIDContract: _id as string,
-          } as ClaimProof;
+          });
         }
       }
+
+      return results;
     }
 
     throw new Error("Proof could not be found");

@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
+import _ from "lodash";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
@@ -52,17 +53,24 @@ export const useMintFractionAllowlistBatch = ({
       claimIds.map((claimId) => verifyFractionClaim(claimId, address)),
     );
 
-    const verified = results.filter((x) => x) as ClaimProof[];
+    const verified: ClaimProof[] = results.flat().filter((x) => x);
+    const unique = _.uniqWith(verified, _.isEqual);
 
-    const units = verified.map((x) => BigInt(x.units));
-    const proofs = verified.map((x) => x.proof as HexString[]);
+    const claimIDs = unique.map((claimProof) => claimProof.claimIDContract);
+    const units = unique.map((claimProof) => BigInt(claimProof.units));
+    const proofs = unique.map((claimProof) => claimProof.proof as HexString[]);
+
+    console.log("Unique Verified proofs", unique);
+    console.log("Ids", claimIDs);
+    console.log("Units", units);
+    console.log("Proofs", proofs);
 
     setStep("minting");
     try {
       setTxPending(true);
 
       const tx = await client.batchMintClaimFractionsFromAllowlists(
-        (claimIds || []).map((x) => BigInt(x.split("-")[1])),
+        claimIDs,
         units,
         proofs,
       );

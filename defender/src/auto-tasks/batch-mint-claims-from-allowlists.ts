@@ -58,7 +58,9 @@ export async function handler(event: AutotaskEvent) {
 
   // Parse events
   const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
-  const batchTransferEvents = txnEvents.filter((e) => e.name === "LeafClaimed");
+  const batchTransferEvents = txnEvents.filter(
+    (e) => e.name === "BatchValueTransfer",
+  );
 
   console.log(
     "BatchTransfer Events: ",
@@ -67,7 +69,7 @@ export async function handler(event: AutotaskEvent) {
 
   if (batchTransferEvents.length !== 1) {
     throw new MissingDataError(
-      `Unexpected saw ${batchTransferEvents.length} BatchTransfer events`,
+      `Unexpected saw ${batchTransferEvents.length} BatchValueTransfer events`,
     );
   }
 
@@ -80,6 +82,8 @@ export async function handler(event: AutotaskEvent) {
   );
   console.log("Formatted claim ids", formattedClaimIds);
 
+  const uniqueClaimdIds = [...new Set(formattedClaimIds)];
+
   // Wait for transaction to be confirmed for 5 blocks
   if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     console.log("Transaction confirmed");
@@ -87,7 +91,7 @@ export async function handler(event: AutotaskEvent) {
       .from(network.supabaseTableName)
       .delete()
       .eq("address", fromAddress)
-      .in("claimId", formattedClaimIds)
+      .in("claimId", uniqueClaimdIds)
       .select();
 
     console.log("delete result", deleteResult);

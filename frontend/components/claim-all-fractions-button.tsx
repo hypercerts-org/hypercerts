@@ -43,7 +43,9 @@ export const ClaimAllFractionsButton = ({
   });
 
   const handleClaim = async () => {
-    if (errors) {
+    console.log("Writing");
+
+    if (errors && Object.keys(errors).length > 0) {
       for (const error in errors) {
         toast(errors[error], {
           type: "error",
@@ -62,6 +64,8 @@ export const ClaimAllFractionsButton = ({
 
     write();
   };
+
+  console.log(!writeable, !claimIds?.length, disabled, txPending, checking);
 
   return (
     <Button
