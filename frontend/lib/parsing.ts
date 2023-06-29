@@ -12,6 +12,7 @@ import Papa from "papaparse";
  */
 export function parseAllowlistCsv(
   csv: string,
+  deduplicate: boolean,
   add: {
     address: string;
     percentage: number;
@@ -59,11 +60,18 @@ export function parseAllowlistCsv(
       units: Math.floor(totalSupply * x.percentage),
     })),
   );
+
+  // Return if no deduplication
+  if (!deduplicate) {
+    return data;
+  }
+
   // Deduplicate
   const groups = _.groupBy(data, (x) => x.address);
   const addressToUnits = _.mapValues(groups, (x) =>
     x.reduce((accum, curr) => accum + curr.units, 0),
   );
+
   const result = _.toPairs(addressToUnits).map(([address, units]) => ({
     address,
     units,

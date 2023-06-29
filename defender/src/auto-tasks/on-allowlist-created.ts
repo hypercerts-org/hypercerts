@@ -81,7 +81,7 @@ export async function handler(event: AutotaskEvent) {
   const metadataUri = await contract.functions.uri(tokenId);
   console.log("metadataUri: ", metadataUri);
 
-  const metadata = await getData(metadataUri);
+  const metadata = await getData(metadataUri[0]);
   if (!metadata?.allowList) {
     throw new Error(`No allowlist found`);
   }
@@ -101,15 +101,16 @@ export async function handler(event: AutotaskEvent) {
     addresses.push(v[0]);
   }
   console.log("addresses", addresses);
-  const pairs = addresses.map((address) => ({
+  const data = addresses.map((address, index) => ({
     address: address.toLowerCase(),
     claimId: `${contractAddress}-${tokenId}`,
+    fractionCounter: index,
   }));
-  console.log("pairs", pairs);
+  console.log("data", data);
 
   const addResult = await client
     .from(network.supabaseTableName)
-    .insert(pairs)
+    .insert(data)
     .select()
     .then((data) => data.data);
 

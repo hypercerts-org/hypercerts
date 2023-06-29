@@ -55,6 +55,7 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
     event WorkScopeAdded(bytes32 indexed id, string indexed text);
     event RightAdded(bytes32 indexed id, string indexed text);
     event ImpactScopeAdded(bytes32 indexed id, string indexed text);
+
     MerkleHelper internal merkle;
 
     function setUp() public {
@@ -87,6 +88,39 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
         merkle.createAllowlist(claimID, root, merkle._getSum(units));
 
         merkle.isAllowedToClaim(proof, claimID, data[0]);
+    }
+
+    function testCustomAllowlistMultiple() public {
+        address[] memory accounts = new address[](3);
+        accounts[0] = address(0x23314160c752D6Bb544661DcE13d01C21c64331E);
+        accounts[1] = address(0x6E4f821eD0a4a99Fc0061FCE01246490505Ddc91);
+        accounts[2] = address(0x23314160c752D6Bb544661DcE13d01C21c64331E);
+
+        uint256[] memory units = new uint256[](3);
+        units[0] = 100;
+        units[1] = 300;
+        units[2] = 600;
+
+        bytes32[] memory data = merkle.generateCustomData(accounts, units);
+        for (uint256 i = 0; i < data.length; i++) {
+            console2.logBytes32(data[i]);
+        }
+
+        bytes32 root = merkle.getRoot(data);
+
+        bytes32[] memory proofZero = merkle.getProof(data, 0);
+        bytes32[] memory proofTwo = merkle.getProof(data, 2);
+
+        uint256 claimID = 1;
+
+        merkle.createAllowlist(claimID, root, merkle._getSum(units));
+
+        merkle.isAllowedToClaim(proofZero, claimID, data[0]);
+        merkle.isAllowedToClaim(proofTwo, claimID, data[2]);
+
+        startHoax(0x23314160c752D6Bb544661DcE13d01C21c64331E, 10 ether);
+        merkle.processClaim(proofZero, claimID, units[0]);
+        merkle.processClaim(proofTwo, claimID, units[2]);
     }
 
     function testBasicAllowlist() public {

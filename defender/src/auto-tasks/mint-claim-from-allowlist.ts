@@ -59,7 +59,9 @@ export async function handler(event: AutotaskEvent) {
 
   // Parse events
   const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
-  const batchTransferEvents = txnEvents.filter((e) => e.name === "LeafClaimed");
+  const batchTransferEvents = txnEvents.filter(
+    (e) => e.name === "BatchValueTransfer",
+  );
 
   console.log(
     "BatchTransfer Events: ",
@@ -68,7 +70,7 @@ export async function handler(event: AutotaskEvent) {
 
   if (batchTransferEvents.length !== 1) {
     throw new MissingDataError(
-      `Unexpected saw ${batchTransferEvents.length} BatchTransfer events`,
+      `Unexpected saw ${batchTransferEvents.length} BatchValueTransfer events`,
     );
   }
 

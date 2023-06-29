@@ -25,64 +25,57 @@ const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
 
   const checkWriteable = async () => {
     setChecking(true);
+    const currentErrors: { [key: string]: string } = {};
 
     if (!isConnected) {
       console.log("User not connected");
-      setErrors({
-        ...errors,
-        connection:
-          "You appear to not be connected. Please connect your wallet",
-      });
-      setWriteable(false);
+      currentErrors["connection"] =
+        "You appear to not be connected. Please connect your wallet";
     }
+    console.log(`address? ${address}`);
 
     if (!address || !isAddress(address)) {
       console.log("No address found");
-      setErrors({
-        ...errors,
-        address: `No -valid- address found [${address}]. Please connect your wallet`,
-      });
-      setWriteable(false);
+      currentErrors[
+        "address"
+      ] = `No -valid- address found [${address}]. Please connect your wallet`;
     }
 
     if (!balance || balance.value == 0n) {
       console.log("No balance");
-      setErrors({ ...errors, balance: "Please add funds to your wallet" });
-      setWriteable(false);
+      currentErrors["balance"] = "Please add funds to your wallet";
     }
 
     if (!chain) {
       console.log("No chain found");
-      setErrors({
-        ...errors,
-        chain: "No connection chain found. Please connect your wallet",
-      });
-      setWriteable(false);
+      currentErrors["chain"] =
+        "No connection chain found. Please connect your wallet";
+    }
+
+    if (chain) {
+      console.log("on some chain");
     }
 
     if (chain && chain.id !== chainID) {
       console.log(`On wrong network. Expect ${chainID} Saw ${chain?.id}`);
-      setErrors({
-        ...errors,
-        chain: `Wrong network. Please connect to ${chainID}`,
-      });
-      setWriteable(false);
+      currentErrors["chain"] = `Wrong network. Please connect to ${chainID}`;
     }
     if (!client || client.readonly) {
       console.log(
         "Client was not found or is in readonly mode. Review your config and connection",
       );
-      setErrors({
-        ...errors,
-        client:
-          "Client was not found or is in readonly mode. Review your config and connection",
-      });
-      setWriteable(false);
+      currentErrors["client"] =
+        "Client was not found or is in readonly mode. Review your config and connection";
     }
 
-    if (!errors) {
+    if (Object.keys(currentErrors).length == 0) {
+      console.log("no errors");
       setWriteable(true);
+    } else {
+      console.log("errors detected");
+      setWriteable(false);
     }
+    setErrors(currentErrors);
 
     setChecking(false);
   };

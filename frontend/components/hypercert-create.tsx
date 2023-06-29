@@ -55,6 +55,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   contributors: "",
   allowlistUrl: "",
   allowlistPercentage: DEFAULT_ALLOWLIST_PERCENTAGE,
+  deduplicateAllowlist: false,
   agreeContributorsConsent: false,
   agreeTermsConditions: false,
   // Hidden
@@ -81,6 +82,7 @@ interface HypercertCreateFormData {
   contributors: string;
   allowlistUrl: string;
   allowlistPercentage: number;
+  deduplicateAllowlist: boolean;
   agreeContributorsConsent: boolean;
   agreeTermsConditions: boolean;
   // Hidden
@@ -350,7 +352,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (errors) {
+          if (Object.keys(errors as object).length != 0) {
             for (const error in errors) {
               toast(errors[error], {
                 type: "error",
@@ -382,6 +384,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
                 metaData: metaData.data,
                 allowlistUrl: values.allowlistUrl,
                 allowlistPercentage: values.allowlistPercentage,
+                deduplicate: values.deduplicateAllowlist,
               });
             } else {
               await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);

@@ -7,9 +7,10 @@ set -euxo pipefail
 REPO_DIR=${REPO_DIR:-}
 LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS:-}
 deploy_json=/deploy.json
+export LOCALHOST_NETWORK_URL=http://localchain:8545
 
 function hardhat_local() {
-    LOCALHOST_NETWORK_URL=http://localchain:8545 yarn hardhat --network localhost $@
+    yarn hardhat --network localhost $@
 }
 
 # Clean up stateful data related to any previous invocation of this
@@ -72,4 +73,5 @@ export DOCKER_INTERNAL_GRAPH_HTTP_URL=http://graph:8000
 export DOCKER_INTERNAL_IPFS_URL=http://ipfs:5001
 export PLASMIC_PROJECT_ID="$PLASMIC_PROJECT_ID"
 export PLASMIC_PROJECT_API_TOKEN="$PLASMIC_PROJECT_API_TOKEN"
+export LOCALHOST_NETWORK_URL=${LOCALHOST_NETWORK_URL}
 EOF
