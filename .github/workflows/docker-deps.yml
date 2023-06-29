@@ -7,11 +7,11 @@ on:
       #- main
       - ravenac95/854-* # just filter for this branch for now. FIXME
   workflow_dispatch:
-    inputs:
-      script_name:
-        description: name of the docker script to execute (without the .sh)
-        required: true
-        type: string
+    # inputs:
+    #   script_name:
+    #     description: name of the docker script to execute (without the .sh)
+    #     required: true
+    #     type: string
 
 env:
   REGISTRY: ghcr.io
@@ -39,6 +39,6 @@ jobs:
 
       - name: run build script
         run: |
-          bash "docker/scripts/${SCRIPT_NAME}.sh"
-        env:
-          SCRIPT_NAME: ${{ input.script_name }}
+          bash "docker/scripts/build-graph.sh"
+        # env:
+        #   SCRIPT_NAME: ${{ input.script_name }}
