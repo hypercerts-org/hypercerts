@@ -21,7 +21,8 @@ do
             --build-arg "TAG_NAME=$TAG_NAME" \
             -t ghcr.io/hypercerts-org/$stage \
 	        -t ghcr.io/hypercerts-org/$stage:$COMMIT_SHA \
-            --platform linux/amd64 --platform linux/arm64 \
+            #--platform linux/amd64 \
+            --platform linux/arm64 \
             --push \
             -f docker/Dockerfile .
 done
