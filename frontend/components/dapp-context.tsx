@@ -85,12 +85,10 @@ export interface DappContextProps {
   children?: ReactNode; // Shown by default or if wallet is connected
 }
 
-export function DappContext(props: DappContextProps) {
+export function DappContext({ children }: DappContextProps) {
   useEffect(() => {
     wagmiConfig.autoConnect();
   }, []);
-
-  const { children } = props;
 
   return (
     <WagmiConfig config={wagmiConfig}>
