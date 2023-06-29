@@ -43,6 +43,7 @@
     "@types/node": "^18.11.17",
     "@types/sinon": "^10.0.15",
     "chai": "^4.3.7",
+    "chai-subset": "^1.6.0",
     "esbuild": "^0.17.10",
     "ethereum-waffle": "^4.0.10",
     "it-all": "^2.0.0",
