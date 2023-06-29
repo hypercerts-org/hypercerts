@@ -1,5 +1,11 @@
 # Release notes
 
+## 0.3.0 Simplify config
+
+- Simplify config: merge the Signer and Provider into the operator. The SDK will determine which is available (provided
+  via overrides, env vars or defaults) and infer whether transactions can be broadcasted
+- Add test suite for config loading
+
 ## 0.2.0 Errors
 
 - Updates Error types and error payload field.

@@ -73,7 +73,7 @@ export const useHypercertClient = () => {
 
       const config = {
         chainId: chain.id,
-        signer,
+        operator: signer,
       };
       loadOverridingConfig(config);
       try {

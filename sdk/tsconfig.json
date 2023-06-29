@@ -21,7 +21,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "files": ["node_modules/jest-extended/types/index.d.ts"],
   "exclude": ["node_modules"],
   "include": ["./src/*.ts", "./src/**/*", "./.graphclient/**/*", "./test"]
 }
