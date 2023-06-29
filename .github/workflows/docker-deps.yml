@@ -1,0 +1,40 @@
+# Builds and pushes docker dependencies used in the hypercerts docker-compose.
+name: docker-deps
+
+on: 
+  workflow_dispatch:
+    inputs:
+      script_name:
+        description: name of the docker script to execute (without the .sh)
+        required: true
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          install: true
+          platforms: linux/amd64,linux/arm64
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: run build script
+        run: |
+          bash "docker/scripts/${SCRIPT_NAME}.sh"
+        env:
+          SCRIPT_NAME: ${{ input.script_name }}
