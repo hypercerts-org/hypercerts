@@ -213,7 +213,7 @@ services:
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
   playwright:
-    image: playwright:latest
+    image: ghcr.io/hypercerts-org/playwright:v1.35.0
     working_dir: /usr/src/app
     command: docker/run_tests.sh
     depends_on:
