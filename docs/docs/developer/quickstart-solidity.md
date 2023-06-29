@@ -1,5 +1,7 @@
 # Getting started with Solidity
 
+> :construction: **NOTE**: This is a work-in-progress and may not be fully functioning yet.
+
 ## Setup
 
 ### Installing the Hypercert contracts
@@ -25,11 +27,4 @@ TODO
 
 ## Reference
 
-### Existing deployments
-
-:::tip
-
-> **Goerli** Contract (UUPS Proxy): [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://goerli.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)
-
-> **Optimism** Contract (UUPS Proxy): [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)
-> :::
+For a complete list of deployments, see [Supported Networks](./supported-networks.md).
