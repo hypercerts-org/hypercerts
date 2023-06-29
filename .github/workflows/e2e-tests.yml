@@ -57,5 +57,5 @@ jobs:
       
       - name: Run e2e tests
         run: |
-          yarn e2e:run-tests
+          yarn e2e:ci-run-tests
       
