@@ -1,17 +1,21 @@
-import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { Formik, FormikProps } from "formik";
-import _ from "lodash";
-import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
-import { toast } from "react-toastify";
-import { usePrepareSendTransaction, useSendTransaction } from "wagmi";
-import * as Yup from "yup";
 import { useAccountLowerCase } from "../hooks/account";
+import { supabase } from "../lib/supabase-client";
 import { useConfetti } from "./confetti";
 import { FormContext } from "./forms";
-import { supabase } from "../lib/supabase-client";
-import { parseEther } from "viem";
-import useCheckWriteable from "../hooks/checkWriteable";
+import { DataProvider } from "@plasmicapp/loader-nextjs";
+import { Formik, FormikErrors, FormikProps } from "formik";
+import _ from "lodash";
+import { useRouter } from "next/router";
+import React, { ReactNode, useEffect } from "react";
+import { toast } from "react-toastify";
+import { isAddress, parseEther } from "viem";
+import {
+  useBalance,
+  useNetwork,
+  usePrepareSendTransaction,
+  useSendTransaction,
+} from "wagmi";
+import * as Yup from "yup";
 
 /**
  * Constants
@@ -167,11 +171,15 @@ export interface ZuzaluPurchaseFormProps {
 }
 
 export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
+  const [writeable, setWriteable] = React.useState<boolean>(false);
+  const [errors, setErrors] = React.useState<{ [key: string]: string }>();
+
   const { className, children } = props;
-  const { address } = useAccountLowerCase();
+  const { address, isConnected } = useAccountLowerCase();
+  const { data: balance } = useBalance();
+  const { chain } = useNetwork();
   const { push } = useRouter();
   const confetti = useConfetti();
-  const { writeable, errors } = useCheckWriteable(CHAIN_ID);
 
   const [ethValue, setEthValue] = React.useState<number>(0);
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
@@ -189,6 +197,83 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
       setWagmiErr(error);
     },
   });
+
+  const checkWriteable = async () => {
+    setWriteable(false);
+    const currentErrors: { [key: string]: string } = {};
+
+    if (!isConnected) {
+      console.log("User not connected");
+      currentErrors["connection"] =
+        "You appear to not be connected. Please connect your wallet";
+    }
+    console.log(`address? ${address}`);
+
+    if (!address || !isAddress(address)) {
+      console.log("No address found");
+      currentErrors[
+        "address"
+      ] = `No -valid- address found [${address}]. Please connect your wallet`;
+    }
+
+    if (!balance || balance.value == 0n) {
+      console.log("No balance");
+      currentErrors["balance"] = "Please add funds to your wallet";
+    }
+
+    if (!chain) {
+      console.log("No chain found");
+      currentErrors["chain"] =
+        "No connection chain found. Please connect your wallet";
+    }
+
+    if (chain && chain.id !== CHAIN_ID) {
+      console.log(`On wrong network. Expect ${CHAIN_ID} Saw ${chain?.id}`);
+      currentErrors["chain"] = `Wrong network. Please connect to ${CHAIN_ID}`;
+    }
+
+    if (Object.keys(currentErrors).length == 0) {
+      console.log("no errors");
+      setWriteable(true);
+    } else {
+      console.log("errors detected");
+      setWriteable(false);
+    }
+    setErrors(currentErrors);
+  };
+
+  useEffect(() => {
+    checkWriteable();
+  }, [address, balance, chain]);
+
+  const checkCanSubmit = (
+    formValues: ZuzaluPurchaseFormData,
+    formErrors: FormikErrors<ZuzaluPurchaseFormData>,
+    onSubmit: () => void,
+  ) => {
+    if (errors && Object.keys(errors).length > 0) {
+      console.error(errors);
+      for (const error in errors) {
+        toast(errors[error], {
+          type: "error",
+        });
+      }
+
+      return;
+    }
+
+    if (!writeable) {
+      toast("Cannot execute transaction. Check logs for errors", {
+        type: "error",
+      });
+      return;
+    }
+
+    console.log("Submitting form...");
+    console.log("Form values: ", formValues);
+    console.log("Form errors: ", formErrors);
+    onSubmit();
+  };
 
   return (
     <div className={className}>
@@ -293,10 +378,11 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  console.log("Submitting form...");
-                  console.log("Form values: ", formikProps.values);
-                  console.log("Form errors: ", formikProps.errors);
-                  formikProps.handleSubmit();
+                  checkCanSubmit(
+                    formikProps.values,
+                    formikProps.errors,
+                    formikProps.handleSubmit,
+                  );
                 }}
               >
                 {children}
