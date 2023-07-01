@@ -1,6 +1,6 @@
 import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, Wallet, providers } from "ethers";
+import { BigNumber, Wallet } from "ethers";
 import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
@@ -33,8 +33,6 @@ describe("burn fraction tokens in HypercertClient", () => {
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 
-    const signer = user.connect(provider);
-
     const client = new HypercertClient({
       chainId: 5,
       operator: user,
@@ -53,8 +51,6 @@ describe("burn fraction tokens in HypercertClient", () => {
     const otherUser = await other.getAddress();
     const mockMinter = await deployMockContract(user, HypercertMinterABI);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
-
-    const signer = user.connect(provider);
 
     const client = new HypercertClient({
       chainId: 5,
@@ -86,8 +82,6 @@ describe("burn fraction tokens in HypercertClient", () => {
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 
-    const signer = user.connect(provider);
-
     const client = new HypercertClient({
       chainId: 5,
       operator: user,
@@ -96,9 +90,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     expect(client.readonly).toBe(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     try {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" });
     } catch (e) {
       expect((e as Error).message).toMatch(/invalid BigNumber string/);

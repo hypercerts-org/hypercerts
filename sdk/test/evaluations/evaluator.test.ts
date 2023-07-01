@@ -105,10 +105,10 @@ describe("HypercertEvaluator", () => {
     });
 
     it("should throw an error for readonly storage", async () => {
-      delete process.env.NFT_STORAGE_TOKEN;
-      delete process.env.WEB3_STORAGE_TOKEN;
-      delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-      delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+      sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
       const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: await signer.getAddress() });
 
@@ -127,6 +127,7 @@ describe("HypercertEvaluator", () => {
       }
 
       expect.assertions(2);
+      sinon.restore();
     });
   });
 });

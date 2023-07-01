@@ -5,28 +5,20 @@ import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
 import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
-import { reloadEnv } from "./setup-env.js";
 
-let stub: sinon.SinonStub;
 const provider = new MockProvider();
+sinon.stub(provider, "on");
+
 describe("HypercertClient setup tests", () => {
-  beforeAll(() => {
-    stub = sinon.stub(provider, "on");
-  });
-
-  afterEach(() => {
-    reloadEnv();
-  });
-
   afterAll(() => {
-    stub.restore();
+    sinon.restore();
   });
 
   it("should be able to create a new read only instance when missing storage keys", () => {
-    delete process.env.NFT_STORAGE_TOKEN;
-    delete process.env.WEB3_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
     const client = new HypercertClient({ operator: provider });
 
@@ -48,7 +40,7 @@ describe("HypercertClient setup tests", () => {
       new HypercertClient({ operator: provider, chainId: 1337 });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
-      expect(e instanceof UnsupportedChainError).to.be.true;
+      expect(e).to.be.instanceOf(UnsupportedChainError);
 
       const error = e as UnsupportedChainError;
       expect(error.message).to.eq("chainId=1337 is not yet supported");
@@ -57,10 +49,10 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should throw an error when executing write method in readonly mode", async () => {
-    delete process.env.NFT_STORAGE_TOKEN;
-    delete process.env.WEB3_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
+    sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
     const client = new HypercertClient({ operator: provider });
 
@@ -73,7 +65,7 @@ describe("HypercertClient setup tests", () => {
       await client.mintClaim(metaData, totalUnits, transferRestrictions);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
@@ -90,11 +82,11 @@ describe("HypercertClient setup tests", () => {
       await client.createAllowlist(allowlist, metaData, totalUnits, transferRestrictions);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
     // splitClaimUnits
@@ -105,11 +97,11 @@ describe("HypercertClient setup tests", () => {
       await client.splitClaimUnits(claimId, fractions);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
     // mergeClaimUnits
@@ -119,11 +111,11 @@ describe("HypercertClient setup tests", () => {
       await client.mergeClaimUnits(claimIds);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
     // burnClaimFraction
@@ -133,11 +125,11 @@ describe("HypercertClient setup tests", () => {
       await client.burnClaimFraction(claimId);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
     // mintClaimFractionFromAllowlist
@@ -150,11 +142,11 @@ describe("HypercertClient setup tests", () => {
       await client.mintClaimFractionFromAllowlist(claimId, units, proof, root);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
     // batchMintClaimFractionsFromAllowlist
@@ -170,11 +162,11 @@ describe("HypercertClient setup tests", () => {
       await client.batchMintClaimFractionsFromAllowlists(claimIds, units, proofs, roots);
       expect.fail("Should throw ClientError");
     } catch (e) {
-      expect(e instanceof ClientError).to.be.true;
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
       expect(error.message).to.eq("Client is readonly");
-      expect(error.payload?.client instanceof HypercertClient).to.be.true;
+      expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
   });
 });
