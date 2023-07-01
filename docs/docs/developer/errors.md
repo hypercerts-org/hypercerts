@@ -6,19 +6,13 @@ Generally, we follow the pattern of throwing on errors and letting those surface
 
 To support debugging we've implemented some custom errors.
 
-```js
-export interface TypedError extends Error {
-  __type: ErrorType;
-  payload?: { [key: string]: unknown };
-}
-```
-
-| Error                 | Reason                             | Payload                                         |
-| --------------------- | ---------------------------------- | ----------------------------------------------- |
-| FetchError            | Async call to API failed           | `{ [key: string]: unknown }`                    |
-| InvalidOrMissingError | Env var missing                    | `{ keyName: string }`                           |
-| MalformedDataError    | Validation or formatting failed    | `{ [key: string]: unknown }`                    |
-| MintingError          | EVM call to mint failed            | `{ [key: string]: unknown }`                    |
-| StorageError          | NFT-/Web3 Storage error            | `{ [key: string]: unknown }`                    |
-| UnsupportedChainError | Provided EVM chainID not supported | <code>{ chainID: string &#124; number };</code> |
-| UnknownSchemaError    | Validation schema not found        | `{ schemaName: string }`                        |
+| Error                 | Reason                                            | Payload                      |
+| --------------------- | ------------------------------------------------- | ---------------------------- | --------- |
+| ClientError           | An error caused by the client                     | `{ [key: string]: unknown }` |
+| FetchError            | An error caused by a failed API call              | `{ [key: string]: unknown }` |
+| InvalidOrMissingError | An error caused by a missing environment variable | `{ keyName: string }`        |
+| MalformedDataError    | An error caused by invalid or malformed data      | `{ [key: string]: unknown }` |
+| MintingError          | An error caused by a failed EVM call to mint      | `{ [key: string]: unknown }` |
+| StorageError          | An error caused by NFT-/Web3 Storage              | `{ [key: string]: unknown }` |
+| UnsupportedChainError | An error caused by an unsupported EVM chain ID    | `{ chainID: string           | number }` |
+| UnknownSchemaError    | An error caused by a missing validation schema    | `{ schemaName: string }`     |

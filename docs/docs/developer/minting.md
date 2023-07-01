@@ -20,6 +20,14 @@ const tx: Promise<ContractTransaction> = await hypercerts.mintClaim({
 
 > **Note** If you did not initialize your HypercertsClient with an `operator`, `nftStorageToken` and `web3StorageToken`, the client will run in [read-only mode](#read-only-mode) and this will fail.
 
+Let's see what happens under the hood:
+
+First, `mintClaim` checks that the client is not `read only` and that the operator is a `Signer`. If not, it throws an `InvalidOrMissingError`.
+
+Next, the function validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`. The function then stores the metadata on `IPFS` using the `storeMetadata` method and returns the `CID` for the metadata.
+
+Finally, we call the mintClaim function on the contract with the signer `address`, total `units`, `CID`, and `transfer restriction` as parameters. If `overrides` are provided, the function uses them to send the transaction. Otherwise, it sends the transaction without overrides.
+
 ## Transfer restrictions
 
 When minting a Hypercert, you must pass in a `TransferRestriction` policy. For now there are only 3 implemented policies:

@@ -63,7 +63,7 @@ when creating the SDK by passing configuration variables. Finally, when not defa
 
 ### Client config properties
 
-| \| Property        | Type                       | Description                            |
+| Property           | Type                       | Description                            |
 | ------------------ | -------------------------- | -------------------------------------- | ------------------------------ |
 | `chainId`          | `number`                   | The chain ID of the network to use.    |
 | `chainName`        | `string`                   | The name of the network to use.        |
@@ -79,6 +79,8 @@ when creating the SDK by passing configuration variables. Finally, when not defa
 ### Environment variables
 
 You can also configure the SDK via environment variables. If you set both the config parameter and environment variable, the config parameter will take precedent.
+
+We provide a [template file](https://github.com/hypercerts-org/hypercerts/blob/main/sdk/.env.template) in our monorepo.
 
 | Environment Variable             | Description                                                                                         |
 | -------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -96,9 +98,15 @@ The logger for the SDK uses the log level based on the value of the LOG_LEVEL en
 determines which log messages are printed to the console. By default, the logger is configured to log messages with a
 level of info or higher to the console.
 
+In your `.env` file:
+
+```bash
+LOG_LEVEL="info"
+```
+
 The SDK logger supports four log levels: `error`, `warn`, `info`, and `debug`.
 
-- The `error` log level is used to log errors that occur in the application.
+- The `error` log level is used to log errors that occur in the SDK.
 - The `warn` log level is used to log warnings that do not necessarily indicate an error, but may be important to investigate.
-- The `info` log level is used to log general information about the application's state or behavior.
+- The `info` log level is used to log general information about the SDK's state or behavior.
 - The `debug` log level is used to log detailed information that is useful for debugging purposes.

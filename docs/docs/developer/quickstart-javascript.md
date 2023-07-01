@@ -56,12 +56,13 @@ import {
   TransferRestrictions,
 } from "@hypercerts-org/sdk";
 
-// Format your Hypercert metadata
+// Validate and format your Hypercert metadata
 const { data: metadata, valid, errors } = formatHypercertData({
   name,
   ...
 })
 
+// Check on errors
 if (!valid) {
   return console.error(errors);
 }

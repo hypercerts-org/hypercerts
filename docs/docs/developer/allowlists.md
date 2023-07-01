@@ -61,17 +61,21 @@ Users can claim their fraction tokens for many hypercerts at once using `mintCla
 Then, call `mintClaimFractionFromAllowlist` with the required data. The contracts will also verify the proofs. However, when providing the `root` in the function input, the proofs will be verified before a transaction is submitted.
 
 ```js
+const claimId = "0x822f17a9a5eecfd...85254363386255337";
+const address = "0xc0ffee254729296a45a3885639AC7E10F9d54979";
+
 const { indexer, storage } = client;
+
 const claimById = await indexer.claimById(claimId);
-const { uri, tokenID: _id } = claimByIdRes.claim;
+const { uri, tokenID: _id } = claimById.claim;
 const metadata = await storage.getMetadata(uri || "");
 const treeResponse = await storage.getData(metadata.allowList);
 
 let result;
 
-if (typeof value === "string") {
+if (treeResponse) {
   // Load the tree
-  const tree = StandardMerkleTree.load(JSON.parse(value));
+  const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
 
   // Find the proof
   for (const [leaf, value] of tree.entries()) {
@@ -91,3 +95,11 @@ const tx = await hypercerts.mintClaimFractionFromAllowlist({
   ...result,
 });
 ```
+
+Let's see what happens under the hood:
+
+First, the method checks that the client is not `read only` and that the operator is a signer. If not, it throws an `InvalidOrMissingError`.
+
+Next, the method verifies the Merkle `proof` using the OpenZeppelin Merkle tree library. If a `root` is provided, the method uses it to verify the proof. If the proof is invalid, it throws an error.
+
+Finally, the method calls the `mintClaimFromAllowlist` function on the contract with the signer `address`, Merkle `proof`, `claim ID`, and number of `units` as parameters. If overrides are provided, the method uses them to send the transaction. Otherwise, it sends the transaction without overrides.
