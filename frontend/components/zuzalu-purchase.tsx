@@ -216,8 +216,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
     }
 
     if (!balance || balance.value == 0n) {
-      console.log(balance);
-      console.log("No balance: ", balance?.value);
+      console.log("No balance");
       currentErrors["balance"] = "Please add funds to your wallet";
     }
 
@@ -229,6 +228,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
 
     if (chain && chain.id !== CHAIN_ID) {
       console.log(`On wrong network HERE. Expect ${CHAIN_ID} Saw ${chain?.id}`);
+
       currentErrors["chain"] = `Wrong network. Please connect to ${CHAIN_ID}`;
     }
 
