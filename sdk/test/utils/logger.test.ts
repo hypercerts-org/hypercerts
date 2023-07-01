@@ -1,43 +1,54 @@
-import { jest } from "@jest/globals";
+import sinon from "sinon";
 
 import logger from "../../src/utils/logger.js";
-import { reloadEnv } from "../setup-tests.js";
 
 describe("logger", () => {
-  beforeAll(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-    jest.spyOn(console, "info").mockImplementation(() => {});
-    jest.spyOn(console, "debug").mockImplementation(() => {});
-  });
+  const stubError = sinon.stub(console, "error");
+  const stubWarn = sinon.stub(console, "warn");
+  const stubInfo = sinon.stub(console, "info");
+  const stubDebug = sinon.stub(console, "debug");
 
   beforeEach(() => {
-    delete process.env.LOG_LEVEL;
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    sinon.reset();
   });
 
   afterAll(() => {
-    jest.resetAllMocks();
+    sinon.restore();
   });
 
   describe("skip logging", () => {
     it("by default it should not log a debug message to the console", () => {
+      sinon.stub(process, "env").value({ LOG_LEVEL: null });
+
       const message = "Test debug";
       logger.debug(message);
 
-      expect(console.debug).not.toHaveBeenCalled();
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubWarn);
+      sinon.assert.notCalled(stubError);
     });
   });
 
   describe("error", () => {
+    beforeAll(() => {
+      const LOG_LEVEL = "error";
+      sinon.stub(process, "env").value({ LOG_LEVEL });
+    });
+
+    afterEach(() => {
+      sinon.reset();
+    });
+
     it("should log an error message to the console", () => {
       const error = new Error("Test error");
       logger.error(error);
 
-      expect(console.error).toHaveBeenCalledWith(`[error][${error.name}]: ${error.message} `);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubWarn);
+
+      sinon.assert.calledOnceWithMatch(stubError, `[error][${error.name}]: ${error.message}`);
     });
 
     it("should log an error message with a custom label to the console", () => {
@@ -45,16 +56,33 @@ describe("logger", () => {
       const label = "Test label";
       logger.error(error, label);
 
-      expect(console.error).toHaveBeenCalledWith(`[error][${label}]: ${error.message} `);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubWarn);
+
+      sinon.assert.calledOnceWithMatch(stubError, `[error][${label}]: ${error.message}`);
     });
   });
 
   describe("warn", () => {
+    beforeAll(() => {
+      const LOG_LEVEL = "warn";
+      sinon.stub(process, "env").value({ LOG_LEVEL });
+    });
+
+    afterAll(() => {
+      sinon.reset();
+    });
+
     it("should log a warning message to the console", () => {
       const message = "Test warning";
       logger.warn(message);
 
-      expect(console.warn).toHaveBeenCalledWith(`[warn]: ${message}`);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubError);
+
+      sinon.assert.calledOnceWithMatch(stubWarn, `[warn]: ${message}`);
     });
 
     it("should log a warning message with a custom label to the console", () => {
@@ -62,16 +90,33 @@ describe("logger", () => {
       const label = "Test label";
       logger.warn(message, label);
 
-      expect(console.warn).toHaveBeenCalledWith(`[warn][${label}]: ${message}`);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubError);
+
+      sinon.assert.calledOnceWithMatch(stubWarn, `[warn][${label}]: ${message}`);
     });
   });
 
   describe("info", () => {
+    beforeAll(() => {
+      const LOG_LEVEL = "info";
+      sinon.stub(process, "env").value({ LOG_LEVEL });
+    });
+
+    afterAll(() => {
+      sinon.reset();
+    });
+
     it("should log an info message to the console", () => {
       const message = "Test info";
       logger.info(message);
 
-      expect(console.info).toHaveBeenCalledWith(`[info]: ${message}`);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubWarn);
+      sinon.assert.notCalled(stubError);
+
+      sinon.assert.calledOnceWithMatch(stubInfo, `[info]: ${message}`);
     });
 
     it("should log an info message with a custom label to the console", () => {
@@ -79,32 +124,44 @@ describe("logger", () => {
       const label = "Test label";
       logger.info(message, label);
 
-      expect(console.info).toHaveBeenCalledWith(`[info][${label}]: ${message}`);
+      sinon.assert.notCalled(stubDebug);
+      sinon.assert.notCalled(stubWarn);
+      sinon.assert.notCalled(stubError);
+
+      sinon.assert.calledOnceWithMatch(stubInfo, `[info][${label}]: ${message}`);
     });
   });
 
   describe("debug", () => {
-    beforeEach(() => {
-      process.env.LOG_LEVEL = "debug";
+    beforeAll(() => {
+      const LOG_LEVEL = "debug";
+      sinon.stub(process, "env").value({ LOG_LEVEL });
     });
 
-    afterEach(() => {
-      delete process.env.LOG_LEVEL;
-      reloadEnv();
+    afterAll(() => {
+      sinon.reset();
     });
+
     it("should log a debug message to the console", () => {
       const message = "Test debug";
       logger.debug(message);
 
-      expect(console.debug).toHaveBeenCalledWith(`[debug]: ${message}`);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubWarn);
+      sinon.assert.notCalled(stubError);
+
+      sinon.assert.calledOnceWithMatch(stubDebug, `[debug]: ${message}`);
     });
 
     it("should log a debug message with a custom label to the console", () => {
       const message = "Test debug";
       const label = "Test label";
       logger.debug(message, label);
+      sinon.assert.notCalled(stubInfo);
+      sinon.assert.notCalled(stubWarn);
+      sinon.assert.notCalled(stubError);
 
-      expect(console.debug).toHaveBeenCalledWith(`[debug][${label}]: ${message}`);
+      sinon.assert.calledOnceWithMatch(stubDebug, `[debug][${label}]: ${message}`);
     });
   });
 });

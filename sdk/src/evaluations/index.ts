@@ -26,20 +26,26 @@ export interface EvaluatorInterface {
 }
 
 export default class HypercertEvaluator implements EvaluatorInterface {
-  signer: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer & TypedDataSigner;
 
   storage: HypercertsStorage;
 
   eas: EasEvaluator;
 
+  readonly = true;
+
   constructor(
     config = {
       chainId: DEFAULT_CHAIN_ID,
       easContractAddress: EASContractAddress,
-      signer: new ethers.VoidSigner(""),
+      operator: new ethers.VoidSigner(""),
     } as Partial<HypercertClientConfig>,
   ) {
-    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    //TODO when expanding the Evaluator functionallity, we should review if readonly makes sense
+    if (config.operator instanceof ethers.Signer) {
+      this.signer = config.operator as ethers.Signer & TypedDataSigner;
+      this.readonly = false;
+    }
     this.storage = new HypercertsStorage(config);
     this.eas = new EasEvaluator(config);
   }

@@ -4,16 +4,11 @@
 
 ## Table of contents
 
-### Enumerations
-
-- [ErrorType](../enums/internal.ErrorType.md)
-
 ### Classes
 
 - [default](../classes/internal.default.md)
 - [default](../classes/internal.default-1.md)
 - [default](../classes/internal.default-2.md)
-- [default](../classes/internal.default-3.md)
 
 ### Interfaces
 
@@ -61,7 +56,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:274](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L274)
+[sdk/.graphclient/index.ts:275](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L275)
 
 ---
 
@@ -77,7 +72,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:977](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L977)
+[sdk/.graphclient/index.ts:985](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L985)
 
 ---
 
@@ -98,7 +93,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:286](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L286)
+[sdk/.graphclient/index.ts:287](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L287)
 
 ---
 
@@ -114,7 +109,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:1007](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L1007)
+[sdk/.graphclient/index.ts:1015](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L1015)
 
 ---
 
@@ -130,7 +125,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:1000](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L1000)
+[sdk/.graphclient/index.ts:1008](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L1008)
 
 ---
 
@@ -146,7 +141,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:987](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L987)
+[sdk/.graphclient/index.ts:995](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L995)
 
 ---
 
@@ -162,7 +157,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:961](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L961)
+[sdk/.graphclient/index.ts:969](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L969)
 
 ---
 
@@ -178,7 +173,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L28)
+[sdk/.graphclient/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L28)
 
 ---
 
@@ -196,7 +191,7 @@
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:20](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/utils/formatter.ts#L20)
+[sdk/src/utils/formatter.ts:20](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/utils/formatter.ts#L20)
 
 ---
 
@@ -212,7 +207,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:27](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L27)
+[sdk/.graphclient/index.ts:27](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L27)
 
 ---
 
@@ -228,7 +223,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:26](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L26)
+[sdk/.graphclient/index.ts:26](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L26)
 
 ---
 
@@ -240,7 +235,7 @@ Defines the order direction, either ascending or descending
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:506](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L506)
+[sdk/.graphclient/index.ts:507](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L507)
 
 ---
 
@@ -256,7 +251,7 @@ Defines the order direction, either ascending or descending
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:970](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L970)
+[sdk/.graphclient/index.ts:978](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L978)
 
 ---
 
@@ -277,11 +272,12 @@ All built-in and custom scalars, mapped to their actual values
 | `Float`      | `number`  |
 | `ID`         | `string`  |
 | `Int`        | `number`  |
+| `Int8`       | `any`     |
 | `String`     | `string`  |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/.graphclient/index.ts#L36)
+[sdk/.graphclient/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L36)
 
 ---
 
@@ -308,4 +304,4 @@ A map of errors, where the key is the field that failed validation and the value
 
 #### Defined in
 
-[sdk/src/validator/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/validator/index.ts#L28)
+[sdk/src/validator/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/validator/index.ts#L28)

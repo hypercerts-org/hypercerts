@@ -39,8 +39,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
 
@@ -65,8 +64,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -95,8 +93,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -126,8 +123,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -157,7 +153,6 @@ describe("mergeClaimUnits in HypercertClient", () => {
   beforeAll(() => {
     provider = new MockProvider();
     wallet = provider.getWallets()[0];
-
     stub = sinon.stub(provider, "on");
   });
   beforeEach(() => {
@@ -181,8 +176,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -206,8 +200,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -238,8 +231,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);

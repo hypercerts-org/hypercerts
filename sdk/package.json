@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -36,6 +36,7 @@
     "web3.storage": "^4.4.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
@@ -43,9 +44,12 @@
     "@types/node": "^18.11.17",
     "@types/sinon": "^10.0.15",
     "chai": "^4.3.7",
+    "chai-assertions-count": "^1.0.2",
+    "chai-subset": "^1.6.0",
     "esbuild": "^0.17.10",
     "ethereum-waffle": "^4.0.10",
     "it-all": "^2.0.0",
+    "jest-extended": "^4.0.0",
     "json-schema-to-typescript": "^12.0.0",
     "msw": "^1.2.1",
     "nyc": "^15.1.0",

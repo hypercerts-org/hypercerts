@@ -1,8 +1,8 @@
+import { faker } from "@faker-js/faker";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction, ethers } from "ethers";
+import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction } from "ethers";
 
-import { HypercertMetadata, HypercertMinterABI } from "../src/index.js";
+import { HypercertMetadata } from "../src/index.js";
 import {
   AllowlistEntry,
   DuplicateEvaluation,
@@ -17,18 +17,25 @@ export type TestDataType = Parameters<typeof formatHypercertData>[0];
  * Builds allowlist and merkle tree
  * @param overrides contains the size and a valid ethereum address that should be present once in the allowlist
  */
-const getAllowlist = (overrides?: { size?: number; address?: `0x${string}`; units?: BigNumberish }) => {
+const getAllowlist = ({
+  size = 10,
+  units = 1,
+  address,
+}: {
+  size?: number;
+  address?: `0x${string}`;
+  units?: BigNumberish;
+} = {}) => {
   //generate allowlist array based on possible overrides
-  const size = overrides?.size || 10;
-  let allowlist: AllowlistEntry[] = new Array();
+  const allowlist: AllowlistEntry[] = [];
   for (let i = 0; i < size; i++) {
-    const address = ethers.Wallet.createRandom().address;
+    const _address = faker.finance.ethereumAddress();
 
-    allowlist.push({ address, units: overrides?.units || "1" });
+    allowlist.push({ address: _address, units });
   }
 
-  if (overrides?.address) {
-    allowlist[0].address = overrides.address;
+  if (address) {
+    allowlist[0].address = address;
   }
   //add a valid address once to the allowlist
 
@@ -41,7 +48,9 @@ const getAllowlist = (overrides?: { size?: number; address?: `0x${string}`; unit
   return { allowlist, merkleTree, totalUnits };
 };
 
-const getRawInputData = (overrides?: Partial<TestDataType>): Partial<TestDataType> => {
+const getRawInputData = (overrides?: Partial<TestDataType>): TestDataType => {
+  const now = new Date().getTime() / 1000;
+
   const testData = {
     name: "test name",
     description: "test description",
@@ -49,22 +58,23 @@ const getRawInputData = (overrides?: Partial<TestDataType>): Partial<TestDataTyp
     contributors: ["0x111", "0x22"],
     external_url: "https://example.com",
     impactScope: ["test impact scope"],
-    impactTimeframeEnd: Math.floor(new Date().getTime()) / 1000,
-    impactTimeframeStart: Math.floor(new Date().getTime()) / 1000,
+    impactTimeframeStart: now - 1000,
+    impactTimeframeEnd: now,
     workScope: ["test work scope"],
-    workTimeframeStart: Math.floor(new Date().getTime()) / 1000,
-    workTimeframeEnd: Math.floor(new Date().getTime()) / 1000,
+    workTimeframeStart: now - 1000,
+    workTimeframeEnd: now,
     properties: [{ trait_type: "test trait type", value: "aaa" }],
     rights: ["test right 1", "test right 2"],
     version: "0.0.1",
   };
 
-  return { ...testData, ...overrides };
+  return { ...testData, ...overrides } as TestDataType;
 };
 
 const getFormattedMetadata = (overrides?: Partial<TestDataType>): HypercertMetadata => {
-  const rawData = getRawInputData(overrides) as TestDataType;
+  const rawData = getRawInputData(overrides);
   const { data: formattedData } = formatHypercertData(rawData);
+  if (!formattedData) throw new Error("Could not format metadata");
   return formattedData as HypercertMetadata;
 };
 
@@ -105,7 +115,7 @@ const mockContractResponse = (): Promise<ContractTransaction> => {
 };
 
 const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): HypercertEvaluationSchema => {
-  let mockData: HypercertEvaluationSchema = {
+  const mockData: HypercertEvaluationSchema = {
     creator: "0x17ec8597ff92C3F44523bDc65BF0f1bE632917ff",
     evaluationData: {
       type: "duplicate",
@@ -140,7 +150,7 @@ const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): Hype
 };
 
 const getDuplicateEvaluationData = (overrides?: Partial<DuplicateEvaluation>): DuplicateEvaluation => {
-  let mockData: DuplicateEvaluation = {
+  const mockData: DuplicateEvaluation = {
     type: "duplicate",
     duplicateHypercerts: [
       {
@@ -166,7 +176,7 @@ const getDuplicateEvaluationData = (overrides?: Partial<DuplicateEvaluation>): D
 };
 
 const getSimpleTextEvaluationData = (overrides?: Partial<SimpleTextEvaluation>): SimpleTextEvaluation => {
-  let mockData: SimpleTextEvaluation = {
+  const mockData: SimpleTextEvaluation = {
     type: "simpleText",
     text: "This is a simple text evaluation",
     hypercert: {

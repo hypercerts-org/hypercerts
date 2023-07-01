@@ -8,14 +8,6 @@ const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    DEFAULT_CHAIN_ID: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
-    CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-    RPC_URL: process.env.NEXT_PUBLIC_RPC_URL,
-    NFT_STORAGE_TOKEN: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
-    WEB3_STORAGE_TOKEN: process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
-    WALLETCONNECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
-  },
   productionBrowserSourceMaps: true,
   webpack: (config) => {
     // https://github.com/rainbow-me/rainbowkit/blob/main/examples/with-next/next.config.js

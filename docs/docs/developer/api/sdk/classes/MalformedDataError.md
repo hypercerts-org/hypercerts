@@ -4,9 +4,15 @@
 
 Data doesn't conform to expectations
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`MalformedDataError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -16,9 +22,6 @@ Data doesn't conform to expectations
 
 ### Properties
 
-- [\_\_type](MalformedDataError.md#__type)
-- [message](MalformedDataError.md#message)
-- [name](MalformedDataError.md#name)
 - [payload](MalformedDataError.md#payload)
 
 ## Constructors
@@ -27,62 +30,24 @@ Data doesn't conform to expectations
 
 • **new MalformedDataError**(`message`, `payload?`)
 
+Creates a new instance of the MalformedDataError class.
+
 #### Parameters
 
-| Name       | Type     |
-| :--------- | :------- |
-| `message`  | `string` |
-| `payload?` | `Object` |
+| Name       | Type     | Description               |
+| :--------- | :------- | :------------------------ |
+| `message`  | `string` | The error message.        |
+| `payload?` | `Object` | Additional error payload. |
+
+#### Overrides
+
+Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:157](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L157)
+[sdk/src/types/errors.ts:133](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L133)
 
 ## Properties
-
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.MalformedDataError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:153](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L153)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:155](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L155)
-
----
-
-### name
-
-• **name**: `string` = `"MalformedDataError"`
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:154](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L154)
-
----
 
 ### payload
 
@@ -96,8 +61,8 @@ Additional error payload.
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:156](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L156)
+[sdk/src/types/errors.ts:126](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L126)

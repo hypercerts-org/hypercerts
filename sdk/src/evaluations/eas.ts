@@ -4,12 +4,12 @@ import { ethers } from "ethers";
 
 import { EAS_SCHEMAS } from "../constants.js";
 import {
-  MalformedDataError,
   DuplicateEvaluation,
   EvaluationData,
-  SimpleTextEvaluation,
   HypercertClientConfig,
   InvalidOrMissingError,
+  MalformedDataError,
+  SimpleTextEvaluation,
 } from "../types/index.js";
 import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
 
@@ -26,21 +26,30 @@ export default class EasEvaluator {
   /**
    * The TypedDataSigner instance used for signing typed data.
    */
-  signer: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer & TypedDataSigner;
+
+  readonly = true;
 
   /**
    * Creates a new EasEvaluator instance.
    * @param {EasEvaluatorConfig} config - The configuration options for the EasEvaluator instance.
    */
   constructor(config: Partial<HypercertClientConfig>) {
-    for (const prop of ["easContractAddress", "chainId", "signer"]) {
-      if (!(prop in config) || config[prop as keyof HypercertClientConfig] === undefined) {
-        throw new InvalidOrMissingError(`Invalid or missing config value: ${prop}`, { prop: prop.toString() });
-      }
+    const { easContractAddress, chainId, operator } = config;
+
+    if (!easContractAddress || !chainId || !operator) {
+      const missingValue = !easContractAddress ? "easContractAddress" : !chainId ? "chainId" : "operator";
+
+      throw new InvalidOrMissingError(`Invalid or missing config value: ${missingValue}`, { easConfig: config });
     }
 
-    this.offChain = new Offchain({ address: config.easContractAddress!, chainId: config.chainId!, version: "0.26" });
-    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    //TODO when expanding the Evaluator functionallity, we should review if readonly makes sense
+    if (config.operator instanceof ethers.Signer) {
+      this.signer = config.operator as ethers.Signer & TypedDataSigner;
+      this.readonly = false;
+    }
+
+    this.offChain = new Offchain({ address: easContractAddress, chainId: chainId, version: "0.26" });
   }
 
   /**
@@ -55,6 +64,10 @@ export default class EasEvaluator {
     recipient: string,
     schemaUid: string,
   ): Promise<SignedOffchainAttestation> => {
+    if (!this.signer) {
+      throw new InvalidOrMissingError("No valid signer available.", { signer: this.signer });
+    }
+
     return await this.offChain.signOffchainAttestation(
       {
         // TODO who will be the recipient? The contract it points to? The creator?

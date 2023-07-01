@@ -4,9 +4,15 @@
 
 Fails storing to a remote resource
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`StorageError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -16,9 +22,6 @@ Fails storing to a remote resource
 
 ### Properties
 
-- [\_\_type](StorageError.md#__type)
-- [message](StorageError.md#message)
-- [name](StorageError.md#name)
 - [payload](StorageError.md#payload)
 
 ## Constructors
@@ -27,62 +30,24 @@ Fails storing to a remote resource
 
 • **new StorageError**(`message`, `payload?`)
 
+Creates a new instance of the StorageError class.
+
 #### Parameters
 
-| Name       | Type     |
-| :--------- | :------- |
-| `message`  | `string` |
-| `payload?` | `Object` |
+| Name       | Type     | Description               |
+| :--------- | :------- | :------------------------ |
+| `message`  | `string` | The error message.        |
+| `payload?` | `Object` | Additional error payload. |
+
+#### Overrides
+
+Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:123](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L123)
+[sdk/src/types/errors.ts:97](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L97)
 
 ## Properties
-
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.StorageError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:119](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L119)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:121](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L121)
-
----
-
-### name
-
-• **name**: `string` = `"StorageError"`
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:120](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L120)
-
----
 
 ### payload
 
@@ -96,8 +61,8 @@ Additional error payload.
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:122](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L122)
+[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L90)

@@ -13,6 +13,7 @@ export type SupportedChainIds = 5 | 10;
  * Hypercert contract interface.
  * @notice hacky loop to get typedoc to generate all the docs
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface HypercertMinter extends ContractInterface {}
 
 /**
@@ -35,10 +36,8 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
-    /** The  provider used to interact with the evm-chain. */
-    provider: ethers.providers.Provider;
-    /** The URL of the RPC endpoint used to interact with the evm-chain. */
-    rpcUrl?: string;
+    /** The provider is inherently read-only */
+    operator: ethers.providers.Provider | ethers.Signer;
     /** Force the use of overridden values */
     unsafeForceOverrideConfig?: boolean;
   };
@@ -60,8 +59,6 @@ export type HypercertStorageConfig = {
  */
 export type HypercertEvaluatorConfig = Omit<PartialTypedDataConfig, "address"> & {
   easContractAddress: string;
-  /** The Ethereum signer used to sign transactions. */
-  signer: ethers.Signer;
 };
 
 /**

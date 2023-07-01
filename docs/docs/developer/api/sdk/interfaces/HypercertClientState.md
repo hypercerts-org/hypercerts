@@ -29,19 +29,19 @@ The contract used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:122](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L122)
+[sdk/src/types/client.ts:120](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L120)
 
 ---
 
 ### indexer
 
-• **indexer**: [`default`](../classes/internal.default-2.md)
+• **indexer**: [`default`](../classes/internal.default-1.md)
 
 The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:120](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L120)
+[sdk/src/types/client.ts:118](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L118)
 
 ---
 
@@ -53,7 +53,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:116](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L116)
+[sdk/src/types/client.ts:114](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L114)
 
 ---
 
@@ -65,4 +65,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:118](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L118)
+[sdk/src/types/client.ts:116](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L116)

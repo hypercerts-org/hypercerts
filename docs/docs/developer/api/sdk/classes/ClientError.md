@@ -4,9 +4,15 @@
 
 An error that is caused by a problem with the client.
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`ClientError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -16,9 +22,6 @@ An error that is caused by a problem with the client.
 
 ### Properties
 
-- [\_\_type](ClientError.md#__type)
-- [message](ClientError.md#message)
-- [name](ClientError.md#name)
 - [payload](ClientError.md#payload)
 
 ## Constructors
@@ -36,59 +39,15 @@ Creates a new instance of the ClientError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Overrides
+
+Error.constructor
+
 #### Defined in
 
-[sdk/src/types/errors.ts:59](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L59)
+[sdk/src/types/errors.ts:25](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L25)
 
 ## Properties
-
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.ClientError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:37](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L37)
-
----
-
-### message
-
-• **message**: `string`
-
-The error message.
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:47](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L47)
-
----
-
-### name
-
-• **name**: `string` = `"ClientError"`
-
-The name of the error.
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:42](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L42)
-
----
 
 ### payload
 
@@ -102,8 +61,8 @@ Additional error payload.
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:52](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L52)
+[sdk/src/types/errors.ts:18](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L18)

@@ -4,11 +4,8 @@
 
 [internal](../modules/internal.md).default
 
-A class that provides indexing functionality for Hypercerts.
-
-## Implements
-
-- [`HypercertIndexerInterface`](../interfaces/HypercertIndexerInterface.md)
+The EasEvaluator class provides methods for signing off-chain attestations of evaluations.
+Schemas are stored on-chain in the Ethereum Attestation Service (EAS) contract.
 
 ## Table of contents
 
@@ -18,261 +15,117 @@ A class that provides indexing functionality for Hypercerts.
 
 ### Properties
 
-- [\_graphClient](internal.default-2.md#_graphclient)
-
-### Accessors
-
-- [graphClient](internal.default-2.md#graphclient)
+- [offChain](internal.default-2.md#offchain)
+- [readonly](internal.default-2.md#readonly)
+- [signer](internal.default-2.md#signer)
 
 ### Methods
 
-- [claimById](internal.default-2.md#claimbyid)
-- [claimsByOwner](internal.default-2.md#claimsbyowner)
-- [firstClaims](internal.default-2.md#firstclaims)
-- [fractionById](internal.default-2.md#fractionbyid)
-- [fractionsByClaim](internal.default-2.md#fractionsbyclaim)
-- [fractionsByOwner](internal.default-2.md#fractionsbyowner)
+- [getSignature](internal.default-2.md#getsignature)
+- [signOfflineEvaluation](internal.default-2.md#signofflineevaluation)
 
 ## Constructors
 
 ### constructor
 
-• **new default**(`options`)
+• **new default**(`config`)
 
-Creates a new instance of the `HypercertIndexer` class.
+Creates a new EasEvaluator instance.
 
 #### Parameters
 
-| Name                 | Type     | Description                                |
-| :------------------- | :------- | :----------------------------------------- |
-| `options`            | `Object` | The configuration options for the indexer. |
-| `options.graphName?` | `string` | -                                          |
+| Name     | Type                                                                       | Description                                              |
+| :------- | :------------------------------------------------------------------------- | :------------------------------------------------------- |
+| `config` | `Partial`<[`HypercertClientConfig`](../modules.md#hypercertclientconfig)\> | The configuration options for the EasEvaluator instance. |
 
 #### Defined in
 
-[sdk/src/indexer.ts:17](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L17)
+[sdk/src/evaluations/eas.ts:37](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L37)
 
 ## Properties
 
-### \_graphClient
+### offChain
 
-• `Private` **\_graphClient**: `Object`
+• **offChain**: `Offchain`
 
-The Graph client used by the indexer.
-
-#### Type declaration
-
-| Name                 | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ClaimById`          | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `id`: `string` }\>, `options?`: `unknown`) => `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>                                                                                                                                                                                                                                                                                                            |
-| `ClaimTokenById`     | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `claimTokenId`: `string` }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>                                                                                                                                                                                                                                                                                        |
-| `ClaimTokensByClaim` | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `claimId`: `string` ; `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\> |
-| `ClaimTokensByOwner` | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>    |
-| `ClaimsByOwner`      | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>              |
-| `RecentClaims`       | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>                                  |
+The Offchain instance used for signing off-chain attestations.
 
 #### Defined in
 
-[sdk/src/indexer.ts:11](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L11)
+[sdk/src/evaluations/eas.ts:24](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L24)
 
-## Accessors
+---
 
-### graphClient
+### readonly
 
-• `get` **graphClient**(): `Object`
-
-Gets the Graph client used by the indexer.
-
-#### Returns
-
-`Object`
-
-The Graph client.
-
-| Name                 | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ClaimById`          | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `id`: `string` }\>, `options?`: `unknown`) => `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>                                                                                                                                                                                                                                                                                                            |
-| `ClaimTokenById`     | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `claimTokenId`: `string` }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>                                                                                                                                                                                                                                                                                        |
-| `ClaimTokensByClaim` | (`variables`: [`Exact`](../modules/internal.md#exact)<{ `claimId`: `string` ; `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\> |
-| `ClaimTokensByOwner` | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>    |
-| `ClaimsByOwner`      | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>              |
-| `RecentClaims`       | (`variables?`: [`Exact`](../modules/internal.md#exact)<{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)<`number`\> }\>, `options?`: `unknown`) => `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>                                  |
-
-#### Implementation of
-
-[HypercertIndexerInterface](../interfaces/HypercertIndexerInterface.md).[graphClient](../interfaces/HypercertIndexerInterface.md#graphclient)
+• **readonly**: `boolean` = `true`
 
 #### Defined in
 
-[sdk/src/indexer.ts:25](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L25)
+[sdk/src/evaluations/eas.ts:31](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L31)
+
+---
+
+### signer
+
+• `Optional` **signer**: `Signer` & `TypedDataSigner`
+
+The TypedDataSigner instance used for signing typed data.
+
+#### Defined in
+
+[sdk/src/evaluations/eas.ts:29](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L29)
 
 ## Methods
 
-### claimById
+### getSignature
 
-▸ **claimById**(`id`): `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+▸ **getSignature**(`encodedData`, `recipient`, `schemaUid`): `Promise`<`SignedOffchainAttestation`\>
 
-Gets a claim by its ID.
+Gets a signature for an off-chain attestation.
 
 #### Parameters
 
-| Name | Type     | Description          |
-| :--- | :------- | :------------------- |
-| `id` | `string` | The ID of the claim. |
+| Name          | Type     | Description                                       |
+| :------------ | :------- | :------------------------------------------------ |
+| `encodedData` | `string` | The encoded data to sign.                         |
+| `recipient`   | `string` | The address of the recipient of the attestation.  |
+| `schemaUid`   | `string` | The UID of the schema to use for the attestation. |
 
 #### Returns
 
-`Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+`Promise`<`SignedOffchainAttestation`\>
 
-A Promise that resolves to the claim.
-
-#### Implementation of
-
-HypercertIndexerInterface.claimById
+- The signature for the attestation.
 
 #### Defined in
 
-[sdk/src/indexer.ts:46](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L46)
+[sdk/src/evaluations/eas.ts:62](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L62)
 
 ---
 
-### claimsByOwner
+### signOfflineEvaluation
 
-▸ **claimsByOwner**(`owner`, `params?`): `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+▸ **signOfflineEvaluation**(`evaluation`): `Promise`<`undefined` \| `SignedOffchainAttestation`\>
 
-Gets the claims owned by a given address.
+Signs an offline evaluation.
 
-#### Parameters
+**`Throws`**
 
-| Name     | Type                                       | Default value        | Description               |
-| :------- | :----------------------------------------- | :------------------- | :------------------------ |
-| `owner`  | `string`                                   | `undefined`          | The address of the owner. |
-| `params` | [`QueryParams`](../modules.md#queryparams) | `defaultQueryParams` | The query parameters.     |
-
-#### Returns
-
-`Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
-
-A Promise that resolves to the claims.
-
-#### Implementation of
-
-HypercertIndexerInterface.claimsByOwner
-
-#### Defined in
-
-[sdk/src/indexer.ts:35](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L35)
-
----
-
-### firstClaims
-
-▸ **firstClaims**(`params?`): `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
-
-Gets the most recent claims.
+- If the evaluation data is malformed.
 
 #### Parameters
 
-| Name     | Type                                       | Default value        | Description           |
-| :------- | :----------------------------------------- | :------------------- | :-------------------- |
-| `params` | [`QueryParams`](../modules.md#queryparams) | `defaultQueryParams` | The query parameters. |
+| Name         | Type                                             | Description                  |
+| :----------- | :----------------------------------------------- | :--------------------------- |
+| `evaluation` | [`EvaluationData`](../modules.md#evaluationdata) | The evaluation data to sign. |
 
 #### Returns
 
-`Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+`Promise`<`undefined` \| `SignedOffchainAttestation`\>
 
-A Promise that resolves to the claims.
-
-#### Implementation of
-
-HypercertIndexerInterface.firstClaims
+- The signature for the evaluation.
 
 #### Defined in
 
-[sdk/src/indexer.ts:56](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L56)
-
----
-
-### fractionById
-
-▸ **fractionById**(`fractionId`): `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
-
-Gets a claim token by its ID.
-
-#### Parameters
-
-| Name         | Type     | Description                |
-| :----------- | :------- | :------------------------- |
-| `fractionId` | `string` | The ID of the claim token. |
-
-#### Returns
-
-`Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
-
-A Promise that resolves to the claim token.
-
-#### Implementation of
-
-HypercertIndexerInterface.fractionById
-
-#### Defined in
-
-[sdk/src/indexer.ts:90](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L90)
-
----
-
-### fractionsByClaim
-
-▸ **fractionsByClaim**(`claimId`, `params?`): `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
-
-Gets the claim tokens for a given claim.
-
-#### Parameters
-
-| Name      | Type                                       | Default value        | Description           |
-| :-------- | :----------------------------------------- | :------------------- | :-------------------- |
-| `claimId` | `string`                                   | `undefined`          | The ID of the claim.  |
-| `params`  | [`QueryParams`](../modules.md#queryparams) | `defaultQueryParams` | The query parameters. |
-
-#### Returns
-
-`Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
-
-A Promise that resolves to the claim tokens.
-
-#### Implementation of
-
-HypercertIndexerInterface.fractionsByClaim
-
-#### Defined in
-
-[sdk/src/indexer.ts:79](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L79)
-
----
-
-### fractionsByOwner
-
-▸ **fractionsByOwner**(`owner`, `params?`): `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
-
-Gets the claim tokens owned by a given address.
-
-#### Parameters
-
-| Name     | Type                                       | Default value        | Description               |
-| :------- | :----------------------------------------- | :------------------- | :------------------------ |
-| `owner`  | `string`                                   | `undefined`          | The address of the owner. |
-| `params` | [`QueryParams`](../modules.md#queryparams) | `defaultQueryParams` | The query parameters.     |
-
-#### Returns
-
-`Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
-
-A Promise that resolves to the claim tokens.
-
-#### Implementation of
-
-HypercertIndexerInterface.fractionsByOwner
-
-#### Defined in
-
-[sdk/src/indexer.ts:67](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/indexer.ts#L67)
+[sdk/src/evaluations/eas.ts:95](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/eas.ts#L95)

@@ -4,9 +4,15 @@
 
 The provided value was undefined or empty
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`InvalidOrMissingError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -16,90 +22,47 @@ The provided value was undefined or empty
 
 ### Properties
 
-- [\_\_type](InvalidOrMissingError.md#__type)
-- [message](InvalidOrMissingError.md#message)
-- [name](InvalidOrMissingError.md#name)
 - [payload](InvalidOrMissingError.md#payload)
 
 ## Constructors
 
 ### constructor
 
-• **new InvalidOrMissingError**(`message`, `keyName`)
+• **new InvalidOrMissingError**(`message`, `payload?`)
+
+Creates a new instance of the InvalidOrMissingError class.
 
 #### Parameters
 
-| Name      | Type     |
-| :-------- | :------- |
-| `message` | `string` |
-| `keyName` | `string` |
+| Name       | Type     | Description               |
+| :--------- | :------- | :------------------------ |
+| `message`  | `string` | The error message.        |
+| `payload?` | `Object` | Additional error payload. |
+
+#### Overrides
+
+Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L90)
+[sdk/src/types/errors.ts:61](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L61)
 
 ## Properties
 
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.InvalidOrMissingError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:86](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L86)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:88](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L88)
-
----
-
-### name
-
-• **name**: `string` = `"InvalidOrMissingError"`
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:87](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L87)
-
----
-
 ### payload
 
-• **payload**: `Object`
+• `Optional` **payload**: `Object`
 
 Additional error payload.
 
-#### Type declaration
+#### Index signature
 
-| Name      | Type     |
-| :-------- | :------- |
-| `keyName` | `string` |
+▪ [key: `string`]: `unknown`
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:89](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L89)
+[sdk/src/types/errors.ts:54](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L54)
