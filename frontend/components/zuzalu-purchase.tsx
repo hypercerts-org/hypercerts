@@ -176,7 +176,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
 
   const { className, children } = props;
   const { address, isConnected } = useAccountLowerCase();
-  const { data: balance } = useBalance();
+  const { data: balance } = useBalance({ address: address as `0x${string}` });
   const { chain } = useNetwork();
   const { push } = useRouter();
   const confetti = useConfetti();
@@ -207,7 +207,6 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
       currentErrors["connection"] =
         "You appear to not be connected. Please connect your wallet";
     }
-    console.log(`address? ${address}`);
 
     if (!address || !isAddress(address)) {
       console.log("No address found");
@@ -224,11 +223,12 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
     if (!chain) {
       console.log("No chain found");
       currentErrors["chain"] =
-        "No connection chain found. Please connect your wallet";
+        "No connected chain found. Please connect your wallet";
     }
 
     if (chain && chain.id !== CHAIN_ID) {
-      console.log(`On wrong network. Expect ${CHAIN_ID} Saw ${chain?.id}`);
+      console.log(`On wrong network HERE. Expect ${CHAIN_ID} Saw ${chain?.id}`);
+
       currentErrors["chain"] = `Wrong network. Please connect to ${CHAIN_ID}`;
     }
 
@@ -311,24 +311,6 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
         initialValues={{ ...DEFAULT_FORM_DATA }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          // Check for errors
-          if (errors) {
-            for (const error in errors) {
-              toast(errors[error], {
-                type: "error",
-              });
-            }
-
-            return;
-          }
-
-          if (!writeable) {
-            toast("Cannot execute transaction. Check logs for errors", {
-              type: "error",
-            });
-            return;
-          }
-
           if (ethValue <= 0) {
             console.warn("No values selected");
             toast(`Please select some hypercerts`, { type: "error" });
