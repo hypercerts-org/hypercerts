@@ -1,18 +1,13 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / TypedError
+[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / CustomError
 
-# Interface: TypedError
+# Interface: CustomError
 
 An interface for errors that have a specific type.
-
-## Hierarchy
-
-- `Error`
-
-  ↳ **`TypedError`**
 
 ## Implemented by
 
 - [`ClientError`](../classes/ClientError.md)
+- [`ConfigurationError`](../classes/ConfigurationError.md)
 - [`FetchError`](../classes/FetchError.md)
 - [`InvalidOrMissingError`](../classes/InvalidOrMissingError.md)
 - [`MalformedDataError`](../classes/MalformedDataError.md)
@@ -25,22 +20,9 @@ An interface for errors that have a specific type.
 
 ### Properties
 
-- [\_\_type](TypedError.md#__type)
-- [payload](TypedError.md#payload)
+- [payload](CustomError.md#payload)
 
 ## Properties
-
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md)
-
-The type of error.
-
-#### Defined in
-
-[sdk/src/types/errors.ts:22](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L22)
-
----
 
 ### payload
 
@@ -54,4 +36,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:27](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L27)
+[sdk/src/types/errors.ts:8](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L8)

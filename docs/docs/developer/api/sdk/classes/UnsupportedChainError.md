@@ -5,9 +5,15 @@
 This blockchain is not yet supported
 Please file an issue
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`UnsupportedChainError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -17,90 +23,50 @@ Please file an issue
 
 ### Properties
 
-- [\_\_type](UnsupportedChainError.md#__type)
-- [message](UnsupportedChainError.md#message)
-- [name](UnsupportedChainError.md#name)
 - [payload](UnsupportedChainError.md#payload)
 
 ## Constructors
 
 ### constructor
 
-• **new UnsupportedChainError**(`message`, `chainID`)
+• **new UnsupportedChainError**(`message`, `payload?`)
+
+Creates a new instance of the UnsupportedChainError class.
 
 #### Parameters
 
-| Name      | Type                 |
-| :-------- | :------------------- |
-| `message` | `string`             |
-| `chainID` | `string` \| `number` |
+| Name              | Type                                | Description               |
+| :---------------- | :---------------------------------- | :------------------------ |
+| `message`         | `string`                            | The error message.        |
+| `payload?`        | `Object`                            | Additional error payload. |
+| `payload.chainID` | `undefined` \| `string` \| `number` | -                         |
+
+#### Overrides
+
+Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:175](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L175)
+[sdk/src/types/errors.ts:152](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L152)
 
 ## Properties
 
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.UnsupportedChainError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:171](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L171)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:173](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L173)
-
----
-
-### name
-
-• **name**: `string` = `"UnsupportedChain"`
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:172](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L172)
-
----
-
 ### payload
 
-• **payload**: `Object`
+• `Optional` **payload**: `Object`
 
 Additional error payload.
 
 #### Type declaration
 
-| Name      | Type                 |
-| :-------- | :------------------- |
-| `chainID` | `string` \| `number` |
+| Name      | Type                                |
+| :-------- | :---------------------------------- |
+| `chainID` | `undefined` \| `string` \| `number` |
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:174](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L174)
+[sdk/src/types/errors.ts:145](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L145)

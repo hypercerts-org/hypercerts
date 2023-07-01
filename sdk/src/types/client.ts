@@ -13,6 +13,7 @@ export type SupportedChainIds = 5 | 10;
  * Hypercert contract interface.
  * @notice hacky loop to get typedoc to generate all the docs
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface HypercertMinter extends ContractInterface {}
 
 /**

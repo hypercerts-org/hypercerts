@@ -74,7 +74,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:202](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L202)
+[sdk/src/types/client.ts:200](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L200)
 
 ---
 
@@ -106,7 +106,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:177](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L177)
+[sdk/src/types/client.ts:175](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L175)
 
 ---
 
@@ -122,7 +122,7 @@ The contract used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:122](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L122)
+[sdk/src/types/client.ts:120](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L120)
 
 ---
 
@@ -157,13 +157,13 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:150](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L150)
+[sdk/src/types/client.ts:148](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L148)
 
 ---
 
 ### indexer
 
-• **indexer**: [`default`](../classes/internal.default-2.md)
+• **indexer**: [`default`](../classes/internal.default-1.md)
 
 The indexer used by the client.
 
@@ -173,7 +173,7 @@ The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:120](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L120)
+[sdk/src/types/client.ts:118](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L118)
 
 ---
 
@@ -205,7 +205,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:170](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L170)
+[sdk/src/types/client.ts:168](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L168)
 
 ---
 
@@ -239,7 +239,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:136](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L136)
+[sdk/src/types/client.ts:134](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L134)
 
 ---
 
@@ -273,7 +273,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:186](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L186)
+[sdk/src/types/client.ts:184](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L184)
 
 ---
 
@@ -289,7 +289,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:116](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L116)
+[sdk/src/types/client.ts:114](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L114)
 
 ---
 
@@ -322,7 +322,7 @@ A Promise that resolves to the transaction receipt
 
 #### Defined in
 
-[sdk/src/types/client.ts:163](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L163)
+[sdk/src/types/client.ts:161](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L161)
 
 ---
 
@@ -338,4 +338,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:118](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/client.ts#L118)
+[sdk/src/types/client.ts:116](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L116)

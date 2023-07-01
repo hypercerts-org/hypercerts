@@ -4,9 +4,15 @@
 
 Schema could not be loaded
 
+## Hierarchy
+
+- `Error`
+
+  ↳ **`UnknownSchemaError`**
+
 ## Implements
 
-- [`TypedError`](../interfaces/TypedError.md)
+- [`CustomError`](../interfaces/CustomError.md)
 
 ## Table of contents
 
@@ -16,9 +22,6 @@ Schema could not be loaded
 
 ### Properties
 
-- [\_\_type](UnknownSchemaError.md#__type)
-- [message](UnknownSchemaError.md#message)
-- [name](UnknownSchemaError.md#name)
 - [payload](UnknownSchemaError.md#payload)
 
 ## Constructors
@@ -27,63 +30,25 @@ Schema could not be loaded
 
 • **new UnknownSchemaError**(`message`, `payload?`)
 
+Creates a new instance of the UnknownSchemaError class.
+
 #### Parameters
 
-| Name                 | Type     |
-| :------------------- | :------- |
-| `message`            | `string` |
-| `payload?`           | `Object` |
-| `payload.schemaName` | `string` |
+| Name                 | Type     | Description               |
+| :------------------- | :------- | :------------------------ |
+| `message`            | `string` | The error message.        |
+| `payload?`           | `Object` | Additional error payload. |
+| `payload.schemaName` | `string` | -                         |
+
+#### Overrides
+
+Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:140](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L140)
+[sdk/src/types/errors.ts:115](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L115)
 
 ## Properties
-
-### \_\_type
-
-• **\_\_type**: [`ErrorType`](../enums/internal.ErrorType.md) = `ErrorType.UnknownSchemaError`
-
-The type of error.
-
-#### Implementation of
-
-[TypedError](../interfaces/TypedError.md).[\_\_type](../interfaces/TypedError.md#__type)
-
-#### Defined in
-
-[sdk/src/types/errors.ts:136](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L136)
-
----
-
-### message
-
-• **message**: `string`
-
-#### Implementation of
-
-TypedError.message
-
-#### Defined in
-
-[sdk/src/types/errors.ts:138](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L138)
-
----
-
-### name
-
-• **name**: `string` = `"UnknownSchemaError"`
-
-#### Implementation of
-
-TypedError.name
-
-#### Defined in
-
-[sdk/src/types/errors.ts:137](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L137)
-
----
 
 ### payload
 
@@ -99,8 +64,8 @@ Additional error payload.
 
 #### Implementation of
 
-[TypedError](../interfaces/TypedError.md).[payload](../interfaces/TypedError.md#payload)
+[CustomError](../interfaces/CustomError.md).[payload](../interfaces/CustomError.md#payload)
 
 #### Defined in
 
-[sdk/src/types/errors.ts:139](https://github.com/Network-Goods/hypercerts/blob/721e383/sdk/src/types/errors.ts#L139)
+[sdk/src/types/errors.ts:108](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L108)
