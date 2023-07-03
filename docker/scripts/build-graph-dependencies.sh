@@ -32,10 +32,14 @@ fi
 # by forcing us to tag with the platform.
 DOCKER_PLATFORM=${DOCKER_PLATFORM:-amd64}
 
-cd "${script_dir}/.."
-docker build \
-    -t "ghcr.io/hypercerts-org/graph-node-dev:${COMMIT_SHA}-${DOCKER_PLATFORM}" \
-    --build-arg "DOCKER_PLATFORM=${DOCKER_PLATFORM}" \
-    --build-arg "GRAPH_COMMIT_SHA=${COMMIT_SHA}" \
-    --push \
-    -f graph.Dockerfile .
+for stage in graph-node-build graph-node graph-node-debug
+do
+    docker build --target $stage \
+            --build-arg "COMMIT_SHA=$COMMIT_SHA" \
+            --build-arg "REPO_NAME=$REPO_NAME" \
+            --build-arg "BRANCH_NAME=$BRANCH_NAME" \
+            --build-arg "TAG_NAME=$TAG_NAME" \
+	        -t ghcr.io/hypercerts-org/$stage:${COMMIT_SHA}-${DOCKER_PLATFORM} \
+            --push \
+            -f docker/Dockerfile .
+done

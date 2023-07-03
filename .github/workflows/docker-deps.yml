@@ -38,6 +38,6 @@ jobs:
 
       - name: run build script
         run: |
-          bash "docker/scripts/build-graph.sh"
+          bash "docker/scripts/build-playwright.sh"
         env:
           DOCKER_PLATFORM: amd64
