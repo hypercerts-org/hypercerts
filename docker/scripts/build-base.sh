@@ -11,6 +11,6 @@ DOCKER_PLATFORM=${DOCKER_PLATFORM:-amd64}
 cd "$script_dir/.."
 
 docker build \
-    -t "ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM}" \
-    --push \
+    -t "ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM}" \
     -f base.Dockerfile .
+docker push "ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM}"
