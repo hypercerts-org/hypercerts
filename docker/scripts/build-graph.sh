@@ -46,7 +46,7 @@ do
 
 cd "${script_dir}/.."
 docker build \
-    -t "ghcr.io/hypercerts-org/graph-node-dev:${GRAPH_COMMIT_SHA}-${DOCKER_PLATFORM}" \
+    -t "ghcr.io/hypercerts-org/graph-node-dev:${COMMIT_SHA}-${DOCKER_PLATFORM}" \
     --build-arg "DOCKER_PLATFORM=${DOCKER_PLATFORM}" \
     --build-arg "GRAPH_COMMIT_SHA=${COMMIT_SHA}" \
     --push \
