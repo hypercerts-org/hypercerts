@@ -42,7 +42,7 @@ do
 	        -t ghcr.io/hypercerts-org/$stage:${COMMIT_SHA}-${DOCKER_PLATFORM} \
             --push \
             -f docker/Dockerfile .
-# done
+done
 
 cd "${script_dir}/.."
 docker build \

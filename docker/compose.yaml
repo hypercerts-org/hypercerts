@@ -160,7 +160,7 @@ services:
       timeout: 5s
       retries: 5
   graph:
-    image: ghcr.io/hypercerts-org/graph-node-dev:1.0-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/graph-node-dev:6f907fcb75f23a3b3ed27dde0cb1eb3758a09ec3-${DOCKER_PLATFORM:-amd64}
     depends_on:
       postgres:
         condition: service_healthy

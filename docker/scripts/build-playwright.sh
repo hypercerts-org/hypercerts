@@ -12,7 +12,5 @@ cd "$script_dir/.."
 
 docker build \
     -t "ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM}" \
-    --build-arg "DOCKER_PLATFORM=${DOCKER_PLATFORM}" \
-    --build-arg "GRAPH_COMMIT_SHA=${COMMIT_SHA}" \
     --push \
-    -f graph.Dockerfile
+    -f playwright.Dockerfile .
