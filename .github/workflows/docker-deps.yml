@@ -7,11 +7,11 @@ on:
       #- main
       - ravenac95/854-* # just filter for this branch for now. FIXME
   workflow_dispatch:
-    # inputs:
-    #   script_name:
-    #     description: name of the docker script to execute (without the .sh)
-    #     required: true
-    #     type: string
+    inputs:
+      script_name:
+        description: name of the docker script to execute (without the .sh)
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -20,6 +20,9 @@ jobs:
   docker-build-and-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
