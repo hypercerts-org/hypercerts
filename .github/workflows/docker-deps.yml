@@ -1,6 +1,10 @@
 # Builds and pushes docker dependencies used in the hypercerts docker-compose.
 name: docker-deps
 
+
+env:
+  DOCKER_PLATFORM: amd64
+
 on: 
   push:
     branches:
@@ -36,26 +40,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: run build base
+        run: |
+          bash "docker/scripts/build-base.sh"
+
       - name: run build script
         run: |
           bash "docker/scripts/build-playwright.sh"
-        env:
-          DOCKER_PLATFORM: amd64
       
       - name: run build graph-deps
         run: |
           bash "docker/scripts/build-graph-dependencies.sh"
-        env:
-          DOCKER_PLATFORM: amd64
 
       - name: run build graph
         run: |
           bash "docker/scripts/build-graph.sh"
-        env:
-          DOCKER_PLATFORM: amd64
-
-      - name: run build base
-        run: |
-          bash "docker/scripts/build-base.sh"
-        env:
-          DOCKER_PLATFORM: amd64
