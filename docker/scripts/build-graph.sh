@@ -42,12 +42,12 @@ do
 	        -t ghcr.io/hypercerts-org/$stage:${COMMIT_SHA}-${DOCKER_PLATFORM} \
             --push \
             -f docker/Dockerfile .
-done
+# done
 
 cd "${script_dir}/.."
 docker build \
-    -t "ghcr.io/hypercerts-org/graph-node-dev:1.0-${DOCKER_PLATFORM}" \
+    -t "ghcr.io/hypercerts-org/graph-node-dev:${GRAPH_COMMIT_SHA}-${DOCKER_PLATFORM}" \
     --build-arg "DOCKER_PLATFORM=${DOCKER_PLATFORM}" \
     --build-arg "GRAPH_COMMIT_SHA=${COMMIT_SHA}" \
     --push \
-    -f graph.Dockerfile
+    -f graph.Dockerfile .
