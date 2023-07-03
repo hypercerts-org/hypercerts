@@ -13,7 +13,7 @@ volumes:
 
 services:
   install:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: yarn install --non-interactive --frozen-lockfile
     volumes:
@@ -23,7 +23,7 @@ services:
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
   localchain:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     ports:
       - "${FRONTEND_RPC_PORT}:8545"
     working_dir: /usr/src/app/contracts
@@ -44,7 +44,7 @@ services:
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
   after_localchain:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: bash docker/after_localchain.sh
     depends_on:
@@ -79,7 +79,7 @@ services:
       - ipfs_staging:/ipfs_staging
       - ipfs_data:/ipfs_data
   tx_client:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: docker/tx_client.sh
     depends_on:
@@ -95,7 +95,7 @@ services:
   frontend:
     profiles:
       - testing
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     ports:
       - "${FRONTEND_PORT}:3000"
@@ -160,7 +160,7 @@ services:
       timeout: 5s
       retries: 5
   graph:
-    image: ghcr.io/hypercerts-org/graph-node-dev:1.0
+    image: ghcr.io/hypercerts-org/graph-node-dev:1.0-${DOCKER_PLATFORM:-amd64}
     depends_on:
       postgres:
         condition: service_healthy
@@ -200,7 +200,7 @@ services:
     ports:
       - "${FRONTEND_GRAPH_HTTP_PORT}:80"
   after_graph:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0
+    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     depends_on:
       graph:
         condition: service_healthy
@@ -213,7 +213,7 @@ services:
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
   playwright:
-    image: ghcr.io/hypercerts-org/playwright:v1.35.0
+    image: ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: docker/run_tests.sh
     depends_on:

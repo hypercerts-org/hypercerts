@@ -12,6 +12,9 @@ then
     REPO_NAME="Checkout of $(git remote get-url origin) at $(git describe --dirty)"
     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 fi
+
+DOCKER_PLATFORM=${DOCKER_PLATFORM:-amd64}
+
 for stage in graph-node-build graph-node graph-node-debug
 do
     docker buildx build --target $stage \
@@ -19,10 +22,8 @@ do
             --build-arg "REPO_NAME=$REPO_NAME" \
             --build-arg "BRANCH_NAME=$BRANCH_NAME" \
             --build-arg "TAG_NAME=$TAG_NAME" \
-            -t ghcr.io/hypercerts-org/$stage \
-	        -t ghcr.io/hypercerts-org/$stage:$COMMIT_SHA \
-            #--platform linux/amd64 \
-            --platform linux/arm64 \
+	        -t ghcr.io/hypercerts-org/$stage:${COMMIT_SHA}-${DOCKER_PLATFORM} \
+            --platform "linux/${DOCKER_PLATFORM}" \
             --push \
             -f docker/Dockerfile .
 done
