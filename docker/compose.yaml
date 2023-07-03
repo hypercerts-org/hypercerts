@@ -79,7 +79,7 @@ services:
       - ipfs_staging:/ipfs_staging
       - ipfs_data:/ipfs_data
   tx_client:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/node-dev-18:${NODE_DEV_VERSION}-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: docker/tx_client.sh
     depends_on:
@@ -95,7 +95,7 @@ services:
   frontend:
     profiles:
       - testing
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/node-dev-18:${NODE_DEV_VERSION}-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     ports:
       - "${FRONTEND_PORT}:3000"
@@ -160,7 +160,7 @@ services:
       timeout: 5s
       retries: 5
   graph:
-    image: ghcr.io/hypercerts-org/graph-node-dev:6f907fcb75f23a3b3ed27dde0cb1eb3758a09ec3-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/graph-node-dev:${GRAPH_NODE_DEV_VERSION}-${DOCKER_PLATFORM:-amd64}
     depends_on:
       postgres:
         condition: service_healthy
@@ -200,7 +200,7 @@ services:
     ports:
       - "${FRONTEND_GRAPH_HTTP_PORT}:80"
   after_graph:
-    image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/node-dev-18:${NODE_DEV_VERSION}-${DOCKER_PLATFORM:-amd64}
     depends_on:
       graph:
         condition: service_healthy
@@ -213,7 +213,7 @@ services:
       - contracts_modules:/usr/src/app/contracts/node_modules
       - graph_modules:/usr/src/app/graph/node_modules
   playwright:
-    image: ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM:-amd64}
+    image: ghcr.io/hypercerts-org/playwright:${PLAYWRIGHT_VERSION}-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
     command: docker/run_tests.sh
     depends_on:
