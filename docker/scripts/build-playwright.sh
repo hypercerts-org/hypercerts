@@ -12,5 +12,5 @@ cd "$script_dir/.."
 
 docker build \
     -t "ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM}" \
-    --push \
     -f playwright.Dockerfile .
+docker push "ghcr.io/hypercerts-org/playwright:v1.35.0-${DOCKER_PLATFORM}"
