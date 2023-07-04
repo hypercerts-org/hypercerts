@@ -25,6 +25,10 @@ task("test-tx-client", "For testing only: generates transactions")
       isOn = false;
     });
 
+    process.on("SIGKILL", () => {
+      isOn = false;
+    });
+
     while (isOn) {
       let tx = {
         to: dest.address,

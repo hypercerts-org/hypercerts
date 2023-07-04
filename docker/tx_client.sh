@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 source /usr/src/app/node_modules/app.env.sh
 
