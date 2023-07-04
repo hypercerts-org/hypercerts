@@ -36,8 +36,6 @@ test("should succeed to mint a token", async ({ page }) => {
   // ignore clicking on the links with the prefilled fields
   await navigateAndEnsureWallet("/app/create", page);
 
-  await page.pause();
-
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
@@ -47,7 +45,7 @@ test("should succeed to mint a token", async ({ page }) => {
   // Check boxes
   await page.locator('input[name="agreeContributorsConsent"]').check();
   await page.locator('input[name="agreeTermsConditions"]').check();
-  await page.locator('button[class*="HypercertsCreate__button"]').click();
+  await page.locator('button[class*="HypercertsCreate__createButton"]').click();
   await metamask.confirmTransaction();
 
   await page.waitForURL("/app/dashboard");
@@ -69,7 +67,7 @@ test("should fail to mint a token - lacking description", async ({ page }) => {
   await page.locator('textarea[name="contributors"]').fill(contributors);
   await page.locator('input[name="agreeContributorsConsent"]').check();
   await page.locator('input[name="agreeTermsConditions"]').check();
-  await page.locator('button[class*="HypercertsCreate__button"]').click();
+  await page.locator('button[class*="HypercertsCreate__createButton"]').click();
 
   await expect(page.locator('textarea[name="contributors"]')).toHaveAttribute(
     "aria-invalid",

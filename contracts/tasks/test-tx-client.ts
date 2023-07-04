@@ -25,7 +25,7 @@ task("test-tx-client", "For testing only: generates transactions")
       isOn = false;
     });
 
-    process.on("SIGKILL", () => {
+    process.on("SIGINT", () => {
       isOn = false;
     });
 
