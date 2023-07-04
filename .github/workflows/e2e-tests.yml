@@ -56,4 +56,16 @@ jobs:
       - name: Run e2e tests
         run: |
           yarn e2e:ci-run-tests
+
+      - name: Output logs
+        if: always()
+        run: |
+          yarn e2e:ci-logs > e2e.ci.log
+      
+      - name: Save logs
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: e2e.logs
+          path: e2e.ci.log
       
