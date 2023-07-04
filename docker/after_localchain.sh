@@ -61,6 +61,10 @@ GRAPH_NAME=hypercerts-hardhat
 GRAPH_NAMESPACE=hypercerts-admin
 NEXT_PUBLIC_GRAPH_URL=${GRAPH_BASE_URL}/${GRAPH_NAMESPACE}/${GRAPH_NAME}
 
+cd $REPO_DIR
+# Run a full build (this seems to be necessary)
+yarn build
+
 cat <<EOF > /usr/src/app/node_modules/app.env.sh
 # Generate an environment file from the contract deployment
 export REPO_DIR=${REPO_DIR}

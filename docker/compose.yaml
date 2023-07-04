@@ -15,7 +15,7 @@ services:
   install:
     image: ghcr.io/hypercerts-org/node-dev-18:1.0-${DOCKER_PLATFORM:-amd64}
     working_dir: /usr/src/app
-    command: yarn install --non-interactive --frozen-lockfile
+    command: bash docker/install.sh
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
