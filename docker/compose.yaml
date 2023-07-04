@@ -260,7 +260,7 @@ services:
     profiles:
       - testing
     ports:
-      - "9300-9400:9300-9400"
+      - 5900:5900
     volumes:
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules

@@ -36,6 +36,8 @@ test("should succeed to mint a token", async ({ page }) => {
   // ignore clicking on the links with the prefilled fields
   await navigateAndEnsureWallet("/app/create", page);
 
+  await page.pause();
+
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
