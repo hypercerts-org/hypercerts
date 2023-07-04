@@ -257,12 +257,13 @@ services:
       - FRONTEND_RPC_HOST=localchain
       - FRONTEND_RPC_PORT=8545
       - CI=${CI}
+      - DEBIAN_FRONTEND=noninteractive
     profiles:
       - testing
     ports:
       - 5900:5900
     volumes:
-      - ./nginx/e2e_nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/e2e_proxy.conf:/etc/nginx/e2e_proxy.conf
       - ../:/usr/src/app
       - node_modules:/usr/src/app/node_modules
       - sdk_modules:/usr/src/app/sdk/node_modules

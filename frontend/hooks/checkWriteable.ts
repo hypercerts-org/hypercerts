@@ -54,6 +54,7 @@ const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
 
     if (chain) {
       console.log(`on some chain ${chain.id}`);
+      console.log(chain);
     }
 
     if (chain && chain.id !== chainID) {

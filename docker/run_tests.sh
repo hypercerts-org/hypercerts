@@ -6,10 +6,10 @@ source /usr/src/app/node_modules/app.env.sh
 cd "${REPO_DIR}"
 
 export DISPLAY=:99
-apt-get install nginx
+apt-get install -y nginx 
 
 echo "starting nginx"
-nginx -c /etc/nginx/nginx.conf
+nginx -c /etc/nginx/e2e_proxy.conf
 
 echo "starting xvfb"
 Xvfb "${DISPLAY}" -ac -listen tcp -screen 0 1200x800x24 &
