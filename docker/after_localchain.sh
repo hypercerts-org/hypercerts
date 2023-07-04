@@ -7,7 +7,9 @@ set -euxo pipefail
 REPO_DIR=${REPO_DIR:-}
 LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS:-}
 deploy_json=/deploy.json
+
 export LOCALHOST_NETWORK_URL=http://localchain:8545
+export NEXT_PUBLIC_DEFAULT_CHAIN_ID=31337
 
 function hardhat_local() {
     yarn hardhat --network localhost $@
@@ -32,7 +34,10 @@ fi
 # Rebuild the project if necessary
 # TODO this is failing in docker. Need to figure out why. Probably dude to shared vms
 cd "${REPO_DIR}"
-#yarn build
+yarn build:contracts
+yarn build:defender
+yarn build:graph
+yarn build:sdk
 
 cd "${REPO_DIR}/contracts"
 
@@ -86,4 +91,11 @@ export DOCKER_INTERNAL_IPFS_URL=http://ipfs:5001
 export PLASMIC_PROJECT_ID="$PLASMIC_PROJECT_ID"
 export PLASMIC_PROJECT_API_TOKEN="$PLASMIC_PROJECT_API_TOKEN"
 export LOCALHOST_NETWORK_URL=${LOCALHOST_NETWORK_URL}
+export NEXT_PUBLIC_NFT_STORAGE_TOKEN=${NEXT_PUBLIC_NFT_STORAGE_TOKEN}
+export NEXT_PUBLIC_WEB3_STORAGE_TOKEN=${NEXT_PUBLIC_WEB3_STORAGE_TOKEN}
+export NEXT_PUBLIC_WALLETCONNECT_ID=${NEXT_PUBLIC_WALLETCONNECT_ID}
+export NEXT_PUBLIC_DOMAIN=${NEXT_PUBLIC_DOMAIN}
+export NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+export NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+export NEXT_PUBLIC_SUPABASE_TABLE=${NEXT_PUBLIC_SUPABASE_TABLE}
 EOF

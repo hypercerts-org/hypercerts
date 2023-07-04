@@ -4,4 +4,4 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
 RUN apt-get update && \
-    apt-get install -y fluxbox x11vnc
+    apt-get install -y xvfb fluxbox x11vnc

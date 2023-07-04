@@ -1,0 +1,7 @@
+@@ -4,4 +4,4 @@
+ ENV TZ=UTC
+ 
+ RUN apt-get update && \
+-    apt-get install -y fluxbox x11vnc
+\ No newline at end of line
++    apt-get install -y fluxbox x11vnc
