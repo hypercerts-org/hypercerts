@@ -67,9 +67,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "yarn dev:serve-e2e",
+    command: "sleep 1000000",
     url: `http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
     timeout: 200000,
   },
 });
