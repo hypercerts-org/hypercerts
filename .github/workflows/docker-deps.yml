@@ -2,10 +2,6 @@
 name: docker-deps
 
 on: 
-  push:
-    branches:
-      #- main
-      - ravenac95/854-* # just filter for this branch for now. FIXME
   workflow_dispatch:
     inputs:
       script_name:
