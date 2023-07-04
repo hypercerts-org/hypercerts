@@ -232,10 +232,6 @@ services:
       frontend:
         condition: service_healthy
     environment:
-      - FRONTEND_HOST=frontend
-      - FRONTEND_PORT=3000
-      - FRONTEND_RPC_HOST=localchain
-      - FRONTEND_RPC_PORT=8545
       - CI=${CI}
       - DEBIAN_FRONTEND=noninteractive
     profiles:
