@@ -68,5 +68,4 @@ jobs:
         with:
           name: e2e.ci.log
           path: e2e.ci.log
-          retention-days: 5
       
