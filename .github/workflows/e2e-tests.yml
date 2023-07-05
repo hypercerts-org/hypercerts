@@ -32,6 +32,8 @@ concurrency:
 
 jobs:
   e2e-tests:
+    name: e2e-tests
+    environment: testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -53,7 +55,6 @@ jobs:
           node-version: "18.15.0"
           cache: "yarn"
 
-      
       - name: Run e2e tests
         run: |
           env && yarn e2e:ci-run-tests
