@@ -15,8 +15,7 @@ env:
 on:
   push:
     branches:
-      #- main
-      - ravenac95/854-* # just filter for this branch for now. FIXME
+      - main
   # Or when a pull request event occurs for a pull request against one of the
   # matched branches.
   pull_request:
