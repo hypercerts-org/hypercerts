@@ -52,10 +52,11 @@ jobs:
         with:
           node-version: "18.15.0"
           cache: "yarn"
+
       
       - name: Run e2e tests
         run: |
-          yarn e2e:ci-run-tests
+          env && yarn e2e:ci-run-tests
 
       - name: Output logs
         if: always()
