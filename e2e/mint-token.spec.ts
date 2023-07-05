@@ -11,17 +11,16 @@ async function navigateAndEnsureWallet(goto: string, page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  // These are very large tests we should have a long timeout
-  test.setTimeout(120000);
+  // These are very large tests we should have a long timeout this time out is
+  // for specific actions on the page. It can probably tweaked to be faster but
+  // our github runners aren't so fast.
   page.setDefaultTimeout(60000);
 
   await page.goto("/");
   await page.reload();
   await page.locator('button[data-testid="rk-connect-button"]').click();
-  await page.screenshot({ path: "debug1.png", fullPage: true });
 
   await page.locator('button[data-testid="rk-wallet-option-metaMask"]').click();
-  await page.screenshot({ path: "debug2.png", fullPage: true });
   await metamask.acceptAccess();
 });
 

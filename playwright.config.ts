@@ -10,7 +10,8 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 120000,
+  /* Give tests 3 mins to fail. These are large tests */
+  timeout: 180000,
   testDir: "./e2e",
   /* Running tests in parallel seems quite unreliable. Explicitly disable */
   fullyParallel: false,
@@ -29,6 +30,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    video: "on-first-retry",
     ignoreHTTPSErrors: true,
   },
 

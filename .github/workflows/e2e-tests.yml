@@ -66,8 +66,17 @@ jobs:
       
       - name: Save logs
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: e2e.ci.log
           path: e2e.ci.log
+          retention-days: 3
+      
+      - name: Save any test-results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-results
+          path: test-results/
+          retention-days: 3
       
