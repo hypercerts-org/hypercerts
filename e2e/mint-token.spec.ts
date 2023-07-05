@@ -11,11 +11,12 @@ async function navigateAndEnsureWallet(goto: string, page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  // These are very large tests we should have a long timeout
-  test.setTimeout(120000);
+  // These are very large tests we should have a long timeout this time out is
+  // for specific actions on the page. It can probably tweaked to be faster but
+  // our github runners aren't so fast.
   page.setDefaultTimeout(60000);
 
-  await page.goto("http://127.0.0.1:3000/");
+  await page.goto("/");
   await page.reload();
   await page.locator('button[data-testid="rk-connect-button"]').click();
 
@@ -32,7 +33,7 @@ test("should succeed to mint a token", async ({ page }) => {
 
   // Clicking to navigate to the "/app/create" path caused problems. For now,
   // ignore clicking on the links with the prefilled fields
-  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
+  await navigateAndEnsureWallet("/app/create", page);
 
   // Fill in required fields
   await page.locator('input[name="name"]').fill(name);
@@ -43,10 +44,10 @@ test("should succeed to mint a token", async ({ page }) => {
   // Check boxes
   await page.locator('input[name="agreeContributorsConsent"]').check();
   await page.locator('input[name="agreeTermsConditions"]').check();
-  await page.locator('button[class*="HypercertsCreate__button"]').click();
+  await page.locator('button[class*="HypercertsCreate__createButton"]').click();
   await metamask.confirmTransaction();
 
-  await page.waitForURL("http://127.0.0.1:3000/app/dashboard");
+  await page.waitForURL("/app/dashboard");
   await expect(page.getByText(testUUID)).toBeAttached({ timeout: 60000 });
 });
 
@@ -57,7 +58,7 @@ test("should fail to mint a token - lacking description", async ({ page }) => {
   const workScope = "Scope1, Scope2";
   const contributors = "";
 
-  await navigateAndEnsureWallet("http://127.0.0.1:3000/app/create", page);
+  await navigateAndEnsureWallet("/app/create", page);
   await page.locator('input[name="name"]').fill(name);
   await page.locator('textarea[name="description"]').fill(description);
   await page.locator('textarea[name="workScopes"]').fill(workScope);
@@ -65,7 +66,7 @@ test("should fail to mint a token - lacking description", async ({ page }) => {
   await page.locator('textarea[name="contributors"]').fill(contributors);
   await page.locator('input[name="agreeContributorsConsent"]').check();
   await page.locator('input[name="agreeTermsConditions"]').check();
-  await page.locator('button[class*="HypercertsCreate__button"]').click();
+  await page.locator('button[class*="HypercertsCreate__createButton"]').click();
 
   await expect(page.locator('textarea[name="contributors"]')).toHaveAttribute(
     "aria-invalid",

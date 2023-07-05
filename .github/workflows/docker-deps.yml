@@ -1,0 +1,44 @@
+# Builds and pushes docker dependencies used in the hypercerts docker-compose.
+name: docker-deps
+
+on: 
+  workflow_dispatch:
+    inputs:
+      script_name:
+        description: name of the docker script to execute (without the .sh)
+        required: true
+        type: string
+
+env:
+  DOCKER_PLATFORM: amd64
+  REGISTRY: ghcr.io
+
+jobs:
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: run build base
+        run: |
+          bash "docker/scripts/build-base.sh"
+
+      - name: run build script
+        run: |
+          bash "docker/scripts/build-playwright.sh"
+      
+      - name: run build graph-deps
+        run: |
+          bash "docker/scripts/build-graph-dependencies.sh"
+
+      - name: run build graph
+        run: |
+          bash "docker/scripts/build-graph.sh"

@@ -1,26 +1,18 @@
 # NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
-name: ci-default
+name: end-to-end tests
 env:
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
   PLASMIC_PROJECT_ID: ${{ vars.PLASMIC_PROJECT_ID }}
   PLASMIC_PROJECT_API_TOKEN: ${{ vars.PLASMIC_PROJECT_API_TOKEN }}
-  NEXT_PUBLIC_DEFAULT_CHAIN_ID: ${{ vars.NEXT_PUBLIC_DEFAULT_CHAIN_ID }}
-  NEXT_PUBLIC_CONTRACT_ADDRESS: ${{ vars.NEXT_PUBLIC_CONTRACT_ADDRESS }}
-  NEXT_PUBLIC_GRAPH_URL: ${{ vars.NEXT_PUBLIC_GRAPH_URL }}
-  NEXT_PUBLIC_RPC_URL: ${{ secrets.NEXT_PUBLIC_RPC_URL }}
   NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
   NEXT_PUBLIC_WEB3_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
   NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
   NEXT_PUBLIC_SUPABASE_TABLE: ${{ vars.NEXT_PUBLIC_SUPABASE_TABLE }}
   NEXT_PUBLIC_WALLETCONNECT_ID: ${{ secrets.NEXT_PUBLIC_WALLETCONNECT_ID }}
-  DOCKER_PLATFORM: "amd64"
+  DOCKER_PLATFORM: amd64
 
 # Trigger the workflow when:
 on:
-  # A push occurs to one of the matched branches.
   push:
     branches:
       - main
@@ -38,9 +30,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-and-test:
-    # NOTE: This name appears in GitHub's Checks API.
-    name: test
+  e2e-tests:
+    name: e2e-tests
     environment: testing
     runs-on: ubuntu-latest
     steps:
@@ -53,36 +44,38 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           # Fetch all history so gitlint can check the relevant commits.
           fetch-depth: "0"
-      - name: Set up Python 3
-        uses: actions/setup-python@v4
+      - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
-          python-version: "3.x"
+          version: '2.18.1'
+      
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: "18.15.0"
           cache: "yarn"
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Run e2e tests
+        run: |
+          env && yarn e2e:ci-run-tests
+
+      - name: Output logs
+        if: always()
+        run: |
+          yarn e2e:ci-logs > e2e.ci.log
+      
+      - name: Save logs
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          version: nightly-87bc53fc6c874bd4c92d97ed180b949e3a36d78c
-      - name: Install
-        run: |
-          yarn install --immutable
-        # Always run this step so that all linting errors can be seen at once.
+          name: e2e.ci.log
+          path: e2e.ci.log
+          retention-days: 3
+      
+      - name: Save any test-results
         if: always()
-      - name: Build
-        run: |
-          yarn build
-        # Always run this step so that all linting errors can be seen at once.
-        if: always()
-      - name: Lint
-        run: |
-          yarn lint
-        # Always run this step so that all linting errors can be seen at once.
-        if: always()
-      - name: Test
-        run: |
-          yarn test
-        # Always run this step so that all linting errors can be seen at once.
-        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-results
+          path: test-results/
+          retention-days: 3
+      

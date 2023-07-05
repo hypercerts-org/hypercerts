@@ -52,6 +52,11 @@ const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
         "No connection chain found. Please connect your wallet";
     }
 
+    if (chain) {
+      console.log(`on some chain ${chain.id}`);
+      console.log(chain);
+    }
+
     if (chain && chain.id !== chainID) {
       console.log(`On wrong network. Expect ${chainID} Saw ${chain?.id}`);
       currentErrors["chain"] = `Wrong network. Please connect to ${chainID}`;

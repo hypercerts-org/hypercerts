@@ -10,6 +10,8 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  /* Give tests 3 mins to fail. These are large tests */
+  timeout: 180000,
   testDir: "./e2e",
   /* Running tests in parallel seems quite unreliable. Explicitly disable */
   fullyParallel: false,
@@ -20,14 +22,15 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: process.env.CI ? "line" : "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: `http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}`,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    video: "on-first-retry",
     ignoreHTTPSErrors: true,
   },
 
@@ -66,9 +69,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "yarn dev:serve-e2e",
-    url: "http://127.0.0.1:3000",
-    reuseExistingServer: !process.env.CI,
+    command: "sleep 1000000",
+    url: `http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}`,
+    reuseExistingServer: true,
     timeout: 200000,
   },
 });
