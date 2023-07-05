@@ -20,8 +20,12 @@ Xvfb "${disp}" -ac -listen tcp -screen "${screen}" 1200x800x24 &
 echo "starting fluxbox"
 fluxbox -display "${disp}" -screen "${screen}" &
 
-echo "starting vnc with password 'test'"
-x11vnc -display "${DISPLAY}" -forever -bg -passwd password 
+if [[ -z "$ENABLE_VNC" ]]; then
+    echo "vnc disabled"
+else
+    echo "starting vnc with password 'test'"
+    x11vnc -display "${DISPLAY}" -forever -bg -passwd password 
+fi
 
 yarn playwright install-deps
 yarn playwright install

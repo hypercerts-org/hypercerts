@@ -235,6 +235,7 @@ services:
     environment:
       - CI=${CI}
       - DEBIAN_FRONTEND=noninteractive
+      - ENABLE_VNC=${ENABLE_VNC}
     profiles:
       - testing
     ports:
