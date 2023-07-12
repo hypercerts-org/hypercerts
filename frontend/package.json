@@ -49,6 +49,7 @@
     "lodash": "^4.17.21",
     "next": "latest",
     "papaparse": "^5.4.1",
+    "primereact": "^9.6.0",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

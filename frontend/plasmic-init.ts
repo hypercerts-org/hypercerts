@@ -1,3 +1,5 @@
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
@@ -22,9 +24,12 @@ import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
 import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
+import { ProjectDataTable } from "./components/project-browser/project-data-table";
+import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
+import { ProjectBrowser } from "./components/project-browser/project-browser";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -36,7 +41,7 @@ export const PLASMIC = initPlasmicLoader({
   ],
   // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
-  preview: false,
+  preview: true,
 });
 
 /**
@@ -585,4 +590,37 @@ PLASMIC.registerComponent(GenericHypercertTreemap, {
     },
   },
   importPath: "./components/generic-hypercert-treemap",
+});
+
+PLASMIC.registerComponent(ProjectBrowser, {
+  name: "ProjectBrowser",
+  description: "Project browser",
+  props: {},
+  importPath: "./components/project-browser",
+  defaultStyles: {
+    width: "100%",
+    minHeight: 300,
+  },
+});
+
+PLASMIC.registerComponent(ProjectsClientProvider, {
+  name: "ProjectsClientProvider",
+  description: "Provides the client for OS Observer",
+  props: {
+    variableName: {
+      type: "string",
+      defaultValue: "projectsClient",
+    },
+    children: "slot",
+    testData: "object",
+    useTestData: {
+      type: "boolean",
+      helpText: "render with test data",
+      editOnly: true,
+    },
+  },
+  providesData: true,
+  defaultStyles: {
+    width: "Full bleed",
+  },
 });
