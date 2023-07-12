@@ -1,0 +1,33 @@
+.project-data-table {
+    color: black;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.project-data-table :global(.repo) {
+    color: #444;
+    font-size: 10px;
+}
+
+.project-data-table thead td {
+    color: #aaa;
+    border-bottom: 2px #ccc solid;
+}
+
+.project-data-table tbody :global(.status) :global(.dot) {
+    height: 8px;
+    width: 8px;
+    border-radius: 50px;
+    background-color: #888;
+    display: inline-block;
+}
+
+.project-data-table tbody :global(.status.active) :global(.dot) {
+    background-color: blue;
+}
+
+.project-data-table tbody :global(.status.active) {
+    color: blue;
+}
