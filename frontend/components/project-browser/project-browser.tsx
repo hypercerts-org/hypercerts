@@ -8,8 +8,6 @@ import React from "react";
 import {
   IProjectFilter,
   IProjectsClient,
-  NullProjectsClient,
-  ProjectsClient,
   ProjectViewsCollection,
 } from "../../lib/projects";
 import {
@@ -58,7 +56,7 @@ export function ProjectBrowser(props: ProjectBrowserProps) {
       );
     };
     load();
-  }, [filterValue, filterInputValue, sortState]);
+  }, [client, filterValue, filterInputValue, sortState]);
 
   const renderFilteringControls = () => {
     return (

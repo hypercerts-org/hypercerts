@@ -8,9 +8,7 @@ type GrowthValue = {
 export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
   console.log(`props for growth`);
   console.log(props);
-  if (!props.value?.current || !props.value?.growth) {
-    console.log("invalid");
-    console.log(props);
+  if (!props.value?.current || typeof props.value?.growth !== "number") {
     throw new Error("Growth Field value is invalid");
   }
   const value = props.value as GrowthValue;

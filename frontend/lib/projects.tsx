@@ -1,10 +1,10 @@
-import { NotImplementedError } from "./errors";
 import {
   Collection,
   NullSortingState,
   RawCollection,
   SortState,
 } from "./data-table";
+import { generate } from "random-words";
 
 export class ProjectView {
   public readonly _id: string;
@@ -122,28 +122,83 @@ export class ProjectsClient implements IProjectsClient {
   }
 }
 
-export class StaticProjectsClient implements IProjectsClient {
+export class RandomTestProjectsClient implements IProjectsClient {
   filters: ProjectFilters;
   projects: ProjectViewsCollection;
+  size: number;
 
   public static loadFromRaw(
-    filters: ProjectFilters,
-    projectsRaw: RawCollection,
+    size: number,
+    filters?: ProjectFilters,
+    projectsRaw?: RawCollection,
   ) {
-    return new StaticProjectsClient(
-      filters,
-      ProjectViewsCollection.loadFromRaw(projectsRaw),
-    );
+    let projects: ProjectViewsCollection = ProjectViewsCollection.empty();
+    if (projectsRaw !== undefined) {
+      projects = ProjectViewsCollection.loadFromRaw(projectsRaw);
+    }
+    return new RandomTestProjectsClient(size, filters, projects);
   }
 
   // For testing purposes simply returns current known values.
-  constructor(filters: ProjectFilters, projects: ProjectViewsCollection) {
-    this.filters = filters;
-    this.projects = projects;
+  constructor(
+    size: number,
+    filters?: ProjectFilters,
+    projects?: ProjectViewsCollection,
+  ) {
+    this.size = size;
+    this.filters = filters ?? [];
+    this.projects = projects ?? ProjectViewsCollection.empty();
   }
 
   async listFilters(): Promise<Array<IProjectFilter>> {
     return this.filters;
+  }
+
+  randomProjects(count: number): Array<ProjectView> {
+    const projects = [];
+    for (let i = 0; i < count; i++) {
+      projects.push(this.randomProject());
+    }
+    return projects;
+  }
+
+  randomInt(max: number): number {
+    return Math.round(Math.random() * max);
+  }
+
+  randomGrowth() {
+    const negative = Math.random() > 0.5 ? -1 : 1;
+    return {
+      current: this.randomInt(100000),
+      growth: (negative * Math.round(Math.random() * 100)) / 100,
+    };
+  }
+
+  randomProjectField() {
+    const name = generate(1 + this.randomInt(2)).join(" ");
+    const repo = generate(2).join("/");
+    return {
+      name: name,
+      repo: repo,
+    };
+  }
+
+  randomProject(): ProjectView {
+    const statusMap: { [num: number]: string } = {
+      0: "Verified",
+      1: "Incomplete",
+      2: "Unknown",
+    };
+    return new ProjectView({
+      _id: `${Math.round(Math.random() * 100000)}`,
+      project: this.randomProjectField(),
+      status: statusMap[this.randomInt(2)],
+      dependencies: this.randomInt(1000000),
+      activeDevs: this.randomGrowth(),
+      devReach: this.randomGrowth(),
+      opMaus: this.randomGrowth(),
+      opMausReach: this.randomGrowth(),
+    });
   }
 
   async listProjects(
@@ -151,6 +206,15 @@ export class StaticProjectsClient implements IProjectsClient {
     dateRange: Date[],
     sorting: SortState,
   ): Promise<ProjectViewsCollection> {
-    return this.projects;
+    const items = this.projects.items;
+    items.push(...this.randomProjects(this.size));
+    console.log(items);
+    const raw = {
+      meta: {
+        sorting: sorting,
+      },
+      items: items,
+    };
+    return ProjectViewsCollection.loadFromRaw(raw);
   }
 }

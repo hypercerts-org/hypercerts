@@ -6,7 +6,8 @@ import {
   NullProjectsClient,
   ProjectFilters,
   ProjectsClient,
-  StaticProjectsClient,
+  ProjectViewsCollection,
+  RandomTestProjectsClient,
 } from "../../lib/projects";
 import { ProjectsClientContext } from "./project-contexts";
 
@@ -34,18 +35,22 @@ export function ProjectsClientProvider(props: ProjectsClientProviderProps) {
   React.useEffect(() => {
     // Should connect to client here
     if (useTestData) {
-      if (testData) {
-        setClient(
-          StaticProjectsClient.loadFromRaw(
-            testData.filterOptions,
-            testData.projects,
-          ),
-        );
-      }
+      const data = testData
+        ? testData
+        : { filterOptions: [], projects: ProjectViewsCollection.empty() };
+      console.log("loading test data");
+      setClient(
+        RandomTestProjectsClient.loadFromRaw(
+          10,
+          data.filterOptions,
+          data.projects,
+        ),
+      );
     } else {
-      setClient(new ProjectsClient());
+      //setClient(new ProjectsClient());
+      setClient(RandomTestProjectsClient.loadFromRaw(10));
     }
-  }, []);
+  }, [useTestData, testData]);
 
   return (
     <div className={className}>
