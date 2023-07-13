@@ -170,7 +170,7 @@ export interface FtcPurchaseFormProps {
   children?: ReactNode; // Form elements
 }
 
-export function ZuzaluPurchaseForm(props: FtcPurchaseFormProps) {
+export function FtcPurchaseForm(props: FtcPurchaseFormProps) {
   const [writeable, setWriteable] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>();
 
