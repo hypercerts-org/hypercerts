@@ -30,9 +30,9 @@ const MAX_TEXT_LENGTH = 100;
 
 // In USD
 const pricePerPercent: Omit<FtcPurchaseFormData, "textForSponsor"> = {
-  percentBuyingFtc001: 150,
-  percentBuyingFtc002: 150,
-  percentBuyingFtc003: 150,
+  percentBuyingFtc001: 1500,
+  percentBuyingFtc002: 300,
+  percentBuyingFtc003: 500,
   percentBuyingFtc004: 150,
   percentBuyingFtc005: 150,
   percentBuyingFtc006: 150,
