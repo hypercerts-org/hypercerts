@@ -83,9 +83,9 @@ export class NullProjectsClient implements IProjectsClient {
   }
 
   async listProjects(
-    filters: ProjectFilters,
-    dateRange: Date[],
-    sorting: SortState,
+    _filters: ProjectFilters,
+    _dateRange: Date[],
+    _sorting: SortState,
   ): Promise<ProjectViewsCollection> {
     console.log(
       "Null client in use. This should only happen during initialization.",
@@ -109,9 +109,9 @@ export class ProjectsClient implements IProjectsClient {
   }
 
   async listProjects(
-    filters: Array<IProjectFilter>,
-    dateRange: Date[],
-    sorting: SortState,
+    _filters: Array<IProjectFilter>,
+    _dateRange: Date[],
+    _sorting: SortState,
   ): Promise<ProjectViewsCollection> {
     return ProjectViewsCollection.loadFromRaw({
       items: [],

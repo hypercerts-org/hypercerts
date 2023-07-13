@@ -113,7 +113,7 @@ export function ProjectBrowser(props: ProjectBrowserProps) {
     [SortingDirection.Ascending]: (field: string) => {
       return { field: field, direction: SortingDirection.Descending };
     },
-    [SortingDirection.Descending]: (field: string) => {
+    [SortingDirection.Descending]: (_field: string) => {
       return NullSortingState;
     },
     [SortingDirection.None]: (field: string) => {
