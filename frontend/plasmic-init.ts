@@ -24,7 +24,6 @@ import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
 import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
 import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
-import { ProjectDataTable } from "./components/project-browser/project-data-table";
 import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";

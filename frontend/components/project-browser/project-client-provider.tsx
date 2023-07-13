@@ -1,11 +1,10 @@
 import React, { ReactNode } from "react";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { RawCollection, SortingDirection } from "../../lib/data-table";
+import { RawCollection } from "../../lib/data-table";
 import {
   IProjectsClient,
   NullProjectsClient,
   ProjectFilters,
-  ProjectsClient,
   ProjectViewsCollection,
   RandomTestProjectsClient,
 } from "../../lib/projects";

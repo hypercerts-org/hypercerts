@@ -27,7 +27,7 @@ export interface ProjectDataTableProps {
 }
 
 export function ProjectDataTable(props: ProjectDataTableProps) {
-  const { className, data, renderWithTestData, testData } = props;
+  const { className, data } = props;
   const config: DataTableConfig = {
     fieldOrder: [
       "project",
