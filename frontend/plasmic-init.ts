@@ -16,6 +16,7 @@ import {
 } from "./components/forms";
 import { BurnFractionButton } from "./components/burn-fraction-button";
 import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
+import { FtcPurchaseForm } from "./components/ftc-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
@@ -378,6 +379,22 @@ PLASMIC.registerComponent(ZuzaluPurchaseForm, {
   },
   providesData: true,
   importPath: "./components/zuzalu-purchase",
+});
+
+PLASMIC.registerComponent(FtcPurchaseForm, {
+  name: "FtcPurchaseForm",
+  description: "Funding the Commons Contribution Form",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/ftc-purchase",
 });
 
 PLASMIC.registerComponent(Tooltip, {
