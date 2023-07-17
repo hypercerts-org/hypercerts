@@ -415,6 +415,27 @@ function statusSort(a: ProjectStatus, b: ProjectStatus) {
   return a - b;
 }
 
+function generateGrowthValue(
+  valueRange: FakeDataRandomRange,
+  positiveOnly?: boolean,
+): GrowthMetric {
+  // Have some realistic growth numbers?
+  const start = randomIntRange(...valueRange);
+  const end = randomIntRange(...valueRange);
+  let delta = end - start;
+  if (positiveOnly && delta < 0) {
+    delta = 1;
+  }
+  let growth = 0;
+  if (start != 0) {
+    growth = delta / start;
+  }
+  return {
+    current: end,
+    growth: growth,
+  };
+}
+
 export class FakeProjectsClient implements IProjectsClient {
   private config: FakeDataConfig;
   private projects: ProjectView[];
@@ -445,22 +466,10 @@ export class FakeProjectsClient implements IProjectsClient {
           project: project.project,
           status: project.status,
           dependencies: project.dependencies,
-          activeDevs: {
-            current: randomIntRange(...project.activeDevs),
-            growth: Math.random(),
-          },
-          devReach: {
-            current: randomIntRange(...project.devReach),
-            growth: Math.random(),
-          },
-          opMaus: {
-            current: randomIntRange(...project.opMaus),
-            growth: Math.random(),
-          },
-          opMausReach: {
-            current: randomIntRange(...project.opMausReach),
-            growth: Math.random(),
-          },
+          activeDevs: generateGrowthValue(project.activeDevs),
+          devReach: generateGrowthValue(project.devReach),
+          opMaus: generateGrowthValue(project.opMaus),
+          opMausReach: generateGrowthValue(project.opMausReach),
           contracts: project.contracts,
           factories: project.factories,
           stars: randomIntRange(...project.stars),
@@ -554,7 +563,9 @@ export class FakeProjectsClient implements IProjectsClient {
 }
 
 // Fake data mapper
-export function fakeDataGenerator(): FakeDataConfig {
+export function fakeDataGenerator(
+  additionalGeneration: number,
+): FakeDataConfig {
   // Frontpage tags
   const frontPageTags = [
     "Optimism",
@@ -576,7 +587,7 @@ export function fakeDataGenerator(): FakeDataConfig {
         },
         status: ProjectStatus.Verified,
         dependencies: 15150,
-        activeDevs: [1, 2],
+        activeDevs: [1, 1],
         devReach: [20000, 30000],
         opMaus: [0, 0],
         opMausReach: [1000000, 2000000],
@@ -633,6 +644,168 @@ export function fakeDataGenerator(): FakeDataConfig {
         tags: frontPageTags,
         dependsOn: [],
       },
+      {
+        project: {
+          name: "OPCrate & MUD (Lattice)",
+          repo: "latticexyz",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 35,
+        activeDevs: [5, 15],
+        devReach: [400, 600],
+        opMaus: [0, 0],
+        opMausReach: [20000, 40000],
+        contracts: 100,
+        factories: 10,
+        stars: [400, 500],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "gitcoin",
+          repo: "gitcoinco",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 0,
+        activeDevs: [40, 50],
+        devReach: [40, 50],
+        opMaus: [20000, 40000],
+        opMausReach: [20000, 40000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "Foundry",
+          repo: "foundry-rs/foundry",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 419,
+        activeDevs: [5, 10],
+        devReach: [700, 900],
+        opMaus: [0, 0],
+        opMausReach: [18000, 30000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "Safe",
+          repo: "safe-global",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 28,
+        activeDevs: [40, 50],
+        devReach: [300, 400],
+        opMaus: [400, 1000],
+        opMausReach: [10000, 20000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "BuidlGuidl",
+          repo: "BuidlGuidl",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 64,
+        activeDevs: [5, 10],
+        devReach: [500, 800],
+        opMaus: [100, 200],
+        opMausReach: [1000, 3000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "0xSplits",
+          repo: "0xSplits",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 2,
+        activeDevs: [2, 5],
+        devReach: [10, 50],
+        opMaus: [200, 400],
+        opMausReach: [1000, 2000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "DefiLlama",
+          repo: "DefiLlama",
+        },
+        status: ProjectStatus.Incomplete,
+        dependencies: 0,
+        activeDevs: [10, 15],
+        devReach: [10, 15],
+        opMaus: [900, 2000],
+        opMausReach: [900, 2000],
+        contracts: 0,
+        factories: 0,
+        stars: [1000, 2000],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "rotki",
+          repo: "rotki",
+        },
+        status: ProjectStatus.Verified,
+        dependencies: 0,
+        activeDevs: [2, 10],
+        devReach: [2, 10],
+        opMaus: [0, 0],
+        opMausReach: [0, 0],
+        contracts: 0,
+        factories: 0,
+        stars: [1, 1],
+        tags: [],
+        releases: [10, 100],
+        dependsOn: [],
+      },
+      {
+        project: {
+          name: "eth.limo",
+          repo: "ethlimo",
+        },
+        status: ProjectStatus.Unknown,
+        dependencies: 0,
+        activeDevs: [0, 0],
+        devReach: [0, 0],
+        opMaus: [0, 0],
+        opMausReach: [0, 0],
+        contracts: 0,
+        factories: 0,
+        stars: [1, 1],
+        tags: [],
+        releases: [1, 1],
+        dependsOn: [],
+      },
       // Mirror (depends on ethers)
       {
         project: {
@@ -675,7 +848,7 @@ export function fakeDataGenerator(): FakeDataConfig {
 
   // Randomly Generate some projects
   const currentProjectRepos = fakeData.projects.map((p) => p.project.repo);
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < additionalGeneration; i++) {
     let dependsOn = [];
     const randomDepLen = randomInt(currentProjectRepos.length);
     for (let j = 0; j < randomDepLen; j++) {
@@ -695,8 +868,8 @@ export function fakeDataGenerator(): FakeDataConfig {
       dependencies: 100,
       activeDevs: [5, 15],
       devReach: [10, 20],
-      opMaus: [1000, 4000],
-      opMausReach: [1000, 4000],
+      opMaus: [100, 400],
+      opMausReach: [100, 400],
       contracts: randomInt(10),
       factories: randomIntRange(1, 10),
       stars: [1, 10],

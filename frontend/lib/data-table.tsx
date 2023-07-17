@@ -41,6 +41,7 @@ export interface DataTableCellComponentProps {
   value: any;
   field: DataTableField;
   data: any;
+  isExpanded: boolean;
   onExpand: (data: any, field: DataTableField) => void;
 }
 

@@ -122,6 +122,9 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                         field={field}
                         value={item[fieldName]}
                         data={item}
+                        isExpanded={
+                          expandedId == item.id && fieldExpanded == fieldName
+                        }
                         onExpand={onExpand}
                       />
                     </td>
