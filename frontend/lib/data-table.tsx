@@ -41,6 +41,7 @@ export interface DataTableCellComponentProps {
   value: any;
   field: DataTableField;
   data: any;
+  onExpand: (data: any, field: DataTableField) => void;
 }
 
 export type DataTableCellComponent = (
@@ -55,11 +56,16 @@ export type DataTableTypeConfig = {
   headerComponent?: DataTableHeaderComponent;
 };
 
-export interface Collection<TData> {
+export interface ViewType {
+  id: string;
+  [name: string]: any;
+}
+
+export interface Collection<T extends ViewType> {
   meta: {
     sorting: SortState;
   };
-  items: Array<TData>;
+  items: Array<T>;
 }
 
 export type RawCollection = Collection<any>;

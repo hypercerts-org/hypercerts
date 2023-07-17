@@ -24,10 +24,18 @@
     display: inline-block;
 }
 
-.project-data-table tbody :global(.status.active) :global(.dot) {
+.project-data-table tbody :global(.status.verified .dot) {
     background-color: blue;
 }
 
-.project-data-table tbody :global(.status.active) {
+.project-data-table tbody :global(.status.verified) {
     color: blue;
+}
+
+.project-data-table tbody :global(.status.incomplete .dot) {
+    background-color: orange;
+}
+
+.project-data-table tbody :global(.status.incomplete) {
+    color: orange;
 }

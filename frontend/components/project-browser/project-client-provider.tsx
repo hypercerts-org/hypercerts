@@ -2,6 +2,8 @@ import React, { ReactNode } from "react";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import { RawCollection } from "../../lib/data-table";
 import {
+  fakeDataGenerator,
+  FakeProjectsClient,
   IProjectsClient,
   NullProjectsClient,
   ProjectFilters,
@@ -47,7 +49,8 @@ export function ProjectsClientProvider(props: ProjectsClientProviderProps) {
       );
     } else {
       //setClient(new ProjectsClient());
-      setClient(RandomTestProjectsClient.loadFromRaw(10));
+      //setClient(RandomTestProjectsClient.loadFromRaw(10));
+      setClient(FakeProjectsClient.fromFakeConfig(fakeDataGenerator()));
     }
   }, [useTestData, testData]);
 

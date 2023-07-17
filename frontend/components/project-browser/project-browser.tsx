@@ -8,12 +8,14 @@ import React from "react";
 import {
   IProjectFilter,
   IProjectsClient,
+  IProjectView,
   ProjectViewsCollection,
 } from "../../lib/projects";
 import {
   NullSortingState,
   SortingDirection,
   SortState,
+  Collection,
 } from "../../lib/data-table";
 import { ProjectsClientContext } from "./project-contexts";
 
@@ -42,7 +44,7 @@ export function ProjectBrowser(props: ProjectBrowserProps) {
   const [sortState, setSortState] = React.useState<SortState>(NullSortingState);
 
   // Project state
-  const [projects, setProjects] = React.useState<ProjectViewsCollection>(
+  const [projects, setProjects] = React.useState<Collection<IProjectView>>(
     ProjectViewsCollection.empty(),
   );
 
