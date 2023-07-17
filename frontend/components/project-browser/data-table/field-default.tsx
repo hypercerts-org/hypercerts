@@ -20,7 +20,7 @@ export function DataTableFieldDefault(props: DataTableCellComponentProps) {
   }
   return (
     <div className={props.data._id}>
-      {props.value}
+      {value}
       {expandable}
     </div>
   );
