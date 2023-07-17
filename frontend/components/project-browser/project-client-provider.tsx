@@ -50,7 +50,7 @@ export function ProjectsClientProvider(props: ProjectsClientProviderProps) {
     } else {
       //setClient(new ProjectsClient());
       //setClient(RandomTestProjectsClient.loadFromRaw(10));
-      setClient(FakeProjectsClient.fromFakeConfig(fakeDataGenerator()));
+      setClient(FakeProjectsClient.fromFakeConfig(fakeDataGenerator(15)));
     }
   }, [useTestData, testData]);
 

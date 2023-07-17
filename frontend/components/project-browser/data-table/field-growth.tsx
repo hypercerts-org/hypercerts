@@ -1,3 +1,4 @@
+import { ExpandableIcon } from "./expandable-icon";
 import { DataTableCellComponentProps } from "../../../lib/data-table";
 
 type GrowthValue = {
@@ -32,7 +33,7 @@ export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
           props.onExpand(props.data, props.field);
         }}
       >
-        {"<expand>"}
+        <ExpandableIcon isExpanded={props.isExpanded} />
       </span>
     );
   }
