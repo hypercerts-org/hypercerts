@@ -15,6 +15,7 @@ import {
   IProjectDataTableControl,
   ProjectExpandedContext,
 } from "../project-contexts";
+import { Expandable } from "./expandable";
 import { DataTableFieldDefaultLabel } from "../data-table/field-label";
 import { DataTableFieldDefault } from "../data-table/field-default";
 
@@ -54,7 +55,9 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                 className={fieldName}
                 style={{ minWidth: field.minWidth, textAlign: field.textAlign }}
               >
-                <HeaderComponent key={fieldName} field={field} />
+                <div className="cell">
+                  <HeaderComponent key={fieldName} field={field} />
+                </div>
               </td>
             );
           })}
@@ -87,6 +90,7 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
       <tbody>
         {data.items.map((item) => {
           let expandedArea = <></>;
+          let rowClassName = "expandable";
           if (item.id === expandedId) {
             expandedArea = (
               <>
@@ -97,6 +101,7 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                 </ProjectExpandedContext.Provider>
               </>
             );
+            rowClassName += " expanded";
           }
           return (
             <>
@@ -117,22 +122,29 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                         textAlign: field.textAlign,
                       }}
                     >
-                      <CellComponent
-                        key={fieldName}
-                        field={field}
-                        value={item[fieldName]}
-                        data={item}
-                        isExpanded={
-                          expandedId == item.id && fieldExpanded == fieldName
-                        }
-                        onExpand={onExpand}
-                      />
+                      <div className="cell">
+                        <CellComponent
+                          key={fieldName}
+                          field={field}
+                          value={item[fieldName]}
+                          data={item}
+                          style={{ display: "inline" }}
+                        />
+                        <Expandable
+                          isExpanded={
+                            expandedId == item.id && fieldExpanded == fieldName
+                          }
+                          field={field}
+                          data={item}
+                          onExpand={onExpand}
+                        ></Expandable>
+                      </div>
                     </td>
                   );
                 })}
               </tr>
               <tr
-                className="expandable"
+                className={rowClassName}
                 style={{
                   display: item.id == expandedId ? "table-row" : "none",
                 }}

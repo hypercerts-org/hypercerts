@@ -15,12 +15,22 @@ export function ExpandedProjectDataTable(props: ExpandedProjectDataTableProp) {
   const expandedContext = useContext(ProjectExpandedContext);
   const [isLoading, setIsLoading] = React.useState(true);
   const [dependents, setDependents] = React.useState<ProjectView[]>([]);
+  const [animHeight, setAnimHeight] = React.useState(0);
+
+  const innerDivRef = React.useCallback(
+    (node: HTMLDivElement) => {
+      if (!node) {
+        return;
+      }
+      setAnimHeight(node.getBoundingClientRect().height);
+    },
+    [dependents, isLoading, expandedContext],
+  );
 
   React.useEffect(() => {
     setIsLoading(true);
     setDependents([]);
     async function getDependents() {
-      console.log("called");
       const data = expandedContext.data;
       if (!data) {
         setIsLoading(false);
@@ -33,9 +43,17 @@ export function ExpandedProjectDataTable(props: ExpandedProjectDataTableProp) {
     getDependents();
   }, [expandedContext]);
 
+  // React.useEffect(() => {
+  //   console.log("reported height");
+  //   console.log(innerDivRef.current?.offsetHeight);
+  //   setAnimHeight(innerDivRef.current?.offsetHeight || 0);
+  // }, [innerDivRef])
+
   const { className } = props;
   let config: DataTableConfig;
+  let title = "";
   if (expandedContext.field?.name == "opMausReach") {
+    title = "Dependent Contracts";
     config = {
       fieldOrder: ["project", "contracts", "factories", "opMausReach"],
       fields: {
@@ -82,6 +100,7 @@ export function ExpandedProjectDataTable(props: ExpandedProjectDataTableProp) {
       },
     };
   } else {
+    title = "Dependent Repos";
     config = {
       fieldOrder: ["project", "stars", "releases", "activeDevs"],
       fields: {
@@ -129,19 +148,41 @@ export function ExpandedProjectDataTable(props: ExpandedProjectDataTableProp) {
     };
   }
 
-  if (isLoading) {
-    return <div className={className}>Loading...</div>;
-  }
+  const innerStyle: React.CSSProperties = {
+    maxHeight: animHeight,
+    transition: "max-height 1s",
+    overflow: "hidden",
+  };
 
-  if (dependents.length === 0) {
-    return <div className={className}>No depedents</div>;
-  }
+  const classNames = "expanded " + className;
 
-  const dependentsCollection = ProjectViewsCollection.fromArray(dependents);
+  let inner = (
+    <div ref={innerDivRef} className="loading">
+      Loading...
+    </div>
+  );
+
+  if (!isLoading) {
+    if (dependents.length === 0) {
+      inner = (
+        <div ref={innerDivRef} className="no-data">
+          No dependents
+        </div>
+      );
+    } else {
+      const dependentsCollection = ProjectViewsCollection.fromArray(dependents);
+      inner = (
+        <div ref={innerDivRef}>
+          <div className="title">{title}</div>
+          <DataTable data={dependentsCollection} config={config}></DataTable>
+        </div>
+      );
+    }
+  }
 
   return (
-    <div className={className}>
-      <DataTable data={dependentsCollection} config={config}></DataTable>
+    <div className={classNames} style={innerStyle}>
+      {inner}
     </div>
   );
 }

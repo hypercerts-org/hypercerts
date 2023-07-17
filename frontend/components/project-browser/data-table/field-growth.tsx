@@ -1,4 +1,3 @@
-import { ExpandableIcon } from "./expandable-icon";
 import { DataTableCellComponentProps } from "../../../lib/data-table";
 
 type GrowthValue = {
@@ -7,8 +6,6 @@ type GrowthValue = {
 };
 
 export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
-  console.log(`props for growth`);
-  console.log(props);
   if (
     typeof props.value?.current !== "number" ||
     typeof props.value?.growth !== "number"
@@ -24,22 +21,8 @@ export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
     growthType = "negative";
   }
 
-  let expandable = <></>;
-  if (props.field.expandable) {
-    expandable = (
-      <span
-        onClick={(e) => {
-          e.preventDefault();
-          props.onExpand(props.data, props.field);
-        }}
-      >
-        <ExpandableIcon isExpanded={props.isExpanded} />
-      </span>
-    );
-  }
-
   return (
-    <div className={props.data._id + " growth-value"}>
+    <span className={props.data._id + " growth-value"} style={props.style}>
       {props.value.current.toLocaleString()}{" "}
       <span className="growth-type">
         (
@@ -48,7 +31,6 @@ export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
         </span>
         )
       </span>
-      {expandable}
-    </div>
+    </span>
   );
 }

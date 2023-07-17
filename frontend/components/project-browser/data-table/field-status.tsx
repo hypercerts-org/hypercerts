@@ -4,8 +4,11 @@ import { ProjectStatus } from "../../../lib/projects";
 export function DataTableFieldStatus(props: DataTableCellComponentProps) {
   const status = ProjectStatus[props.value];
   return (
-    <div className={props.data._id + " status " + status.toLowerCase()}>
+    <span
+      className={props.data._id + " status " + status.toLowerCase()}
+      style={props.style}
+    >
       <span className="dot"></span> {status}
-    </div>
+    </span>
   );
 }
