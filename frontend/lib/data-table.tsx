@@ -6,6 +6,7 @@ export type DataTableField = {
   label: string;
   sortable: boolean;
   expandable: boolean;
+  expandableCb?: (data: any) => boolean;
   minWidth?: number;
   textAlign?: Property.TextAlign;
 };
@@ -41,8 +42,7 @@ export interface DataTableCellComponentProps {
   value: any;
   field: DataTableField;
   data: any;
-  isExpanded: boolean;
-  onExpand: (data: any, field: DataTableField) => void;
+  style?: React.CSSProperties;
 }
 
 export type DataTableCellComponent = (
