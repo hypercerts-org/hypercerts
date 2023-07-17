@@ -1,11 +1,6 @@
 import React, { useContext } from "react";
 
-import {
-  RawCollection,
-  DataTableConfig,
-  DataTableHeaderComponent,
-  DataTableField,
-} from "../../lib/data-table";
+import { DataTableConfig } from "../../lib/data-table";
 import { ProjectExpandedContext } from "./project-contexts";
 import { ProjectViewsCollection, ProjectView } from "../../lib/projects";
 import { DataTableFieldGrowth } from "./data-table/field-growth";
