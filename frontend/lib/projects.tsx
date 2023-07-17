@@ -689,7 +689,7 @@ export function fakeDataGenerator(): FakeDataConfig {
     const fakeProject: FakeProjectConfig = {
       project: {
         name: generate(1).join("/"),
-        repo: generate(1 + randomInt(3)).join("/"),
+        repo: generate(1 + randomInt(1)).join("/"),
       },
       status: ProjectStatus.Unknown,
       dependencies: 100,
