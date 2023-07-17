@@ -9,117 +9,118 @@ datasource db {
 
 // Used to track a group of people, who may be producing many artifacts 
 model Organization {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt
 
   // Human-readable name for the organization
-  name            String
+  name        String
   // The GitHub organization slug (e.g "hypercerts-org")
-  githubOrg       String?       @unique
+  githubOrg   String? @unique
   // Human-readable description for the organization
-  description     String?
-
+  description String?
 
   // RELATIONS
   // Associated artifacts
-  artifacts       Artifact[]
+  artifacts Artifact[]
 }
 
 // A particular piece of work created by an organization
 // TODO: if we really want to have separate tables for wallets, repositories, etc, we can turn this into a union type later
 //    https://dev.to/reggi/working-with-unions-within-prisma-nm6
 model Artifact {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt
 
   // Relation to the Organization if one exists
-  organization    Organization?  @relation(fields: [organizationId], references: [id])
-  organizationId  Int?
-  
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId Int?
+
   // The type of artifact
-  type            ArtifactType
+  type      ArtifactType
   // The namespace of `name`
-  namespace       ArtifactNamespace
+  namespace ArtifactNamespace
   // A unique identifier for this artifact within the namespace
-  name            String
+  name      String
   // An optional URL to learn more about this artifact
-  url             String?
+  url       String?
   // Catch-all for other data we want to store
-  details         Json?
-  // A combination of the type, namespace, and name must be unique
-  @@unique([type, namespace, name])
+  details   Json?
 
   // RELATIONS
   // Associated events
   events          Event[]
   // Associated event source pointers
   eventSourcePtrs EventSourcePointer[]
+
+  // A combination of the type, namespace, and name must be unique
+  @@unique([type, namespace, name])
 }
 
 // Represents someone that is associated with an event
 // e.g. a source of funding, a code contributor, etc.
 model Contributor {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt
 
   // Currently just an arbitrary string
-  name            String
-  namespace       ContributorNamespace
+  name      String
+  namespace ContributorNamespace
   // TODO add more fields as necessary
 
   // RELATIONS
   // Associated events
-  events          Event[]
+  events Event[]
 }
 
 // An event that happened to an artifact
 // An event stream is identified by its (organization, artifact, eventType)
 model Event {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt
 
   // Relation to the Artifact
-  artifact        Artifact      @relation(fields: [artifactId], references: [id])
-  artifactId      Int
+  artifact      Artifact     @relation(fields: [artifactId], references: [id])
+  artifactId    Int
   // Type of event
-  eventType       EventType
+  eventType     EventType
   // Time the event happened
-  eventTime       DateTime      @db.Timestamptz(3)
+  eventTime     DateTime     @db.Timestamptz(3)
   // Who is the source of the event?
   // Relation to the Contributor
-  contributor     Contributor?  @relation(fields: [contributorId], references: [id])
-  contributorId   Int?
+  contributor   Contributor? @relation(fields: [contributorId], references: [id])
+  contributorId Int?
   // Depending on the event type, this may reflect some count or amount
-  amount          Float
+  amount        Float
   // Catch-all for other data we want to store with the event
-  details         Json?
+  details       Json?
 }
 
 model EventSourcePointer {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt
 
   // Relation to the Artifact
-  artifact        Artifact      @relation(fields: [artifactId], references: [id])
-  artifactId      Int
+  artifact   Artifact  @relation(fields: [artifactId], references: [id])
+  artifactId Int
   // Type of event
-  eventType       EventType
-  // This tuple must be unique!
-  @@unique([ artifactId, eventType ])
+  eventType  EventType
 
   // Used to run a command to get data
-  queryCommand    String
+  queryCommand String
   // Arguments to the query command
-  queryArgs       Json
+  queryArgs    Json
   // The relevant pointer information on where we left off
-  pointer         Json
+  pointer      Json
   // Should the we auto-crawl this source?
-  autocrawl       Boolean?
+  autocrawl    Boolean?
+
+  // This tuple must be unique!
+  @@unique([artifactId, eventType])
 }
 
 enum EventType {

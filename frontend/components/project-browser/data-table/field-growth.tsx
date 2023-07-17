@@ -8,7 +8,10 @@ type GrowthValue = {
 export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
   console.log(`props for growth`);
   console.log(props);
-  if (!props.value?.current || typeof props.value?.growth !== "number") {
+  if (
+    typeof props.value?.current !== "number" ||
+    typeof props.value?.growth !== "number"
+  ) {
     throw new Error("Growth Field value is invalid");
   }
   const value = props.value as GrowthValue;
@@ -20,12 +23,27 @@ export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
     growthType = "negative";
   }
 
+  let expandable = <></>;
+  if (props.field.expandable) {
+    expandable = (
+      <span
+        onClick={(e) => {
+          e.preventDefault();
+          props.onExpand(props.data, props.field);
+        }}
+      >
+        {"<expand>"}
+      </span>
+    );
+  }
+
   return (
     <div className={props.data._id + " growth-value"}>
       {props.value.current}{" "}
-      <span className={growthType}>
+      <span className={growthType.toLocaleLowerCase()}>
         ({Math.round(props.value.growth * 100)}%)
       </span>
+      {expandable}
     </div>
   );
 }

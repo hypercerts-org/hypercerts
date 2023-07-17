@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { IProjectsClient, NullProjectsClient } from "../../lib/projects";
-import { SortState } from "../../lib/data-table";
+import { SortState, DataTableField } from "../../lib/data-table";
 
 export interface IProjectDataTableControl {
   onSortChange: (field: string) => void;
@@ -14,3 +14,8 @@ export const ProjectDataTableContext = createContext<
 export const ProjectsClientContext = createContext<IProjectsClient>(
   new NullProjectsClient(),
 );
+
+export const ProjectExpandedContext = createContext<{
+  data?: any;
+  field?: DataTableField;
+}>({});
