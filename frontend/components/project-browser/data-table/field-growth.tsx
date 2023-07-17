@@ -41,8 +41,12 @@ export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
   return (
     <div className={props.data._id + " growth-value"}>
       {props.value.current.toLocaleString()}{" "}
-      <span className={growthType.toLocaleLowerCase()}>
-        ({Math.round(props.value.growth * 100)}%)
+      <span className="growth-type">
+        (
+        <span className={growthType}>
+          {Math.round(props.value.growth * 100).toLocaleString()}%
+        </span>
+        )
       </span>
       {expandable}
     </div>

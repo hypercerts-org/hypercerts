@@ -39,3 +39,15 @@
 .project-data-table tbody :global(.status.incomplete) {
     color: orange;
 }
+
+.project-data-table tbody :global(.growth-value .positive) {
+    color: green;
+}
+
+.project-data-table tbody :global(.growth-value .negative) {
+    color: red;
+}
+
+.project-data-table tbody :global(.growth-value .growth-type) {
+    color: gray;
+}
