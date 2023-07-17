@@ -33,6 +33,8 @@ export interface ProjectBase {
   releases?: number;
   stars?: number;
   tags?: string[];
+  // This field probably wouldn't exist like this but i'm hacking it in.
+  hasDependents?: boolean;
   dependsOn?: string[];
   [name: string]: any;
 }
@@ -84,6 +86,7 @@ export class ProjectView implements IProjectView {
   tags?: string[];
   dependsOn?: string[];
   releases?: number;
+  hasDependents?: boolean;
   [name: string]: any;
 
   constructor(raw: ProjectBase, client?: IProjectsClient) {
@@ -352,7 +355,6 @@ export class RandomTestProjectsClient implements IProjectsClient {
   ): Promise<ProjectViewsCollection> {
     const items = this.projects.items;
     items.push(...this.randomProjects(this.size));
-    console.log(items);
     const raw = {
       meta: {
         sorting: sorting,
@@ -490,11 +492,10 @@ export class FakeProjectsClient implements IProjectsClient {
     this.projects.forEach((project) => {
       const dependsOn = project.dependsOn || [];
       dependsOn.forEach((repo) => {
+        this.byRepoMap[repo].hasDependents = true;
         this.dependentsMap[repo].push(project);
       });
     });
-    console.log("dep map");
-    console.log(this.dependentsMap);
   }
 
   async listFilters(): Promise<ProjectFilters> {
@@ -530,9 +531,7 @@ export class FakeProjectsClient implements IProjectsClient {
 
     // Handle sorting
     const strategy = sortStrategies[sorting.field];
-    console.log(sorting.field);
     if (strategy !== undefined) {
-      console.log(`applying sort for ${sorting.field}`);
       items = items.sort((a, b) => {
         return strategy(a[sorting.field], b[sorting.field]);
       });
@@ -658,7 +657,7 @@ export function fakeDataGenerator(
         contracts: 100,
         factories: 10,
         stars: [400, 500],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -676,7 +675,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -694,7 +693,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -712,7 +711,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -730,7 +729,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -748,7 +747,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -766,7 +765,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1000, 2000],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },
@@ -784,7 +783,7 @@ export function fakeDataGenerator(
         contracts: 0,
         factories: 0,
         stars: [1, 1],
-        tags: [],
+        tags: frontPageTags,
         releases: [10, 100],
         dependsOn: [],
       },

@@ -55,7 +55,9 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                 className={fieldName}
                 style={{ minWidth: field.minWidth, textAlign: field.textAlign }}
               >
-                <HeaderComponent key={fieldName} field={field} />
+                <div className="cell">
+                  <HeaderComponent key={fieldName} field={field} />
+                </div>
               </td>
             );
           })}
@@ -120,7 +122,7 @@ export function DataTable<T extends ViewType>(props: DataTableProps<T>) {
                         textAlign: field.textAlign,
                       }}
                     >
-                      <div>
+                      <div className="cell">
                         <CellComponent
                           key={fieldName}
                           field={field}

@@ -4,6 +4,7 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 10px;
+
 }
 
 .project-data-table :global(.repo) {
@@ -60,4 +61,18 @@
 
 .project-data-table :global(.clickable) {
     cursor: pointer;
+}
+
+.project-data-table :global(div.expanded) {
+    background-color: #fafafa;
+}
+
+.project-data-table :global(div.expanded div.title) {
+    background-color: #eee;
+    text-align: right;
+    padding: 10px;
+}
+
+.project-data-table :global(div.expanded) .project-data-table thead td {
+    color: #555;
 }

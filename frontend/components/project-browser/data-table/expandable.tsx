@@ -31,6 +31,12 @@ export function Expandable(props: ExpandableProps) {
     return <></>;
   }
 
+  if (field.expandableCb) {
+    if (!field.expandableCb(data)) {
+      return <></>;
+    }
+  }
+
   return (
     <span
       onClick={(e) => {

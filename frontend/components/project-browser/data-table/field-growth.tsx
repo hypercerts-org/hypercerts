@@ -6,8 +6,6 @@ type GrowthValue = {
 };
 
 export function DataTableFieldGrowth(props: DataTableCellComponentProps) {
-  console.log(`props for growth`);
-  console.log(props);
   if (
     typeof props.value?.current !== "number" ||
     typeof props.value?.growth !== "number"

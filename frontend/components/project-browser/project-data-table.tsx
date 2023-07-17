@@ -72,6 +72,9 @@ export function ProjectDataTable(props: ProjectDataTableProps) {
         label: "Dev Reach (Growth)",
         sortable: true,
         expandable: true,
+        expandableCb: (data: IProjectView) => {
+          return data.hasDependents || false;
+        },
         textAlign: "right",
       },
       opMaus: {
@@ -88,6 +91,9 @@ export function ProjectDataTable(props: ProjectDataTableProps) {
         label: "Op MAUs Reach (Growth)",
         sortable: true,
         expandable: true,
+        expandableCb: (data: IProjectView) => {
+          return data.hasDependents || false;
+        },
         textAlign: "right",
       },
     },
