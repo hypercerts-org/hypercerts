@@ -14,6 +14,10 @@ export function DataTableFieldDefault(props: DataTableCellComponentProps) {
       </div>
     );
   }
+  let value = props.value;
+  if (typeof value === "number") {
+    value = value.toLocaleString();
+  }
   return (
     <div className={props.data._id}>
       {props.value}

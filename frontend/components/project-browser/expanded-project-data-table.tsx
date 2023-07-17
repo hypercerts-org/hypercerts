@@ -6,7 +6,6 @@ import { ProjectViewsCollection, ProjectView } from "../../lib/projects";
 import { DataTableFieldGrowth } from "./data-table/field-growth";
 import { DataTableFieldProject } from "./data-table/field-project";
 import { DataTable } from "./data-table/generic-data-table";
-import _ from "lodash";
 
 export interface ExpandedProjectDataTableProp {
   className?: string;
