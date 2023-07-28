@@ -24,7 +24,6 @@ import { SupabaseToChart } from "./components/supabase-to-chart";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
 import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
-import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
 import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
@@ -35,8 +34,15 @@ export const PLASMIC = initPlasmicLoader({
   projects: [
     // Hypercerts DApp
     {
-      id: PLASMIC_PROJECT_ID,
-      token: PLASMIC_PROJECT_API_TOKEN,
+      id: "38ak4QaubqTqAiZYMMbzfn",
+      token:
+        "usdCXkFge9ue3rDU8knaWx2pZ4aewtCnVgRB7YEP3bCtYACSHIfr48mvGYrDGIkq8xaDssFsr9o5rWOOAyMQ",
+    },
+    // Hypercerts Events
+    {
+      id: "fyzUiR9xFxM4i8qbFQTNzu",
+      token:
+        "9w4RzLtSF94NnD1PUKqrKUWA2hTKdKJZARgeDx39cX4BCSvgkvkoknA70mClZNxRmemLYonFE4GohvY3bWg",
     },
   ],
   // Fetches the latest revisions, whether or not they were unpublished!

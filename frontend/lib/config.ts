@@ -12,10 +12,6 @@ export const DOMAIN = requireEnv(
   "NEXT_PUBLIC_DOMAIN",
 );
 
-export const PLASMIC_PROJECT_ID = process.env.PLASMIC_PROJECT_ID ?? "MISSING";
-export const PLASMIC_PROJECT_API_TOKEN =
-  process.env.PLASMIC_PROJECT_API_TOKEN ?? "MISSING";
-
 export const DEFAULT_CHAIN_ID = parseInt(
   requireEnv(
     process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
@@ -31,11 +27,6 @@ export const CONTRACT_ADDRESS = requireEnv(
 export const GRAPH_URL = requireEnv(
   process.env.NEXT_PUBLIC_GRAPH_URL,
   "NEXT_PUBLIC_GRAPH_URL",
-);
-
-export const RPC_URL = requireEnv(
-  process.env.NEXT_PUBLIC_RPC_URL,
-  "NEXT_PUBLIC_RPC_URL",
 );
 
 export const NFT_STORAGE_TOKEN = requireEnv(
