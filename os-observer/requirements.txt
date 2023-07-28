@@ -1,4 +1,0 @@
-pandas
-python-dotenv
-selenium
-supabase

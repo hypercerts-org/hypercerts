@@ -13,7 +13,6 @@
       "docs",
       "frontend",
       "graph",
-      "os-observer",
       "sdk",
       "vendor/observabletreemap",
       "e2e-tests"
