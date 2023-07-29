@@ -1,5 +1,13 @@
 # Minting
 
+## Token design
+
+Hypercerts are semi-fungible tokens.
+Thus, each hypercert is represented on-chain by a group of fraction tokens,
+each representing a fraction of ownership over the hypercert.
+If you want to split your fraction token, or merge multiple tokens into one,
+check out the section on [splitting and merging](./split-merge.md).
+
 ## Minting your first hypercert
 
 To mint a hypercert you need to provide the `metadata`, total amount of `units` and the preferred `TransferRestrictions`.
