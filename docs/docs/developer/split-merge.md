@@ -2,7 +2,7 @@
 
 > :construction: **NOTE**: This is a work-in-progress and may not be fully functioning yet.
 
-## Value
+## By Token Value
 
 ### Split / merge token values
 
@@ -14,7 +14,7 @@ const { tokenIds } = await hypercerts.splitFraction({
 const { tokenId } = await hypercerts.mergeFractions({ tokenIds });
 ```
 
-## Claim Data
+## By Claim Data
 
 ### Split / merge claim data
 
@@ -27,5 +27,3 @@ const { claimId} = await hypercerts.mergeClaims({
   claimIds,
 });
 ```
-
-## Impact

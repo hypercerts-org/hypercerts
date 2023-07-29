@@ -2,6 +2,9 @@
 
 Hypercerts is developed in public and released under [Apache license](https://github.com/hypercerts-org/hypercerts/blob/main/LICENSE). The Hypercert Foundation currently rolled out on two networks: Goerli for testing and Optimism as the production deployment.
 
+We want to support every network that wants to support positive impact!
+If you want to see Hypercerts deployed on another network, please reach out by [filing an issue](https://github.com/hypercerts-org/hypercerts/issues).
+
 ## Overview
 
 | Chainname | ChainID | Hypercerts Minter (UUPS Proxy)                                                                                                   | Subgraph                                                                                                       | Notes      |
