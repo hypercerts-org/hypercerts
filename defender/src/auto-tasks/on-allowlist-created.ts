@@ -1,5 +1,9 @@
 import axios from "axios";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+  EthLog,
+} from "defender-autotask-utils";
 import { ethers } from "ethers";
 import fetch from "node-fetch";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -60,10 +64,18 @@ export async function handler(event: AutotaskEvent) {
   const contractInterface = new ethers.utils.Interface(abi);
   const contract = new ethers.Contract(contractAddress, abi, provider);
 
-  const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
-  const allowlistCreatedEvents = txnEvents.filter(
-    (e) => e.name === "AllowlistCreated",
-  );
+  //Ignore unknown events
+  const allowlistCreatedEvents = txnLogs
+    .map((l) => {
+      try {
+        return contractInterface.parseLog(l);
+      } catch (e) {
+        console.log("Failed to parse log", l);
+        return null;
+      }
+    })
+    .filter((e) => e !== null && e.name === "AllowlistCreated");
+
   console.log(
     "AllowlistCreated Events: ",
     JSON.stringify(allowlistCreatedEvents, null, 2),

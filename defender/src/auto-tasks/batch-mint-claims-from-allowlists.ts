@@ -57,10 +57,18 @@ export async function handler(event: AutotaskEvent) {
   const contractInterface = new ethers.utils.Interface(abi);
 
   // Parse events
-  const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
-  const batchTransferEvents = txnEvents.filter(
-    (e) => e.name === "BatchValueTransfer",
-  );
+  // Parse events
+  const batchTransferEvents = txnLogs
+    .map((l) => {
+      //Ignore unknown events
+      try {
+        return contractInterface.parseLog(l);
+      } catch (e) {
+        console.log("Failed to parse log", l);
+        return null;
+      }
+    })
+    .filter((e) => e !== null && e.name === "BatchValueTransfer");
 
   console.log(
     "BatchTransfer Events: ",
