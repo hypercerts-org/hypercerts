@@ -22,7 +22,6 @@ export interface Env {
   // MY_BUCKET: R2Bucket;
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   async fetch(
     request: Request,

@@ -64,5 +64,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hypercerts-org/hypercerts.git"
+  },
+  "dependencies": {
+    "@next/eslint-plugin-next": "^13.4.12"
   }
 }
