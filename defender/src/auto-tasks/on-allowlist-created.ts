@@ -115,4 +115,10 @@ export async function handler(event: AutotaskEvent) {
     .then((data) => data.data);
 
   console.log("add result", addResult);
+
+  if (!addResult) {
+    throw new Error(
+      `Could not add to database. Add result: ${JSON.stringify(addResult)}`,
+    );
+  }
 }

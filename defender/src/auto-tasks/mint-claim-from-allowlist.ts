@@ -95,5 +95,13 @@ export async function handler(event: AutotaskEvent) {
       .eq("claimId", formattedClaimId)
       .select();
     console.log("Deleted", deleteResult);
+
+    if (!deleteResult) {
+      throw new Error(
+        `Could not remove from database. Delete result: ${JSON.stringify(
+          deleteResult,
+        )}`,
+      );
+    }
   }
 }
