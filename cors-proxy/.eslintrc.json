@@ -1,20 +1,12 @@
 {
   "env": {
-    "browser": true,
     "es2021": true,
     "node": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "next/core-web-vitals"
-  ],
-  "ignorePatterns": [
-    "**/graph/generated/*",
-    "**/vendor/*.js",
-    "vendor/**/*.js"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,9 +16,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   }

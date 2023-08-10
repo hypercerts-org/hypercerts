@@ -7,20 +7,13 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import React, { ReactNode } from "react";
-import {
-  mainnet,
-  goerli,
-  sepolia,
-  optimism,
-  hardhat,
-  Chain,
-} from "viem/chains";
+import { goerli, optimism, hardhat, Chain } from "viem/chains";
 import { useNetwork } from "wagmi";
 import useCheckWriteable from "../hooks/checkWriteable";
 
 const DAPP_STATE_NAME = "DappState";
 
-const ALL_CHAINS = [mainnet, goerli, sepolia, optimism, hardhat];
+const ALL_CHAINS = [optimism, goerli, hardhat];
 
 export interface DappStateData {
   myAddress?: string;
@@ -31,10 +24,11 @@ export interface DappStateData {
   writeable?: boolean;
 }
 
+//TODO revert to testnet data. Needed to override for local dev of WC-wagmi-safe integration
 export const DEFAULT_TEST_DATA: DappStateData = {
   myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f".toLowerCase(),
-  defaultChainId: 5,
-  chain: goerli,
+  defaultChainId: 10,
+  chain: optimism,
   chains: ALL_CHAINS,
   waitToClaim: false,
   writeable: true,
