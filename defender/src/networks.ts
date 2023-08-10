@@ -15,13 +15,13 @@ export const NETWORKS: NetworkConfig[] = [
   {
     networkKey: "goerli",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "goerli-allowlistCache",
+    supabaseTableName: "allowlistCache-goerli",
     alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
   },
   {
     networkKey: "optimism",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "optimism-allowlistCache",
+    supabaseTableName: "allowlistCache-optimism",
     alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
   },
 ];

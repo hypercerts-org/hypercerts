@@ -103,5 +103,13 @@ export async function handler(event: AutotaskEvent) {
       .select();
 
     console.log("delete result", deleteResult);
+
+    if (!deleteResult) {
+      throw new Error(
+        `Could not remove from database. Delete result: ${JSON.stringify(
+          deleteResult,
+        )}`,
+      );
+    }
   }
 }

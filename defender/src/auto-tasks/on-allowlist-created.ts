@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-  AutotaskEvent,
-  BlockTriggerEvent,
-  EthLog,
-} from "defender-autotask-utils";
+import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
 import { ethers } from "ethers";
 import fetch from "node-fetch";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -127,4 +123,10 @@ export async function handler(event: AutotaskEvent) {
     .then((data) => data.data);
 
   console.log("add result", addResult);
+
+  if (!addResult) {
+    throw new Error(
+      `Could not add to database. Add result: ${JSON.stringify(addResult)}`,
+    );
+  }
 }
