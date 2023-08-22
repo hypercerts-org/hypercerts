@@ -29,6 +29,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import { ProjectBrowser } from "./components/project-browser/project-browser";
+import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -223,6 +224,13 @@ PLASMIC.registerComponent(HypercertCreateForm, {
   },
   providesData: true,
   importPath: "./components/hypercert-create",
+});
+
+PLASMIC.registerComponent(ContributionBlueprintCreate, {
+  name: "ContributionBlueprintCreate",
+  description: "Create a contribution blueprint",
+  importPath: "./components/contribution-blueprint-create",
+  props: {},
 });
 
 PLASMIC.registerComponent(FormError, {
