@@ -30,6 +30,7 @@ import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import { ProjectBrowser } from "./components/project-browser/project-browser";
 import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
+import { BlueprintCreateForm } from "./components/blueprint-create";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -224,6 +225,22 @@ PLASMIC.registerComponent(HypercertCreateForm, {
   },
   providesData: true,
   importPath: "./components/hypercert-create",
+});
+
+PLASMIC.registerComponent(BlueprintCreateForm, {
+  name: "BlueprintCreateForm",
+  description: "Create a blueprint",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/blueprint-create",
 });
 
 PLASMIC.registerComponent(ContributionBlueprintCreate, {
