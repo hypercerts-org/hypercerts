@@ -1,4 +1,6 @@
 import { useAccountLowerCase } from "../hooks/account";
+import { useMintBlueprintToRegistry } from "../hooks/createBlueprintInRegistry";
+import { useListRegistries } from "../hooks/list-registries";
 import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
 import { useContractModal } from "./contract-interaction-dialog-context";
@@ -14,8 +16,6 @@ import qs from "qs";
 import React, { ReactNode } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useMintBlueprintToRegistry } from "../hooks/createBlueprintInRegistry";
-import { useListRegistries } from "../hooks/list-registries";
 
 /**
  * Constants
@@ -33,7 +33,9 @@ export const DEFAULT_HYPERCERT_VERSION = "0.0.1";
 
 //const DEFAULT_TIME = dayjs().format("YYYY-MM-DD");
 const DEFAULT_TIME = dayjs();
-const DEFAULT_FORM_DATA: HypercertCreateFormData = {
+const DEFAULT_FORM_DATA: BlueprintCreateFormData = {
+  registryId: "",
+  minterAddress: "",
   name: "",
   description: "",
   externalLink: "",
