@@ -14,8 +14,8 @@ import qs from "qs";
 import React, { ReactNode } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useMintClaim } from "../hooks/mintClaim";
-import useCheckWriteable from "../hooks/checkWriteable";
+import { useMintBlueprintToRegistry } from "../hooks/createBlueprintInRegistry";
+import { useListRegistries } from "../hooks/list-registries";
 
 /**
  * Constants
@@ -57,7 +57,9 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   metadataProperties: "",
 };
 
-interface HypercertCreateFormData {
+interface BlueprintCreateFormData {
+  registryId: string;
+  minterAddress: string;
   name: string;
   description: string;
   externalLink: string;
@@ -163,6 +165,8 @@ const queryStringToFormData = (query?: string) => {
  * Form validation rules
  */
 const ValidationSchema = Yup.object().shape({
+  registryId: Yup.string().required("Required"),
+  minterAddress: Yup.string().required("Required"),
   name: Yup.string()
     .min(NAME_MIN_LENGTH, `Name must be at least ${NAME_MIN_LENGTH} characters`)
     .max(NAME_MAX_LENGTH, `Name must be at most ${NAME_MAX_LENGTH} characters`)
@@ -273,13 +277,13 @@ export interface HypercertCreateFormProps {
 }
 
 export function BlueprintCreateForm(props: HypercertCreateFormProps) {
+  const { data: registries = [] } = useListRegistries();
+  const registryOptions = registries.map((r) => `${r.name} - ${r.id}`);
   const { className, children } = props;
   const { address } = useAccountLowerCase();
   const { push } = useRouter();
   const { hideModal } = useContractModal();
   const confetti = useConfetti();
-
-  const { writeable, errors } = useCheckWriteable();
 
   // Query string
   const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
@@ -303,9 +307,10 @@ export function BlueprintCreateForm(props: HypercertCreateFormProps) {
     push("/app/dashboard");
   };
 
-  const { write: mintClaim, txPending: mintClaimPending } = useMintClaim({
-    onComplete,
-  });
+  const { mutate: createBlueprint, isLoading: createBlueprintPending } =
+    useMintBlueprintToRegistry({
+      onComplete,
+    });
 
   return (
     <div className={className}>
@@ -327,23 +332,6 @@ export function BlueprintCreateForm(props: HypercertCreateFormProps) {
         }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (Object.keys(errors as object).length != 0) {
-            for (const error in errors) {
-              toast(errors[error], {
-                type: "error",
-              });
-            }
-
-            return;
-          }
-
-          if (!writeable) {
-            toast("Cannot execute transaction. Check logs for errors", {
-              type: "error",
-            });
-            return;
-          }
-
           const image = await exportAsImage(IMAGE_SELECTOR);
           const metaData = formatValuesToMetaData(
             values,
@@ -353,8 +341,21 @@ export function BlueprintCreateForm(props: HypercertCreateFormProps) {
           );
           console.log(`Metadata(valid=${metaData.valid}): `, metaData.data);
           if (metaData.data) {
+            const registryId = values.registryId.split(" - ")[1];
             //return; // Used for testing
-            await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
+
+            if (!registryId) {
+              toast("Error creating blueprint. Please contact the team.", {
+                type: "error",
+              });
+              console.error("Registry ID not found");
+              return;
+            }
+            createBlueprint({
+              registryId,
+              value: formDataToQueryString(values),
+              minterAddress: values.minterAddress,
+            });
           } else {
             toast("Error creating hypercert. Please contact the team.", {
               type: "error",
@@ -362,16 +363,17 @@ export function BlueprintCreateForm(props: HypercertCreateFormProps) {
             console.error("SDK formatting errors: ", metaData.errors);
           }
 
-          if (!mintClaimPending) {
+          if (!createBlueprintPending) {
             setSubmitting(false);
           }
         }}
       >
-        {(formikProps: FormikProps<HypercertCreateFormData>) => (
+        {(formikProps: FormikProps<BlueprintCreateFormData>) => (
           <DataProvider
             name={FORM_SELECTOR}
             data={{
               ...formikProps.values,
+              registryOptions,
               shareUrl: `${window.location.pathname}#${formDataToQueryString(
                 formikProps.values,
               )}`,
@@ -399,7 +401,7 @@ export function BlueprintCreateForm(props: HypercertCreateFormProps) {
 }
 
 const formatValuesToMetaData = (
-  val: HypercertCreateFormData,
+  val: BlueprintCreateFormData,
   address: string,
   image?: string,
 ) => {
