@@ -5,7 +5,7 @@
 [gha]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml
 [gha-badge]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml/badge.svg
 
-Hypercerts are a tool to build scalable retrospective reward systems for impact.
+Hypercerts is a tool to build scalable retrospective reward systems for impact.
 For more details, check out our [website](https://hypercerts.org/).
 
 ## Organization
@@ -48,7 +48,7 @@ Take a look at `./frontend/.env.local.example` for the complete list.
 - You can either set these yourself (e.g. in CI/CD)
 - or copy the file to `.env.local` and populate it.
 
-Then the do a turbo build of all apps, run the following:
+Then do a turbo build of all apps, run the following:
 
 ```bash
 yarn install
@@ -78,7 +78,7 @@ have docker and docker compose installed.
 
 ### Setup environment variables
 
-You will then need to create a `.env.local` file in the root of the repository with at the following environment variables:
+You will then need to create a `.env.local` file in the root of the repository with the following environment variables:
 
 ```
 # Required
@@ -100,7 +100,7 @@ Once you have your environment configured you can run the infrastructure like so
 yarn dev:serve-e2e
 ```
 
-Once everything is the dapp will be served from http://127.0.0.1:3000. You will
+Once everything is done, the dapp will be served from http://127.0.0.1:3000. You will
 need to point your metamask to the localchain at 127.0.0.1:8545 with ChainID 31337.
 
 ## Playbooks
