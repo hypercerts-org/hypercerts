@@ -9,8 +9,9 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
 root: true
+ignorePatterns: ["rollup.config.js", "jest.config.ts", "dist/"]
 rules:
-  "@typescript-eslint/semi": 
+  "@typescript-eslint/semi":
     - warn
   "@typescript-eslint/switch-exhaustiveness-check":
     - warn

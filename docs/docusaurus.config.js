@@ -48,6 +48,10 @@ const config = {
     ],
   ],
 
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -65,109 +69,6 @@ const config = {
             docId: "intro",
             position: "left",
             label: "Docs",
-          },
-          {
-            type: "dropdown",
-            label: "Intro",
-            position: "left",
-            items: [
-              {
-                type: "doc",
-                docId: "intro",
-                label: "What are hypercerts?",
-              },
-              {
-                type: "doc",
-                docId: "faq",
-                label: "Frequently Asked Questions",
-              },
-              {
-                type: "doc",
-                docId: "further-resources",
-                label: "Further Resources",
-              },
-            ],
-          },
-          {
-            type: "dropdown",
-            label: "Vision & Whitepaper",
-            position: "left",
-            items: [
-              {
-                type: "doc",
-                docId: "whitepaper/whitepaper-intro",
-                label: "Introduction",
-              },
-              {
-                type: "doc",
-                docId: "whitepaper/ifs",
-                label: "Impact Funding Systems",
-              },
-              {
-                type: "doc",
-                docId: "whitepaper/hypercerts-intro",
-                label: "Hypercerts: a New Primitive",
-              },
-              {
-                type: "doc",
-                docId: "whitepaper/impact-space",
-                label: "A Consistent Impact Space",
-              },
-              {
-                type: "doc",
-                docId: "whitepaper/evaluation",
-                label: "Open Impact Evaluations",
-              },
-              {
-                type: "doc",
-                docId: "whitepaper/retrospective-funding",
-                label: "Retrospective Impact Funding",
-              },
-            ],
-          },
-          {
-            type: "dropdown",
-            label: "Minting Guide",
-            position: "left",
-            items: [
-              {
-                type: "doc",
-                docId: "minting-guide/minting-guide-start",
-                label: "Getting Started",
-              },
-              {
-                type: "doc",
-                docId: "minting-guide/step-by-step",
-                label: "Step-by-step implementation",
-              },
-              {
-                type: "doc",
-                docId: "minting-guide/gitcoin-round",
-                label: "Gitcoin Alpha Round Instructions",
-              },
-            ],
-          },
-          {
-            type: "dropdown",
-            label: "Implementation",
-            position: "left",
-            items: [
-              {
-                type: "doc",
-                docId: "implementation/token-standard",
-                label: "Token Standard",
-              },
-              {
-                type: "doc",
-                docId: "implementation/metadata",
-                label: "Metadata Standard",
-              },
-              {
-                type: "doc",
-                docId: "implementation/glossary",
-                label: "Glossary",
-              },
-            ],
           },
           {
             type: "doc",
@@ -195,6 +96,10 @@ const config = {
             label: "GitHub",
             position: "right",
           },
+          {
+            type: "docsVersionDropdown",
+            position: "right",
+          },
         ],
       },
       footer: {
@@ -204,6 +109,9 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      mermaid: {
+        theme: { light: "neutral", dark: "dark" },
       },
     }),
 };

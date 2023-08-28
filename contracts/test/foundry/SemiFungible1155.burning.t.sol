@@ -35,11 +35,60 @@ contract SemiFungible1155BurnTest is PRBTest, StdCheats, StdUtils, SemiFungible1
         semiFungible.mintValue(alice, values, _uri);
         semiFungible.validateOwnerBalanceUnits(tokenIDs[1], alice, 1, values[1]);
 
+        changePrank(bob);
+        vm.expectRevert(NotApprovedOrOwner.selector);
+        semiFungible.burnValue(alice, tokenIDs[1]);
+
+        changePrank(alice);
         vm.expectEmit(true, true, true, true);
         emit TransferSingle(alice, alice, address(0), tokenIDs[1], 1);
         semiFungible.burnValue(alice, tokenIDs[1]);
 
         semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[1], alice);
+    }
+
+    function testBatchBurnFractions() public {
+        uint256 baseID = 1 << 128;
+
+        uint256 size = 20;
+        uint256 value = 2000;
+        uint256[] memory values = semiFungible.buildValues(size, value);
+        uint256[] memory tokenIDs = semiFungible.buildIDs(baseID, size);
+
+        uint256[] memory valueToBurn = new uint256[](2);
+        valueToBurn[0] = 1;
+        valueToBurn[1] = 1;
+        uint256[] memory idsToBurn = new uint256[](2);
+        idsToBurn[0] = tokenIDs[1];
+        idsToBurn[1] = tokenIDs[7];
+        uint256[] memory toTokens = new uint256[](2);
+        toTokens[0] = 0;
+        toTokens[1] = 0;
+
+        startHoax(alice, 100 ether);
+
+        semiFungible.mintValue(alice, values, _uri);
+        semiFungible.validateOwnerBalanceUnits(tokenIDs[1], alice, 1, values[1]);
+
+        assertEq(semiFungible.unitsOf(tokenIDs[7]), 2000);
+        assertEq(semiFungible.unitsOf(baseID), size * value);
+
+        changePrank(bob);
+        vm.expectRevert(NotApprovedOrOwner.selector);
+        semiFungible.batchBurnValues(alice, idsToBurn);
+
+        changePrank(alice);
+        vm.expectEmit(true, true, true, true);
+        emit TransferBatch(alice, alice, address(0), idsToBurn, valueToBurn);
+        semiFungible.batchBurnValues(alice, idsToBurn);
+
+        semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[1], alice);
+        assertEq(semiFungible.unitsOf(tokenIDs[1]), 0);
+
+        semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[7], alice);
+        assertEq(semiFungible.unitsOf(tokenIDs[7]), 0);
+
+        assertEq(semiFungible.unitsOf(baseID), size * value);
     }
 
     function testCannotBurnClaim() public {
@@ -53,5 +102,21 @@ contract SemiFungible1155BurnTest is PRBTest, StdCheats, StdUtils, SemiFungible1
 
         vm.expectRevert("ERC1155: burn amount exceeds balance");
         semiFungible.burnValue(alice, baseID);
+    }
+
+    function testCannotBatchBurnClaim() public {
+        uint256 size = 20;
+        uint256 value = 2000;
+        uint256[] memory values = semiFungible.buildValues(size, value);
+
+        startHoax(alice, 100 ether);
+
+        uint256 baseID = semiFungible.mintValue(alice, values, _uri);
+
+        uint256[] memory idsToBurn = new uint256[](1);
+        idsToBurn[0] = baseID;
+
+        vm.expectRevert("ERC1155: burn amount exceeds balance");
+        semiFungible.batchBurnValues(alice, idsToBurn);
     }
 }

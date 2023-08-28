@@ -1,50 +1,56 @@
-import HypercertEvaluator, { EvaluatorInterface } from "../../src/evaluations/index.js";
-import HypercertsStorage from "../../src/storage.js";
-import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
+import { expect } from "@jest/globals";
+import { providers } from "ethers";
+import { Wallet, ethers } from "ethers";
 import { CIDString } from "nft.storage";
-import { MockProvider } from "ethereum-waffle";
-import { reloadEnv } from "../setup-tests.js";
-import { expect, jest } from "@jest/globals";
-import { getEvaluationData } from "../helpers.js";
-import { InvalidOrMissingError, MalformedDataError, StorageError } from "../../src/types/errors.js";
+import sinon from "sinon";
 
-jest.mock("../../src/storage.js");
+import HypercertEvaluator from "../../src/evaluations/index.js";
+import { InvalidOrMissingError, MalformedDataError, StorageError } from "../../src/types/errors.js";
+import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
+import { getEvaluationData } from "../helpers.js";
 
 describe("HypercertEvaluator", () => {
-  const provider = new MockProvider();
-  const [wallet] = provider.getWallets();
-  const signer = wallet.connect(provider);
+  let stubSubscription: sinon.SinonStub;
+  let stubStorage: sinon.SinonStub;
+  let signer: Wallet;
+  let evaluator: HypercertEvaluator;
+  const mockCid = "bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u";
 
-  const evaluator = new HypercertEvaluator({
-    chainId: 5,
-    easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-    signer,
+  beforeAll(() => {
+    stubSubscription = sinon.stub(providers.JsonRpcProvider.prototype, "on");
+    signer = ethers.Wallet.createRandom();
+    evaluator = new HypercertEvaluator({
+      chainId: 5,
+      easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
+      operator: signer,
+    });
+    stubStorage = sinon.stub(evaluator.storage, "storeData").resolves(mockCid);
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-    reloadEnv();
+  beforeEach(() => {
+    sinon.resetHistory();
+  });
+
+  afterAll(() => {
+    // reloadEnv();
+
+    stubStorage.restore();
+    stubSubscription.restore();
   });
 
   describe("submitEvaluation", () => {
     it("should submit an EAS evaluation", async () => {
-      const mockStoredata = jest.spyOn(HypercertsStorage.prototype, "storeData");
-
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
-
-      mockStoredata.mockResolvedValue("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: await signer.getAddress() });
 
       const result: CIDString = await evaluator.submitEvaluation(evaluation);
 
-      expect(result).toEqual("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
-      expect(mockStoredata).toHaveBeenCalledTimes(1);
+      console.log(result);
 
-      mockStoredata.mockClear();
+      expect(result).toEqual("bafybeibxm2nsadl3fnxv2sxcxmxaco2jl53wpeorjdzidjwf5aqdg7wa6u");
+      sinon.assert.calledOnce(stubStorage);
     });
 
     it("should throw an error for missing signer", async () => {
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
-
       try {
         new HypercertEvaluator({
           chainId: 5,
@@ -52,8 +58,8 @@ describe("HypercertEvaluator", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(InvalidOrMissingError);
-        let error = e as InvalidOrMissingError;
-        expect(error.message).toEqual("Invalid or missing config value: signer");
+        const error = e as InvalidOrMissingError;
+        expect(error.message).toEqual("Invalid or missing config value: operator");
       }
 
       expect.assertions(2);
@@ -61,7 +67,7 @@ describe("HypercertEvaluator", () => {
 
     it("should throw an error for unexpected evaluation source", async () => {
       const evaluation = {
-        creator: signer.address,
+        creator: await signer.getAddress(),
         evaluationSource: {
           type: "invalid",
         },
@@ -75,7 +81,7 @@ describe("HypercertEvaluator", () => {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        let error = e as StorageError;
+        const error = e as StorageError;
         expect(error.message).toEqual(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
       }
 
@@ -91,7 +97,7 @@ describe("HypercertEvaluator", () => {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
         expect(e).toBeInstanceOf(MalformedDataError);
-        let error = e as MalformedDataError;
+        const error = e as MalformedDataError;
         expect(error.message).toEqual(`Invalid creator address: ${evaluation.creator.toString()}`);
       }
 
@@ -99,29 +105,29 @@ describe("HypercertEvaluator", () => {
     });
 
     it("should throw an error for readonly storage", async () => {
-      delete process.env.NFT_STORAGE_TOKEN;
-      delete process.env.WEB3_STORAGE_TOKEN;
-      delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-      delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
+      sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
+      sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: await signer.getAddress() });
 
       const readonlyEvaluator = new HypercertEvaluator({
         chainId: 5,
         easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-        signer,
+        operator: signer,
       });
 
       try {
-        const cid = await readonlyEvaluator.submitEvaluation(evaluation);
-        console.log(cid);
+        await readonlyEvaluator.submitEvaluation(evaluation);
       } catch (e) {
         expect(e).toBeInstanceOf(StorageError);
-        let error = e as StorageError;
+        const error = e as StorageError;
         expect(error.message).toEqual("Web3.storage client is not configured");
       }
 
       expect.assertions(2);
+      sinon.restore();
     });
   });
 });

@@ -1,6 +1,15 @@
-import { HypercertClientConfig, UnsupportedChainError } from "../types/index.js";
-import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
 import { ethers } from "ethers";
+import { isAddress } from "ethers/lib/utils.js";
+
+import { DEFAULT_CHAIN_ID, DEPLOYMENTS } from "../constants.js";
+import {
+  ConfigurationError,
+  Deployment,
+  HypercertClientConfig,
+  InvalidOrMissingError,
+  SupportedChainIds,
+  UnsupportedChainError,
+} from "../types/index.js";
 import logger from "./logger.js";
 
 /**
@@ -11,28 +20,47 @@ import logger from "./logger.js";
  */
 export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   // Get the chainId, first from overrides, then environment variables, then the constant
-  const { chainId } = getChainId(overrides);
+  const { chainId } = getChainConfig(overrides);
 
-  if (!chainId || (chainId !== 5 && chainId !== 10)) {
-    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId || "not found");
-  }
+  let baseDeployment: Deployment & { unsafeForceOverrideConfig?: boolean };
 
-  const baseDeployment = DEPLOYMENTS[chainId];
-  if (!baseDeployment) {
-    throw new UnsupportedChainError(`chainId=${chainId} is missing in SDK`, chainId);
+  if (overrides.unsafeForceOverrideConfig) {
+    if (!overrides.chainName || !overrides.contractAddress || !overrides.graphUrl) {
+      throw new UnsupportedChainError(
+        `attempted to override with chainId=${chainId}, but requires chainName, graphUrl, and contractAddress to be set`,
+        { chainID: chainId?.toString() || "undefined" },
+      );
+    }
+    baseDeployment = {
+      chainId: chainId,
+      chainName: overrides.chainName,
+      contractAddress: overrides.contractAddress,
+      graphUrl: overrides.graphUrl,
+      unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
+    };
+  } else {
+    if (!chainId || [5, 10].indexOf(chainId) === -1) {
+      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+        chainID: chainId?.toString() || "undefined",
+      });
+    }
+
+    baseDeployment = DEPLOYMENTS[chainId as SupportedChainIds];
+    if (!baseDeployment) {
+      throw new UnsupportedChainError(`Default config for chainId=${chainId} is missing in SDK`, {
+        chainID: chainId,
+      });
+    }
   }
 
   const config = {
     // Start with the hardcoded values
     ...baseDeployment,
     // Let the user override from environment variables
-    ...getChainId(overrides),
-    ...getChainName(overrides),
+    ...getChainConfig(overrides),
+    ...getOperator(overrides),
     ...getContractAddress(overrides),
-    ...getRpcUrl(overrides),
-    ...getGraphName(overrides),
-    ...getProvider(overrides),
-    ...getSigner(overrides),
+    ...getGraphUrl(overrides),
     ...getNftStorageToken(overrides),
     ...getWeb3StorageToken(overrides),
     ...getEasContractAddress(overrides),
@@ -47,81 +75,109 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   return config;
 };
 
-const getChainId = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides?.chainId) {
-    return { chainId: overrides.chainId };
-  }
+const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
+  const chainId =
+    overrides?.chainId ?? (process.env.DEFAULT_CHAIN_ID ? parseInt(process.env.DEFAULT_CHAIN_ID) : DEFAULT_CHAIN_ID);
+  let chainName: string;
 
-  return process.env.DEFAULT_CHAIN_ID
-    ? { chainId: parseInt(process.env.DEFAULT_CHAIN_ID) }
-    : { chainId: DEFAULT_CHAIN_ID };
-};
-
-const getChainName = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.chainName) {
-    return { chainName: overrides.chainName };
-  }
-
-  const { chainId } = getChainId(overrides);
   switch (chainId) {
     case 5:
-      return { chainName: "goerli" };
+      chainName = "goerli";
+      break;
     case 10:
-      return { chainName: "optimism-mainnet" };
+      chainName = "optimism-mainnet";
+      break;
     default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
+      chainName = overrides?.chainName ?? "";
+      if (!chainName) {
+        throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+          chainID: chainId?.toString() || "undefined",
+        });
+      }
   }
+
+  return { chainId, chainName };
 };
 
 const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
   if (overrides.contractAddress) {
+    if (!isAddress(overrides.contractAddress)) {
+      throw new InvalidOrMissingError("Invalid contract address.", { contractAddress: overrides.contractAddress });
+    }
     return { contractAddress: overrides.contractAddress };
   }
-  return process.env.CONTRACT_ADDRESS ? { contractAddress: process.env.CONTRACT_ADDRESS } : undefined;
+  const contractAddress = process.env.CONTRACT_ADDRESS;
+  if (contractAddress && !isAddress(contractAddress)) {
+    throw new InvalidOrMissingError("Invalid contract address.", { contractAddress });
+  }
+  return contractAddress ? { contractAddress } : undefined;
 };
 
-const getRpcUrl = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.rpcUrl) {
-    return { rpcUrl: overrides.rpcUrl };
+const getGraphUrl = (overrides: Partial<HypercertClientConfig>) => {
+  let graphUrl;
+  if (overrides.unsafeForceOverrideConfig) {
+    if (!overrides.graphUrl) {
+      throw new ConfigurationError("A graphUrl must be specified when overriding configuration");
+    }
+    try {
+      new URL(overrides.graphUrl);
+    } catch (error) {
+      throw new ConfigurationError("Invalid graph URL", { graphUrl: overrides.graphUrl });
+    }
+    graphUrl = overrides.graphUrl;
+    return { graphUrl };
   }
-  return process.env.RPC_URL ? { rpcUrl: process.env.RPC_URL } : {};
+
+  const { chainId } = getChainConfig(overrides);
+
+  graphUrl = DEPLOYMENTS[chainId as keyof typeof DEPLOYMENTS].graphUrl ?? process.env.GRAPH_URL;
+  if (!graphUrl) {
+    throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
+      chainID: chainId?.toString() || "undefined",
+    });
+  }
+  try {
+    new URL(graphUrl);
+  } catch (error) {
+    throw new ConfigurationError("Invalid graph URL", { graphUrl });
+  }
+
+  return { graphUrl };
 };
 
-const getGraphName = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.graphName) {
-    return { graphName: overrides.graphName };
+const getOperator = (overrides: Partial<HypercertClientConfig>) => {
+  let operator: ethers.Signer | ethers.providers.Provider;
+
+  if (
+    overrides.operator &&
+    !(overrides.operator instanceof ethers.Signer) &&
+    !(overrides.operator instanceof ethers.providers.Provider)
+  ) {
+    throw new InvalidOrMissingError("Invalid operator.", { operator: overrides.operator });
   }
 
-  const { chainId } = getChainId(overrides);
-  switch (chainId) {
-    case 5:
-      return { graphName: "hypercerts-testnet" };
-    case 10:
-      return { chainName: "hypercerts-optimism-mainnet" };
-    default:
-      throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, chainId?.toString() || "undefined");
-  }
-};
+  if (overrides.operator instanceof ethers.Signer) {
+    operator = overrides.operator;
+  } else if (overrides.operator instanceof ethers.providers.Provider) {
+    operator = overrides.operator;
+    operator.on("network", (newNetwork, oldNetwork) => {
+      // When a Provider makes its initial connection, it emits a "network"
+      // event with a null oldNetwork along with the newNetwork. So, if the
+      // oldNetwork exists, it represents a changing network
 
-const getProvider = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.provider) {
-    return { provider: overrides.provider };
-  }
-
-  const { rpcUrl } = getRpcUrl(overrides);
-  return rpcUrl
-    ? { provider: new ethers.providers.JsonRpcProvider(rpcUrl) }
-    : { provider: ethers.getDefaultProvider("goerli") };
-};
-
-const getSigner = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.signer?._isSigner) {
-    return { signer: overrides.signer };
+      if (typeof window === "undefined") return;
+      if (oldNetwork && window.location) {
+        window.location.reload();
+      }
+    });
+  } else if (process.env.PRIVATE_KEY) {
+    const provider = ethers.getDefaultProvider(DEFAULT_CHAIN_ID);
+    operator = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  } else {
+    operator = ethers.getDefaultProvider(DEFAULT_CHAIN_ID);
   }
 
-  return process.env.PRIVATE_KEY
-    ? { signer: new ethers.Wallet(process.env.PRIVATE_KEY) }
-    : { signer: new ethers.VoidSigner("") };
+  return { operator };
 };
 
 const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) => {

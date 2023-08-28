@@ -1,7 +1,9 @@
 import React from "react";
 import { useBurnFraction } from "../hooks/burnFraction";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
+import useCheckWriteable from "../hooks/checkWriteable";
+import { toast } from "react-toastify";
 
 type BurnFractionButtonProps = {
   text: string;
@@ -17,8 +19,9 @@ export const BurnFractionButton = ({
   className,
 }: BurnFractionButtonProps) => {
   const { push } = useRouter();
+  const { checking, writeable, errors } = useCheckWriteable();
 
-  const { write } = useBurnFraction({
+  const { write, txPending } = useBurnFraction({
     onComplete: () => push("/app/dashboard"),
   });
   /**
@@ -27,11 +30,36 @@ export const BurnFractionButton = ({
    * Related to https://github.com/Network-Goods/hypercerts-protocol/issues/80
    */
 
-  const handleClick = () => {
-    write(fractionId);
+  const handleClick = async () => {
+    if (errors) {
+      for (const error in errors) {
+        toast(errors[error], {
+          type: "error",
+        });
+      }
+
+      return;
+    }
+
+    if (!writeable) {
+      toast("Cannot execute transaction. Check logs for errors", {
+        type: "error",
+      });
+      return;
+    }
+
+    write(BigInt(fractionId));
   };
+
   return (
-    <Button className={className} disabled={disabled} onClick={handleClick}>
+    <Button
+      className={className}
+      disabled={!writeable || disabled || txPending || checking}
+      onClick={handleClick}
+      startIcon={
+        txPending || checking ? <CircularProgress size="1rem" /> : undefined
+      }
+    >
       {text}
     </Button>
   );

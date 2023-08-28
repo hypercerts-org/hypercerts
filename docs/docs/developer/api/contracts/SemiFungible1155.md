@@ -129,19 +129,19 @@ _Returns the address of the current owner._
 function ownerOf(uint256 tokenID) external view returns (address _owner)
 ```
 
-READ
+_Returns the owner of a given token ID._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name    | Type    | Description                   |
+| ------- | ------- | ----------------------------- |
+| tokenID | uint256 | The ID of the token to query. |
 
 #### Returns
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| \_owner | address | undefined   |
+| Name    | Type    | Description                            |
+| ------- | ------- | -------------------------------------- |
+| \_owner | address | The address of the owner of the token. |
 
 ### proxiableUUID
 
@@ -285,19 +285,19 @@ _Upgrade the implementation of the proxy to `newImplementation`, and subsequentl
 function uri(uint256 tokenID) external view returns (string _uri)
 ```
 
-_see { openzeppelin-contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol }Always returns the URI for the basetype so that it&#39;s managed in one place._
+_Returns the metadata URI for a given token ID.This function retrieves the metadata URI for the specified token ID by calling the `uri` function of the `ERC1155URIStorageUpgradeable` contract.The metadata URI is a string that points to a JSON file containing information about the token, such as its name, symbol, and image.This function always returns the URI for the basetype so that it&#39;s managed in one place._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name    | Type    | Description                                           |
+| ------- | ------- | ----------------------------------------------------- |
+| tokenID | uint256 | The ID of the token to retrieve the metadata URI for. |
 
 #### Returns
 
-| Name  | Type   | Description |
-| ----- | ------ | ----------- |
-| \_uri | string | undefined   |
+| Name  | Type   | Description                                  |
+| ----- | ------ | -------------------------------------------- |
+| \_uri | string | The metadata URI for the specified token ID. |
 
 ## Events
 

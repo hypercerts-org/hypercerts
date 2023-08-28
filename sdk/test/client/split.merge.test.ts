@@ -1,17 +1,29 @@
+import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
+import { BigNumber, Wallet } from "ethers";
+import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
-import { HypercertMinterABI } from "@hypercerts-org/contracts";
-import { BigNumber } from "ethers";
 import { ClientError } from "../../src/types/errors.js";
 
-const provider = new MockProvider();
-const wallet = provider.getWallets()[0];
-const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
-
 describe("splitClaimUnits in HypercertClient", () => {
+  let stub: sinon.SinonStub;
+  let provider: MockProvider;
+  let wallet: Wallet;
+  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
+
+  beforeAll(() => {
+    provider = new MockProvider();
+    wallet = provider.getWallets()[0];
+
+    stub = sinon.stub(provider, "on");
+  });
   beforeEach(() => {
     provider.clearCallHistory();
+  });
+
+  afterAll(() => {
+    stub.restore();
   });
 
   it("allows for a hypercert fractions to be splitted over value", async () => {
@@ -27,8 +39,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
 
@@ -53,8 +64,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -83,8 +93,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -114,8 +123,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -137,8 +145,22 @@ describe("splitClaimUnits in HypercertClient", () => {
 });
 
 describe("mergeClaimUnits in HypercertClient", () => {
+  let stub: sinon.SinonStub;
+  let provider: MockProvider;
+  let wallet: Wallet;
+  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
+
+  beforeAll(() => {
+    provider = new MockProvider();
+    wallet = provider.getWallets()[0];
+    stub = sinon.stub(provider, "on");
+  });
   beforeEach(() => {
     provider.clearCallHistory();
+  });
+
+  afterAll(() => {
+    stub.restore();
   });
 
   it("allows for hypercert fractions to merge value", async () => {
@@ -154,8 +176,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -179,8 +200,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);
@@ -211,8 +231,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
     const client = new HypercertClient({
       chainId: 5,
-      provider,
-      signer,
+      operator: signer,
       contractAddress: mockMinter.address,
     });
     expect(client.readonly).toBe(false);

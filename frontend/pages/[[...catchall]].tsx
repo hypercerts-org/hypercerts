@@ -1,4 +1,5 @@
 import { ConfettiContainer } from "../components/confetti";
+import DappContext from "../components/dapp-context";
 import { PLASMIC } from "../plasmic-init";
 import {
   PlasmicComponent,
@@ -86,20 +87,22 @@ export default function CatchallPage(props: {
   const pageMeta = plasmicData.entryCompMetas[0];
   return (
     // Pass in the data fetched in getStaticProps as prefetchedData
-    <ConfettiContainer>
-      <PlasmicRootProvider
-        loader={PLASMIC}
-        prefetchedData={plasmicData}
-        prefetchedQueryData={queryCache}
-        pageParams={pageMeta.params}
-        pageQuery={router.query}
-      >
-        {
-          // pageMeta.displayName contains the name of the component you fetched.
-        }
-        <PlasmicComponent component={pageMeta.displayName} />
-        <ToastContainer theme="dark" position="top-right" />
-      </PlasmicRootProvider>
-    </ConfettiContainer>
+    <DappContext>
+      <ConfettiContainer>
+        <PlasmicRootProvider
+          loader={PLASMIC}
+          prefetchedData={plasmicData}
+          prefetchedQueryData={queryCache}
+          pageParams={pageMeta.params}
+          pageQuery={router.query}
+        >
+          {
+            // pageMeta.displayName contains the name of the component you fetched.
+          }
+          <PlasmicComponent component={pageMeta.displayName} />
+          <ToastContainer theme="dark" position="top-right" />
+        </PlasmicRootProvider>
+      </ConfettiContainer>
+    </DappContext>
   );
 }

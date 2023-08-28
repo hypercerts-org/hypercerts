@@ -13,8 +13,9 @@
       "docs",
       "frontend",
       "graph",
-      "os-observer",
-      "sdk"
+      "sdk",
+      "vendor/observabletreemap",
+      "e2e-tests"
     ],
     "nohoist": [
       "graph"
@@ -34,10 +35,18 @@
     "deploy:cors-proxy": "turbo run deploy --filter=@hypercerts-org/cors-proxy --parallel",
     "deploy:defender": "turbo run deploy --filter=hypercerts-defender --parallel",
     "deploy:graph": "turbo run deploy --filter=@hypercerts-org/graph --parallel",
+    "deploy:os-observer": "turbo run deploy --filter=@hypercerts-org/os-observer --parallel",
     "deploy:site": "turbo run build --filter=@hypercerts-org/docs --filter=hypercerts-protocol && turbo run deploy --filter=@hypercerts-org/frontend && yarn copy",
     "dev:cors-proxy": "turbo run dev --filter=@hypercerts-org/cors-proxy --parallel",
     "dev:frontend": "turbo run dev --filter=@hypercerts-org/frontend --parallel",
     "format:staged": "lint-staged",
+    "e2e:serve-for-dev": "(yarn e2e:infra-down || true) && docker compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env --env-file ./docker/dev.env up",
+    "e2e:serve-for-test": "(yarn e2e:infra-down || true) && ENVIRONMENT=tests docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/dev.env --env-file ./.env.local --profile testing up",
+    "e2e:run-tests": "(yarn e2e:infra-down || true) && docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing run --service-ports playwright",
+    "e2e:ci-run-tests": "CI=1 docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing run --service-ports playwright",
+    "e2e:ci-logs": "CI=1 docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing logs",
+    "e2e:infra-down": "docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./.env.local --env-file ./docker/base.env down",
+    "e2e:clean": "yarn e2e:infra-down --volumes",
     "lint": "turbo run lint --concurrency=100%",
     "serve:build": "yarn serve build",
     "start:os-observer": "turbo run start --filter=@hypercerts-org/os-observer --",
@@ -45,6 +54,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
+    "@synthetixio/synpress": "^3.7.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",

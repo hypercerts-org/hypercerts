@@ -13,5 +13,5 @@ export type {
   IPFSEvaluation,
   HypercertPointer,
 } from "./evaluation.js";
-export type { ClaimByIdQuery, ClaimTokensByClaimQuery } from "./global.js";
+export type { ClaimByIdQuery, ClaimTokensByClaimQuery, Claim, ClaimToken } from "./global.js";
 export type { HypercertMetadata } from "./metadata.js";

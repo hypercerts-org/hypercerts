@@ -15,13 +15,13 @@ export const NETWORKS: NetworkConfig[] = [
   {
     networkKey: "goerli",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "goerli-allowlistCache",
+    supabaseTableName: "allowlistCache-goerli",
     alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
   },
   {
     networkKey: "optimism",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "optimism-allowlistCache",
+    supabaseTableName: "allowlistCache-optimism",
     alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
   },
 ];
@@ -36,6 +36,19 @@ export const NETWORKS: NetworkConfig[] = [
  */
 export const encodeName = (network: NetworkConfig, name: string) =>
   `[${network.networkKey}] ${name}`;
+
+export const decodeName = (
+  encodedName: string,
+): { networkKey: string; name: string } => {
+  const regex = /^\[(.+)\]\s(.+)$/;
+  const match = encodedName.match(regex);
+  if (!match) {
+    throw new Error(`Invalid encoded name: ${encodedName}`);
+  }
+  const networkKey = match[1];
+  const name = match[2];
+  return { networkKey, name };
+};
 
 /**
  * From an Autotask name, deduce which NetworkConfig we're using

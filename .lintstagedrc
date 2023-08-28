@@ -1,6 +1,6 @@
 {
   "**/*.{js,jsx,ts,tsx,sol}": [
-    "eslint --ignore-path .gitignore --ignore-pattern sdk/",
+    "eslint --ignore-path .gitignore --ignore-path .lintstagedignore --ignore-pattern playwright.config --ignore-pattern graph/generated/ --ignore-pattern vendor --ignore-pattern e2e --ignore-pattern docs",
     "prettier --write"
   ],
   "**/*.{md,json}": ["prettier --write"]

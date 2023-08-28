@@ -57,37 +57,44 @@ export async function handler(event: AutotaskEvent) {
     network.networkKey,
     ALCHEMY_KEY,
   );
-  const tx = await provider.getTransaction(blockTriggerEvent.hash);
   const contractInterface = new ethers.utils.Interface(abi);
-  const decodedData = contractInterface.parseTransaction({
-    data: tx.data,
-    value: tx.value,
-  });
+  const contract = new ethers.Contract(contractAddress, abi, provider);
 
-  console.log("Transaction: ", JSON.stringify(decodedData, null, 2));
-  const metadataUri = decodedData.args["_uri"];
-  console.log("MetadataUri", metadataUri);
-  const metadata = await getData(metadataUri);
-  console.log("Metadata", { ...metadata, image: metadata.image?.slice(0, 64) });
-  if (!metadata?.allowList) {
-    throw new Error(`No allowlist found`);
-  }
+  //Ignore unknown events
+  const allowlistCreatedEvents = txnLogs
+    .map((l) => {
+      try {
+        return contractInterface.parseLog(l);
+      } catch (e) {
+        console.log("Failed to parse log", l);
+        return null;
+      }
+    })
+    .filter((e) => e !== null && e.name === "AllowlistCreated");
 
-  const txnEvents = txnLogs.map((l) => contractInterface.parseLog(l));
-  const allowlistCreatedEvents = txnEvents.filter(
-    (e) => e.name === "AllowlistCreated",
-  );
   console.log(
     "AllowlistCreated Events: ",
     JSON.stringify(allowlistCreatedEvents, null, 2),
   );
+
   if (allowlistCreatedEvents.length !== 1) {
     throw new MissingDataError(
       `Unexpected saw ${allowlistCreatedEvents.length} AllowlistCreated events`,
     );
   }
+
   const tokenId = allowlistCreatedEvents[0].args["tokenID"].toString();
   console.log("TokenId: ", tokenId);
+
+  const metadataUri = await contract.functions.uri(tokenId);
+  console.log("metadataUri: ", metadataUri);
+
+  const metadata = await getData(metadataUri[0]);
+  if (!metadata?.allowList) {
+    throw new Error(`No allowlist found`);
+  }
+
+  console.log("allowlist: ", metadata.allowList);
 
   // Get allowlist
   const treeResponse = await getData(metadata.allowList);
@@ -102,17 +109,24 @@ export async function handler(event: AutotaskEvent) {
     addresses.push(v[0]);
   }
   console.log("addresses", addresses);
-  const pairs = addresses.map((address) => ({
+  const data = addresses.map((address, index) => ({
     address: address.toLowerCase(),
     claimId: `${contractAddress}-${tokenId}`,
+    fractionCounter: index,
   }));
-  console.log("pairs", pairs);
+  console.log("data", data);
 
   const addResult = await client
     .from(network.supabaseTableName)
-    .insert(pairs)
+    .insert(data)
     .select()
     .then((data) => data.data);
 
   console.log("add result", addResult);
+
+  if (!addResult) {
+    throw new Error(
+      `Could not add to database. Add result: ${JSON.stringify(addResult)}`,
+    );
+  }
 }

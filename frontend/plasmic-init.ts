@@ -1,7 +1,9 @@
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
-import { DEFAULT_TEST_DATA } from "./components/dapp-context";
+import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
   FormError,
@@ -13,24 +15,36 @@ import {
   FormCheckbox,
 } from "./components/forms";
 import { BurnFractionButton } from "./components/burn-fraction-button";
-
 import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
+import { FtcPurchaseForm } from "./components/ftc-purchase";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
 import { SupabaseQuery } from "./components/supabase-query";
 import { SupabaseToChart } from "./components/supabase-to-chart";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
-import { PLASMIC_PROJECT_ID, PLASMIC_PROJECT_API_TOKEN } from "./lib/config";
+import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
+import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
+import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
+import { ProjectBrowser } from "./components/project-browser/project-browser";
+import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
+import { BlueprintCreateForm } from "./components/blueprint-create";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
     // Hypercerts DApp
     {
-      id: PLASMIC_PROJECT_ID,
-      token: PLASMIC_PROJECT_API_TOKEN,
+      id: "38ak4QaubqTqAiZYMMbzfn",
+      token:
+        "usdCXkFge9ue3rDU8knaWx2pZ4aewtCnVgRB7YEP3bCtYACSHIfr48mvGYrDGIkq8xaDssFsr9o5rWOOAyMQ",
+    },
+    // Hypercerts Events
+    {
+      id: "fyzUiR9xFxM4i8qbFQTNzu",
+      token:
+        "9w4RzLtSF94NnD1PUKqrKUWA2hTKdKJZARgeDx39cX4BCSvgkvkoknA70mClZNxRmemLYonFE4GohvY3bWg",
     },
   ],
   // Fetches the latest revisions, whether or not they were unpublished!
@@ -103,9 +117,9 @@ PLASMIC.registerComponent(Config, {
 });
 
 PLASMIC.registerComponent(
-  dynamic(() => import("./components/dapp-context"), { ssr: false }),
+  dynamic(() => import("./components/dapp-state"), { ssr: false }),
   {
-    name: "DappContext",
+    name: "DappState",
     description: "This must wrap anything that uses wallet functionality",
     props: {
       children: {
@@ -139,7 +153,7 @@ PLASMIC.registerComponent(
       },
     },
     providesData: true,
-    importPath: "./components/dapp-context",
+    importPath: "./components/dapp-state",
   },
 );
 
@@ -211,6 +225,29 @@ PLASMIC.registerComponent(HypercertCreateForm, {
   },
   providesData: true,
   importPath: "./components/hypercert-create",
+});
+
+PLASMIC.registerComponent(BlueprintCreateForm, {
+  name: "BlueprintCreateForm",
+  description: "Create a blueprint",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/blueprint-create",
+});
+
+PLASMIC.registerComponent(ContributionBlueprintCreate, {
+  name: "ContributionBlueprintCreate",
+  description: "Create a contribution blueprint",
+  importPath: "./components/contribution-blueprint-create",
+  props: {},
 });
 
 PLASMIC.registerComponent(FormError, {
@@ -373,6 +410,22 @@ PLASMIC.registerComponent(ZuzaluPurchaseForm, {
   },
   providesData: true,
   importPath: "./components/zuzalu-purchase",
+});
+
+PLASMIC.registerComponent(FtcPurchaseForm, {
+  name: "FtcPurchaseForm",
+  description: "Funding the Commons Contribution Form",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: {
+        type: "text",
+        value: "Placeholder",
+      },
+    },
+  },
+  providesData: true,
+  importPath: "./components/ftc-purchase",
 });
 
 PLASMIC.registerComponent(Tooltip, {
@@ -546,4 +599,75 @@ PLASMIC.registerComponent(BurnFractionButton, {
     disabled: "boolean",
   },
   importPath: "./components/burn-fraction-button",
+});
+
+PLASMIC.registerComponent(ZuzaluHypercertTreemap, {
+  name: "ZuzaluHypercertTreemap",
+  description: "Zuzalu Hypercert Treemap from observerablehq",
+  props: {
+    children: "slot",
+  },
+  importPath: "./components/zuzalu-hypercert-treemap",
+});
+
+PLASMIC.registerComponent(GenericHypercertTreemap, {
+  name: "GenericHypercertTreemap",
+  description: "Generic Hypercert Treemap from observerablehq",
+  props: {
+    children: {
+      type: "slot",
+      defaultValue: GenericHypercertTreemap.defaultChildren,
+    },
+    data: {
+      type: "object",
+      defaultValue: {
+        name: "EXAMPLE",
+        children: [
+          {
+            name: "Example",
+            children: [
+              {
+                name: "Invites",
+                value: 100,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+  importPath: "./components/generic-hypercert-treemap",
+});
+
+PLASMIC.registerComponent(ProjectBrowser, {
+  name: "ProjectBrowser",
+  description: "Project browser",
+  props: {},
+  importPath: "./components/project-browser",
+  defaultStyles: {
+    width: "100%",
+    minHeight: 300,
+  },
+});
+
+PLASMIC.registerComponent(ProjectsClientProvider, {
+  name: "ProjectsClientProvider",
+  description: "Provides the client for OS Observer",
+  props: {
+    variableName: {
+      type: "string",
+      defaultValue: "projectsClient",
+    },
+    children: "slot",
+    testData: "object",
+    useTestData: {
+      type: "boolean",
+      helpText: "render with test data",
+      editOnly: true,
+    },
+  },
+  providesData: true,
+  defaultStyles: {
+    width: "Full bleed",
+  },
 });

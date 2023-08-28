@@ -3,13 +3,15 @@ import { burnInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
-import { BigNumberish } from "ethers";
+import { useState } from "react";
 
 export const useBurnFraction = ({
   onComplete,
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -22,17 +24,21 @@ export const useBurnFraction = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const initializeBurn = async (claimId: BigNumberish) => {
+  const initializeBurn = async (claimId: bigint) => {
     setStep("preparing");
     try {
-      const tx = await client.burnClaimFraction(claimId);
+      setTxPending(true);
+
       setStep("burning");
 
-      const receipt = await tx.wait();
+      const tx = await client.burnClaimFraction(claimId);
+
       setStep("waiting");
 
+      const receipt = await tx.wait(5);
+
       if (receipt.status === 0) {
-        toast("Minting failed", {
+        toast("Burning failed", {
           type: "error",
         });
         console.error(receipt);
@@ -52,14 +58,16 @@ export const useBurnFraction = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
   return {
-    write: async (claimId: BigNumberish) => {
+    write: async (claimId: bigint) => {
       showModal({ stepDescriptions });
       await initializeBurn(claimId);
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

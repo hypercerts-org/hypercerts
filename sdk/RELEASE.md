@@ -1,5 +1,27 @@
 # Release notes
 
+## 0.3.1 Update dependencies
+
+- Updated graph package dependencies
+- Updated nft.storage and web3.storage dependencies
+
+## 0.3.0 Simplify config
+
+- Simplify config: merge the Signer and Provider into the operator. The SDK will determine which is available (provided
+  via overrides, env vars or defaults) and infer whether transactions can be broadcasted
+- Add test suite for config loading
+
+## 0.2.0 Errors
+
+- Updates Error types and error payload field.
+- Added test suite for error types
+- Expands SDK config with unsafe overrideable config
+- Tweaks SDK config for graph
+
+## 0.1.0 Client SDK
+
+- Provides HypercertClient via SDK that exposes wrapper function and key components to the hypercerts protocol
+
 ## 0.0.33
 
 - Adding custom error types to SDK

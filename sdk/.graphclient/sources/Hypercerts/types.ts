@@ -19,6 +19,7 @@ export type Scalars = {
   BigDecimal: any;
   BigInt: any;
   Bytes: any;
+  Int8: any;
 };
 
 export type Allowlist = {
@@ -553,6 +554,6 @@ export type _SubgraphErrorPolicy_ =
 
   export type Context = {
       ["Hypercerts"]: { Query: QuerySdk, Mutation: MutationSdk, Subscription: SubscriptionSdk },
-      ["chainName"]: Scalars['ID']
+      ["graphUrl"]: Scalars['ID']
     };
 }

@@ -28,14 +28,14 @@ const logger = {
 
   warn: (message: string, label?: string, ...data: unknown[]) => {
     if (getLogLevel() < Log.Warn) return;
-    let logMessage = `[warn]${label ? `[${label}]` : ""}: ${message}`;
+    const logMessage = `[warn]${label ? `[${label}]` : ""}: ${message}`;
 
     console.warn(logMessage, ...data);
   },
 
   info: (message: string, label?: string, ...data: unknown[]) => {
     if (getLogLevel() < Log.Info) return;
-    let logMessage = `[info]${label ? `[${label}]` : ""}: ${message}`;
+    const logMessage = `[info]${label ? `[${label}]` : ""}: ${message}`;
 
     console.info(logMessage, ...data);
   },
@@ -43,7 +43,7 @@ const logger = {
   debug: (message: string, label?: string, ...data: unknown[]) => {
     if (getLogLevel() < Log.Debug) return;
 
-    let logMessage = `[debug]${label ? `[${label}]` : ""}: ${message}`;
+    const logMessage = `[debug]${label ? `[${label}]` : ""}: ${message}`;
 
     console.debug(logMessage, ...data);
   },

@@ -1,7 +1,6 @@
-import { Allowlist } from "@hypercerts-org/sdk";
 import { assertNever } from "./common";
 import { InvalidDataError, OutOfBoundsError } from "./errors";
-import { isAddress } from "ethers/lib/utils";
+import { AllowlistEntry } from "@hypercerts-org/sdk";
 import _ from "lodash";
 import Papa from "papaparse";
 
@@ -13,11 +12,12 @@ import Papa from "papaparse";
  */
 export function parseAllowlistCsv(
   csv: string,
+  deduplicate: boolean,
   add: {
     address: string;
     percentage: number;
   }[] = [],
-): Allowlist {
+): AllowlistEntry[] {
   // Parse CSV
   const { data: rawData, errors } = Papa.parse(csv, {
     header: true,
@@ -60,11 +60,18 @@ export function parseAllowlistCsv(
       units: Math.floor(totalSupply * x.percentage),
     })),
   );
+
+  // Return if no deduplication
+  if (!deduplicate) {
+    return data;
+  }
+
   // Deduplicate
   const groups = _.groupBy(data, (x) => x.address);
   const addressToUnits = _.mapValues(groups, (x) =>
     x.reduce((accum, curr) => accum + curr.units, 0),
   );
+
   const result = _.toPairs(addressToUnits).map(([address, units]) => ({
     address,
     units,
@@ -100,7 +107,9 @@ export const parseListFromString = (
         list = list.map((x) => x.toLowerCase());
         break;
       case "addresses":
-        list = list.map((x) => (isAddress(x) ? x.toLowerCase() : x));
+        list = list.map((x) =>
+          x.match(/^0x[a-fA-F0-9]{40}$/) ? x.toLowerCase() : x,
+        );
         break;
       default:
         assertNever(opts.lowercase);

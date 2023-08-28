@@ -1,6 +1,7 @@
 /** @type {import("ts-jest").JestConfigWithTsJest} */
 export default {
-  setupFiles: ["./test/setup-tests.ts"],
+  setupFiles: ["./test/setup-env.ts"],
+  setupFilesAfterEnv: ["jest-extended/all"],
   preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   rootDir: ".",
   moduleDirectories: ["node_modules", "src", ".graphclient"],

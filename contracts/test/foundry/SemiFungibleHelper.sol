@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
+
 import { SemiFungible1155 } from "../../src/SemiFungible1155.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
@@ -51,6 +52,10 @@ contract SemiFungible1155Helper is SemiFungible1155, PRBTest, StdCheats, StdUtil
         _burnToken(account, tokenID);
     }
 
+    function batchBurnValues(address account, uint256[] memory tokenIDs) public {
+        _batchBurnToken(account, tokenIDs);
+    }
+
     function unitsOf(uint256 tokenID) public view returns (uint256) {
         return _unitsOf(tokenID);
     }
@@ -86,18 +91,24 @@ contract SemiFungible1155Helper is SemiFungible1155, PRBTest, StdCheats, StdUtil
             return 0;
         }
         sum = 0;
-        for (uint256 i = 0; i < array.length; i++) sum += array[i];
+        for (uint256 i = 0; i < array.length; i++) {
+            sum += array[i];
+        }
     }
 
     function buildValues(uint256 size, uint256 base) public pure returns (uint256[] memory) {
         uint256[] memory _values = new uint256[](size);
-        for (uint256 i = 0; i < size; i++) _values[i] = base;
+        for (uint256 i = 0; i < size; i++) {
+            _values[i] = base;
+        }
         return _values;
     }
 
     function buildIDs(uint256 baseID, uint256 size) public pure returns (uint256[] memory) {
         uint256[] memory _values = new uint256[](size);
-        for (uint256 i = 0; i < size; i++) _values[i] = baseID + i + 1;
+        for (uint256 i = 0; i < size; i++) {
+            _values[i] = baseID + i + 1;
+        }
         return _values;
     }
 

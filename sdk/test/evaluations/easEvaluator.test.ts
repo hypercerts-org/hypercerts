@@ -1,18 +1,29 @@
-import EasEvaluator from "../../src/evaluations/eas.js";
-import { EAS_SCHEMAS } from "../../src/constants.js";
-import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation.js";
 import { MockProvider } from "ethereum-waffle";
+import sinon from "sinon";
+
+import { EAS_SCHEMAS } from "../../src/constants.js";
+import EasEvaluator from "../../src/evaluations/eas.js";
 import { HypercertClientConfig } from "../../src/index.js";
+import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation.js";
 
 describe("EasEvaluator", () => {
+  let stub: sinon.SinonStub;
   const provider = new MockProvider();
+
+  beforeAll(() => {
+    stub = sinon.stub(provider, "on");
+  });
   const [wallet] = provider.getWallets();
   const signer = wallet.connect(provider);
+
+  afterAll(() => {
+    stub.restore();
+  });
 
   const config = {
     chainId: 5,
     easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-    signer,
+    operator: signer,
   } as Partial<HypercertClientConfig>;
   const easEvaluator = new EasEvaluator(config);
 
@@ -55,9 +66,7 @@ describe("EasEvaluator", () => {
 
       expect(signature).toBeDefined();
       expect(signature?.message.schema).toEqual(EAS_SCHEMAS["sepolia"].duplicate.uid);
-      expect(Object.keys(signature!)).toEqual(
-        expect.arrayContaining(["domain", "message", "primaryType", "signature", "types", "uid"]),
-      );
+      expect(signature).toContainKeys(["domain", "message", "primaryType", "signature", "types", "uid"]);
     });
 
     it("should sign a simple text evaluation", async () => {
@@ -75,9 +84,7 @@ describe("EasEvaluator", () => {
 
       expect(signature).toBeDefined();
       expect(signature?.message.schema).toEqual(EAS_SCHEMAS["sepolia"].contentHash.uid);
-      expect(Object.keys(signature!)).toEqual(
-        expect.arrayContaining(["domain", "message", "primaryType", "signature", "types", "uid"]),
-      );
+      expect(signature).toContainKeys(["domain", "message", "primaryType", "signature", "types", "uid"]);
     });
   });
 });

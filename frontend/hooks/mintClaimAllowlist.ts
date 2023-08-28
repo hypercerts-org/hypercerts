@@ -1,19 +1,17 @@
+import { useState } from "react";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { parseAllowlistCsv } from "../lib/parsing";
 import { useAccountLowerCase } from "./account";
+import { useHypercertClient } from "./hypercerts-client";
 import {
   HypercertMetadata,
   validateAllowlist,
   TransferRestrictions,
-  Allowlist,
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
-import _ from "lodash";
 import { toast } from "react-toastify";
-import { useHypercertClient } from "./hypercerts-client";
-import { BigNumberish } from "ethers";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
 
@@ -22,6 +20,8 @@ export const useMintClaimAllowlist = ({
 }: {
   onComplete?: () => void;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
@@ -39,9 +39,10 @@ export const useMintClaimAllowlist = ({
   const getAndUpdateAllowlist = async (
     allowlistUrl: string,
     allowlistPercentage: number,
+    deduplicate: boolean,
   ): Promise<{
-    allowlist: Allowlist;
-    totalSupply: BigNumberish;
+    allowlist: AllowlistEntry[];
+    totalSupply: bigint;
     valid: boolean;
     errors: any;
   }> => {
@@ -50,22 +51,29 @@ export const useMintClaimAllowlist = ({
     const htmlResult = await fetch(allowlistUrl, { method: "GET" });
     const htmlText = await htmlResult.text();
     try {
-      const allowlist: Allowlist = parseAllowlistCsv(htmlText, [
-        {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          address: address!,
-          // Creator gets the rest for now
-          percentage: 1.0 - allowlistFraction,
-        },
-      ]);
-      const totalSupply = _.sum(allowlist.map((x: AllowlistEntry) => x.units));
+      const allowlist: AllowlistEntry[] = parseAllowlistCsv(
+        htmlText,
+        deduplicate,
+        [
+          {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            address: address!,
+            // Creator gets the rest for now
+            percentage: 1.0 - allowlistFraction,
+          },
+        ],
+      );
+      const totalSupply = allowlist.reduce(
+        (acc: bigint, x: AllowlistEntry) => acc + BigInt(x.units.toString()),
+        0n,
+      );
 
       const { valid, errors } = validateAllowlist(allowlist, totalSupply);
 
       console.log(valid, errors);
       return { allowlist, totalSupply, valid, errors };
     } catch (error) {
-      return { allowlist: [], totalSupply: 0, valid: false, errors: error };
+      return { allowlist: [], totalSupply: 0n, valid: false, errors: error };
     }
   };
 
@@ -73,35 +81,53 @@ export const useMintClaimAllowlist = ({
     metaData: HypercertMetadata,
     allowlistUrl: string,
     allowlistPercentage: number,
+    deduplicate: boolean,
   ) => {
     setStep("validateAllowlist");
 
-    const { allowlist, totalSupply, valid, errors } =
-      await getAndUpdateAllowlist(allowlistUrl, allowlistPercentage);
+    let _totalSupply;
+    let _allowlist: AllowlistEntry[];
 
-    if (!valid) {
-      toast("Errors found in allowlist. Check console for errors.", {
-        type: "error",
-      });
-      for (const error of errors) {
-        console.error(error);
+    try {
+      const { allowlist, totalSupply, valid, errors } =
+        await getAndUpdateAllowlist(
+          allowlistUrl,
+          allowlistPercentage,
+          deduplicate,
+        );
+
+      if (!valid) {
+        toast("Errors found in allowlist. Check console for errors.", {
+          type: "error",
+        });
+        for (const error of errors) {
+          console.error(error);
+        }
+        hideModal();
+        return;
       }
+
+      _totalSupply = totalSupply;
+      _allowlist = allowlist;
+    } catch (e) {
+      console.error("Unhandled Error: ", e);
       hideModal();
       return;
     }
 
     try {
       setStep("preparing");
+      setTxPending(true);
 
       const tx = await client.createAllowlist(
-        allowlist,
+        _allowlist,
         metaData,
-        totalSupply,
+        _totalSupply,
         TransferRestrictions.FromCreatorOnly,
       );
       setStep("writing");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -121,6 +147,7 @@ export const useMintClaimAllowlist = ({
       console.error(error);
     } finally {
       hideModal();
+      setTxPending(false);
     }
   };
 
@@ -129,14 +156,22 @@ export const useMintClaimAllowlist = ({
       metaData,
       allowlistUrl,
       allowlistPercentage,
+      deduplicate,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl: string;
       allowlistPercentage: number;
+      deduplicate: boolean;
     }) => {
       showModal({ stepDescriptions });
-      await initializeWrite(metaData, allowlistUrl, allowlistPercentage);
+      await initializeWrite(
+        metaData,
+        allowlistUrl,
+        allowlistPercentage,
+        deduplicate,
+      );
     },
+    txPending,
     readOnly: isLoading || !client || client.readonly,
   };
 };

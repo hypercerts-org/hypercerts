@@ -1,21 +1,21 @@
+import { useAccountLowerCase } from "../hooks/account";
+import { supabase } from "../lib/supabase-client";
+import { useConfetti } from "./confetti";
+import { FormContext } from "./forms";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-import { Formik, FormikProps } from "formik";
+import { Formik, FormikErrors, FormikProps } from "formik";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { toast } from "react-toastify";
+import { isAddress, parseEther } from "viem";
 import {
   useBalance,
   useNetwork,
   usePrepareSendTransaction,
   useSendTransaction,
 } from "wagmi";
-import { utils } from "ethers";
 import * as Yup from "yup";
-import { useAccountLowerCase } from "../hooks/account";
-import { useConfetti } from "./confetti";
-import { FormContext } from "./forms";
-import { supabase } from "../lib/supabase-client";
 
 /**
  * Constants
@@ -171,21 +171,22 @@ export interface ZuzaluPurchaseFormProps {
 }
 
 export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
+  const [writeable, setWriteable] = React.useState<boolean>(false);
+  const [errors, setErrors] = React.useState<{ [key: string]: string }>();
+
   const { className, children } = props;
-  const { address } = useAccountLowerCase();
+  const { address, isConnected } = useAccountLowerCase();
+  const { data: balance } = useBalance({ address: address as `0x${string}` });
   const { chain } = useNetwork();
   const { push } = useRouter();
   const confetti = useConfetti();
-  const { data: balance, isLoading: balanceLoading } = useBalance({
-    address: address as `0x${string}`,
-  });
+
   const [ethValue, setEthValue] = React.useState<number>(0);
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
   const { config } = usePrepareSendTransaction({
-    request: {
-      to: DESTINATION_ADDRESS,
-      value: utils.parseEther(`${ethValue}`),
-    },
+    to: DESTINATION_ADDRESS,
+    value: parseEther(`${ethValue}`),
+    enabled: writeable,
     onError(error) {
       setWagmiErr(error);
     },
@@ -196,6 +197,83 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
       setWagmiErr(error);
     },
   });
+
+  const checkWriteable = async () => {
+    setWriteable(false);
+    const currentErrors: { [key: string]: string } = {};
+
+    if (!isConnected) {
+      console.log("User not connected");
+      currentErrors["connection"] =
+        "You appear to not be connected. Please connect your wallet";
+    }
+
+    if (!address || !isAddress(address)) {
+      console.log("No address found");
+      currentErrors[
+        "address"
+      ] = `No -valid- address found [${address}]. Please connect your wallet`;
+    }
+
+    if (!balance || balance.value == 0n) {
+      console.log("No balance");
+      currentErrors["balance"] = "Please add funds to your wallet";
+    }
+
+    if (!chain) {
+      console.log("No chain found");
+      currentErrors["chain"] =
+        "No connected chain found. Please connect your wallet";
+    }
+
+    if (chain && chain.id !== CHAIN_ID) {
+      console.log(`On wrong network HERE. Expect ${CHAIN_ID} Saw ${chain?.id}`);
+
+      currentErrors["chain"] = `Wrong network. Please connect to ${CHAIN_ID}`;
+    }
+
+    if (Object.keys(currentErrors).length == 0) {
+      console.log("no errors");
+      setWriteable(true);
+    } else {
+      console.log("errors detected");
+      setWriteable(false);
+    }
+    setErrors(currentErrors);
+  };
+
+  useEffect(() => {
+    checkWriteable();
+  }, [address, balance, chain]);
+
+  const checkCanSubmit = (
+    formValues: ZuzaluPurchaseFormData,
+    formErrors: FormikErrors<ZuzaluPurchaseFormData>,
+    onSubmit: () => void,
+  ) => {
+    if (errors && Object.keys(errors).length > 0) {
+      console.error(errors);
+      for (const error in errors) {
+        toast(errors[error], {
+          type: "error",
+        });
+      }
+
+      return;
+    }
+
+    if (!writeable) {
+      toast("Cannot execute transaction. Check logs for errors", {
+        type: "error",
+      });
+      return;
+    }
+
+    console.log("Submitting form...");
+    console.log("Form values: ", formValues);
+    console.log("Form errors: ", formErrors);
+    onSubmit();
+  };
 
   return (
     <div className={className}>
@@ -233,24 +311,7 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
         initialValues={{ ...DEFAULT_FORM_DATA }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          // Check for errors
-          if (!address) {
-            console.warn("User not connected");
-            toast("Please connect your wallet", { type: "error" });
-            return;
-          } else if (chain?.id !== CHAIN_ID) {
-            console.warn(
-              `On wrong network. Expect ${CHAIN_ID} Saw ${chain?.id}`,
-            );
-            toast("Please switch to the Ethereum network.", {
-              type: "error",
-            });
-            return;
-          } else if (!balanceLoading && balance && balance.value.isZero()) {
-            console.warn("No balance");
-            toast(`No balance found for wallet ${address}`, { type: "error" });
-            return;
-          } else if (ethValue <= 0) {
+          if (ethValue <= 0) {
             console.warn("No values selected");
             toast(`Please select some hypercerts`, { type: "error" });
             return;
@@ -299,10 +360,11 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  console.log("Submitting form...");
-                  console.log("Form values: ", formikProps.values);
-                  console.log("Form errors: ", formikProps.errors);
-                  formikProps.handleSubmit();
+                  checkCanSubmit(
+                    formikProps.values,
+                    formikProps.errors,
+                    formikProps.handleSubmit,
+                  );
                 }}
               >
                 {children}

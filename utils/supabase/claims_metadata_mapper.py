@@ -23,25 +23,40 @@ def timestamp_to_date_string(timestamp: str) -> str:
 
 def get_claims_with_offset(offset: int = 0) -> list:
     """Fetches claims from The Graph with a given offset."""
-    query = f'''
-        {{
-            claims(          
-                first: 1000
-                skip: {offset}
-                orderBy: creation
-            ) {{
-                id
-                totalUnits
-                uri
-                creator
-                creation    
+    # query = f'''
+    #     {{
+    #         claims(          
+    #             first: 1000
+    #             skip: {offset}
+    #             orderBy: creation
+    #         ) {{
+    #             id
+    #             totalUnits
+    #             uri
+    #             creator
+    #             creation    
+    #         }}
+    #     }}
+    #'''
+
+    query = f'''{{
+          allowlists(first: 1000) {{
+            claim {{
+              id
+              totalUnits
+              uri               
+              creator
+              creation                    
             }}
+          }}
         }}
     '''
+
     url = "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-optimism-mainnet"
     response = requests.post(url, json={'query': query})
     json_data = response.json()
-    data = json_data['data']['claims']
+    data = [x['claim'] for x in json_data['data']['allowlists']]
+    print(f"Total of {len(data)} claims fetched this request.")
     return data
 
 
@@ -54,8 +69,10 @@ def get_all_claims() -> list:
         if not claims:
             break
         all_claims.extend(claims)
+        if len(claims) < 1000:
+            break
         offset += 1000
-    print(f"The Graph shows a total of {len(all_claims)} hypercert claims.")
+    print(f"The Graph shows a total of {len(all_claims)} hypercert claims with allowlists.")
     return all_claims
 
 

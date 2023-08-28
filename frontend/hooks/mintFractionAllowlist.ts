@@ -1,9 +1,9 @@
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
-import { BigNumberish } from "ethers";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
+import { useState } from "react";
 
 export const useMintFractionAllowlist = ({
   onComplete,
@@ -12,8 +12,10 @@ export const useMintFractionAllowlist = ({
   onComplete?: () => void;
   enabled: boolean;
 }) => {
+  const [txPending, setTxPending] = useState(false);
+
   const { client, isLoading } = useHypercertClient();
-  const { setStep, showModal } = useContractModal();
+  const { setStep, showModal, hideModal } = useContractModal();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -25,12 +27,14 @@ export const useMintFractionAllowlist = ({
   const parseError = useParseBlockchainError();
 
   const initializeWrite = async (
-    claimID: BigNumberish,
-    units: BigNumberish,
+    claimID: bigint,
+    units: bigint,
     proof: string[],
   ) => {
     setStep("minting");
     try {
+      setTxPending(true);
+
       const tx = await client.mintClaimFractionFromAllowlist(
         claimID,
         units,
@@ -38,7 +42,7 @@ export const useMintFractionAllowlist = ({
       );
       setStep("waiting");
 
-      const receipt = await tx.wait();
+      const receipt = await tx.wait(5);
       if (receipt.status === 0) {
         toast("Minting failed", {
           type: "error",
@@ -56,19 +60,19 @@ export const useMintFractionAllowlist = ({
         type: "error",
       });
       console.error(error);
+    } finally {
+      hideModal();
+      setTxPending(false);
     }
   };
 
   return {
-    write: async (
-      proof: string[],
-      claimId: BigNumberish,
-      units: BigNumberish,
-    ) => {
+    write: async (proof: string[], claimId: bigint, units: bigint) => {
       showModal({ stepDescriptions });
       setStep("initial");
       await initializeWrite(claimId, units, proof);
     },
+    txPending,
     readOnly: !enabled || isLoading || !client || client.readonly,
   };
 };

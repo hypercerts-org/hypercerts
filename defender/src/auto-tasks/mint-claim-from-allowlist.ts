@@ -18,6 +18,7 @@ export async function handler(event: AutotaskEvent) {
   const network = getNetworkConfigFromName(event.autotaskName);
   const { SUPABASE_URL, SUPABASE_SECRET_API_KEY } = event.secrets;
   const ALCHEMY_KEY = event.secrets[network.alchemyKeyEnvName];
+
   const client = createClient(SUPABASE_URL, SUPABASE_SECRET_API_KEY, {
     global: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -25,6 +26,12 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
+  const provider = new ethers.providers.AlchemyProvider(
+    network.networkKey,
+    ALCHEMY_KEY,
+  );
+
+  // Check data availability
   const body = event.request.body;
   if (!("type" in body) || body.type !== "BLOCK") {
     throw new NotImplementedError("Event body is not a BlockTriggerEvent");
@@ -32,37 +39,76 @@ export async function handler(event: AutotaskEvent) {
   const blockTriggerEvent = body as BlockTriggerEvent;
   const contractAddress = blockTriggerEvent.matchedAddresses[0];
   const fromAddress = blockTriggerEvent.transaction.from;
+  const txnLogs = blockTriggerEvent.transaction.logs;
+  const tx = await provider.getTransaction(blockTriggerEvent.hash);
+
   if (!contractAddress) {
     throw new MissingDataError(`body.matchedAddresses is missing`);
   } else if (!fromAddress) {
     throw new MissingDataError(`body.transaction.from is missing`);
+  } else if (!txnLogs) {
+    throw new MissingDataError(`body.transaction.logs is missing`);
+  } else if (!tx) {
+    throw new MissingDataError(`tx is missing`);
   }
+
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
-  const tx = await provider.getTransaction(blockTriggerEvent.hash);
   const contractInterface = new ethers.utils.Interface(abi);
-  const decodedData = contractInterface.parseTransaction({
-    data: tx.data,
-    value: tx.value,
-  });
 
-  console.log("Transaction: ", JSON.stringify(decodedData, null, 2));
-  const claimId = decodedData.args["claimID"] as string;
+  // Parse events
+  const batchTransferEvents = txnLogs
+    .map((l) => {
+      //Ignore unknown events
+      try {
+        return contractInterface.parseLog(l);
+      } catch (e) {
+        console.log("Failed to parse log", l);
+        return null;
+      }
+    })
+    .filter((e) => e !== null && e.name === "BatchValueTransfer");
+
+  console.log(
+    "BatchTransfer Events: ",
+    JSON.stringify(batchTransferEvents, null, 2),
+  );
+
+  if (batchTransferEvents.length !== 1) {
+    throw new MissingDataError(
+      `Unexpected saw ${batchTransferEvents.length} BatchValueTransfer events`,
+    );
+  }
+
+  // Get claimID
+  const claimId = batchTransferEvents[0].args["claimIDs"][0] as string;
+  console.log(
+    "ClaimID: ",
+    batchTransferEvents[0].args["claimIDs"][0].toString(),
+  );
+
   const formattedClaimId = `${contractAddress}-${claimId
     .toString()
     .toLowerCase()}`;
   console.log("Formatted claim id", formattedClaimId);
 
-  const deleteResult = await client
-    .from(network.supabaseTableName)
-    .delete()
-    .eq("address", fromAddress)
-    .eq("claimId", formattedClaimId)
-    .select();
-  console.log("Deleted", deleteResult);
+  // Remove from DB
+  if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
+    const deleteResult = await client
+      .from(network.supabaseTableName)
+      .delete()
+      .eq("address", fromAddress)
+      .eq("claimId", formattedClaimId)
+      .select();
+    console.log("Deleted", deleteResult);
+
+    if (!deleteResult) {
+      throw new Error(
+        `Could not remove from database. Delete result: ${JSON.stringify(
+          deleteResult,
+        )}`,
+      );
+    }
+  }
 }

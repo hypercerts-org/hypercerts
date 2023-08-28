@@ -1,5 +1,6 @@
 import type { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
+import { isAddress } from "ethers/lib/utils.js";
 import { CIDString } from "nft.storage";
 
 import { DEFAULT_CHAIN_ID } from "../constants.js";
@@ -12,7 +13,6 @@ import {
   MalformedDataError,
 } from "../types/index.js";
 import EasEvaluator from "./eas.js";
-import { isAddress } from "ethers/lib/utils.js";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -26,20 +26,26 @@ export interface EvaluatorInterface {
 }
 
 export default class HypercertEvaluator implements EvaluatorInterface {
-  signer: ethers.Signer & TypedDataSigner;
+  signer?: ethers.Signer & TypedDataSigner;
 
   storage: HypercertsStorage;
 
   eas: EasEvaluator;
 
+  readonly = true;
+
   constructor(
     config = {
       chainId: DEFAULT_CHAIN_ID,
       easContractAddress: EASContractAddress,
-      signer: new ethers.VoidSigner(""),
+      operator: new ethers.VoidSigner(""),
     } as Partial<HypercertClientConfig>,
   ) {
-    this.signer = config.signer as ethers.Signer & TypedDataSigner;
+    //TODO when expanding the Evaluator functionallity, we should review if readonly makes sense
+    if (config.operator instanceof ethers.Signer) {
+      this.signer = config.operator as ethers.Signer & TypedDataSigner;
+      this.readonly = false;
+    }
     this.storage = new HypercertsStorage(config);
     this.eas = new EasEvaluator(config);
   }

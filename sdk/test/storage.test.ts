@@ -1,19 +1,27 @@
 import { expect } from "chai";
+import { providers } from "ethers";
+import sinon from "sinon";
 import { HypercertMetadata } from "src/index.js";
 
 import HypercertsStorage from "../src/storage.js";
 import { StorageError } from "../src/types/errors.js";
-import { reloadEnv } from "./setup-tests.js";
+import { reloadEnv } from "./setup-env.js";
 
 describe("HypercertsStorage", () => {
+  let stub: sinon.SinonStub;
   beforeAll(() => {
+    stub = sinon.stub(providers.BaseProvider.prototype, "on");
+
     delete process.env.NFT_STORAGE_TOKEN;
     delete process.env.WEB3_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
   });
 
-  afterAll(() => reloadEnv());
+  afterAll(() => {
+    stub.restore();
+    reloadEnv();
+  });
 
   it("should be able to create a new instance without valid storage keys", () => {
     const storage = new HypercertsStorage({});
