@@ -29,13 +29,21 @@ export class Allowlist extends Entity {
     }
   }
 
+  static loadInBlock(id: string): Allowlist | null {
+    return changetype<Allowlist | null>(store.get_in_block("Allowlist", id));
+  }
+
   static load(id: string): Allowlist | null {
     return changetype<Allowlist | null>(store.get("Allowlist", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -44,7 +52,11 @@ export class Allowlist extends Entity {
 
   get root(): Bytes {
     let value = this.get("root");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
   }
 
   set root(value: Bytes) {
@@ -53,7 +65,11 @@ export class Allowlist extends Entity {
 
   get claim(): string {
     let value = this.get("claim");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set claim(value: string) {
@@ -79,13 +95,21 @@ export class Claim extends Entity {
     }
   }
 
+  static loadInBlock(id: string): Claim | null {
+    return changetype<Claim | null>(store.get_in_block("Claim", id));
+  }
+
   static load(id: string): Claim | null {
     return changetype<Claim | null>(store.get("Claim", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -94,7 +118,11 @@ export class Claim extends Entity {
 
   get creation(): BigInt {
     let value = this.get("creation");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set creation(value: BigInt) {
@@ -103,7 +131,11 @@ export class Claim extends Entity {
 
   get tokenID(): BigInt {
     let value = this.get("tokenID");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set tokenID(value: BigInt) {
@@ -112,7 +144,11 @@ export class Claim extends Entity {
 
   get contract(): string {
     let value = this.get("contract");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set contract(value: string) {
@@ -206,13 +242,21 @@ export class ClaimToken extends Entity {
     }
   }
 
+  static loadInBlock(id: string): ClaimToken | null {
+    return changetype<ClaimToken | null>(store.get_in_block("ClaimToken", id));
+  }
+
   static load(id: string): ClaimToken | null {
     return changetype<ClaimToken | null>(store.get("ClaimToken", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -221,7 +265,11 @@ export class ClaimToken extends Entity {
 
   get tokenID(): BigInt {
     let value = this.get("tokenID");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set tokenID(value: BigInt) {
@@ -230,7 +278,11 @@ export class ClaimToken extends Entity {
 
   get claim(): string {
     let value = this.get("claim");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set claim(value: string) {
@@ -239,7 +291,11 @@ export class ClaimToken extends Entity {
 
   get owner(): Bytes {
     let value = this.get("owner");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
   }
 
   set owner(value: Bytes) {
@@ -248,7 +304,11 @@ export class ClaimToken extends Entity {
 
   get units(): BigInt {
     let value = this.get("units");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set units(value: BigInt) {

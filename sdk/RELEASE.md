@@ -1,5 +1,10 @@
 # Release notes
 
+## 0.3.1 Update dependencies
+
+- Updated graph package dependencies
+- Updated nft.storage and web3.storage dependencies
+
 ## 0.3.0 Simplify config
 
 - Simplify config: merge the Signer and Provider into the operator. The SDK will determine which is available (provided
