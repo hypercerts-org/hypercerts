@@ -8,7 +8,8 @@ on:
   # A push occurs to one of the matched branches.
   push:
     branches:
-      - main 
+      - main
+      - develop
     paths:
       - graph/**
   # Allows you to run this workflow manually from the Actions tab
@@ -34,5 +35,9 @@ jobs:
         run: yarn install --immutable
       - name: Build the subgraph
         run: yarn build:graph
-      - name: Deploy the subgraph
-        run: yarn deploy:graph
+      - name: Deploy the subgraph to goerli testnet
+        if: github.ref == 'refs/heads/develop'
+        run: yarn deploy:graph:goerli
+      - name: Deploy the subgraph to Optimism mainnet
+        if: github.ref == 'refs/heads/main'
+        run: yarn deploy:graph:optimism

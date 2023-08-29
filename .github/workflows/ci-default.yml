@@ -21,11 +21,13 @@ on:
   push:
     branches:
       - main
+      - develop
   # Or when a pull request event occurs for a pull request against one of the
   # matched branches.
   pull_request:
     branches:
       - main
+      - develop
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -62,7 +64,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly-87bc53fc6c874bd4c92d97ed180b949e3a36d78c
+          version: nightly-bff4ed912bb023d7bf9b20eda581aa4867a1cf70
       - name: Install
         run: |
           yarn install --immutable
