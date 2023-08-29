@@ -9,9 +9,9 @@ export function getID(tokenID: BigInt, contract: Address): string {
 export function getOrCreateAllowlist(
   claimID: BigInt,
   root: Bytes,
-  contract: Address
+  contract: Address,
 ): Allowlist {
-  let id = getID(claimID, contract);
+  const id = getID(claimID, contract);
   let list = Allowlist.load(id);
 
   log.debug("Created allowlistID: {}", [id]);
@@ -29,17 +29,23 @@ export function getOrCreateAllowlist(
 export function getOrCreateClaim(
   claimID: BigInt,
   contract: Address,
-  timestamp: BigInt
+  timestamp: BigInt,
 ): Claim {
-  let id = getID(claimID, contract);
+  const id = getID(claimID, contract);
   let claim = Claim.load(id);
 
   log.debug("Created claimID: {}", [id]);
 
   if (claim == null) {
     claim = new Claim(id);
+    const list = Allowlist.load(id);
+
     if (timestamp) {
       claim.creation = timestamp;
+    }
+
+    if (list) {
+      claim.allowlist = list.id;
     }
     claim.tokenID = claimID;
     claim.contract = contract.toHexString();
@@ -52,17 +58,17 @@ export function getOrCreateClaim(
 export function getOrCreateClaimToken(
   claimID: BigInt,
   tokenID: BigInt,
-  contract: Address
+  contract: Address,
 ): ClaimToken {
-  let minterContract = HypercertMinter.bind(contract);
+  const minterContract = HypercertMinter.bind(contract);
 
-  let id = getID(tokenID, contract);
+  const id = getID(tokenID, contract);
   let fraction = ClaimToken.load(id);
 
   if (fraction == null) {
     log.debug("Creating claimToken: {}", [id]);
 
-    let owner = minterContract.ownerOf(tokenID);
+    const owner = minterContract.ownerOf(tokenID);
 
     fraction = new ClaimToken(id);
     fraction.owner = owner;
