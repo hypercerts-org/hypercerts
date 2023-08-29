@@ -222,6 +222,23 @@ export class Claim extends Entity {
       this.set("totalUnits", Value.fromBigInt(<BigInt>value));
     }
   }
+
+  get allowlist(): string | null {
+    let value = this.get("allowlist");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set allowlist(value: string | null) {
+    if (!value) {
+      this.unset("allowlist");
+    } else {
+      this.set("allowlist", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class ClaimToken extends Entity {
