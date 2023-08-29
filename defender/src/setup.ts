@@ -1,11 +1,10 @@
 import config from "./config.js";
-
-import { ApiError, ConfigError } from "./errors.js";
+import { ConfigError } from "./errors.js";
 import { reset } from "./reset.js";
+import { rollOut } from "./rollout.js";
+import { updateAutotask, updateSentinel } from "./update.js";
 import { AutotaskClient } from "defender-autotask-client";
 import { SentinelClient } from "defender-sentinel-client";
-import { updateAutotask, updateSentinel } from "./update.js";
-import { rollOut } from "./rollout.js";
 
 const setup = async () => {
   const autotaskClient = new AutotaskClient(config.credentials);
@@ -19,12 +18,12 @@ const setup = async () => {
 
   if (oldAutoTasks.items.length > 0) {
     updates = true;
-    updateAutotask();
+    await updateAutotask();
   }
 
   if (oldSentinels.items.length > 0) {
     updates = true;
-    updateSentinel();
+    await updateSentinel();
   }
 
   if (!updates) {
@@ -36,8 +35,8 @@ const setup = async () => {
       throw new ConfigError("No networks specified");
     }
 
-    rollOut();
+    await rollOut();
   }
 };
 
-setup();
+void setup();

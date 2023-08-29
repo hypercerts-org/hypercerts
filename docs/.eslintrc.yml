@@ -5,8 +5,9 @@ extends:
   - "prettier"
 parser: "@typescript-eslint/parser"
 parserOptions:
-  project: "./defender/tsconfig.json"
+  project: "./docs/tsconfig.json"
 plugins:
+  - "@docusaurus"
   - "@typescript-eslint"
 root: true
 ignorePatterns: ["build/"]

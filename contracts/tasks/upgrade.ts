@@ -45,10 +45,12 @@ task("propose-upgrade", "Propose an upgrade to OpenZeppelin Defender")
   .addParam("multisig", "Owner multisig address")
   .setAction(async ({ proxy, multisig }, { ethers, upgrades }) => {
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
-    console.log("Proposing upgrade..");
+    console.log(`Proposing upgrade to multisig ${multisig} as address ${proxy}`);
     const proposal = await defender.proposeUpgrade(proxy, HypercertMinter, {
-      multisig
+      description: "Add batch burning methods",
+      multisig,
+      multisigType: "Gnosis Safe",
+      title: "Add batch burn",
     });
     console.log("Upgrade proposal created at: ", proposal.url);
   });
-

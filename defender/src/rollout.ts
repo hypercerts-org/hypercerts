@@ -1,7 +1,7 @@
 import { createTask } from "./create-autotask.js";
 import { createSentinel } from "./create-sentinel.js";
 import { encodeName } from "./networks.js";
-import { ApiError, ConfigError } from "./errors.js";
+import { ApiError } from "./errors.js";
 import config from "./config.js";
 
 export const rollOut = async () => {
