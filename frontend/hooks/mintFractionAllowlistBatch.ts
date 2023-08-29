@@ -3,14 +3,14 @@ import { mintInteractionLabels } from "../content/chainInteractions";
 import { SUPABASE_TABLE } from "../lib/config";
 import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { supabase } from "../lib/supabase-client";
-import { ClaimProof, useVerifyFractionClaim } from "./verifyFractionClaim";
 import { HexString } from "../types/web3";
 import { useAccountLowerCase } from "./account";
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
-import { useState } from "react";
+import { ClaimProof, useVerifyFractionClaim } from "./verifyFractionClaim";
+import { useQuery } from "@tanstack/react-query";
 import _ from "lodash";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const useMintFractionAllowlistBatch = ({
   onComplete,
@@ -116,7 +116,8 @@ export const useGetAllEligibility = (address: string) => {
       const { data, error } = await supabase
         .from(SUPABASE_TABLE)
         .select("*")
-        .eq("address", address.toLowerCase());
+        .eq("address", address.toLowerCase())
+        .eq("hidden", false);
       if (error) {
         console.error("Supabase error:");
         console.error(error);
