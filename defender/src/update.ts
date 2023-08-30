@@ -14,7 +14,10 @@ export const updateAutotask = async () => {
       autotaskClient
         .updateCodeFromFolder(autoTask.autotaskId, `./build/relay/${name}`)
         .then((res) => {
-          console.log(`Updated ${autoTask.autotaskId}`);
+          console.log(`Updated ${autoTask.autotaskId}: ${res}`);
+        })
+        .catch((err) => {
+          console.log(`Error updating ${autoTask.autotaskId}: ${err}`);
         });
     }),
   ]);
@@ -38,7 +41,10 @@ export const updateSentinel = async () => {
           abi,
         })
         .then((res) => {
-          console.log("Updated: ", res);
+          console.log(`Updated ${sentinel.name}: ${res}`);
+        })
+        .catch((err) => {
+          console.log(`Error updating ${sentinel.name}: ${err}`);
         });
     }),
   ]);

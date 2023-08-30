@@ -13,6 +13,7 @@ type Claim @entity {
   creator: Bytes
   owner: Bytes
   totalUnits: BigInt
+  allowlist: Allowlist
 }
 
 type ClaimToken @entity {

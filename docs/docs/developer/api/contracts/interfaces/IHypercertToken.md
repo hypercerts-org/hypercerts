@@ -8,6 +8,23 @@ This interface declares the required functionality for a hypercert tokenThis int
 
 ## Methods
 
+### batchBurnFraction
+
+```solidity
+function batchBurnFraction(address account, uint256[] tokenIDs) external nonpayable
+```
+
+Operator must be allowed by `creator` and the tokens must represent the total amount of available units.
+
+_Function to burn the tokens at `tokenIDs` for `account`_
+
+#### Parameters
+
+| Name     | Type      | Description |
+| -------- | --------- | ----------- |
+| account  | address   | undefined   |
+| tokenIDs | uint256[] | undefined   |
+
 ### burnFraction
 
 ```solidity

@@ -60,6 +60,23 @@ _See {IERC1155-balanceOfBatch}. Requirements: - `accounts` and `ids` must have t
 | ---- | --------- | ----------- |
 | \_0  | uint256[] | undefined   |
 
+### batchBurnFraction
+
+```solidity
+function batchBurnFraction(address _account, uint256[] _tokenIDs) external nonpayable
+```
+
+Burn a claimtoken
+
+_see {IHypercertToken}_
+
+#### Parameters
+
+| Name       | Type      | Description |
+| ---------- | --------- | ----------- |
+| \_account  | address   | undefined   |
+| \_tokenIDs | uint256[] | undefined   |
+
 ### batchMintClaimsFromAllowlists
 
 ```solidity
@@ -85,6 +102,10 @@ _Calls AllowlistMinter to verify `proofs`.Mints the `amount` of units for the hy
 function burn(address account, uint256 id, uint256 value) external nonpayable
 ```
 
+Burn a claimtoken; override is needed to update units/values
+
+_see {ERC1155Burnable}_
+
 #### Parameters
 
 | Name    | Type    | Description |
@@ -98,6 +119,10 @@ function burn(address account, uint256 id, uint256 value) external nonpayable
 ```solidity
 function burnBatch(address account, uint256[] ids, uint256[] values) external nonpayable
 ```
+
+Batch burn claimtokens; override is needed to update units/values
+
+_see {ERC1155Burnable}_
 
 #### Parameters
 
@@ -319,19 +344,19 @@ _Returns the address of the current owner._
 function ownerOf(uint256 tokenID) external view returns (address _owner)
 ```
 
-READ
+_Returns the owner of a given token ID._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name    | Type    | Description                   |
+| ------- | ------- | ----------------------------- |
+| tokenID | uint256 | The ID of the token to query. |
 
 #### Returns
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| \_owner | address | undefined   |
+| Name    | Type    | Description                            |
+| ------- | ------- | -------------------------------------- |
+| \_owner | address | The address of the owner of the token. |
 
 ### pause
 

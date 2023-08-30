@@ -22,7 +22,7 @@ contract MerkleHelper is AllowlistMinter, Merkle {
         }
     }
 
-    function generateData(uint256 size, uint256 value) public view returns (bytes32[] memory data) {
+    function generateData(uint256 size, uint256 value) public pure returns (bytes32[] memory data) {
         data = new bytes32[](size);
         for (uint256 i = 0; i < size; i++) {
             address user = address(uint160(i + 1));
@@ -147,7 +147,7 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
 
         merkle.createAllowlist(claimID, root, size * units);
 
-        changePrank(address(1));
+        startHoax(address(1));
         bytes32[] memory proof = merkle.getProof(data, 0);
         merkle.processClaim(proof, claimID, units);
 
@@ -190,7 +190,7 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
 
         merkle.createAllowlist(claimID, root, size * value);
 
-        changePrank(address(3));
+        startHoax(address(3));
 
         merkle.isAllowedToClaim(proof, claimID, data[2]);
 

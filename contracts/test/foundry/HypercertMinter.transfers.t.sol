@@ -92,7 +92,7 @@ contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {
         vm.prank(alice);
         hypercertMinter.mintClaim(alice, _units, _uri, IHypercertToken.TransferRestrictions.AllowAll);
 
-        changePrank(bob);
+        startHoax(bob);
         vm.expectRevert("ERC1155: caller is not token owner or approved");
         hypercertMinter.safeTransferFrom(alice, bob, tokenID, 1, "");
 
@@ -108,7 +108,7 @@ contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {
         vm.prank(alice);
         hypercertMinter.mintClaim(alice, _units, _uri, IHypercertToken.TransferRestrictions.DisallowAll);
 
-        changePrank(bob);
+        startHoax(bob);
         vm.expectRevert("ERC1155: caller is not token owner or approved");
         hypercertMinter.safeTransferFrom(alice, bob, tokenID, 1, "");
 
@@ -125,7 +125,7 @@ contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {
         vm.prank(alice);
         hypercertMinter.mintClaim(alice, _units, _uri, IHypercertToken.TransferRestrictions.FromCreatorOnly);
 
-        changePrank(bob);
+        startHoax(bob);
         vm.expectRevert("ERC1155: caller is not token owner or approved");
         hypercertMinter.safeTransferFrom(alice, bob, tokenID, 1, "");
 
