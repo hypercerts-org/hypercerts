@@ -324,7 +324,7 @@ contract SemiFungible1155 is
             }
         }
 
-        _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
+        _beforeUnitTransfer(_msgSender(), owners[_tokenID], fromIDs, toIDs, values, "");
 
         for (uint256 i; i < len; ) {
             valueLeft -= values[i];

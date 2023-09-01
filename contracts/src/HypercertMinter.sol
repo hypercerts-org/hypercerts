@@ -194,12 +194,6 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         return "";
     }
 
-    /// ALLOWANCES
-
-    function setApprovalForAll(address operator, bool approved) external {
-        _setApprovalForAll(msg.sender, operator, approved);
-    }
-
     /// INTERNAL
 
     /// @dev see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol }

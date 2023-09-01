@@ -14,6 +14,7 @@ interface IHypercertTrader {
         uint256 minUnitsPerTrade;
         uint256 maxUnitsPerTrade;
         OfferType offerType;
+        OfferStatus status;
         AcceptedToken[] acceptedTokens;
     }
 
@@ -33,6 +34,13 @@ interface IHypercertTrader {
         uint256 minimumAmountPerUnit;
     }
 
+    event OfferCreated(
+        address indexed offerer,
+        address indexed hypercertContract,
+        uint256 indexed fractionID,
+        uint256 offerID
+    );
+
     event Trade(
         address indexed seller,
         address indexed buyer,
@@ -42,13 +50,7 @@ interface IHypercertTrader {
         uint256 amount,
         uint256 offerID
     );
-    event OfferCreated(
-        address indexed offerer,
-        address indexed hypercertContract,
-        uint256 indexed offerID,
-        address buyToken,
-        uint256 minimumAmountPerUnit
-    );
+
     event OfferCancelled(
         address indexed creator,
         address indexed hypercertContract,
@@ -63,33 +65,15 @@ interface IHypercertTrader {
         uint256 units,
         uint256 minUnitsPerTrade,
         uint256 maxUnitsPerTrade,
-        address buyToken,
-        uint256 minAmountPerUnit
-    ) external payable;
+        AcceptedToken[] memory acceptedTokens
+    ) external payable returns (uint256 offerID);
 
-    function fulfillOffer(
+    function buyUnits(
+        address recipient,
         uint256 offerID,
         uint256 unitAmount,
         address buyToken,
         uint256 tokenAmountPerUnit
-    ) external payable;
-
-    /// FRACTIONS; e.g. 1/5th of a claim
-    function offerFraction(
-        address hypercertContract,
-        uint256 fractionID,
-        uint256 unitsInFraction,
-        uint256 fractionCount,
-        address buyToken,
-        uint256 minimumAmount
-    ) external payable;
-
-    function buyFraction(
-        address hypercertContract,
-        uint256 fractionID,
-        uint256 fractionCount,
-        address buyToken,
-        uint256 tokenAmount
     ) external payable;
 
     function cancelOffer(uint256 offerID) external;
