@@ -46,8 +46,9 @@ interface IHypercertTrader {
         address indexed buyer,
         address indexed hypercertContract,
         uint256 fractionID,
+        uint256 unitsBought,
         address buyToken,
-        uint256 amount,
+        uint256 tokenAmountPerUnit,
         uint256 offerID
     );
 

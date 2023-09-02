@@ -13,6 +13,8 @@ error InvalidOffer();
 
 interface IHypercertMinter {
     function ownerOf(uint256 id) external view returns (address);
+
+    function unitsOf(uint256 id) external view returns (uint256);
 }
 
 /// @title Contract for managing hypercert trades
@@ -82,6 +84,9 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
             offer.maxUnitsPerTrade < unitAmount
         ) revert InvalidOffer();
 
+        // Check for sufficient funds; currently only native token
+        if (buyToken != address(0) || unitAmount * tokenAmountPerUnit < msg.value) revert InvalidOffer();
+
         offer.unitsAvailable -= unitAmount;
 
         if (offer.unitsAvailable == 0) {
@@ -90,17 +95,19 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
 
         // Create uint256[] for the split with the remaining units and units to transfer
         uint256[] memory units = new uint256[](2);
-        units[0] = offer.unitsAvailable;
+        units[0] = IHypercertMinter(offer.hypercertContract).unitsOf(offer.fractionID) - unitAmount;
         units[1] = unitAmount;
 
-        // TODO split and transfer or full transfer
+        //TODO prioritise payment, mint, or deposit in trader and transfer after mint?
         IHypercertToken(offer.hypercertContract).splitFraction(recipient, offer.fractionID, units);
+        payable(offer.offerer).transfer(msg.value);
 
         emit Trade(
             offer.offerer,
             recipient,
             offer.hypercertContract,
             offer.fractionID,
+            unitAmount,
             buyToken,
             tokenAmountPerUnit,
             offerID
