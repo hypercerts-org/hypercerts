@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -13,15 +13,14 @@
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "types": "./dist/index.d.ts"
-    }
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js",
+    "types": "./dist/index.d.ts"
   },
   "packageManager": "yarn@3.2.4",
   "workspaces": {
@@ -45,6 +44,9 @@
     "@openzeppelin/hardhat-defender": "^1.8.2",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "@typechain/ethers-v5": "^10.2.0",
     "@typechain/hardhat": "^6.1.5",
@@ -70,6 +72,10 @@
     "prettier": "^2.7.1",
     "prettier-plugin-solidity": "^1.1.3",
     "rimraf": "^3.0.2",
+    "rollup": "^3.17.2",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-dts": "^5.2.0",
+    "rollup-plugin-esbuild": "^5.0.0",
     "shx": "^0.3.4",
     "solhint": "^3.3.7",
     "solidity-coverage": "^0.8.2",
@@ -88,7 +94,7 @@
     "template"
   ],
   "scripts": {
-    "build": "yarn clean && yarn build:hardhat",
+    "build": "yarn clean && rollup -c",
     "build:forge": "forge build",
     "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts:esm && yarn build:ts:cjs && yarn build:declarations",
     "build:ts:esm": "npx tsc --build tsconfig.esm.json",
