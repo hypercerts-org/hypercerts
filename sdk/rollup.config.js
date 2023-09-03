@@ -20,7 +20,11 @@ export default [
     output: [
       {
         format: "esm",
-        dir: "dist",
+        dir: "dist/esm",
+      },
+      {
+        format: "cjs",
+        dir: "dist/cjs",
       },
     ],
   },
