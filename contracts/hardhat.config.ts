@@ -76,6 +76,8 @@ const config: HardhatUserConfig = {
     runOnCompile: true,
     clear: true,
     flat: true,
+    format: "minimal",
+    except: ["@openzeppelin"],
   },
   defender: {
     apiKey: ozApiKey!,
