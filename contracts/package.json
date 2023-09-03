@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -9,11 +9,20 @@
   "homepage": "https://hypercerts.org",
   "bugs": "https://github.com/hypercerts-org/hypercerts/issues/new",
   "repository": {
+    "directory": "contracts",
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "packageManager": "yarn@3.2.4",
   "workspaces": {
     "nohoist": [
@@ -81,9 +90,10 @@
   "scripts": {
     "build": "yarn clean && yarn build:hardhat",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
-    "build:ts": "npx tsc --build tsconfig.build.json",
-    "build:declarations": "shx cp ./typechain/*.d.ts ./dist/src/types",
+    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts:esm && yarn build:ts:cjs && yarn build:declarations",
+    "build:ts:esm": "npx tsc --build tsconfig.esm.json",
+    "build:ts:cjs": "npx tsc --build tsconfig.cjs.json",
+    "build:declarations": "shx cp ./src/types/*.d.ts ./dist/index.d.ts",
     "clean": "rimraf cache out dist typechain abi",
     "docs": "hardhat dodoc",
     "lint": "yarn lint:sol && yarn prettier:check",
