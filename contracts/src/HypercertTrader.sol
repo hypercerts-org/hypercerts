@@ -9,7 +9,7 @@ import { IERC1155Upgradeable } from "oz-upgradeable/token/ERC1155/IERC1155Upgrad
 import { Errors } from "./libs/Errors.sol";
 
 error NotAllowed();
-error InvalidOffer();
+error InvalidOffer(string);
 
 interface IHypercertMinter {
     function ownerOf(uint256 id) external view returns (address);
@@ -74,18 +74,8 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
         uint256 tokenAmountPerUnit
     ) external payable {
         Offer storage offer = offers[offerID];
-        if (offer.status != OfferStatus.Open || offer.offerType != OfferType.Units) {
-            revert InvalidOffer();
-        }
 
-        if (
-            offer.unitsAvailable < unitAmount ||
-            offer.minUnitsPerTrade > unitAmount ||
-            offer.maxUnitsPerTrade < unitAmount
-        ) revert InvalidOffer();
-
-        // Check for sufficient funds; currently only native token
-        if (buyToken != address(0) || unitAmount * tokenAmountPerUnit < msg.value) revert InvalidOffer();
+        _validateBuyOffer(offer, unitAmount, buyToken, tokenAmountPerUnit);
 
         offer.unitsAvailable -= unitAmount;
 
@@ -119,7 +109,7 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
     function cancelOffer(uint256 offerID) external {
         Offer storage offer = offers[offerID];
         if (offer.offerer != msg.sender) revert NotAllowed();
-        if (offer.status != OfferStatus.Open) revert InvalidOffer();
+        if (offer.status != OfferStatus.Open) revert InvalidOffer("status");
 
         offer.status = OfferStatus.Cancelled;
         emit OfferCancelled(msg.sender, offer.hypercertContract, offer.fractionID, offerID);
@@ -173,18 +163,22 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
         uint256 maxUnitsPerTrade,
         AcceptedToken[] memory acceptedTokens
     ) internal view returns (bool) {
-        if (IHypercertMinter(hypercertContract).ownerOf(fractionID) != offerer) revert InvalidOffer();
+        if (IHypercertMinter(hypercertContract).ownerOf(fractionID) != offerer) revert InvalidOffer("Not owner");
 
         // Validate units exist and are available
-        if (units == 0 || IHypercertToken(hypercertContract).unitsOf(fractionID) <= units) revert InvalidOffer();
+        if (units == 0 || IHypercertToken(hypercertContract).unitsOf(fractionID) <= units) {
+            revert InvalidOffer("Insufficient units");
+        }
 
         // Validate min/max units per trade
         if (maxUnitsPerTrade > units || minUnitsPerTrade > maxUnitsPerTrade) {
-            revert InvalidOffer();
+            revert InvalidOffer("Min/Max units");
         }
 
         // If sale is for a fraction, the units must be a multiple of the minimum units per trade
-        if (minUnitsPerTrade == maxUnitsPerTrade && units % minUnitsPerTrade != 0) revert InvalidOffer();
+        if (minUnitsPerTrade == maxUnitsPerTrade && units % minUnitsPerTrade != 0) {
+            revert InvalidOffer("Units indivisible by fractions");
+        }
 
         // for now only accept the native token, ZERO_ADDRESS
         if (
@@ -192,7 +186,29 @@ contract HypercertTrader is IHypercertTrader, PausableUpgradeable {
             acceptedTokens[0].token != address(0) ||
             acceptedTokens[0].minimumAmountPerUnit == 0
         ) {
-            revert InvalidOffer();
+            revert InvalidOffer("Only zero token");
+        }
+    }
+
+    function _validateBuyOffer(
+        Offer memory offer,
+        uint256 unitAmount,
+        address buyToken,
+        uint256 tokenAmountPerUnit
+    ) internal {
+        if (offer.status != OfferStatus.Open || offer.offerType != OfferType.Units) {
+            revert InvalidOffer("Wrong status");
+        }
+
+        if (
+            offer.unitsAvailable < unitAmount ||
+            offer.minUnitsPerTrade > unitAmount ||
+            offer.maxUnitsPerTrade < unitAmount
+        ) revert InvalidOffer("Min/Max units");
+
+        // Check for sufficient funds; currently only native token
+        if (buyToken != address(0) || unitAmount * tokenAmountPerUnit < msg.value) {
+            revert InvalidOffer("Wrong token/value");
         }
     }
 }

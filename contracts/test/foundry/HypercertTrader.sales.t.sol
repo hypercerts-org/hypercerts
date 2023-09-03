@@ -25,6 +25,15 @@ contract HypercertTraderHelper is HypercertTrader, PRBTest, StdCheats, StdUtils 
         return _offerCounter;
     }
 
+    function exposedValidateBuyOffer(
+        Offer memory offer,
+        uint256 unitAmount,
+        address buyToken,
+        uint256 tokenAmountPerUnit
+    ) external {
+        _validateBuyOffer(offer, unitAmount, buyToken, tokenAmountPerUnit);
+    }
+
     function createDefaultOffer() external returns (uint256 offerID, uint256 fractionID) {
         vm.startPrank(alice);
         hypercertMinter.mintClaim(alice, 10000, "ipfs://test", IHypercertToken.TransferRestrictions.FromCreatorOnly);
@@ -111,5 +120,33 @@ contract HypercertTraderCreateOfferTest is HypercertTraderHelper {
         // The offer is still open
         Offer memory offer = hypercertTrader.getOffer(offerID);
         assertEq(uint256(offer.status), uint256(OfferStatus.Open));
+    }
+
+    function testBuyOfferValidations() public {
+        Offer memory offer = Offer({
+            offerer: alice,
+            hypercertContract: address(hypercertMinter),
+            fractionID: 42,
+            unitsAvailable: 10,
+            minUnitsPerTrade: 2,
+            maxUnitsPerTrade: 5,
+            status: OfferStatus.Open,
+            offerType: OfferType.Units,
+            acceptedTokens: new AcceptedToken[](1)
+        });
+
+        offer.acceptedTokens[0] = AcceptedToken(address(0), 1);
+
+        // Expect revert on mix/maxUnitsPerTrade
+        // Too low
+        vm.expectRevert(InvalidOffer.selector("Min/Max"));
+        this.exposedValidateBuyOffer(offer, 10, address(0), 1);
+
+        // Too high
+        vm.expectRevert(InvalidOffer.selector);
+        this.exposedValidateBuyOffer(offer, 10, address(0), 6);
+
+        // Within range
+        this.exposedValidateBuyOffer(offer, 10, address(0), 3);
     }
 }
