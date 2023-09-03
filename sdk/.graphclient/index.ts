@@ -281,6 +281,7 @@ export type Claim = {
   creator?: Maybe<Scalars['Bytes']>;
   owner?: Maybe<Scalars['Bytes']>;
   totalUnits?: Maybe<Scalars['BigInt']>;
+  allowlist?: Maybe<Allowlist>;
   chainName: Scalars['String'];
 };
 
@@ -487,6 +488,27 @@ export type Claim_filter = {
   totalUnits_lte?: InputMaybe<Scalars['BigInt']>;
   totalUnits_in?: InputMaybe<Array<Scalars['BigInt']>>;
   totalUnits_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  allowlist?: InputMaybe<Scalars['String']>;
+  allowlist_not?: InputMaybe<Scalars['String']>;
+  allowlist_gt?: InputMaybe<Scalars['String']>;
+  allowlist_lt?: InputMaybe<Scalars['String']>;
+  allowlist_gte?: InputMaybe<Scalars['String']>;
+  allowlist_lte?: InputMaybe<Scalars['String']>;
+  allowlist_in?: InputMaybe<Array<Scalars['String']>>;
+  allowlist_not_in?: InputMaybe<Array<Scalars['String']>>;
+  allowlist_contains?: InputMaybe<Scalars['String']>;
+  allowlist_contains_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_contains?: InputMaybe<Scalars['String']>;
+  allowlist_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_starts_with?: InputMaybe<Scalars['String']>;
+  allowlist_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_starts_with?: InputMaybe<Scalars['String']>;
+  allowlist_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_ends_with?: InputMaybe<Scalars['String']>;
+  allowlist_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_ends_with?: InputMaybe<Scalars['String']>;
+  allowlist_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_?: InputMaybe<Allowlist_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<Claim_filter>>>;
@@ -501,7 +523,10 @@ export type Claim_orderBy =
   | 'uri'
   | 'creator'
   | 'owner'
-  | 'totalUnits';
+  | 'totalUnits'
+  | 'allowlist'
+  | 'allowlist__id'
+  | 'allowlist__root';
 
 /** Defines the order direction, either ascending or descending */
 export type OrderDirection =
@@ -740,6 +765,7 @@ export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, chain
   creator?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   totalUnits?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  allowlist?: Resolver<Maybe<ResolversTypes['Allowlist']>, ParentType, ContextType>;
   chainName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

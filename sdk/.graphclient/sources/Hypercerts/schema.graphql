@@ -115,6 +115,7 @@ type Claim {
   creator: Bytes
   owner: Bytes
   totalUnits: BigInt
+  allowlist: Allowlist
 }
 
 type ClaimToken {
@@ -320,6 +321,27 @@ input Claim_filter {
   totalUnits_lte: BigInt
   totalUnits_in: [BigInt!]
   totalUnits_not_in: [BigInt!]
+  allowlist: String
+  allowlist_not: String
+  allowlist_gt: String
+  allowlist_lt: String
+  allowlist_gte: String
+  allowlist_lte: String
+  allowlist_in: [String!]
+  allowlist_not_in: [String!]
+  allowlist_contains: String
+  allowlist_contains_nocase: String
+  allowlist_not_contains: String
+  allowlist_not_contains_nocase: String
+  allowlist_starts_with: String
+  allowlist_starts_with_nocase: String
+  allowlist_not_starts_with: String
+  allowlist_not_starts_with_nocase: String
+  allowlist_ends_with: String
+  allowlist_ends_with_nocase: String
+  allowlist_not_ends_with: String
+  allowlist_not_ends_with_nocase: String
+  allowlist_: Allowlist_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
   and: [Claim_filter]
@@ -335,6 +357,9 @@ enum Claim_orderBy {
   creator
   owner
   totalUnits
+  allowlist
+  allowlist__id
+  allowlist__root
 }
 
 """

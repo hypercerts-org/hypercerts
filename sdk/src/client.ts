@@ -1,4 +1,4 @@
-import { HypercertMinterABI } from "@hypercerts-org/contracts";
+import { HypercertMinterABI, HypercertMinter } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
@@ -12,7 +12,6 @@ import {
   HypercertClientConfig,
   HypercertClientInterface,
   HypercertMetadata,
-  HypercertMinter,
   InvalidOrMissingError,
   MalformedDataError,
   TransferRestrictions,

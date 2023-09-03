@@ -6,20 +6,20 @@
     4) bump package.json version to publish a new package to npm.
 */
 // ABIs
-import ERC1155UpgradeableABI from "../abi/ERC1155Upgradeable.json" assert { type: "json" };
-import HypercertMinterABI from "../abi/HypercertMinter.json" assert { type: "json" };
-import IHypercertTokenABI from "../abi/IHypercertToken.json" assert { type: "json" };
-import SemiFungible1155ABI from "../abi/SemiFungible1155.json" assert { type: "json" };
+import ERC1155UpgradeableABI from "./abi/ERC1155Upgradeable.json";
+import HypercertMinterABI from "./abi/HypercertMinter.json";
+import IHypercertTokenABI from "./abi/IHypercertToken.json";
+import SemiFungible1155ABI from "./abi/SemiFungible1155.json";
 
 // ABIs
 export { HypercertMinterABI, IHypercertTokenABI, SemiFungible1155ABI, ERC1155UpgradeableABI };
 
 // Interfaces
-export type { IHypercertToken } from "../typechain/src/interfaces/IHypercertToken";
+export type { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
 
 // Contracts
-export { HypercertMinter } from "../typechain/src/HypercertMinter";
-export { AllowlistMinter } from "../typechain/src/AllowlistMinter";
+export { HypercertMinter } from "./types/src/HypercertMinter";
+export { AllowlistMinter } from "./types/src/AllowlistMinter";
 
 // Factories
-export { HypercertMinter__factory as HyperCertMinterFactory } from "../typechain/factories/src/HypercertMinter__factory";
+export { HypercertMinter__factory as HyperCertMinterFactory } from "./types/factories/src/HypercertMinter__factory";
