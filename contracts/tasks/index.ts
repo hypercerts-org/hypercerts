@@ -1,4 +1,5 @@
 export * from "./deploy";
+export * from "./deploy-trader";
 export * from "./force-import";
 export * from "./generate-address";
 export * from "./pause";
