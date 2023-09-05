@@ -180,6 +180,16 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
         emit OfferCancelled(msg.sender, offer.hypercertContract, offer.fractionID, offerID);
     }
 
+    /// PAUSABLE
+
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
+    }
+
     /// INTERNAL
 
     /**

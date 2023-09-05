@@ -38,9 +38,9 @@ task("upgrade", "Upgrade implementation contract and verify")
   });
 
 /**
- * Used to propose a multi-sig upgrade via OpenZeppelin Defender
+ * Used to propose a multi-sig upgrade via OpenZeppelin Defender for HypercertMinter
  */
-task("propose-upgrade", "Propose an upgrade to OpenZeppelin Defender")
+task("propose-upgrade-minter", "Propose an upgrade to OpenZeppelin Defender")
   .addParam("proxy", "Proxy contract address")
   .addParam("multisig", "Owner multisig address")
   .setAction(async ({ proxy, multisig }, { ethers, upgrades }) => {
@@ -51,6 +51,25 @@ task("propose-upgrade", "Propose an upgrade to OpenZeppelin Defender")
       multisig,
       multisigType: "Gnosis Safe",
       title: "Add batch burn",
+    });
+    console.log("Upgrade proposal created at: ", proposal.url);
+  });
+
+/**
+ * Used to propose a multi-sig upgrade via OpenZeppelin Defender for HypercertTrader
+ */
+task("propose-upgrade-minter", "Propose an upgrade to OpenZeppelin Defender")
+  .addParam("proxy", "Proxy contract address")
+  .addParam("multisig", "Owner multisig address")
+  .addOptionalParam("description", "Description of upgrade")
+  .setAction(async ({ proxy, multisig, description = "Upgrade Trader contract" }, { ethers, upgrades }) => {
+    const HypercertTrader = await ethers.getContractFactory("HypercertTrader");
+    console.log(`Proposing upgrade to multisig ${multisig} as address ${proxy}`);
+    const proposal = await defender.proposeUpgrade(proxy, HypercertTrader, {
+      description,
+      multisig,
+      multisigType: "Gnosis Safe",
+      title: "Upgrade Trader contract",
     });
     console.log("Upgrade proposal created at: ", proposal.url);
   });
