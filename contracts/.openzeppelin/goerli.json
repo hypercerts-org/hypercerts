@@ -4859,7 +4859,7 @@
             "slot": "251",
             "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
             "contract": "HypercertTrader",
-            "src": "src/HypercertTrader.sol:36"
+            "src": "src/HypercertTrader.sol:30"
           },
           {
             "label": "offers",
@@ -4867,7 +4867,7 @@
             "slot": "252",
             "type": "t_mapping(t_uint256,t_struct(Offer)7905_storage)",
             "contract": "HypercertTrader",
-            "src": "src/HypercertTrader.sol:37"
+            "src": "src/HypercertTrader.sol:31"
           },
           {
             "label": "_offerCounter",
@@ -4875,7 +4875,7 @@
             "slot": "253",
             "type": "t_uint256",
             "contract": "HypercertTrader",
-            "src": "src/HypercertTrader.sol:38"
+            "src": "src/HypercertTrader.sol:32"
           },
           {
             "label": "__gap",
@@ -4883,7 +4883,7 @@
             "slot": "254",
             "type": "t_array(t_uint256)27_storage",
             "contract": "HypercertTrader",
-            "src": "src/HypercertTrader.sol:347"
+            "src": "src/HypercertTrader.sol:359"
           }
         ],
         "types": {

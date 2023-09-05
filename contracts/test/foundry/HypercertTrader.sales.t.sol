@@ -65,7 +65,7 @@ contract HypercertTraderHelper is HypercertTrader, PRBTest, StdCheats, StdUtils 
 }
 
 //TODO cleanup inheritance
-contract HypercertTraderCreateOfferTest is HypercertTraderHelper {
+contract HypercertTraderBuyOfferTest is HypercertTraderHelper {
     HypercertTraderHelper internal hypercertTrader;
 
     function setUp() public {

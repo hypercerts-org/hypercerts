@@ -171,6 +171,7 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
     function cancelOffer(uint256 offerID) external whenNotPaused {
         // Get the offer and validate that the caller is the offerer
         Offer storage offer = offers[offerID];
+        if (offer.hypercertContract == address(0)) revert InvalidOffer("No contract address found");
         if (offer.offerer != msg.sender) revert NotAllowed();
         if (offer.status != OfferStatus.Open) revert InvalidOffer("status");
 
