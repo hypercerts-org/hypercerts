@@ -8,6 +8,24 @@ This interface declares the required functionality to interact with the hypercer
 
 ## Methods
 
+### batchBuyUnits
+
+```solidity
+function batchBuyUnits(address recipient, uint256[] offerIDs, uint256[] unitAmounts, address[] buyTokens, uint256[] tokenAmountsPerUnit) external payable
+```
+
+_Buys Hypercert tokens from multiple existing offers in a single transaction._
+
+#### Parameters
+
+| Name                | Type      | Description                                                          |
+| ------------------- | --------- | -------------------------------------------------------------------- |
+| recipient           | address   | The address that will receive the Hypercert tokens.                  |
+| offerIDs            | uint256[] | The list of IDs of the offers to buy from.                           |
+| unitAmounts         | uint256[] | The list of numbers of units to buy for each offer.                  |
+| buyTokens           | address[] | The list of addresses of the tokens used for payment for each offer. |
+| tokenAmountsPerUnit | uint256[] | The list of amounts of tokens to pay per unit for each offer.        |
+
 ### buyUnits
 
 ```solidity

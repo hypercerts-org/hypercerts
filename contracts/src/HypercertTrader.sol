@@ -59,6 +59,7 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
      * in a single trade, and the list of tokens that are accepted for payment. The offer is added to the list of existing offers
      * and can be bought by other users using the `buyUnits` function.
      */
+    //TODO remove payable from offer
     function createOffer(
         address hypercertContract,
         uint256 fractionID,
@@ -116,7 +117,7 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
         uint256 unitAmount,
         address buyToken,
         uint256 tokenAmountPerUnit
-    ) external payable whenNotPaused {
+    ) public payable whenNotPaused {
         // Get the offer and validate that it is open and has enough units available
         Offer storage offer = offers[offerID];
         _validateBuyOffer(offer, unitAmount, buyToken, tokenAmountPerUnit);
@@ -160,6 +161,35 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
             tokenAmountPerUnit,
             offerID
         );
+    }
+
+    /**
+     * @dev Buys Hypercert tokens from multiple existing offers in a single transaction.
+     * @param recipient The address that will receive the Hypercert tokens.
+     * @param offerIDs The list of IDs of the offers to buy from.
+     * @param unitAmounts The list of numbers of units to buy for each offer.
+     * @param buyTokens The list of addresses of the tokens used for payment for each offer.
+     * @param tokenAmountsPerUnit The list of amounts of tokens to pay per unit for each offer.
+     * @notice This function allows a user to buy Hypercert tokens from multiple existing offers in a single transaction.
+     * The function takes in several arrays of parameters, including the IDs of the offers to buy from,
+     * the number of units to buy for each offer, the tokens used for payment for each offer,
+     * and the amounts of tokens to pay per unit for each offer.
+     * The function then executes the trades and transfers the Hypercert tokens to the specified recipient.
+     */
+    function batchBuyUnits(
+        address recipient,
+        uint256[] calldata offerIDs,
+        uint256[] calldata unitAmounts,
+        address[] calldata buyTokens,
+        uint256[] calldata tokenAmountsPerUnit
+    ) external payable whenNotPaused {
+        uint256 len = offerIDs.length;
+        for (uint256 i; i < len; ) {
+            buyUnits(recipient, offerIDs[i], unitAmounts[i], buyTokens[i], tokenAmountsPerUnit[i]);
+            unchecked {
+                ++i;
+            }
+        }
     }
 
     /**

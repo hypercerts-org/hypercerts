@@ -23,3 +23,40 @@ type ClaimToken @entity {
   owner: Bytes!
   units: BigInt!
 }
+
+type Token @entity {
+  id: String!
+  name: String!
+}
+
+type AcceptedToken @entity {
+  id: String!
+  token: Token!
+  minimumAmountPerUnit: BigInt!
+  accepted: Boolean!
+}
+
+enum OfferStatus {
+  Open
+  Fulfilled
+  Cancelled
+}
+
+type Offer @entity {
+  id: String!
+  fractionID: ClaimToken!
+  unitsAvailable: BigInt!
+  minUnitsPerTrade: BigInt!
+  maxUnitsPerTrade: BigInt!
+  status: OfferStatus!
+  acceptedTokens: [AcceptedToken!]!
+}
+
+type Trade @entity {
+  id: String!
+  buyer: Bytes!
+  offerID: Offer!
+  unitsSold: BigInt!
+  token: Token!
+  amountPerUnit: BigInt!
+}

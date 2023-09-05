@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: HypercertMinter
-    network: optimism
+    network: goerli
     source:
       abi: HypercertMinter
       address: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07"
@@ -33,11 +33,9 @@ dataSources:
           handler: handleLeafClaimed
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: TransferBatch(indexed address,indexed address,indexed
-            address,uint256[],uint256[])
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
-        - event: TransferSingle(indexed address,indexed address,indexed
-            address,uint256,uint256)
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
         - event: URI(string,indexed uint256)
           handler: handleURI
@@ -46,3 +44,27 @@ dataSources:
         - event: BatchValueTransfer(uint256[],uint256[],uint256[],uint256[])
           handler: handleBatchValueTransfer
       file: ./src/hypercert-minter.ts
+  - kind: ethereum
+    name: HypercertTrader
+    network: goerli
+    source:
+      address: "0xFf3F27c6132c30d1098b97FfeC05C3150dA90432"
+      abi: HypercertTrader
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Offer
+      abis:
+        - name: HypercertTrader
+          file: ./abis/HypercertTrader.json
+      eventHandlers:
+        - event: OfferCancelled(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleOfferCancelled
+        - event: OfferCreated(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleOfferCreated
+        - event: Trade(indexed address,indexed address,indexed
+            address,uint256,uint256,address,uint256,uint256)
+          handler: handleTrade
+      file: ./src/hypercert-trader.ts

@@ -8,6 +8,26 @@ Implementation of the HypercertTrader Interface
 
 ## Methods
 
+### batchBuyUnits
+
+```solidity
+function batchBuyUnits(address recipient, uint256[] offerIDs, uint256[] unitAmounts, address[] buyTokens, uint256[] tokenAmountsPerUnit) external payable
+```
+
+This function allows a user to buy Hypercert tokens from multiple existing offers in a single transaction. The function takes in several arrays of parameters, including the IDs of the offers to buy from, the number of units to buy for each offer, the tokens used for payment for each offer, and the amounts of tokens to pay per unit for each offer. The function then executes the trades and transfers the Hypercert tokens to the specified recipient.
+
+_Buys Hypercert tokens from multiple existing offers in a single transaction._
+
+#### Parameters
+
+| Name                | Type      | Description                                                          |
+| ------------------- | --------- | -------------------------------------------------------------------- |
+| recipient           | address   | The address that will receive the Hypercert tokens.                  |
+| offerIDs            | uint256[] | The list of IDs of the offers to buy from.                           |
+| unitAmounts         | uint256[] | The list of numbers of units to buy for each offer.                  |
+| buyTokens           | address[] | The list of addresses of the tokens used for payment for each offer. |
+| tokenAmountsPerUnit | uint256[] | The list of amounts of tokens to pay per unit for each offer.        |
+
 ### buyUnits
 
 ```solidity
@@ -114,6 +134,14 @@ _Returns the address of the current owner._
 | ---- | ------- | ----------- |
 | \_0  | address | undefined   |
 
+### pause
+
+```solidity
+function pause() external nonpayable
+```
+
+PAUSABLE
+
 ### paused
 
 ```solidity
@@ -182,6 +210,12 @@ _Transfers ownership of the contract to a new account (`newOwner`). Can only be 
 | Name     | Type    | Description |
 | -------- | ------- | ----------- |
 | newOwner | address | undefined   |
+
+### unpause
+
+```solidity
+function unpause() external nonpayable
+```
 
 ### upgradeTo
 

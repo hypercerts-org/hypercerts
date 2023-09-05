@@ -105,6 +105,22 @@ interface IHypercertTrader {
     ) external payable;
 
     /**
+     * @dev Buys Hypercert tokens from multiple existing offers in a single transaction.
+     * @param recipient The address that will receive the Hypercert tokens.
+     * @param offerIDs The list of IDs of the offers to buy from.
+     * @param unitAmounts The list of numbers of units to buy for each offer.
+     * @param buyTokens The list of addresses of the tokens used for payment for each offer.
+     * @param tokenAmountsPerUnit The list of amounts of tokens to pay per unit for each offer.
+     */
+    function batchBuyUnits(
+        address recipient,
+        uint256[] calldata offerIDs,
+        uint256[] calldata unitAmounts,
+        address[] calldata buyTokens,
+        uint256[] calldata tokenAmountsPerUnit
+    ) external payable;
+
+    /**
      * @dev Cancels an existing offer.
      * @param offerID The ID of the offer to cancel.
      */
