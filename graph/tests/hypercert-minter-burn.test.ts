@@ -5,9 +5,6 @@ import {
   handleTransferBatch,
 } from "../src/hypercert-minter";
 import {
-  buildIDs,
-  buildValues,
-  buildZeroes,
   createBatchValueTransferEvent,
   createTransferBatchEvent,
   createTransferSingleEvent,
@@ -23,7 +20,6 @@ import {
   test,
   clearStore,
   beforeAll,
-  afterAll,
   createMockedFunction,
   afterEach,
 } from "matchstick-as/assembly/index";

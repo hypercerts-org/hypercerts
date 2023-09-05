@@ -63,8 +63,6 @@ jobs:
           cache: "yarn"
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly-bff4ed912bb023d7bf9b20eda581aa4867a1cf70
       - name: Install
         run: |
           yarn install --immutable

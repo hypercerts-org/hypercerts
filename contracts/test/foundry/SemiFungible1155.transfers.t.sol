@@ -20,12 +20,11 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
         _uri = "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi";
         alice = address(1);
         bob = address(2);
-        hoax(alice, 100 ether);
+        startHoax(alice, 100 ether);
     }
 
     // UNHAPPY PATHS
     function testFailTransferTypeIDToken() public {
-        vm.startPrank(alice);
         semiFungible.mintValue(alice, 10000, _uri);
 
         //NotApprovedOrOWner, since no owner
@@ -33,7 +32,6 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
     }
 
     function testFailTransferNonExistingFractionToken() public {
-        vm.startPrank(alice);
         semiFungible.mintValue(alice, 10000, _uri);
 
         //NotApprovedOrOWner, since no owner
@@ -41,8 +39,6 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
     }
 
     function testTransferNonExistingTokenWithValue() public {
-        vm.startPrank(alice);
-
         uint256 baseID = 1 << 128;
         uint128 tokenID = 1;
 
@@ -51,8 +47,6 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
     }
 
     function testTransferNonExistingFungibleTokenTokenNoValue() public {
-        vm.startPrank(alice);
-
         uint256 baseID = 1 << 128;
         uint128 tokenID = 1;
 
@@ -65,8 +59,6 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
     function testTransferFullToken() public {
         uint256 baseID = 1 << 128;
         uint128 tokenID = 1;
-
-        startHoax(alice, 100 ether);
 
         semiFungible.mintValue(alice, 10000, _uri);
 
