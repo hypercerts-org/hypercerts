@@ -5,7 +5,7 @@ import {
 } from "../generated/HypercertTrader/HypercertTrader";
 import { Trade } from "../generated/schema";
 import { getOrCreateOffer, getOrCreateOfferByID } from "./utils";
-import { log } from "@graphprotocol/graph-ts";
+import { log, BigInt } from "@graphprotocol/graph-ts";
 
 export function handleOfferCancelled(event: OfferCancelledEvent): void {
   const offer = getOrCreateOfferByID(
@@ -31,7 +31,6 @@ export function handleOfferCreated(event: OfferCreatedEvent): void {
     event.params.offerID,
   );
 
-  // TODO get accepted tokens
   offer.save();
 }
 
@@ -63,6 +62,11 @@ export function handleTrade(event: TradeEvent): void {
     trade.amountPerUnit = event.params.tokenAmountPerUnit;
 
     trade.offerID = offer.id;
+  }
+
+  offer.unitsAvailable = offer.unitsAvailable.minus(event.params.unitsBought);
+  if (offer.unitsAvailable.equals(BigInt.fromI32(0))) {
+    offer.status = "Fulfilled";
   }
 
   trade.save();
