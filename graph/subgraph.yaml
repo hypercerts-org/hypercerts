@@ -48,7 +48,7 @@ dataSources:
     name: HypercertTrader
     network: goerli
     source:
-      address: "0xFf3F27c6132c30d1098b97FfeC05C3150dA90432"
+      address: "0x689587461AA3103D3D7975c5e4B352Ab711C14C2"
       abi: HypercertTrader
     mapping:
       kind: ethereum/events

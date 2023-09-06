@@ -65,5 +65,10 @@ export function handleTrade(event: TradeEvent): void {
     trade.offerID = offer.id;
   }
 
+  offer.unitsAvailable = offer.unitsAvailable.minus(event.params.unitsBought);
+  if (offer.unitsAvailable.equals(BigInt.fromI32(0))) {
+    offer.status = "Fulfilled";
+  }
+
   trade.save();
 }
