@@ -46,6 +46,10 @@ contract HypercertTrader is IHypercertTrader, Initializable, OwnableUpgradeable,
         __UUPSUpgradeable_init();
     }
 
+    function getOffer(uint256 offerID) external view returns (Offer memory) {
+        return offers[offerID];
+    }
+
     /**
      * @dev Creates a new offer to sell Hypercert tokens.
      * @param hypercertContract The address of the Hypercert token contract.

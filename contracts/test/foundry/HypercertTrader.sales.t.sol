@@ -24,10 +24,6 @@ contract HypercertTraderHelper is HypercertTrader, PRBTest, StdCheats, StdUtils 
 
     HypercertMinter public hypercertMinter = new HypercertMinter();
 
-    function getOffer(uint256 key) external view returns (Offer memory) {
-        return offers[key];
-    }
-
     function getOfferCount() external view returns (uint256) {
         return _offerCounter;
     }

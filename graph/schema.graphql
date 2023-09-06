@@ -22,11 +22,14 @@ type ClaimToken @entity {
   claim: Claim!
   owner: Bytes!
   units: BigInt!
+  offers: [Offer!] @derivedFrom(field: "fractionID")
 }
 
 type Token @entity {
   id: String!
   name: String!
+  symbol: String
+  decimals: BigInt
 }
 
 type AcceptedToken @entity {

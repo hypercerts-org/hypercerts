@@ -23,10 +23,6 @@ contract HypercertTraderHelper is HypercertTrader {
 
     HypercertMinter public hypercertMinter = new HypercertMinter();
 
-    function getOffer(uint256 key) external view returns (Offer memory) {
-        return offers[key];
-    }
-
     function getOfferCount() external view returns (uint256) {
         return _offerCounter;
     }
@@ -39,7 +35,7 @@ contract HypercertTraderHelper is HypercertTrader {
         uint256 minUnitsPerTrade,
         uint256 maxUnitsPerTrade,
         AcceptedToken[] memory acceptedTokens
-    ) external {
+    ) external payable {
         _validateOffer(
             offerer,
             hypercertContract,

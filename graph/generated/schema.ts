@@ -331,6 +331,10 @@ export class ClaimToken extends Entity {
   set units(value: BigInt) {
     this.set("units", Value.fromBigInt(value));
   }
+
+  get offers(): OfferLoader {
+    return new OfferLoader("ClaimToken", this.get("id")!.toString(), "offers");
+  }
 }
 
 export class Token extends Entity {
@@ -383,6 +387,40 @@ export class Token extends Entity {
 
   set name(value: string) {
     this.set("name", Value.fromString(value));
+  }
+
+  get symbol(): string | null {
+    let value = this.get("symbol");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set symbol(value: string | null) {
+    if (!value) {
+      this.unset("symbol");
+    } else {
+      this.set("symbol", Value.fromString(<string>value));
+    }
+  }
+
+  get decimals(): BigInt | null {
+    let value = this.get("decimals");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set decimals(value: BigInt | null) {
+    if (!value) {
+      this.unset("decimals");
+    } else {
+      this.set("decimals", Value.fromBigInt(<BigInt>value));
+    }
   }
 }
 
@@ -687,5 +725,23 @@ export class Trade extends Entity {
 
   set amountPerUnit(value: BigInt) {
     this.set("amountPerUnit", Value.fromBigInt(value));
+  }
+}
+
+export class OfferLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Offer[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Offer[]>(value);
   }
 }

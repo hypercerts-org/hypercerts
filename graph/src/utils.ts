@@ -110,6 +110,7 @@ export function getOrCreateToken(token: Address): Token {
 export function getOrCreateAcceptedToken(
   offerID: BigInt,
   token: Address,
+  minimumAmountPerUnit: BigInt,
 ): AcceptedToken {
   const _acceptedTokenID = offerID
     .toHexString()
@@ -119,7 +120,7 @@ export function getOrCreateAcceptedToken(
   if (acceptedToken == null) {
     acceptedToken = new AcceptedToken(_acceptedTokenID);
     acceptedToken.token = getOrCreateToken(token).id;
-    acceptedToken.minimumAmountPerUnit = BigInt.fromI32(0);
+    acceptedToken.minimumAmountPerUnit = minimumAmountPerUnit;
     acceptedToken.accepted = true;
     acceptedToken.save();
   }
@@ -142,14 +143,24 @@ export function getOrCreateOffer(
   let offer = Offer.load(_offerID);
 
   if (offer == null) {
-    const offerOnChain = _traderContract.offers(offerID);
+    const offerOnChain = _traderContract.getOffer(offerID);
     offer = new Offer(_offerID);
     offer.fractionID = _fractionID;
-    offer.unitsAvailable = offerOnChain.getUnitsAvailable();
-    offer.minUnitsPerTrade = offerOnChain.getMinUnitsPerTrade();
-    offer.maxUnitsPerTrade = offerOnChain.getMaxUnitsPerTrade();
+    offer.unitsAvailable = offerOnChain.unitsAvailable;
+    offer.minUnitsPerTrade = offerOnChain.minUnitsPerTrade;
+    offer.maxUnitsPerTrade = offerOnChain.maxUnitsPerTrade;
     offer.status = "Open";
-    offer.acceptedTokens = [getOrCreateAcceptedToken(offerID, ZERO_ADDRESS).id];
+
+    for (let i = 0; i < offerOnChain.acceptedTokens.length; i++) {
+      const _acceptedToken = offerOnChain.acceptedTokens[i];
+      const parsedToken = getOrCreateAcceptedToken(
+        offerID,
+        _acceptedToken.token,
+        _acceptedToken.minimumAmountPerUnit,
+      );
+      offer.acceptedTokens.push(parsedToken.id.toString());
+    }
+
     offer.save();
     log.debug("Created offerID: {}", [_offerID]);
   }
