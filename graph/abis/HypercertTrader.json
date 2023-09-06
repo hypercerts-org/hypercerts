@@ -1,16 +1,36 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
-    "inputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "name": "InvalidBuy",
     "type": "error"
   },
   {
-    "inputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "name": "InvalidOffer",
     "type": "error"
   },
-  { "inputs": [], "name": "NotAllowed", "type": "error" },
+  {
+    "inputs": [],
+    "name": "NotAllowed",
+    "type": "error"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -233,14 +253,26 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "recipient", "type": "address" },
-      { "internalType": "uint256[]", "name": "offerIDs", "type": "uint256[]" },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "offerIDs",
+        "type": "uint256[]"
+      },
       {
         "internalType": "uint256[]",
         "name": "unitAmounts",
         "type": "uint256[]"
       },
-      { "internalType": "address[]", "name": "buyTokens", "type": "address[]" },
+      {
+        "internalType": "address[]",
+        "name": "buyTokens",
+        "type": "address[]"
+      },
       {
         "internalType": "uint256[]",
         "name": "tokenAmountsPerUnit",
@@ -254,10 +286,26 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "recipient", "type": "address" },
-      { "internalType": "uint256", "name": "offerID", "type": "uint256" },
-      { "internalType": "uint256", "name": "unitAmount", "type": "uint256" },
-      { "internalType": "address", "name": "buyToken", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "offerID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "unitAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "buyToken",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenAmountPerUnit",
@@ -271,7 +319,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "offerID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "offerID",
+        "type": "uint256"
+      }
     ],
     "name": "cancelOffer",
     "outputs": [],
@@ -285,8 +337,16 @@
         "name": "hypercertContract",
         "type": "address"
       },
-      { "internalType": "uint256", "name": "fractionID", "type": "uint256" },
-      { "internalType": "uint256", "name": "unitsForSale", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "fractionID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "unitsForSale",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "minUnitsPerTrade",
@@ -299,7 +359,11 @@
       },
       {
         "components": [
-          { "internalType": "address", "name": "token", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
           {
             "internalType": "uint256",
             "name": "minimumAmountPerUnit",
@@ -313,9 +377,91 @@
     ],
     "name": "createOffer",
     "outputs": [
-      { "internalType": "uint256", "name": "offerID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "offerID",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOffer",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "offerer",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "hypercertContract",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fractionID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unitsAvailable",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minUnitsPerTrade",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxUnitsPerTrade",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum IHypercertTrader.OfferType",
+            "name": "offerType",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum IHypercertTrader.OfferStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minimumAmountPerUnit",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IHypercertTrader.AcceptedToken[]",
+            "name": "acceptedTokens",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct IHypercertTrader.Offer",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -326,16 +472,30 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "offers",
     "outputs": [
-      { "internalType": "address", "name": "offerer", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "offerer",
+        "type": "address"
+      },
       {
         "internalType": "address",
         "name": "hypercertContract",
         "type": "address"
       },
-      { "internalType": "uint256", "name": "fractionID", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "fractionID",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "unitsAvailable",
@@ -368,7 +528,13 @@
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -382,14 +548,26 @@
   {
     "inputs": [],
     "name": "paused",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "proxiableUUID",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -402,17 +580,35 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
     "name": "totalUnitsForSale",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -446,7 +642,11 @@
         "name": "newImplementation",
         "type": "address"
       },
-      { "internalType": "bytes", "name": "data", "type": "bytes" }
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
     ],
     "name": "upgradeToAndCall",
     "outputs": [],

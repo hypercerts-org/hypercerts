@@ -250,6 +250,54 @@ export class Upgraded__Params {
   }
 }
 
+export class HypercertTrader__getOfferResultValue0Struct extends ethereum.Tuple {
+  get offerer(): Address {
+    return this[0].toAddress();
+  }
+
+  get hypercertContract(): Address {
+    return this[1].toAddress();
+  }
+
+  get fractionID(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get unitsAvailable(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get minUnitsPerTrade(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get maxUnitsPerTrade(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get offerType(): i32 {
+    return this[6].toI32();
+  }
+
+  get status(): i32 {
+    return this[7].toI32();
+  }
+
+  get acceptedTokens(): Array<HypercertTrader__getOfferResultValue0AcceptedTokensStruct> {
+    return this[8].toTupleArray<HypercertTrader__getOfferResultValue0AcceptedTokensStruct>();
+  }
+}
+
+export class HypercertTrader__getOfferResultValue0AcceptedTokensStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get minimumAmountPerUnit(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
 export class HypercertTrader__offersResult {
   value0: Address;
   value1: Address;
@@ -335,6 +383,37 @@ export class HypercertTrader__offersResult {
 export class HypercertTrader extends ethereum.SmartContract {
   static bind(address: Address): HypercertTrader {
     return new HypercertTrader("HypercertTrader", address);
+  }
+
+  getOffer(offerID: BigInt): HypercertTrader__getOfferResultValue0Struct {
+    let result = super.call(
+      "getOffer",
+      "getOffer(uint256):((address,address,uint256,uint256,uint256,uint256,uint8,uint8,(address,uint256)[]))",
+      [ethereum.Value.fromUnsignedBigInt(offerID)],
+    );
+
+    return changetype<HypercertTrader__getOfferResultValue0Struct>(
+      result[0].toTuple(),
+    );
+  }
+
+  try_getOffer(
+    offerID: BigInt,
+  ): ethereum.CallResult<HypercertTrader__getOfferResultValue0Struct> {
+    let result = super.tryCall(
+      "getOffer",
+      "getOffer(uint256):((address,address,uint256,uint256,uint256,uint256,uint8,uint8,(address,uint256)[]))",
+      [ethereum.Value.fromUnsignedBigInt(offerID)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<HypercertTrader__getOfferResultValue0Struct>(
+        value[0].toTuple(),
+      ),
+    );
   }
 
   offers(param0: BigInt): HypercertTrader__offersResult {

@@ -5485,7 +5485,7 @@
             "label": "offers",
             "offset": 0,
             "slot": "252",
-            "type": "t_mapping(t_uint256,t_struct(Offer)7990_storage)",
+            "type": "t_mapping(t_uint256,t_struct(Offer)2510_storage)",
             "contract": "HypercertTrader",
             "src": "src/HypercertTrader.sol:37"
           },
@@ -5511,7 +5511,7 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_struct(AcceptedToken)8002_storage)dyn_storage": {
+          "t_array(t_struct(AcceptedToken)2522_storage)dyn_storage": {
             "label": "struct IHypercertTrader.AcceptedToken[]",
             "numberOfBytes": "32"
           },
@@ -5531,7 +5531,7 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_enum(OfferStatus)7997": {
+          "t_enum(OfferStatus)2517": {
             "label": "enum IHypercertTrader.OfferStatus",
             "members": [
               "Open",
@@ -5540,7 +5540,7 @@
             ],
             "numberOfBytes": "1"
           },
-          "t_enum(OfferType)7993": {
+          "t_enum(OfferType)2513": {
             "label": "enum IHypercertTrader.OfferType",
             "members": [
               "Units",
@@ -5552,7 +5552,7 @@
             "label": "mapping(address => mapping(uint256 => uint256))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(Offer)7990_storage)": {
+          "t_mapping(t_uint256,t_struct(Offer)2510_storage)": {
             "label": "mapping(uint256 => struct IHypercertTrader.Offer)",
             "numberOfBytes": "32"
           },
@@ -5560,7 +5560,7 @@
             "label": "mapping(uint256 => uint256)",
             "numberOfBytes": "32"
           },
-          "t_struct(AcceptedToken)8002_storage": {
+          "t_struct(AcceptedToken)2522_storage": {
             "label": "struct IHypercertTrader.AcceptedToken",
             "members": [
               {
@@ -5578,7 +5578,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(Offer)7990_storage": {
+          "t_struct(Offer)2510_storage": {
             "label": "struct IHypercertTrader.Offer",
             "members": [
               {
@@ -5619,19 +5619,274 @@
               },
               {
                 "label": "offerType",
-                "type": "t_enum(OfferType)7993",
+                "type": "t_enum(OfferType)2513",
                 "offset": 0,
                 "slot": "6"
               },
               {
                 "label": "status",
-                "type": "t_enum(OfferStatus)7997",
+                "type": "t_enum(OfferStatus)2517",
                 "offset": 1,
                 "slot": "6"
               },
               {
                 "label": "acceptedTokens",
-                "type": "t_array(t_struct(AcceptedToken)8002_storage)dyn_storage",
+                "type": "t_array(t_struct(AcceptedToken)2522_storage)dyn_storage",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "c448a5dca6b776aedb55eb5857ea7c6a03d1ccd3ff709786879396d71bf7dbb2": {
+      "address": "0x038c990018b9Aab4aA2496E592E668EAD77aF72B",
+      "txHash": "0xe07f42a41b70affd1fdd08ce8011f55a35b0e62a9ef67d0b5c4daa04b6028f60",
+      "layout": {
+        "solcVersion": "0.8.16",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "totalUnitsForSale",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
+            "contract": "HypercertTrader",
+            "src": "src/HypercertTrader.sol:36"
+          },
+          {
+            "label": "offers",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_mapping(t_uint256,t_struct(Offer)8003_storage)",
+            "contract": "HypercertTrader",
+            "src": "src/HypercertTrader.sol:37"
+          },
+          {
+            "label": "_offerCounter",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_uint256",
+            "contract": "HypercertTrader",
+            "src": "src/HypercertTrader.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_array(t_uint256)27_storage",
+            "contract": "HypercertTrader",
+            "src": "src/HypercertTrader.sol:392"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(AcceptedToken)8015_storage)dyn_storage": {
+            "label": "struct IHypercertTrader.AcceptedToken[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)27_storage": {
+            "label": "uint256[27]",
+            "numberOfBytes": "864"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_enum(OfferStatus)8010": {
+            "label": "enum IHypercertTrader.OfferStatus",
+            "members": [
+              "Open",
+              "Fulfilled",
+              "Cancelled"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_enum(OfferType)8006": {
+            "label": "enum IHypercertTrader.OfferType",
+            "members": [
+              "Units",
+              "Fraction"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_uint256))": {
+            "label": "mapping(address => mapping(uint256 => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Offer)8003_storage)": {
+            "label": "mapping(uint256 => struct IHypercertTrader.Offer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AcceptedToken)8015_storage": {
+            "label": "struct IHypercertTrader.AcceptedToken",
+            "members": [
+              {
+                "label": "token",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "minimumAmountPerUnit",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Offer)8003_storage": {
+            "label": "struct IHypercertTrader.Offer",
+            "members": [
+              {
+                "label": "offerer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "hypercertContract",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "fractionID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "unitsAvailable",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "minUnitsPerTrade",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "maxUnitsPerTrade",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "offerType",
+                "type": "t_enum(OfferType)8006",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "status",
+                "type": "t_enum(OfferStatus)8010",
+                "offset": 1,
+                "slot": "6"
+              },
+              {
+                "label": "acceptedTokens",
+                "type": "t_array(t_struct(AcceptedToken)8015_storage)dyn_storage",
                 "offset": 0,
                 "slot": "7"
               }

@@ -87,6 +87,24 @@ function createOffer(address hypercertContract, uint256 fractionID, uint256 unit
 | ------- | ------- | ----------- |
 | offerID | uint256 | undefined   |
 
+### getOffer
+
+```solidity
+function getOffer(uint256 offerID) external view returns (struct IHypercertTrader.Offer)
+```
+
+#### Parameters
+
+| Name    | Type    | Description |
+| ------- | ------- | ----------- |
+| offerID | uint256 | undefined   |
+
+#### Returns
+
+| Name | Type                   | Description |
+| ---- | ---------------------- | ----------- |
+| \_0  | IHypercertTrader.Offer | undefined   |
+
 ### initialize
 
 ```solidity
