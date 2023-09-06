@@ -173,6 +173,7 @@ export function getOrCreateOffer(
       ]);
     }
 
+    log.debug("Created offerID: {}", [_offerID]);
     offer.save();
   }
 
