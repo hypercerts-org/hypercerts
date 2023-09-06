@@ -99,10 +99,12 @@ export function getOrCreateToken(token: Address): Token {
 
   if (_token == null) {
     _token = new Token(_tokenID);
-    //TODO get token name
+    log.debug("Created Token: {}", [_tokenID]);
     _token.name = "Native";
     _token.save();
   }
+
+  log.debug("Returning Token: {}", [_tokenID]);
 
   return _token;
 }
@@ -119,6 +121,8 @@ export function getOrCreateAcceptedToken(
 
   if (acceptedToken == null) {
     acceptedToken = new AcceptedToken(_acceptedTokenID);
+    log.debug("Created acceptedToken: {}", [_acceptedTokenID]);
+
     acceptedToken.token = getOrCreateToken(token).id;
     acceptedToken.minimumAmountPerUnit = minimumAmountPerUnit;
     acceptedToken.accepted = true;
@@ -146,6 +150,8 @@ export function getOrCreateOffer(
   if (offer == null) {
     const offerOnChain = _traderContract.getOffer(offerID);
     offer = new Offer(_offerID);
+    log.debug("Created offer: {}", [_offerID]);
+
     offer.fractionID = _fractionID;
     offer.unitsAvailable = offerOnChain.unitsAvailable;
     offer.minUnitsPerTrade = offerOnChain.minUnitsPerTrade;
@@ -161,11 +167,16 @@ export function getOrCreateOffer(
         _acceptedToken.minimumAmountPerUnit,
       );
       offer.acceptedTokens.push(parsedToken.id.toString());
+      log.debug("Added accepted token to offer {} at place {}", [
+        _offerID,
+        _acceptedToken.length.toString(),
+      ]);
     }
 
-    log.debug("Created offerID: {}", [_offerID]);
     offer.save();
   }
+
+  log.debug("Returning offer: {}", [_offerID]);
 
   return offer;
 }
