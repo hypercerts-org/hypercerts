@@ -125,6 +125,7 @@ export function getOrCreateAcceptedToken(
     acceptedToken.save();
   }
 
+  log.debug("Returning acceptedToken: {}", [_acceptedTokenID]);
   return acceptedToken;
 }
 
@@ -149,6 +150,7 @@ export function getOrCreateOffer(
     offer.unitsAvailable = offerOnChain.unitsAvailable;
     offer.minUnitsPerTrade = offerOnChain.minUnitsPerTrade;
     offer.maxUnitsPerTrade = offerOnChain.maxUnitsPerTrade;
+    offer.acceptedTokens = [];
     offer.status = "Open";
 
     for (let i = 0; i < offerOnChain.acceptedTokens.length; i++) {
@@ -161,8 +163,8 @@ export function getOrCreateOffer(
       offer.acceptedTokens.push(parsedToken.id.toString());
     }
 
-    offer.save();
     log.debug("Created offerID: {}", [_offerID]);
+    offer.save();
   }
 
   return offer;
