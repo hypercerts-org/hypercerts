@@ -12,4 +12,6 @@ library Errors {
     error NotApprovedOrOwner();
     error TransfersNotAllowed();
     error TypeMismatch();
+    error ArrayLengthMismatch();
+    error ZeroAddress();
 }
