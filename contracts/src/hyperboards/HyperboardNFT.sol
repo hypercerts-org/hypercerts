@@ -4,10 +4,12 @@ import { ERC721URIStorageUpgradeable } from "oz-upgradeable/token/ERC721/extensi
 import { CountersUpgradeable } from "oz-upgradeable/utils/CountersUpgradeable.sol";
 import { Errors } from "../libs/errors.sol";
 
-contract Hyperboard is ERC721URIStorageUpgradeable, CountersUpgradeable {
+contract Hyperboard is ERC721URIStorageUpgradeable {
     string public subgraphEndpoint;
     string public baseUri;
-    mapping(uint256 => AllowlistedCerts) _allowlistedCertsMapping;
+    mapping(uint256 => AllowlistedCerts) _allowListedCertsMapping;
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+    CountersUpgradeable.Counter _counter;
 
     struct AllowlistedCerts {
         address[] allowlistedCerts;
@@ -25,15 +27,18 @@ contract Hyperboard is ERC721URIStorageUpgradeable, CountersUpgradeable {
         address[] memory allowlistedCertsAddress_,
         uint256[][] memory allowlistedClaimIds_
     ) external returns (uint256 tokenId) {
-        if (allowlistedCertsAddress_.length != allowlistedClaimIds_) revert Error.ArrayLengthMismatch();
-        if (to == address(0)) revert Error.ZeroAddress();
-        AllowlistedCerts memory allowlistedCerts = AllowlistedCerts({ allowlistedCerts: allowlistedCertsAddress_ });
+        if (allowlistedCertsAddress_.length != allowlistedClaimIds_.length) revert Errors.ArrayLengthMismatch();
+        if (to == address(0)) revert Errors.ZeroAddress();
+
+        _mint(to, _counter.current());
+        AllowlistedCerts storage allowListedCerts = _allowListedCertsMapping[_counter.current()];
+        allowListedCerts.allowlistedCerts = allowlistedCertsAddress_;
         for (uint256 i = 0; i < allowlistedCertsAddress_.length; i++) {
-            allowlistedCerts[allowlistedCertsAddress_[i]] = allowlistedClaimIds_[i];
+            _allowListedCertsMapping[_counter.current()].claimIds[allowlistedCertsAddress_[i]] = allowlistedClaimIds_[
+                i
+            ];
         }
 
-        _mint(to, current());
-        _allowlistedCertsMapping[current()] = allowlistedCerts;
-        increment();
+        _counter.increment();
     }
 }
