@@ -14,4 +14,5 @@ library Errors {
     error TypeMismatch();
     error ArrayLengthMismatch();
     error ZeroAddress();
+    error NotOwner();
 }
