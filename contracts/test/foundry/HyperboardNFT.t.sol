@@ -5,6 +5,7 @@ import { ERC20Upgradeable } from "oz-upgradeable/token/ERC20/ERC20Upgradeable.so
 import { IERC6551Registry } from "../../src/interfaces/IERC6551Registry.sol";
 import { Hyperboard } from "../../src/hyperboards/HyperboardNFT.sol";
 import { DSTest } from "ds-test/test.sol";
+import { TestToken } from "./helpers/ERC20.sol";
 
 contract TestHyperboard is DSTest {
     Hyperboard private _hyperboard;
@@ -83,8 +84,9 @@ contract TestHyperboard is DSTest {
     }
 
     function testWithdrawErc20() public {
+        TestToken _erc20Token = new TestToken("Test Token", "TST");
         uint256 initialBalance = 1000;
-        _erc20Token.mint(address(this), initialBalance);
+        _erc20Token.mint(address(_hyperboard), initialBalance);
         uint256 withdrawalAmount = 500;
         _hyperboard.withdrawErc20(_erc20Token, withdrawalAmount, _owner);
         assertEq(
@@ -96,11 +98,17 @@ contract TestHyperboard is DSTest {
     }
 
     function testWithdrawEther() public {
-        uint256 initialBalance = address(this).balance;
+        uint256 initialBalance = address(_hyperboard).balance;
+        vm.deal(someRandomUser, 2 ether);
+
         uint256 withdrawalAmount = 1 ether;
 
         _hyperboard.withdrawEther(withdrawalAmount, _owner);
-        assertEq(address(this).balance, initialBalance - withdrawalAmount, "Incorrect Ether balance after withdrawal");
+        assertEq(
+            address(_hyperboard).balance,
+            initialBalance - withdrawalAmount,
+            "Incorrect Ether balance after withdrawal"
+        );
         assertEq(address(_owner).balance, withdrawalAmount, "Incorrect recipient balance after withdrawal");
     }
 }
