@@ -15,4 +15,5 @@ library Errors {
     error ArrayLengthMismatch();
     error ZeroAddress();
     error NotOwner();
+    error FailedToSendEther();
 }
