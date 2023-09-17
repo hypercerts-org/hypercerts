@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
-import { ERC721URIStorageUpgradeable } from "oz-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-import { IERC20Upgradeable } from "oz-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+// import { ERC721URIStorageUpgradeable } from "oz-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
+import { IERC20 } from "oz-contracts/contracts/token/ERC20/IERC20.sol";
+import { ERC721 } from "oz-contracts/contracts/token/ERC721/ERC721.sol";
+import { ERC721URIStorage } from "oz-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import { ERC721Enumerable } from "oz-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import { Strings } from "oz-contracts/contracts/utils/Strings.sol";
 
-import { OwnableUpgradeable } from "oz-upgradeable/access/OwnableUpgradeable.sol";
+import { Ownable } from "oz-contracts/contracts/access/Ownable.sol";
 import { CountersUpgradeable } from "oz-upgradeable/utils/CountersUpgradeable.sol";
 import { Errors } from "../libs/errors.sol";
 import { IERC6551Registry } from "../interfaces/IERC6551Registry.sol";
@@ -11,7 +15,7 @@ import { IERC6551Registry } from "../interfaces/IERC6551Registry.sol";
 /// @title A hyperboard NFT
 /// @author Abhimanyu Shekhawat
 /// @notice This is an NFT for representing various hyperboards
-contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
+contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     string public subgraphEndpoint;
     string public baseUri;
     address public walletImpl;
@@ -40,12 +44,14 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
         string memory baseUri_,
         address walletImpl_,
         IERC6551Registry erc6551Registry_
-    ) {
-        if (walletImpl == address(0)) revert Errors.ZeroAddress();
-        if (address(erc6551Registry) == address(0)) revert Errors.ZeroAddress();
+    ) ERC721(name_, symbol_) {
+        if (walletImpl_ == address(0)) revert Errors.ZeroAddress();
+
+        if (address(erc6551Registry_) == address(0)) revert Errors.ZeroAddress();
+
         walletImpl = walletImpl_;
         erc6551Registry = erc6551Registry_;
-        __ERC721_init(name_, symbol_);
+
         subgraphEndpoint = subgraphEndpoint_;
         baseUri = baseUri_;
     }
@@ -64,9 +70,12 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
     ) external returns (uint256 tokenId) {
         if (allowlistedCertsAddress_.length != allowlistedClaimIds_.length) revert Errors.ArrayLengthMismatch();
         if (to == address(0)) revert Errors.ZeroAddress();
+
         tokenId = _counter.current();
         _mint(to, tokenId);
+
         _setAllowlist(tokenId, allowlistedCertsAddress_, allowlistedClaimIds_);
+
         tokenWalletMapping[tokenId] = erc6551Registry.createAccount(
             walletImpl,
             block.chainid,
@@ -75,6 +84,7 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
             salt,
             bytes("")
         );
+
         _counter.increment();
         return tokenId;
     }
@@ -110,6 +120,18 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
         return _allowListedCertsMapping[tokenId].claimIds[hypercertAddress];
     }
 
+    /// @dev Get URI of token, i.e. URL of NFT webpage
+    /// @param tokenId id of the token to get URI for.
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return string.concat(baseUri, "?tokenId=", Strings.toString(tokenId), "&subgraph=", subgraphEndpoint);
+    }
+
+    /// @dev checks if this contract supports specific interface.
+    /// @param interfaceId interface ID that you want to check the contract against.
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+
     /// @notice Sets the subgraph endpoint for the hyperboards.
     /// @param endpoint_ The new subgraph endpoint.
     function setSubgraphEndpoint(string memory endpoint_) external onlyOwner {
@@ -132,14 +154,14 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
     /// @param token The ERC20 token contract address.
     /// @param amount The amount of tokens to withdraw.
     /// @param account The recipient account address.
-    function withdrawErc20(IERC20Upgradeable token, uint256 amount, address account) external onlyOwner {
+    function withdrawErc20(IERC20 token, uint256 amount, address account) external onlyOwner {
         token.transfer(account, amount);
     }
 
     /// @notice Withdraws accidentally transferred Ether from the contract to a specified account.
     /// @param amount The amount of Ether to withdraw.
     /// @param account The recipient account address.
-    function withdrawEther(uint256 amount, address account) external onlyOwner {
+    function withdrawEther(uint256 amount, address payable account) external onlyOwner {
         (bool sent, ) = account.call{ value: amount }("");
         if (!sent) revert Errors.FailedToSendEther();
     }
@@ -158,9 +180,25 @@ contract Hyperboard is ERC721URIStorageUpgradeable, OwnableUpgradeable {
         AllowlistedCerts storage allowListedCerts = _allowListedCertsMapping[tokenId];
         allowListedCerts.allowlistedCerts = allowlistedCertsAddress_;
         for (uint256 i = 0; i < allowlistedCertsAddress_.length; i++) {
-            _allowListedCertsMapping[_counter.current()].claimIds[allowlistedCertsAddress_[i]] = allowlistedClaimIds_[
-                i
-            ];
+            _allowListedCertsMapping[tokenId].claimIds[allowlistedCertsAddress_[i]] = allowlistedClaimIds_[i];
         }
+    }
+
+    /// @dev any condtion can be put into this to be checked before transefering tokens.
+    /// @param from which accounts token needs to be tranferred.
+    /// @param to who will be the recipient of token.
+    /// @param tokenId token Id of token being transferred.
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+
+    /// @dev internal function to burn the token
+    /// @param tokenId Id of token that needs to be burned.
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 }
