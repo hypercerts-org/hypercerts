@@ -31,6 +31,39 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
         mapping(address => uint256[]) claimIds;
     }
 
+    /// @notice Emitted when new token is minted
+    /// @param to Address thats recieving NFT.
+    /// @param walletAddress Address of wallet deployed.
+    /// @param tokenId tokenId of the new mint.
+    event Mint(address indexed to, address indexed walletAddress, uint256 indexed tokenId);
+
+    /// @notice Emitted when ERC20 tokens are withdrawn.
+    /// @param to address where tokens were sent to.
+    /// @param tokenAddress Address  of token withdrawn.
+    /// @param amount amount of tokems withdrawn.
+    event WithdrawErc20(address indexed to, address indexed tokenAddress, uint256 indexed amount);
+
+    /// @notice  Emitted when Ether tokens are withdrawn
+    /// @param to address where tokens were sent to.
+    /// @param amount amount of tokems withdrawn.
+    event WithdrawEther(address indexed to, uint256 indexed amount);
+
+    /// @notice Emitted when subgraph endpoint is updated.
+    /// @param endpoint updated Subgraph endpoint.
+    event SubgraphUpdated(string endpoint);
+
+    /// @notice Emitted when wallet implementation is updated.
+    /// @param impl Updated wallet implementation.
+    event WalletImplUpdated(address indexed impl);
+
+    /// @notice Emitted when base uri is updated.
+    /// @param baseUri Updated baseuri.
+    event BaseUriUpdated(string baseUri);
+
+    /// @notice Emitted when 6551 registry is updated
+    /// @param registry Updated registry address.
+    event Erc6551RegistryUpdated(address indexed registry);
+
     /// @param name_ name of NFT.
     /// @param symbol_ NFT symbol
     /// @param subgraphEndpoint_ updateable subgraph endpoint
@@ -50,10 +83,16 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
         if (address(erc6551Registry_) == address(0)) revert Errors.ZeroAddress();
 
         walletImpl = walletImpl_;
+        emit WalletImplUpdated(walletImpl);
+
         erc6551Registry = erc6551Registry_;
+        emit Erc6551RegistryUpdated(address(erc6551Registry));
 
         subgraphEndpoint = subgraphEndpoint_;
+        emit SubgraphUpdated(subgraphEndpoint);
+
         baseUri = baseUri_;
+        emit BaseUriUpdated(baseUri);
     }
 
     /// @notice Mints a new Hyperboard.
@@ -136,18 +175,28 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     /// @param endpoint_ The new subgraph endpoint.
     function setSubgraphEndpoint(string memory endpoint_) external onlyOwner {
         subgraphEndpoint = endpoint_;
+        emit SubgraphUpdated(subgraphEndpoint);
     }
 
     /// @notice Sets the wallet implementation address.
     /// @param walletImpl_ The new wallet implementation address.
     function setWalletImpl(address walletImpl_) external onlyOwner {
         walletImpl = walletImpl_;
+        emit WalletImplUpdated(walletImpl);
     }
 
     /// @notice Sets the 6551 registry for registering wallets.
     /// @param erc6551Registry_ The new 6551 registry address.
     function setErc6551Registry(IERC6551Registry erc6551Registry_) external onlyOwner {
         erc6551Registry = erc6551Registry_;
+        emit Erc6551RegistryUpdated(address(erc6551Registry));
+    }
+
+    /// @notice update the base URI
+    /// @param baseUri_ The new 6551 registry address.
+    function setBaseUri(string memory baseUri_) external onlyOwner {
+        baseUri = baseUri_;
+        emit BaseUriUpdated(baseUri);
     }
 
     /// @notice Withdraws accidentally transferred ERC20 tokens from the contract to a specified account.
@@ -156,6 +205,7 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     /// @param account The recipient account address.
     function withdrawErc20(IERC20 token, uint256 amount, address account) external onlyOwner {
         token.transfer(account, amount);
+        emit WithdrawErc20(account, address(token), amount);
     }
 
     /// @notice Withdraws accidentally transferred Ether from the contract to a specified account.
@@ -164,6 +214,7 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     function withdrawEther(uint256 amount, address payable account) external onlyOwner {
         (bool sent, ) = account.call{ value: amount }("");
         if (!sent) revert Errors.FailedToSendEther();
+        emit WithdrawEther(account, amount);
     }
 
     /// @dev Sets the allowlisted certificates and their corresponding claim IDs for an NFT.
