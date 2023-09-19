@@ -31,7 +31,7 @@ def summarize(text_blob, max_tokens=MAX_TOKENS_SUMMARY):
     if len(tokens) < 100 or max_tokens < 200:
         return text_blob
 
-    text_blob = " ".join(tokens[:(max_tokens - 200)])
+    text_blob = " ".join(tokens[:(max_tokens - 500)])
 
     prompt = (
         f"Consider the following text:\n\n"
@@ -111,12 +111,14 @@ def process_project_descriptions():
     with open(PROJECTS_DATA) as f:
         projects = json.load(f)
 
-    for project_id, data in projects.items():
-        if descriptions.get(project_id):
+    for project_id, project in enumerate(projects):
+        if descriptions.get(str(project_id)):
             continue
-        descr = summarize(data['description'])
+
+        print(f"Processing description for project {project_id} {project['name']}...")
+        descr = summarize(project['description'])
         if descr == "":
-            break
+            continue
         descriptions[project_id] = descr
 
     with open(DESCRIPTIONS, 'w') as f:
@@ -147,9 +149,10 @@ def process_work_scopes():
         descriptions = json.load(f)
 
     for project_id, descr in descriptions.items():
-        if work_scopes.get(project_id):
+        if work_scopes.get(str(project_id)):
             continue
-        title = projects[project_id].get('name')
+        title = projects[int(project_id)].get('name')
+        print(f"Processing work scope for project {project_id} {title}...")
         work_scope = shorten_workscope(title, descr)
         if work_scope == "":
             break

@@ -38,7 +38,7 @@ def crop_and_resize(img):
  
 def process_image(uri, project_id, overwrite=False):
 
-    outpath = project_id + ".png"
+    outpath = str(project_id) + ".png"
     if not overwrite:
         if outpath in os.listdir(IMG_DIR):
             return
@@ -55,14 +55,14 @@ def process_image(uri, project_id, overwrite=False):
 def run_image_processing():
 
     projects = json.load(open(PROJECTS_DATA))
-    for project_id, data in projects.items():
-        cid = data['bannerImg']
+    for idx, project in enumerate(projects):
+        cid = project['bannerImg']
         if cid is None:
             continue
         uri = CID_HOST_URL + cid
-        print("Processing", data['name'], uri)
+        print("Processing", project['name'], uri)
         
-        process_image(uri, project_id)
+        process_image(uri, idx)
 
 
 if __name__ == "__main__":

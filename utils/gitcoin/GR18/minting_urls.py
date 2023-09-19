@@ -31,14 +31,17 @@ def safe_url_attr(name, value):
     return url_field
 
 
-def create_url(project_id):
+def create_url(idx):
 
-    project = PROJECTS.get(project_id) 
+    project = PROJECTS[idx]
+    project_id = project.get('id')
+
+    print(project['name'])
 
     # TODO: check for ENS
     address = project.get("address")
     hypercert = {
-        "workScopes": WORK_SCOPES.get(project_id),
+        "workScopes": WORK_SCOPES.get(str(idx)),
         "workTimeStart": WORK_START,
         "workTimeEnd": WORK_END,
         "impactScopes": ["all"],
@@ -50,8 +53,8 @@ def create_url(project_id):
     
     # TODO: confirm all projects have valid images
     base = CONFIG['hostedCidBaseUrl']
-    logo_uri = f"{base}{project.get('logoImg')}"
-    banner_uri = f"{base}{CIDS['img']}/img/{project_id}.png"
+    logo_uri = f"https://ipfs-grants-stack.gitcoin.co/ipfs/{project.get('logoImg')}"
+    banner_uri = f"{base}{CIDS['img']}/img/{str(idx)}.png"
     allowlist_uri = f"{base}{CIDS['allowlists']}/allowlists/{project_id}.csv"
 
     properties = [
@@ -73,7 +76,7 @@ def create_url(project_id):
     params = dict(
         name = project['name'],
         **hypercert,
-        description = DESCRIPTIONS.get(project_id),
+        description = DESCRIPTIONS.get(str(idx)),
         externalLink = project['externalLink'],        
         logoUrl = logo_uri,
         bannerUrl = banner_uri,
@@ -97,9 +100,9 @@ def create_csv_export():
         cols = ['id', 'name', 'mintingUrl']
         writer.writerow(cols)
 
-        for project_id, project in PROJECTS.items():         
-            url = create_url(project_id)
-            writer.writerow([project_id, project['name'], url])
+        for idx, project in enumerate(PROJECTS):         
+            url = create_url(idx)
+            writer.writerow([idx, project['name'], url])
 
     f.close()        
 

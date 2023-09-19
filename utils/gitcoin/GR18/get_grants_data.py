@@ -8,17 +8,23 @@ import requests
 
 from get_ens import get_ens
 
-# https://github.com/gitcoinco/allo-indexer
-CHAIN_NUM      = "10"           # Optimism
-CHAINSAUCE_URL = "https://indexer-grants-stack.gitcoin.co/data/"
-START_TIME     = 1690862400     # Aug 1, 2023
 
-ROUNDS_DATA    = "data/funding-round-data.json"
-PROJECTS_DATA  = "data/projects-data.json"
+CHAINSAUCE_URL = "https://indexer-grants-stack.gitcoin.co/data/"
+CHAIN_IDS = {
+    #'1': 'mainnet',
+    '10': 'optimism',
+    #'250': 'fantom',
+    #'42161': 'arbitrum one',
+    '424': 'pgn'
+}
+START_TIME = 1690862400  # Aug 1, 2023
+END_TIME = 1692331200 # Aug 18 2023
+
+ROUNDS_DATA = "data/funding-round-data.json"
+PROJECTS_DATA = "data/projects-data.json"
 
 
 def setup_logging():
-
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)-8s %(message)s",
@@ -31,7 +37,6 @@ def setup_logging():
 
 
 def flatten_dict(d):
-
     flattened_dict = {}
     for key, value in d.items():
         if isinstance(value, dict):
@@ -44,75 +49,109 @@ def flatten_dict(d):
     return flattened_dict
 
 
-def get_funding_rounds():
+def assign_color_and_vector(round_name):
 
-    round_url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds.json"])
-    r = requests.get(round_url)
-    round_data = r.json()
-
-    funding_round_data = [
+    design_mappings = [
         {
-            "roundId": r['id'],
-            "roundName": r['metadata']['name'],
-            "backgroundColor": "blue",  # manually updated later
-            "backgroundVectorArt": "contours"  # manually updated later
+            "words": "Community|Social|Source",
+            "color": "blue",
+            "vector": "contours"
+        },
+        {
+            "words": "Zuzalu|ReFi|Climate",
+            "color": "green",
+            "vector": "circles"
+        },
+        {
+            "words": "Infrastructure|Chinese|Engineering",
+            "color": "purple",
+            "vector": "octagonals"
         }
-        for r in round_data
-        if int(r['roundStartTime']) >= START_TIME and r['votes'] > 10
     ]
+    default_color = "blue"
+    default_vector = "contours"
+
+    for mapping in design_mappings:
+        if re.search(mapping['words'], round_name):
+            return mapping['color'], mapping['vector']
+    return default_color, default_vector
+
+
+def get_funding_rounds(chain_nums):
+
+    funding_round_data = []
+    for chain_num in chain_nums:
+        round_url = "/".join([CHAINSAUCE_URL, chain_num, "rounds.json"])
+        r = requests.get(round_url)
+        round_data = r.json()
+        for r in round_data:
+            if START_TIME < int(r['roundStartTime']) < END_TIME:
+                round_name = r['metadata']['name']
+                if r['votes'] > 10 and 'test' not in round_name.lower():
+                    color, vectors = assign_color_and_vector(round_name)
+                    funding_round_data.append({
+                        "roundId": r['id'],
+                        "roundName": round_name,
+                        "chain": chain_num,
+                        "backgroundColor": color,
+                        "backgroundVectorArt": vectors
+                    })
 
     with open(ROUNDS_DATA, 'w') as f:
         json.dump(funding_round_data, f, indent=4)
 
 
-def get_allo_data():
+def get_allo_data(chain_nums):
     with open(ROUNDS_DATA) as f:
         funding_round_data = json.load(f)
 
-    projects_data = {}
+    projects_data = []
     for funding_round in funding_round_data:
         round_id = funding_round['roundId']
         round_name = funding_round['roundName']
-        print(f"Gathering projects data for round: {round_name}...")
+        chain_num = funding_round['chain']
+        print(f"Gathering projects data for round: {round_name} on Chain {chain_num}...")
 
-        url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "applications.json"])
+        url = "/".join([CHAINSAUCE_URL, chain_num, "rounds", round_id, "applications.json"])
         projects_json = requests.get(url).json()
 
         for project in projects_json:
-                        
             if project['status'] != "APPROVED":
-                continue
-
-            projectId = project.get('id')
-            if projects_data.get(projectId):
-                projects_data[projectId]['fundingRounds'].append(round_name)
                 continue
 
             app = flatten_dict(project['metadata']['application'])
             name = app.get('project.title')
             address = get_ens(app.get('recipient'))
             
-            projects_data[projectId] = {
+            project_data = {
+                'id': project['projectId'],
                 'name': name,
                 'description': app.get('project.description'),
                 'address': address,
                 'logoImg': app.get('project.logoImg'),
                 'bannerImg': app.get('project.bannerImg'),
                 'externalLink': app.get('project.website'),
-                'backgroundColor': funding_round['backgroundColor'],
-                'backgroundVectorArt': funding_round['backgroundVectorArt'],
-                'fundingRounds': [round_name]
+                'fundingRounds': [round_name],
+                'chain': chain_num,
+                "backgroundColor": funding_round['backgroundColor'],
+                "backgroundVectorArt": funding_round['backgroundVectorArt']
             }
+            
+            # Check if this project already exists in the list
+            existing_project = next((item for item in projects_data if item['name'] == name and item['chain'] == chain_num), None)
+            if existing_project:
+                existing_project['fundingRounds'].append(round_name)
+            else:
+                projects_data.append(project_data)
             print(f"Normalized data for project: {name}")
 
-        print(f"Obtained {len(projects_data)} projects in round {round_name}.")
-
+    print(f"Obtained {len(projects_data)} projects.")
+    
     with open(PROJECTS_DATA, 'w') as f:
         json.dump(projects_data, f, indent=4)
 
-    df = pd.DataFrame(projects_data).T
-    df.index.name = 'id'
-    df.to_csv("data/projects.csv")
+    df = pd.DataFrame(projects_data)
+    df.to_csv("data/projects.csv", index=False)
 
 
 def rerun_get_ens():
@@ -120,11 +159,11 @@ def rerun_get_ens():
         projects_data = json.load(f)
 
     for project in projects_data:
-        address = projects_data[project]['address']
+        address = project['address']
         if ".eth" in address:
             continue
         ens = get_ens(address)
-        projects_data[project]['address'] = ens
+        project['address'] = ens
 
     with open(PROJECTS_DATA, 'w') as f:
         json.dump(projects_data, f, indent=4)
@@ -143,9 +182,10 @@ def get_allowlists():
     for funding_round in funding_round_data:
         round_id = funding_round['roundId']
         round_name = funding_round['roundName']
+        chain_num = funding_round['chain']
         logging.info(f"Gathering voting data for round: {round_name}...")
 
-        url = "/".join([CHAINSAUCE_URL, CHAIN_NUM, "rounds", round_id, "votes.json"])
+        url = "/".join([CHAINSAUCE_URL, chain_num, "rounds", round_id, "votes.json"])
         votes_json = requests.get(url).json()
         votes_data.extend(votes_json)
 
@@ -176,10 +216,10 @@ if __name__ == "__main__":
     # Currently requires manually overriding a default color/vector combo
     
     if not os.path.exists(ROUNDS_DATA):
-        get_funding_rounds()
+        get_funding_rounds(CHAIN_IDS.keys())
     if not os.path.exists("data/img"):
         os.makedirs("data/img")
 
-    get_allo_data()
-    get_allowlists()
-    rerun_get_ens()
+    get_allo_data(CHAIN_IDS.keys())
+    #get_allowlists()
+    #rerun_get_ens()
