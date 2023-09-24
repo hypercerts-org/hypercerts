@@ -106,14 +106,14 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     }
 
     /// @notice gives consent from a hypercert to be part of Hyperboard
-    /// @param tokenId tokenId of a hyperboard.
-    /// @param claimId ClaimId of a hypercert.
+    /// @param tokenId_ tokenId of a hyperboard.
+    /// @param tokenId_ ClaimId of a hypercert.
     function consentForHyperboard(uint256 tokenId_, uint256 claimId_) external {
         _consentForHyperboard(tokenId_, claimId_);
     }
 
     function consentForHyperboardWithSignature() external {
-        //Todo: implement
+        //Todo:
     }
 
     function _consentForHyperboard(uint256 tokenId_, uint256 claimId_) internal {
