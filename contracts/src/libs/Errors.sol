@@ -16,4 +16,5 @@ library Errors {
     error ZeroAddress();
     error NotOwner();
     error FailedToSendEther();
+    error NotHypercertOwner();
 }

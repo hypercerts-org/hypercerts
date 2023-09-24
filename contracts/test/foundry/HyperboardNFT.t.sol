@@ -7,6 +7,7 @@ import { Hyperboard } from "../../src/hyperboards/HyperboardNFT.sol";
 import { Test } from "forge-std/Test.sol";
 import { TestToken } from "./helpers/ERC20.sol";
 import { Strings } from "oz-contracts/contracts/utils/Strings.sol";
+import { HypercertMinter } from "../../src/HypercertMinter.sol";
 
 contract TestHyperboard is Test {
     Hyperboard private _hyperboard;
@@ -15,32 +16,25 @@ contract TestHyperboard is Test {
     address private _owner;
     address private _user1;
     address private _user2;
+    HypercertMinter private _hypercertMinter = HypercertMinter(0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07);
 
     constructor() {
-        _owner = address(this); // Replace with your test account addresses
-        _user1 = address(0x01); // Replace with user addresses as needed
-        _user2 = address(0x02); // Replace with user addresses as needed
-
-        // walletImpl = new WalletImpl(); // Deploy your wallet implementation contract
-        // erc6551Registry = new ERC6551Registry(); // Deploy your ERC6551 registry contract
-
+        _owner = address(this);
+        _user1 = address(0x01);
+        _user2 = address(0x02);
         _hyperboard = new Hyperboard(
+            _hypercertMinter,
             "Hyperboard NFT",
             "HBNFT",
             "https://example.com/subgraph",
-            "ipfs://Qm12345/",
-            0x3E5c63644E683549055b9Be8653de26E0B4CD36E,
-            IERC6551Registry(0x02101dfB77FDE026414827Fdc604ddAF224F0921)
+            "ipfs://Qm12345/"
         );
     }
 
     function testMintHyperboard() public {
-        address[] memory userArray = new address[](1);
-        userArray[0] = _user1;
-        uint256[][] memory claimIdArray = new uint256[][](1);
-        claimIdArray[0] = new uint256[](1);
-        claimIdArray[0][0] = 1;
-        uint256 tokenId = _hyperboard.mint(_user1, userArray, claimIdArray, 12345);
+        uint256[] memory claimIdArray = new uint256[](1);
+        claimIdArray[0] = 1;
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
         string memory uri = _hyperboard.tokenURI(tokenId);
         assertEq(
             uri,
@@ -52,42 +46,38 @@ contract TestHyperboard is Test {
         assertEq(_hyperboard.ownerOf(tokenId), _user1, "Incorrect _owner after minting");
     }
 
+    function testConsentForHyperboard() public {
+        uint256 hypercertClaimId = 4169139559515338054353265690254024126758919;
+        address ownerOfHypercert = 0xf3419771c2551f88a91Db61cB874347f05640172;
+        uint256[] memory claimIdArray = new uint256[](1);
+        claimIdArray[0] = hypercertClaimId;
+
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
+        vm.prank(ownerOfHypercert);
+        _hyperboard.consentForHyperboard(tokenId, claimIdArray[0]);
+        uint256 consentedCerts = _hyperboard.consentBasedCertsMapping(tokenId, 0);
+        assertEq(consentedCerts, claimIdArray[0], "Invalid Consent");
+    }
+
     function testUpdateAllowListedCerts() public {
-        address[] memory userArray = new address[](1);
-        userArray[0] = _user1;
-        uint256[][] memory claimIdArray = new uint256[][](1);
-        claimIdArray[0] = new uint256[](1);
-        claimIdArray[0][0] = 1;
-        uint256 tokenId = _hyperboard.mint(_user1, userArray, claimIdArray, 12345);
+        uint256[] memory claimIdArray = new uint256[](1);
+        claimIdArray[0] = 1;
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
 
-        userArray[0] = _user2;
-        claimIdArray[0][0] = 2;
+        claimIdArray[0] = 2;
         vm.prank(_user1);
-        _hyperboard.updateAllowListedCerts(tokenId, userArray, claimIdArray);
+        _hyperboard.updateAllowListedCerts(tokenId, claimIdArray);
 
-        address[] memory allowlistedCerts = _hyperboard.getAllowListedCerts(tokenId);
-        uint256[] memory claimIds = _hyperboard.getAllowListedClaimIds(tokenId, _user2);
+        uint256[] memory allowlistedCerts = _hyperboard.getAllowListedCerts(tokenId);
 
         assertEq(allowlistedCerts.length, 1, "Incorrect number of allowlisted certificates");
-        assertEq(claimIds.length, 1, "Incorrect number of claim IDs");
-        assertEq(allowlistedCerts[0], _user2, "Incorrect updated allowlisted certificate");
-        assertEq(claimIds[0], 2, "Incorrect updated claim ID");
+        assertEq(allowlistedCerts[0], 2, "Incorrect updated claim ID");
     }
 
     function testSetSubgraphEndpoint() public {
         string memory newEndpoint = "https://newendpoint.com/subgraph";
         _hyperboard.setSubgraphEndpoint(newEndpoint);
         assertEq(_hyperboard.subgraphEndpoint(), newEndpoint, "Subgraph endpoint not set correctly");
-    }
-
-    function testSetWalletImpl() public {
-        _hyperboard.setWalletImpl(address(1));
-        assertEq(_hyperboard.walletImpl(), address(1), "Wallet implementation not set correctly");
-    }
-
-    function testSetErc6551Registry() public {
-        _hyperboard.setErc6551Registry(IERC6551Registry(address(1)));
-        assertEq(address(_hyperboard.erc6551Registry()), address(1), "ERC6551 registry not set correctly");
     }
 
     function testWithdrawErc20() public {
