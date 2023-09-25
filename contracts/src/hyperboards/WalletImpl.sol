@@ -96,7 +96,7 @@ contract Safe is
         address fallbackHandler,
         address paymentToken,
         uint256 payment,
-        address payable paymentReceiver,
+        address payable paymentReceiver
     ) external {
 
         // setupOwners checks if the Threshold is already set, therefore preventing that this method is called twice
@@ -177,7 +177,8 @@ contract Safe is
                     gasPrice,
                     gasToken,
                     refundReceiver,
-                    // Signature info
+                    // Signature info, make sure guard does not rely on signatures because we do not use one now.
+                    bytes(0),
                     msg.sender
                 );
             }
@@ -239,10 +240,6 @@ contract Safe is
         }
     }
 
- 
-
-
-
 
     /**
      * @dev Returns the domain separator for this contract, as defined in the EIP-712 standard.
@@ -259,91 +256,5 @@ contract Safe is
 
         return keccak256(abi.encode(DOMAIN_SEPARATOR_TYPEHASH, chainId, this));
     }
-
-    /**
-     * @notice Returns the pre-image of the transaction hash (see getTransactionHash).
-     * @param to Destination address.
-     * @param value Ether value.
-     * @param data Data payload.
-     * @param operation Operation type.
-     * @param safeTxGas Gas that should be used for the safe transaction.
-     * @param baseGas Gas costs for that are independent of the transaction execution(e.g. base transaction fee, signature check, payment of the refund)
-     * @param gasPrice Maximum gas price that should be used for this transaction.
-     * @param gasToken Token address (or 0 if ETH) that is used for the payment.
-     * @param refundReceiver Address of receiver of gas payment (or 0 if tx.origin).
-     * @param _nonce Transaction nonce.
-     * @return Transaction hash bytes.
-     */
-    function _encodeTransactionData(
-        address to,
-        uint256 value,
-        bytes calldata data,
-        Enum.Operation operation,
-        uint256 safeTxGas,
-        uint256 baseGas,
-        uint256 gasPrice,
-        address gasToken,
-        address refundReceiver,
-        uint256 _nonce
-    ) private view returns (bytes memory) {
-        bytes32 safeTxHash = keccak256(
-            abi.encode(
-                SAFE_TX_TYPEHASH,
-                to,
-                value,
-                keccak256(data),
-                operation,
-                safeTxGas,
-                baseGas,
-                gasPrice,
-                gasToken,
-                refundReceiver,
-                _nonce
-            )
-        );
-        return abi.encodePacked(bytes1(0x19), bytes1(0x01), domainSeparator(), safeTxHash);
-    }
-
-    /**
-     * @notice Returns transaction hash to be signed by owners.
-     * @param to Destination address.
-     * @param value Ether value.
-     * @param data Data payload.
-     * @param operation Operation type.
-     * @param safeTxGas Gas that should be used for the safe transaction.
-     * @param baseGas Gas costs for data used to trigger the safe transaction.
-     * @param gasPrice Maximum gas price that should be used for this transaction.
-     * @param gasToken Token address (or 0 if ETH) that is used for the payment.
-     * @param refundReceiver Address of receiver of gas payment (or 0 if tx.origin).
-     * @param _nonce Transaction nonce.
-     * @return Transaction hash.
-     */
-    function getTransactionHash(
-        address to,
-        uint256 value,
-        bytes calldata data,
-        Enum.Operation operation,
-        uint256 safeTxGas,
-        uint256 baseGas,
-        uint256 gasPrice,
-        address gasToken,
-        address refundReceiver,
-        uint256 _nonce
-    ) public view returns (bytes32) {
-        return
-            keccak256(
-                _encodeTransactionData(
-                    to,
-                    value,
-                    data,
-                    operation,
-                    safeTxGas,
-                    baseGas,
-                    gasPrice,
-                    gasToken,
-                    refundReceiver,
-                    _nonce
-                )
-            );
-    }
+    
 }
