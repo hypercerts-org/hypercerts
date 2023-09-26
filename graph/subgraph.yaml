@@ -68,3 +68,52 @@ dataSources:
             address,uint256,uint256,address,uint256,uint256)
           handler: handleTrade
       file: ./src/hypercert-trader.ts
+  - kind: ethereum
+    name: Hyperboard
+    network: goerli
+    source:
+      address: "0x818ba233a529632BD61B0E234d0C1F3caA97E206"
+      abi: Hyperboard
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - BaseUriUpdated
+        - GotConsent
+        - HypercertMinterUpdated
+        - Mint
+        - OwnershipTransferred
+        - SubgraphUpdated
+        - Transfer
+        - WithdrawErc20
+        - WithdrawEther
+      abis:
+        - name: Hyperboard
+          file: ./abis/HyperboardNFT.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: BaseUriUpdated(string)
+          handler: handleBaseUriUpdated
+        - event: GotConsent(indexed uint256,indexed uint256,address)
+          handler: handleGotConsent
+        - event: HypercertMinterUpdated(indexed address)
+          handler: handleHypercertMinterUpdated
+        - event: Mint(indexed address,indexed uint256,string)
+          handler: handleMint
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SubgraphUpdated(string)
+          handler: handleSubgraphUpdated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: WithdrawErc20(indexed address,indexed address,indexed uint256)
+          handler: handleWithdrawErc20
+        - event: WithdrawEther(indexed address,indexed uint256)
+          handler: handleWithdrawEther
+      file: ./src/Hyperboard-nft.ts

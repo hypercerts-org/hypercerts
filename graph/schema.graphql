@@ -63,3 +63,87 @@ type Trade @entity {
   token: Token!
   amountPerUnit: BigInt!
 }
+type Approval @entity {
+  id: ID!
+  owner: Bytes! # address
+  approved: Bytes! # address
+  tokenId: BigInt! # uint256
+}
+
+type ApprovalForAll @entity {
+  id: ID!
+  owner: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+}
+
+type BaseUriUpdated @entity {
+  id: ID!
+  baseUri: String! # string
+}
+
+type GotConsent @entity {
+  id: ID!
+  tokenId: BigInt! # uint256
+  claimId: BigInt! # uint256
+  owner: Bytes! # address
+}
+
+type HypercertMinterUpdated @entity {
+  id: ID!
+  hypercertMinter: Bytes! # address
+}
+
+type Mint @entity {
+  id: ID!
+  to: Bytes! # address
+  tokenId: BigInt! # uint256
+  metadata: String
+}
+
+type OwnershipTransferred @entity {
+  id: ID!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+}
+
+type SubgraphUpdated @entity {
+  id: ID!
+  endpoint: String! # string
+}
+
+type Transfer @entity {
+  id: ID!
+  from: Bytes! # address
+  to: Bytes! # address
+  tokenId: BigInt! # uint256
+}
+
+type WithdrawErc20 @entity {
+  id: ID!
+  to: Bytes! # address
+  tokenAddress: Bytes! # address
+  amount: BigInt! # uint256
+}
+
+type WithdrawEther @entity {
+  id: ID!
+  to: Bytes! # address
+  amount: BigInt! # uint256
+}
+
+type Hyperboard @entity {
+  id: ID!
+  to: Bytes!
+  tokenId: BigInt!
+  metdata: String
+  hypercerts: [Hypercert!]
+}
+
+
+type Hypercert @entity {
+  id: ID!
+  owner: Bytes
+  claimId: BigInt!
+  tokenId: BigInt!
+}

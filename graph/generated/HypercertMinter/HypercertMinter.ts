@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt,
+  BigInt
 } from "@graphprotocol/graph-ts";
 
 export class AdminChanged extends ethereum.Event {
@@ -401,8 +401,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id),
-      ],
+        ethereum.Value.fromUnsignedBigInt(id)
+      ]
     );
 
     return result[0].toBigInt();
@@ -414,8 +414,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id),
-      ],
+        ethereum.Value.fromUnsignedBigInt(id)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -430,8 +430,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids),
-      ],
+        ethereum.Value.fromUnsignedBigIntArray(ids)
+      ]
     );
 
     return result[0].toBigIntArray();
@@ -439,15 +439,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_balanceOfBatch(
     accounts: Array<Address>,
-    ids: Array<BigInt>,
+    ids: Array<BigInt>
   ): ethereum.CallResult<Array<BigInt>> {
     let result = super.tryCall(
       "balanceOfBatch",
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids),
-      ],
+        ethereum.Value.fromUnsignedBigIntArray(ids)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -462,8 +462,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "hasBeenClaimed(uint256,bytes32):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromFixedBytes(param1),
-      ],
+        ethereum.Value.fromFixedBytes(param1)
+      ]
     );
 
     return result[0].toBoolean();
@@ -471,15 +471,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_hasBeenClaimed(
     param0: BigInt,
-    param1: Bytes,
+    param1: Bytes
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "hasBeenClaimed",
       "hasBeenClaimed(uint256,bytes32):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromFixedBytes(param1),
-      ],
+        ethereum.Value.fromFixedBytes(param1)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -495,8 +495,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(proof),
         ethereum.Value.fromUnsignedBigInt(claimID),
-        ethereum.Value.fromFixedBytes(leaf),
-      ],
+        ethereum.Value.fromFixedBytes(leaf)
+      ]
     );
 
     return result[0].toBoolean();
@@ -505,7 +505,7 @@ export class HypercertMinter extends ethereum.SmartContract {
   try_isAllowedToClaim(
     proof: Array<Bytes>,
     claimID: BigInt,
-    leaf: Bytes,
+    leaf: Bytes
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isAllowedToClaim",
@@ -513,8 +513,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(proof),
         ethereum.Value.fromUnsignedBigInt(claimID),
-        ethereum.Value.fromFixedBytes(leaf),
-      ],
+        ethereum.Value.fromFixedBytes(leaf)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -529,8 +529,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator),
-      ],
+        ethereum.Value.fromAddress(operator)
+      ]
     );
 
     return result[0].toBoolean();
@@ -538,15 +538,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_isApprovedForAll(
     account: Address,
-    operator: Address,
+    operator: Address
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator),
-      ],
+        ethereum.Value.fromAddress(operator)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -587,7 +587,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   ownerOf(tokenID: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
 
     return result[0].toAddress();
@@ -595,7 +595,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_ownerOf(tokenID: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -629,7 +629,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.tryCall(
       "proxiableUUID",
       "proxiableUUID():(bytes32)",
-      [],
+      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -642,7 +642,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.call(
       "readTransferRestriction",
       "readTransferRestriction(uint256):(string)",
-      [ethereum.Value.fromUnsignedBigInt(tokenID)],
+      [ethereum.Value.fromUnsignedBigInt(tokenID)]
     );
 
     return result[0].toString();
@@ -652,7 +652,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.tryCall(
       "readTransferRestriction",
       "readTransferRestriction(uint256):(string)",
-      [ethereum.Value.fromUnsignedBigInt(tokenID)],
+      [ethereum.Value.fromUnsignedBigInt(tokenID)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -665,7 +665,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)],
+      [ethereum.Value.fromFixedBytes(interfaceId)]
     );
 
     return result[0].toBoolean();
@@ -675,7 +675,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)],
+      [ethereum.Value.fromFixedBytes(interfaceId)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -687,7 +687,7 @@ export class HypercertMinter extends ethereum.SmartContract {
   unitsOf(account: Address, tokenID: BigInt): BigInt {
     let result = super.call("unitsOf", "unitsOf(address,uint256):(uint256)", [
       ethereum.Value.fromAddress(account),
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
 
     return result[0].toBigInt();
@@ -699,8 +699,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "unitsOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(tokenID),
-      ],
+        ethereum.Value.fromUnsignedBigInt(tokenID)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -711,7 +711,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   unitsOf1(tokenID: BigInt): BigInt {
     let result = super.call("unitsOf", "unitsOf(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
 
     return result[0].toBigInt();
@@ -719,7 +719,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_unitsOf1(tokenID: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall("unitsOf", "unitsOf(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -730,7 +730,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   uri(tokenID: BigInt): string {
     let result = super.call("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
 
     return result[0].toString();
@@ -738,7 +738,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_uri(tokenID: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID),
+      ethereum.Value.fromUnsignedBigInt(tokenID)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();

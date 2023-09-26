@@ -34,15 +34,16 @@ contract TestHyperboard is Test {
     function testMintHyperboard() public {
         uint256[] memory claimIdArray = new uint256[](1);
         claimIdArray[0] = 1;
-        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray, "ipfs://123");
         string memory uri = _hyperboard.tokenURI(tokenId);
         assertEq(
             uri,
             string.concat(
                 string.concat("ipfs://Qm12345/?tokenId=", Strings.toString(tokenId)),
-                "&subgraph=https://example.com/subgraph"
+                "&subgraph=https://example.com/subgraph&tokenURI=ipfs://123"
             )
         );
+
         assertEq(_hyperboard.ownerOf(tokenId), _user1, "Incorrect _owner after minting");
     }
 
@@ -52,7 +53,7 @@ contract TestHyperboard is Test {
         uint256[] memory claimIdArray = new uint256[](1);
         claimIdArray[0] = hypercertClaimId;
 
-        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray, "ipfs//123");
         vm.prank(ownerOfHypercert);
         _hyperboard.consentForHyperboard(tokenId, claimIdArray[0]);
         uint256 consentedCerts = _hyperboard.consentBasedCertsMapping(tokenId, 0);
@@ -62,7 +63,7 @@ contract TestHyperboard is Test {
     function testUpdateAllowListedCerts() public {
         uint256[] memory claimIdArray = new uint256[](1);
         claimIdArray[0] = 1;
-        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray);
+        uint256 tokenId = _hyperboard.mint(_user1, claimIdArray, "ipfs://123");
 
         claimIdArray[0] = 2;
         vm.prank(_user1);

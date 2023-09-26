@@ -30,9 +30,9 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
 
     /// @notice Emitted when new token is minted
     /// @param to Address thats recieving NFT.
-    /// @param walletAddress Address of wallet deployed.
     /// @param tokenId tokenId of the new mint.
-    event Mint(address indexed to, address indexed walletAddress, uint256 indexed tokenId);
+    /// @param metadata of hyperboard.
+    event Mint(address indexed to, uint256 indexed tokenId, string metadata);
 
     /// @notice Event is emitted when contract gets consent from a hypercert.
     /// @param tokenId Token Id of hyperboard.
@@ -90,17 +90,22 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     /// @param to The address to which the Hyperboard NFT will be minted.
     /// @param allowlistedClaimIds_ Claim IDs corresponding to allowlisted certificates.
     /// @return tokenId The ID of the minted NFT.
-    function mint(address to, uint256[] memory allowlistedClaimIds_) external returns (uint256 tokenId) {
+    function mint(
+        address to,
+        uint256[] memory allowlistedClaimIds_,
+        string memory metadata_
+    ) external returns (uint256 tokenId) {
         if (allowlistedClaimIds_.length == 0) revert Errors.Invalid();
 
         if (to == address(0)) revert Errors.ZeroAddress();
 
         tokenId = _counter.current();
         _mint(to, tokenId);
-
+        _setTokenURI(tokenId, metadata_);
         _setAllowlist(tokenId, allowlistedClaimIds_);
 
         _counter.increment();
+        emit Mint(to, tokenId, metadata_);
         return tokenId;
     }
 
@@ -139,7 +144,16 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
     /// @dev Get URI of token, i.e. URL of NFT webpage
     /// @param tokenId id of the token to get URI for.
     function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        return string.concat(baseUri, "?tokenId=", Strings.toString(tokenId), "&subgraph=", subgraphEndpoint);
+        return
+            string.concat(
+                baseUri,
+                "?tokenId=",
+                Strings.toString(tokenId),
+                "&subgraph=",
+                subgraphEndpoint,
+                "&tokenURI=",
+                ERC721URIStorage.tokenURI(tokenId)
+            );
     }
 
     /// @dev checks if this contract supports specific interface.
