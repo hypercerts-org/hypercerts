@@ -17,6 +17,7 @@
 **/deployments
 **/.openzeppelin
 **/docs
+**/src/abi/
 
 # files
 *.env
