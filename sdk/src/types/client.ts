@@ -1,5 +1,5 @@
 import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
-import { HypercertMinter as ContractInterface } from "@hypercerts-org/contracts";
+import { HypercertMinter } from "@hypercerts-org/contracts";
 import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 
@@ -8,13 +8,6 @@ import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
 import { HypercertMetadata } from "./metadata.js";
 
 export type SupportedChainIds = 5 | 10;
-
-/**
- * Hypercert contract interface.
- * @notice hacky loop to get typedoc to generate all the docs
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface HypercertMinter extends ContractInterface {}
 
 /**
  * Represents a deployment of a contract on a specific network.

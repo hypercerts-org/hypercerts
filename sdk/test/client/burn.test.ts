@@ -1,10 +1,10 @@
-import { HypercertMinterABI } from "@hypercerts-org/contracts";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
 import { BigNumber, Wallet } from "ethers";
 import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
 import { ClientError } from "../../src/types/errors.js";
+import { HypercertMinterFactory } from "../../src/index.js";
 
 describe("burn fraction tokens in HypercertClient", () => {
   let stub: sinon.SinonStub;
@@ -29,7 +29,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("allows for a hypercert fraction to be burned", async () => {
     const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterABI);
+    const mockMinter = await deployMockContract(user, new HypercertMinterFactory().interface.format());
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 
@@ -49,7 +49,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("throws on burning fraction not owned by signer", async () => {
     const otherUser = await other.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterABI);
+    const mockMinter = await deployMockContract(user, new HypercertMinterFactory().interface.format());
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
 
     const client = new HypercertClient({
@@ -78,7 +78,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("allows for a hypercert fraction to be burned with override params", async () => {
     const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterABI);
+    const mockMinter = await deployMockContract(user, new HypercertMinterFactory().interface.format());
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 

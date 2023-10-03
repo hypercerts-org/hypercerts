@@ -1,35 +1,23 @@
 {
   "compilerOptions": {
-    "assumeChangesOnlyAffectDirectDependencies": true,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
     "declaration": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "composite": true,
     "lib": ["esnext"],
-    "module": "ESNext",
     "moduleResolution": "nodenext",
     "noImplicitThis": true,
-    "outDir": "dist",
+    "resolveJsonModule": true,
+    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
-    "strictNullChecks": true,
-    "target": "es6"
+    "strictNullChecks": true
   },
   "files": ["src/index.ts"],
-  "include": [
-    "typechain/common.ts",
-    "abi/HypercertMinter.json",
-    "abi/IHypercertToken.json",
-    "abi/SemiFungible1155.json",
-    "abi/ERC1155Upgradeable.json",
-    "typechain/src/interfaces/IHypercertToken.ts",
-    "typechain/src/HypercertMinter.ts",
-    "typechain/src/AllowlistMinter.ts",
-    "typechain/factories/src/HypercertMinter__factory.ts"
-  ],
+  "include": ["src/**/*.ts", "src/abi/*.json"],
   "exclude": ["node_modules"]
 }

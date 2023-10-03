@@ -1,4 +1,4 @@
-import { HypercertMinterABI } from "@hypercerts-org/contracts";
+import { HypercertMinterFactory, HypercertMinter } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
@@ -12,7 +12,6 @@ import {
   HypercertClientConfig,
   HypercertClientInterface,
   HypercertMetadata,
-  HypercertMinter,
   InvalidOrMissingError,
   MalformedDataError,
   TransferRestrictions,
@@ -46,9 +45,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this._config = getConfig(config);
     this._operator = this._config.operator;
 
-    this._contract = <HypercertMinter>(
-      new ethers.Contract(this._config.contractAddress, HypercertMinterABI, this._operator)
-    );
+    this._contract = HypercertMinterFactory.connect(this._config.contractAddress, this._operator);
 
     this._storage = new HypercertsStorage(this._config);
 

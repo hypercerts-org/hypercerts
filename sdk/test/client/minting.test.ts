@@ -7,9 +7,9 @@ import HypercertClient from "../../src/client.js";
 import {
   HypercertMetadata,
   HypercertMinter,
-  HypercertMinterABI,
   HypercertsStorage,
   formatHypercertData,
+  HypercertMinterFactory,
 } from "../../src/index.js";
 import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
@@ -25,7 +25,7 @@ describe("mintClaim in HypercertClient", () => {
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
-    const minter = await deployMockContract(user, HypercertMinterABI);
+    const minter = await deployMockContract(user, new HypercertMinterFactory().interface.format());
 
     const client = new HypercertClient({
       chainId: 5,

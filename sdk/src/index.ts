@@ -1,5 +1,5 @@
-import { HyperCertMinterFactory, HypercertMinterABI, IHypercertTokenABI } from "@hypercerts-org/contracts";
 import type { HypercertMinter, IHypercertToken } from "@hypercerts-org/contracts";
+import { HypercertMinterFactory } from "@hypercerts-org/contracts";
 
 import { execute } from "../.graphclient/index.js";
 import HypercertClient from "./client.js";
@@ -8,7 +8,7 @@ import HypercertsStorage from "./storage.js";
 /**
  * Protocol
  */
-export { HyperCertMinterFactory, HypercertMinterABI, IHypercertTokenABI };
+export { HypercertMinterFactory };
 export type { HypercertMinter, IHypercertToken };
 
 /**
