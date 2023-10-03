@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -13,7 +13,6 @@
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
-  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
@@ -94,7 +93,7 @@
     "template"
   ],
   "scripts": {
-    "build": "yarn clean && rollup -c",
+    "build": "yarn clean && hardhat compile && rollup -c",
     "build:forge": "forge build",
     "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts:esm && yarn build:ts:cjs && yarn build:declarations",
     "build:ts:esm": "npx tsc --build tsconfig.esm.json",
