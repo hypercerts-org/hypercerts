@@ -1,26 +1,25 @@
 # NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
-name: deploy-defender
+name: deploy-graph
 env:
-  OPENZEPPELIN_DEFENDER_ADMIN_API_KEY: ${{ secrets.OPENZEPPELIN_DEFENDER_ADMIN_API_KEY }}
-  OPENZEPPELIN_DEFENDER_ADMIN_API_SECRET: ${{ secrets.OPENZEPPELIN_DEFENDER_ADMIN_API_SECRET }}
-  CONTRACT_ADDRESS: ${{ vars.CONTRACT_ADDRESS }}
+  SUBGRAPH_ACCESS_TOKEN: ${{ secrets.SUBGRAPH_ACCESS_TOKEN }}
 
 # Trigger the workflow when:
 on:
   # A push occurs to one of the matched branches.
   push:
     branches:
-      - main 
+      - main
+      - develop
     paths:
-      - defender/**
+      - graph/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  deploy-defender:
+  deploy-graph:
     # NOTE: This name appears in GitHub's Checks API.
-    name: deploy-defender
-    environment: deploy 
+    name: deploy-graph
+    environment: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +33,11 @@ jobs:
           node-version: "18.x"
       - name: Install
         run: yarn install --immutable
-      - name: Build the autotasks
-        run: yarn build:defender
-      - name: Deploy to OpenZeppelin Defender
-        run: yarn deploy:defender
+      - name: Build the subgraph
+        run: yarn build:graph
+      - name: Deploy the subgraph to goerli testnet
+        if: github.ref == 'refs/heads/develop'
+        run: yarn deploy:graph:goerli
+      - name: Deploy the subgraph to Optimism mainnet
+        if: github.ref == 'refs/heads/main'
+        run: yarn deploy:graph:optimism

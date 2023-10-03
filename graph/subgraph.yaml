@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: HypercertMinter
-    network: optimism
+    network: goerli
     source:
       abi: HypercertMinter
       address: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07"
-      startBlock: 76066993
+      startBlock: 8537999
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
