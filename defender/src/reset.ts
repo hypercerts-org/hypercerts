@@ -1,6 +1,6 @@
-import { AutotaskClient } from "defender-autotask-client";
-import { SentinelClient } from "defender-sentinel-client";
 import config from "./config.js";
+import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
+import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 
 export const reset = async () => {
   const autotaskClient = new AutotaskClient(config.credentials);

@@ -1,10 +1,13 @@
-import { ethers } from "ethers";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
-import { createClient } from "@supabase/supabase-js";
-import fetch from "node-fetch";
-import { getNetworkConfigFromName } from "../networks";
-import { MissingDataError, NotImplementedError } from "../errors";
 import { abi } from "../HypercertMinterABI";
+import { MissingDataError, NotImplementedError } from "../errors";
+import { getNetworkConfigFromName } from "../networks";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+} from "@openzeppelin/defender-autotask-utils";
+import { createClient } from "@supabase/supabase-js";
+import { ethers } from "ethers";
+import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {
   console.log(

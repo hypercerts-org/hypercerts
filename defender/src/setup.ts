@@ -1,13 +1,27 @@
 import config from "./config.js";
-
 import { ApiError, ConfigError } from "./errors.js";
+import { NETWORKS } from "./networks.js";
 import { reset } from "./reset.js";
-import { AutotaskClient } from "defender-autotask-client";
-import { SentinelClient } from "defender-sentinel-client";
-import { updateAutotask, updateSentinel } from "./update.js";
 import { rollOut } from "./rollout.js";
+import { updateAutotask, updateSentinel } from "./update.js";
+import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
+import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 
 const setup = async () => {
+  const args = process.argv.slice(2);
+  if (args.length < 1) {
+    throw new ApiError("Missing argument: <environment>");
+  }
+
+  const environment = args[0];
+  const supportedEnv = Object.keys(NETWORKS);
+
+  if (!supportedEnv.includes(environment)) {
+    throw new ApiError("Invalid environment: <environment>");
+  }
+
+  const networks = config.networks[environment as keyof typeof NETWORKS];
+
   const autotaskClient = new AutotaskClient(config.credentials);
   const sentinelClient = new SentinelClient(config.credentials);
 
@@ -19,12 +33,12 @@ const setup = async () => {
 
   if (oldAutoTasks.items.length > 0) {
     updates = true;
-    updateAutotask();
+    await updateAutotask(networks);
   }
 
   if (oldSentinels.items.length > 0) {
     updates = true;
-    updateSentinel();
+    await updateSentinel(networks);
   }
 
   if (!updates) {
@@ -32,12 +46,13 @@ const setup = async () => {
     await reset();
 
     // Error out if no networks configured.
-    if (config.networks.length < 1) {
+    if (networks.length < 1) {
       throw new ConfigError("No networks specified");
     }
 
-    rollOut();
+    await rollOut(networks);
   }
 };
 
+//eslint-disable-next-line @typescript-eslint/no-floating-promises
 setup();

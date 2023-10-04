@@ -11,6 +11,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - defender/**
   # Allows you to run this workflow manually from the Actions tab
@@ -34,7 +35,9 @@ jobs:
           node-version: "18.x"
       - name: Install
         run: yarn install --immutable
-      - name: Build the autotasks
-        run: yarn build:defender
-      - name: Deploy to OpenZeppelin Defender
-        run: yarn deploy:defender
+      - name: Deploy Defender infra to testnets
+        if: github.ref == 'refs/heads/develop'
+        run: yarn deploy:defender:test
+      - name: Deploy Defender infra to mainnets
+        if: github.ref == 'refs/heads/main'
+        run: yarn deploy:defender:prod

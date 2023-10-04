@@ -1,5 +1,5 @@
+import { NETWORKS, SupportedNetworks } from "./networks.js";
 import * as dotenv from "dotenv";
-import { NetworkConfig, NETWORKS } from "./networks.js";
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const requireEnv = (value: string | undefined, identifier: string) => {
 };
 
 interface Config {
-  networks: NetworkConfig[];
+  networks: SupportedNetworks;
   credentials: {
     apiKey: string;
     apiSecret: string;

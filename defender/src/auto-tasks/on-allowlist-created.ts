@@ -1,12 +1,15 @@
-import axios from "axios";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
-import { ethers } from "ethers";
-import fetch from "node-fetch";
+import { abi } from "../HypercertMinterABI";
+import { MissingDataError, NotImplementedError } from "../errors";
+import { getNetworkConfigFromName } from "../networks";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+} from "@openzeppelin/defender-autotask-utils";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { createClient } from "@supabase/supabase-js";
-import { getNetworkConfigFromName } from "../networks";
-import { MissingDataError, NotImplementedError } from "../errors";
-import { abi } from "../HypercertMinterABI";
+import axios from "axios";
+import { ethers } from "ethers";
+import fetch from "node-fetch";
 
 const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
