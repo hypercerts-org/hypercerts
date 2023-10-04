@@ -11,14 +11,16 @@ For more details, check out our [website](https://hypercerts.org/).
 ## Organization
 
 - `/contracts`: Smart contracts (Foundry+Hardhat)
+
   - Manually deployed via hardhat tasks
   - Note: This is not currently on CI/CD
-  - On Goerli:
-    - HypercertMinter (UUPS Proxy): [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://goerli.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)
-    - Safe multi-sig: [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)
-  - On Optimism:
-    - HypercertMinter (UUPS Proxy): [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)
-    - Safe multi-sig: [0x560adA72a80b4707e493cA8c3B7B7528930E7Be5](https://optimistic.etherscan.io/address/0x560adA72a80b4707e493cA8c3B7B7528930E7Be5)
+
+  | Network  | HypercertMinter (UUPS Proxy)                                                                                                     | Safe                                                                                                                             |
+  | -------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+  | Goerli   | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://goerli.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)     | [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)     |
+  | Sepolia  | [0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941](https://goerli.etherscan.io/address/0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941)     | TBD                                                                                                                              |
+  | Optimism | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07) | [0x560adA72a80b4707e493cA8c3B7B7528930E7Be5](https://optimistic.etherscan.io/address/0x560adA72a80b4707e493cA8c3B7B7528930E7Be5) |
+
 - `/cors-proxy`: CORS proxy for Cloudflare Workers
   - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-cors-proxy.yml)
 - `/defender`: OpenZeppelin Defender integration
