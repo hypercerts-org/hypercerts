@@ -10,5 +10,11 @@
       "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
       "startBlock": 76066993
     }
+  },
+  "sepolia": {
+    "HypercertMinter": {
+      "address": "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+      "startBlock": 4421942
+    }
   }
 }
