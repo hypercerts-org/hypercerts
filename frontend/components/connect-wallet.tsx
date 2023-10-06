@@ -12,8 +12,6 @@ export const ConnectWallet = () => {
    */
   return (
     <ConnectButton
-      showBalance={false}
-      chainStatus="none"
       label={
         isConnected
           ? "Connected"
