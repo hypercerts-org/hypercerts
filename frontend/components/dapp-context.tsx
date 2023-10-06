@@ -31,12 +31,16 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode, useEffect } from "react";
-import { goerli, optimism } from "viem/chains";
+import { goerli, optimism, sepolia } from "viem/chains";
 import { configureChains, WagmiConfig, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 const queryClient = new QueryClient();
-const ALL_CHAINS = [optimism, goerli];
+
+const TEST_CHAINS = [goerli, sepolia];
+const PROD_CHAINS = [optimism];
+const ALL_CHAINS = [...PROD_CHAINS, ...TEST_CHAINS];
+
 const { publicClient, chains } = configureChains(ALL_CHAINS, [
   publicProvider(),
 ]);
