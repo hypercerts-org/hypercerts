@@ -4,12 +4,14 @@ import { HypercertMinterFactory } from "@hypercerts-org/contracts";
 import { execute } from "../.graphclient/index.js";
 import HypercertClient from "./client.js";
 import HypercertsStorage from "./storage.js";
+import { DEPLOYMENTS } from "./constants.js";
 
 /**
  * Protocol
  */
 export { HypercertMinterFactory };
 export type { HypercertMinter, IHypercertToken };
+export { DEPLOYMENTS as deployments };
 
 /**
  * Client

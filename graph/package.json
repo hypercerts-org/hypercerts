@@ -18,7 +18,7 @@
     "deploy:prod": "yarn auth && yarn deploy:optimism",
     "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ --network goerli hypercerts-admin/hypercerts-testnet",
     "deploy:optimism": "graph deploy --node https://api.thegraph.com/deploy/ --network optimism hypercerts-admin/hypercerts-optimism-mainnet",
-    "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia hypercerts-admin/hypercerts-sepolia",
+    "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia bitbeckers/hypercerts-sepolia",
     "create-local": "graph create --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "remove-local": "graph remove --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hypercerts-admin/hypercerts-testnet",
