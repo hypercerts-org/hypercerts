@@ -54,14 +54,16 @@ export const useMintClaimAllowlist = ({
       const allowlist: AllowlistEntry[] = parseAllowlistCsv(
         htmlText,
         deduplicate,
-        [
-          {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            address: address!,
-            // Creator gets the rest for now
-            percentage: 1.0 - allowlistFraction,
-          },
-        ],
+        allowlistFraction < 1
+          ? [
+              {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                address: address!,
+                // Creator gets the rest for now
+                percentage: 1.0 - allowlistFraction,
+              },
+            ]
+          : undefined,
       );
       const totalSupply = allowlist.reduce(
         (acc: bigint, x: AllowlistEntry) => acc + BigInt(x.units.toString()),
