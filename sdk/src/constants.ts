@@ -27,7 +27,7 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Deployment } = {
     chainId: 11155111,
     chainName: "sepolia",
     contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-goerli`,
+    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
   } as const,
 };
 
