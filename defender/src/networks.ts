@@ -5,11 +5,13 @@ export interface NetworkConfig {
   networkKey: Network;
   // Contract address on the network
   contractAddress: string;
-  // Table name in Supabase
-  supabaseTableName: string;
   // the selector to retrieve the key from event.secrets in OpenZeppelin
   alchemyKeyEnvName: string;
+  // Chain ID for the network
+  chainId: number;
 }
+
+export const SUPABASE_ALLOWLIST_TABLE_NAME = "allowlistCache-chainId";
 
 export interface SupportedNetworks {
   TEST: NetworkConfig[];
@@ -21,22 +23,22 @@ export const NETWORKS: SupportedNetworks = {
     {
       networkKey: "goerli",
       contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-      supabaseTableName: "allowlistCache-goerli",
       alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
+      chainId: 5,
     },
     {
       networkKey: "sepolia",
       contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
-      supabaseTableName: "allowlistCache-sepolia",
       alchemyKeyEnvName: "ALCHEMY_SEPOLIA_KEY",
+      chainId: 11155111,
     },
   ],
   PROD: [
     {
       networkKey: "optimism",
       contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-      supabaseTableName: "allowlistCache-optimism",
       alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
+      chainId: 10,
     },
   ],
 };

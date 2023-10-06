@@ -1,10 +1,13 @@
 import { abi } from "../HypercertMinterABI";
 import { MissingDataError, NotImplementedError } from "../errors";
-import { getNetworkConfigFromName } from "../networks";
 import {
   AutotaskEvent,
   BlockTriggerEvent,
 } from "@openzeppelin/defender-autotask-utils";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
@@ -116,11 +119,12 @@ export async function handler(event: AutotaskEvent) {
     address: address.toLowerCase(),
     claimId: `${contractAddress}-${tokenId}`,
     fractionCounter: index,
+    chainId: network.chainId,
   }));
   console.log("data", data);
 
   const addResult = await client
-    .from(network.supabaseTableName)
+    .from(SUPABASE_ALLOWLIST_TABLE_NAME)
     .insert(data)
     .select()
     .then((data) => data.data);

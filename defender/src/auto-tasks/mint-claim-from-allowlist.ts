@@ -1,6 +1,9 @@
 import { abi } from "../HypercertMinterABI";
 import { MissingDataError, NotImplementedError } from "../errors";
-import { getNetworkConfigFromName } from "../networks";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
 import {
   AutotaskEvent,
   BlockTriggerEvent,
@@ -99,10 +102,11 @@ export async function handler(event: AutotaskEvent) {
   // Remove from DB
   if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     const deleteResult = await client
-      .from(network.supabaseTableName)
+      .from(SUPABASE_ALLOWLIST_TABLE_NAME)
       .delete()
       .eq("address", fromAddress)
       .eq("claimId", formattedClaimId)
+      .eq("chainId", network.chainId)
       .select();
     console.log("Deleted", deleteResult);
 

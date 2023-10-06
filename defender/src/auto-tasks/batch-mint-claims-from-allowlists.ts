@@ -1,10 +1,13 @@
-import { abi } from "../HypercertMinterABI";
-import { MissingDataError, NotImplementedError } from "../errors";
-import { getNetworkConfigFromName } from "../networks";
 import {
   AutotaskEvent,
   BlockTriggerEvent,
 } from "@openzeppelin/defender-autotask-utils";
+import { abi } from "../HypercertMinterABI";
+import { MissingDataError, NotImplementedError } from "../errors";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
 import { createClient } from "@supabase/supabase-js";
 import { ethers } from "ethers";
 import fetch from "node-fetch";
@@ -99,7 +102,7 @@ export async function handler(event: AutotaskEvent) {
   if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     console.log("Transaction confirmed");
     const deleteResult = await client
-      .from(network.supabaseTableName)
+      .from(SUPABASE_ALLOWLIST_TABLE_NAME)
       .delete()
       .eq("address", fromAddress)
       .in("claimId", uniqueClaimdIds)
