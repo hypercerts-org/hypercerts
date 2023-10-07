@@ -17,3 +17,6 @@ test = "test/foundry"
 [profile.ci]
 fuzz = { runs = 1024 }
 verbosity = 1
+
+[rpc_endpoints]
+goerli = "https://rpc.ankr.com/eth_goerli"

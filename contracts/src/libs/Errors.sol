@@ -17,4 +17,5 @@ library Errors {
     error NotOwner();
     error FailedToSendEther();
     error NotHypercertOwner();
+    error InvalidSigner();
 }

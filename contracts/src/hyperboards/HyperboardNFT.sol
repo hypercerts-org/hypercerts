@@ -6,6 +6,8 @@ import { ERC721 } from "oz-contracts/contracts/token/ERC721/ERC721.sol";
 import { ERC721URIStorage } from "oz-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import { ERC721Enumerable } from "oz-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import { HypercertMinter } from "../HypercertMinter.sol";
+import { EIP712 } from "oz-contracts/contracts/utils/cryptography/draft-EIP712.sol";
+import { ECDSA } from "oz-contracts/contracts/utils/cryptography/ECDSA.sol";
 
 import { Strings } from "oz-contracts/contracts/utils/Strings.sol";
 
@@ -13,11 +15,12 @@ import { Ownable } from "oz-contracts/contracts/access/Ownable.sol";
 import { CountersUpgradeable } from "oz-upgradeable/utils/CountersUpgradeable.sol";
 import { Errors } from "../libs/errors.sol";
 import { IERC6551Registry } from "../interfaces/IERC6551Registry.sol";
+import "forge-std/console.sol";
 
 /// @title A hyperboard NFT
 /// @author Abhimanyu Shekhawat
 /// @notice This is an NFT for representing various hyperboards
-contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
+contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP712 {
     string public subgraphEndpoint;
     string public baseUri;
     HypercertMinter public hypercertMinter;
@@ -73,8 +76,9 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
         string memory name_,
         string memory symbol_,
         string memory subgraphEndpoint_,
-        string memory baseUri_
-    ) ERC721(name_, symbol_) {
+        string memory baseUri_,
+        string memory version
+    ) ERC721(name_, symbol_) EIP712(name_, version) {
         if (address(hypercertMinter_) == address(0)) revert Errors.ZeroAddress();
         hypercertMinter = hypercertMinter_;
         emit HypercertMinterUpdated(hypercertMinter);
@@ -106,32 +110,76 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
 
         _counter.increment();
         emit Mint(to, tokenId, metadata_);
+
         return tokenId;
     }
 
     /// @notice gives consent from a hypercert to be part of Hyperboard
     /// @param tokenId_ tokenId of a hyperboard.
-    /// @param tokenId_ ClaimId of a hypercert.
+    /// @param claimId_ ClaimId of a hypercert.
     function consentForHyperboard(uint256 tokenId_, uint256 claimId_) external {
-        _consentForHyperboard(tokenId_, claimId_);
+        _consentForHyperboard(tokenId_, claimId_, msg.sender);
     }
 
-    function consentForHyperboardWithSignature() external {
-        //Todo:
+    /// @notice gives consent from a hypercert to be part of Hyperboard using signatures of the owner
+    /// @param tokenId_ tokenId of a hyperboard.
+    /// @param claimId_ ClaimId of a hypercert.
+    /// @param signer Address of owner of hypercert.
+    /// @param r r of signature of digest for consent.
+    /// @param s s of signature of digest for consent.
+    /// @param v v of signature of digest for consent.
+    function consentForHyperboardWithSignature(
+        uint256 tokenId_,
+        uint256 claimId_,
+        address signer,
+        bytes32 r,
+        bytes32 s,
+        uint8 v
+    ) external {
+        bytes32 digest = _hashTypedDataV4(
+            keccak256(
+                abi.encode(keccak256("ConsentForHyperBoard(uint256 tokenId_,uint256 claimId_)"), tokenId_, claimId_)
+            )
+        );
+        address recoveredSigner = ECDSA.recover(digest, v, r, s);
+        if (recoveredSigner != signer) revert Errors.InvalidSigner();
+        _consentForHyperboard(tokenId_, claimId_, signer);
     }
 
-    function _consentForHyperboard(uint256 tokenId_, uint256 claimId_) internal {
-        if (hypercertMinter.ownerOf(claimId_) != msg.sender) revert Errors.NotHypercertOwner();
+    /// @notice gives digest that needs to be signed by owner to give consenst using signature.
+    /// @param tokenId_ tokenId of a hyperboard.
+    /// @param claimId_ ClaimId of a hypercert.
+    function getDigestForConsent(uint256 tokenId_, uint256 claimId_) external returns (bytes32) {
+        bytes32 digest = _hashTypedDataV4(
+            keccak256(
+                abi.encode(keccak256("ConsentForHyperBoard(uint256 tokenId_,uint256 claimId_)"), tokenId_, claimId_)
+            )
+        );
+        return digest;
+    }
+
+    /// @notice internal function that actually gives consent.
+    /// @param tokenId_ tokenId of a hyperboard.
+    /// @param claimId_ ClaimId of a hypercert.
+    /// @param owner_ address of owner of hypercert.
+    function _consentForHyperboard(uint256 tokenId_, uint256 claimId_, address owner_) internal {
+        if (hypercertMinter.ownerOf(claimId_) != owner_) revert Errors.NotHypercertOwner();
         consentBasedCertsMapping[tokenId_].push(claimId_);
         emit GotConsent(tokenId_, claimId_, msg.sender);
     }
 
     /// @notice Updates the allowlisted certificates for an Hyperboard NFT.
-    /// @param tokenId The ID of the NFT.
+    /// @param tokenId_ The ID of the NFT.
     /// @param allowlistedClaimIds_ Updated claim IDs corresponding to allowlisted certificates.
-    function updateAllowListedCerts(uint256 tokenId, uint256[] memory allowlistedClaimIds_) external {
-        if (ownerOf(tokenId) != msg.sender) revert Errors.NotOwner();
-        _setAllowlist(tokenId, allowlistedClaimIds_);
+    /// @param metadata_ Updated metadata, to reflect new claimIds in the board.
+    function updateHyperboad(
+        uint256 tokenId_,
+        uint256[] memory allowlistedClaimIds_,
+        string memory metadata_
+    ) external {
+        if (ownerOf(tokenId_) != msg.sender) revert Errors.NotOwner();
+        _setTokenURI(tokenId_, metadata_);
+        _setAllowlist(tokenId_, allowlistedClaimIds_);
     }
 
     /// @notice Gets the allowlisted certificates for an NFT.
