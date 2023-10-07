@@ -32,10 +32,19 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
+
+  let provider;
+
+  if (ALCHEMY_KEY) {
+    provider = new ethers.providers.AlchemyProvider(
+      network.networkKey,
+      ALCHEMY_KEY,
+    );
+  } else if (network.rpc) {
+    provider = new ethers.providers.JsonRpcProvider(network.rpc);
+  } else {
+    throw new Error("No provider available");
+  }
 
   // Check data availability
   const body = event.request.body;

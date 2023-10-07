@@ -59,10 +59,19 @@ export async function handler(event: AutotaskEvent) {
   }
   console.log("Contract address", contractAddress);
 
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
+  let provider;
+
+  if (ALCHEMY_KEY) {
+    provider = new ethers.providers.AlchemyProvider(
+      network.networkKey,
+      ALCHEMY_KEY,
+    );
+  } else if (network.rpc) {
+    provider = new ethers.providers.JsonRpcProvider(network.rpc);
+  } else {
+    throw new Error("No provider available");
+  }
+
   const contractInterface = new ethers.utils.Interface(abi);
   const contract = new ethers.Contract(contractAddress, abi, provider);
 

@@ -1,3 +1,4 @@
+import { useNetwork } from "wagmi";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { SUPABASE_TABLE } from "../lib/config";
@@ -21,11 +22,10 @@ export const useMintFractionAllowlistBatch = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const { address } = useAccountLowerCase();
   const { verifyFractionClaim } = useVerifyFractionClaim();
-
-  const { data: claimIds } = useGetAllEligibility(address ?? "");
-  const parseError = useParseBlockchainError();
-
   const { client, isLoading } = useHypercertClient();
+  const { chain } = useNetwork();
+  const { data: claimIds } = useGetAllEligibility(address ?? "", chain?.id);
+  const parseError = useParseBlockchainError();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -109,13 +109,14 @@ export const useMintFractionAllowlistBatch = ({
   };
 };
 
-export const useGetAllEligibility = (address: string) => {
+export const useGetAllEligibility = (address: string, chainId?: number) => {
   return useQuery(
     ["get-all-eligibility", address],
     async () => {
       const { data, error } = await supabase
         .from(SUPABASE_TABLE)
         .select("*")
+        .eq("chainId", chainId)
         .eq("address", address.toLowerCase())
         .eq("hidden", false);
       if (error) {
@@ -125,6 +126,6 @@ export const useGetAllEligibility = (address: string) => {
       const claimIds = data?.map((x) => x.claimId as string);
       return claimIds ?? [];
     },
-    { enabled: !!address, refetchInterval: 5000 },
+    { enabled: !!address && !!chainId, refetchInterval: 5000 },
   );
 };

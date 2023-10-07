@@ -10,8 +10,7 @@
 **/coverage
 **/dist
 **/node_modules
-**/types
-**/src/index.ts
+**/.graphclient
 **/.openzeppelin
 
 # files

@@ -40,7 +40,7 @@ export function ClientGrid(props: ClientGridProps) {
   const showResults = results.value.slice(0, count);
   return (
     <div className={className}>
-      {showResults.map((row: any, i: any) => (
+      {showResults.map((row: any, i) => (
         <DataProvider name={ROW_SELECTOR} data={row} key={row.id}>
           {repeatedElement(i, children)}
         </DataProvider>

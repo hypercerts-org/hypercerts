@@ -6,9 +6,10 @@ export interface NetworkConfig {
   // Contract address on the network
   contractAddress: string;
   // the selector to retrieve the key from event.secrets in OpenZeppelin
-  alchemyKeyEnvName: string;
+  alchemyKeyEnvName?: string;
   // Chain ID for the network
   chainId: number;
+  rpc?: string;
 }
 
 export const SUPABASE_ALLOWLIST_TABLE_NAME = "allowlistCache-chainId";
@@ -31,6 +32,7 @@ export const NETWORKS: SupportedNetworks = {
       contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
       alchemyKeyEnvName: "ALCHEMY_SEPOLIA_KEY",
       chainId: 11155111,
+      rpc: "https://rpc.sepolia.org",
     },
   ],
   PROD: [

@@ -8,7 +8,6 @@ parserOptions:
   project: "./contracts/tsconfig.json"
 plugins:
   - "@typescript-eslint"
-root: true
 rules:
   "@typescript-eslint/no-floating-promises":
     - error

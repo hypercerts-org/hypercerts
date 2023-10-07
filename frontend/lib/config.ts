@@ -1,5 +1,3 @@
-import { HexString } from "../types/web3";
-
 export const requireEnv = (value: string | undefined, identifier: string) => {
   if (!value) {
     throw new Error(`Required env var ${identifier} does not exist`);
@@ -19,10 +17,7 @@ export const DEFAULT_CHAIN_ID = parseInt(
   ),
 );
 
-export const CONTRACT_ADDRESS = requireEnv(
-  process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-  "NEXT_PUBLIC_CONTRACT_ADDRESS",
-) as HexString;
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
 export const GRAPH_URL = requireEnv(
   process.env.NEXT_PUBLIC_GRAPH_URL,
