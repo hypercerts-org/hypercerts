@@ -13,9 +13,7 @@ import { Strings } from "oz-contracts/contracts/utils/Strings.sol";
 
 import { Ownable } from "oz-contracts/contracts/access/Ownable.sol";
 import { CountersUpgradeable } from "oz-upgradeable/utils/CountersUpgradeable.sol";
-import { Errors } from "../libs/errors.sol";
-import { IERC6551Registry } from "../interfaces/IERC6551Registry.sol";
-import "forge-std/console.sol";
+import { Errors } from "../libs/Errors.sol";
 
 /// @title A hyperboard NFT
 /// @author Abhimanyu Shekhawat

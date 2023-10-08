@@ -90,3 +90,48 @@ task("deploy-trader", "Deploy HypercertTrader and verify")
       }
     }
   });
+
+task("deploy-hyperboard", "Deploy Hyperboard and verify")
+  .addOptionalParam("output", "write the details of the deployment to this file if this is set")
+  .setAction(async ({ output }, { ethers, upgrades }) => {
+    const Hyperboard = await ethers.getContractFactory("Hyperboard");
+    const hyperboard = await upgrades.deployProxy(Hyperboard, {
+      kind: "uups",
+      unsafeAllow: ["constructor"],
+    });
+    const contract = await hyperboard.deployed();
+    console.log(`hyperboard is deployed to proxy address: ${hyperboard.address}`);
+
+    // If the `deploymentFile` option is set then write the deployed address to
+    // a json object on disk. This is intended to be deliberate with how we
+    // output the contract address and other contract information.
+    if (output) {
+      const txReceipt = await contract.provider.getTransactionReceipt(hyperboard.deployTransaction.hash);
+      await writeFile(
+        output,
+        JSON.stringify({
+          address: hyperboard.address,
+          blockNumber: txReceipt.blockNumber,
+        }),
+        "utf-8",
+      );
+    }
+
+    if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+      try {
+        const code = await hyperboard.instance?.provider.getCode(hyperboard.address);
+        if (code === "0x") {
+          console.log(`${hyperboard.name} contract deployment has not completed. waiting to verify...`);
+          await hyperboard.instance?.deployed();
+        }
+        await hre.run("verify:verify", {
+          address: hyperboard.address,
+        });
+      } catch ({ message }) {
+        if ((message as string).includes("Reason: Already Verified")) {
+          console.log("Reason: Already Verified");
+        }
+        console.error(message);
+      }
+    }
+  });

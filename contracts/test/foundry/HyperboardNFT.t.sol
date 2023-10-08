@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 import { ERC20 } from "oz-contracts/contracts/token/ERC20/ERC20.sol";
-// import { WalletImpl } from "./WalletImpl.sol"; // Replace with your wallet implementation contract
-import { IERC6551Registry } from "../../src/interfaces/IERC6551Registry.sol";
 import { Hyperboard } from "../../src/hyperboards/HyperboardNFT.sol";
 import { Test } from "forge-std/Test.sol";
 import { Vm } from "forge-std/Vm.sol";
@@ -15,7 +13,6 @@ import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
 contract TestHyperboard is Test {
     Hyperboard private _hyperboard;
     // WalletImpl _walletImpl;
-    IERC6551Registry private _erc6551Registry;
     address private _owner;
     address private _user1;
     address private _user2;
