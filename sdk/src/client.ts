@@ -1,4 +1,4 @@
-import { HypercertMinterFactory, HypercertMinter } from "@hypercerts-org/contracts";
+import { HypercertMinter, HypercertMinterFactory } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
@@ -28,7 +28,7 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  * @param storage - Hypercerts storage object
  */
 export default class HypercertClient implements HypercertClientInterface {
-  private _config: HypercertClientConfig;
+  readonly _config: HypercertClientConfig;
   private _storage: HypercertsStorage;
   private _evaluator: HypercertEvaluator;
   private _indexer: HypercertIndexer;

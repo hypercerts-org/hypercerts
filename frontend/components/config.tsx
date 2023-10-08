@@ -1,9 +1,5 @@
-import {
-  DOMAIN,
-  DEFAULT_CHAIN_ID,
-  GRAPH_URL,
-  SUPABASE_TABLE,
-} from "../lib/config";
+import { useHypercertClient } from "../hooks/hypercerts-client";
+import { DOMAIN, SUPABASE_TABLE } from "../lib/config";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import React from "react";
 
@@ -23,10 +19,11 @@ export interface ConfigProps {
 
 export function Config(props: ConfigProps) {
   const { className, children } = props;
+  const { client: hypercertClient } = useHypercertClient();
   const data: ConfigData = {
     domain: DOMAIN,
-    chainId: DEFAULT_CHAIN_ID,
-    graphUrl: GRAPH_URL,
+    chainId: hypercertClient._config.chainId,
+    graphUrl: hypercertClient._config.graphUrl,
     supabaseTable: SUPABASE_TABLE,
   };
   return (
