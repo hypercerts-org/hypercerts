@@ -153,8 +153,8 @@ const getOperator = (overrides: Partial<HypercertClientConfig>) => {
 
   if (
     overrides.operator &&
-    !(overrides.operator instanceof ethers.Signer) &&
-    !(overrides.operator instanceof ethers.providers.Provider)
+    !ethers.providers.Provider.isProvider(overrides.operator) &&
+    !ethers.Signer.isSigner(overrides.operator)
   ) {
     throw new InvalidOrMissingError("Invalid operator.", { operator: overrides.operator });
   }
