@@ -54,8 +54,8 @@ export default class HypercertClient implements HypercertClientInterface {
     this._evaluator = new HypercertEvaluator(this._config);
 
     this.readonly =
-      this._operator instanceof providers.Provider ||
-      !this._operator._isSigner ||
+      providers.Provider.isProvider(this._operator) ||
+      !ethers.Signer.isSigner(this._operator) ||
       !this._contract.address ||
       this._storage.readonly;
 
