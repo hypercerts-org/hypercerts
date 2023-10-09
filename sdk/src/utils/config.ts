@@ -159,9 +159,9 @@ const getOperator = (overrides: Partial<HypercertClientConfig>) => {
     throw new InvalidOrMissingError("Invalid operator.", { operator: overrides.operator });
   }
 
-  if (overrides.operator instanceof ethers.Signer) {
+  if (ethers.Signer.isSigner(overrides.operator)) {
     operator = overrides.operator;
-  } else if (overrides.operator instanceof ethers.providers.Provider) {
+  } else if (ethers.providers.Provider.isProvider(overrides.operator)) {
     operator = overrides.operator;
     operator.on("network", (newNetwork, oldNetwork) => {
       // When a Provider makes its initial connection, it emits a "network"

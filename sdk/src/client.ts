@@ -104,7 +104,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -143,7 +143,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ) => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -188,7 +188,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if claim exists and is owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -219,7 +219,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if all claims exist and are owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -249,7 +249,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if claim exists and is owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -281,7 +281,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -320,7 +320,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
