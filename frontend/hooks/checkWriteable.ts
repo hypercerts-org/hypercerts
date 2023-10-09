@@ -1,10 +1,10 @@
-import { useAccount, useBalance, useNetwork } from "wagmi";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
+import { CHAINS } from "../components/dapp-context";
 import { useHypercertClient } from "./hypercerts-client";
-import { useEffect, useState } from "react";
 import { isAddress } from "ethers/lib/utils";
+import { useEffect, useState } from "react";
+import { useAccount, useBalance, useNetwork } from "wagmi";
 
-const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
+const useCheckWriteable = () => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { client } = useHypercertClient();
@@ -57,10 +57,19 @@ const useCheckWriteable = (chainID = DEFAULT_CHAIN_ID) => {
       console.log(chain);
     }
 
-    if (chain && chain.id !== chainID) {
-      console.log(`On wrong network. Expect ${chainID} Saw ${chain?.id}`);
-      currentErrors["chain"] = `Wrong network. Please connect to ${chainID}`;
+    if (chain && !CHAINS.map((c) => c.id).includes(chain.id)) {
+      console.log(
+        `On wrong network. Expected one of "${CHAINS.map((c) => c.id).join(
+          ", ",
+        )}". Saw ${chain?.id}`,
+      );
+      currentErrors[
+        "chain"
+      ] = `Wrong network. Please connect to one of "${CHAINS.map(
+        (c) => c.id,
+      ).join(", ")}"`;
     }
+
     if (!client || client.readonly) {
       console.log(
         "Client was not found or is in readonly mode. Review your config and connection",

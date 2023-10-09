@@ -10,6 +10,8 @@ export const DOMAIN = requireEnv(
   "NEXT_PUBLIC_DOMAIN",
 );
 
+export const isProduction = DOMAIN === "hypercerts.org";
+
 export const DEFAULT_CHAIN_ID = parseInt(
   requireEnv(
     process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
