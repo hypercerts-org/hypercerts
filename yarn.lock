@@ -21158,9 +21158,10 @@ marked@^4.2.12:
   resolved "https://registry.yarnpkg.com/marked/-/marked-4.3.0.tgz#796362821b019f734054582038b116481b456cf3"
   integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
 
-"matchstick-as@https://github.com/LimeChain/matchstick-as#update-graph-ts":
-  version "0.5.1"
-  resolved "https://github.com/LimeChain/matchstick-as#d2f05087e65cd3fde4c01843df01c704ec4cc0e0"
+matchstick-as@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/matchstick-as/-/matchstick-as-0.5.2.tgz#6a6dde02d1d939c32458bd67bac688891a07a34c"
+  integrity sha512-fb1OVphDKEvJY06Ue02Eh1CNncuW95vp6b8tNAP7UIqplICSLoU/zgN6U7ge7R0upsoO78C7CRi4EyK/7Jxz7g==
   dependencies:
     wabt "1.0.24"
 
