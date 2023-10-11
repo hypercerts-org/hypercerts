@@ -10,6 +10,7 @@
       "contracts",
       "cors-proxy",
       "defender",
+      "sdk",
       "docs",
       "frontend",
       "graph",
