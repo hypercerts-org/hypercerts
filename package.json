@@ -6,17 +6,6 @@
   "license": "Apache-2.0",
   "private": true,
   "workspaces": {
-    "packages": [
-      "contracts",
-      "cors-proxy",
-      "defender",
-      "sdk",
-      "docs",
-      "frontend",
-      "graph",
-      "vendor/observabletreemap",
-      "e2e-tests"
-    ],
     "nohoist": [
       "graph"
     ]

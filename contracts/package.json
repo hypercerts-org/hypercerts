@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -107,5 +107,8 @@
     "test:hardhat": "hardhat test",
     "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report",
     "hardhat": "hardhat"
+  },
+  "dependencies": {
+    "@hypercerts-org/contracts": "link:"
   }
 }
