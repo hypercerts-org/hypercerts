@@ -2,13 +2,15 @@ import { expect } from "chai";
 import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
 import { ethers } from "ethers";
 import sinon from "sinon";
+import { jest, test } from "@jest/globals";
 
 import HypercertClient from "../../src/client.js";
-import { HypercertMetadata, HypercertMinter, HypercertsStorage, formatHypercertData } from "../../src/index.js";
+import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src/index.js";
 import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
 import { getRawInputData } from "../helpers.js";
-
+import pkg, { HypercertMinter } from "@hypercerts-org/contracts";
+const { HypercertMinterAbi } = pkg.default;
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
 describe("mintClaim in HypercertClient", () => {

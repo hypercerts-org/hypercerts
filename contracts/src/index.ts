@@ -15,7 +15,7 @@ import type { Errors } from "./types/src/libs/Errors";
 */
 
 // Factory
-export default HypercertMinter__factory;
+export { HypercertMinter__factory };
 
 // Interfaces
 export { IAllowlist, IHypercertToken };

@@ -1,28 +1,28 @@
-/** @type {import("ts-jest").JestConfigWithTsJest} */
-export default {
+import type { Config } from "jest";
+
+const config: Config = {
+  testEnvironment: "node",
+  extensionsToTreatAsEsm: [".ts"],
+  preset: "ts-jest/presets/default-esm",
   setupFiles: ["./test/setup-env.ts"],
   setupFilesAfterEnv: ["jest-extended/all"],
-  preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   rootDir: ".",
-  moduleDirectories: ["node_modules", "src", ".graphclient"],
+  moduleDirectories: ["node_modules", "src"],
   verbose: false,
-  resolver: "ts-jest-resolver",
-  moduleFileExtensions: ["js", "jsx", "json", "ts"],
+  // moduleFileExtensions: ["js", "jsx", "json"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
     // ".graphclient/(.*)": "<rootDir>/.graphclient/$1",
     // "resources/(.*)": "<rootDir>/resources/$1",
     // "types/(.*)": "<rootDir>/src/types/$1",
   },
-  transform: {
-    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
-    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
-    "^.+\\.[tj]sx?$": [
-      "ts-jest",
-      {
-        useESM: true,
-      },
-    ],
-  },
-  transformIgnorePatterns: ["node_modules/(?!@hypercerts-org/contracts)"],
+  // transform: { "^.+\\.ts?$": "ts-jest" },
+  // // transform: {
+  // //   // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+  // //   // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+  // //   "^.+\\.[tj]sx?$": "ts-jest",
+  // // },
+  // transformIgnorePatterns: ["node_modules/(?!@hypercerts-org/contracts)"],
 };
+
+export default config;

@@ -1,13 +1,13 @@
 import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
 import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
+import { expect } from "@jest/globals";
 
 import { HypercertClient } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
-import pkg, { HypercertMinter } from "@hypercerts-org/contracts";
-const { HypercertMinterAbi } = pkg.default;
+import { HypercertMinter } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
 describe("Allows for minting claims from an allowlist", () => {
