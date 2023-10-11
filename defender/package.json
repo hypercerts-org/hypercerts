@@ -1,5 +1,5 @@
 {
-  "name": "@hypercerts-org/hypercerts-defender",
+  "name": "@hypercerts-org/defender",
   "description": "Manages OpenZeppelin Defender integrations for Hypercerts",
   "version": "0.0.1",
   "author": "Hypercerts Foundation",
