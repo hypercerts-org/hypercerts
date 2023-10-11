@@ -14,7 +14,7 @@ import type { Errors } from "./types/src/libs/Errors";
 */
 // Interfaces
 export { IAllowlist, IHypercertToken };
-export { HypercertMinterAbi };
+export default { HypercertMinterAbi };
 
 // Contracts
 export { HypercertMinter, AllowlistMinter };

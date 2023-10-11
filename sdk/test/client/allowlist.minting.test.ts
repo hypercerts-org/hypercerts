@@ -2,10 +2,11 @@ import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle"
 import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
 
-import { HypercertMinterFactory, HypercertClient, HypercertMinter } from "../../src/index.js";
+import { HypercertClient, HypercertMinter } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
@@ -18,7 +19,7 @@ describe("Allows for minting claims from an allowlist", () => {
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
-    const minter = await deployMockContract(user, new HypercertMinterFactory().interface.format());
+    const minter = await deployMockContract(user, HypercertMinterAbi);
 
     const client = new HypercertClient({
       chainId: 5,

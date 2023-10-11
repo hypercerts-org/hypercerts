@@ -532,8 +532,11 @@ importers:
         specifier: ^2.2.15
         version: 2.2.22(@babel/core@7.23.0)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.5)
       '@hypercerts-org/contracts':
-        specifier: 0.7.1
-        version: 0.7.1
+        specifier: 0.8.0
+        version: 0.8.0
+      '@hypercerts-org/sdk':
+        specifier: 'link:'
+        version: 'link:'
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.4
         version: 1.0.5
@@ -567,9 +570,6 @@ importers:
       nft.storage:
         specifier: ^7.1.1
         version: 7.1.1(node-fetch@3.3.2)
-      rollup-plugin-node-polyfills:
-        specifier: ^0.2.1
-        version: 0.2.1
       sdk:
         specifier: ^0.5.0
         version: 0.5.0
@@ -658,6 +658,9 @@ importers:
       rollup-plugin-esbuild:
         specifier: ^5.0.0
         version: 5.0.0(esbuild@0.17.19)(rollup@3.29.4)
+      rollup-plugin-node-polyfills:
+        specifier: ^0.2.1
+        version: 0.2.1
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -6358,6 +6361,10 @@ packages:
 
   /@hypercerts-org/contracts@0.7.1:
     resolution: {integrity: sha512-gJ+z9nW8aNO/HXLww58Y3jexsduPryeAJYoJf7mmTDPwBdbs9uJhl/7h+ln5I7aFeUI5Wyg7+zCI71PCG+mxsQ==}
+    dev: false
+
+  /@hypercerts-org/contracts@0.8.0:
+    resolution: {integrity: sha512-toHEM6APUdnsQY8281C6pGeRATm7g1SGcJ73kkAQLvjh9ihZvO6DjcAz+SLYSWI0+ykVhogMCgu4tlCJ59qAbg==}
     dev: false
 
   /@hypercerts-org/sdk@0.8.4(@babel/core@7.23.0)(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(mocha@10.2.0)(node-fetch@3.3.2)(react-native@0.72.5)(typescript@5.1.6)(uint8arraylist@2.4.3):
@@ -17660,6 +17667,7 @@ packages:
 
   /estree-walker@0.6.1:
     resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
+    dev: true
 
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
@@ -23759,6 +23767,7 @@ packages:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
     dependencies:
       sourcemap-codec: 1.4.8
+    dev: true
 
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
@@ -28402,16 +28411,19 @@ packages:
       estree-walker: 0.6.1
       magic-string: 0.25.9
       rollup-pluginutils: 2.8.2
+    dev: true
 
   /rollup-plugin-node-polyfills@0.2.1:
     resolution: {integrity: sha512-4kCrKPTJ6sK4/gLL/U5QzVT8cxJcofO0OU74tnB19F40cmuAKSzH5/siithxlofFEjwvw1YAhPmbvGNA6jEroA==}
     dependencies:
       rollup-plugin-inject: 3.0.2
+    dev: true
 
   /rollup-pluginutils@2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
     dependencies:
       estree-walker: 0.6.1
+    dev: true
 
   /rollup@2.78.0:
     resolution: {integrity: sha512-4+YfbQC9QEVvKTanHhIAFVUFSRsezvQF8vFOJwtGfb9Bb+r014S+qryr9PSmw8x6sMnPkmFBGAvIFVQxvJxjtg==}
