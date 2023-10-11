@@ -11,6 +11,7 @@
       "cors-proxy",
       "defender",
       "docs",
+      "frontend",
       "graph",
       "vendor/observabletreemap",
       "e2e-tests"
