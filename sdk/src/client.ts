@@ -1,4 +1,4 @@
-import { HypercertMinterFactory, HypercertMinter } from "@hypercerts-org/contracts";
+import { HypercertMinter, HypercertMinterFactory } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
@@ -28,7 +28,7 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  * @param storage - Hypercerts storage object
  */
 export default class HypercertClient implements HypercertClientInterface {
-  private _config: HypercertClientConfig;
+  readonly _config: HypercertClientConfig;
   private _storage: HypercertsStorage;
   private _evaluator: HypercertEvaluator;
   private _indexer: HypercertIndexer;
@@ -54,14 +54,22 @@ export default class HypercertClient implements HypercertClientInterface {
     this._evaluator = new HypercertEvaluator(this._config);
 
     this.readonly =
-      this._operator instanceof providers.Provider ||
-      !this._operator._isSigner ||
+      providers.Provider.isProvider(this._operator) ||
+      !ethers.Signer.isSigner(this._operator) ||
       !this._contract.address ||
       this._storage.readonly;
 
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
     }
+  }
+
+  /**
+   * Gets the config for the client.
+   * @returns The client config.
+   */
+  get config(): HypercertClientConfig {
+    return this._config;
   }
 
   /**
@@ -104,7 +112,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -143,7 +151,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ) => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -188,7 +196,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if claim exists and is owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -219,7 +227,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if all claims exist and are owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -249,7 +257,7 @@ export default class HypercertClient implements HypercertClientInterface {
     this.checkWritable();
 
     // check if claim exists and is owned by the signer
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -281,7 +289,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
@@ -320,7 +328,7 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
-    if (!(this._config.operator instanceof ethers.Signer)) {
+    if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 

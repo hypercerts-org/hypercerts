@@ -39,7 +39,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
-    if (!chainId || [5, 10].indexOf(chainId) === -1) {
+    if (!chainId || [5, 10, 11155111].indexOf(chainId) === -1) {
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
         chainID: chainId?.toString() || "undefined",
       });
@@ -86,6 +86,9 @@ const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
       break;
     case 10:
       chainName = "optimism-mainnet";
+      break;
+    case 11155111:
+      chainName = "sepolia";
       break;
     default:
       chainName = overrides?.chainName ?? "";
@@ -150,15 +153,15 @@ const getOperator = (overrides: Partial<HypercertClientConfig>) => {
 
   if (
     overrides.operator &&
-    !(overrides.operator instanceof ethers.Signer) &&
-    !(overrides.operator instanceof ethers.providers.Provider)
+    !ethers.providers.Provider.isProvider(overrides.operator) &&
+    !ethers.Signer.isSigner(overrides.operator)
   ) {
     throw new InvalidOrMissingError("Invalid operator.", { operator: overrides.operator });
   }
 
-  if (overrides.operator instanceof ethers.Signer) {
+  if (ethers.Signer.isSigner(overrides.operator)) {
     operator = overrides.operator;
-  } else if (overrides.operator instanceof ethers.providers.Provider) {
+  } else if (ethers.providers.Provider.isProvider(overrides.operator)) {
     operator = overrides.operator;
     operator.on("network", (newNetwork, oldNetwork) => {
       // When a Provider makes its initial connection, it emits a "network"

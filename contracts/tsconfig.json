@@ -17,6 +17,6 @@
     "strict": true,
     "target": "es6"
   },
-  "include": ["./tasks", "./test", "./types"],
+  "include": ["./tasks", "./test", "./types", "./src"],
   "files": ["./hardhat.config.ts"]
 }

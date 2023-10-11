@@ -24,4 +24,5 @@ export default {
       },
     ],
   },
+  transformIgnorePatterns: ["node_modules/(?!@hypercerts-org/contracts)"],
 };

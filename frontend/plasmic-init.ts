@@ -1,8 +1,9 @@
-import "primereact/resources/primereact.min.css";
-import "primereact/resources/themes/tailwind-light/theme.css";
+import { BlueprintCreateForm } from "./components/blueprint-create";
+import { BurnFractionButton } from "./components/burn-fraction-button";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
+import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
 import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
@@ -14,23 +15,23 @@ import {
   FormDropZone,
   FormCheckbox,
 } from "./components/forms";
-import { BurnFractionButton } from "./components/burn-fraction-button";
-import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import { FtcPurchaseForm } from "./components/ftc-purchase";
+import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
 import { HypercertCreateForm } from "./components/hypercert-create";
 import { HypercertFetcher } from "./components/hypercert-fetcher";
+import { ProjectBrowser } from "./components/project-browser/project-browser";
+import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
 import { SupabaseQuery } from "./components/supabase-query";
 import { SupabaseToChart } from "./components/supabase-to-chart";
+import { TestnetOnly } from "./components/testnet-only";
 import { Tooltip, Accordion, Markdown } from "./components/widgets";
 import { ZuzaluHypercertTreemap } from "./components/zuzalu-hypercert-treemap";
-import { GenericHypercertTreemap } from "./components/generic-hypercert-treemap";
-import { ProjectsClientProvider } from "./components/project-browser/project-client-provider";
+import { ZuzaluPurchaseForm } from "./components/zuzalu-purchase";
 import CircularProgress from "@mui/material/CircularProgress";
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
-import { ProjectBrowser } from "./components/project-browser/project-browser";
-import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
-import { BlueprintCreateForm } from "./components/blueprint-create";
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -114,6 +115,16 @@ PLASMIC.registerComponent(Config, {
   },
   providesData: true,
   importPath: "./components/config",
+});
+
+PLASMIC.registerComponent(TestnetOnly, {
+  name: "TestnetOnly",
+  description: "Only show children if on testnet",
+  props: {
+    children: {
+      type: "slot",
+    },
+  },
 });
 
 PLASMIC.registerComponent(

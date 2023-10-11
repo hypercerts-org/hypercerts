@@ -1,12 +1,18 @@
-import axios from "axios";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
-import { ethers } from "ethers";
-import fetch from "node-fetch";
+import { abi } from "../HypercertMinterABI";
+import { MissingDataError, NotImplementedError } from "../errors";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+} from "@openzeppelin/defender-autotask-utils";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { createClient } from "@supabase/supabase-js";
-import { getNetworkConfigFromName } from "../networks";
-import { MissingDataError, NotImplementedError } from "../errors";
-import { abi } from "../HypercertMinterABI";
+import axios from "axios";
+import { ethers } from "ethers";
+import fetch from "node-fetch";
 
 const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
@@ -53,10 +59,19 @@ export async function handler(event: AutotaskEvent) {
   }
   console.log("Contract address", contractAddress);
 
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
+  let provider;
+
+  if (ALCHEMY_KEY) {
+    provider = new ethers.providers.AlchemyProvider(
+      network.networkKey,
+      ALCHEMY_KEY,
+    );
+  } else if (network.rpc) {
+    provider = new ethers.providers.JsonRpcProvider(network.rpc);
+  } else {
+    throw new Error("No provider available");
+  }
+
   const contractInterface = new ethers.utils.Interface(abi);
   const contract = new ethers.Contract(contractAddress, abi, provider);
 
@@ -113,11 +128,12 @@ export async function handler(event: AutotaskEvent) {
     address: address.toLowerCase(),
     claimId: `${contractAddress}-${tokenId}`,
     fractionCounter: index,
+    chainId: network.chainId,
   }));
   console.log("data", data);
 
   const addResult = await client
-    .from(network.supabaseTableName)
+    .from(SUPABASE_ALLOWLIST_TABLE_NAME)
     .insert(data)
     .select()
     .then((data) => data.data);

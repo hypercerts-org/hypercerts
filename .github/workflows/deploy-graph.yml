@@ -35,9 +35,9 @@ jobs:
         run: yarn install --immutable
       - name: Build the subgraph
         run: yarn build:graph
-      - name: Deploy the subgraph to goerli testnet
+      - name: Deploy the subgraph to testnets
         if: github.ref == 'refs/heads/develop'
-        run: yarn deploy:graph:goerli
-      - name: Deploy the subgraph to Optimism mainnet
+        run: yarn deploy:graph:test
+      - name: Deploy the subgraph to production
         if: github.ref == 'refs/heads/main'
-        run: yarn deploy:graph:optimism
+        run: yarn deploy:graph:prod

@@ -1,4 +1,4 @@
-import { WALLETCONNECT_ID } from "../lib/config";
+import { isProduction, WALLETCONNECT_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
 import {
   RainbowKitProvider,
@@ -31,15 +31,18 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode, useEffect } from "react";
-import { goerli, optimism, hardhat } from "viem/chains";
+import { Chain, goerli, optimism, sepolia } from "viem/chains";
 import { configureChains, WagmiConfig, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 const queryClient = new QueryClient();
-const ALL_CHAINS = [optimism, goerli, hardhat];
-const { publicClient, chains } = configureChains(ALL_CHAINS, [
-  publicProvider(),
-]);
+
+const TEST_CHAINS = [goerli, sepolia];
+const PROD_CHAINS = [optimism];
+
+export const CHAINS = (isProduction ? PROD_CHAINS : TEST_CHAINS) as Chain[];
+
+const { publicClient, chains } = configureChains(CHAINS, [publicProvider()]);
 
 const projectId = WALLETCONNECT_ID;
 

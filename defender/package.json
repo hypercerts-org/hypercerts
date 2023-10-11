@@ -8,17 +8,20 @@
   "type": "module",
   "scripts": {
     "build": "webpack",
-    "deploy": "yarn build && yarn setup",
-    "setup": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts"
+    "deploy:test": "yarn build && yarn setup:test",
+    "deploy:prod": "yarn build && yarn setup:prod",
+    "setup:test": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts TEST",
+    "setup:prod": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts PROD"
   },
   "dependencies": {
+    "@openzeppelin/defender-autotask-client": "^1.48.0",
+    "@openzeppelin/defender-autotask-utils": "^1.48.0",
+    "@openzeppelin/defender-base-client": "^1.48.0",
+    "@openzeppelin/defender-sentinel-client": "^1.48.0",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
     "crypto": "^1.0.1",
-    "defender-autotask-client": "^1.39.0",
-    "defender-autotask-utils": "^1.39.0",
-    "defender-sentinel-client": "^1.39.0",
     "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
     "ts-node": "^10.9.1"
