@@ -14,7 +14,7 @@ export default [
       nodePolyfills(),
       json(),
       commonjs(),
-      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true, modulesOnly: true }),
+      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
       esbuild(),
     ],
     output: [

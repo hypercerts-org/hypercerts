@@ -8,7 +8,6 @@
       "wagmi"
     ]
   },
-  "type": "module",
   "scripts": {
     "build": "export SENTRY_RELEASE=`sentry-cli releases propose-version` && next build",
     "start": "serve out",
