@@ -7,7 +7,7 @@ import { HypercertClient } from "../../src/index.js";
 import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
 import { getAllowlist, getFormattedMetadata } from "../helpers.js";
-import { HypercertMinter } from "@hypercerts-org/contracts";
+import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
 describe("Allows for minting claims from an allowlist", () => {

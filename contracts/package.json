@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.8.3",
+  "version": "0.8.5",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -13,15 +13,10 @@
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "types": "./dist/index.d.ts"
-    }
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -36,7 +31,7 @@
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.3",
     "@openzeppelin/hardhat-defender": "^1.8.2",
-    "@openzeppelin/hardhat-upgrades": "^1.22.1",
+    "@openzeppelin/hardhat-upgrades": "^1.28",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
@@ -57,7 +52,7 @@
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.7.2",
-    "hardhat": "^2.13.0",
+    "hardhat": "2.13.1",
     "hardhat-abi-exporter": "^2.10.1",
     "hardhat-gas-reporter": "^1.0.9",
     "hardhat-preprocessor": "^0.1.5",
@@ -76,7 +71,7 @@
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.1",
     "typechain": "^8.3.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   },
   "keywords": [
     "blockchain",
@@ -89,11 +84,9 @@
     "template"
   ],
   "scripts": {
-    "build": "pnpm clean && hardhat compile && rollup -c",
+    "build": "pnpm clean && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && pnpm build:ts:esm && pnpm build:ts:cjs && pnpm build:declarations",
-    "build:ts:esm": "npx tsc --build tsconfig.esm.json",
-    "build:ts:cjs": "npx tsc --build tsconfig.cjs.json",
+    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && pnpm build:declarations",
     "build:declarations": "shx cp ./src/types/*.d.ts ./dist/index.d.ts",
     "clean": "rimraf cache out dist typechain abi",
     "docs": "hardhat dodoc",

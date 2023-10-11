@@ -1,23 +1,32 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
-    "assumeChangesOnlyAffectDirectDependencies": true,
     "declaration": true,
+    "declarationMap": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "composite": true,
-    "lib": ["esnext"],
-    "moduleResolution": "nodenext",
-    "noImplicitThis": true,
+    "lib": ["es6"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitOverride": false,
+    "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
-    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "strictNullChecks": true
+    "target": "ESNext",
+    "outDir": "build"
   },
-  "files": ["src/index.ts"],
-  "include": ["src/**/*.ts", "src/abi/*.json"],
-  "exclude": ["node_modules"]
+  "include": ["./src"],
+  "files": [
+    "src/abi/HypercertMinter.json",
+    "src/types/src/AllowlistMinter.ts",
+    "src/types/src/HypercertMinter.ts",
+    "src/types/src/interfaces/IAllowlist.ts",
+    "src/types/src/interfaces/IHypercertToken.ts",
+    "src/types/src/libs/Errors.ts"
+  ]
 }

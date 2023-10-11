@@ -4,8 +4,7 @@ import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
 import { ClientError } from "../../src/types/errors.js";
-import pkg from "@hypercerts-org/contracts";
-const { HypercertMinterAbi } = pkg.default;
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 describe("burn fraction tokens in HypercertClient", () => {
   let stub: sinon.SinonStub;
   let provider: MockProvider;

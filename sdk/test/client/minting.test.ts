@@ -9,8 +9,7 @@ import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../..
 import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
 import { getRawInputData } from "../helpers.js";
-import pkg, { HypercertMinter } from "@hypercerts-org/contracts";
-const { HypercertMinterAbi } = pkg.default;
+import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
 describe("mintClaim in HypercertClient", () => {

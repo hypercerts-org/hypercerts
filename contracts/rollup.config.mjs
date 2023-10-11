@@ -8,25 +8,35 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export default [
   {
-    input: `src/index.ts`,
-    plugins: [autoExternal(), nodePolyfills(), json(), commonjs(), nodeResolve(), esbuild()],
+    input: `build/index.js`,
+    plugins: [
+      autoExternal(),
+      nodePolyfills(),
+      json(),
+      commonjs(),
+      nodeResolve(),
+      esbuild({ tsconfig: "tsconfig.build.json" }),
+    ],
     output: [
       {
         format: "esm",
         dir: "dist/esm",
+        sourcemap: true,
+        exports: "named",
       },
       {
         format: "cjs",
         dir: "dist/cjs",
+        sourcemap: true,
+        exports: "named",
       },
     ],
   },
   {
-    input: `src/index.ts`,
+    input: `build/index.d.ts`,
     plugins: [json(), dts()],
     output: {
       file: `dist/index.d.ts`,
-      format: "es",
     },
   },
 ];

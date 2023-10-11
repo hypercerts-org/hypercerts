@@ -1,5 +1,5 @@
 import HypercertMinterAbi from "./abi/HypercertMinter.json";
-import { HypercertMinter__factory } from "./types";
+// import { HypercertMinter__factory } from "./types/factories/src/HypercertMinter__factory";
 import type { AllowlistMinter } from "./types/src/AllowlistMinter";
 import type { HypercertMinter } from "./types/src/HypercertMinter";
 import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
@@ -15,7 +15,7 @@ import type { Errors } from "./types/src/libs/Errors";
 */
 
 // Factory
-export { HypercertMinter__factory };
+// export { HypercertMinter__factory };
 
 // Interfaces
 export { IAllowlist, IHypercertToken };

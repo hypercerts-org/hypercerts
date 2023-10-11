@@ -1,4 +1,4 @@
-import pkg, { HypercertMinter } from "@hypercerts-org/contracts";
+import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
@@ -20,7 +20,6 @@ import { getConfig } from "./utils/config.js";
 import logger from "./utils/logger.js";
 import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator/index.js";
 
-const { HypercertMinterAbi } = pkg.default;
 /**
  * Hypercerts client factory
  * @dev Creates a Hypercerts client instance
