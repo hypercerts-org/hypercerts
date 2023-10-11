@@ -18,5 +18,5 @@
     "target": "es6"
   },
   "include": ["./tasks", "./test", "./types", "./src"],
-  "files": ["./hardhat.config.ts"]
+  "files": ["hardhat.config.ts"]
 }

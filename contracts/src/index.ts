@@ -1,5 +1,4 @@
 import HypercertMinterAbi from "./abi/HypercertMinter.json";
-import { HypercertMinter__factory } from "./types/factories/src/HypercertMinter__factory";
 import type { AllowlistMinter } from "./types/src/AllowlistMinter";
 import type { HypercertMinter } from "./types/src/HypercertMinter";
 import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
@@ -19,9 +18,6 @@ export { HypercertMinterAbi };
 
 // Contracts
 export { HypercertMinter, AllowlistMinter };
-
-// Factories
-export { HypercertMinter__factory as HypercertMinterFactory };
 
 // Libs
 export { Errors };
