@@ -65,6 +65,14 @@ export default class HypercertClient implements HypercertClientInterface {
   }
 
   /**
+   * Gets the config for the client.
+   * @returns The client config.
+   */
+  get config(): HypercertClientConfig {
+    return this._config;
+  }
+
+  /**
    * Gets the storage layer for the client.
    * @returns The storage layer.
    */
