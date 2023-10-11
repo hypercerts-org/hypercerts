@@ -3,7 +3,6 @@
   "globalDependencies": ["**/.env.*local", "**.env"],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
     "deploy": {
@@ -18,12 +17,6 @@
     "start": {
       "cache": false
     },
-    "test": {},
-    "@hypercerts-org/frontend#build": {
-      "dependsOn": ["^build"],
-      "outputs": ["out/**", ".next/**"],
-      "env": ["PLASMIC_PROJECT_ID", "PLASMIC_PROJECT_API_TOKEN"],
-      "cache": false
-    }
+    "test": {}
   }
 }

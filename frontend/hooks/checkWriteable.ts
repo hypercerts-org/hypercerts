@@ -1,6 +1,6 @@
+import { isAddress } from "viem";
 import { CHAINS } from "../components/dapp-context";
 import { useHypercertClient } from "./hypercerts-client";
-import { isAddress } from "ethers/lib/utils";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance, useNetwork } from "wagmi";
 
