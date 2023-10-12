@@ -26,18 +26,22 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
           cache: "yarn"
           node-version: "18.x"
       - name: Install
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Build the subgraph
-        run: yarn build:graph
+        run: pnpm run build:graph
       - name: Deploy the subgraph to testnets
         if: github.ref == 'refs/heads/develop'
-        run: yarn deploy:graph:test
+        run: pnpm run deploy:graph:test
       - name: Deploy the subgraph to production
         if: github.ref == 'refs/heads/main'
-        run: yarn deploy:graph:prod
+        run: pnpm run deploy:graph:prod
