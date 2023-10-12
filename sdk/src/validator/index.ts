@@ -15,7 +15,7 @@ import {
   SimpleTextEvaluation,
 } from "../types/index.js";
 
-const ajv = new Ajv.default({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
+const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
 ajv.addSchema(claimDataSchema, "claimData");
 ajv.addSchema(evaluationSchema, "evaluation.json");

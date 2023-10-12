@@ -1,5 +1,5 @@
 {
-  "name": "@hypercerts-org/hypercerts-defender",
+  "name": "@hypercerts-org/defender",
   "description": "Manages OpenZeppelin Defender integrations for Hypercerts",
   "version": "0.0.1",
   "author": "Hypercerts Foundation",
@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "build": "webpack",
-    "deploy:test": "yarn build && yarn setup:test",
-    "deploy:prod": "yarn build && yarn setup:prod",
+    "deploy:test": "pnpm build && pnpm setup:test",
+    "deploy:prod": "pnpm build && pnpm setup:prod",
     "setup:test": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts TEST",
     "setup:prod": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' npx ts-node src/setup.ts PROD"
   },
@@ -21,8 +21,8 @@
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@supabase/supabase-js": "^2.4.1",
     "axios": "^1.2.6",
-    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
+    "ethers": "5.7.2",
     "node-fetch": "^3.3.0",
     "ts-node": "^10.9.1"
   },

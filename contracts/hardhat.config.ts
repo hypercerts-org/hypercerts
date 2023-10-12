@@ -1,8 +1,9 @@
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
-import "@openzeppelin/hardhat-defender";
 import "@openzeppelin/hardhat-upgrades";
+import "@openzeppelin/hardhat-defender";
+
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
 import fs from "fs";
@@ -70,7 +71,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
   };
 }
 
-const config: HardhatUserConfig = {
+const config = {
   abiExporter: {
     path: "./src/abi",
     runOnCompile: true,
@@ -82,6 +83,7 @@ const config: HardhatUserConfig = {
   defender: {
     apiKey: ozApiKey!,
     apiSecret: ozSecretKey!,
+    useDefenderDeploy: true,
   },
   dodoc: {
     runOnCompile: true,
@@ -124,7 +126,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   preprocess: {
-    eachLine: (hre) => ({
+    eachLine: () => ({
       transform: (line: string) => {
         if (line.match(/^\s*import /i)) {
           getRemappings().forEach(([find, replace]) => {

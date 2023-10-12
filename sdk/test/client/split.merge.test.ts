@@ -1,10 +1,11 @@
-import { HypercertMinterFactory } from "@hypercerts-org/contracts";
 import { MockProvider, deployMockContract } from "ethereum-waffle";
 import { BigNumber, Wallet } from "ethers";
 import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
 import { ClientError } from "../../src/types/errors.js";
+
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 describe("splitClaimUnits in HypercertClient", () => {
   let stub: sinon.SinonStub;
@@ -28,7 +29,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
   it("allows for a hypercert fractions to be splitted over value", async () => {
     const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(300);
     await mockMinter.mock["splitFraction(address,uint256,uint256[])"]
@@ -53,7 +54,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
   it("allows for a hypercert fractions to be splitted over value with override params", async () => {
     const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(300);
     await mockMinter.mock["splitFraction(address,uint256,uint256[])"]
@@ -85,7 +86,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
   it("throws on splitting with incorrect new total value", async () => {
     const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(42);
 
@@ -116,7 +117,7 @@ describe("splitClaimUnits in HypercertClient", () => {
 
   it("throws on splitting fractions not owned by signer", async () => {
     const otherUser = await provider.getWallets()[1].getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
 
     const signer = wallet.connect(provider);
@@ -165,7 +166,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
   it("allows for hypercert fractions to merge value", async () => {
     const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(userAddress);
     await mockMinter.mock["mergeFractions(address,uint256[])"]
@@ -189,7 +190,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
 
   it("allows for hypercert fractions to merge value with override params", async () => {
     const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(userAddress);
     await mockMinter.mock["mergeFractions(address,uint256[])"]
@@ -223,7 +224,7 @@ describe("mergeClaimUnits in HypercertClient", () => {
     const userAddress = await wallet.getAddress();
     const otherUser = await provider.getWallets()[1].getAddress();
 
-    const mockMinter = await deployMockContract(wallet, new HypercertMinterFactory().interface.format());
+    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(otherUser);
 

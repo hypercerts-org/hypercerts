@@ -6,7 +6,7 @@ import { CIDString, NFTStorage } from "nft.storage";
 // @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
-import { validateMetaData } from "./index.js";
+import { validateMetaData } from "./validator/index.js";
 import {
   HypercertStorageConfig,
   HypercertStorageInterface,

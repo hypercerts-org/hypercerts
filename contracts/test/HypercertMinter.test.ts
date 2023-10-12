@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 
-import { HypercertMinter } from "../typechain";
+import { HypercertMinter } from "../src/types";
 
 describe("Hypercert Minter", function () {
   it("is upgradeable", async () => {

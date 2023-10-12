@@ -1,28 +1,20 @@
-/** @type {import("ts-jest").JestConfigWithTsJest} */
-export default {
+import type { Config } from "jest";
+
+const config: Config = {
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   setupFiles: ["./test/setup-env.ts"],
   setupFilesAfterEnv: ["jest-extended/all"],
-  preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   rootDir: ".",
-  moduleDirectories: ["node_modules", "src", ".graphclient"],
+  moduleDirectories: ["node_modules", "<rootDir>/src", ".graphclient"],
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^@hypercerts-org/contracts$": require.resolve("@hypercerts-org/contracts"), // this is the trick!
+  },
   verbose: false,
   resolver: "ts-jest-resolver",
   moduleFileExtensions: ["js", "jsx", "json", "ts"],
-  moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
-    // ".graphclient/(.*)": "<rootDir>/.graphclient/$1",
-    // "resources/(.*)": "<rootDir>/resources/$1",
-    // "types/(.*)": "<rootDir>/src/types/$1",
-  },
-  transform: {
-    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
-    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
-    "^.+\\.[tj]sx?$": [
-      "ts-jest",
-      {
-        useESM: true,
-      },
-    ],
-  },
-  transformIgnorePatterns: ["node_modules/(?!@hypercerts-org/contracts)"],
+  transform: {},
 };
+
+export default config;

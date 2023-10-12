@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
     "emitDecoratorMetadata": true,
@@ -11,12 +12,22 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "noImplicitOverride": false,
     "removeComments": true,
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6"
+    "target": "ESNext",
+    "outDir": "dist"
   },
   "include": ["./tasks", "./test", "./types", "./src"],
-  "files": ["./hardhat.config.ts"]
+  "files": [
+    "hardhat.config.ts",
+    "src/abi/HypercertMinter.json",
+    "src/types/src/AllowlistMinter.ts",
+    "src/types/src/HypercertMinter.ts",
+    "src/types/src/interfaces/IAllowlist.ts",
+    "src/types/src/interfaces/IHypercertToken.ts",
+    "src/types/src/libs/Errors.ts"
+  ]
 }
