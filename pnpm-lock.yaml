@@ -326,7 +326,7 @@ importers:
         version: 2.2.22(@babel/core@7.23.0)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.5)
       '@hypercerts-org/contracts':
         specifier: 0.7.1
-        version: 0.7.1
+        version: link:../contracts
       '@hypercerts-org/observabletreemap':
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
@@ -536,7 +536,7 @@ importers:
         specifier: ^2.2.15
         version: 2.2.22(@babel/core@7.23.0)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.5)
       '@hypercerts-org/contracts':
-        specifier: 0.7.1
+        specifier: 0.8.5
         version: link:../contracts
       '@hypercerts-org/sdk':
         specifier: 'link:'
@@ -6325,10 +6325,6 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
-
-  /@hypercerts-org/contracts@0.7.1:
-    resolution: {integrity: sha512-gJ+z9nW8aNO/HXLww58Y3jexsduPryeAJYoJf7mmTDPwBdbs9uJhl/7h+ln5I7aFeUI5Wyg7+zCI71PCG+mxsQ==}
-    dev: false
 
   /@iarna/toml@2.2.5:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}

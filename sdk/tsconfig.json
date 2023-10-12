@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "lib": ["ES6", "DOM"],
+    "lib": ["ES6", "DOM", "ESNext"],
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "baseUrl": ".",
     "outDir": "dist",
     "allowJs": true,

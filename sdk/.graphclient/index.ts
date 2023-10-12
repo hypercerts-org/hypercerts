@@ -798,7 +798,8 @@ export type DirectiveResolvers<ContextType = MeshContext & { graphUrl: string, c
 export type MeshContext = HypercertsTypes.Context & BaseMeshContext;
 
 
-const baseDir = pathModule.join(typeof __dirname === 'string' ? __dirname : '/', '..');
+import { fileURLToPath } from '@graphql-mesh/utils';
+const baseDir = pathModule.join(pathModule.dirname(fileURLToPath(import.meta.url)), '..');
 
 const importFn: ImportFn = <T>(moduleId: string) => {
   const relativeModuleId = (pathModule.isAbsolute(moduleId) ? pathModule.relative(baseDir, moduleId) : moduleId).split('\\').join('/').replace(baseDir + '/', '');
