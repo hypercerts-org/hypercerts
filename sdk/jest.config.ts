@@ -1,28 +1,20 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  extensionsToTreatAsEsm: [".ts"],
-  testEnvironment: "node",
-  preset: "ts-jest", // or other ESM presets,
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  preset: "ts-jest/presets/js-with-ts-esm", // or other ESM presets,
   setupFiles: ["./test/setup-env.ts"],
   setupFilesAfterEnv: ["jest-extended/all"],
   rootDir: ".",
   moduleDirectories: ["node_modules", "<rootDir>/src", ".graphclient"],
-  verbose: false,
-  resolver: "ts-jest-resolver",
-  moduleFileExtensions: ["js", "jsx", "json", "ts", "json", "node"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^@hypercerts-org/contracts$": require.resolve("@hypercerts-org/contracts"), // this is the trick!
   },
-  transform: {
-    "^.+\\.(t|j)sx?$": [
-      "ts-jest",
-      {
-        useESM: true,
-      },
-    ],
-  },
-  transformIgnorePatterns: ["node_modules/(?!@hypercerts-org/contracts)"],
+  verbose: false,
+  resolver: "ts-jest-resolver",
+  moduleFileExtensions: ["js", "jsx", "json", "ts"],
+  transform: {},
 };
 
 export default config;
