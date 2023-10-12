@@ -58,26 +58,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.15.0"
-          cache: "yarn"
+          cache: "pnpm"
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
       - name: Install
         run: |
-          yarn install --immutable
+          pnpm install --frozen-lockfile
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Build
         run: |
-          yarn build
+          pnpm run build
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Lint
         run: |
-          yarn lint
+          pnpm run lint
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Test
         run: |
-          yarn test
+          pnpm test
         # Always run this step so that all linting errors can be seen at once.
         if: always()
