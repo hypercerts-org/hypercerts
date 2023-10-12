@@ -5,11 +5,6 @@
   "author": "Hypercerts Foundation",
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": {
-    "nohoist": [
-      "graph"
-    ]
-  },
   "scripts": {
     "build": "turbo run build --concurrency=100%",
     "copy": "pnpm copy:frontend && pnpm copy:docs && pnpm copy:html",

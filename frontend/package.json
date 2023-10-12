@@ -2,12 +2,6 @@
   "name": "@hypercerts-org/frontend",
   "version": "0.1.0",
   "license": "Apache-2.0",
-  "workspaces": {
-    "nohoist": [
-      "@rainbow-me/rainbowkit",
-      "wagmi"
-    ]
-  },
   "scripts": {
     "build": "export SENTRY_RELEASE=`sentry-cli releases propose-version` && next build",
     "start": "serve out",
