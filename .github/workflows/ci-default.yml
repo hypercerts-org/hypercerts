@@ -54,6 +54,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
