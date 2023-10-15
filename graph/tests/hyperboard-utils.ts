@@ -12,7 +12,7 @@ import {
   Transfer,
   WithdrawErc20,
   WithdrawEther
-} from "../generated/Contract/Contract"
+} from "../generated/Hyperboard/Hyperboard"
 
 export function createApprovalEvent(
   owner: Address,

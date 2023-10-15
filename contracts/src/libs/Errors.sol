@@ -12,10 +12,7 @@ library Errors {
     error NotApprovedOrOwner();
     error TransfersNotAllowed();
     error TypeMismatch();
-    error ArrayLengthMismatch();
     error ZeroAddress();
-    error NotOwner();
-    error FailedToSendEther();
-    error NotHypercertOwner();
+    error FailedToSendToken();
     error InvalidSigner();
 }

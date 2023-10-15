@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
-// import { ERC721URIStorageUpgradeable } from "oz-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import { IERC20 } from "oz-contracts/contracts/token/ERC20/IERC20.sol";
+import { SafeERC20 } from "oz-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
 import { ERC721 } from "oz-contracts/contracts/token/ERC721/ERC721.sol";
 import { ERC721URIStorage } from "oz-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import { ERC721Enumerable } from "oz-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
 import { HypercertMinter } from "../HypercertMinter.sol";
+
 import { EIP712 } from "oz-contracts/contracts/utils/cryptography/draft-EIP712.sol";
 import { ECDSA } from "oz-contracts/contracts/utils/cryptography/ECDSA.sol";
 
@@ -13,12 +15,14 @@ import { Strings } from "oz-contracts/contracts/utils/Strings.sol";
 
 import { Ownable } from "oz-contracts/contracts/access/Ownable.sol";
 import { CountersUpgradeable } from "oz-upgradeable/utils/CountersUpgradeable.sol";
+
 import { Errors } from "../libs/Errors.sol";
 
 /// @title A hyperboard NFT
 /// @author Abhimanyu Shekhawat
 /// @notice This is an NFT for representing various hyperboards
 contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP712 {
+    using SafeERC20 for IERC20;
     string public subgraphEndpoint;
     string public baseUri;
     HypercertMinter public hypercertMinter;
@@ -45,12 +49,7 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
     /// @param to address where tokens were sent to.
     /// @param tokenAddress Address  of token withdrawn.
     /// @param amount amount of tokems withdrawn.
-    event WithdrawErc20(address indexed to, address indexed tokenAddress, uint256 indexed amount);
-
-    /// @notice  Emitted when Ether tokens are withdrawn
-    /// @param to address where tokens were sent to.
-    /// @param amount amount of tokems withdrawn.
-    event WithdrawEther(address indexed to, uint256 indexed amount);
+    event WithdrawToken(address indexed to, address indexed tokenAddress, uint256 indexed amount);
 
     /// @notice Emitted when subgraph endpoint is updated.
     /// @param endpoint updated Subgraph endpoint.
@@ -97,8 +96,6 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
         uint256[] memory allowlistedClaimIds_,
         string memory metadata_
     ) external returns (uint256 tokenId) {
-        if (allowlistedClaimIds_.length == 0) revert Errors.Invalid();
-
         if (to == address(0)) revert Errors.ZeroAddress();
 
         tokenId = _counter.current();
@@ -161,7 +158,7 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
     /// @param claimId_ ClaimId of a hypercert.
     /// @param owner_ address of owner of hypercert.
     function _consentForHyperboard(uint256 tokenId_, uint256 claimId_, address owner_) internal {
-        if (hypercertMinter.ownerOf(claimId_) != owner_) revert Errors.NotHypercertOwner();
+        if (hypercertMinter.ownerOf(claimId_) != owner_) revert Errors.NotApprovedOrOwner();
         consentBasedCertsMapping[tokenId_].push(claimId_);
         emit GotConsent(tokenId_, claimId_, msg.sender);
     }
@@ -175,7 +172,7 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
         uint256[] memory allowlistedClaimIds_,
         string memory metadata_
     ) external {
-        if (ownerOf(tokenId_) != msg.sender) revert Errors.NotOwner();
+        if (ownerOf(tokenId_) != msg.sender) revert Errors.NotApprovedOrOwner();
         _setTokenURI(tokenId_, metadata_);
         _setAllowlist(tokenId_, allowlistedClaimIds_);
     }
@@ -234,8 +231,8 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
     /// @param amount The amount of tokens to withdraw.
     /// @param account The recipient account address.
     function withdrawErc20(IERC20 token, uint256 amount, address account) external onlyOwner {
-        token.transfer(account, amount);
-        emit WithdrawErc20(account, address(token), amount);
+        token.safeTransfer(account, amount);
+        emit WithdrawToken(account, address(token), amount);
     }
 
     /// @notice Withdraws accidentally transferred Ether from the contract to a specified account.
@@ -243,8 +240,8 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
     /// @param account The recipient account address.
     function withdrawEther(uint256 amount, address payable account) external onlyOwner {
         (bool sent, ) = account.call{ value: amount }("");
-        if (!sent) revert Errors.FailedToSendEther();
-        emit WithdrawEther(account, amount);
+        if (!sent) revert Errors.FailedToSendToken();
+        emit WithdrawToken(account, address(0), amount);
     }
 
     /// @dev Sets the allowlisted certificates and their corresponding claim IDs for an NFT.
@@ -252,7 +249,6 @@ contract Hyperboard is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, EIP7
     /// @param allowlistedClaimIds_ Claim IDs corresponding to allowlisted certificates.
     /// @dev This function is used internally to set the allowlist for a specific NFT.
     function _setAllowlist(uint256 tokenId, uint256[] memory allowlistedClaimIds_) internal {
-        if (allowlistedClaimIds_.length == 0) revert Errors.Invalid();
         _allowListedCertsMapping[tokenId] = allowlistedClaimIds_;
     }
 
