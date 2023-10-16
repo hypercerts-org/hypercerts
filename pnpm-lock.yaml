@@ -532,8 +532,8 @@ importers:
         specifier: ^2.2.15
         version: 2.2.22(@babel/core@7.23.2)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.5)
       '@hypercerts-org/contracts':
-        specifier: 0.8.6
-        version: 0.8.6
+        specifier: 0.8.7
+        version: 0.8.7
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.4
         version: 1.0.5
@@ -7447,10 +7447,8 @@ packages:
     resolution: {integrity: sha512-gJ+z9nW8aNO/HXLww58Y3jexsduPryeAJYoJf7mmTDPwBdbs9uJhl/7h+ln5I7aFeUI5Wyg7+zCI71PCG+mxsQ==}
     dev: false
 
-  /@hypercerts-org/contracts@0.8.6:
-    resolution: {integrity: sha512-aXtkha7E6tcJ/jc1sMxKIINpaImx5M+hCmNk016EZmYZyO2N/aRRo4uZ3OwQEC27KrpxPPSYwpaW3UYREyDPQw==}
-    dependencies:
-      '@hypercerts-org/contracts': 'link:'
+  /@hypercerts-org/contracts@0.8.7:
+    resolution: {integrity: sha512-vs4sC51cZT2t5/TOQh57Wqx9oofRFX3tLkAQbQ6737uqxFIKKZWAb3vgbSEHrch7gSxJMPIht4AxKqI/nbjzUg==}
     dev: false
 
   /@hypercerts-org/sdk@0.8.4(@babel/core@7.23.2)(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.15.13)(graphql-tag@2.12.6)(mocha@10.2.0)(node-fetch@3.3.2)(react-native@0.72.5)(typescript@5.1.6)(uint8arraylist@2.4.3):
