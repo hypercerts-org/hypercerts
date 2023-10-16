@@ -92,15 +92,24 @@ task("deploy-trader", "Deploy HypercertTrader and verify")
   });
 
 task("deploy-hyperboard", "Deploy Hyperboard and verify")
+  .addParam("hypercerts", "Hypercerts smart contract address")
+  .addParam("name", "Hyperboards NFT name", "Hyperboard")
+  .addParam("symbol", "Hyperboards NFT symbol", "HBRD")
+  .addParam("subgraph", "Subgraph endpoint")
+  .addParam("baseUri", "Base NFT metadata URI")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
-  .setAction(async ({ output }, { ethers, upgrades }) => {
-    const Hyperboard = await ethers.getContractFactory("Hyperboard");
-    const hyperboard = await upgrades.deployProxy(Hyperboard, {
-      kind: "uups",
-      unsafeAllow: ["constructor"],
-    });
+  .setAction(async ({ hypercerts, name, symbol, subgraph, baseUri, output }, { ethers, upgrades }) => {
+    const version = "1";
+    const hyperboard = await ethers.deployContract("Hyperboard", [
+      hypercerts,
+      name,
+      symbol,
+      subgraph,
+      baseUri,
+      version,
+    ]);
     const contract = await hyperboard.deployed();
-    console.log(`hyperboard is deployed to proxy address: ${hyperboard.address}`);
+    console.log(`hyperboard is deployed to address: ${hyperboard.address}`);
 
     // If the `deploymentFile` option is set then write the deployed address to
     // a json object on disk. This is intended to be deliberate with how we
@@ -126,6 +135,7 @@ task("deploy-hyperboard", "Deploy Hyperboard and verify")
         }
         await hre.run("verify:verify", {
           address: hyperboard.address,
+          constructorArguments: [hypercerts, name, symbol, subgraph, baseUri, version],
         });
       } catch ({ message }) {
         if ((message as string).includes("Reason: Already Verified")) {

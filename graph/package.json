@@ -28,6 +28,6 @@
   },
   "devDependencies": {
     "@graphprotocol/graph-ts": "0.31.0",
-    "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts"
+    "matchstick-as": "0.5.2"
   }
 }
