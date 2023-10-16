@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -27,7 +27,6 @@
     "@graphprotocol/client-add-source-name": "^1.0.16",
     "@graphprotocol/client-cli": "^2.2.15",
     "@hypercerts-org/contracts": "0.8.6",
-    "@hypercerts-org/sdk": "link:",
     "@openzeppelin/merkle-tree": "^1.0.4",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",
@@ -39,8 +38,6 @@
     "loglevel": "^1.8.1",
     "mime": "^3.0.0",
     "nft.storage": "^7.1.1",
-    "ts-jest": "^29.0.3",
-    "ts-mocha": "^10.0.0",
     "web3.storage": "^4.5.5"
   },
   "devDependencies": {
@@ -54,7 +51,6 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/chai": "^4.3.4",
     "@types/chai-subset": "^1.3.3",
-    "@types/dotenv": "^8.2.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.17",
     "@types/sinon": "^10.0.15",
@@ -76,7 +72,9 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "shx": "^0.3.4",
     "sinon": "^15.2.0",
+    "ts-jest": "^29.0.3",
     "ts-jest-resolver": "^2.0.0",
+    "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
     "typedoc": "^0.23.25",
