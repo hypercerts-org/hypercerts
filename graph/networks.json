@@ -9,7 +9,8 @@
       "startBlock": 9638007
     },
     "Hyperboard": {
-      "address": "0x818ba233a529632BD61B0E234d0C1F3caA97E206"
+      "address": "0x818ba233a529632BD61B0E234d0C1F3caA97E206",
+      "startBlock": 9829861
     }
   },
   "optimism": {

@@ -8,7 +8,7 @@ dataSources:
     source:
       abi: HypercertMinter
       address: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07"
-      startBlock: 76066993
+      startBlock: 8537999
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -33,9 +33,11 @@ dataSources:
           handler: handleLeafClaimed
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+        - event: TransferBatch(indexed address,indexed address,indexed
+            address,uint256[],uint256[])
           handler: handleTransferBatch
-        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+        - event: TransferSingle(indexed address,indexed address,indexed
+            address,uint256,uint256)
           handler: handleTransferSingle
         - event: URI(string,indexed uint256)
           handler: handleURI
@@ -48,8 +50,9 @@ dataSources:
     name: HypercertTrader
     network: goerli
     source:
-      address: "0x689587461AA3103D3D7975c5e4B352Ab711C14C2"
       abi: HypercertTrader
+      address: "0x689587461AA3103D3D7975c5e4B352Ab711C14C2"
+      startBlock: 9638007
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -72,11 +75,12 @@ dataSources:
     name: Hyperboard
     network: goerli
     source:
-      address: "0x818ba233a529632BD61B0E234d0C1F3caA97E206"
       abi: Hyperboard
+      address: "0x818ba233a529632BD61B0E234d0C1F3caA97E206"
+      startBlock: 9829861
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - Approval
