@@ -32,10 +32,6 @@ importers:
         version: 1.10.15
 
   contracts:
-    dependencies:
-      '@hypercerts-org/contracts':
-        specifier: 'link:'
-        version: 'link:'
     devDependencies:
       '@commitlint/cli':
         specifier: ^17.1.2

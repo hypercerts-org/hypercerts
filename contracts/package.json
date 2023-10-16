@@ -103,8 +103,5 @@
     "test:hardhat": "hardhat test",
     "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report",
     "hardhat": "hardhat"
-  },
-  "dependencies": {
-    "@hypercerts-org/contracts": "link:"
   }
 }
