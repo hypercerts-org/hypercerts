@@ -4,3 +4,5 @@ packages:
   - "docs"
   - "frontend"
   - "vendor/observabletreemap"
+  - "sdk"
+  - "contracts"

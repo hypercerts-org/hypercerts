@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { console2 } from "forge-std/console2.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
@@ -75,9 +74,6 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
         units[2] = 600;
 
         bytes32[] memory data = merkle.generateCustomData(accounts, units);
-        for (uint256 i = 0; i < data.length; i++) {
-            console2.logBytes32(data[i]);
-        }
 
         bytes32 root = merkle.getRoot(data);
 
@@ -102,9 +98,6 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
         units[2] = 600;
 
         bytes32[] memory data = merkle.generateCustomData(accounts, units);
-        for (uint256 i = 0; i < data.length; i++) {
-            console2.logBytes32(data[i]);
-        }
 
         bytes32 root = merkle.getRoot(data);
 
