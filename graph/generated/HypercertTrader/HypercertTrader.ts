@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt,
+  BigInt
 } from "@graphprotocol/graph-ts";
 
 export class AdminChanged extends ethereum.Event {
@@ -283,8 +283,12 @@ export class HypercertTrader__getOfferResultValue0Struct extends ethereum.Tuple 
     return this[7].toI32();
   }
 
-  get acceptedTokens(): Array<HypercertTrader__getOfferResultValue0AcceptedTokensStruct> {
-    return this[8].toTupleArray<HypercertTrader__getOfferResultValue0AcceptedTokensStruct>();
+  get acceptedTokens(): Array<
+    HypercertTrader__getOfferResultValue0AcceptedTokensStruct
+  > {
+    return this[8].toTupleArray<
+      HypercertTrader__getOfferResultValue0AcceptedTokensStruct
+    >();
   }
 }
 
@@ -316,7 +320,7 @@ export class HypercertTrader__offersResult {
     value4: BigInt,
     value5: BigInt,
     value6: i32,
-    value7: i32,
+    value7: i32
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -338,11 +342,11 @@ export class HypercertTrader__offersResult {
     map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
     map.set(
       "value6",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value6)),
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value6))
     );
     map.set(
       "value7",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value7)),
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value7))
     );
     return map;
   }
@@ -389,21 +393,21 @@ export class HypercertTrader extends ethereum.SmartContract {
     let result = super.call(
       "getOffer",
       "getOffer(uint256):((address,address,uint256,uint256,uint256,uint256,uint8,uint8,(address,uint256)[]))",
-      [ethereum.Value.fromUnsignedBigInt(offerID)],
+      [ethereum.Value.fromUnsignedBigInt(offerID)]
     );
 
     return changetype<HypercertTrader__getOfferResultValue0Struct>(
-      result[0].toTuple(),
+      result[0].toTuple()
     );
   }
 
   try_getOffer(
-    offerID: BigInt,
+    offerID: BigInt
   ): ethereum.CallResult<HypercertTrader__getOfferResultValue0Struct> {
     let result = super.tryCall(
       "getOffer",
       "getOffer(uint256):((address,address,uint256,uint256,uint256,uint256,uint8,uint8,(address,uint256)[]))",
-      [ethereum.Value.fromUnsignedBigInt(offerID)],
+      [ethereum.Value.fromUnsignedBigInt(offerID)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -411,8 +415,8 @@ export class HypercertTrader extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       changetype<HypercertTrader__getOfferResultValue0Struct>(
-        value[0].toTuple(),
-      ),
+        value[0].toTuple()
+      )
     );
   }
 
@@ -420,7 +424,7 @@ export class HypercertTrader extends ethereum.SmartContract {
     let result = super.call(
       "offers",
       "offers(uint256):(address,address,uint256,uint256,uint256,uint256,uint8,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)],
+      [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
     return new HypercertTrader__offersResult(
@@ -431,17 +435,17 @@ export class HypercertTrader extends ethereum.SmartContract {
       result[4].toBigInt(),
       result[5].toBigInt(),
       result[6].toI32(),
-      result[7].toI32(),
+      result[7].toI32()
     );
   }
 
   try_offers(
-    param0: BigInt,
+    param0: BigInt
   ): ethereum.CallResult<HypercertTrader__offersResult> {
     let result = super.tryCall(
       "offers",
       "offers(uint256):(address,address,uint256,uint256,uint256,uint256,uint8,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)],
+      [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -456,8 +460,8 @@ export class HypercertTrader extends ethereum.SmartContract {
         value[4].toBigInt(),
         value[5].toBigInt(),
         value[6].toI32(),
-        value[7].toI32(),
-      ),
+        value[7].toI32()
+      )
     );
   }
 
@@ -501,7 +505,7 @@ export class HypercertTrader extends ethereum.SmartContract {
     let result = super.tryCall(
       "proxiableUUID",
       "proxiableUUID():(bytes32)",
-      [],
+      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -516,8 +520,8 @@ export class HypercertTrader extends ethereum.SmartContract {
       "totalUnitsForSale(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1),
-      ],
+        ethereum.Value.fromUnsignedBigInt(param1)
+      ]
     );
 
     return result[0].toBigInt();
@@ -525,15 +529,15 @@ export class HypercertTrader extends ethereum.SmartContract {
 
   try_totalUnitsForSale(
     param0: Address,
-    param1: BigInt,
+    param1: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "totalUnitsForSale",
       "totalUnitsForSale(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1),
-      ],
+        ethereum.Value.fromUnsignedBigInt(param1)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -729,7 +733,9 @@ export class CreateOfferCall__Inputs {
   }
 
   get acceptedTokens(): Array<CreateOfferCallAcceptedTokensStruct> {
-    return this._call.inputValues[5].value.toTupleArray<CreateOfferCallAcceptedTokensStruct>();
+    return this._call.inputValues[5].value.toTupleArray<
+      CreateOfferCallAcceptedTokensStruct
+    >();
   }
 }
 

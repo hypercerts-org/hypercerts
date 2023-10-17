@@ -12,4 +12,7 @@ library Errors {
     error NotApprovedOrOwner();
     error TransfersNotAllowed();
     error TypeMismatch();
+    error ZeroAddress();
+    error FailedToSendToken();
+    error InvalidSigner();
 }
