@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -11,16 +11,17 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
     "dist",
     "README.md",
     "package.json"
   ],
-  "type": "module",
   "dependencies": {
     "@ethereum-attestation-service/eas-sdk": "^0.28.3",
     "@ethersproject/abstract-signer": "^5.7.0",
