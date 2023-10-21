@@ -23,7 +23,8 @@
   },
   "files": [
     "./src/HypercertMinter.sol",
-    "./src/interfaces/IHypercertToken.sol"
+    "./src/interfaces/*.sol",
+    "./src/lib/*.sol"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -53,6 +54,7 @@
     "@typescript-eslint/parser": "^5.38.0",
     "chai": "^4.3.7",
     "commitizen": "^4.2.5",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.0.2",
@@ -92,11 +94,12 @@
     "template"
   ],
   "scripts": {
-    "build": "pnpm clean && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
+    "build": "pnpm clean && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
     "build:forge": "forge build",
     "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && pnpm build:declarations",
     "build:declarations": "shx cp ./src/types/*.d.ts ./dist/index.d.ts",
     "clean": "rimraf cache out dist typechain abi",
+    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/HypercertMinter.sol ./dist",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
