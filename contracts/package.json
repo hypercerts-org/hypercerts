@@ -17,11 +17,16 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
+    "dist",
+    "README.md",
+    "package.json",
     "./src/HypercertMinter.sol",
     "./src/interfaces/*.sol",
     "./src/lib/*.sol"
