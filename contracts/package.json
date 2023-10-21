@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -21,6 +21,10 @@
     "import": "./dist/esm/index.js",
     "types": "./dist/index.d.ts"
   },
+  "files": [
+    "./src/HypercertMinter.sol",
+    "./src/interfaces/IHypercertToken.sol"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
