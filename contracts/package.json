@@ -27,9 +27,7 @@
     "dist",
     "README.md",
     "package.json",
-    "./src/HypercertMinter.sol",
-    "./src/interfaces/*.sol",
-    "./src/lib/*.sol"
+    "contracts"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -104,7 +102,7 @@
     "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && pnpm build:declarations",
     "build:declarations": "shx cp ./src/types/*.d.ts ./dist/index.d.ts",
     "clean": "rimraf cache out dist typechain abi",
-    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/HypercertMinter.sol ./dist",
+    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/HypercertMinter.sol ./contracts",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
