@@ -97,15 +97,15 @@
     "template"
   ],
   "scripts": {
-    "build": "pnpm clean && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
+    "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && pnpm build:declarations",
-    "build:declarations": "shx cp ./src/types/*.d.ts ./dist/index.d.ts",
     "clean": "rimraf cache out dist typechain abi",
     "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/HypercertMinter.sol ./contracts",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
+    "prebuild": "pnpm clean",
+    "prepublish": "pnpm build",
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,sol,yml}\"",
     "prettier:check": "prettier --config \"./.prettierrc.yml\" --check \"**/*.{json,md,sol,yml}\"",
     "slither": "slither ./src",
