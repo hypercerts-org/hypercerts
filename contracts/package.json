@@ -100,7 +100,7 @@
     "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
     "build:forge": "forge build",
     "clean": "rimraf cache out dist typechain abi",
-    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/HypercertMinter.sol ./contracts",
+    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/*.sol ./contracts",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
