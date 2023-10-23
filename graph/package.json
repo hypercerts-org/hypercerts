@@ -26,5 +26,8 @@
     "@graphprotocol/graph-ts": "0.31.0",
     "assemblyscript": "0.19.23",
     "matchstick-as": "0.6.0"
-  }
+  },
+  "//": [
+    "Pinned assemblyscript verion: https://github.com/LimeChain/matchstick/issues/324"
+  ]
 }
