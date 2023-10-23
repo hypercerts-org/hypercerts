@@ -3,11 +3,6 @@
   "license": "Apache-2.0",
   "version": "0.0.1",
   "private": true,
-  "workspaces": {
-    "nohoist": [
-      "**"
-    ]
-  },
   "scripts": {
     "auth": "graph auth --product hosted-service $SUBGRAPH_ACCESS_TOKEN",
     "coverage": "graph test -- -c",
@@ -15,7 +10,8 @@
     "build:graph": "graph build",
     "build:codegen": "graph codegen",
     "deploy:test": "pnpm auth && pnpm deploy:goerli && pnpm deploy:sepolia",
-    "deploy:prod": "pnpm auth && pnpm deploy:optimism",
+    "deploy:prod": "pnpm auth && pnpm deploy:optimism && pnpm deploy:celo",
+    "deploy:celo": "graph deploy --node https://api.thegraph.com/deploy/ --network celo hypercerts-admin/hypercerts-celo",
     "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ --network goerli hypercerts-admin/hypercerts-testnet",
     "deploy:optimism": "graph deploy --node https://api.thegraph.com/deploy/ --network optimism hypercerts-admin/hypercerts-optimism-mainnet",
     "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia hypercerts-admin/hypercerts-sepolia",
@@ -25,10 +21,8 @@
     "graph": "graph",
     "test": "graph test"
   },
-  "dependencies": {
-    "@graphprotocol/graph-cli": "0.57.0"
-  },
   "devDependencies": {
+    "@graphprotocol/graph-cli": "0.60.0",
     "@graphprotocol/graph-ts": "0.31.0",
     "matchstick-as": "0.5.2"
   }

@@ -23,6 +23,12 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Deployment } = {
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-optimism-mainnet`,
   } as const,
+  42220: {
+    chainId: 42220,
+    chainName: "celo-mainnet",
+    contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
+  },
   11155111: {
     chainId: 11155111,
     chainName: "sepolia",
