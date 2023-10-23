@@ -7,7 +7,7 @@ import HypercertIndexer from "../indexer.js";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
 import { HypercertMetadata } from "./metadata.js";
 
-export type SupportedChainIds = 5 | 10 | 11155111;
+export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
 
 /**
  * Represents a deployment of a contract on a specific network.

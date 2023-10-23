@@ -42,6 +42,12 @@ export const NETWORKS: SupportedNetworks = {
       alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
       chainId: 10,
     },
+    {
+      networkKey: "celo",
+      contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+      chainId: 42220,
+      rpc: "https://forno.celo.org",
+    },
   ],
 };
 

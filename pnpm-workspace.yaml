@@ -3,6 +3,7 @@ packages:
   - "defender"
   - "docs"
   - "frontend"
+  - "graph"
   - "vendor/observabletreemap"
   - "sdk"
   - "contracts"

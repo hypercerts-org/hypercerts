@@ -19,6 +19,7 @@ For more details, check out our [website](https://hypercerts.org/).
   | -------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
   | Goerli   | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://goerli.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)     | [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)     |
   | Sepolia  | [0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941](https://goerli.etherscan.io/address/0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941)     | TBD                                                                                                                              |
+  | Celo     | [0x16bA53B74c234C870c61EFC04cD418B8f2865959](https://celoscan.io/address/0x16bA53B74c234C870c61EFC04cD418B8f2865959)             | TBD                                                                                                                              |
   | Optimism | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07) | [0x560adA72a80b4707e493cA8c3B7B7528930E7Be5](https://optimistic.etherscan.io/address/0x560adA72a80b4707e493cA8c3B7B7528930E7Be5) |
 
 - `/cors-proxy`: CORS proxy for Cloudflare Workers

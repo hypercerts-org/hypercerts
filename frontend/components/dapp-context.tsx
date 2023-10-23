@@ -31,14 +31,21 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { ReactNode, useEffect } from "react";
-import { Chain, goerli, optimism, sepolia } from "viem/chains";
+import { celo, Chain, goerli, optimism, sepolia } from "viem/chains";
 import { configureChains, WagmiConfig, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
+
+import {
+  Valora,
+  CeloWallet,
+  CeloTerminal,
+  MetaMask as CeloMetaMask,
+} from "@celo/rainbowkit-celo/wallets";
 
 const queryClient = new QueryClient();
 
 const TEST_CHAINS = [goerli, sepolia];
-const PROD_CHAINS = [optimism];
+const PROD_CHAINS = [optimism, celo];
 
 export const CHAINS = (isProduction ? PROD_CHAINS : TEST_CHAINS) as Chain[];
 
@@ -70,6 +77,16 @@ const connectors = connectorsForWallets([
       trustWallet({ chains, projectId }),
       xdefiWallet({ chains }),
       zerionWallet({ chains, projectId }),
+    ],
+  },
+  {
+    groupName: "Recommended with CELO",
+    wallets: [
+      Valora({ chains, projectId }),
+      CeloWallet({ chains, projectId }),
+      CeloTerminal({ chains, projectId }),
+      CeloMetaMask({ chains, projectId }),
+      walletConnectWallet({ projectId, chains }),
     ],
   },
   {

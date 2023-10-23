@@ -10,7 +10,7 @@
     "deploy:test": "pnpm build && pnpm setup:test",
     "deploy:prod": "pnpm build && pnpm setup:prod",
     "setup:test": "npx tsx src/setup.ts TEST",
-    "setup:prod": "npx tsx src/setup.ts src/setup.ts PROD"
+    "setup:prod": "npx tsx src/setup.ts PROD"
   },
   "dependencies": {
     "@hypercerts-org/contracts": "0.8.11",
