@@ -33,7 +33,7 @@ jobs:
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: "18.x"
       - name: Install
         run: pnpm install --frozen-lockfile
