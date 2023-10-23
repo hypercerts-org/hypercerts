@@ -4,6 +4,7 @@ import { writeFile } from "node:fs/promises";
 task("deploy", "Deploy contracts and verify")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
   .setAction(async ({ output }, { ethers, upgrades, network, run }) => {
+    console.log("Using address: ", await ethers.getSigners().then((res) => res[0]));
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
     const hypercertMinter = await upgrades.deployProxy(HypercertMinter, {
       kind: "uups",

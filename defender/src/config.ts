@@ -1,4 +1,4 @@
-import { NETWORKS, SupportedNetworks } from "./networks.js";
+import { NETWORKS, SupportedNetworks } from "./networks";
 import * as dotenv from "dotenv";
 
 dotenv.config();

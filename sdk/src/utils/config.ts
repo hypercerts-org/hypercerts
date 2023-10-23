@@ -39,7 +39,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
-    if (!chainId || [5, 10, 11155111].indexOf(chainId) === -1) {
+    if (!chainId || [5, 10, 42220, 11155111].indexOf(chainId) === -1) {
       throw new UnsupportedChainError(`chainId=${chainId} is not yet supported`, {
         chainID: chainId?.toString() || "undefined",
       });
@@ -86,6 +86,9 @@ const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
       break;
     case 10:
       chainName = "optimism-mainnet";
+      break;
+    case 42220:
+      chainName = "celo";
       break;
     case 11155111:
       chainName = "sepolia";
