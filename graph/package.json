@@ -24,6 +24,7 @@
   "devDependencies": {
     "@graphprotocol/graph-cli": "0.60.0",
     "@graphprotocol/graph-ts": "0.31.0",
-    "matchstick-as": "0.5.2"
+    "assemblyscript": "0.19.23",
+    "matchstick-as": "0.6.0"
   }
 }
