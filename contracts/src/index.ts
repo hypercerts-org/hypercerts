@@ -5,7 +5,6 @@ import type { HypercertMinter } from "./types/src/HypercertMinter";
 import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
 import type { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
 import type { Errors } from "./types/src/libs/Errors";
-
 /*
   in order to adjust the build folder:
     1) import any files here you want in the final build package.

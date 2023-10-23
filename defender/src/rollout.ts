@@ -1,7 +1,7 @@
-import { createTask } from "./create-autotask.js";
-import { createSentinel } from "./create-sentinel.js";
-import { ApiError } from "./errors.js";
-import { NetworkConfig, encodeName } from "./networks.js";
+import { createTask } from "./create-autotask";
+import { createSentinel } from "./create-sentinel";
+import { ApiError } from "./errors";
+import { NetworkConfig, encodeName } from "./networks";
 
 export const rollOut = async (networks: NetworkConfig[]) => {
   return await Promise.all(

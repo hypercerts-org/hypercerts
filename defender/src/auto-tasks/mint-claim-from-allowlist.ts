@@ -1,4 +1,4 @@
-import { abi } from "../HypercertMinterABI";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { MissingDataError, NotImplementedError } from "../errors";
 import {
   getNetworkConfigFromName,
@@ -70,7 +70,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const contractInterface = new ethers.utils.Interface(abi);
+  const contractInterface = new ethers.utils.Interface(HypercertMinterAbi);
 
   // Parse events
   const batchTransferEvents = txnLogs

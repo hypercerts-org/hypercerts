@@ -1,9 +1,5 @@
 import axios from "axios";
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
 import { validateMetaData } from "./validator/index.js";
