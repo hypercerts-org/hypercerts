@@ -24,6 +24,7 @@
     "@emotion/styled": "^11.10.5",
     "@graphprotocol/client-cli": "^2.2.16",
     "@hypercerts-org/contracts": "0.8.11",
+    "@hypercerts-org/contracts": "0.8.11",
     "@hypercerts-org/observabletreemap": "workspace: *",
     "@hypercerts-org/sdk": "0.8.16",
     "@mui/icons-material": "^5.11.9",
