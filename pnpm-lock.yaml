@@ -329,6 +329,9 @@ importers:
       '@apollo/client':
         specifier: ^3.7.4
         version: 3.8.6(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
+      '@celo/rainbowkit-celo':
+        specifier: ^1.1.0
+        version: 1.1.0(@rainbow-me/rainbowkit@1.0.8)(react@18.2.0)(typescript@5.1.6)(viem@1.5.3)(wagmi@1.3.9)(zod@3.22.4)
       '@emotion/react':
         specifier: ^11.10.5
         version: 11.11.1(@types/react@18.2.31)(react@18.2.0)
@@ -345,8 +348,8 @@ importers:
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
       '@hypercerts-org/sdk':
-        specifier: 0.8.10
-        version: 0.8.10(@babel/core@7.23.2)(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.6)(graphql-tag@2.12.6)(node-fetch@3.3.2)(react-native@0.72.6)(typescript@5.1.6)(uint8arraylist@2.4.3)
+        specifier: 0.8.16
+        version: 0.8.16(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.6)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)
       '@mui/icons-material':
         specifier: ^5.11.9
         version: 5.14.14(@mui/material@5.14.14)(@types/react@18.2.31)(react@18.2.0)
@@ -2602,6 +2605,31 @@ packages:
 
   /@braintree/sanitize-url@6.0.4:
     resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
+    dev: false
+
+  /@celo/rainbowkit-celo@1.1.0(@rainbow-me/rainbowkit@1.0.8)(react@18.2.0)(typescript@5.1.6)(viem@1.5.3)(wagmi@1.3.9)(zod@3.22.4):
+    resolution: {integrity: sha512-/G4HFhJNwUk6uU1yqGfQ/LIoNg9UAA4BUcEvFdd0M3DImnKlhodNLUdCmzqv96sjc/I7tMJqBeTnmbhwXdlsjQ==}
+    peerDependencies:
+      '@rainbow-me/rainbowkit': '>=1.0.2 && <=2.0.0'
+      viem: '>=1.2.8 && <=2.0.0'
+      wagmi: '>=1.0.0 && <=2.0.0'
+    dependencies:
+      '@metamask/providers': 11.1.2
+      '@rainbow-me/rainbowkit': 1.0.8(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)(viem@1.5.3)(wagmi@1.3.9)
+      '@wagmi/connectors': 2.6.6(@wagmi/chains@1.6.0)(react@18.2.0)(typescript@5.1.6)(viem@1.5.3)(zod@3.22.4)
+      viem: 1.5.3(typescript@5.1.6)(zod@3.22.4)
+      wagmi: 1.3.9(@types/react@18.2.31)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.5.3)(zod@3.22.4)
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@wagmi/chains'
+      - bufferutil
+      - encoding
+      - lokijs
+      - react
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - zod
     dev: false
 
   /@chainsafe/as-sha256@0.3.1:
@@ -5962,6 +5990,21 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@graphprotocol/client-polling-live@2.0.0(@envelop/core@3.0.6)(@graphql-tools/merge@8.4.2)(graphql@16.8.1):
+    resolution: {integrity: sha512-JQ0sKiFCX+ErR0fynBNUg/WDiVaaEndlS12fkgrFZrQA2vVpSyow9pW0nKMGVZJa4cN+VDskgwqK5BWXMvdeRA==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@envelop/core': ^2.4.2 || ^3.0.0 || ^4.0.0
+      '@graphql-tools/merge': ^8.3.14 || ^9.0.0
+      graphql: ^16.6.0
+    dependencies:
+      '@envelop/core': 3.0.6
+      '@graphql-tools/merge': 8.4.2(graphql@16.8.1)
+      '@repeaterjs/repeater': 3.0.4
+      graphql: 16.8.1
+      tslib: 2.6.2
+    dev: false
+
   /@graphprotocol/client-polling-live@2.0.0(@envelop/core@3.0.6)(@graphql-tools/merge@9.0.0)(graphql@16.8.1):
     resolution: {integrity: sha512-JQ0sKiFCX+ErR0fynBNUg/WDiVaaEndlS12fkgrFZrQA2vVpSyow9pW0nKMGVZJa4cN+VDskgwqK5BWXMvdeRA==}
     engines: {node: '>=16.0.0'}
@@ -7430,15 +7473,26 @@ packages:
     resolution: {integrity: sha512-n6fwMsaoR50VITM2upR4OOi4EZJmZvU6vvXrHWCSakP9e1OeDuAOk+kHiK+egqDRYj6uKtg9VTUFKZBYvu3jRg==}
     dev: false
 
-  /@hypercerts-org/sdk@0.8.10(@babel/core@7.23.2)(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.6)(graphql-tag@2.12.6)(node-fetch@3.3.2)(react-native@0.72.6)(typescript@5.1.6)(uint8arraylist@2.4.3):
-    resolution: {integrity: sha512-shgYIhwG93RenegpIXVDMAGiFE0hpKZynMTl9qc0Q1RjWptX3+UvaeqYK4PfSxAS9LmN9lytXt3L8JOml3WWAQ==}
+  /@hypercerts-org/sdk@0.8.16(@envelop/core@3.0.6)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.6)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3):
+    resolution: {integrity: sha512-WkxYb5RYhv3QI7+N5y4xg5IL4azLqCq4ia1/bgFB55vWJLjnmoMj3VYbiybMxyfgnPfh5O8n2DU86u8ClLgyhg==}
     dependencies:
       '@ethereum-attestation-service/eas-sdk': 0.28.3(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(typescript@5.1.6)
       '@ethersproject/abstract-signer': 5.7.0
-      '@graphprotocol/client-add-source-name': 1.0.20(@graphql-mesh/types@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(graphql@16.8.1)
-      '@graphprotocol/client-cli': 2.2.22(@babel/core@7.23.2)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.6)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.6)
+      '@graphprotocol/client-add-source-name': 1.0.20(@graphql-mesh/types@0.95.7)(@graphql-tools/delegate@9.0.35)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(graphql@16.8.1)
+      '@graphprotocol/client-polling-live': 2.0.0(@envelop/core@3.0.6)(@graphql-tools/merge@8.4.2)(graphql@16.8.1)
+      '@graphql-mesh/cache-localforage': 0.95.7(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/cross-helpers': 0.4.1(@graphql-tools/utils@9.2.1)(graphql@16.8.1)
+      '@graphql-mesh/graphql': 0.95.7(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/store@0.95.7)(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(@graphql-tools/utils@9.2.1)(@types/node@18.18.6)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)
+      '@graphql-mesh/http': 0.96.13(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/runtime@0.96.12)(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/merger-bare': 0.95.7(@graphql-mesh/store@0.95.7)(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/runtime': 0.96.12(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/store': 0.95.7(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.7)(@graphql-mesh/utils@0.95.7)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.95.7(@graphql-mesh/store@0.95.7)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/utils': 0.95.7(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.7)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts': 0.8.11
       '@openzeppelin/merkle-tree': 1.0.5
+      '@whatwg-node/fetch': 0.9.13
       ajv: 8.12.0
       axios: 1.5.1(debug@4.3.4)
       dotenv: 16.3.1
@@ -7451,32 +7505,27 @@ packages:
       nft.storage: 7.1.1(node-fetch@3.3.2)
       web3.storage: 4.5.5(node-fetch@3.3.2)
     transitivePeerDependencies:
-      - '@babel/core'
       - '@envelop/core'
       - '@ethersproject/abi'
       - '@ethersproject/providers'
-      - '@graphql-mesh/cross-helpers'
-      - '@graphql-mesh/store'
-      - '@graphql-mesh/types'
-      - '@graphql-mesh/utils'
       - '@graphql-tools/delegate'
       - '@graphql-tools/merge'
       - '@graphql-tools/utils'
       - '@graphql-tools/wrap'
-      - '@swc/core'
-      - '@swc/wasm'
       - '@types/node'
       - babel-plugin-macros
       - bufferutil
       - debug
       - encoding
-      - graphql-tag
+      - graphql-ws
       - node-fetch
       - node-notifier
-      - react-native
-      - react-native-windows
+      - react
+      - react-dom
+      - subscriptions-transport-ws
       - supports-color
       - ts-node
+      - tslib
       - typescript
       - uint8arraylist
       - utf-8-validate
@@ -8779,8 +8828,39 @@ packages:
       tweetnacl: 1.0.3
       tweetnacl-util: 0.15.1
 
+  /@metamask/object-multiplex@1.2.0:
+    resolution: {integrity: sha512-hksV602d3NWE2Q30Mf2Np1WfVKaGqfJRy9vpHAmelbaD0OkDt06/0KQkRR6UVYdMbTbkuEu8xN5JDUU80inGwQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      end-of-stream: 1.4.4
+      once: 1.4.0
+      readable-stream: 2.3.8
+    dev: false
+
+  /@metamask/providers@11.1.2:
+    resolution: {integrity: sha512-xjE4cKrGpKZjripkMKMStc0H4LXrWJPijfbaj1kKeDLVhRH2Yu3ZecV3iIhf1EIJePeA+Kx6Pcm7d0IVJ+ea7g==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@metamask/object-multiplex': 1.2.0
+      '@metamask/safe-event-emitter': 3.0.0
+      detect-browser: 5.3.0
+      eth-rpc-errors: 4.0.2
+      extension-port-stream: 2.1.1
+      fast-deep-equal: 3.1.3
+      is-stream: 2.0.1
+      json-rpc-engine: 6.1.0
+      json-rpc-middleware-stream: 4.2.3
+      pump: 3.0.0
+      webextension-polyfill: 0.10.0
+    dev: false
+
   /@metamask/safe-event-emitter@2.0.0:
     resolution: {integrity: sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==}
+    dev: false
+
+  /@metamask/safe-event-emitter@3.0.0:
+    resolution: {integrity: sha512-j6Z47VOmVyGMlnKXZmL0fyvWfEYtKWCA9yGZkU3FCsGZUT5lHGmvaV9JA5F2Y+010y7+ROtR3WMXIkvl/nVzqQ==}
+    engines: {node: '>=12.0.0'}
     dev: false
 
   /@metamask/utils@3.6.0:
@@ -19309,6 +19389,13 @@ packages:
   /extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
 
+  /extension-port-stream@2.1.1:
+    resolution: {integrity: sha512-qknp5o5rj2J9CRKfVB8KJr+uXQlrojNZzdESUPhKYLXf97TPcGf6qWWKmpsNNtUyOdzFhab1ON0jzouNxHHvow==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      webextension-polyfill: 0.10.0
+    dev: false
+
   /external-editor@3.1.0:
     resolution: {integrity: sha512-hMQ4CX1p1izmuLYyZqLMO/qGNw10wSv9QDCPfzXfyFrOaCSSoRfqE1Kf1s5an66J5JZC62NewG+mK49jOCtQew==}
     engines: {node: '>=4'}
@@ -24051,6 +24138,15 @@ packages:
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
       eth-rpc-errors: 4.0.2
+    dev: false
+
+  /json-rpc-middleware-stream@4.2.3:
+    resolution: {integrity: sha512-4iFb0yffm5vo3eFKDbQgke9o17XBcLQ2c3sONrXSbcOLzP8LTojqo8hRGVgtJShhm5q4ZDSNq039fAx9o65E1w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@metamask/safe-event-emitter': 3.0.0
+      json-rpc-engine: 6.1.0
+      readable-stream: 2.3.8
     dev: false
 
   /json-rpc-random-id@1.0.1:
@@ -33237,6 +33333,10 @@ packages:
       asn1js: 3.0.5
       pvtsutils: 1.3.5
       tslib: 2.6.2
+
+  /webextension-polyfill@0.10.0:
+    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
+    dev: false
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
