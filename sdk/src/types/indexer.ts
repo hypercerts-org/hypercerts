@@ -6,7 +6,7 @@ import {
   ClaimTokensByClaimQuery,
   ClaimTokenByIdQuery,
   Sdk,
-} from "../../.graphclient/index.js";
+} from "../../.graphclient";
 
 export type QueryParams = {
   orderDirections: "asc" | "desc";

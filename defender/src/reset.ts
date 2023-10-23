@@ -1,4 +1,4 @@
-import config from "./config.js";
+import config from "./config";
 import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 

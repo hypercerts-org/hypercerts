@@ -1,4 +1,4 @@
-import { getBuiltGraphSDK, Sdk as GraphClient } from "../.graphclient/index.js";
+import { getBuiltGraphSDK, Sdk as GraphClient } from "../.graphclient";
 import { defaultQueryParams } from "./indexer/utils.js";
 import { HypercertIndexerInterface, QueryParams } from "./types/index.js";
 

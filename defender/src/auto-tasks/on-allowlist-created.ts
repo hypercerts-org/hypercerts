@@ -1,4 +1,3 @@
-import { abi } from "../HypercertMinterABI";
 import { MissingDataError, NotImplementedError } from "../errors";
 import {
   AutotaskEvent,
@@ -10,9 +9,10 @@ import {
 } from "../networks";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { createClient } from "@supabase/supabase-js";
-import axios from "axios";
 import { ethers } from "ethers";
 import fetch from "node-fetch";
+import axios from "axios";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
@@ -72,14 +72,17 @@ export async function handler(event: AutotaskEvent) {
     throw new Error("No provider available");
   }
 
-  const contractInterface = new ethers.utils.Interface(abi);
-  const contract = new ethers.Contract(contractAddress, abi, provider);
+  const contract = new ethers.Contract(
+    contractAddress,
+    HypercertMinterAbi,
+    provider,
+  );
 
   //Ignore unknown events
   const allowlistCreatedEvents = txnLogs
     .map((l) => {
       try {
-        return contractInterface.parseLog(l);
+        return contract.interface.parseLog(l);
       } catch (e) {
         console.log("Failed to parse log", l);
         return null;
@@ -98,7 +101,7 @@ export async function handler(event: AutotaskEvent) {
     );
   }
 
-  const tokenId = allowlistCreatedEvents[0].args["tokenID"].toString();
+  const tokenId = allowlistCreatedEvents[0].args[0].toString();
   console.log("TokenId: ", tokenId);
 
   const metadataUri = await contract.functions.uri(tokenId);
