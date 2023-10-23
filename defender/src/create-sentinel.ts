@@ -1,6 +1,6 @@
 import { abi } from "./HypercertMinterABI.js";
 import config from "./config.js";
-import { NetworkConfig } from "./networks.js";
+import { NetworkConfig } from "./networks";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 import {
   EventCondition,

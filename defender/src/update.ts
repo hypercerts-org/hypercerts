@@ -1,6 +1,6 @@
-import { abi } from "./HypercertMinterABI.js";
-import config from "./config.js";
-import { NetworkConfig, decodeName } from "./networks.js";
+import { abi } from "./HypercertMinterABI";
+import config from "./config";
+import { NetworkConfig, decodeName } from "./networks";
 import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 

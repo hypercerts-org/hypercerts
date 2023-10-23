@@ -2,14 +2,14 @@ import {
   AutotaskEvent,
   BlockTriggerEvent,
 } from "@openzeppelin/defender-autotask-utils";
-import { abi } from "../HypercertMinterABI";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { MissingDataError, NotImplementedError } from "../errors";
 import {
   getNetworkConfigFromName,
   SUPABASE_ALLOWLIST_TABLE_NAME,
 } from "../networks";
 import { createClient } from "@supabase/supabase-js";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {
@@ -69,7 +69,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const contractInterface = new ethers.utils.Interface(abi);
+  const contractInterface = new ethers.utils.Interface(HypercertMinterAbi);
 
   // Parse events
   // Parse events
@@ -97,8 +97,8 @@ export async function handler(event: AutotaskEvent) {
   }
 
   // Get claimIDs
-  const claimIds = batchTransferEvents[0].args["claimIDs"] as string[];
-  console.log("ClaimIDs: ", batchTransferEvents[0].args["claimIDs"].toString());
+  const claimIds = batchTransferEvents[0].args[0] as BigNumber[];
+  console.log("ClaimIDs: ", claimIds.toString());
 
   const formattedClaimIds = claimIds.map(
     (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,

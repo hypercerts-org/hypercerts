@@ -1,9 +1,9 @@
-import config from "./config.js";
-import { ApiError, ConfigError } from "./errors.js";
-import { NETWORKS } from "./networks.js";
-import { reset } from "./reset.js";
-import { rollOut } from "./rollout.js";
-import { updateAutotask, updateSentinel } from "./update.js";
+import config from "./config";
+import { ApiError, ConfigError } from "./errors";
+import { NETWORKS } from "./networks";
+import { reset } from "./reset";
+import { rollOut } from "./rollout";
+import { updateAutotask, updateSentinel } from "./update";
 import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 
