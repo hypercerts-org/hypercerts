@@ -5,8 +5,8 @@ import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 import { Merkle } from "murky/Merkle.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
-import { HypercertMinter } from "../../src/HypercertMinter.sol";
-import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
+import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
+import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract MinterTestHelper {
     event ClaimStored(uint256 indexed claimID, string uri, uint256 totalUnits);

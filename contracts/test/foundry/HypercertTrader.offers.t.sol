@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { HypercertTrader } from "../../src/HypercertTrader.sol";
-import { HypercertMinter } from "../../src/HypercertMinter.sol";
-import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
+import { HypercertTrader } from "@hypercerts/protocol/HypercertTrader.sol";
+import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
+import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";

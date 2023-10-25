@@ -4,9 +4,9 @@ pragma solidity ^0.8.16;
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
-import { Errors } from "../../src/libs/Errors.sol";
-import { HypercertMinter } from "../../src/HypercertMinter.sol";
-import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
+import { Errors } from "@hypercerts/protocol/libs/Errors.sol";
+import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
+import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 /// @dev Testing transfer restrictions on hypercerts
 contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {

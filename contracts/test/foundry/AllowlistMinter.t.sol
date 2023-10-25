@@ -5,8 +5,8 @@ import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 
-import { AllowlistMinter } from "../../src/AllowlistMinter.sol";
-import { Errors } from "../../src/libs/Errors.sol";
+import { AllowlistMinter } from "@hypercerts/protocol/AllowlistMinter.sol";
+import { Errors } from "@hypercerts/protocol/libs/Errors.sol";
 
 import { Merkle } from "murky/Merkle.sol";
 
