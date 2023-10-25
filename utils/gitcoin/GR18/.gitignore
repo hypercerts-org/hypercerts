@@ -1,0 +1,10 @@
+# ignore local storage artifacts
+.env
+__pycache__/
+.DS_Store
+*.csv
+*.png
+*.ipynb
+*.log
+.ipynb_checkpoints/
+data/*

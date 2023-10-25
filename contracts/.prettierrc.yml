@@ -7,10 +7,21 @@ tabWidth: 2
 trailingComma: "all"
 useTabs: false
 
+plugins:
+  - prettier-plugin-solidity
+
 overrides:
-  - files: "*.sol"
+  - files: "**/*.t.sol"
+    rules:
+      max-state-count": "off"
+      state-visibility": "off"
+      max-line-length": "off"
     options:
-      compiler: "0.8.16"
+      tabWidth: 4
+  - files: "*.sol"
+    rules:
+      compiler-version: "0.8.16"
+    options:
       tabWidth: 4
   - files: "*.ts"
     options:

@@ -15,6 +15,7 @@
     "noImplicitAny": true,
     "removeComments": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "sourceMap": false,
     "strict": false,
     "target": "es6"

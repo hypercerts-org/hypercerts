@@ -1,35 +1,32 @@
 {
   "compilerOptions": {
-    "assumeChangesOnlyAffectDirectDependencies": true,
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
     "declaration": true,
+    "declarationMap": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "composite": true,
-    "lib": ["esnext"],
+    "lib": ["es6"],
     "module": "ESNext",
-    "moduleResolution": "nodenext",
-    "noImplicitThis": true,
-    "outDir": "dist",
-    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitOverride": false,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
     "strict": true,
-    "strictNullChecks": true,
-    "target": "es6"
+    "target": "ESNext",
+    "outDir": "build"
   },
-  "files": ["src/index.ts"],
-  "include": [
-    "typechain/common.ts",
-    "abi/HypercertMinter.json",
-    "abi/IHypercertToken.json",
-    "abi/SemiFungible1155.json",
-    "abi/ERC1155Upgradeable.json",
-    "typechain/src/interfaces/IHypercertToken.ts",
-    "typechain/src/HypercertMinter.ts",
-    "typechain/src/AllowlistMinter.ts",
-    "typechain/factories/src/HypercertMinter__factory.ts"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["./src"],
+  "files": [
+    "src/abi/HypercertMinter.json",
+    "src/types/src/AllowlistMinter.ts",
+    "src/types/src/HypercertMinter.ts",
+    "src/types/src/interfaces/IAllowlist.ts",
+    "src/types/src/interfaces/IHypercertToken.ts",
+    "src/types/src/libs/Errors.ts"
+  ]
 }

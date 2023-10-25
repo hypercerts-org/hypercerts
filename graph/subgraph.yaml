@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: HypercertMinter
-    network: goerli
+    network: celo
     source:
       abi: HypercertMinter
-      address: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07"
-      startBlock: 76066993
+      address: "0x16ba53b74c234c870c61efc04cd418b8f2865959"
+      startBlock: 22079542
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

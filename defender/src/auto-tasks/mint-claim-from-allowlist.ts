@@ -1,10 +1,16 @@
-import { ethers } from "ethers";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
-import { createClient } from "@supabase/supabase-js";
-import fetch from "node-fetch";
-import { getNetworkConfigFromName } from "../networks";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { MissingDataError, NotImplementedError } from "../errors";
-import { abi } from "../HypercertMinterABI";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+} from "@openzeppelin/defender-autotask-utils";
+import { createClient } from "@supabase/supabase-js";
+import { ethers } from "ethers";
+import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {
   console.log(
@@ -26,10 +32,19 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
+
+  let provider;
+
+  if (ALCHEMY_KEY) {
+    provider = new ethers.providers.AlchemyProvider(
+      network.networkKey,
+      ALCHEMY_KEY,
+    );
+  } else if (network.rpc) {
+    provider = new ethers.providers.JsonRpcProvider(network.rpc);
+  } else {
+    throw new Error("No provider available");
+  }
 
   // Check data availability
   const body = event.request.body;
@@ -55,7 +70,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const contractInterface = new ethers.utils.Interface(abi);
+  const contractInterface = new ethers.utils.Interface(HypercertMinterAbi);
 
   // Parse events
   const batchTransferEvents = txnLogs
@@ -96,10 +111,11 @@ export async function handler(event: AutotaskEvent) {
   // Remove from DB
   if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     const deleteResult = await client
-      .from(network.supabaseTableName)
+      .from(SUPABASE_ALLOWLIST_TABLE_NAME)
       .delete()
       .eq("address", fromAddress)
       .eq("claimId", formattedClaimId)
+      .eq("chainId", network.chainId)
       .select();
     console.log("Deleted", deleteResult);
 

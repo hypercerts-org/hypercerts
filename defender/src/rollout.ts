@@ -1,12 +1,11 @@
-import { createTask } from "./create-autotask.js";
-import { createSentinel } from "./create-sentinel.js";
-import { encodeName } from "./networks.js";
-import { ApiError } from "./errors.js";
-import config from "./config.js";
+import { createTask } from "./create-autotask";
+import { createSentinel } from "./create-sentinel";
+import { ApiError } from "./errors";
+import { NetworkConfig, encodeName } from "./networks";
 
-export const rollOut = async () => {
+export const rollOut = async (networks: NetworkConfig[]) => {
   return await Promise.all(
-    config.networks.map(async (network) => {
+    networks.map(async (network) => {
       // On allowlist created
       const autoTaskOnAllowlistCreated = await createTask(
         encodeName(network, "on-allowlist-created"),

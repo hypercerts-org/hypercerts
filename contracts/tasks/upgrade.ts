@@ -5,7 +5,7 @@ import { task } from "hardhat/config";
  */
 task("upgrade-minter", "Upgrade implementation contract of Minter and verify")
   .addParam("proxy", "Provider proxy address")
-  .setAction(async ({ proxy }, { ethers, upgrades }) => {
+  .setAction(async ({ proxy }, { ethers, upgrades, run }) => {
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
 
     // Validate (redundant?)
@@ -26,14 +26,16 @@ task("upgrade-minter", "Upgrade implementation contract of Minter and verify")
         console.log(`${hypercertMinterUpgrade.name} contract upgrade has not completed. waiting to verify...`);
         await hypercertMinterUpgrade.instance?.deployed();
       }
-      await hre.run("verify:verify", {
+      await run("verify:verify", {
         address: hypercertMinterUpgrade.address,
       });
-    } catch ({ message }) {
-      if ((message as string).includes("Reason: Already Verified")) {
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+
+      if (errorMessage.includes("Reason: Already Verified")) {
         console.log("Reason: Already Verified");
       }
-      console.error(message);
+      console.error(errorMessage);
     }
   });
 
@@ -42,7 +44,7 @@ task("upgrade-minter", "Upgrade implementation contract of Minter and verify")
  */
 task("upgrade-trader", "Upgrade implementation contract of Trader and verify")
   .addParam("proxy", "Provider proxy address")
-  .setAction(async ({ proxy }, { ethers, upgrades }) => {
+  .setAction(async ({ proxy }, { ethers, upgrades, run }) => {
     const HypercertTrader = await ethers.getContractFactory("HypercertTrader");
 
     // Validate (redundant?)
@@ -63,14 +65,15 @@ task("upgrade-trader", "Upgrade implementation contract of Trader and verify")
         console.log(`${hypercertTraderUpgrade.name} contract upgrade has not completed. waiting to verify...`);
         await hypercertTraderUpgrade.instance?.deployed();
       }
-      await hre.run("verify:verify", {
+      await run("verify:verify", {
         address: hypercertTraderUpgrade.address,
       });
-    } catch ({ message }) {
-      if ((message as string).includes("Reason: Already Verified")) {
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+      if (errorMessage.includes("Reason: Already Verified")) {
         console.log("Reason: Already Verified");
       }
-      console.error(message);
+      console.error(errorMessage);
     }
   });
 
@@ -81,7 +84,7 @@ task("propose-upgrade-minter", "Propose an upgrade to OpenZeppelin Defender")
   .addParam("proxy", "Proxy contract address")
   .addParam("multisig", "Owner multisig address")
   .addOptionalParam("description", "Description of upgrade")
-  .setAction(async ({ proxy, multisig, description = "Upgrade Minter contract" }, { ethers, upgrades }) => {
+  .setAction(async ({ proxy, multisig, description = "Upgrade Minter contract" }, { ethers, defender }) => {
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
     console.log(`Proposing upgrade to multisig ${multisig} as address ${proxy}`);
     const proposal = await defender.proposeUpgrade(proxy, HypercertMinter, {
@@ -100,7 +103,7 @@ task("propose-upgrade-trader", "Propose an upgrade to OpenZeppelin Defender")
   .addParam("proxy", "Proxy contract address")
   .addParam("multisig", "Owner multisig address")
   .addOptionalParam("description", "Description of upgrade")
-  .setAction(async ({ proxy, multisig, description = "Upgrade Trader contract" }, { ethers, upgrades }) => {
+  .setAction(async ({ proxy, multisig, description = "Upgrade Trader contract" }, { ethers, defender }) => {
     const HypercertTrader = await ethers.getContractFactory("HypercertTrader");
     console.log(`Proposing upgrade to multisig ${multisig} as address ${proxy}`);
     const proposal = await defender.proposeUpgrade(proxy, HypercertTrader, {

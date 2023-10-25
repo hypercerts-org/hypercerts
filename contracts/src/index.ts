@@ -1,3 +1,10 @@
+import HypercertMinterAbi from "./abi/HypercertMinter.json";
+// import { HypercertMinter__factory } from "./types/factories/src/HypercertMinter__factory";
+import type { AllowlistMinter } from "./types/src/AllowlistMinter";
+import type { HypercertMinter } from "./types/src/HypercertMinter";
+import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
+import type { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
+import type { Errors } from "./types/src/libs/Errors";
 /*
   in order to adjust the build folder:
     1) import any files here you want in the final build package.
@@ -5,21 +12,16 @@
     3) add the path to the ts.config.build.json under the { include: [...] } configuration.
     4) bump package.json version to publish a new package to npm.
 */
-// ABIs
-import ERC1155UpgradeableABI from "../abi/ERC1155Upgradeable.json" assert { type: "json" };
-import HypercertMinterABI from "../abi/HypercertMinter.json" assert { type: "json" };
-import IHypercertTokenABI from "../abi/IHypercertToken.json" assert { type: "json" };
-import SemiFungible1155ABI from "../abi/SemiFungible1155.json" assert { type: "json" };
 
-// ABIs
-export { HypercertMinterABI, IHypercertTokenABI, SemiFungible1155ABI, ERC1155UpgradeableABI };
+// Factory
+// export { HypercertMinter__factory };
 
 // Interfaces
-export type { IHypercertToken } from "../typechain/src/interfaces/IHypercertToken";
+export { IAllowlist, IHypercertToken };
+export { HypercertMinterAbi };
 
 // Contracts
-export { HypercertMinter } from "../typechain/src/HypercertMinter";
-export { AllowlistMinter } from "../typechain/src/AllowlistMinter";
+export { HypercertMinter, AllowlistMinter };
 
-// Factories
-export { HypercertMinter__factory as HyperCertMinterFactory } from "../typechain/factories/src/HypercertMinter__factory";
+// Libs
+export { Errors };

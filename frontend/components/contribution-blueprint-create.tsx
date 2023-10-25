@@ -11,7 +11,7 @@ export const ContributionBlueprintCreate = () => {
       <Button onClick={() => setShowAddRegistryDialog(true)}>
         Add registry
       </Button>
-      {data?.map((registry) => (
+      {data?.map((registry: any) => (
         <div key={registry.id}>
           <h2>{registry.name}</h2>
           <p>{registry.description}</p>

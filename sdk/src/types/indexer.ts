@@ -5,17 +5,18 @@ import {
   ClaimTokensByOwnerQuery,
   ClaimTokensByClaimQuery,
   ClaimTokenByIdQuery,
-} from "../../.graphclient/index.js";
+  Sdk,
+} from "../../.graphclient";
 
 export type QueryParams = {
   orderDirections: "asc" | "desc";
   skip: number;
   first: number;
-  [key: string]: any;
+  [key: string]: string | number | undefined;
 };
 
 export interface HypercertIndexerInterface {
-  graphClient: any;
+  graphClient: Sdk;
   claimsByOwner: (owner: string, params?: QueryParams) => Promise<ClaimsByOwnerQuery>;
   claimById: (id: string) => Promise<ClaimByIdQuery>;
   firstClaims: (params?: QueryParams) => Promise<RecentClaimsQuery>;

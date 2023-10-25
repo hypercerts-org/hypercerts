@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "hypercertCreateUrl": "https://hypercerts.org/app/create/#",
+  "hypercertTestingUrl": "https://hypercerts.org/app/create/#",
+  "hostedCidBaseUrl": "https://cloudflare-ipfs.com/ipfs/",
+  "localPaths": {
+    "exportsDirectory": "data/",
+    "donorlistDirectory": "data/donorlists/",
+    "allowlistDirectory": "data/allowlists/",
+    "imagesDirectory": "data/img/"
+  }
+}

@@ -1,10 +1,16 @@
-import { ethers } from "ethers";
-import { AutotaskEvent, BlockTriggerEvent } from "defender-autotask-utils";
-import { createClient } from "@supabase/supabase-js";
-import fetch from "node-fetch";
-import { getNetworkConfigFromName } from "../networks";
+import {
+  AutotaskEvent,
+  BlockTriggerEvent,
+} from "@openzeppelin/defender-autotask-utils";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { MissingDataError, NotImplementedError } from "../errors";
-import { abi } from "../HypercertMinterABI";
+import {
+  getNetworkConfigFromName,
+  SUPABASE_ALLOWLIST_TABLE_NAME,
+} from "../networks";
+import { createClient } from "@supabase/supabase-js";
+import { BigNumber, ethers } from "ethers";
+import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {
   console.log(
@@ -25,10 +31,19 @@ export async function handler(event: AutotaskEvent) {
       fetch: (...args) => fetch(...args),
     },
   });
-  const provider = new ethers.providers.AlchemyProvider(
-    network.networkKey,
-    ALCHEMY_KEY,
-  );
+
+  let provider;
+
+  if (ALCHEMY_KEY) {
+    provider = new ethers.providers.AlchemyProvider(
+      network.networkKey,
+      ALCHEMY_KEY,
+    );
+  } else if (network.rpc) {
+    provider = new ethers.providers.JsonRpcProvider(network.rpc);
+  } else {
+    throw new Error("No provider available");
+  }
 
   // Check data availability
   const body = event.request.body;
@@ -54,7 +69,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("Contract address", contractAddress);
   console.log("From address", fromAddress);
 
-  const contractInterface = new ethers.utils.Interface(abi);
+  const contractInterface = new ethers.utils.Interface(HypercertMinterAbi);
 
   // Parse events
   // Parse events
@@ -82,8 +97,8 @@ export async function handler(event: AutotaskEvent) {
   }
 
   // Get claimIDs
-  const claimIds = batchTransferEvents[0].args["claimIDs"] as string[];
-  console.log("ClaimIDs: ", batchTransferEvents[0].args["claimIDs"].toString());
+  const claimIds = batchTransferEvents[0].args[0] as BigNumber[];
+  console.log("ClaimIDs: ", claimIds.toString());
 
   const formattedClaimIds = claimIds.map(
     (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,
@@ -96,7 +111,7 @@ export async function handler(event: AutotaskEvent) {
   if (await tx.wait(5).then((receipt) => receipt.status === 1)) {
     console.log("Transaction confirmed");
     const deleteResult = await client
-      .from(network.supabaseTableName)
+      .from(SUPABASE_ALLOWLIST_TABLE_NAME)
       .delete()
       .eq("address", fromAddress)
       .in("claimId", uniqueClaimdIds)

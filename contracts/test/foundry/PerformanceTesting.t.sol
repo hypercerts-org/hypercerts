@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { console2 } from "forge-std/console2.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
@@ -46,7 +45,9 @@ contract PerformanceTestHelper is Merkle {
             return 0;
         }
         sum = 0;
-        for (uint256 i = 0; i < array.length; i++) sum += array[i];
+        for (uint256 i = 0; i < array.length; i++) {
+            sum += array[i];
+        }
     }
 
     function buildFractions(uint256 size) public pure returns (uint256[] memory) {
@@ -66,8 +67,8 @@ contract PerformanceTestHelper is Merkle {
 
     function isContract(address _addr) internal view returns (bool) {
         uint32 size;
+        // solhint-disable-next-line no-inline-assembly
         assembly {
-            // solhint-disable-next-line no-inline-assembly
             size := extcodesize(_addr)
         }
         return (size > 0);

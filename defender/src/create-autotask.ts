@@ -1,6 +1,6 @@
-import { AutotaskClient } from "defender-autotask-client";
-import { SentinelTrigger } from "defender-autotask-client/lib/models/autotask.js";
-import config from "./config.js";
+import config from "./config";
+import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
+import { SentinelTrigger } from "@openzeppelin/defender-autotask-client/lib/models/autotask.js";
 
 export const createTask = async (name: string, file: string) => {
   const client = new AutotaskClient(config.credentials);

@@ -1,5 +1,3 @@
-import { HexString } from "../types/web3";
-
 export const requireEnv = (value: string | undefined, identifier: string) => {
   if (!value) {
     throw new Error(`Required env var ${identifier} does not exist`);
@@ -12,6 +10,8 @@ export const DOMAIN = requireEnv(
   "NEXT_PUBLIC_DOMAIN",
 );
 
+export const isProduction = DOMAIN === "hypercerts.org";
+
 export const DEFAULT_CHAIN_ID = parseInt(
   requireEnv(
     process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
@@ -19,15 +19,7 @@ export const DEFAULT_CHAIN_ID = parseInt(
   ),
 );
 
-export const CONTRACT_ADDRESS = requireEnv(
-  process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-  "NEXT_PUBLIC_CONTRACT_ADDRESS",
-) as HexString;
-
-export const GRAPH_URL = requireEnv(
-  process.env.NEXT_PUBLIC_GRAPH_URL,
-  "NEXT_PUBLIC_GRAPH_URL",
-);
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
 export const NFT_STORAGE_TOKEN = requireEnv(
   process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,

@@ -1,14 +1,14 @@
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
-import "@openzeppelin/hardhat-defender";
 import "@openzeppelin/hardhat-upgrades";
+import "@openzeppelin/hardhat-defender";
+
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
 import fs from "fs";
 import "hardhat-abi-exporter";
 import "hardhat-preprocessor";
-import { HardhatUserConfig } from "hardhat/config";
 import { resolve } from "path";
 
 import "./tasks";
@@ -35,10 +35,14 @@ dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
 const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
+const mnemonic_celo = requireEnv(process.env.MNEMONIC_CELO, "MNEMONIC_CELO");
 const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
 const alchemyOptimismUrl = requireEnv(process.env.ALCHEMY_OPTIMISM_URL, "ALCHEMY_OPTIMISM_URL");
+
 const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
 const optimisticEtherscanApiKey = requireEnv(process.env.OPTIMISTIC_ETHERSCAN_API_KEY, "OPTIMISTIC_ETHERSCAN_API_KEY");
+const celoscanApiKey = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
+
 const ozApiKey = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
 const ozSecretKey = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
 
@@ -55,11 +59,13 @@ const chainIds = {
   // Optimism: https://docs.infura.io/infura/networks/optimism/how-to/choose-a-network
   "optimism-mainnet": 10,
   "optimism-goerli": 420,
+  // Celo
+  "celo-mainnet": 42220,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
   const jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
-  return {
+  let config = {
     accounts: {
       count: 10,
       mnemonic,
@@ -68,18 +74,34 @@ function getChainConfig(chain: keyof typeof chainIds) {
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
+
+  if (chain === "celo-mainnet") {
+    config = {
+      ...config,
+      accounts: {
+        count: 10,
+        mnemonic: mnemonic_celo,
+        path: "m/44'/52752'/0'/0",
+      },
+    };
+  }
+
+  return config;
 }
 
-const config: HardhatUserConfig = {
+const config = {
   abiExporter: {
-    path: "./abi",
+    path: "./src/abi",
     runOnCompile: true,
     clear: true,
     flat: true,
+    format: "minimal",
+    except: ["@openzeppelin"],
   },
   defender: {
     apiKey: ozApiKey!,
     apiSecret: ozSecretKey!,
+    useDefenderDeploy: true,
   },
   dodoc: {
     runOnCompile: true,
@@ -92,7 +114,18 @@ const config: HardhatUserConfig = {
       goerli: etherscanApiKey!,
       sepolia: etherscanApiKey!,
       optimisticEthereum: optimisticEtherscanApiKey!,
+      celo: celoscanApiKey!,
     },
+    customChains: [
+      {
+        network: "celo",
+        chainId: 42220,
+        urls: {
+          apiURL: "https://api.celoscan.io/api",
+          browserURL: "https://celoscan.io/",
+        },
+      },
+    ],
   },
   networks: {
     hardhat: {
@@ -107,6 +140,7 @@ const config: HardhatUserConfig = {
     localhost: {
       url: process.env.LOCALHOST_NETWORK_URL || "http://127.0.0.1:8545",
     },
+    "celo-mainnet": getChainConfig("celo-mainnet"),
     goerli: getChainConfig("goerli"),
     sepolia: getChainConfig("sepolia"),
     mainnet: getChainConfig("mainnet"),
@@ -122,7 +156,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   preprocess: {
-    eachLine: (hre) => ({
+    eachLine: () => ({
       transform: (line: string) => {
         if (line.match(/^\s*import /i)) {
           getRemappings().forEach(([find, replace]) => {
@@ -145,7 +179,7 @@ const config: HardhatUserConfig = {
     },
   },
   typechain: {
-    outDir: "./typechain",
+    outDir: "./src/types",
     target: "ethers-v5",
   },
 };

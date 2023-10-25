@@ -4,17 +4,11 @@ import { ethers } from "ethers";
 import sinon from "sinon";
 
 import HypercertClient from "../../src/client.js";
-import {
-  HypercertMetadata,
-  HypercertMinter,
-  HypercertMinterABI,
-  HypercertsStorage,
-  formatHypercertData,
-} from "../../src/index.js";
+import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src/index.js";
 import { MalformedDataError } from "../../src/types/errors.js";
 import { TransferRestrictions } from "../../src/types/hypercerts.js";
 import { getRawInputData } from "../helpers.js";
-
+import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
 describe("mintClaim in HypercertClient", () => {
@@ -25,7 +19,7 @@ describe("mintClaim in HypercertClient", () => {
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
-    const minter = await deployMockContract(user, HypercertMinterABI);
+    const minter = await deployMockContract(user, HypercertMinterAbi);
 
     const client = new HypercertClient({
       chainId: 5,

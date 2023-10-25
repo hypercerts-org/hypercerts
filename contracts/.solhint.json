@@ -1,4 +1,5 @@
 {
+  "plugins": ["prettier"],
   "extends": "solhint:recommended",
   "rules": {
     "code-complexity": ["error", 8],
@@ -7,6 +8,7 @@
     "max-line-length": ["warn", 120],
     "no-console": "off",
     "not-rely-on-time": "off",
-    "reason-string": ["warn", { "maxLength": 64 }]
+    "reason-string": ["warn", { "maxLength": 64 }],
+    "one-contract-per-file": "off"
   }
 }

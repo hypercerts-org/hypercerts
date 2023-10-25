@@ -1,19 +1,17 @@
 import { useAccountLowerCase } from "../hooks/account";
+import useCheckWriteable from "../hooks/checkWriteable";
 import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { claimedRecently } from "./claim-all-fractions-button";
 import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
-
 import "@rainbow-me/rainbowkit/styles.css";
-
 import React, { ReactNode } from "react";
-import { goerli, optimism, hardhat, Chain } from "viem/chains";
+import { goerli, optimism, hardhat, Chain, sepolia } from "viem/chains";
 import { useNetwork } from "wagmi";
-import useCheckWriteable from "../hooks/checkWriteable";
 
 const DAPP_STATE_NAME = "DappState";
 
-const ALL_CHAINS = [optimism, goerli, hardhat];
+const ALL_CHAINS = [optimism, goerli, hardhat, sepolia];
 
 export interface DappStateData {
   myAddress?: string;

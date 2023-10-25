@@ -14,13 +14,17 @@ export default [
       nodePolyfills(),
       json(),
       commonjs(),
-      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true, modulesOnly: true }),
+      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
       esbuild(),
     ],
     output: [
       {
         format: "esm",
-        dir: "dist",
+        dir: "dist/esm",
+      },
+      {
+        format: "cjs",
+        dir: "dist/cjs",
       },
     ],
   },

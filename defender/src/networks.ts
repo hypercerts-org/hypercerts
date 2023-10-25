@@ -1,30 +1,55 @@
-import { Network } from "defender-base-client";
+import { Network } from "@openzeppelin/defender-base-client";
 
 export interface NetworkConfig {
   // Used to identify the network for both Alchemy and OpenZeppelin Sentinel
   networkKey: Network;
   // Contract address on the network
   contractAddress: string;
-  // Table name in Supabase
-  supabaseTableName: string;
   // the selector to retrieve the key from event.secrets in OpenZeppelin
-  alchemyKeyEnvName: string;
+  alchemyKeyEnvName?: string;
+  // Chain ID for the network
+  chainId: number;
+  rpc?: string;
 }
 
-export const NETWORKS: NetworkConfig[] = [
-  {
-    networkKey: "goerli",
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "allowlistCache-goerli",
-    alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
-  },
-  {
-    networkKey: "optimism",
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    supabaseTableName: "allowlistCache-optimism",
-    alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
-  },
-];
+export const SUPABASE_ALLOWLIST_TABLE_NAME = "allowlistCache-chainId";
+
+export interface SupportedNetworks {
+  TEST: NetworkConfig[];
+  PROD: NetworkConfig[];
+}
+
+export const NETWORKS: SupportedNetworks = {
+  TEST: [
+    {
+      networkKey: "goerli",
+      contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
+      chainId: 5,
+    },
+    {
+      networkKey: "sepolia",
+      contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+      alchemyKeyEnvName: "ALCHEMY_SEPOLIA_KEY",
+      chainId: 11155111,
+      rpc: "https://rpc.sepolia.org",
+    },
+  ],
+  PROD: [
+    {
+      networkKey: "optimism",
+      contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
+      chainId: 10,
+    },
+    {
+      networkKey: "celo",
+      contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+      chainId: 42220,
+      rpc: "https://forno.celo.org",
+    },
+  ],
+};
 
 /**
  * We'll use this to encode the network name into the Sentinel/Autotask name
@@ -57,8 +82,9 @@ export const decodeName = (
 export const getNetworkConfigFromName = (
   name: string,
 ): NetworkConfig | undefined => {
-  for (let i = 0; i < NETWORKS.length; i++) {
-    const network = NETWORKS[i];
+  const allNetworks = [...NETWORKS.TEST, ...NETWORKS.PROD];
+  for (let i = 0; i < allNetworks.length; i++) {
+    const network = allNetworks[i];
     if (name.includes(`[${network.networkKey}]`)) {
       return network;
     }

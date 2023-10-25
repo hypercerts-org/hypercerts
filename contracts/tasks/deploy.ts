@@ -3,7 +3,8 @@ import { writeFile } from "node:fs/promises";
 
 task("deploy-minter", "Deploy contracts and verify")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
-  .setAction(async ({ output }, { ethers, upgrades }) => {
+  .setAction(async ({ output }, { ethers, upgrades, network, run }) => {
+    console.log("Using address: ", await ethers.getSigners().then((res) => res[0]));
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
     const hypercertMinter = await upgrades.deployProxy(HypercertMinter, {
       kind: "uups",
@@ -27,21 +28,23 @@ task("deploy-minter", "Deploy contracts and verify")
       );
     }
 
-    if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+    if (network.name !== "hardhat" && network.name !== "localhost") {
       try {
         const code = await hypercertMinter.instance?.provider.getCode(hypercertMinter.address);
         if (code === "0x") {
           console.log(`${hypercertMinter.name} contract deployment has not completed. waiting to verify...`);
           await hypercertMinter.instance?.deployed();
         }
-        await hre.run("verify:verify", {
+        await run("verify:verify", {
           address: hypercertMinter.address,
         });
-      } catch ({ message }) {
-        if ((message as string).includes("Reason: Already Verified")) {
+      } catch (error) {
+        const errorMessage = (error as Error).message;
+
+        if (errorMessage.includes("Reason: Already Verified")) {
           console.log("Reason: Already Verified");
         }
-        console.error(message);
+        console.error(errorMessage);
       }
     }
   });

@@ -1,11 +1,11 @@
-import { SentinelClient } from "defender-sentinel-client";
+import { abi } from "./HypercertMinterABI.js";
+import config from "./config.js";
+import { NetworkConfig } from "./networks";
+import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
 import {
   EventCondition,
   FunctionCondition,
-} from "defender-sentinel-client/lib/models/subscriber.js";
-import config from "./config.js";
-import { NetworkConfig } from "./networks.js";
-import { abi } from "./HypercertMinterABI.js";
+} from "@openzeppelin/defender-sentinel-client/lib/models/subscriber.js";
 
 export const createSentinel = async ({
   name,

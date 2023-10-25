@@ -10,7 +10,8 @@ on:
   # A push occurs to one of the matched branches.
   push:
     branches:
-      - main 
+      - main
+      - develop
     paths:
       - defender/**
   # Allows you to run this workflow manually from the Actions tab
@@ -20,21 +21,27 @@ jobs:
   deploy-defender:
     # NOTE: This name appears in GitHub's Checks API.
     name: deploy-defender
-    environment: deploy 
+    environment: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: "18.x"
       - name: Install
-        run: yarn install --immutable
-      - name: Build the autotasks
-        run: yarn build:defender
-      - name: Deploy to OpenZeppelin Defender
-        run: yarn deploy:defender
+        run: pnpm install --frozen-lockfile
+      - name: Deploy Defender infra to testnets
+        if: github.ref == 'refs/heads/develop'
+        run: pnpm run deploy:defender:test
+      - name: Deploy Defender infra to mainnets
+        if: github.ref == 'refs/heads/main'
+        run: pnpm run deploy:defender:prod

@@ -280,7 +280,7 @@ export interface HypercertCreateFormProps {
 
 export function BlueprintCreateForm(props: HypercertCreateFormProps) {
   const { data: registries = [] } = useListRegistries();
-  const registryOptions = registries.map((r) => `${r.name} - ${r.id}`);
+  const registryOptions = registries.map((r: any) => `${r.name} - ${r.id}`);
   const { className, children } = props;
   const { address } = useAccountLowerCase();
   const { push } = useRouter();

@@ -44,7 +44,7 @@ export default class EasEvaluator {
     }
 
     //TODO when expanding the Evaluator functionallity, we should review if readonly makes sense
-    if (config.operator instanceof ethers.Signer) {
+    if (ethers.Signer.isSigner(config.operator)) {
       this.signer = config.operator as ethers.Signer & TypedDataSigner;
       this.readonly = false;
     }

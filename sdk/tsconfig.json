@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["ES6", "DOM"],
-    "target": "ES6",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "lib": ["ES6", "DOM", "ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": "dist",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -22,5 +22,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/*.ts", "./src/**/*", "./.graphclient/**/*", "./test"]
+  "include": ["./src/*.ts", "./src/**/*", "./test/*.ts", "./test/**/*.ts", "global.d.ts"]
 }

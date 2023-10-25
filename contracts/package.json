@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.0.13",
+  "version": "0.8.11",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -9,18 +9,26 @@
   "homepage": "https://hypercerts.org",
   "bugs": "https://github.com/hypercerts-org/hypercerts/issues/new",
   "repository": {
+    "directory": "contracts",
     "url": "https://github.com/hypercerts-org/hypercerts",
     "type": "git"
   },
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "packageManager": "yarn@3.2.4",
-  "workspaces": {
-    "nohoist": [
-      "prettier-plugin-solidity",
-      "solhint"
-    ]
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json",
+    "contracts"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -34,11 +42,14 @@
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.3",
     "@openzeppelin/hardhat-defender": "^1.8.2",
-    "@openzeppelin/hardhat-upgrades": "^1.22.1",
+    "@openzeppelin/hardhat-upgrades": "^1.28",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
-    "@typechain/ethers-v5": "^10.2.0",
-    "@typechain/hardhat": "^6.1.5",
+    "@typechain/ethers-v5": "^11.1.1",
+    "@typechain/hardhat": "^9.0.0",
     "@types/chai": "^4.3.4",
     "@types/mocha": "9.1.0",
     "@types/node": "^18.11.11",
@@ -46,27 +57,34 @@
     "@typescript-eslint/parser": "^5.38.0",
     "chai": "^4.3.7",
     "commitizen": "^4.2.5",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.7.2",
-    "hardhat": "^2.13.0",
+    "hardhat": "2.13.1",
     "hardhat-abi-exporter": "^2.10.1",
     "hardhat-gas-reporter": "^1.0.9",
     "hardhat-preprocessor": "^0.1.5",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.8",
     "prettier-plugin-solidity": "^1.1.3",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.0.2",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-esbuild": "^6.1.0",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "shx": "^0.3.4",
-    "solhint": "^3.3.7",
+    "solhint": "^3.6.2",
+    "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.1",
-    "typechain": "^8.1.1",
-    "typescript": "^4.9.3"
+    "typechain": "^8.3.1",
+    "typescript": "^4.9.4"
   },
   "keywords": [
     "blockchain",
@@ -79,19 +97,19 @@
     "template"
   ],
   "scripts": {
-    "build": "yarn clean && yarn build:hardhat",
+    "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
     "build:forge": "forge build",
-    "build:hardhat": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile && yarn build:ts && yarn build:declarations",
-    "build:ts": "npx tsc --build tsconfig.build.json",
-    "build:declarations": "shx cp ./typechain/*.d.ts ./dist/src/types",
     "clean": "rimraf cache out dist typechain abi",
+    "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/*.sol ./contracts",
     "docs": "hardhat dodoc",
-    "lint": "yarn lint:sol && yarn prettier:check",
-    "lint:sol": "solhint \"./{src,test}/**/*.sol\"",
+    "lint": "pnpm lint:sol && pnpm prettier:check",
+    "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
+    "prebuild": "pnpm clean",
+    "prepublish": "pnpm build",
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,sol,yml}\"",
     "prettier:check": "prettier --config \"./.prettierrc.yml\" --check \"**/*.{json,md,sol,yml}\"",
     "slither": "slither ./src",
-    "test": "yarn test:hardhat && yarn test:forge",
+    "test": "pnpm test:hardhat && pnpm test:forge",
     "test:forge": "forge test",
     "test:hardhat": "hardhat test",
     "test:gas": "forge test --match-path test/foundry/PerformanceTesting.t.sol --gas-report",

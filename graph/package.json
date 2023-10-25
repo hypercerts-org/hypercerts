@@ -3,31 +3,31 @@
   "license": "Apache-2.0",
   "version": "0.0.1",
   "private": true,
-  "workspaces": {
-    "nohoist": [
-      "**"
-    ]
-  },
   "scripts": {
     "auth": "graph auth --product hosted-service $SUBGRAPH_ACCESS_TOKEN",
     "coverage": "graph test -- -c",
-    "build": "yarn build:graph && yarn build:codegen",
+    "build": "pnpm build:graph && pnpm build:codegen",
     "build:graph": "graph build",
     "build:codegen": "graph codegen",
-    "deploy": "yarn deploy:goerli && yarn deploy:optimism",
-    "deploy:goerli": "yarn auth && graph deploy --node https://api.thegraph.com/deploy/ --network goerli hypercerts-admin/hypercerts-testnet",
-    "deploy:optimism": "yarn auth && graph deploy --node https://api.thegraph.com/deploy/ --network optimism hypercerts-admin/hypercerts-optimism-mainnet",
+    "deploy:test": "pnpm auth && pnpm deploy:goerli && pnpm deploy:sepolia",
+    "deploy:prod": "pnpm auth && pnpm deploy:optimism && pnpm deploy:celo",
+    "deploy:celo": "graph deploy --node https://api.thegraph.com/deploy/ --network celo hypercerts-admin/hypercerts-celo",
+    "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ --network goerli hypercerts-admin/hypercerts-testnet",
+    "deploy:optimism": "graph deploy --node https://api.thegraph.com/deploy/ --network optimism hypercerts-admin/hypercerts-optimism-mainnet",
+    "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia hypercerts-admin/hypercerts-sepolia",
     "create-local": "graph create --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "remove-local": "graph remove --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hypercerts-admin/hypercerts-testnet",
     "graph": "graph",
     "test": "graph test"
   },
-  "dependencies": {
-    "@graphprotocol/graph-cli": "0.57.0"
-  },
   "devDependencies": {
+    "@graphprotocol/graph-cli": "0.60.0",
     "@graphprotocol/graph-ts": "0.31.0",
-    "matchstick-as": "https://github.com/LimeChain/matchstick-as#update-graph-ts"
-  }
+    "assemblyscript": "0.19.23",
+    "matchstick-as": "0.6.0"
+  },
+  "//": [
+    "Pinned assemblyscript verion: https://github.com/LimeChain/matchstick/issues/324"
+  ]
 }
