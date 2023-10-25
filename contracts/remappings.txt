@@ -4,3 +4,4 @@ murky/=lib/murky/src/
 oz-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
 oz-contracts/=lib/murky/lib/openzeppelin-contracts/
 prb-test/=lib/prb-test/src/
+@hypercerts/protocol/=src/protocol/

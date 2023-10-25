@@ -4,8 +4,8 @@ pragma solidity ^0.8.16;
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 import { PRBTest } from "prb-test/PRBTest.sol";
-import { HypercertMinter } from "../../src/HypercertMinter.sol";
-import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
+import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
+import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract PausableTestHelper {
     /**

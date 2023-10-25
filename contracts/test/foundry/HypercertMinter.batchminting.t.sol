@@ -4,11 +4,11 @@ pragma solidity ^0.8.16;
 import { PRBTest } from "prb-test/PRBTest.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
-import { HypercertMinter } from "../../src/HypercertMinter.sol";
+import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
 //solhint-disable-next-line max-line-length
 import { ERC1155HolderUpgradeable } from "openzeppelin-contracts-upgradeable/contracts/token/ERC1155/utils/ERC1155HolderUpgradeable.sol";
 import { Merkle } from "murky/Merkle.sol";
-import { IHypercertToken } from "../../src/interfaces/IHypercertToken.sol";
+import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract BatchMintingHelper is Merkle, ERC1155HolderUpgradeable {
     event BatchValueTransfer(uint256[] claimIDs, uint256[] fromTokenIDs, uint256[] toTokenIDs, uint256[] values);
