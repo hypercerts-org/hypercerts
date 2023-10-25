@@ -1,6 +1,11 @@
 MIT License
 
-Copyright (c) 2022 Paul Razvan Berg
+Copyright (c) 2022 Paul Razvan Berg for inital template: https://github.com/paulrberg/foundry-template
+
+Copyright (c) 2022 LooksRare for portions of marketplace: https://github.com/LooksRare/contracts-exchange-v2 commit:
+7fca565
+
+Copyright (c) 2022 Hypercerts Foundation: Hypercerts protocol and marketplace.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
