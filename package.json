@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "turbo run build --concurrency=1",
+    "build": "turbo run build --concurrency=100%",
     "copy": "pnpm copy:frontend && pnpm copy:docs && pnpm copy:html",
     "copy:docs": "mkdir -p ./build/docs/ && cp -r ./docs/build/* ./build/docs/",
     "copy:frontend": "mkdir -p ./build/ && cp -r ./frontend/out/* ./build/ && cp ./frontend/_redirects ./build/",

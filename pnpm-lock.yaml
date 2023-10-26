@@ -232,16 +232,16 @@ importers:
         specifier: 0.8.11
         version: 0.8.11
       '@openzeppelin/defender-autotask-client':
-        specifier: ^1.48.0
+        specifier: 1.50.0
         version: 1.50.0
       '@openzeppelin/defender-autotask-utils':
-        specifier: ^1.48.0
+        specifier: 1.50.0
         version: 1.50.0
       '@openzeppelin/defender-base-client':
-        specifier: ^1.48.0
-        version: 1.50.0(debug@4.3.4)
+        specifier: 1.49.0
+        version: 1.49.0(debug@4.3.4)
       '@openzeppelin/defender-sentinel-client':
-        specifier: ^1.48.0
+        specifier: 1.49.0
         version: 1.49.0
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.2
@@ -10204,7 +10204,7 @@ packages:
   /@openzeppelin/defender-admin-client@1.50.0:
     resolution: {integrity: sha512-JxeA111ifCIzXho2gFymhepufB0ElI1UMvFIMEfJLvRL7g7V69wSiN8v+OqZyqZTahiY32Rb+TwdhVjKF5Zu+A==}
     dependencies:
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.50.0
       axios: 1.5.1(debug@4.3.4)
       ethers: 5.7.2
       lodash: 4.17.21
@@ -10220,7 +10220,7 @@ packages:
     resolution: {integrity: sha512-QWob3F6xuOu8r8oPy0Y2XLfAL1PTuKE2F4nC4wGeu3JJT8/pJz3xnHX5DgUYwiGIMqnkitUNUoBcmi4CPI31yw==}
     hasBin: true
     dependencies:
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.50.0
       axios: 1.5.1(debug@4.3.4)
       dotenv: 10.0.0
       glob: 7.2.3
@@ -10236,7 +10236,7 @@ packages:
     resolution: {integrity: sha512-wuhm5idjsIiC7hdLj+z5ewDmyKx5q0tRXKHp05K9X8uo1CyLdHV2kKZjBrWzGE9qxVhJ79f9PzHZrLcyPHNDOg==}
     dev: false
 
-  /@openzeppelin/defender-base-client@1.49.0:
+  /@openzeppelin/defender-base-client@1.49.0(debug@4.3.4):
     resolution: {integrity: sha512-nG2jslaAUbo2ZW9yBStstxTPscAchN/vRdJ16M34whuZRtUp1bccCBVLdv3oiPOdjwFaa1OBXJkheN+eF8alzA==}
     dependencies:
       amazon-cognito-identity-js: 6.3.6
@@ -10247,9 +10247,8 @@ packages:
     transitivePeerDependencies:
       - debug
       - encoding
-    dev: false
 
-  /@openzeppelin/defender-base-client@1.50.0(debug@4.3.4):
+  /@openzeppelin/defender-base-client@1.50.0:
     resolution: {integrity: sha512-V5uJ4t3kr9ex1RrqGH2DwsHuyW7/hl3VK0sSkq3VVbAewtcsW3cdg/UkXd5ITu6mtz76RoYkvUBHtkYUm0nb+w==}
     dependencies:
       amazon-cognito-identity-js: 6.3.6
@@ -10265,7 +10264,7 @@ packages:
     resolution: {integrity: sha512-fr39U1GRWvJP1fWgwqjTYCz7uhfVfXJReWcivwxMeaoyMl+jYFxj8NkMhqkkbmI6O4TUyNMsmAQ34qFf0IS0/A==}
     dependencies:
       '@ethersproject/abi': 5.7.0
-      '@openzeppelin/defender-base-client': 1.49.0
+      '@openzeppelin/defender-base-client': 1.49.0(debug@4.3.4)
       axios: 1.5.1(debug@4.3.4)
       lodash: 4.17.21
       node-fetch: 2.7.0
@@ -10279,7 +10278,7 @@ packages:
     deprecated: '@openzeppelin/hardhat-defender is deprecated. This functionality is now included as part of @openzeppelin/hardhat-upgrades'
     dependencies:
       '@openzeppelin/defender-admin-client': 1.50.0
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.49.0(debug@4.3.4)
       '@openzeppelin/hardhat-upgrades': 1.28.0(@nomiclabs/hardhat-ethers@2.2.3)(@nomiclabs/hardhat-etherscan@3.1.7)(ethers@5.7.2)(hardhat@2.13.1)
       ethereumjs-util: 7.1.5
     transitivePeerDependencies:
@@ -10310,7 +10309,7 @@ packages:
     dependencies:
       '@nomiclabs/hardhat-ethers': 2.2.3(ethers@5.7.2)(hardhat@2.13.1)
       '@nomiclabs/hardhat-etherscan': 3.1.7(hardhat@2.13.1)
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.49.0(debug@4.3.4)
       '@openzeppelin/platform-deploy-client': 0.8.0(debug@4.3.4)
       '@openzeppelin/upgrades-core': 1.31.0
       chalk: 4.1.2
@@ -10335,7 +10334,7 @@ packages:
     deprecated: '@openzeppelin/platform-deploy-client is deprecated. Please use @openzeppelin/defender-sdk-deploy-client'
     dependencies:
       '@ethersproject/abi': 5.7.0
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.49.0(debug@4.3.4)
       axios: 0.21.4(debug@4.3.4)
       lodash: 4.17.21
       node-fetch: 2.7.0
@@ -12132,6 +12131,14 @@ packages:
       - supports-color
     dev: true
 
+  /@trufflesuite/bigint-buffer@1.1.10:
+    resolution: {integrity: sha512-pYIQC5EcMmID74t26GCC67946mgTJFiLXOT/BYozgrd4UEY2JHEGLhWi9cMiQCt5BSqFEvKkCHNnoj82SRjiEw==}
+    engines: {node: '>= 14.0.0'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.4.0
+    dev: true
+
   /@trufflesuite/bigint-buffer@1.1.9:
     resolution: {integrity: sha512-bdM5cEGCOhDSwminryHJbRmXc1x7dPKg6Pqns3qyTwFlxsqUgxE29lsERS3PlIW1HTjoIGMUqsk1zQQwST1Yxw==}
     engines: {node: '>= 10.0.0'}
@@ -12722,6 +12729,10 @@ packages:
     resolution: {integrity: sha512-aIonTBMErtE3T9MxDvTZRzcrT/mCqpEZBw3CCY/i+oG9n57N/+7obBkhFgavUAIrX21bU0LHg1XRgtaLdelBhA==}
     dependencies:
       '@types/node': 18.18.7
+
+  /@types/seedrandom@3.0.1:
+    resolution: {integrity: sha512-giB9gzDeiCeloIXDgzFBCgjj1k4WxcDrZtGl6h1IqmUPlxF+Nx8Ve+96QCyDZ/HseB/uvDsKbpib9hU5cU53pw==}
+    dev: true
 
   /@types/semver@7.5.4:
     resolution: {integrity: sha512-MMzuxN3GdFwskAnb6fz0orFvhfqi752yjaXylr0Rp4oDg5H0Zn1IuyRhDVvYOwAXoJirx2xuS16I3WjxnAIHiQ==}
@@ -14298,7 +14309,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       buffer: 5.7.1
-      immediate: 3.2.3
+      immediate: 3.3.0
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
@@ -14313,6 +14324,18 @@ packages:
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
+    dev: true
+
+  /abstract-leveldown@7.2.0:
+    resolution: {integrity: sha512-DnhQwcFEaYsvYDnACLZhMmCWd3rkOeEvglpa4q5i/5Jlm3UIsWaxVzuXvDLFCSCWRO3yy2/+V/G7FusFgejnfQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      buffer: 6.0.3
+      catering: 2.1.1
+      is-buffer: 2.0.5
+      level-concat-iterator: 3.1.0
+      level-supports: 2.1.0
+      queue-microtask: 1.2.3
     dev: true
 
   /accepts@1.3.8:
@@ -20499,6 +20522,15 @@ packages:
   /ganache@7.4.3:
     resolution: {integrity: sha512-RpEDUiCkqbouyE7+NMXG26ynZ+7sGiODU84Kz+FVoXUnQ4qQM4M8wif3Y4qUCt+D/eM1RVeGq0my62FPD6Y1KA==}
     hasBin: true
+    dependencies:
+      '@trufflesuite/bigint-buffer': 1.1.10
+      '@types/bn.js': 5.1.3
+      '@types/lru-cache': 5.1.1
+      '@types/seedrandom': 3.0.1
+      emittery: 0.10.0
+      keccak: 3.0.2
+      leveldown: 6.1.0
+      secp256k1: 4.0.3
     optionalDependencies:
       bufferutil: 4.0.5
       utf-8-validate: 5.0.7
@@ -24602,6 +24634,16 @@ packages:
       node-gyp-build: 4.6.1
     dev: true
 
+  /keccak@3.0.2:
+    resolution: {integrity: sha512-PyKKjkH53wDMLGrvmRGSNWgmSxZOUqbnXwKL9tmgbFYA1iAYqW21kfR7mZXV0MlESiefxQQE9X9fTa3X+2MPDQ==}
+    engines: {node: '>=10.0.0'}
+    requiresBuild: true
+    dependencies:
+      node-addon-api: 2.0.2
+      node-gyp-build: 4.6.1
+      readable-stream: 3.6.2
+    dev: true
+
   /keccak@3.0.4:
     resolution: {integrity: sha512-3vKuW0jV8J3XNTzvfyicFR5qvxrSAGl7KIhvgOu5cmWwM7tZRj3fMbj/pfIf4be7aznbc+prBWGjywox/g2Y6Q==}
     engines: {node: '>=10.0.0'}
@@ -24708,6 +24750,13 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /level-concat-iterator@3.1.0:
+    resolution: {integrity: sha512-BWRCMHBxbIqPxJ8vHOvKUsaO0v1sLYZtjN3K2iZJsRBYtp+ONsY6Jfi6hy9K3+zolgQRryhIn2NRZjZnWJ9NmQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      catering: 2.1.1
+    dev: true
+
   /level-errors@2.0.1:
     resolution: {integrity: sha512-UVprBJXite4gPS+3VznfgDSU8PTRuVX0NXwoWW50KLxd2yw4Y1t2JUR5In1itQnudZqRMT9DlAM3Q//9NCjCFw==}
     engines: {node: '>=6'}
@@ -24747,6 +24796,11 @@ packages:
       xtend: 4.0.2
     dev: true
 
+  /level-supports@2.1.0:
+    resolution: {integrity: sha512-E486g1NCjW5cF78KGPrMDRBYzPuueMZ6VBXHT6gC7A8UYWGiM14fGgp+s/L1oFfDWSPV/+SFkYCmZ0SiESkRKA==}
+    engines: {node: '>=10'}
+    dev: true
+
   /level-supports@4.0.1:
     resolution: {integrity: sha512-PbXpve8rKeNcZ9C1mUicC9auIYFyGpkV9/i6g76tLgANwWhtG2v7I4xNBUlkn3lE2/dZF3Pi0ygYGtLc4RXXdA==}
     engines: {node: '>=12'}
@@ -24773,6 +24827,16 @@ packages:
     dependencies:
       browser-level: 1.0.1
       classic-level: 1.3.0
+
+  /leveldown@6.1.0:
+    resolution: {integrity: sha512-8C7oJDT44JXxh04aSSsfcMI8YiaGRhOFI9/pMEL7nWJLVsWajDPTRxsSHTM2WcTVY5nXM+SuRHzPPi0GbnDX+w==}
+    engines: {node: '>=10.12.0'}
+    requiresBuild: true
+    dependencies:
+      abstract-leveldown: 7.2.0
+      napi-macros: 2.0.0
+      node-gyp-build: 4.6.1
+    dev: true
 
   /levelup@4.4.0:
     resolution: {integrity: sha512-94++VFO3qN95cM/d6eBXvd894oJE0w3cInq9USsyQzzoJxmiYzPAocNcuGCPGGjoXqDVJcr3C1jzt1TSjyaiLQ==}
@@ -26686,6 +26750,10 @@ packages:
     hasBin: true
     dev: false
 
+  /napi-macros@2.0.0:
+    resolution: {integrity: sha512-A0xLykHtARfueITVDernsAWdtIMbOJgKgcluwENp3AlsKN/PloyO10HtmoqnFAQAcxPkgZN7wdfPfEd0zNGxbg==}
+    dev: true
+
   /napi-macros@2.2.2:
     resolution: {integrity: sha512-hmEVtAGYzVQpCKdbQea4skABsdXW4RUh5t5mJ2zzqowJS2OyXZTU1KhDVFhx+NlWZ4ap9mqR9TcDO3LTTttd+g==}
 
@@ -26875,6 +26943,11 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /node-gyp-build@4.4.0:
+    resolution: {integrity: sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==}
+    hasBin: true
+    dev: true
 
   /node-gyp-build@4.6.1:
     resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
