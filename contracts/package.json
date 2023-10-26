@@ -103,7 +103,7 @@
   "scripts": {
     "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
     "build:forge": "forge build",
-    "clean": "rimraf cache out dist typechain abi",
+    "clean": "rimraf cache out dist src/typechain src/abi",
     "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/*.sol ./contracts",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
