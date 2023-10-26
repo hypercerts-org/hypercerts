@@ -37,7 +37,7 @@ dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
 const mnemonic_celo = requireEnv(process.env.MNEMONIC_CELO, "MNEMONIC_CELO");
 const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
-const alchemyOptimismUrl = requireEnv(process.env.ALCHEMY_OPTIMISM_URL, "ALCHEMY_OPTIMISM_URL");
+const optimismRpcUrl = requireEnv(process.env.OPTIMISM_RPC_URL, "OPTIMISM_RPC_URL");
 
 const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
 const optimisticEtherscanApiKey = requireEnv(process.env.OPTIMISTIC_ETHERSCAN_API_KEY, "OPTIMISTIC_ETHERSCAN_API_KEY");
@@ -147,7 +147,7 @@ const config = {
     "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": {
       ...getChainConfig("optimism-mainnet"),
-      url: alchemyOptimismUrl,
+      url: optimismRpcUrl,
     },
   },
   paths: {
