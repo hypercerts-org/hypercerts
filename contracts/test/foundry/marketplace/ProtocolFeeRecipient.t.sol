@@ -17,7 +17,7 @@ contract ProtocolFeeRecipientTest is TestParameters {
     uint256 private feeSharingSetterInitialWETHBalance;
 
     address private constant FEE_SHARING_SETTER = 0x5924A28caAF1cc016617874a2f0C3710d881f3c1;
-    uint256 private constant DUST = 0.69420 ether;
+    uint256 private constant DUST = 0.6942 ether;
 
     function setUp() public {
         vm.createSelectFork(vm.rpcUrl("mainnet"));

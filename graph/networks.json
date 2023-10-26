@@ -9,10 +9,6 @@
     "HypercertMinter": {
       "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
       "startBlock": 8537999
-    },
-    "HypercertTrader": {
-      "address": "0x689587461AA3103D3D7975c5e4B352Ab711C14C2",
-      "startBlock": 9638007
     }
   },
   "optimism": {

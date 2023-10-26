@@ -59,10 +59,12 @@ interface ILooksRareProtocol {
      *        feeAmounts[1] Creator fee amount
      *        feeAmounts[2] Protocol fee amount prior to adjustment for a potential affiliate payment
      */
+    // maker (receives the NFT)
     event TakerAsk(
+        // taker (initiates the transaction)
         NonceInvalidationParameters nonceInvalidationParameters,
-        address askUser, // taker (initiates the transaction)
-        address bidUser, // maker (receives the NFT)
+        address askUser,
+        address bidUser,
         uint256 strategyId,
         address currency,
         address collection,
@@ -90,10 +92,12 @@ interface ILooksRareProtocol {
      *        feeAmounts[1] Creator fee amount
      *        feeAmounts[2] Protocol fee amount prior to adjustment for a potential affiliate payment
      */
+    // taker (receives the NFT)
     event TakerBid(
+        // taker (initiates the transaction)
         NonceInvalidationParameters nonceInvalidationParameters,
-        address bidUser, // taker (initiates the transaction)
-        address bidRecipient, // taker (receives the NFT)
+        address bidUser,
+        address bidRecipient,
         uint256 strategyId,
         address currency,
         address collection,

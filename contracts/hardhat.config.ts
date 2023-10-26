@@ -152,7 +152,7 @@ const config = {
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
-    sources: "./src",
+    sources: "./src/protocol",
     tests: "./test",
   },
   preprocess: {

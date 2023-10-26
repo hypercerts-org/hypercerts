@@ -8,9 +8,11 @@ import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol
  *      hashLeafPair does not sort the nodes to match EIP-712.
  */
 contract MerkleWithPosition {
-    /********************
+    /**
+     *
      * PROOF GENERATION *
-     ********************/
+     *
+     */
 
     function getRoot(OrderStructs.MerkleTreeNode[] memory data) public pure returns (bytes32) {
         require(data.length > 1, "won't generate root for single leaf");
@@ -90,9 +92,11 @@ contract MerkleWithPosition {
         return result;
     }
 
-    /******************
+    /**
+     *
      * MATH "LIBRARY" *
-     ******************/
+     *
+     */
 
     /// Original bitmagic adapted from https://github.com/paulrberg/prb-math/blob/main/contracts/PRBMath.sol
     /// @dev Note that x assumed > 1

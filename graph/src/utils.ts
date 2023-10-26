@@ -1,5 +1,4 @@
 import { HypercertMinter } from "../generated/HypercertMinter/HypercertMinter";
-import { HypercertTrader } from "../generated/HypercertTrader/HypercertTrader";
 import {
   AcceptedToken,
   Allowlist,

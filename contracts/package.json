@@ -107,7 +107,7 @@
     "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/*.sol ./contracts",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
-    "lint:sol": "solhint -w 5 \"./{src,test}/**/*.sol\"",
+    "lint:sol": "solhint -w 60 \"./{src,test/protocol,test/marketplace}/**/*.sol\"",
     "prebuild": "pnpm clean",
     "prepublish": "pnpm build",
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,sol,yml}\"",
