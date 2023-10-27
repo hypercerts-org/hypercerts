@@ -1,10 +1,10 @@
 import HypercertMinterAbi from "./abi/HypercertMinter.json";
 // import { HypercertMinter__factory } from "./types/factories/src/HypercertMinter__factory";
-import type { AllowlistMinter } from "./types/src/AllowlistMinter";
-import type { HypercertMinter } from "./types/src/HypercertMinter";
-import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
-import type { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
-import type { Errors } from "./types/src/libs/Errors";
+import type { AllowlistMinter } from "./types/src/protocol/AllowlistMinter";
+import type { HypercertMinter } from "./types/src/protocol/HypercertMinter";
+import type { IAllowlist } from "./types/src/protocol/interfaces/IAllowlist";
+import type { IHypercertToken } from "./types/src/protocol/interfaces/IHypercertToken";
+import type { Errors } from "./types/src/protocol/libs/Errors";
 /*
   in order to adjust the build folder:
     1) import any files here you want in the final build package.

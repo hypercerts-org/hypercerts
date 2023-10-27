@@ -38,7 +38,9 @@ contract MinterTestHelper {
             return 0;
         }
         sum = 0;
-        for (uint256 i = 0; i < array.length; i++) sum += array[i];
+        for (uint256 i = 0; i < array.length; i++) {
+            sum += array[i];
+        }
     }
 
     function buildFractions(uint256 size) public pure returns (uint256[] memory) {
