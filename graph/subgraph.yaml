@@ -44,27 +44,3 @@ dataSources:
         - event: BatchValueTransfer(uint256[],uint256[],uint256[],uint256[])
           handler: handleBatchValueTransfer
       file: ./src/hypercert-minter.ts
-  - kind: ethereum
-    name: HypercertTrader
-    network: goerli
-    source:
-      address: "0x689587461AA3103D3D7975c5e4B352Ab711C14C2"
-      abi: HypercertTrader
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Offer
-      abis:
-        - name: HypercertTrader
-          file: ./abis/HypercertTrader.json
-      eventHandlers:
-        - event: OfferCancelled(indexed address,indexed address,indexed uint256,uint256)
-          handler: handleOfferCancelled
-        - event: OfferCreated(indexed address,indexed address,indexed uint256,uint256)
-          handler: handleOfferCreated
-        - event: Trade(indexed address,indexed address,indexed
-            address,uint256,uint256,address,uint256,uint256)
-          handler: handleTrade
-      file: ./src/hypercert-trader.ts

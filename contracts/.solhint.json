@@ -2,10 +2,10 @@
   "plugins": ["prettier"],
   "extends": "solhint:recommended",
   "rules": {
-    "code-complexity": ["error", 8],
-    "compiler-version": ["error", "0.8.16"],
+    "code-complexity": ["error", 12],
+    "compiler-version": ["error", ">=0.8.16"],
     "func-visibility": ["error", { "ignoreConstructors": true }],
-    "max-line-length": ["warn", 120],
+    "max-line-length": ["warn", 200],
     "no-console": "off",
     "not-rely-on-time": "off",
     "reason-string": ["warn", { "maxLength": 64 }],

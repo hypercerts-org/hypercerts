@@ -24,10 +24,10 @@
   "files": [
     "hardhat.config.ts",
     "src/abi/HypercertMinter.json",
-    "src/types/src/AllowlistMinter.ts",
-    "src/types/src/HypercertMinter.ts",
-    "src/types/src/interfaces/IAllowlist.ts",
-    "src/types/src/interfaces/IHypercertToken.ts",
-    "src/types/src/libs/Errors.ts"
+    "src/types/src/protocol/AllowlistMinter.ts",
+    "src/types/src/protocol/HypercertMinter.ts",
+    "src/types/src/protocol/interfaces/IAllowlist.ts",
+    "src/types/src/protocol/interfaces/IHypercertToken.ts",
+    "src/types/src/protocol/libs/Errors.ts"
   ]
 }

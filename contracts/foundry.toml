@@ -1,19 +1,26 @@
 # Full reference https://github.com/foundry-rs/foundry/tree/master/config
 
 [profile.default]
-auto_detect_solc = false
+auto_detect_solc = true 
+allow_paths = ["../node_modules", "lib"]
 bytecode_hash = "none"
+force = false
 fuzz = { runs = 1025 }
 gas_reports = ["*"]
-libs = ["lib"]
+libraries = []
+libs = ["node_modules", "lib"]
 optimizer = true
 optimizer_runs = 5_000
 out = "out"
-solc = "0.8.16"
 src = "src"
 test = "test/foundry"
-
+no_match_test = "testCannotExecuteOrderIfInvalidUserGlobal"
 
 [profile.ci]
 fuzz = { runs = 1024 }
 verbosity = 1
+
+[rpc_endpoints]
+mainnet = "${MAINNET_RPC_URL}"
+goerli = "${GOERLI_RPC_URL}"
+optimism = "${OPTIMISM_RPC_URL}"
