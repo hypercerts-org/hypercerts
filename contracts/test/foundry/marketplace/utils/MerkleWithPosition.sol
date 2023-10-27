@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 /**
  * @dev Modified from MurkyBase to add each node's position after hashing.
@@ -22,10 +22,11 @@ contract MerkleWithPosition {
         return data[0].value;
     }
 
-    function getProof(
-        OrderStructs.MerkleTreeNode[] memory data,
-        uint256 node
-    ) public pure returns (OrderStructs.MerkleTreeNode[] memory result) {
+    function getProof(OrderStructs.MerkleTreeNode[] memory data, uint256 node)
+        public
+        pure
+        returns (OrderStructs.MerkleTreeNode[] memory result)
+    {
         require(data.length > 1, "won't generate proof for single leaf");
         // The size of the proof is equal to the ceiling of log2(numLeaves)
         result = new OrderStructs.MerkleTreeNode[](log2ceilBitMagic(data.length));
@@ -56,9 +57,11 @@ contract MerkleWithPosition {
     }
 
     ///@dev function is private to prevent unsafe data from being passed
-    function hashLevel(
-        OrderStructs.MerkleTreeNode[] memory data
-    ) private pure returns (OrderStructs.MerkleTreeNode[] memory result) {
+    function hashLevel(OrderStructs.MerkleTreeNode[] memory data)
+        private
+        pure
+        returns (OrderStructs.MerkleTreeNode[] memory result)
+    {
         // Function is private, and all internal callers check that data.length >=2.
         // Underflow is not possible as lowest possible value for data/result index is 1
         // overflow should be safe as length is / 2 always.
@@ -67,10 +70,8 @@ contract MerkleWithPosition {
             if (length & 0x1 == 1) {
                 result = new OrderStructs.MerkleTreeNode[](length / 2 + 1);
                 bytes32 hashed = hashLeafPairs(data[length - 1].value, bytes32(0));
-                result[result.length - 1] = OrderStructs.MerkleTreeNode({
-                    value: hashed,
-                    position: OrderStructs.MerkleTreeNodePosition.Left
-                });
+                result[result.length - 1] =
+                    OrderStructs.MerkleTreeNode({value: hashed, position: OrderStructs.MerkleTreeNodePosition.Left});
             } else {
                 result = new OrderStructs.MerkleTreeNode[](length / 2);
             }

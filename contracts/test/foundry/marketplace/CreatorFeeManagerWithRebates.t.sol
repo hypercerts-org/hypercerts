@@ -2,23 +2,23 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IERC721 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
+import {IERC721} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
 
-import { CreatorFeeManagerWithRebates } from "@hypercerts/marketplace/CreatorFeeManagerWithRebates.sol";
+import {CreatorFeeManagerWithRebates} from "@hypercerts/marketplace/CreatorFeeManagerWithRebates.sol";
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { ICreatorFeeManager } from "@hypercerts/marketplace/interfaces/ICreatorFeeManager.sol";
-import { IExecutionManager } from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {ICreatorFeeManager} from "@hypercerts/marketplace/interfaces/ICreatorFeeManager.sol";
+import {IExecutionManager} from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
 
 // Shared errors
-import { BUNDLE_ERC2981_NOT_SUPPORTED } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {BUNDLE_ERC2981_NOT_SUPPORTED} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
     function setUp() public {
@@ -32,20 +32,15 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
     function _setUpRoyaltiesRegistry(uint256 fee) private {
         vm.prank(_owner);
         royaltyFeeRegistry.updateRoyaltyInfoForCollection(
-            address(mockERC721),
-            _royaltyRecipient,
-            _royaltyRecipient,
-            fee
+            address(mockERC721), _royaltyRecipient, _royaltyRecipient, fee
         );
     }
 
     function _testCreatorFeeRebatesArePaid(address erc721) private {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            erc721,
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(erc721, address(weth));
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
 
@@ -57,9 +52,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         } else if (erc721 == address(mockERC721WithRoyalties)) {
             // Adjust ERC721 with royalties
             mockERC721WithRoyalties.addCustomRoyaltyInformationForTokenId(
-                makerBid.itemIds[0],
-                _royaltyRecipient,
-                _standardRoyaltyFee
+                makerBid.itemIds[0], _royaltyRecipient, _standardRoyaltyFee
             );
             // Mint asset
             mockERC721WithRoyalties.mint(takerUser, makerBid.itemIds[0]);
@@ -69,7 +62,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Verify ownership is transferred
         assertEq(IERC721(erc721).ownerOf(makerBid.itemIds[0]), makerUser);
@@ -84,10 +77,8 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         uint256 numberItemsInBundle = 5;
 
         // Create order
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(erc721, address(weth), numberItemsInBundle);
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAskWithBundle(erc721, address(weth), numberItemsInBundle);
 
         if (erc721 == address(mockERC721)) {
             // Adjust royalties
@@ -98,9 +89,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
             // Adjust ERC721 with royalties
             for (uint256 i; i < makerBid.itemIds.length; i++) {
                 mockERC721WithRoyalties.addCustomRoyaltyInformationForTokenId(
-                    makerBid.itemIds[i],
-                    _royaltyRecipient,
-                    _standardRoyaltyFee
+                    makerBid.itemIds[i], _royaltyRecipient, _standardRoyaltyFee
                 );
             }
             // Mint the items
@@ -116,7 +105,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         vm.prank(takerUser);
 
         // Execute taker ask transaction
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Verify ownership is transferred
         for (uint256 i; i < makerBid.itemIds.length; i++) {
@@ -147,14 +136,8 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
 
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(
-                address(mockERC721WithRoyalties),
-                address(weth),
-                numberItemsInBundle
-            );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+        _createMockMakerBidAndTakerAskWithBundle(address(mockERC721WithRoyalties), address(weth), numberItemsInBundle);
 
         // Sign the order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -171,9 +154,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         // Adjust ERC721 with royalties
         for (uint256 i; i < makerBid.itemIds.length; i++) {
             mockERC721WithRoyalties.addCustomRoyaltyInformationForTokenId(
-                makerBid.itemIds[i],
-                i == 0 ? _royaltyRecipient : address(50),
-                50
+                makerBid.itemIds[i], i == 0 ? _royaltyRecipient : address(50), 50
             );
         }
 
@@ -182,11 +163,10 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         vm.prank(takerUser);
         vm.expectRevert(
             abi.encodeWithSelector(
-                ICreatorFeeManager.BundleEIP2981NotAllowed.selector,
-                address(mockERC721WithRoyalties)
+                ICreatorFeeManager.BundleEIP2981NotAllowed.selector, address(mockERC721WithRoyalties)
             )
         );
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testCreatorRoyaltiesRevertForEIP2981WithBundlesIfAtLeastOneCallReverts(uint256 revertIndex) public {
@@ -195,14 +175,8 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         uint256 numberItemsInBundle = 5;
         vm.assume(revertIndex < numberItemsInBundle);
 
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(
-                address(mockERC721WithRoyalties),
-                address(weth),
-                numberItemsInBundle
-            );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+        _createMockMakerBidAndTakerAskWithBundle(address(mockERC721WithRoyalties), address(weth), numberItemsInBundle);
 
         // Sign the order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -227,11 +201,10 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         vm.prank(takerUser);
         vm.expectRevert(
             abi.encodeWithSelector(
-                ICreatorFeeManager.BundleEIP2981NotAllowed.selector,
-                address(mockERC721WithRoyalties)
+                ICreatorFeeManager.BundleEIP2981NotAllowed.selector, address(mockERC721WithRoyalties)
             )
         );
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function _assertSuccessfulTakerAsk(OrderStructs.Maker memory makerBid) private {
@@ -246,7 +219,7 @@ contract CreatorFeeManagerWithRebatesTest is ProtocolBase {
         );
         assertEq(
             weth.balanceOf(takerUser),
-            _initialWETHBalanceUser + (price * 9_900) / ONE_HUNDRED_PERCENT_IN_BP,
+            _initialWETHBalanceUser + (price * 9900) / ONE_HUNDRED_PERCENT_IN_BP,
             "Taker ask user should receive 99% of the whole price"
         );
         assertEq(

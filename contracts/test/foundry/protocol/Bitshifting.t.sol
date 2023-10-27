@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
 
 contract Bitshifter {
     /// @dev Bitmask used to expose only upper 128 bits of uint256
@@ -47,21 +47,24 @@ contract BitshiftingTest is PRBTest, StdCheats, StdUtils, Bitshifter {
 
     function testTypeMask() public {
         // 128 1s, 128 0s
-        assertEq(TYPE_MASK, 115792089237316195423570985008687907852929702298719625575994209400481361428480);
+        assertEq(
+            TYPE_MASK,
+            115_792_089_237_316_195_423_570_985_008_687_907_852_929_702_298_719_625_575_994_209_400_481_361_428_480
+        );
 
         // 128 0s, 128 1s
-        assertEq(NF_INDEX_MASK, 340282366920938463463374607431768211455);
+        assertEq(NF_INDEX_MASK, 340_282_366_920_938_463_463_374_607_431_768_211_455);
     }
 
     function testBaseType() public {
         uint256 baseID = 1 << 128;
         uint256 baseType = getBaseType(baseID);
         assertEq(baseID, baseType);
-        assertEq(baseID, 340282366920938463463374607431768211456);
+        assertEq(baseID, 340_282_366_920_938_463_463_374_607_431_768_211_456);
 
         assertTrue(isBaseType(baseID));
         assertEq(getItemIndex(baseID), 0);
-        assertEq(getBaseType(baseID), 340282366920938463463374607431768211456);
+        assertEq(getBaseType(baseID), 340_282_366_920_938_463_463_374_607_431_768_211_456);
         assertFalse(isTypedItem(baseID));
     }
 

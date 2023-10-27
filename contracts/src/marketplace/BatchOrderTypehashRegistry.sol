@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Shared errors
-import { MerkleProofTooLarge } from "./errors/SharedErrors.sol";
+import {MerkleProofTooLarge} from "./errors/SharedErrors.sol";
 
 /**
  * @title BatchOrderTypehashRegistry
@@ -22,9 +22,17 @@ contract BatchOrderTypehashRegistry {
 
     /**
      * @dev It looks like this for each height
-     *      height == 1: BatchOrder(Maker[2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256 subsetNonce,uint256 orderNonce,uint256 strategyId,uint8 collectionType,address collection,address currency,address signer,uint256 startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes additionalParameters)
-     *      height == 2: BatchOrder(Maker[2][2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256 subsetNonce,uint256 orderNonce,uint256 strategyId,uint8 collectionType,address collection,address currency,address signer,uint256 startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes additionalParameters)
-     *      height == n: BatchOrder(Maker[2]...[2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256 subsetNonce,uint256 orderNonce,uint256 strategyId,uint8 collectionType,address collection,address currency,address signer,uint256 startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes additionalParameters)
+     *      height == 1: BatchOrder(Maker[2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256 subsetNonce,uint256
+     * orderNonce,uint256 strategyId,uint8 collectionType,address collection,address currency,address signer,uint256
+     * startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes additionalParameters)
+     *      height == 2: BatchOrder(Maker[2][2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256
+     * subsetNonce,uint256 orderNonce,uint256 strategyId,uint8 collectionType,address collection,address
+     * currency,address signer,uint256 startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes
+     * additionalParameters)
+     *      height == n: BatchOrder(Maker[2]...[2] tree)Maker(uint8 quoteType,uint256 globalNonce,uint256
+     * subsetNonce,uint256 orderNonce,uint256 strategyId,uint8 collectionType,address collection,address
+     * currency,address signer,uint256 startTime,uint256 endTime,uint256 price,uint256[] itemIds,uint256[] amounts,bytes
+     * additionalParameters)
      */
     function _getBatchOrderTypehash(uint256 height) internal pure returns (bytes32 typehash) {
         if (height == 1) {

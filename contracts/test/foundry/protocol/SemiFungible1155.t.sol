@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { SemiFungible1155Helper } from "./SemiFungibleHelper.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {SemiFungible1155Helper} from "./SemiFungibleHelper.sol";
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
 /// https://book.getfoundry.sh/forge/writing-tests
@@ -35,16 +35,16 @@ contract SemiFungible1155DefaultTest is PRBTest, StdCheats, StdUtils, SemiFungib
 
         startHoax(alice, 100 ether);
 
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
         semiFungible.splitValue(alice, tokenID, values);
 
-        assertEq(semiFungible.unitsOf(baseID), 10000);
+        assertEq(semiFungible.unitsOf(baseID), 10_000);
 
         semiFungible.validateOwnerBalanceUnits(tokenID, alice, 1, values[0]);
         semiFungible.validateOwnerBalanceUnits(tokenID + 1, alice, 1, values[1]);
 
         // Units
-        assertEq(semiFungible.unitsOf(baseID), 10000);
+        assertEq(semiFungible.unitsOf(baseID), 10_000);
         assertEq(semiFungible.unitsOf(tokenID), 7000);
         assertEq(semiFungible.unitsOf(tokenID + 1), 3000);
     }

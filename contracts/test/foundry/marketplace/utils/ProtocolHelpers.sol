@@ -2,18 +2,18 @@
 pragma solidity 0.8.17;
 
 // Dependencies
-import { BatchOrderTypehashRegistry } from "@hypercerts/marketplace/BatchOrderTypehashRegistry.sol";
+import {BatchOrderTypehashRegistry} from "@hypercerts/marketplace/BatchOrderTypehashRegistry.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Other tests
-import { TestHelpers } from "./TestHelpers.sol";
-import { TestParameters } from "./TestParameters.sol";
+import {TestHelpers} from "./TestHelpers.sol";
+import {TestParameters} from "./TestParameters.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract ProtocolHelpers is TestHelpers, TestParameters {
     using OrderStructs for OrderStructs.Maker;
@@ -95,10 +95,8 @@ contract ProtocolHelpers is TestHelpers, TestParameters {
     function _signMakerOrder(OrderStructs.Maker memory maker, uint256 signerKey) internal view returns (bytes memory) {
         bytes32 orderHash = _computeOrderHash(maker);
 
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(
-            signerKey,
-            keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash))
-        );
+        (uint8 v, bytes32 r, bytes32 s) =
+            vm.sign(signerKey, keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash)));
 
         return abi.encodePacked(r, s, v);
     }

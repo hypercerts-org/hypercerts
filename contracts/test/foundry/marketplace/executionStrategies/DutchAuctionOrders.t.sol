@@ -2,26 +2,36 @@
 pragma solidity 0.8.17;
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { IExecutionManager } from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
-import { IStrategyManager } from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {IExecutionManager} from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
+import {IStrategyManager} from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
 
 // Shared errors
-import { AmountInvalid, BidTooLow, OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
-import { STRATEGY_NOT_ACTIVE, MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {
+    AmountInvalid,
+    BidTooLow,
+    OrderInvalid,
+    FunctionSelectorInvalid,
+    QuoteTypeInvalid
+} from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {
+    STRATEGY_NOT_ACTIVE,
+    MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE,
+    MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE
+} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Strategies
-import { StrategyDutchAuction } from "@hypercerts/marketplace/executionStrategies/StrategyDutchAuction.sol";
+import {StrategyDutchAuction} from "@hypercerts/marketplace/executionStrategies/StrategyDutchAuction.sol";
 
 // Other tests
-import { ProtocolBase } from "../ProtocolBase.t.sol";
+import {ProtocolBase} from "../ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
     StrategyDutchAuction public strategyDutchAuction;
@@ -44,7 +54,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         uint256 endTime
     ) private returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid) {
         uint256[] memory itemIds = new uint256[](numberOfItems);
-        for (uint256 i; i < numberOfItems; ) {
+        for (uint256 i; i < numberOfItems;) {
             mockERC721.mint(makerUser, i + 1);
             itemIds[i] = i + 1;
             unchecked {
@@ -53,7 +63,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         }
 
         uint256[] memory amounts = new uint256[](numberOfAmounts);
-        for (uint256 i; i < numberOfAmounts; ) {
+        for (uint256 i; i < numberOfAmounts;) {
             amounts[i] = 1;
             unchecked {
                 ++i;
@@ -89,12 +99,10 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         _assertStrategyAttributes(address(strategyDutchAuction), selector, false);
     }
 
-    function _fuzzAssumptions(
-        uint256 _startPrice,
-        uint256 _duration,
-        uint256 _decayPerSecond,
-        uint256 _elapsedTime
-    ) private returns (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) {
+    function _fuzzAssumptions(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
+        private
+        returns (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime)
+    {
         // Bound instead of assume to handle too many rejections
         // These limits should be realistically way more than enough
         // vm.assume(duration > 0 && duration <= 31_536_000);
@@ -111,38 +119,25 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         elapsedTime = _elapsedTime;
     }
 
-    function _calculatePrices(
-        uint256 startPrice,
-        uint256 duration,
-        uint256 decayPerSecond,
-        uint256 elapsedTime
-    ) private pure returns (uint256 endPrice, uint256 executionPrice) {
+    function _calculatePrices(uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime)
+        private
+        pure
+        returns (uint256 endPrice, uint256 executionPrice)
+    {
         endPrice = startPrice - decayPerSecond * duration;
         uint256 discount = decayPerSecond * elapsedTime;
         executionPrice = startPrice - discount;
     }
 
-    function testDutchAuction(
-        uint256 _startPrice,
-        uint256 _duration,
-        uint256 _decayPerSecond,
-        uint256 _elapsedTime
-    ) public {
-        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) = _fuzzAssumptions(
-            _startPrice,
-            _duration,
-            _decayPerSecond,
-            _elapsedTime
-        );
+    function testDutchAuction(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
+        public
+    {
+        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) =
+            _fuzzAssumptions(_startPrice, _duration, _decayPerSecond, _elapsedTime);
         _setUpUsers();
         _setUpNewStrategy();
 
-        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(
-            startPrice,
-            duration,
-            decayPerSecond,
-            elapsedTime
-        );
+        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(startPrice, duration, decayPerSecond, elapsedTime);
 
         deal(address(weth), takerUser, executionPrice);
 
@@ -164,7 +159,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         // Execute taker bid transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the asset
         assertEq(mockERC721.ownerOf(1), takerUser);
@@ -180,27 +175,15 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         );
     }
 
-    function testStartPriceTooLow(
-        uint256 _startPrice,
-        uint256 _duration,
-        uint256 _decayPerSecond,
-        uint256 _elapsedTime
-    ) public {
-        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) = _fuzzAssumptions(
-            _startPrice,
-            _duration,
-            _decayPerSecond,
-            _elapsedTime
-        );
+    function testStartPriceTooLow(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
+        public
+    {
+        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) =
+            _fuzzAssumptions(_startPrice, _duration, _decayPerSecond, _elapsedTime);
         _setUpUsers();
         _setUpNewStrategy();
 
-        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(
-            startPrice,
-            duration,
-            decayPerSecond,
-            elapsedTime
-        );
+        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(startPrice, duration, decayPerSecond, elapsedTime);
         deal(address(weth), takerUser, executionPrice);
 
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMakerAskAndTakerBid({
@@ -221,30 +204,18 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(errorSelector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
-    function testTakerBidTooLow(
-        uint256 _startPrice,
-        uint256 _duration,
-        uint256 _decayPerSecond,
-        uint256 _elapsedTime
-    ) public {
-        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) = _fuzzAssumptions(
-            _startPrice,
-            _duration,
-            _decayPerSecond,
-            _elapsedTime
-        );
+    function testTakerBidTooLow(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
+        public
+    {
+        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) =
+            _fuzzAssumptions(_startPrice, _duration, _decayPerSecond, _elapsedTime);
         _setUpUsers();
         _setUpNewStrategy();
 
-        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(
-            startPrice,
-            duration,
-            decayPerSecond,
-            elapsedTime
-        );
+        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(startPrice, duration, decayPerSecond, elapsedTime);
         deal(address(weth), takerUser, executionPrice);
 
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMakerAskAndTakerBid({
@@ -266,7 +237,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(BidTooLow.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInactiveStrategy() public {
@@ -291,7 +262,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.prank(takerUser);
         vm.expectRevert(abi.encodeWithSelector(IExecutionManager.StrategyNotAvailable.selector, 1));
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testZeroItemIdsLength() public {
@@ -313,7 +284,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(errorSelector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testItemIdsAndAmountsLengthMismatch() public {
@@ -335,7 +306,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(errorSelector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInvalidAmounts() public {
@@ -361,7 +332,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(AmountInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // 2. ERC721 amount > 1
         makerAsk.amounts[0] = 2;
@@ -372,7 +343,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testWrongQuoteType() public {

@@ -2,22 +2,28 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../../libraries/OrderStructs.sol";
-import { CurrencyValidator } from "../../libraries/CurrencyValidator.sol";
+import {OrderStructs} from "../../libraries/OrderStructs.sol";
+import {CurrencyValidator} from "../../libraries/CurrencyValidator.sol";
 
 // Interfaces
-import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 // Enums
-import { QuoteType } from "../../enums/QuoteType.sol";
+import {QuoteType} from "../../enums/QuoteType.sol";
 
 // Shared errors
-import { BidTooLow, OrderInvalid, CurrencyInvalid, FunctionSelectorInvalid, QuoteTypeInvalid } from "../../errors/SharedErrors.sol";
-import { ChainlinkPriceInvalid, PriceFeedNotAvailable, PriceNotRecentEnough } from "../../errors/ChainlinkErrors.sol";
+import {
+    BidTooLow,
+    OrderInvalid,
+    CurrencyInvalid,
+    FunctionSelectorInvalid,
+    QuoteTypeInvalid
+} from "../../errors/SharedErrors.sol";
+import {ChainlinkPriceInvalid, PriceFeedNotAvailable, PriceNotRecentEnough} from "../../errors/ChainlinkErrors.sol";
 
 // Base strategy contracts
-import { BaseStrategy, IStrategy } from "../BaseStrategy.sol";
-import { BaseStrategyChainlinkPriceLatency } from "./BaseStrategyChainlinkPriceLatency.sol";
+import {BaseStrategy, IStrategy} from "../BaseStrategy.sol";
+import {BaseStrategyChainlinkPriceLatency} from "./BaseStrategyChainlinkPriceLatency.sol";
 
 /**
  * @title StrategyChainlinkUSDDynamicAsk
@@ -47,7 +53,7 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
      * @param _owner Owner address
      * @param _priceFeed Address of the ETH/USD price feed
      */
-    constructor(address _owner, address _weth, address _priceFeed) BaseStrategyChainlinkPriceLatency(_owner, 3_600) {
+    constructor(address _owner, address _weth, address _priceFeed) BaseStrategyChainlinkPriceLatency(_owner, 3600) {
         WETH = _weth;
         priceFeed = AggregatorV3Interface(_priceFeed);
     }
@@ -61,10 +67,7 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
      * @param makerAsk Maker ask struct (maker ask-specific parameters for the execution)
      * @dev The client has to provide the seller's desired sale price in USD as the additionalParameters
      */
-    function executeStrategyWithTakerBid(
-        OrderStructs.Taker calldata takerBid,
-        OrderStructs.Maker calldata makerAsk
-    )
+    function executeStrategyWithTakerBid(OrderStructs.Taker calldata takerBid, OrderStructs.Maker calldata makerAsk)
         external
         view
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
@@ -77,7 +80,7 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
 
         CurrencyValidator.allowNativeOrAllowedCurrency(makerAsk.currency, WETH);
 
-        (, int256 answer, , uint256 updatedAt, ) = priceFeed.latestRoundData();
+        (, int256 answer,, uint256 updatedAt,) = priceFeed.latestRoundData();
 
         if (answer <= 0) {
             revert ChainlinkPriceInvalid();
@@ -113,10 +116,12 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
     /**
      * @inheritdoc IStrategy
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata makerAsk,
-        bytes4 functionSelector
-    ) external view override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata makerAsk, bytes4 functionSelector)
+        external
+        view
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         if (functionSelector != StrategyChainlinkUSDDynamicAsk.executeStrategyWithTakerBid.selector) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
@@ -131,7 +136,7 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
             return (isValid, OrderInvalid.selector);
         }
 
-        for (uint256 i; i < itemIdsLength; ) {
+        for (uint256 i; i < itemIdsLength;) {
             _validateAmountNoRevert(makerAsk.amounts[i], makerAsk.collectionType);
             unchecked {
                 ++i;
@@ -144,7 +149,7 @@ contract StrategyChainlinkUSDDynamicAsk is BaseStrategy, BaseStrategyChainlinkPr
             }
         }
 
-        (, int256 answer, , uint256 updatedAt, ) = priceFeed.latestRoundData();
+        (, int256 answer,, uint256 updatedAt,) = priceFeed.latestRoundData();
 
         if (answer <= 0) {
             return (isValid, ChainlinkPriceInvalid.selector);

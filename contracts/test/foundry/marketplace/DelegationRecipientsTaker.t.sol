@@ -2,14 +2,14 @@
 pragma solidity 0.8.17;
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { CreatorFeeManagerWithRoyalties } from "@hypercerts/marketplace/CreatorFeeManagerWithRoyalties.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {CreatorFeeManagerWithRoyalties} from "@hypercerts/marketplace/CreatorFeeManagerWithRoyalties.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 contract DelegationRecipientsTakerTest is ProtocolBase {
     function setUp() public {
@@ -32,10 +32,8 @@ contract DelegationRecipientsTakerTest is ProtocolBase {
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
         address randomRecipientSaleProceeds = address(420);
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
 
@@ -77,7 +75,7 @@ contract DelegationRecipientsTakerTest is ProtocolBase {
             expectedRecipients,
             expectedFees
         );
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the asset
         assertEq(mockERC721.ownerOf(makerBid.itemIds[0]), makerUser);
@@ -107,9 +105,8 @@ contract DelegationRecipientsTakerTest is ProtocolBase {
         _setUpUsers();
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
 
         // Mint asset
         mockERC721.mint(makerUser, makerAsk.itemIds[0]);
@@ -151,13 +148,7 @@ contract DelegationRecipientsTakerTest is ProtocolBase {
             expectedFees
         );
 
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Random recipient user has received the asset
         assertEq(mockERC721.ownerOf(makerAsk.itemIds[0]), randomRecipientNFT);

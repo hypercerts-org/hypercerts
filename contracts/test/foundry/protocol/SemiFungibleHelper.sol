@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { SemiFungible1155 } from "@hypercerts/protocol/SemiFungible1155.sol";
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
+import {SemiFungible1155} from "@hypercerts/protocol/SemiFungible1155.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
 
 contract SemiFungible1155Helper is SemiFungible1155, PRBTest, StdCheats, StdUtils {
     error FractionalBurn();

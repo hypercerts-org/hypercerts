@@ -2,23 +2,35 @@
 pragma solidity 0.8.17;
 
 // Libraries, interfaces, errors
-import { SignatureParameterVInvalid, SignatureParameterSInvalid, SignatureEOAInvalid, NullSignerAddress, SignatureLengthInvalid } from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {
+    SignatureParameterVInvalid,
+    SignatureParameterSInvalid,
+    SignatureEOAInvalid,
+    NullSignerAddress,
+    SignatureLengthInvalid
+} from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
-import { INVALID_S_PARAMETER_EOA, INVALID_V_PARAMETER_EOA, NULL_SIGNER_EOA, INVALID_SIGNATURE_LENGTH, INVALID_SIGNER_EOA } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {
+    INVALID_S_PARAMETER_EOA,
+    INVALID_V_PARAMETER_EOA,
+    NULL_SIGNER_EOA,
+    INVALID_SIGNATURE_LENGTH,
+    INVALID_SIGNER_EOA
+} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract SignaturesRevertionsTest is ProtocolBase {
     uint256 internal constant _MAX_PRIVATE_KEY =
-        115792089237316195423570985008687907852837564279074904382605163141518161494337;
+        115_792_089_237_316_195_423_570_985_008_687_907_852_837_564_279_074_904_382_605_163_141_518_161_494_337;
 
     function setUp() public {
         _setUp();
@@ -49,13 +61,7 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         vm.expectRevert(SignatureEOAInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(
-            _genericTakerOrder(),
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid(_genericTakerOrder(), makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testRevertIfInvalidVParameter(uint256 itemId, uint256 price, uint8 v) public {
@@ -77,23 +83,15 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         // Sign but replace v by the fuzzed v
         bytes32 orderHash = _computeOrderHash(makerAsk);
-        (, bytes32 r, bytes32 s) = vm.sign(
-            makerUserPK,
-            keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash))
-        );
+        (, bytes32 r, bytes32 s) =
+            vm.sign(makerUserPK, keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash)));
         bytes memory signature = abi.encodePacked(r, s, v);
 
         _assertMakerOrderReturnValidationCode(makerAsk, signature, INVALID_V_PARAMETER_EOA);
 
         vm.expectRevert(abi.encodeWithSelector(SignatureParameterVInvalid.selector, v));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(
-            _genericTakerOrder(),
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid(_genericTakerOrder(), makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testRevertIfInvalidSParameter(uint256 itemId, uint256 price, bytes32 s) public {
@@ -115,23 +113,15 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         // Sign but replace s by the fuzzed s
         bytes32 orderHash = _computeOrderHash(makerAsk);
-        (uint8 v, bytes32 r, ) = vm.sign(
-            makerUserPK,
-            keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash))
-        );
+        (uint8 v, bytes32 r,) =
+            vm.sign(makerUserPK, keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash)));
         bytes memory signature = abi.encodePacked(r, s, v);
 
         _assertMakerOrderReturnValidationCode(makerAsk, signature, INVALID_S_PARAMETER_EOA);
 
         vm.expectRevert(abi.encodeWithSelector(SignatureParameterSInvalid.selector));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(
-            _genericTakerOrder(),
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid(_genericTakerOrder(), makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testRevertIfRecoveredSignerIsNullAddress(uint256 itemId, uint256 price) public {
@@ -151,10 +141,8 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         // Sign but replace r by empty bytes32
         bytes32 orderHash = _computeOrderHash(makerAsk);
-        (uint8 v, , bytes32 s) = vm.sign(
-            makerUserPK,
-            keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash))
-        );
+        (uint8 v,, bytes32 s) =
+            vm.sign(makerUserPK, keccak256(abi.encodePacked("\x19\x01", _domainSeparator, orderHash)));
 
         bytes32 r;
         bytes memory signature = abi.encodePacked(r, s, v);
@@ -163,22 +151,15 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         vm.expectRevert(abi.encodeWithSelector(NullSignerAddress.selector));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(
-            _genericTakerOrder(),
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid(_genericTakerOrder(), makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testRevertIfInvalidSignatureLength(uint256 itemId, uint256 price, uint256 length) public {
         // @dev Getting OutOfGas starting from 16,776,985, probably due to memory cost
         vm.assume(length != 64 && length != 65 && length < 16_776_985);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.itemIds[0] = itemId;
         makerAsk.price = price;
 
@@ -187,6 +168,6 @@ contract SignaturesRevertionsTest is ProtocolBase {
 
         vm.expectRevert(abi.encodeWithSelector(SignatureLengthInvalid.selector, length));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 }

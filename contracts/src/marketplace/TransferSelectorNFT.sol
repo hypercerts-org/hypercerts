@@ -2,15 +2,15 @@
 pragma solidity 0.8.17;
 
 // Direct dependencies
-import { PackableReentrancyGuard } from "@looksrare/contracts-libs/contracts/PackableReentrancyGuard.sol";
-import { ExecutionManager } from "./ExecutionManager.sol";
-import { TransferManager } from "./TransferManager.sol";
+import {PackableReentrancyGuard} from "@looksrare/contracts-libs/contracts/PackableReentrancyGuard.sol";
+import {ExecutionManager} from "./ExecutionManager.sol";
+import {TransferManager} from "./TransferManager.sol";
 
 // Libraries
-import { OrderStructs } from "./libraries/OrderStructs.sol";
+import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Enums
-import { CollectionType } from "./enums/CollectionType.sol";
+import {CollectionType} from "./enums/CollectionType.sol";
 
 /**
  * @title TransferSelectorNFT
@@ -31,11 +31,9 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
      * @param _protocolFeeRecipient Protocol fee recipient address
      * @param _transferManager Address of the transfer manager for ERC721/ERC1155
      */
-    constructor(
-        address _owner,
-        address _protocolFeeRecipient,
-        address _transferManager
-    ) ExecutionManager(_owner, _protocolFeeRecipient) {
+    constructor(address _owner, address _protocolFeeRecipient, address _transferManager)
+        ExecutionManager(_owner, _protocolFeeRecipient)
+    {
         transferManager = TransferManager(_transferManager);
     }
 

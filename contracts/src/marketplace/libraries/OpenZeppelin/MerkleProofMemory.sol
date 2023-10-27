@@ -27,7 +27,7 @@ library MerkleProofMemory {
         bytes32 computedHash = leaf;
         uint256 length = proof.length;
 
-        for (uint256 i = 0; i < length; ) {
+        for (uint256 i = 0; i < length;) {
             computedHash = _hashPair(computedHash, proof[i]);
             unchecked {
                 ++i;

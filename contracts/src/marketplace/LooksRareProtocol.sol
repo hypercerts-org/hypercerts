@@ -2,32 +2,40 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { SignatureCheckerCalldata } from "@looksrare/contracts-libs/contracts/SignatureCheckerCalldata.sol";
-import { LowLevelETHReturnETHIfAnyExceptOneWei } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelETHReturnETHIfAnyExceptOneWei.sol";
-import { LowLevelWETH } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelWETH.sol";
-import { LowLevelERC20Transfer } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC20Transfer.sol";
+import {SignatureCheckerCalldata} from "@looksrare/contracts-libs/contracts/SignatureCheckerCalldata.sol";
+import {LowLevelETHReturnETHIfAnyExceptOneWei} from
+    "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelETHReturnETHIfAnyExceptOneWei.sol";
+import {LowLevelWETH} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelWETH.sol";
+import {LowLevelERC20Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC20Transfer.sol";
 
 // OpenZeppelin's library (adjusted) for verifying Merkle proofs
-import { MerkleProofCalldataWithNodes } from "./libraries/OpenZeppelin/MerkleProofCalldataWithNodes.sol";
+import {MerkleProofCalldataWithNodes} from "./libraries/OpenZeppelin/MerkleProofCalldataWithNodes.sol";
 
 // Libraries
-import { OrderStructs } from "./libraries/OrderStructs.sol";
+import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Interfaces
-import { ILooksRareProtocol } from "./interfaces/ILooksRareProtocol.sol";
+import {ILooksRareProtocol} from "./interfaces/ILooksRareProtocol.sol";
 
 // Shared errors
-import { CallerInvalid, CurrencyInvalid, LengthsInvalid, MerkleProofInvalid, MerkleProofTooLarge, QuoteTypeInvalid } from "./errors/SharedErrors.sol";
+import {
+    CallerInvalid,
+    CurrencyInvalid,
+    LengthsInvalid,
+    MerkleProofInvalid,
+    MerkleProofTooLarge,
+    QuoteTypeInvalid
+} from "./errors/SharedErrors.sol";
 
 // Direct dependencies
-import { TransferSelectorNFT } from "./TransferSelectorNFT.sol";
-import { BatchOrderTypehashRegistry } from "./BatchOrderTypehashRegistry.sol";
+import {TransferSelectorNFT} from "./TransferSelectorNFT.sol";
+import {BatchOrderTypehashRegistry} from "./BatchOrderTypehashRegistry.sol";
 
 // Constants
-import { MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP } from "./constants/NumericConstants.sol";
+import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "./constants/NumericConstants.sol";
 
 // Enums
-import { QuoteType } from "./enums/QuoteType.sol";
+import {QuoteType} from "./enums/QuoteType.sol";
 
 /**
  * @title LooksRareProtocol
@@ -103,7 +111,7 @@ contract LooksRareProtocol is
      *         If a standard ETH transfer fails within this gas limit, ETH will get wrapped to WETH
      *         and transferred to the initial recipient.
      */
-    uint256 private _gasLimitETHTransfer = 2_300;
+    uint256 private _gasLimitETHTransfer = 2300;
 
     /**
      * @notice Constructor
@@ -112,12 +120,9 @@ contract LooksRareProtocol is
      * @param _transferManager Transfer manager address
      * @param _weth Wrapped ETH address
      */
-    constructor(
-        address _owner,
-        address _protocolFeeRecipient,
-        address _transferManager,
-        address _weth
-    ) TransferSelectorNFT(_owner, _protocolFeeRecipient, _transferManager) {
+    constructor(address _owner, address _protocolFeeRecipient, address _transferManager, address _weth)
+        TransferSelectorNFT(_owner, _protocolFeeRecipient, _transferManager)
+    {
         _updateDomainSeparator();
         WETH = _weth;
     }
@@ -129,8 +134,7 @@ contract LooksRareProtocol is
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external nonReentrant {
         address currency = makerBid.currency;
 
@@ -147,7 +151,7 @@ contract LooksRareProtocol is
         uint256 totalProtocolFeeAmount = _executeTakerAsk(takerAsk, makerBid, orderHash);
 
         // Pay protocol fee (and affiliate fee if any)
-        _payProtocolFeeAndAffiliateFee(currency, signer, affiliate, totalProtocolFeeAmount);
+        _payProtocolFeeAndAffiliateFee(currency, signer, totalProtocolFeeAmount);
     }
 
     /**
@@ -157,8 +161,7 @@ contract LooksRareProtocol is
         OrderStructs.Taker calldata takerBid,
         OrderStructs.Maker calldata makerAsk,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external payable nonReentrant {
         address currency = makerAsk.currency;
 
@@ -173,8 +176,8 @@ contract LooksRareProtocol is
         // Execute the transaction and fetch protocol fee amount
         uint256 totalProtocolFeeAmount = _executeTakerBid(takerBid, makerAsk, msg.sender, orderHash);
 
-        // Pay protocol fee amount (and affiliate fee if any)
-        _payProtocolFeeAndAffiliateFee(currency, msg.sender, affiliate, totalProtocolFeeAmount);
+        // Pay protocol fee amount
+        _payProtocolFeeAndAffiliateFee(currency, msg.sender, totalProtocolFeeAmount);
 
         // Return ETH if any
         _returnETHIfAnyWithOneWeiLeft();
@@ -188,13 +191,12 @@ contract LooksRareProtocol is
         OrderStructs.Maker[] calldata makerAsks,
         bytes[] calldata makerSignatures,
         OrderStructs.MerkleTree[] calldata merkleTrees,
-        address affiliate,
         bool isAtomic
     ) external payable nonReentrant {
         uint256 length = takerBids.length;
         if (
-            length == 0 ||
-            (makerAsks.length ^ length) | (makerSignatures.length ^ length) | (merkleTrees.length ^ length) != 0
+            length == 0
+                || (makerAsks.length ^ length) | (makerSignatures.length ^ length) | (merkleTrees.length ^ length) != 0
         ) {
             revert LengthsInvalid();
         }
@@ -212,7 +214,7 @@ contract LooksRareProtocol is
             // If atomic, it uses the executeTakerBid function.
             // If not atomic, it uses a catch/revert pattern with external function.
             if (isAtomic) {
-                for (uint256 i; i < length; ) {
+                for (uint256 i; i < length;) {
                     OrderStructs.Maker calldata makerAsk = makerAsks[i];
 
                     // Verify the currency is the same
@@ -237,7 +239,7 @@ contract LooksRareProtocol is
                     }
                 }
             } else {
-                for (uint256 i; i < length; ) {
+                for (uint256 i; i < length;) {
                     OrderStructs.Maker calldata makerAsk = makerAsks[i];
 
                     // Verify the currency is the same
@@ -267,7 +269,7 @@ contract LooksRareProtocol is
             }
 
             // Pay protocol fee (and affiliate fee if any)
-            _payProtocolFeeAndAffiliateFee(currency, msg.sender, affiliate, totalProtocolFeeAmount);
+            _payProtocolFeeAndAffiliateFee(currency, msg.sender, totalProtocolFeeAmount);
         }
 
         // Return ETH if any
@@ -316,7 +318,7 @@ contract LooksRareProtocol is
      * @dev Only callable by owner.
      */
     function updateETHGasLimitForTransfer(uint256 newGasLimitETHTransfer) external onlyOwner {
-        if (newGasLimitETHTransfer < 2_300) {
+        if (newGasLimitETHTransfer < 2300) {
             revert NewGasLimitETHTransferTooLow();
         }
 
@@ -346,9 +348,9 @@ contract LooksRareProtocol is
             bytes32 userOrderNonceStatus = userOrderNonce[signer][makerBid.orderNonce];
             // Verify nonces
             if (
-                userBidAskNonces[signer].bidNonce != makerBid.globalNonce ||
-                userSubsetNonce[signer][makerBid.subsetNonce] ||
-                (userOrderNonceStatus != bytes32(0) && userOrderNonceStatus != orderHash)
+                userBidAskNonces[signer].bidNonce != makerBid.globalNonce
+                    || userSubsetNonce[signer][makerBid.subsetNonce]
+                    || (userOrderNonceStatus != bytes32(0) && userOrderNonceStatus != orderHash)
             ) {
                 revert NoncesInvalid();
             }
@@ -416,9 +418,9 @@ contract LooksRareProtocol is
             bytes32 userOrderNonceStatus = userOrderNonce[signer][makerAsk.orderNonce];
 
             if (
-                userBidAskNonces[signer].askNonce != makerAsk.globalNonce ||
-                userSubsetNonce[signer][makerAsk.subsetNonce] ||
-                (userOrderNonceStatus != bytes32(0) && userOrderNonceStatus != orderHash)
+                userBidAskNonces[signer].askNonce != makerAsk.globalNonce
+                    || userSubsetNonce[signer][makerAsk.subsetNonce]
+                    || (userOrderNonceStatus != bytes32(0) && userOrderNonceStatus != orderHash)
             ) {
                 revert NoncesInvalid();
             }
@@ -473,15 +475,11 @@ contract LooksRareProtocol is
      * @notice This function is internal and is used to pay the protocol fee and affiliate fee (if any).
      * @param currency Currency address to transfer (address(0) is ETH)
      * @param bidUser Bid user address
-     * @param affiliate Affiliate address (address(0) if none)
      * @param totalProtocolFeeAmount Total protocol fee amount (denominated in the currency)
      */
-    function _payProtocolFeeAndAffiliateFee(
-        address currency,
-        address bidUser,
-        address affiliate,
-        uint256 totalProtocolFeeAmount
-    ) internal {
+    function _payProtocolFeeAndAffiliateFee(address currency, address bidUser, uint256 totalProtocolFeeAmount)
+        internal
+    {
         if (totalProtocolFeeAmount != 0) {
             // Transfer remaining protocol fee to the protocol fee recipient
             _transferFungibleTokens(currency, bidUser, protocolFeeRecipient, totalProtocolFeeAmount);
@@ -563,12 +561,9 @@ contract LooksRareProtocol is
      *      If it is equal to false, this function maps the order hash for this user order nonce
      *      to prevent other order structs sharing the same order nonce to be executed.
      */
-    function _updateUserOrderNonce(
-        bool isNonceInvalidated,
-        address signer,
-        uint256 orderNonce,
-        bytes32 orderHash
-    ) private {
+    function _updateUserOrderNonce(bool isNonceInvalidated, address signer, uint256 orderNonce, bytes32 orderHash)
+        private
+    {
         userOrderNonce[signer][orderNonce] = (isNonceInvalidated ? MAGIC_VALUE_ORDER_NONCE_EXECUTED : orderHash);
     }
 
@@ -579,13 +574,14 @@ contract LooksRareProtocol is
      * @param makerSignature Signature of the maker
      * @param signer Signer address
      */
-    function _computeDigestAndVerify(bytes32 computedHash, bytes calldata makerSignature, address signer) private view {
+    function _computeDigestAndVerify(bytes32 computedHash, bytes calldata makerSignature, address signer)
+        private
+        view
+    {
         if (chainId == block.chainid) {
             // \x19\x01 is the standard encoding prefix
             SignatureCheckerCalldata.verify(
-                keccak256(abi.encodePacked("\x19\x01", domainSeparator, computedHash)),
-                signer,
-                makerSignature
+                keccak256(abi.encodePacked("\x19\x01", domainSeparator, computedHash)), signer, makerSignature
             );
         } else {
             revert ChainIdInvalid();

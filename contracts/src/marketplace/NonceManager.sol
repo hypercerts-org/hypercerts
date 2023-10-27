@@ -2,8 +2,8 @@
 pragma solidity 0.8.17;
 
 // Interfaces and errors
-import { INonceManager } from "./interfaces/INonceManager.sol";
-import { LengthsInvalid } from "./errors/SharedErrors.sol";
+import {INonceManager} from "./interfaces/INonceManager.sol";
+import {LengthsInvalid} from "./errors/SharedErrors.sol";
 
 /**
  * @title NonceManager
@@ -49,7 +49,7 @@ contract NonceManager is INonceManager {
             revert LengthsInvalid();
         }
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             userOrderNonce[msg.sender][orderNonces[i]] = MAGIC_VALUE_ORDER_NONCE_EXECUTED;
             unchecked {
                 ++i;
@@ -71,7 +71,7 @@ contract NonceManager is INonceManager {
             revert LengthsInvalid();
         }
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             userSubsetNonce[msg.sender][subsetNonces[i]] = true;
             unchecked {
                 ++i;

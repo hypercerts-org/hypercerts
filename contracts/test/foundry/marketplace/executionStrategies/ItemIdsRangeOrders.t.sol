@@ -2,23 +2,29 @@
 pragma solidity 0.8.17;
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { IExecutionManager } from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
-import { IStrategyManager } from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {IExecutionManager} from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
+import {IStrategyManager} from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
 
 // Shared errors
-import { OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
-import { STRATEGY_NOT_ACTIVE, MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {
+    OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid
+} from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {
+    STRATEGY_NOT_ACTIVE,
+    MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE,
+    MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE
+} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Strategies
-import { StrategyItemIdsRange } from "@hypercerts/marketplace/executionStrategies/StrategyItemIdsRange.sol";
+import {StrategyItemIdsRange} from "@hypercerts/marketplace/executionStrategies/StrategyItemIdsRange.sol";
 
 // Base test
-import { ProtocolBase } from "../ProtocolBase.t.sol";
+import {ProtocolBase} from "../ProtocolBase.t.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
     StrategyItemIdsRange public strategyItemIdsRange;
@@ -40,10 +46,10 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         }
     }
 
-    function _createMakerBidAndTakerAsk(
-        uint256 lowerBound,
-        uint256 upperBound
-    ) private returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk) {
+    function _createMakerBidAndTakerAsk(uint256 lowerBound, uint256 upperBound)
+        private
+        returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
+    {
         uint256 mid = (lowerBound + upperBound) / 2;
 
         newMakerBid = _createMultiItemMakerOrder({
@@ -82,7 +88,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         newTakerAsk = OrderStructs.Taker({
             recipient: takerUser,
-            additionalParameters: abi.encode(takerAskItemIds, _offeredAmounts({ length: 3, amount: 1 }))
+            additionalParameters: abi.encode(takerAskItemIds, _offeredAmounts({length: 3, amount: 1}))
         });
     }
 
@@ -98,10 +104,8 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         _setUpUsers();
         _setUpNewStrategy();
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMakerBidAndTakerAsk(
-            lowerBound,
-            upperBound
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMakerBidAndTakerAsk(lowerBound, upperBound);
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -111,7 +115,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Maker user has received the asset
         assertEq(mockERC721.ownerOf(lowerBound), makerUser);
@@ -160,7 +164,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         OrderStructs.Taker memory takerAsk = OrderStructs.Taker({
             recipient: takerUser,
-            additionalParameters: abi.encode(takerAskItemIds, _offeredAmounts({ length: 3, amount: 2 }))
+            additionalParameters: abi.encode(takerAskItemIds, _offeredAmounts({length: 3, amount: 2}))
         });
 
         // Sign order
@@ -171,7 +175,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Maker user has received the asset
         assertEq(mockERC1155.balanceOf(makerUser, lowerBound), 2);
@@ -201,7 +205,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(); // EVM revert
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testZeroDesiredAmount() public {
@@ -218,12 +222,12 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(errorSelector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testWrongQuoteType() public {
         _setUpNewStrategy();
-        (OrderStructs.Maker memory makerBid, ) = _createMakerBidAndTakerAsk(5, 10);
+        (OrderStructs.Maker memory makerBid,) = _createMakerBidAndTakerAsk(5, 10);
         makerBid.quoteType = QuoteType.Ask;
 
         (bool isValid, bytes4 errorSelector) = strategyItemIdsRange.isMakerOrderValid(makerBid, selector);
@@ -246,11 +250,11 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         takerAskItemIds[0] = 5;
         takerAskItemIds[1] = 7;
         takerAskItemIds[2] = 10;
-        takerAsk.additionalParameters = abi.encode(takerAskItemIds, _offeredAmounts({ length: 4, amount: 1 }));
+        takerAsk.additionalParameters = abi.encode(takerAskItemIds, _offeredAmounts({length: 4, amount: 1}));
 
         vm.prank(takerUser);
         vm.expectRevert(OrderInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskRevertIfAmountIsZeroOrGreaterThanOneERC721() public {
@@ -280,7 +284,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         // It fails at 2nd item in the array (greater than 1)
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Re-adjust the amounts
         invalidAmounts[0] = 0;
@@ -292,7 +296,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         // It now fails at 1st item in the array (equal to 0)
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testMakerBidItemIdsLowerBandHigherThanOrEqualToUpperBand() public {
@@ -311,7 +315,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(errorSelector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // lower band == upper band
         makerBid.additionalParameters = abi.encode(5, 5, 1);
@@ -321,7 +325,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskDuplicatedItemIds() public {
@@ -334,7 +338,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         invalidItemIds[1] = 7;
         invalidItemIds[2] = 7;
 
-        takerAsk.additionalParameters = abi.encode(invalidItemIds, _offeredAmounts({ length: 3, amount: 1 }));
+        takerAsk.additionalParameters = abi.encode(invalidItemIds, _offeredAmounts({length: 3, amount: 1}));
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -345,7 +349,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskUnsortedItemIds() public {
@@ -358,7 +362,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         invalidItemIds[1] = 10;
         invalidItemIds[2] = 7;
 
-        takerAsk.additionalParameters = abi.encode(invalidItemIds, _offeredAmounts({ length: 3, amount: 1 }));
+        takerAsk.additionalParameters = abi.encode(invalidItemIds, _offeredAmounts({length: 3, amount: 1}));
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -369,7 +373,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskOfferedAmountNotEqualToDesiredAmount() public {
@@ -381,7 +385,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         itemIds[0] = 5;
         itemIds[1] = 10;
 
-        takerAsk.additionalParameters = abi.encode(itemIds, _offeredAmounts({ length: 2, amount: 1 }));
+        takerAsk.additionalParameters = abi.encode(itemIds, _offeredAmounts({length: 2, amount: 1}));
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -392,7 +396,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskOfferedItemIdTooLow() public {
@@ -411,7 +415,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
         itemIds[0] = itemIdOne;
         itemIds[1] = itemIdTwo;
 
-        takerAsk.additionalParameters = abi.encode(itemIds, _offeredAmounts({ length: 2, amount: 1 }));
+        takerAsk.additionalParameters = abi.encode(itemIds, _offeredAmounts({length: 2, amount: 1}));
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -421,7 +425,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(OrderInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInactiveStrategy() public {
@@ -442,7 +446,7 @@ contract ItemIdsRangeOrdersTest is ProtocolBase, IStrategyManager {
 
         vm.expectRevert(abi.encodeWithSelector(IExecutionManager.StrategyNotAvailable.selector, 1));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInvalidSelector() public {

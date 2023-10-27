@@ -2,11 +2,11 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IERC2981 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC2981.sol";
+import {IERC2981} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC2981.sol";
 
 // Interfaces
-import { ICreatorFeeManager } from "./interfaces/ICreatorFeeManager.sol";
-import { IRoyaltyFeeRegistry } from "./interfaces/IRoyaltyFeeRegistry.sol";
+import {ICreatorFeeManager} from "./interfaces/ICreatorFeeManager.sol";
+import {IRoyaltyFeeRegistry} from "./interfaces/IRoyaltyFeeRegistry.sol";
 
 /**
  * @title CreatorFeeManagerWithRoyalties
@@ -44,11 +44,11 @@ contract CreatorFeeManagerWithRoyalties is ICreatorFeeManager {
      *      (1) high royalties
      *      (2) potential unexpected royalty changes that can occur after the creation of the order.
      */
-    function viewCreatorFeeInfo(
-        address collection,
-        uint256 price,
-        uint256[] memory itemIds
-    ) external view returns (address creator, uint256 creatorFeeAmount) {
+    function viewCreatorFeeInfo(address collection, uint256 price, uint256[] memory itemIds)
+        external
+        view
+        returns (address creator, uint256 creatorFeeAmount)
+    {
         // Check if there is a royalty info in the system
         (creator, creatorFeeAmount) = royaltyFeeRegistry.royaltyInfo(collection, price);
 
@@ -56,10 +56,9 @@ contract CreatorFeeManagerWithRoyalties is ICreatorFeeManager {
             if (IERC2981(collection).supportsInterface(IERC2981.royaltyInfo.selector)) {
                 uint256 length = itemIds.length;
 
-                for (uint256 i; i < length; ) {
+                for (uint256 i; i < length;) {
                     try IERC2981(collection).royaltyInfo(itemIds[i], price) returns (
-                        address newCreator,
-                        uint256 newCreatorFeeAmount
+                        address newCreator, uint256 newCreatorFeeAmount
                     ) {
                         if (i == 0) {
                             creator = newCreator;

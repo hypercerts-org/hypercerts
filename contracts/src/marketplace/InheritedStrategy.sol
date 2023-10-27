@@ -2,13 +2,18 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "./libraries/OrderStructs.sol";
+import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Shared errors
-import { OrderInvalid } from "./errors/SharedErrors.sol";
+import {OrderInvalid} from "./errors/SharedErrors.sol";
 
 // Assembly
-import { OrderInvalid_error_selector, OrderInvalid_error_length, Error_selector_offset, OneWord } from "./constants/AssemblyConstants.sol";
+import {
+    OrderInvalid_error_selector,
+    OrderInvalid_error_length,
+    Error_selector_offset,
+    OneWord
+} from "./constants/AssemblyConstants.sol";
 
 /**
  * @title InheritedStrategy
@@ -26,10 +31,10 @@ contract InheritedStrategy {
      * @param amounts Array of amounts
      * @param itemIds Array of item ids
      */
-    function _verifyItemIdsAndAmountsEqualLengthsAndValidAmounts(
-        uint256[] calldata amounts,
-        uint256[] calldata itemIds
-    ) internal pure {
+    function _verifyItemIdsAndAmountsEqualLengthsAndValidAmounts(uint256[] calldata amounts, uint256[] calldata itemIds)
+        internal
+        pure
+    {
         assembly {
             let end
             {
@@ -56,11 +61,7 @@ contract InheritedStrategy {
 
             let amountsOffset := amounts.offset
 
-            for {
-
-            } end {
-
-            } {
+            for {} end {} {
                 /**
                  * @dev Starting from the end of the array minus 32 bytes to load the last item,
                  *      ending with `end` equal to 0 to load the first item

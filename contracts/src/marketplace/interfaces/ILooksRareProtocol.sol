@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 /**
  * @title ILooksRareProtocol
@@ -21,14 +21,6 @@ interface ILooksRareProtocol {
         uint256 orderNonce;
         bool isNonceInvalidated;
     }
-
-    /**
-     * @notice It is emitted when there is an affiliate fee paid.
-     * @param affiliate Affiliate address
-     * @param currency Address of the currency
-     * @param affiliateFee Affiliate fee (in the currency)
-     */
-    event AffiliatePayment(address affiliate, address currency, uint256 affiliateFee);
 
     /**
      * @notice It is emitted if there is a change in the domain separator.
@@ -60,8 +52,8 @@ interface ILooksRareProtocol {
      *        feeAmounts[2] Protocol fee amount prior to adjustment for a potential affiliate payment
      */
     // maker (receives the NFT)
+    // taker (initiates the transaction)
     event TakerAsk(
-        // taker (initiates the transaction)
         NonceInvalidationParameters nonceInvalidationParameters,
         address askUser,
         address bidUser,
@@ -93,8 +85,8 @@ interface ILooksRareProtocol {
      *        feeAmounts[2] Protocol fee amount prior to adjustment for a potential affiliate payment
      */
     // taker (receives the NFT)
+    // taker (initiates the transaction)
     event TakerBid(
-        // taker (initiates the transaction)
         NonceInvalidationParameters nonceInvalidationParameters,
         address bidUser,
         address bidRecipient,
@@ -133,14 +125,12 @@ interface ILooksRareProtocol {
      * @param makerBid Maker bid struct
      * @param makerSignature Maker signature
      * @param merkleTree Merkle tree struct (if the signature contains multiple maker orders)
-     * @param affiliate Affiliate address
      */
     function executeTakerAsk(
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external;
 
     /**
@@ -149,14 +139,12 @@ interface ILooksRareProtocol {
      * @param makerAsk Maker ask struct
      * @param makerSignature Maker signature
      * @param merkleTree Merkle tree struct (if the signature contains multiple maker orders)
-     * @param affiliate Affiliate address
      */
     function executeTakerBid(
         OrderStructs.Taker calldata takerBid,
         OrderStructs.Maker calldata makerAsk,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external payable;
 
     /**
@@ -165,7 +153,6 @@ interface ILooksRareProtocol {
      * @param makerAsks Array of maker ask structs
      * @param makerSignatures Array of maker signatures
      * @param merkleTrees Array of merkle tree structs if the signature contains multiple maker orders
-     * @param affiliate Affiliate address
      * @param isAtomic Whether the execution should be atomic
      *        i.e. whether it should revert if 1 or more transactions fail
      */
@@ -174,7 +161,6 @@ interface ILooksRareProtocol {
         OrderStructs.Maker[] calldata makerAsks,
         bytes[] calldata makerSignatures,
         OrderStructs.MerkleTree[] calldata merkleTrees,
-        address affiliate,
         bool isAtomic
     ) external payable;
 }

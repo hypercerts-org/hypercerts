@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 /**
  * @title IStrategy
@@ -17,10 +17,10 @@ interface IStrategy {
      * @return isValid Whether the maker struct is valid
      * @return errorSelector If isValid is false, it returns the error's 4 bytes selector
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata makerOrder,
-        bytes4 functionSelector
-    ) external view returns (bool isValid, bytes4 errorSelector);
+    function isMakerOrderValid(OrderStructs.Maker calldata makerOrder, bytes4 functionSelector)
+        external
+        view
+        returns (bool isValid, bytes4 errorSelector);
 
     /**
      * @notice This function acts as a safety check for the protocol's owner when adding new execution strategies.

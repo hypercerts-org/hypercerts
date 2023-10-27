@@ -3,17 +3,17 @@ pragma solidity 0.8.17;
 
 // Libraries, interfaces, errors
 import "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract SignaturesEIP2098Test is ProtocolBase {
     function setUp() public {
@@ -26,7 +26,7 @@ contract SignaturesEIP2098Test is ProtocolBase {
         _setUpUsers();
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
 
-        (OrderStructs.Maker memory makerAsk, ) = _createMockMakerAskAndTakerBid(address(mockERC721));
+        (OrderStructs.Maker memory makerAsk,) = _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.price = price;
         makerAsk.itemIds[0] = itemId;
 
@@ -48,7 +48,7 @@ contract SignaturesEIP2098Test is ProtocolBase {
         _setUpUsers();
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
 
-        (OrderStructs.Maker memory makerBid, ) = _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
+        (OrderStructs.Maker memory makerBid,) = _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
         makerBid.price = price;
         makerBid.itemIds[0] = itemId;
 

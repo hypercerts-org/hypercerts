@@ -2,11 +2,11 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { CurrencyManager } from "./CurrencyManager.sol";
+import {CurrencyManager} from "./CurrencyManager.sol";
 
 // Interfaces
-import { IStrategy } from "./interfaces/IStrategy.sol";
-import { IStrategyManager } from "./interfaces/IStrategyManager.sol";
+import {IStrategy} from "./interfaces/IStrategy.sol";
+import {IStrategyManager} from "./interfaces/IStrategyManager.sol";
 
 /**
  * @title StrategyManager
@@ -103,12 +103,10 @@ contract StrategyManager is IStrategyManager, CurrencyManager {
      * @param newMinTotalFee New minimum total fee (in basis point)
      * @dev Only callable by owner.
      */
-    function updateStrategy(
-        uint256 strategyId,
-        bool isActive,
-        uint16 newStandardProtocolFee,
-        uint16 newMinTotalFee
-    ) external onlyOwner {
+    function updateStrategy(uint256 strategyId, bool isActive, uint16 newStandardProtocolFee, uint16 newMinTotalFee)
+        external
+        onlyOwner
+    {
         if (strategyId >= _countStrategies) {
             revert StrategyNotUsed();
         }

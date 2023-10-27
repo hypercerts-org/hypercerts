@@ -2,24 +2,33 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IOwnableTwoSteps } from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
+import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Shared errors
-import { AmountInvalid, CallerInvalid, CurrencyInvalid, OrderInvalid, QuoteTypeInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
-import { CURRENCY_NOT_ALLOWED, MAKER_ORDER_INVALID_STANDARD_SALE } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {
+    AmountInvalid,
+    CallerInvalid,
+    CurrencyInvalid,
+    OrderInvalid,
+    QuoteTypeInvalid
+} from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {
+    CURRENCY_NOT_ALLOWED,
+    MAKER_ORDER_INVALID_STANDARD_SALE
+} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Other mocks and utils
-import { MockERC20 } from "../../mock/MockERC20.sol";
+import {MockERC20} from "../../mock/MockERC20.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract LooksRareProtocolTest is ProtocolBase {
     // Fixed price of sale
@@ -37,9 +46,8 @@ contract LooksRareProtocolTest is ProtocolBase {
     function testCannotTradeIfInvalidAmounts() public {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
 
         // Mint asset
         mockERC721.mint(makerUser, makerAsk.itemIds[0]);
@@ -54,13 +62,7 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(OrderInvalid.selector);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // 2. Amount > 1 for ERC721
         makerAsk.amounts[0] = 2;
@@ -72,21 +74,14 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testCannotTradeIfCurrencyInvalid() public {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.currency = address(mockERC20);
 
         // Mint asset
@@ -100,13 +95,7 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(CurrencyInvalid.selector);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         OrderStructs.Maker[] memory makerAsks = new OrderStructs.Maker[](1);
         OrderStructs.Taker[] memory takerBids = new OrderStructs.Taker[](1);
@@ -119,32 +108,28 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(CurrencyInvalid.selector);
-        looksRareProtocol.executeMultipleTakerBids{ value: price }(
+        looksRareProtocol.executeMultipleTakerBids{value: price}(
             takerBids,
             makerAsks,
             signatures,
             merkleTrees,
-            _EMPTY_AFFILIATE,
             true // Atomic
         );
 
         vm.prank(takerUser);
         vm.expectRevert(CurrencyInvalid.selector);
-        looksRareProtocol.executeMultipleTakerBids{ value: price }(
+        looksRareProtocol.executeMultipleTakerBids{value: price}(
             takerBids,
             makerAsks,
             signatures,
             merkleTrees,
-            _EMPTY_AFFILIATE,
             false // Non-atomic
         );
     }
 
     function testCannotTradeIfETHIsUsedForMakerBid() public {
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            ETH
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), ETH);
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -158,27 +143,24 @@ contract LooksRareProtocolTest is ProtocolBase {
         // Execute taker ask transaction
         vm.prank(takerUser);
         vm.expectRevert(CurrencyInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testCannotTradeIfInvalidQuoteType() public {
         // 1. QuoteType = BID but executeTakerBid
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
 
         vm.prank(takerUser);
         vm.expectRevert(QuoteTypeInvalid.selector);
-        looksRareProtocol.executeTakerBid(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerBid(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // 2. QuoteType = ASK but executeTakerAsk
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.currency = address(weth);
 
         // Sign order
@@ -186,7 +168,7 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(QuoteTypeInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testUpdateETHGasLimitForTransfer() public asPrankedUser(_owner) {
@@ -197,7 +179,7 @@ contract LooksRareProtocolTest is ProtocolBase {
     }
 
     function testUpdateETHGasLimitForTransferRevertsIfTooLow() public asPrankedUser(_owner) {
-        uint256 newGasLimitETHTransfer = 2_300;
+        uint256 newGasLimitETHTransfer = 2300;
         vm.expectRevert(NewGasLimitETHTransferTooLow.selector);
         looksRareProtocol.updateETHGasLimitForTransfer(newGasLimitETHTransfer - 1);
 
@@ -213,9 +195,8 @@ contract LooksRareProtocolTest is ProtocolBase {
     function testCannotCallRestrictedExecuteTakerBid() public {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
 
         // Mint asset
         mockERC721.mint(makerUser, makerAsk.itemIds[0]);
@@ -280,13 +261,8 @@ contract LooksRareProtocolTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(CurrencyInvalid.selector);
-        looksRareProtocol.executeMultipleTakerBids{ value: price }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            isAtomic
+        looksRareProtocol.executeMultipleTakerBids{value: price}(
+            takerBids, makerAsks, signatures, merkleTrees, isAtomic
         );
     }
 }

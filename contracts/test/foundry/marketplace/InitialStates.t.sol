@@ -2,10 +2,10 @@
 pragma solidity 0.8.17;
 
 // Interfaces
-import { IStrategyManager } from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
+import {IStrategyManager} from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 contract InitialStatesTest is ProtocolBase, IStrategyManager {
     function setUp() public {

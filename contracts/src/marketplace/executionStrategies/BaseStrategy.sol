@@ -2,16 +2,16 @@
 pragma solidity 0.8.17;
 
 // Interfaces
-import { IStrategy } from "../interfaces/IStrategy.sol";
+import {IStrategy} from "../interfaces/IStrategy.sol";
 
 // Assembly constants
-import { OrderInvalid_error_selector } from "../constants/AssemblyConstants.sol";
+import {OrderInvalid_error_selector} from "../constants/AssemblyConstants.sol";
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Enums
-import { CollectionType } from "../enums/CollectionType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
 
 /**
  * @title BaseStrategy

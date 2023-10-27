@@ -2,22 +2,22 @@
 pragma solidity >=0.8.7;
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Interfaces
-import { IExecutionManager } from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
-import { IStrategyManager } from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
+import {IExecutionManager} from "@hypercerts/marketplace/interfaces/IExecutionManager.sol";
+import {IStrategyManager} from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
 
 // Mock files and other tests
-import { StrategyTestMultiFillCollectionOrder } from "../utils/StrategyTestMultiFillCollectionOrder.sol";
-import { ProtocolBase } from "../ProtocolBase.t.sol";
+import {StrategyTestMultiFillCollectionOrder} from "../utils/StrategyTestMultiFillCollectionOrder.sol";
+import {ProtocolBase} from "../ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract MultiFillCollectionOrdersTest is ProtocolBase, IStrategyManager {
     uint256 private constant price = 1 ether; // Fixed price of sale
@@ -85,7 +85,7 @@ contract MultiFillCollectionOrdersTest is ProtocolBase, IStrategyManager {
 
         // Execute the first taker ask transaction by the first taker user
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the asset
         assertEq(mockERC721.ownerOf(0), makerUser);
@@ -120,7 +120,7 @@ contract MultiFillCollectionOrdersTest is ProtocolBase, IStrategyManager {
 
         // Execute a second taker ask transaction from the second taker user
         vm.prank(secondTakerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the 3 assets
         assertEq(mockERC721.ownerOf(1), makerUser);
@@ -132,9 +132,8 @@ contract MultiFillCollectionOrdersTest is ProtocolBase, IStrategyManager {
         // Taker ask user receives 99.5% of the whole price (0.5% protocol)
         assertEq(
             weth.balanceOf(secondTakerUser),
-            _initialWETHBalanceUser +
-                3 *
-                ((price * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP)
+            _initialWETHBalanceUser
+                + 3 * ((price * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP)
         );
         // Verify the nonce is now marked as executed
         assertEq(looksRareProtocol.userOrderNonce(makerUser, makerBid.orderNonce), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
@@ -182,13 +181,7 @@ contract MultiFillCollectionOrdersTest is ProtocolBase, IStrategyManager {
             // It should revert if strategy is not available
             vm.prank(takerUser);
             vm.expectRevert(abi.encodeWithSelector(IExecutionManager.StrategyNotAvailable.selector, 1));
-            looksRareProtocol.executeTakerAsk(
-                _genericTakerOrder(),
-                makerBid,
-                signature,
-                _EMPTY_MERKLE_TREE,
-                _EMPTY_AFFILIATE
-            );
+            looksRareProtocol.executeTakerAsk(_genericTakerOrder(), makerBid, signature, _EMPTY_MERKLE_TREE);
         }
     }
 }

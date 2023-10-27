@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-import { MerkleProofUpgradeable } from "oz-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
-import { IAllowlist } from "./interfaces/IAllowlist.sol";
+import {MerkleProofUpgradeable} from "oz-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
+import {IAllowlist} from "./interfaces/IAllowlist.sol";
 
-import { Errors } from "./libs/Errors.sol";
+import {Errors} from "./libs/Errors.sol";
 
 /// @title Interface for hypercert token interactions
 /// @author bitbeckers
@@ -19,11 +19,11 @@ contract AllowlistMinter is IAllowlist {
     mapping(uint256 => uint256) internal maxUnits;
     mapping(uint256 => uint256) internal minted;
 
-    function isAllowedToClaim(
-        bytes32[] calldata proof,
-        uint256 claimID,
-        bytes32 leaf
-    ) external view returns (bool isAllowed) {
+    function isAllowedToClaim(bytes32[] calldata proof, uint256 claimID, bytes32 leaf)
+        external
+        view
+        returns (bool isAllowed)
+    {
         if (merkleRoots[claimID].length == 0) revert Errors.DoesNotExist();
         isAllowed = MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf);
     }
@@ -44,8 +44,8 @@ contract AllowlistMinter is IAllowlist {
 
         if (hasBeenClaimed[claimID][leaf]) revert Errors.AlreadyClaimed();
         if (
-            !MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf) ||
-            (minted[claimID] + amount) > maxUnits[claimID]
+            !MerkleProofUpgradeable.verifyCalldata(proof, merkleRoots[claimID], leaf)
+                || (minted[claimID] + amount) > maxUnits[claimID]
         ) revert Errors.Invalid();
         hasBeenClaimed[claimID][leaf] = true;
 

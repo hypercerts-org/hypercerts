@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { stdError } from "forge-std/StdError.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { SemiFungible1155Helper } from "./SemiFungibleHelper.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {stdError} from "forge-std/StdError.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {SemiFungible1155Helper} from "./SemiFungibleHelper.sol";
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
 /// https://book.getfoundry.sh/forge/writing-tests
@@ -64,7 +64,7 @@ contract SemiFungible1155MintingTest is PRBTest, StdCheats, StdUtils, SemiFungib
         semiFungible.setMaxType();
 
         vm.expectRevert(stdError.arithmeticError);
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
     }
 
     // HAPPY MINTING
@@ -81,17 +81,17 @@ contract SemiFungible1155MintingTest is PRBTest, StdCheats, StdUtils, SemiFungib
         // uint256 value
         vm.expectEmit(true, true, true, true);
         emit TransferSingle(alice, address(0), address(0), _baseID, 0);
-        uint256 baseID = semiFungible.mintValue(alice, 10000, _uri);
+        uint256 baseID = semiFungible.mintValue(alice, 10_000, _uri);
 
         assertEq(baseID, _baseID);
         assertEq(semiFungible.ownerOf(baseID), address(0));
         assertEq(semiFungible.creator(baseID), alice);
-        assertEq(semiFungible.unitsOf(baseID), 10000);
+        assertEq(semiFungible.unitsOf(baseID), 10_000);
 
-        semiFungible.validateOwnerBalanceUnits(baseID + 1, alice, 1, 10000);
+        semiFungible.validateOwnerBalanceUnits(baseID + 1, alice, 1, 10_000);
 
-        assertEq(semiFungible.tokenValue(baseID), 10000);
-        assertEq(semiFungible.tokenValue(baseID + 1), 10000);
+        assertEq(semiFungible.tokenValue(baseID), 10_000);
+        assertEq(semiFungible.tokenValue(baseID + 1), 10_000);
         assertEq(semiFungible.tokenValue(baseID + 2), 0);
     }
 
@@ -123,7 +123,7 @@ contract SemiFungible1155MintingTest is PRBTest, StdCheats, StdUtils, SemiFungib
         values[2] = 5000;
 
         uint256 baseID = semiFungible.mintValue(alice, values, _uri);
-        assertEq(semiFungible.unitsOf(baseID), 15000);
+        assertEq(semiFungible.unitsOf(baseID), 15_000);
         assertEq(semiFungible.ownerOf(baseID), address(0));
 
         // Swap because of splitting logic

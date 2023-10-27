@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
-import { Merkle } from "murky/Merkle.sol";
-import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {Merkle} from "murky/Merkle.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // forge test -vv --match-path test/foundry/PerformanceTesting.t.sol
 
@@ -78,10 +78,11 @@ contract PerformanceTestHelper is Merkle {
         leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
     }
 
-    function generateCustomData(
-        address[] memory addresses,
-        uint256[] memory units
-    ) public pure returns (bytes32[] memory data) {
+    function generateCustomData(address[] memory addresses, uint256[] memory units)
+        public
+        pure
+        returns (bytes32[] memory data)
+    {
         data = new bytes32[](addresses.length);
         for (uint256 i = 0; i < addresses.length; i++) {
             data[i] = _calculateLeaf(addresses[i], units[i]);
@@ -129,7 +130,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
     function setUp() public {
         alice = address(1);
         hypercertMinter = new HypercertMinter();
-        bytes32[] memory data = generateData(12, 10000);
+        bytes32[] memory data = generateData(12, 10_000);
         rootHash = getRoot(data);
         proof = getProof(data, 6);
 
@@ -149,11 +150,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
                 ids[i] = (i + 1) << 128;
                 units[i] = dataset.units[index];
                 hypercertMinter.createAllowlist(
-                    alice,
-                    dataset.units[index],
-                    dataset.root,
-                    _uri,
-                    IHypercertToken.TransferRestrictions.AllowAll
+                    alice, dataset.units[index], dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll
                 );
             }
         }
@@ -170,7 +167,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
 
     // Mint Hypercert with 1 fraction
     function testClaimSingleFraction() public {
-        hypercertMinter.mintClaim(alice, 10000, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+        hypercertMinter.mintClaim(alice, 10_000, _uri, IHypercertToken.TransferRestrictions.AllowAll);
     }
 
     function testClaimSingleFractionFuzz(address account, uint256 value) public {
@@ -188,11 +185,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
         uint256 totalUnits = getSum(fractions);
 
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.AllowAll
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.AllowAll
         );
     }
 
@@ -201,11 +194,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
         uint256 totalUnits = getSum(fractions);
 
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.AllowAll
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.AllowAll
         );
     }
 
@@ -215,11 +204,7 @@ contract PerformanceTesting is PRBTest, StdCheats, StdUtils, PerformanceTestHelp
         uint256 totalUnits = getSum(fractions);
 
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            "https://example.com/ipfsHash",
-            IHypercertToken.TransferRestrictions.AllowAll
+            alice, totalUnits, fractions, "https://example.com/ipfsHash", IHypercertToken.TransferRestrictions.AllowAll
         );
     }
 

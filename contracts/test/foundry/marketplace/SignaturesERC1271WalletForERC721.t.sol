@@ -2,24 +2,24 @@
 pragma solidity 0.8.17;
 
 // Libraries and interfaces
-import { IReentrancyGuard } from "@looksrare/contracts-libs/contracts/interfaces/IReentrancyGuard.sol";
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {IReentrancyGuard} from "@looksrare/contracts-libs/contracts/interfaces/IReentrancyGuard.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Mocks and other utils
-import { ERC1271Wallet } from "./utils/ERC1271Wallet.sol";
-import { MaliciousERC1271Wallet } from "./utils/MaliciousERC1271Wallet.sol";
-import { MaliciousIsValidSignatureERC1271Wallet } from "./utils/MaliciousIsValidSignatureERC1271Wallet.sol";
+import {ERC1271Wallet} from "./utils/ERC1271Wallet.sol";
+import {MaliciousERC1271Wallet} from "./utils/MaliciousERC1271Wallet.sol";
+import {MaliciousIsValidSignatureERC1271Wallet} from "./utils/MaliciousIsValidSignatureERC1271Wallet.sol";
 
 // Errors
-import { SignatureERC1271Invalid } from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
-import { SIGNATURE_INVALID_EIP1271 } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {SignatureERC1271Invalid} from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
+import {SIGNATURE_INVALID_EIP1271} from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 /**
  * @dev ERC1271Wallet recovers a signature's signer using ECDSA. If it matches the mock wallet's
@@ -49,13 +49,7 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
         _assertValidMakerOrder(makerAsk, signature);
 
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         assertEq(mockERC721.ownerOf(makerAsk.itemIds[0]), takerUser);
     }
@@ -76,13 +70,7 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
 
         vm.expectRevert(SignatureERC1271Invalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerBidReentrancy() public {
@@ -92,19 +80,12 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
         _setUpUser(address(maliciousERC1271Wallet));
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteTakerBid);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _takerBidSetup(
-            address(maliciousERC1271Wallet)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _takerBidSetup(address(maliciousERC1271Wallet));
 
         vm.expectRevert(IReentrancyGuard.ReentrancyFail.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            _EMPTY_SIGNATURE,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, _EMPTY_SIGNATURE, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAsk() public {
@@ -121,7 +102,7 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
         _assertValidMakerOrder(makerBid, signature);
 
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         assertEq(mockERC721.ownerOf(makerBid.itemIds[0]), address(wallet));
     }
@@ -142,7 +123,7 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
 
         vm.expectRevert(SignatureERC1271Invalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testTakerAskReentrancy() public {
@@ -152,13 +133,12 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
         _setUpUser(address(maliciousERC1271Wallet));
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteTakerAsk);
 
-        (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid) = _takerAskSetup(
-            address(maliciousERC1271Wallet)
-        );
+        (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid) =
+            _takerAskSetup(address(maliciousERC1271Wallet));
 
         vm.expectRevert(IReentrancyGuard.ReentrancyFail.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, _EMPTY_SIGNATURE, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, _EMPTY_SIGNATURE, _EMPTY_MERKLE_TREE);
     }
 
     uint256 private constant numberPurchases = 3;
@@ -179,13 +159,8 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
         vm.stopPrank();
 
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
 
         for (uint256 i; i < numberPurchases; i++) {
@@ -215,13 +190,8 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
 
         vm.expectRevert(SignatureERC1271Invalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
     }
 
@@ -241,37 +211,32 @@ contract SignaturesERC1271WalletForERC721Test is ProtocolBase {
 
         vm.expectRevert(IReentrancyGuard.ReentrancyFail.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
     }
 
-    function _takerBidSetup(
-        address signer
-    ) private returns (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) {
+    function _takerBidSetup(address signer)
+        private
+        returns (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid)
+    {
         (makerAsk, takerBid) = _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.signer = signer;
         // Mint asset
         mockERC721.mint(signer, makerAsk.itemIds[0]);
     }
 
-    function _takerAskSetup(
-        address signer
-    ) private returns (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid) {
+    function _takerAskSetup(address signer)
+        private
+        returns (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid)
+    {
         (makerBid, takerAsk) = _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
         makerBid.signer = signer;
         // Mint asset
         mockERC721.mint(takerUser, makerBid.itemIds[0]);
     }
 
-    function _multipleTakerBidsSetup(
-        address signer
-    )
+    function _multipleTakerBidsSetup(address signer)
         private
         returns (
             OrderStructs.Maker[] memory makerAsks,

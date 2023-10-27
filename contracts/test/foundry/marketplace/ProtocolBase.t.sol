@@ -2,28 +2,28 @@
 pragma solidity >=0.8.7;
 
 // WETH
-import { WETH } from "solmate/src/tokens/WETH.sol";
+import {WETH} from "solmate/src/tokens/WETH.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Core contracts
-import { LooksRareProtocol, ILooksRareProtocol } from "@hypercerts/marketplace/LooksRareProtocol.sol";
-import { TransferManager } from "@hypercerts/marketplace/TransferManager.sol";
-import { ProtocolFeeRecipient } from "@hypercerts/marketplace/ProtocolFeeRecipient.sol";
+import {LooksRareProtocol, ILooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
+import {TransferManager} from "@hypercerts/marketplace/TransferManager.sol";
+import {ProtocolFeeRecipient} from "@hypercerts/marketplace/ProtocolFeeRecipient.sol";
 
 // Other contracts
-import { OrderValidatorV2A } from "@hypercerts/marketplace/helpers/OrderValidatorV2A.sol";
+import {OrderValidatorV2A} from "@hypercerts/marketplace/helpers/OrderValidatorV2A.sol";
 
 // Mock files
-import { MockERC20 } from "../../mock/MockERC20.sol";
-import { MockERC721 } from "../../mock/MockERC721.sol";
-import { MockERC721WithRoyalties } from "../../mock/MockERC721WithRoyalties.sol";
-import { MockERC1155 } from "../../mock/MockERC1155.sol";
-import { MockRoyaltyFeeRegistry } from "../../mock/MockRoyaltyFeeRegistry.sol";
+import {MockERC20} from "../../mock/MockERC20.sol";
+import {MockERC721} from "../../mock/MockERC721.sol";
+import {MockERC721WithRoyalties} from "../../mock/MockERC721WithRoyalties.sol";
+import {MockERC1155} from "../../mock/MockERC1155.sol";
+import {MockRoyaltyFeeRegistry} from "../../mock/MockRoyaltyFeeRegistry.sol";
 
 // Utils
-import { MockOrderGenerator } from "./utils/MockOrderGenerator.sol";
+import {MockOrderGenerator} from "./utils/MockOrderGenerator.sol";
 
 contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
     address[] public operators;
@@ -73,11 +73,8 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         OrderStructs.MerkleTree[] memory merkleTrees = new OrderStructs.MerkleTree[](1);
         merkleTrees[0] = merkleTree;
 
-        uint256[9][] memory validationCodes = orderValidator.checkMultipleMakerOrderValidities(
-            makerOrders,
-            signatures,
-            merkleTrees
-        );
+        uint256[9][] memory validationCodes =
+            orderValidator.checkMultipleMakerOrderValidities(makerOrders, signatures, merkleTrees);
 
         uint256 index = expectedValidationCode / 100;
         assertEq(validationCodes[0][index - 1], expectedValidationCode);
@@ -109,11 +106,8 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         OrderStructs.MerkleTree[] memory merkleTrees = new OrderStructs.MerkleTree[](1);
         merkleTrees[0] = merkleTree;
 
-        uint256[9][] memory validationCodes = orderValidator.checkMultipleMakerOrderValidities(
-            makerOrders,
-            signatures,
-            merkleTrees
-        );
+        uint256[9][] memory validationCodes =
+            orderValidator.checkMultipleMakerOrderValidities(makerOrders, signatures, merkleTrees);
 
         _assertValidationCodesAllZeroes(validationCodes);
     }
@@ -138,7 +132,7 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
 
         // Receive ETH and WETH
         vm.deal(user, _initialETHBalanceUser + _initialWETHBalanceUser);
-        weth.deposit{ value: _initialWETHBalanceUser }();
+        weth.deposit{value: _initialWETHBalanceUser}();
     }
 
     function _setUpUsers() internal {
@@ -149,10 +143,7 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
     function _setupRegistryRoyalties(address collection, uint256 standardRoyaltyFee) internal {
         vm.prank(royaltyFeeRegistry.owner());
         royaltyFeeRegistry.updateRoyaltyInfoForCollection(
-            collection,
-            _royaltyRecipient,
-            _royaltyRecipient,
-            standardRoyaltyFee
+            collection, _royaltyRecipient, _royaltyRecipient, standardRoyaltyFee
         );
     }
 
@@ -188,13 +179,13 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
 
         // Distribute ETH and WETH to protocol owner
         vm.deal(_owner, _initialETHBalanceOwner + _initialWETHBalanceOwner);
-        weth.deposit{ value: _initialWETHBalanceOwner }();
+        weth.deposit{value: _initialWETHBalanceOwner}();
         vm.stopPrank();
 
         // Distribute ETH and WETH to royalty recipient
         vm.deal(_royaltyRecipient, _initialETHBalanceRoyaltyRecipient + _initialWETHBalanceRoyaltyRecipient);
         vm.startPrank(_royaltyRecipient);
-        weth.deposit{ value: _initialWETHBalanceRoyaltyRecipient }();
+        weth.deposit{value: _initialWETHBalanceRoyaltyRecipient}();
         vm.stopPrank();
     }
 
@@ -204,12 +195,7 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
 
     function _addStrategy(address strategy, bytes4 selector, bool isMakerBid) internal {
         looksRareProtocol.addStrategy(
-            _standardProtocolFeeBp,
-            _minTotalFeeBp,
-            _maxProtocolFeeBp,
-            selector,
-            isMakerBid,
-            strategy
+            _standardProtocolFeeBp, _minTotalFeeBp, _maxProtocolFeeBp, selector, isMakerBid, strategy
         );
     }
 
@@ -251,16 +237,14 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external {}
 
     function executeTakerBid(
         OrderStructs.Taker calldata takerBid,
         OrderStructs.Maker calldata makerAsk,
         bytes calldata makerSignature,
-        OrderStructs.MerkleTree calldata merkleTree,
-        address affiliate
+        OrderStructs.MerkleTree calldata merkleTree
     ) external payable {}
 
     function executeMultipleTakerBids(
@@ -268,7 +252,6 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         OrderStructs.Maker[] calldata makerAsks,
         bytes[] calldata makerSignatures,
         OrderStructs.MerkleTree[] calldata merkleTrees,
-        address affiliate,
         bool isAtomic
     ) external payable {}
 }

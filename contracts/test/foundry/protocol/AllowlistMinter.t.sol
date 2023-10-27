@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
 
-import { AllowlistMinter } from "@hypercerts/protocol/AllowlistMinter.sol";
-import { Errors } from "@hypercerts/protocol/libs/Errors.sol";
+import {AllowlistMinter} from "@hypercerts/protocol/AllowlistMinter.sol";
+import {Errors} from "@hypercerts/protocol/libs/Errors.sol";
 
-import { Merkle } from "murky/Merkle.sol";
+import {Merkle} from "murky/Merkle.sol";
 
 contract MerkleHelper is AllowlistMinter, Merkle {
-    function generateCustomData(
-        address[] calldata addresses,
-        uint256[] calldata units
-    ) public pure returns (bytes32[] memory data) {
+    function generateCustomData(address[] calldata addresses, uint256[] calldata units)
+        public
+        pure
+        returns (bytes32[] memory data)
+    {
         data = new bytes32[](addresses.length);
         for (uint256 i = 0; i < addresses.length; i++) {
             data[i] = _calculateLeaf(addresses[i], units[i]);
@@ -39,7 +40,7 @@ contract MerkleHelper is AllowlistMinter, Merkle {
 
     function _getSum(uint256[] memory array) public pure returns (uint256 sum) {
         uint256 len = array.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             sum += array[i];
             unchecked {
                 ++i;
@@ -159,7 +160,7 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
     }
 
     function testBasicAllowlistFuzz(uint256 size) public {
-        size = bound(size, 4, 5_000);
+        size = bound(size, 4, 5000);
         uint256 units = 10_000;
         bytes32[] memory data = merkle.generateData(size, 10_000);
         bytes32 root = merkle.getRoot(data);
@@ -173,7 +174,7 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
     }
 
     function testProcessClaimFuzz(uint256 size) public {
-        size = bound(size, 4, 5_000);
+        size = bound(size, 4, 5000);
         uint256 value = 10_000;
         bytes32[] memory data = merkle.generateData(size, value);
         bytes32 root = merkle.getRoot(data);

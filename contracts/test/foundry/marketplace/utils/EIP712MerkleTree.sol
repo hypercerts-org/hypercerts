@@ -2,20 +2,20 @@
 pragma solidity 0.8.17;
 
 // Forge test
-import { Test } from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Core contracts
-import { LooksRareProtocol } from "@hypercerts/marketplace/LooksRareProtocol.sol";
+import {LooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
 
 // Utils
-import { MerkleWithPosition } from "./MerkleWithPosition.sol";
-import { MathLib } from "./MathLib.sol";
+import {MerkleWithPosition} from "./MerkleWithPosition.sol";
+import {MathLib} from "./MathLib.sol";
 
 // Constants
-import { MAX_CALLDATA_PROOF_LENGTH } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {MAX_CALLDATA_PROOF_LENGTH} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 contract EIP712MerkleTree is Test {
     using OrderStructs for OrderStructs.Maker;
@@ -26,11 +26,10 @@ contract EIP712MerkleTree is Test {
         looksRareProtocol = _looksRareProtocol;
     }
 
-    function sign(
-        uint256 privateKey,
-        OrderStructs.Maker[] memory makerOrders,
-        uint256 makerOrderIndex
-    ) external returns (bytes memory signature, OrderStructs.MerkleTree memory merkleTree) {
+    function sign(uint256 privateKey, OrderStructs.Maker[] memory makerOrders, uint256 makerOrderIndex)
+        external
+        returns (bytes memory signature, OrderStructs.MerkleTree memory merkleTree)
+    {
         uint256 bidCount = makerOrders.length;
         uint256 treeHeight = MathLib.log2(bidCount);
         if (2 ** treeHeight != bidCount || treeHeight == 0) {
@@ -43,9 +42,7 @@ contract EIP712MerkleTree is Test {
         for (uint256 i; i < bidCount; i++) {
             leaves[i] = OrderStructs.MerkleTreeNode({
                 value: makerOrders[i].hash(),
-                position: i % 2 == 0
-                    ? OrderStructs.MerkleTreeNodePosition.Left
-                    : OrderStructs.MerkleTreeNodePosition.Right
+                position: i % 2 == 0 ? OrderStructs.MerkleTreeNodePosition.Left : OrderStructs.MerkleTreeNodePosition.Right
             });
         }
 
@@ -53,9 +50,7 @@ contract EIP712MerkleTree is Test {
         for (uint256 i = bidCount; i < leafCount; i++) {
             leaves[i] = OrderStructs.MerkleTreeNode({
                 value: emptyMakerOrderHash,
-                position: i % 2 == 0
-                    ? OrderStructs.MerkleTreeNodePosition.Left
-                    : OrderStructs.MerkleTreeNodePosition.Right
+                position: i % 2 == 0 ? OrderStructs.MerkleTreeNodePosition.Left : OrderStructs.MerkleTreeNodePosition.Right
             });
         }
 
@@ -64,7 +59,7 @@ contract EIP712MerkleTree is Test {
         bytes32 root = merkle.getRoot(leaves);
 
         signature = _sign(privateKey, batchOrderTypehash, root);
-        merkleTree = OrderStructs.MerkleTree({ root: root, proof: proof });
+        merkleTree = OrderStructs.MerkleTree({root: root, proof: proof});
     }
 
     function _emptyMakerOrderHash() private pure returns (bytes32 makerOrderHash) {
@@ -72,19 +67,17 @@ contract EIP712MerkleTree is Test {
         makerOrderHash = makerOrder.hash();
     }
 
-    function _sign(
-        uint256 privateKey,
-        bytes32 batchOrderTypehash,
-        bytes32 root
-    ) private view returns (bytes memory signature) {
+    function _sign(uint256 privateKey, bytes32 batchOrderTypehash, bytes32 root)
+        private
+        view
+        returns (bytes memory signature)
+    {
         bytes32 digest = keccak256(abi.encode(batchOrderTypehash, root));
 
         bytes32 domainSeparator = looksRareProtocol.domainSeparator();
 
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(
-            privateKey,
-            keccak256(abi.encodePacked("\x19\x01", domainSeparator, digest))
-        );
+        (uint8 v, bytes32 r, bytes32 s) =
+            vm.sign(privateKey, keccak256(abi.encodePacked("\x19\x01", domainSeparator, digest)));
 
         signature = abi.encodePacked(r, s, v);
     }

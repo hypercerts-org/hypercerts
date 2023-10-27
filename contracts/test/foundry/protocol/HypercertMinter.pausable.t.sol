@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
-import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract PausableTestHelper {
     /**
@@ -86,13 +86,7 @@ contract HypercertMinterPausableTest is PRBTest, StdCheats, StdUtils, PausableTe
         hypercertMinter.mintClaim(owner, 1, _uri, IHypercertToken.TransferRestrictions.AllowAll);
 
         vm.expectRevert("Pausable: paused");
-        hypercertMinter.mintClaimWithFractions(
-            owner,
-            1,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.AllowAll
-        );
+        hypercertMinter.mintClaimWithFractions(owner, 1, fractions, _uri, IHypercertToken.TransferRestrictions.AllowAll);
 
         vm.expectRevert("Pausable: paused");
         hypercertMinter.mintClaimFromAllowlist(owner, proofs, 2, 1000);

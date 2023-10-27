@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { OwnableTwoSteps } from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
+import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
 
 /**
  * @title BaseStrategyChainlinkPriceLatency

@@ -2,10 +2,10 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { OwnableTwoSteps } from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
+import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
 
 // Interfaces
-import { ICurrencyManager } from "./interfaces/ICurrencyManager.sol";
+import {ICurrencyManager} from "./interfaces/ICurrencyManager.sol";
 
 /**
  * @title CurrencyManager

@@ -2,25 +2,31 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "./libraries/OrderStructs.sol";
+import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Interfaces
-import { IExecutionManager } from "./interfaces/IExecutionManager.sol";
-import { ICreatorFeeManager } from "./interfaces/ICreatorFeeManager.sol";
+import {IExecutionManager} from "./interfaces/IExecutionManager.sol";
+import {ICreatorFeeManager} from "./interfaces/ICreatorFeeManager.sol";
 
 // Direct dependencies
-import { InheritedStrategy } from "./InheritedStrategy.sol";
-import { NonceManager } from "./NonceManager.sol";
-import { StrategyManager } from "./StrategyManager.sol";
+import {InheritedStrategy} from "./InheritedStrategy.sol";
+import {NonceManager} from "./NonceManager.sol";
+import {StrategyManager} from "./StrategyManager.sol";
 
 // Assembly
-import { NoSelectorForStrategy_error_selector, NoSelectorForStrategy_error_length, OutsideOfTimeRange_error_selector, OutsideOfTimeRange_error_length, Error_selector_offset } from "./constants/AssemblyConstants.sol";
+import {
+    NoSelectorForStrategy_error_selector,
+    NoSelectorForStrategy_error_length,
+    OutsideOfTimeRange_error_selector,
+    OutsideOfTimeRange_error_length,
+    Error_selector_offset
+} from "./constants/AssemblyConstants.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "./constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "./constants/NumericConstants.sol";
 
 // Enums
-import { QuoteType } from "./enums/QuoteType.sol";
+import {QuoteType} from "./enums/QuoteType.sol";
 
 /**
  * @title ExecutionManager
@@ -39,7 +45,7 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
      * @notice Maximum creator fee (in basis point).
      */
     // TODO do we need a max? Is 1% max fair?
-    uint16 public maxCreatorFeeBp = 1_000;
+    uint16 public maxCreatorFeeBp = 1000;
 
     /**
      * @notice Creator fee manager.
@@ -72,7 +78,7 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
      *      Only callable by owner.
      */
     function updateMaxCreatorFeeBp(uint16 newMaxCreatorFeeBp) external onlyOwner {
-        if (newMaxCreatorFeeBp > 2_500) {
+        if (newMaxCreatorFeeBp > 2500) {
             revert CreatorFeeBpTooHigh();
         }
 
@@ -172,11 +178,8 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
         }
 
         // Creator fee and adjustment of protocol fee
-        (recipients[1], feeAmounts[1]) = _getCreatorRecipientAndCalculateFeeAmount(
-            makerOrder.collection,
-            price,
-            itemIds
-        );
+        (recipients[1], feeAmounts[1]) =
+            _getCreatorRecipientAndCalculateFeeAmount(makerOrder.collection, price, itemIds);
         if (makerOrder.quoteType == QuoteType.Bid) {
             _setTheRestOfFeeAmountsAndRecipients(
                 makerOrder.strategyId,
@@ -187,11 +190,7 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
             );
         } else {
             _setTheRestOfFeeAmountsAndRecipients(
-                makerOrder.strategyId,
-                price,
-                makerOrder.signer,
-                feeAmounts,
-                recipients
+                makerOrder.strategyId, price, makerOrder.signer, feeAmounts, recipients
             );
         }
     }
@@ -240,11 +239,11 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
      * @return creator Creator recipient
      * @return creatorFeeAmount Creator fee amount
      */
-    function _getCreatorRecipientAndCalculateFeeAmount(
-        address collection,
-        uint256 price,
-        uint256[] memory itemIds
-    ) private view returns (address creator, uint256 creatorFeeAmount) {
+    function _getCreatorRecipientAndCalculateFeeAmount(address collection, uint256 price, uint256[] memory itemIds)
+        private
+        view
+        returns (address creator, uint256 creatorFeeAmount)
+    {
         if (address(creatorFeeManager) != address(0)) {
             (creator, creatorFeeAmount) = creatorFeeManager.viewCreatorFeeInfo(collection, price, itemIds);
 

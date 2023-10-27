@@ -2,16 +2,16 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Enums
-import { QuoteType } from "../enums/QuoteType.sol";
+import {QuoteType} from "../enums/QuoteType.sol";
 
 // Shared errors
-import { BidTooLow, OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid } from "../errors/SharedErrors.sol";
+import {BidTooLow, OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
-import { BaseStrategy, IStrategy } from "./BaseStrategy.sol";
+import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
 /**
  * @title StrategyDutchAuction
@@ -27,10 +27,7 @@ contract StrategyDutchAuction is BaseStrategy {
      * @param makerAsk Maker ask struct (maker bid-specific parameters for the execution)
      * @dev The client has to provide the seller's desired initial start price as the additionalParameters.
      */
-    function executeStrategyWithTakerBid(
-        OrderStructs.Taker calldata takerBid,
-        OrderStructs.Maker calldata makerAsk
-    )
+    function executeStrategyWithTakerBid(OrderStructs.Taker calldata takerBid, OrderStructs.Maker calldata makerAsk)
         external
         view
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
@@ -50,9 +47,8 @@ contract StrategyDutchAuction is BaseStrategy {
         uint256 startTime = makerAsk.startTime;
         uint256 endTime = makerAsk.endTime;
 
-        price =
-            ((endTime - block.timestamp) * startPrice + (block.timestamp - startTime) * makerAsk.price) /
-            (endTime - startTime);
+        price = ((endTime - block.timestamp) * startPrice + (block.timestamp - startTime) * makerAsk.price)
+            / (endTime - startTime);
 
         uint256 maxPrice = abi.decode(takerBid.additionalParameters, (uint256));
         if (maxPrice < price) {
@@ -68,10 +64,12 @@ contract StrategyDutchAuction is BaseStrategy {
     /**
      * @inheritdoc IStrategy
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata makerAsk,
-        bytes4 functionSelector
-    ) external pure override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata makerAsk, bytes4 functionSelector)
+        external
+        pure
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         if (functionSelector != StrategyDutchAuction.executeStrategyWithTakerBid.selector) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
@@ -86,7 +84,7 @@ contract StrategyDutchAuction is BaseStrategy {
             return (isValid, OrderInvalid.selector);
         }
 
-        for (uint256 i; i < itemIdsLength; ) {
+        for (uint256 i; i < itemIdsLength;) {
             _validateAmountNoRevert(makerAsk.amounts[i], makerAsk.collectionType);
             unchecked {
                 ++i;

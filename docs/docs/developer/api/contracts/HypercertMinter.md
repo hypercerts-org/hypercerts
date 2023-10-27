@@ -99,7 +99,7 @@ _Calls AllowlistMinter to verify `proofs`.Mints the `amount` of units for the hy
 ### burn
 
 ```solidity
-function burn(address account, uint256 id, uint256 value) external nonpayable
+function burn(address account, uint256 id, uint256) external nonpayable
 ```
 
 Burn a claimtoken; override is needed to update units/values
@@ -112,12 +112,12 @@ _see {ERC1155Burnable}_
 | ------- | ------- | ----------- |
 | account | address | undefined   |
 | id      | uint256 | undefined   |
-| value   | uint256 | undefined   |
+| \_2     | uint256 | undefined   |
 
 ### burnBatch
 
 ```solidity
-function burnBatch(address account, uint256[] ids, uint256[] values) external nonpayable
+function burnBatch(address account, uint256[] ids, uint256[]) external nonpayable
 ```
 
 Batch burn claimtokens; override is needed to update units/values
@@ -130,7 +130,7 @@ _see {ERC1155Burnable}_
 | ------- | --------- | ----------- |
 | account | address   | undefined   |
 | ids     | uint256[] | undefined   |
-| values  | uint256[] | undefined   |
+| \_2     | uint256[] | undefined   |
 
 ### burnFraction
 

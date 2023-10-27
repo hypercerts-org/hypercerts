@@ -2,13 +2,13 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { SignatureCheckerCalldata } from "@looksrare/contracts-libs/contracts/SignatureCheckerCalldata.sol";
+import {SignatureCheckerCalldata} from "@looksrare/contracts-libs/contracts/SignatureCheckerCalldata.sol";
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Other dependencies
-import { LooksRareProtocol } from "../LooksRareProtocol.sol";
+import {LooksRareProtocol} from "../LooksRareProtocol.sol";
 
 /**
  * @title ProtocolHelpers
@@ -60,11 +60,11 @@ contract ProtocolHelpers {
      * @param signer Signer address
      * @dev It returns true only if the SignatureCheckerCalldata does not revert before.
      */
-    function verifyMakerSignature(
-        OrderStructs.Maker memory maker,
-        bytes calldata makerSignature,
-        address signer
-    ) public view returns (bool) {
+    function verifyMakerSignature(OrderStructs.Maker memory maker, bytes calldata makerSignature, address signer)
+        public
+        view
+        returns (bool)
+    {
         bytes32 digest = computeMakerDigest(maker);
         SignatureCheckerCalldata.verify(digest, signer, makerSignature);
         return true;
@@ -77,11 +77,11 @@ contract ProtocolHelpers {
      * @param signer Signer address
      * @dev It returns true only if the SignatureCheckerCalldata does not revert before.
      */
-    function verifyMerkleTree(
-        OrderStructs.MerkleTree memory merkleTree,
-        bytes calldata makerSignature,
-        address signer
-    ) public view returns (bool) {
+    function verifyMerkleTree(OrderStructs.MerkleTree memory merkleTree, bytes calldata makerSignature, address signer)
+        public
+        view
+        returns (bool)
+    {
         bytes32 digest = computeDigestMerkleTree(merkleTree);
         SignatureCheckerCalldata.verify(digest, signer, makerSignature);
         return true;

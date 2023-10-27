@@ -2,13 +2,13 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Other tests
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 contract BundleTransactionsTest is ProtocolBase {
     function setUp() public {
@@ -19,10 +19,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setUpUsers();
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(address(mockERC721), address(weth), numberItemsInBundle);
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAskWithBundle(address(mockERC721), address(weth), numberItemsInBundle);
 
         // Sign the order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -35,7 +33,7 @@ contract BundleTransactionsTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertMockERC721Ownership(makerBid.itemIds, makerUser);
 
@@ -46,10 +44,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setUpUsers();
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(address(mockERC1155), address(weth), numberItemsInBundle);
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAskWithBundle(address(mockERC1155), address(weth), numberItemsInBundle);
 
         // Sign the order
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -62,7 +58,7 @@ contract BundleTransactionsTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         for (uint256 i; i < makerBid.itemIds.length; i++) {
             // Maker user has received all the assets in the bundle
@@ -77,10 +73,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerBid,
-            OrderStructs.Taker memory takerAsk
-        ) = _createMockMakerBidAndTakerAskWithBundle(address(mockERC721), address(weth), numberItemsInBundle);
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAskWithBundle(address(mockERC721), address(weth), numberItemsInBundle);
 
         uint256 price = makerBid.price;
 
@@ -95,7 +89,7 @@ contract BundleTransactionsTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertMockERC721Ownership(makerBid.itemIds, makerUser);
 
@@ -124,10 +118,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setUpUsers();
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerAsk,
-            OrderStructs.Taker memory takerBid
-        ) = _createMockMakerAskAndTakerBidWithBundle(address(mockERC721), numberItemsInBundle);
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBidWithBundle(address(mockERC721), numberItemsInBundle);
 
         uint256 price = makerAsk.price;
 
@@ -140,13 +132,7 @@ contract BundleTransactionsTest is ProtocolBase {
 
         // Execute taker bid transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         _assertMockERC721Ownership(makerAsk.itemIds, takerUser);
 
@@ -157,10 +143,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setUpUsers();
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerAsk,
-            OrderStructs.Taker memory takerBid
-        ) = _createMockMakerAskAndTakerBidWithBundle(address(mockERC1155), numberItemsInBundle);
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBidWithBundle(address(mockERC1155), numberItemsInBundle);
 
         uint256 price = makerAsk.price;
 
@@ -173,13 +157,7 @@ contract BundleTransactionsTest is ProtocolBase {
 
         // Execute taker bid transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         for (uint256 i; i < makerAsk.itemIds.length; i++) {
             // Taker user has received all the assets in the bundle
@@ -194,10 +172,8 @@ contract BundleTransactionsTest is ProtocolBase {
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
         uint256 numberItemsInBundle = 5;
 
-        (
-            OrderStructs.Maker memory makerAsk,
-            OrderStructs.Taker memory takerBid
-        ) = _createMockMakerAskAndTakerBidWithBundle(address(mockERC721), numberItemsInBundle);
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBidWithBundle(address(mockERC721), numberItemsInBundle);
 
         uint256 price = makerAsk.price;
 
@@ -211,13 +187,7 @@ contract BundleTransactionsTest is ProtocolBase {
         // Execute taker bid transaction
         vm.prank(takerUser);
 
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         _assertMockERC721Ownership(makerAsk.itemIds, takerUser);
 

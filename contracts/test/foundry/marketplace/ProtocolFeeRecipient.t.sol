@@ -2,15 +2,15 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IERC20 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
-import { IWETH } from "@looksrare/contracts-libs/contracts/interfaces/generic/IWETH.sol";
+import {IERC20} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
+import {IWETH} from "@looksrare/contracts-libs/contracts/interfaces/generic/IWETH.sol";
 
 // Core contracts
-import { ProtocolFeeRecipient } from "@hypercerts/marketplace/ProtocolFeeRecipient.sol";
+import {ProtocolFeeRecipient} from "@hypercerts/marketplace/ProtocolFeeRecipient.sol";
 
 // Other mocks and utils
-import { MockERC20 } from "../../mock/MockERC20.sol";
-import { TestParameters } from "./utils/TestParameters.sol";
+import {MockERC20} from "../../mock/MockERC20.sol";
+import {TestParameters} from "./utils/TestParameters.sol";
 
 contract ProtocolFeeRecipientTest is TestParameters {
     ProtocolFeeRecipient private protocolFeeRecipient;
@@ -47,8 +47,7 @@ contract ProtocolFeeRecipientTest is TestParameters {
         assertEq(address(protocolFeeRecipient).balance, 0);
         assertEq(IERC20(WETH_MAINNET).balanceOf(address(protocolFeeRecipient)), 0);
         assertEq(
-            IERC20(WETH_MAINNET).balanceOf(FEE_SHARING_SETTER),
-            feeSharingSetterInitialWETHBalance + 1 ether + DUST
+            IERC20(WETH_MAINNET).balanceOf(FEE_SHARING_SETTER), feeSharingSetterInitialWETHBalance + 1 ether + DUST
         );
     }
 
@@ -98,13 +97,13 @@ contract ProtocolFeeRecipientTest is TestParameters {
     }
 
     function _sendETHToProtocolFeeRecipient() private {
-        (bool success, ) = address(protocolFeeRecipient).call{ value: 1 ether }("");
+        (bool success,) = address(protocolFeeRecipient).call{value: 1 ether}("");
         assertTrue(success);
         assertEq(address(protocolFeeRecipient).balance, 1 ether);
     }
 
     function _sendWETHToProtocolFeeRecipient() private {
-        IWETH(WETH_MAINNET).deposit{ value: DUST }();
+        IWETH(WETH_MAINNET).deposit{value: DUST}();
         IERC20(WETH_MAINNET).transfer(address(protocolFeeRecipient), DUST);
         assertEq(IERC20(WETH_MAINNET).balanceOf(address(protocolFeeRecipient)), DUST);
     }

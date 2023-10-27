@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-import { IHypercertToken } from "./interfaces/IHypercertToken.sol";
-import { SemiFungible1155 } from "./SemiFungible1155.sol";
-import { AllowlistMinter } from "./AllowlistMinter.sol";
-import { PausableUpgradeable } from "oz-upgradeable/security/PausableUpgradeable.sol";
+import {IHypercertToken} from "./interfaces/IHypercertToken.sol";
+import {SemiFungible1155} from "./SemiFungible1155.sol";
+import {AllowlistMinter} from "./AllowlistMinter.sol";
+import {PausableUpgradeable} from "oz-upgradeable/security/PausableUpgradeable.sol";
 
-import { Errors } from "./libs/Errors.sol";
+import {Errors} from "./libs/Errors.sol";
 
 /// @title Contract for managing hypercert claims and whitelists
 /// @author bitbeckers
@@ -37,12 +37,11 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Mint a semi-fungible token for the impact claim referenced via `uri`
     /// @dev see {IHypercertToken}
-    function mintClaim(
-        address account,
-        uint256 units,
-        string memory _uri,
-        TransferRestrictions restrictions
-    ) external override whenNotPaused {
+    function mintClaim(address account, uint256 units, string memory _uri, TransferRestrictions restrictions)
+        external
+        override
+        whenNotPaused
+    {
         // This enables us to release this restriction in the future
         if (msg.sender != account) revert Errors.NotAllowed();
         uint256 claimID = _mintNewTypeWithToken(account, units, _uri);
@@ -72,12 +71,10 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     /// @notice Mint a semi-fungible token representing a fraction of the claim
     /// @dev Calls AllowlistMinter to verify `proof`.
     /// @dev Mints the `amount` of units for the hypercert stored under `claimID`
-    function mintClaimFromAllowlist(
-        address account,
-        bytes32[] calldata proof,
-        uint256 claimID,
-        uint256 units
-    ) external whenNotPaused {
+    function mintClaimFromAllowlist(address account, bytes32[] calldata proof, uint256 claimID, uint256 units)
+        external
+        whenNotPaused
+    {
         _processClaim(proof, claimID, units);
         _mintToken(account, claimID, units);
     }
@@ -92,7 +89,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         uint256[] calldata units
     ) external whenNotPaused {
         uint256 len = claimIDs.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             _processClaim(proofs[i], claimIDs[i], units[i]);
             unchecked {
                 ++i;
@@ -119,11 +116,10 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Split a claimtokens value into parts with summed value equal to the original
     /// @dev see {IHypercertToken}
-    function splitFraction(
-        address _account,
-        uint256 _tokenID,
-        uint256[] calldata _newFractions
-    ) external whenNotPaused {
+    function splitFraction(address _account, uint256 _tokenID, uint256[] calldata _newFractions)
+        external
+        whenNotPaused
+    {
         _splitTokenUnits(_account, _tokenID, _newFractions);
     }
 
@@ -147,13 +143,17 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Burn a claimtoken; override is needed to update units/values
     /// @dev see {ERC1155Burnable}
-    function burn(address account, uint256 id, uint256 value) public override whenNotPaused {
+    function burn(address account, uint256 id, uint256 /*value*/ ) public override whenNotPaused {
         _burnToken(account, id);
     }
 
     /// @notice Batch burn claimtokens; override is needed to update units/values
     /// @dev see {ERC1155Burnable}
-    function burnBatch(address account, uint256[] memory ids, uint256[] memory values) public override whenNotPaused {
+    function burnBatch(address account, uint256[] memory ids, uint256[] memory /*values*/ )
+        public
+        override
+        whenNotPaused
+    {
         _batchBurnToken(account, ids);
     }
 
@@ -180,7 +180,12 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
     /// METADATA
 
     /// @dev see { IHypercertMetadata}
-    function uri(uint256 tokenID) public view override(IHypercertToken, SemiFungible1155) returns (string memory _uri) {
+    function uri(uint256 tokenID)
+        public
+        view
+        override(IHypercertToken, SemiFungible1155)
+        returns (string memory _uri)
+    {
         _uri = SemiFungible1155.uri(tokenID);
     }
 
@@ -222,7 +227,7 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
         // Transfer case, where to and from are non-zero
         uint256 len = ids.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             uint256 typeID = getBaseType(ids[i]);
             TransferRestrictions policy = typeRestrictions[typeID];
             if (policy == TransferRestrictions.DisallowAll) {

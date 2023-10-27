@@ -2,24 +2,24 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IOwnableTwoSteps } from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
+import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Core contracts
-import { LooksRareProtocol } from "@hypercerts/marketplace/LooksRareProtocol.sol";
-import { ITransferManager, TransferManager } from "@hypercerts/marketplace/TransferManager.sol";
-import { AmountInvalid, LengthsInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {LooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
+import {ITransferManager, TransferManager} from "@hypercerts/marketplace/TransferManager.sol";
+import {AmountInvalid, LengthsInvalid} from "@hypercerts/marketplace/errors/SharedErrors.sol";
 
 // Mocks and other utils
-import { MockERC721 } from "../../mock/MockERC721.sol";
-import { MockERC1155 } from "../../mock/MockERC1155.sol";
-import { TestHelpers } from "./utils/TestHelpers.sol";
-import { TestParameters } from "./utils/TestParameters.sol";
+import {MockERC721} from "../../mock/MockERC721.sol";
+import {MockERC1155} from "../../mock/MockERC1155.sol";
+import {TestHelpers} from "./utils/TestHelpers.sol";
+import {TestParameters} from "./utils/TestParameters.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 
 contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     address[] public operators;
@@ -398,21 +398,13 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         // 1. ERC721
         vm.expectRevert(LengthsInvalid.selector);
         transferManager.transferItemsERC721(
-            address(mockERC721),
-            _sender,
-            _recipient,
-            emptyArrayUint256,
-            emptyArrayUint256
+            address(mockERC721), _sender, _recipient, emptyArrayUint256, emptyArrayUint256
         );
 
         // 2. ERC1155 length is 0
         vm.expectRevert(LengthsInvalid.selector);
         transferManager.transferItemsERC1155(
-            address(mockERC1155),
-            _sender,
-            _recipient,
-            emptyArrayUint256,
-            emptyArrayUint256
+            address(mockERC1155), _sender, _recipient, emptyArrayUint256, emptyArrayUint256
         );
     }
 

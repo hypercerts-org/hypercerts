@@ -13,8 +13,8 @@ interface IRoyaltyFeeRegistry {
      * @return receiver Receiver address
      * @return royaltyFee Royalty fee amount
      */
-    function royaltyInfo(
-        address collection,
-        uint256 price
-    ) external view returns (address receiver, uint256 royaltyFee);
+    function royaltyInfo(address collection, uint256 price)
+        external
+        view
+        returns (address receiver, uint256 royaltyFee);
 }

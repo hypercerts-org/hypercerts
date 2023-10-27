@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { SemiFungible1155Helper } from "./SemiFungibleHelper.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {SemiFungible1155Helper} from "./SemiFungibleHelper.sol";
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
 /// https://book.getfoundry.sh/forge/writing-tests
@@ -28,11 +28,11 @@ contract SemiFungible1155UnitsTest is PRBTest, StdCheats, StdUtils {
         uint256 baseID = 1 << 128;
         uint128 tokenID = 1;
 
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
 
         assertEq(semiFungible.unitsOf(baseID), 10_000);
 
-        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, alice, 1, 10000);
+        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, alice, 1, 10_000);
 
         semiFungible.validateNotOwnerNoBalanceNoUnits(baseID + tokenID, bob);
 
@@ -51,7 +51,7 @@ contract SemiFungible1155UnitsTest is PRBTest, StdCheats, StdUtils {
         semiFungible.validateNotOwnerNoBalanceNoUnits(baseID + tokenID, alice);
 
         assertEq(semiFungible.balanceOf(bob, baseID), 0);
-        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, bob, 1, 10000);
+        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, bob, 1, 10_000);
     }
 
     function testUnitsMultipleFractions() public {
