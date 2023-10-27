@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { Merkle } from "murky/Merkle.sol";
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
-import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {Merkle} from "murky/Merkle.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract MinterTestHelper {
     event ClaimStored(uint256 indexed claimID, string uri, uint256 totalUnits);
@@ -78,7 +78,7 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
     }
 
     function testClaimSingleFraction() public {
-        uint256 units = 10000;
+        uint256 units = 10_000;
 
         vm.expectEmit(true, true, true, true);
         emit ClaimStored(1 << 128, _uri, units);
@@ -91,11 +91,7 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         vm.expectEmit(true, true, true, true);
         emit ClaimStored(1 << 128, _uri, totalUnits);
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.AllowAll
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.AllowAll
         );
     }
 
@@ -106,11 +102,7 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         vm.expectEmit(true, true, true, true);
         emit ClaimStored(1 << 128, _uri, totalUnits);
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.AllowAll
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.AllowAll
         );
     }
 
@@ -120,11 +112,7 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         vm.expectEmit(true, true, true, true);
         emit ClaimStored(1 << 128, _uri, totalUnits);
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.DisallowAll
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.DisallowAll
         );
     }
 
@@ -134,11 +122,7 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         vm.expectEmit(true, true, true, true);
         emit ClaimStored(1 << 128, _uri, totalUnits);
         hypercertMinter.mintClaimWithFractions(
-            alice,
-            totalUnits,
-            fractions,
-            _uri,
-            IHypercertToken.TransferRestrictions.FromCreatorOnly
+            alice, totalUnits, fractions, _uri, IHypercertToken.TransferRestrictions.FromCreatorOnly
         );
     }
 }

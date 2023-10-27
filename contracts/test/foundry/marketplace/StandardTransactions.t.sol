@@ -2,20 +2,20 @@
 pragma solidity 0.8.17;
 
 // Libraries, interfaces, errors
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { LengthsInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {LengthsInvalid} from "@hypercerts/marketplace/errors/SharedErrors.sol";
 
-import { CreatorFeeManagerWithRoyalties } from "@hypercerts/marketplace/CreatorFeeManagerWithRoyalties.sol";
+import {CreatorFeeManagerWithRoyalties} from "@hypercerts/marketplace/CreatorFeeManagerWithRoyalties.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract StandardTransactionsTest is ProtocolBase {
     error ERC721TransferFromFail();
@@ -40,9 +40,8 @@ contract StandardTransactionsTest is ProtocolBase {
         _setUpUsers();
         _setupRegistryRoyalties(address(mockERC721), NEW_ROYALTY_FEE);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.price = price;
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
@@ -54,7 +53,7 @@ contract StandardTransactionsTest is ProtocolBase {
         _assertValidMakerOrder(makerAsk, signature);
 
         // Arrays for events
-        uint256[3] memory expectedFees = _calculateExpectedFees({ price: price, royaltyFeeBp: NEW_ROYALTY_FEE });
+        uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: NEW_ROYALTY_FEE});
         address[2] memory expectedRecipients;
 
         expectedRecipients[0] = makerUser;
@@ -81,13 +80,7 @@ contract StandardTransactionsTest is ProtocolBase {
             expectedFees
         );
 
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulExecutionThroughETH(takerUser, makerUser, price, expectedFees);
 
@@ -104,9 +97,8 @@ contract StandardTransactionsTest is ProtocolBase {
         vm.assume(price <= 2 ether);
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.price = price;
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
@@ -121,7 +113,7 @@ contract StandardTransactionsTest is ProtocolBase {
         _assertValidMakerOrder(makerAsk, signature);
 
         // Arrays for events
-        uint256[3] memory expectedFees = _calculateExpectedFees({ price: price, royaltyFeeBp: 0 });
+        uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: 0});
         address[2] memory expectedRecipients;
 
         expectedRecipients[0] = makerUser;
@@ -148,13 +140,7 @@ contract StandardTransactionsTest is ProtocolBase {
             expectedFees
         );
 
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulExecutionThroughETH(takerUser, makerUser, price, expectedFees);
     }
@@ -168,10 +154,8 @@ contract StandardTransactionsTest is ProtocolBase {
         _setUpUsers();
         _setupRegistryRoyalties(address(mockERC721), NEW_ROYALTY_FEE);
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
         makerBid.price = price;
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -183,7 +167,7 @@ contract StandardTransactionsTest is ProtocolBase {
         mockERC721.mint(takerUser, makerBid.itemIds[0]);
 
         // Arrays for events
-        uint256[3] memory expectedFees = _calculateExpectedFees({ price: price, royaltyFeeBp: NEW_ROYALTY_FEE });
+        uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: NEW_ROYALTY_FEE});
         address[2] memory expectedRecipients;
 
         expectedRecipients[0] = takerUser;
@@ -211,7 +195,7 @@ contract StandardTransactionsTest is ProtocolBase {
             expectedFees
         );
 
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulExecutionThroughWETH(makerUser, takerUser, price, expectedFees);
         // Verify the nonce is marked as executed
@@ -219,16 +203,15 @@ contract StandardTransactionsTest is ProtocolBase {
     }
 
     /**
-     * One ERC721 is sold through a taker ask using WETH. Address zero is specified as the recipient in the taker struct.
+     * One ERC721 is sold through a taker ask using WETH. Address zero is specified as the recipient in the taker
+     * struct.
      */
     function testTakerAskERC721WithAddressZeroSpecifiedAsRecipient(uint256 price) public {
         vm.assume(price <= 2 ether);
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
         makerBid.price = price;
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -243,7 +226,7 @@ contract StandardTransactionsTest is ProtocolBase {
         mockERC721.mint(takerUser, makerBid.itemIds[0]);
 
         // Arrays for events
-        uint256[3] memory expectedFees = _calculateExpectedFees({ price: price, royaltyFeeBp: 0 });
+        uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: 0});
         address[2] memory expectedRecipients;
 
         expectedRecipients[0] = takerUser;
@@ -270,7 +253,7 @@ contract StandardTransactionsTest is ProtocolBase {
             expectedFees
         );
 
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulExecutionThroughWETH(makerUser, takerUser, price, expectedFees);
     }
@@ -317,13 +300,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
         // Execute taker bid transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
 
         for (uint256 i; i < numberPurchases; i++) {
@@ -338,9 +316,8 @@ contract StandardTransactionsTest is ProtocolBase {
         // Maker ask user receives 99.5% of the whole price (0.5% protocol)
         assertEq(
             address(makerUser).balance,
-            _initialETHBalanceUser +
-                ((price * _sellerProceedBpWithStandardProtocolFeeBp) * numberPurchases) /
-                ONE_HUNDRED_PERCENT_IN_BP
+            _initialETHBalanceUser
+                + ((price * _sellerProceedBpWithStandardProtocolFeeBp) * numberPurchases) / ONE_HUNDRED_PERCENT_IN_BP
         );
         // No leftover in the balance of the contract
         assertEq(address(looksRareProtocol).balance, 0);
@@ -397,13 +374,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
             vm.expectRevert(abi.encodeWithSelector(ERC721TransferFromFail.selector));
             vm.prank(takerUser);
-            looksRareProtocol.executeMultipleTakerBids{ value: 1.4 ether * numberPurchases }(
-                takerBids,
-                makerAsks,
-                signatures,
-                merkleTrees,
-                _EMPTY_AFFILIATE,
-                true
+            looksRareProtocol.executeMultipleTakerBids{value: 1.4 ether * numberPurchases}(
+                takerBids, makerAsks, signatures, merkleTrees, true
             );
         }
 
@@ -416,13 +388,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
             vm.prank(takerUser);
             // Execute taker bid transaction
-            looksRareProtocol.executeMultipleTakerBids{ value: 1.4 ether * numberPurchases }(
-                takerBids,
-                makerAsks,
-                signatures,
-                merkleTrees,
-                _EMPTY_AFFILIATE,
-                false
+            looksRareProtocol.executeMultipleTakerBids{value: 1.4 ether * numberPurchases}(
+                takerBids, makerAsks, signatures, merkleTrees, false
             );
         }
 
@@ -442,9 +409,9 @@ contract StandardTransactionsTest is ProtocolBase {
         // Maker ask user receives 99.5% of the whole price (0.5% protocol)
         assertEq(
             address(makerUser).balance,
-            _initialETHBalanceUser +
-                ((1.4 ether * _sellerProceedBpWithStandardProtocolFeeBp) * (numberPurchases - 1)) /
-                ONE_HUNDRED_PERCENT_IN_BP
+            _initialETHBalanceUser
+                + ((1.4 ether * _sellerProceedBpWithStandardProtocolFeeBp) * (numberPurchases - 1))
+                    / ONE_HUNDRED_PERCENT_IN_BP
         );
         // 1 wei left in the balance of the contract
         assertEq(address(looksRareProtocol).balance, 1);
@@ -465,13 +432,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
         vm.expectRevert(LengthsInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
 
         // 2. Invalid signatures length
@@ -480,13 +442,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
         vm.expectRevert(LengthsInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
 
         // 3. Invalid merkle trees length
@@ -495,20 +452,16 @@ contract StandardTransactionsTest is ProtocolBase {
 
         vm.expectRevert(LengthsInvalid.selector);
         vm.prank(takerUser);
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
     }
 
-    function _calculateExpectedFees(
-        uint256 price,
-        uint256 royaltyFeeBp
-    ) private pure returns (uint256[3] memory expectedFees) {
+    function _calculateExpectedFees(uint256 price, uint256 royaltyFeeBp)
+        private
+        pure
+        returns (uint256[3] memory expectedFees)
+    {
         expectedFees[2] = (price * _standardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP;
         expectedFees[1] = (price * royaltyFeeBp) / ONE_HUNDRED_PERCENT_IN_BP;
         if (expectedFees[2] + expectedFees[1] < ((price * _minTotalFeeBp) / ONE_HUNDRED_PERCENT_IN_BP)) {

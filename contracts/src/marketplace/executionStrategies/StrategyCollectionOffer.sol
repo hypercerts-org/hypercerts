@@ -2,19 +2,19 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // OpenZeppelin's library for verifying Merkle proofs
-import { MerkleProofMemory } from "../libraries/OpenZeppelin/MerkleProofMemory.sol";
+import {MerkleProofMemory} from "../libraries/OpenZeppelin/MerkleProofMemory.sol";
 
 // Enums
-import { QuoteType } from "../enums/QuoteType.sol";
+import {QuoteType} from "../enums/QuoteType.sol";
 
 // Shared errors
-import { OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInvalid } from "../errors/SharedErrors.sol";
+import {OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
-import { BaseStrategy, IStrategy } from "./BaseStrategy.sol";
+import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
 /**
  * @title StrategyCollectionOffer
@@ -83,10 +83,8 @@ contract StrategyCollectionOffer is BaseStrategy {
             revert OrderInvalid();
         }
 
-        (uint256 offeredItemId, bytes32[] memory proof) = abi.decode(
-            takerAsk.additionalParameters,
-            (uint256, bytes32[])
-        );
+        (uint256 offeredItemId, bytes32[] memory proof) =
+            abi.decode(takerAsk.additionalParameters, (uint256, bytes32[]));
         itemIds = new uint256[](1);
         itemIds[0] = offeredItemId;
         isNonceInvalidated = true;
@@ -103,13 +101,15 @@ contract StrategyCollectionOffer is BaseStrategy {
     /**
      * @inheritdoc IStrategy
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata makerBid,
-        bytes4 functionSelector
-    ) external pure override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata makerBid, bytes4 functionSelector)
+        external
+        pure
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         if (
-            functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector &&
-            functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector
+            functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
+                && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector
         ) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
@@ -127,8 +127,8 @@ contract StrategyCollectionOffer is BaseStrategy {
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
         if (
-            functionSelector == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector &&
-            makerBid.additionalParameters.length != 32
+            functionSelector == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
+                && makerBid.additionalParameters.length != 32
         ) {
             return (isValid, OrderInvalid.selector);
         }

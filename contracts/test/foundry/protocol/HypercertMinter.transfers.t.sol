@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { Errors } from "@hypercerts/protocol/libs/Errors.sol";
-import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
-import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {Errors} from "@hypercerts/protocol/libs/Errors.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 /// @dev Testing transfer restrictions on hypercerts
 contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {
@@ -22,7 +22,7 @@ contract HypercertMinterTransferTest is PRBTest, StdCheats, StdUtils {
     function setUp() public {
         hypercertMinter = new HypercertMinter();
         _uri = "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi";
-        _units = 10000;
+        _units = 10_000;
         baseID = 1 << 128;
         tokenIndex = 1;
         tokenID = baseID + tokenIndex;

@@ -3,13 +3,13 @@
 // https://github.com/enjin/erc-1155/blob/master/contracts/ERC1155MixedFungibleMintable.sol
 pragma solidity 0.8.16;
 
-import { ERC1155Upgradeable } from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
-import { ERC1155BurnableUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
-import { ERC1155URIStorageUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
-import { OwnableUpgradeable } from "oz-upgradeable/access/OwnableUpgradeable.sol";
-import { Initializable } from "oz-upgradeable/proxy/utils/Initializable.sol";
-import { UUPSUpgradeable } from "oz-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import { Errors } from "./libs/Errors.sol";
+import {ERC1155Upgradeable} from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import {ERC1155BurnableUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
+import {ERC1155URIStorageUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
+import {OwnableUpgradeable} from "oz-upgradeable/access/OwnableUpgradeable.sol";
+import {Initializable} from "oz-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "oz-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {Errors} from "./libs/Errors.sol";
 
 /// @title Contract for minting semi-fungible EIP1155 tokens
 /// @author bitbeckers
@@ -163,17 +163,18 @@ contract SemiFungible1155 is
      * @param _units The number of units associated with the new token.
      * @param _uri The URI for the metadata associated with the new token.
      * @return typeID The new token type ID.
-     * @dev This function creates a new token type ID by calling the `_createTokenType` function and then mints a new token with the new type ID.
+     * @dev This function creates a new token type ID by calling the `_createTokenType` function and then mints a new
+     * token with the new type ID.
      * @dev The `tokenID` is calculated by adding the `typeID` to the current maximum index for the `typeID`.
      * @dev The `tokenValues` mapping is updated with the number of units associated with the new token.
-     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the specified account.
+     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the
+     * specified account.
      * @dev If `_units` is zero, the function will revert with an error.
      */
-    function _mintNewTypeWithToken(
-        address _account,
-        uint256 _units,
-        string memory _uri
-    ) internal returns (uint256 typeID) {
+    function _mintNewTypeWithToken(address _account, uint256 _units, string memory _uri)
+        internal
+        returns (uint256 typeID)
+    {
         if (_units == 0) {
             revert Errors.NotAllowed();
         }
@@ -193,18 +194,20 @@ contract SemiFungible1155 is
      * @param _fractions An array of values associated with the new token.
      * @param _uri The URI for the metadata associated with the new token.
      * @return typeID The new token type ID.
-     * @dev This function creates a new token type ID by calling the `_createTokenType` function and then mints a new token with the new type ID.
+     * @dev This function creates a new token type ID by calling the `_createTokenType` function and then mints a new
+     * token with the new type ID.
      * @dev The `tokenID` is calculated by adding the `typeID` to the current maximum index for the `typeID`.
      * @dev The `tokenValues` mapping is updated with the number of units associated with the new token.
-     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the specified account.
+     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the
+     * specified account.
      * @dev If any of the fractional values in `_fractions` are zero, the function will revert with an error.
-     * @dev This function also calls the `_splitTokenUnits` function to split the new token into multiple sub-tokens with the specified fractional values.
+     * @dev This function also calls the `_splitTokenUnits` function to split the new token into multiple sub-tokens
+     * with the specified fractional values.
      */
-    function _mintNewTypeWithTokens(
-        address _account,
-        uint256[] calldata _fractions,
-        string memory _uri
-    ) internal returns (uint256 typeID) {
+    function _mintNewTypeWithTokens(address _account, uint256[] calldata _fractions, string memory _uri)
+        internal
+        returns (uint256 typeID)
+    {
         typeID = _mintNewTypeWithToken(_account, _getSum(_fractions), _uri);
         _splitTokenUnits(_account, typeID + maxIndex[typeID], _fractions);
     }
@@ -215,10 +218,13 @@ contract SemiFungible1155 is
      * @param _typeID The ID of the token type to mint.
      * @param _units The number of units associated with the new token.
      * @return tokenID The ID of the newly minted token.
-     * @dev This function checks that the specified token type ID is a base type and that the maximum number of tokens for the token type has not been reached.
-     * @dev The function then calculates the new token ID by adding the specified token type ID to the current maximum index for the token type.
+     * @dev This function checks that the specified token type ID is a base type and that the maximum number of tokens
+     * for the token type has not been reached.
+     * @dev The function then calculates the new token ID by adding the specified token type ID to the current maximum
+     * index for the token type.
      * @dev The `tokenValues` mapping is updated with the number of units associated with the new token.
-     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the specified account.
+     * @dev A `ValueTransfer` event is emitted to indicate that a new token has been minted and assigned to the
+     * specified account.
      */
     function _mintToken(address _account, uint256 _typeID, uint256 _units) internal returns (uint256 tokenID) {
         if (!isBaseType(_typeID)) revert Errors.NotAllowed();
@@ -241,23 +247,25 @@ contract SemiFungible1155 is
      * @param _typeIDs An array of token type IDs to mint.
      * @param _units An array of numbers of units associated with the new tokens.
      * @return tokenIDs An array of the IDs of the newly minted tokens.
-     * @dev This function checks that each specified token type ID is a base type and that the maximum number of tokens for each token type has not been reached.
-     * @dev The function then calculates the new token IDs by adding the specified token type IDs to the current maximum index for each token type.
+     * @dev This function checks that each specified token type ID is a base type and that the maximum number of tokens
+     * for each token type has not been reached.
+     * @dev The function then calculates the new token IDs by adding the specified token type IDs to the current maximum
+     * index for each token type.
      * @dev The `tokenValues` mapping is updated with the number of units associated with each new token.
-     * @dev A `BatchValueTransfer` event is emitted to indicate that new tokens have been minted and assigned to the specified account.
+     * @dev A `BatchValueTransfer` event is emitted to indicate that new tokens have been minted and assigned to the
+     * specified account.
      */
-    function _batchMintTokens(
-        address _account,
-        uint256[] calldata _typeIDs,
-        uint256[] calldata _units
-    ) internal returns (uint256[] memory tokenIDs) {
+    function _batchMintTokens(address _account, uint256[] calldata _typeIDs, uint256[] calldata _units)
+        internal
+        returns (uint256[] memory tokenIDs)
+    {
         uint256 len = _typeIDs.length;
 
         tokenIDs = new uint256[](len);
         uint256[] memory amounts = new uint256[](len);
         uint256[] memory zeroes = new uint256[](len);
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             uint256 _typeID = _typeIDs[i];
             if (!isBaseType(_typeID)) revert Errors.NotAllowed();
             _notMaxItem(maxIndex[_typeID]);
@@ -282,9 +290,12 @@ contract SemiFungible1155 is
      * @param _values An array of numbers of units associated with the new tokens.
      * @dev This function splits a token into multiple tokens with different unit values.
      * @dev The `_values` array specifies the number of units associated with each new token.
-     * @dev The function checks that the length of the `_values` array is between 2 and `FRACTION_LIMIT`, and that the sum of the values in the `_values` array is equal to the number of units associated with the original token.
-     * @dev The function then creates new tokens with the specified unit values and assigns them to the specified account.
-     * @dev A `BatchValueTransfer` event is emitted to indicate that the original token has been split into multiple tokens.
+     * @dev The function checks that the length of the `_values` array is between 2 and `FRACTION_LIMIT`, and that the
+     * sum of the values in the `_values` array is equal to the number of units associated with the original token.
+     * @dev The function then creates new tokens with the specified unit values and assigns them to the specified
+     * account.
+     * @dev A `BatchValueTransfer` event is emitted to indicate that the original token has been split into multiple
+     * tokens.
      */
     function _splitTokenUnits(address _account, uint256 _tokenID, uint256[] calldata _values) internal {
         if (_values.length > FRACTION_LIMIT || _values.length < 2) revert Errors.ArraySize();
@@ -309,7 +320,7 @@ contract SemiFungible1155 is
             _valuesCache[len] = _valuesCache[0];
             _valuesCache[0] = swapValue;
 
-            for (uint256 i; i < len; ) {
+            for (uint256 i; i < len;) {
                 _notMaxItem(maxIndex[_typeID]);
 
                 typeIDs[i] = _typeID;
@@ -326,7 +337,7 @@ contract SemiFungible1155 is
 
         _beforeUnitTransfer(_msgSender(), owners[_tokenID], fromIDs, toIDs, values, "");
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             valueLeft -= values[i];
 
             tokenValues[toIDs[i]] = values[i];
@@ -350,7 +361,8 @@ contract SemiFungible1155 is
      * @dev This function merges the units of multiple tokens into a single token.
      * @dev The `_fractionIDs` array specifies the IDs of the tokens to merge.
      * @dev The function checks that the length of the `_fractionIDs` array is between 2 and `FRACTION_LIMIT`.
-     * @dev The function then calculates the total value of the merged token by summing the values of the tokens to be merged.
+     * @dev The function then calculates the total value of the merged token by summing the values of the tokens to be
+     * merged.
      * @dev The `tokenValues` mapping is updated with the total value of the merged token.
      * @dev The tokens to be merged are burned except the last one that receives all the units.
      * @dev A `BatchValueTransfer` event is emitted to indicate that the tokens have been merged into a single token.
@@ -370,7 +382,7 @@ contract SemiFungible1155 is
         uint256[] memory amounts = new uint256[](len);
 
         {
-            for (uint256 i; i < len; ) {
+            for (uint256 i; i < len;) {
                 uint256 _fractionID = _fractionIDs[i];
                 fromIDs[i] = _fractionID;
                 toIDs[i] = target;
@@ -385,7 +397,7 @@ contract SemiFungible1155 is
 
         _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             _totalValue += values[i];
 
             delete tokenValues[fromIDs[i]];
@@ -404,8 +416,10 @@ contract SemiFungible1155 is
      * @param _account The address of the account that owns the token to burn.
      * @param _tokenID The ID of the token to burn.
      * @dev This function burns a single token with the specified ID and emits a `ValueTransfer` event `toTokenID` 0.
-     * @dev The function checks that the caller is the owner of the token or is approved to burn the token on behalf of the owner.
-     * @dev The function then deletes the token from the `tokenValues` mapping and calls the `_burn` function to burn the token.
+     * @dev The function checks that the caller is the owner of the token or is approved to burn the token on behalf of
+     * the owner.
+     * @dev The function then deletes the token from the `tokenValues` mapping and calls the `_burn` function to burn
+     * the token.
      */
     function _burnToken(address _account, uint256 _tokenID) internal {
         if (_account != _msgSender() && !isApprovedForAll(_account, _msgSender())) revert Errors.NotApprovedOrOwner();
@@ -423,9 +437,12 @@ contract SemiFungible1155 is
      * @param _account The address of the account that owns the tokens to burn.
      * @param _tokenIDs An array of token IDs to burn.
      * @dev This function burns multiple tokens with the specified IDs and emits a `BatchValueTransfer` event.
-     * @dev The function checks that the caller is the owner of the tokens or is approved to burn the tokens on behalf of the owner.
-     * @dev The function then deletes the tokens from the `tokenValues` mapping and calls the `_burnBatch` function to burn the tokens.
-     * @dev Finally, the function emits a `BatchValueTransfer` event with a value of 1 and `toTokenIDs` as 0 for each token burned to indicate that the tokens have been burned.
+     * @dev The function checks that the caller is the owner of the tokens or is approved to burn the tokens on behalf
+     * of the owner.
+     * @dev The function then deletes the tokens from the `tokenValues` mapping and calls the `_burnBatch` function to
+     * burn the tokens.
+     * @dev Finally, the function emits a `BatchValueTransfer` event with a value of 1 and `toTokenIDs` as 0 for each
+     * token burned to indicate that the tokens have been burned.
      */
     function _batchBurnToken(address _account, uint256[] memory _tokenIDs) internal {
         if (_account != _msgSender() && !isApprovedForAll(_account, _msgSender())) revert Errors.NotApprovedOrOwner();
@@ -478,7 +495,7 @@ contract SemiFungible1155 is
 
         uint256 len = ids.length;
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             owners[ids[i]] = to;
             unchecked {
                 ++i;
@@ -488,25 +505,26 @@ contract SemiFungible1155 is
 
     /**
      * @dev Called before a batch of tokens is transferred.
-     * @param operator The address of the operator performing the transfer.
+     * @param {operator} The address of the operator performing the transfer.
      * @param from The address of the sender of the tokens.
      * @param fromIDs An array of token IDs that are being transferred.
      * @param toIDs An array of token IDs that the tokens are being transferred to.
-     * @param values An array of token amounts that are being transferred.
-     * @param data Additional data that was passed along with the transfer.
-     * @dev This function checks that the transfer is allowed by verifying that the sender is approved to transfer the tokens and that the tokens being transferred are of the same base type.
+     * @param {values} An array of token amounts that are being transferred.
+     * @param {data} Additional data that was passed along with the transfer.
+     * @dev This function checks that the transfer is allowed by verifying that the sender is approved to transfer the
+     * tokens and that the tokens being transferred are of the same base type.
      */
     function _beforeUnitTransfer(
-        address operator,
+        address, /*operator*/
         address from,
         uint256[] memory fromIDs,
         uint256[] memory toIDs,
-        uint256[] memory values,
-        bytes memory data
+        uint256[] memory, /*values*/
+        bytes memory /*data*/
     ) internal virtual {
         uint256 len = fromIDs.length;
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             uint256 _from = fromIDs[i];
             uint256 _to = toIDs[i];
 
@@ -525,13 +543,19 @@ contract SemiFungible1155 is
      * @dev Returns the metadata URI for a given token ID.
      * @param tokenID The ID of the token to retrieve the metadata URI for.
      * @return _uri The metadata URI for the specified token ID.
-     * @dev This function retrieves the metadata URI for the specified token ID by calling the `uri` function of the `ERC1155URIStorageUpgradeable` contract.
-     * @dev The metadata URI is a string that points to a JSON file containing information about the token, such as its name, symbol, and image.
+     * @dev This function retrieves the metadata URI for the specified token ID by calling the `uri` function of the
+     * `ERC1155URIStorageUpgradeable` contract.
+     * @dev The metadata URI is a string that points to a JSON file containing information about the token, such as its
+     * name, symbol, and image.
      * @dev This function always returns the URI for the basetype so that it's managed in one place.
      */
-    function uri(
-        uint256 tokenID
-    ) public view virtual override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable) returns (string memory _uri) {
+    function uri(uint256 tokenID)
+        public
+        view
+        virtual
+        override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable)
+        returns (string memory _uri)
+    {
         // All tokens share the same metadata at the moment
         _uri = ERC1155URIStorageUpgradeable.uri(getBaseType(tokenID));
     }
@@ -541,7 +565,8 @@ contract SemiFungible1155 is
     /**
      * @dev Checks if the specified token ID is below the maximum item index.
      * @param tokenID The ID of the token to check.
-     * @dev This function checks if the specified token ID is below the maximum item index by converting the token ID to a `uint128` value and incrementing it.
+     * @dev This function checks if the specified token ID is below the maximum item index by converting the token ID to
+     * a `uint128` value and incrementing it.
      * @dev If the token ID is greater than or equal to the maximum item index, the function will revert with an error.
      */
     function _notMaxItem(uint256 tokenID) private pure {
@@ -552,7 +577,8 @@ contract SemiFungible1155 is
     /**
      * @dev Checks if the specified token ID is below the maximum type index.
      * @param tokenID The ID of the token to check.
-     * @dev This function checks if the specified token ID is below the maximum type index by shifting the token ID right by 128 bits to get the type ID and converting it to a `uint128` value.
+     * @dev This function checks if the specified token ID is below the maximum type index by shifting the token ID
+     * right by 128 bits to get the type ID and converting it to a `uint128` value.
      * @dev If the type ID is greater than or equal to the maximum type index, the function will revert with an error.
      */
     function _notMaxType(uint256 tokenID) private pure {
@@ -564,12 +590,13 @@ contract SemiFungible1155 is
      * @dev Calculates the sum of the elements of an array.
      * @param array The array of uint256 values to sum.
      * @return sum The sum of the elements of the array.
-     * @dev This function calculates the sum of the elements of the specified array by iterating over the array and adding each element to a running total.
+     * @dev This function calculates the sum of the elements of the specified array by iterating over the array and
+     * adding each element to a running total.
      * @dev If an element in the array is 0, the function will revert with an error.
      */
     function _getSum(uint256[] memory array) internal pure returns (uint256 sum) {
         uint256 len = array.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             if (array[i] == 0) revert Errors.NotAllowed();
             sum += array[i];
             unchecked {
@@ -582,7 +609,8 @@ contract SemiFungible1155 is
      * @dev Returns an array containing a single element.
      * @param element The element to include in the array.
      * @return An array containing a single element.
-     * @dev This function returns an array containing a single element by creating a new array with a length of 1 and setting the first element to the specified value.
+     * @dev This function returns an array containing a single element by creating a new array with a length of 1 and
+     * setting the first element to the specified value.
      */
     function _getSingletonArray(uint256 element) private pure returns (uint256[] memory) {
         uint256[] memory array = new uint256[](1);

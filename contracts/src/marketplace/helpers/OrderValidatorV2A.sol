@@ -2,35 +2,35 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IERC165 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC165.sol";
-import { IERC20 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
-import { IERC721 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
-import { IERC1155 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1155.sol";
-import { IERC1271 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1271.sol";
+import {IERC165} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC165.sol";
+import {IERC20} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
+import {IERC721} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
+import {IERC1155} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1155.sol";
+import {IERC1271} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1271.sol";
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
-import { MerkleProofCalldataWithNodes } from "../libraries/OpenZeppelin/MerkleProofCalldataWithNodes.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
+import {MerkleProofCalldataWithNodes} from "../libraries/OpenZeppelin/MerkleProofCalldataWithNodes.sol";
 
 // Interfaces
-import { ICreatorFeeManager } from "../interfaces/ICreatorFeeManager.sol";
-import { IStrategy } from "../interfaces/IStrategy.sol";
-import { IRoyaltyFeeRegistry } from "../interfaces/IRoyaltyFeeRegistry.sol";
+import {ICreatorFeeManager} from "../interfaces/ICreatorFeeManager.sol";
+import {IStrategy} from "../interfaces/IStrategy.sol";
+import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
 
 // Shared errors
-import { OrderInvalid } from "../errors/SharedErrors.sol";
+import {OrderInvalid} from "../errors/SharedErrors.sol";
 
 // Other dependencies
-import { LooksRareProtocol } from "../LooksRareProtocol.sol";
-import { TransferManager } from "../TransferManager.sol";
+import {LooksRareProtocol} from "../LooksRareProtocol.sol";
+import {TransferManager} from "../TransferManager.sol";
 
 // Constants
 import "../constants/ValidationCodeConstants.sol";
-import { MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP } from "../constants/NumericConstants.sol";
+import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "../constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "../enums/CollectionType.sol";
-import { QuoteType } from "../enums/QuoteType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
+import {QuoteType} from "../enums/QuoteType.sol";
 
 /**
  * @title OrderValidatorV2A
@@ -138,7 +138,7 @@ contract OrderValidatorV2A {
 
         validationCodes = new uint256[CRITERIA_GROUPS][](length);
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             validationCodes[i] = checkMakerOrderValidity(makerOrders[i], signatures[i], merkleTrees[i]);
             unchecked {
                 ++i;
@@ -160,11 +160,8 @@ contract OrderValidatorV2A {
     ) public view returns (uint256[9] memory validationCodes) {
         bytes32 orderHash = makerOrder.hash();
 
-        validationCodes[0] = _checkValidityCurrencyAndStrategy(
-            makerOrder.quoteType,
-            makerOrder.currency,
-            makerOrder.strategyId
-        );
+        validationCodes[0] =
+            _checkValidityCurrencyAndStrategy(makerOrder.quoteType, makerOrder.currency, makerOrder.strategyId);
 
         // It will exit here if the strategy does not exist.
         // However, if the strategy is implemented but invalid (except if wrong quote type),
@@ -181,7 +178,7 @@ contract OrderValidatorV2A {
         if (makerOrder.quoteType == QuoteType.Ask) {
             (validationCode1, itemIds, amounts, price) = _checkValidityMakerAskItemIdsAndAmountsAndPrice(makerOrder);
         } else {
-            (validationCode1, itemIds, , price) = _checkValidityMakerBidItemIdsAndAmountsAndPrice(makerOrder);
+            (validationCode1, itemIds,, price) = _checkValidityMakerBidItemIdsAndAmountsAndPrice(makerOrder);
         }
 
         validationCodes[1] = validationCode1;
@@ -205,11 +202,7 @@ contract OrderValidatorV2A {
             validationCodes[5] = _checkValidityMakerBidERC20Assets(makerOrder.currency, makerOrder.signer, price);
         } else {
             validationCodes[5] = _checkValidityMakerAskNFTAssets(
-                makerOrder.collection,
-                makerOrder.collectionType,
-                makerOrder.signer,
-                itemIds,
-                amounts
+                makerOrder.collection, makerOrder.collectionType, makerOrder.signer, itemIds, amounts
             );
         }
 
@@ -284,11 +277,11 @@ contract OrderValidatorV2A {
      * @param strategyId Strategy id
      * @return validationCode Validation code
      */
-    function _checkValidityCurrencyAndStrategy(
-        QuoteType quoteType,
-        address currency,
-        uint256 strategyId
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityCurrencyAndStrategy(QuoteType quoteType, address currency, uint256 strategyId)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         // 1. Verify whether the currency is allowed
         if (!looksRareProtocol.isCurrencyAllowed(currency)) {
             return CURRENCY_NOT_ALLOWED;
@@ -299,8 +292,8 @@ contract OrderValidatorV2A {
         }
 
         // 2. Verify whether the strategy is valid
-        (bool strategyIsActive, , , , , bool strategyIsMakerBid, address strategyImplementation) = looksRareProtocol
-            .strategyInfo(strategyId);
+        (bool strategyIsActive,,,,, bool strategyIsMakerBid, address strategyImplementation) =
+            looksRareProtocol.strategyInfo(strategyId);
 
         if (strategyId != 0 && strategyImplementation == address(0)) {
             return STRATEGY_NOT_IMPLEMENTED;
@@ -308,8 +301,8 @@ contract OrderValidatorV2A {
 
         if (strategyId != 0) {
             if (
-                (strategyIsMakerBid && quoteType != QuoteType.Bid) ||
-                (!strategyIsMakerBid && quoteType != QuoteType.Ask)
+                (strategyIsMakerBid && quoteType != QuoteType.Bid)
+                    || (!strategyIsMakerBid && quoteType != QuoteType.Ask)
             ) {
                 return STRATEGY_INVALID_QUOTE_TYPE;
             }
@@ -326,10 +319,11 @@ contract OrderValidatorV2A {
      * @param endTime End time
      * @return validationCode Validation code
      */
-    function _checkValidityTimestamps(
-        uint256 startTime,
-        uint256 endTime
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityTimestamps(uint256 startTime, uint256 endTime)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         // @dev It is possible for startTime to be equal to endTime.
         // If so, the execution only succeeds when the startTime = endTime = block.timestamp.
         // For order invalidation, if the call succeeds, it is already too late for later execution since the
@@ -355,13 +349,14 @@ contract OrderValidatorV2A {
      *      (i.e. collections that are tradable but do not implement the proper interfaceId).
      *      If ERC165 is not implemented, it will revert.
      */
-    function _checkIfPotentialInvalidCollectionTypes(
-        address collection,
-        CollectionType collectionType
-    ) private view returns (uint256 validationCode) {
+    function _checkIfPotentialInvalidCollectionTypes(address collection, CollectionType collectionType)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         if (collectionType == CollectionType.ERC721) {
-            bool isERC721 = IERC165(collection).supportsInterface(ERC721_INTERFACE_ID_1) ||
-                IERC165(collection).supportsInterface(ERC721_INTERFACE_ID_2);
+            bool isERC721 = IERC165(collection).supportsInterface(ERC721_INTERFACE_ID_1)
+                || IERC165(collection).supportsInterface(ERC721_INTERFACE_ID_2);
 
             if (!isERC721) {
                 return POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC721;
@@ -381,11 +376,11 @@ contract OrderValidatorV2A {
      * @param price Price (defined by the maker order)
      * @return validationCode Validation code
      */
-    function _checkValidityMakerBidERC20Assets(
-        address currency,
-        address user,
-        uint256 price
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityMakerBidERC20Assets(address currency, address user, uint256 price)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         if (currency != address(0)) {
             if (IERC20(currency).balanceOf(user) < price) {
                 return ERC20_BALANCE_INFERIOR_TO_PRICE;
@@ -434,18 +429,18 @@ contract OrderValidatorV2A {
      * @param itemIds Array of item ids
      * @return validationCode Validation code
      */
-    function _checkValidityERC721AndEquivalents(
-        address collection,
-        address user,
-        uint256[] memory itemIds
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityERC721AndEquivalents(address collection, address user, uint256[] memory itemIds)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         // 1. Verify itemId is owned by user and catch revertion if ERC721 ownerOf fails
         uint256 length = itemIds.length;
 
         bool success;
         bytes memory data;
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             (success, data) = collection.staticcall(abi.encodeCall(IERC721.ownerOf, (itemIds[i])));
 
             if (!success) {
@@ -462,9 +457,8 @@ contract OrderValidatorV2A {
         }
 
         // 2. Verify if collection is approved by transfer manager
-        (success, data) = collection.staticcall(
-            abi.encodeCall(IERC721.isApprovedForAll, (user, address(transferManager)))
-        );
+        (success, data) =
+            collection.staticcall(abi.encodeCall(IERC721.isApprovedForAll, (user, address(transferManager))));
 
         bool isApprovedAll;
         if (success) {
@@ -472,7 +466,7 @@ contract OrderValidatorV2A {
         }
 
         if (!isApprovedAll) {
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 // 3. If collection is not approved by transfer manager, try to see if it is approved individually
                 (success, data) = collection.staticcall(abi.encodeCall(IERC721.getApproved, (itemIds[i])));
 
@@ -502,12 +496,11 @@ contract OrderValidatorV2A {
      * @param amounts Array of amounts
      * @return validationCode Validation code
      */
-    function _checkValidityERC1155(
-        address collection,
-        address user,
-        uint256[] memory itemIds,
-        uint256[] memory amounts
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityERC1155(address collection, address user, uint256[] memory itemIds, uint256[] memory amounts)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         // 1. Verify each itemId is owned by user and catch revertion if ERC1155 ownerOf fails
         address[] memory users = new address[](1);
         users[0] = user;
@@ -515,13 +508,12 @@ contract OrderValidatorV2A {
         uint256 length = itemIds.length;
 
         // 1.1 Use balanceOfBatch
-        (bool success, bytes memory data) = collection.staticcall(
-            abi.encodeCall(IERC1155.balanceOfBatch, (users, itemIds))
-        );
+        (bool success, bytes memory data) =
+            collection.staticcall(abi.encodeCall(IERC1155.balanceOfBatch, (users, itemIds)));
 
         if (success) {
             uint256[] memory balances = abi.decode(data, (uint256[]));
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 if (balances[i] < amounts[i]) {
                     return ERC1155_BALANCE_OF_ITEM_ID_INFERIOR_TO_AMOUNT;
                 }
@@ -531,7 +523,7 @@ contract OrderValidatorV2A {
             }
         } else {
             // 1.2 If the balanceOfBatch does not work, use loop with balanceOf function
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 (success, data) = collection.staticcall(abi.encodeCall(IERC1155.balanceOf, (user, itemIds[i])));
 
                 if (!success) {
@@ -549,9 +541,8 @@ contract OrderValidatorV2A {
         }
 
         // 2. Verify if collection is approved by transfer manager
-        (success, data) = collection.staticcall(
-            abi.encodeCall(IERC1155.isApprovedForAll, (user, address(transferManager)))
-        );
+        (success, data) =
+            collection.staticcall(abi.encodeCall(IERC1155.isApprovedForAll, (user, address(transferManager))));
 
         if (!success) {
             return ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST;
@@ -599,11 +590,11 @@ contract OrderValidatorV2A {
      * @param itemIds Item ids
      * @return validationCode Validation code
      */
-    function _checkValidityCreatorFee(
-        address collection,
-        uint256 price,
-        uint256[] memory itemIds
-    ) private view returns (uint256 validationCode) {
+    function _checkValidityCreatorFee(address collection, uint256 price, uint256[] memory itemIds)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         if (address(creatorFeeManager) != address(0)) {
             (bool status, bytes memory data) = address(creatorFeeManager).staticcall(
                 abi.encodeCall(ICreatorFeeManager.viewCreatorFeeInfo, (collection, price, itemIds))
@@ -631,17 +622,14 @@ contract OrderValidatorV2A {
      * @param signer Signer address
      * @return validationCode Validation code
      */
-    function _computeDigestAndVerify(
-        bytes32 computedHash,
-        bytes calldata makerSignature,
-        address signer
-    ) private view returns (uint256 validationCode) {
-        return
-            _validateSignature(
-                keccak256(abi.encodePacked("\x19\x01", domainSeparator, computedHash)),
-                makerSignature,
-                signer
-            );
+    function _computeDigestAndVerify(bytes32 computedHash, bytes calldata makerSignature, address signer)
+        private
+        view
+        returns (uint256 validationCode)
+    {
+        return _validateSignature(
+            keccak256(abi.encodePacked("\x19\x01", domainSeparator, computedHash)), makerSignature, signer
+        );
     }
 
     /**
@@ -651,11 +639,11 @@ contract OrderValidatorV2A {
      * @param signer Signer address
      * @return validationCode Validation code
      */
-    function _validateSignature(
-        bytes32 hash,
-        bytes calldata signature,
-        address signer
-    ) private view returns (uint256 validationCode) {
+    function _validateSignature(bytes32 hash, bytes calldata signature, address signer)
+        private
+        view
+        returns (uint256 validationCode)
+    {
         // Logic if EOA
         if (signer.code.length == 0) {
             bytes32 r;
@@ -699,9 +687,8 @@ contract OrderValidatorV2A {
             }
         } else {
             // Logic if ERC1271
-            (bool success, bytes memory data) = signer.staticcall(
-                abi.encodeCall(IERC1271.isValidSignature, (hash, signature))
-            );
+            (bool success, bytes memory data) =
+                signer.staticcall(abi.encodeCall(IERC1271.isValidSignature, (hash, signature)));
 
             if (!success) {
                 return MISSING_IS_VALID_SIGNATURE_FUNCTION_EIP1271;
@@ -728,64 +715,56 @@ contract OrderValidatorV2A {
         }
     }
 
-    function _checkValidityMakerAskItemIdsAndAmountsAndPrice(
-        OrderStructs.Maker memory makerAsk
-    ) private view returns (uint256 validationCode, uint256[] memory itemIds, uint256[] memory amounts, uint256 price) {
+    function _checkValidityMakerAskItemIdsAndAmountsAndPrice(OrderStructs.Maker memory makerAsk)
+        private
+        view
+        returns (uint256 validationCode, uint256[] memory itemIds, uint256[] memory amounts, uint256 price)
+    {
         if (makerAsk.strategyId == 0) {
             itemIds = makerAsk.itemIds;
             amounts = makerAsk.amounts;
             price = makerAsk.price;
 
-            validationCode = _getOrderValidationCodeForStandardStrategy(
-                makerAsk.collectionType,
-                itemIds.length,
-                amounts
-            );
+            validationCode =
+                _getOrderValidationCodeForStandardStrategy(makerAsk.collectionType, itemIds.length, amounts);
         } else {
             itemIds = makerAsk.itemIds;
             amounts = makerAsk.amounts;
             // @dev It should ideally be adjusted by real price
             price = makerAsk.price;
 
-            (, , , , bytes4 strategySelector, , address strategyImplementation) = looksRareProtocol.strategyInfo(
-                makerAsk.strategyId
-            );
+            (,,,, bytes4 strategySelector,, address strategyImplementation) =
+                looksRareProtocol.strategyInfo(makerAsk.strategyId);
 
-            (bool isValid, bytes4 errorSelector) = IStrategy(strategyImplementation).isMakerOrderValid(
-                makerAsk,
-                strategySelector
-            );
+            (bool isValid, bytes4 errorSelector) =
+                IStrategy(strategyImplementation).isMakerOrderValid(makerAsk, strategySelector);
 
             validationCode = _getOrderValidationCodeForNonStandardStrategies(isValid, errorSelector);
         }
     }
 
-    function _checkValidityMakerBidItemIdsAndAmountsAndPrice(
-        OrderStructs.Maker memory makerBid
-    ) private view returns (uint256 validationCode, uint256[] memory itemIds, uint256[] memory amounts, uint256 price) {
+    function _checkValidityMakerBidItemIdsAndAmountsAndPrice(OrderStructs.Maker memory makerBid)
+        private
+        view
+        returns (uint256 validationCode, uint256[] memory itemIds, uint256[] memory amounts, uint256 price)
+    {
         if (makerBid.strategyId == 0) {
             itemIds = makerBid.itemIds;
             amounts = makerBid.amounts;
             price = makerBid.price;
 
-            validationCode = _getOrderValidationCodeForStandardStrategy(
-                makerBid.collectionType,
-                itemIds.length,
-                amounts
-            );
+            validationCode =
+                _getOrderValidationCodeForStandardStrategy(makerBid.collectionType, itemIds.length, amounts);
         } else {
             // @dev It should ideally be adjusted by real price
             //      amounts and itemIds are not used since most non-native maker bids won't target a single item
             price = makerBid.price;
 
-            (, , , , bytes4 strategySelector, , address strategyImplementation) = looksRareProtocol.strategyInfo(
-                makerBid.strategyId
-            );
+            (,,,, bytes4 strategySelector,, address strategyImplementation) =
+                looksRareProtocol.strategyInfo(makerBid.strategyId);
 
-            (bool isValid, bytes4 errorSelector) = IStrategy(strategyImplementation).isMakerOrderValid(
-                makerBid,
-                strategySelector
-            );
+            (bool isValid, bytes4 errorSelector) =
+                IStrategy(strategyImplementation).isMakerOrderValid(makerBid, strategySelector);
 
             validationCode = _getOrderValidationCodeForNonStandardStrategies(isValid, errorSelector);
         }
@@ -804,8 +783,8 @@ contract OrderValidatorV2A {
 
         // Only check if length of array is greater than 1
         if (length > 1) {
-            for (uint256 i = 0; i < length - 1; ) {
-                for (uint256 j = i + 1; j < length; ) {
+            for (uint256 i = 0; i < length - 1;) {
+                for (uint256 j = i + 1; j < length;) {
                     if (itemIds[i] == itemIds[j]) {
                         return SAME_ITEM_ID_IN_BUNDLE;
                     }
@@ -830,7 +809,7 @@ contract OrderValidatorV2A {
         if (expectedLength == 0 || (amounts.length != expectedLength)) {
             validationCode = MAKER_ORDER_INVALID_STANDARD_SALE;
         } else {
-            for (uint256 i; i < expectedLength; ) {
+            for (uint256 i; i < expectedLength;) {
                 uint256 amount = amounts[i];
 
                 if (amount == 0) {
@@ -848,10 +827,11 @@ contract OrderValidatorV2A {
         }
     }
 
-    function _getOrderValidationCodeForNonStandardStrategies(
-        bool isValid,
-        bytes4 errorSelector
-    ) private pure returns (uint256 validationCode) {
+    function _getOrderValidationCodeForNonStandardStrategies(bool isValid, bytes4 errorSelector)
+        private
+        pure
+        returns (uint256 validationCode)
+    {
         if (isValid) {
             validationCode = ORDER_EXPECTED_TO_BE_VALID;
         } else {

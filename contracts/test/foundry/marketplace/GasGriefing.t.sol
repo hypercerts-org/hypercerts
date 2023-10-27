@@ -2,21 +2,21 @@
 pragma solidity 0.8.17;
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { WETH } from "solmate/src/tokens/WETH.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {WETH} from "solmate/src/tokens/WETH.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Mocks and other utils
-import { GasGriefer } from "./utils/GasGriefer.sol";
+import {GasGriefer} from "./utils/GasGriefer.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract GasGriefingTest is ProtocolBase {
     uint256 private constant price = 1 ether; // Fixed price of sale
@@ -36,9 +36,8 @@ contract GasGriefingTest is ProtocolBase {
     function testTakerBidGasGriefing() public {
         _setupRegistryRoyalties(address(mockERC721), _standardRoyaltyFee);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.signer = gasGriefer;
 
         // Mint asset
@@ -56,13 +55,7 @@ contract GasGriefingTest is ProtocolBase {
 
         vm.prank(takerUser);
         // Execute taker bid transaction
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the asset
         assertEq(mockERC721.ownerOf(makerAsk.itemIds[0]), takerUser);
@@ -122,13 +115,8 @@ contract GasGriefingTest is ProtocolBase {
 
         vm.prank(takerUser);
         // Execute taker bid transaction
-        looksRareProtocol.executeMultipleTakerBids{ value: price * numberPurchases }(
-            takerBids,
-            makerAsks,
-            signatures,
-            merkleTrees,
-            _EMPTY_AFFILIATE,
-            false
+        looksRareProtocol.executeMultipleTakerBids{value: price * numberPurchases}(
+            takerBids, makerAsks, signatures, merkleTrees, false
         );
 
         for (uint256 i; i < numberPurchases; i++) {

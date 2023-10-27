@@ -2,10 +2,10 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Enums
-import { CollectionType } from "../enums/CollectionType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
 
 /**
  * @title ITransferManager

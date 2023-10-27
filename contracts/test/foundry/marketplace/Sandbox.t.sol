@@ -2,18 +2,18 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IERC721 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
-import { IERC1155 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1155.sol";
+import {IERC721} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC721.sol";
+import {IERC1155} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC1155.sol";
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract SandboxTest is ProtocolBase {
     error ERC721TransferFromFail();
@@ -25,12 +25,12 @@ contract SandboxTest is ProtocolBase {
     address private constant SANDBOX = 0xa342f5D851E866E18ff98F351f2c6637f4478dB5;
 
     // Forked block number to run the tests
-    uint256 private constant FORKED_BLOCK_NUMBER = 16268000;
+    uint256 private constant FORKED_BLOCK_NUMBER = 16_268_000;
 
     function _transferItemIdToUser(address user) private returns (uint256 itemId) {
         // @dev This user had 23 of the itemId at the forked block number
         address ownerOfItemId = 0x7A9fe22691c811ea339D9B73150e6911a5343DcA;
-        itemId = 55464657044963196816950587289035428064568320970692304673817341489688428423171;
+        itemId = 55_464_657_044_963_196_816_950_587_289_035_428_064_568_320_970_692_304_673_817_341_489_688_428_423_171;
         vm.prank(ownerOfItemId);
         IERC1155(SANDBOX).safeTransferFrom(ownerOfItemId, user, itemId, 23, "");
     }
@@ -79,7 +79,7 @@ contract SandboxTest is ProtocolBase {
         // It should fail with collectionType = 0
         vm.expectRevert(abi.encodeWithSelector(ERC721TransferFromFail.selector));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Adjust the collection type and sign order again
         makerBid.collectionType = CollectionType.ERC1155;
@@ -87,7 +87,7 @@ contract SandboxTest is ProtocolBase {
 
         // It shouldn't fail with collectionType = 0
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Maker user has received the Sandbox asset
         assertEq(IERC1155(SANDBOX).balanceOf(makerUser, itemId), makerBid.amounts[0]);
@@ -126,13 +126,7 @@ contract SandboxTest is ProtocolBase {
         // It should fail with collectionType = 0
         vm.expectRevert(abi.encodeWithSelector(ERC721TransferFromFail.selector));
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Adjust the collection type and sign order again
         makerAsk.collectionType = CollectionType.ERC1155;
@@ -140,13 +134,7 @@ contract SandboxTest is ProtocolBase {
 
         // It shouldn't fail with collectionType = 0
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid{ value: price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the Sandbox asset
         assertEq(IERC1155(SANDBOX).balanceOf(takerUser, itemId), makerAsk.amounts[0]);

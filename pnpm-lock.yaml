@@ -195,9 +195,6 @@ importers:
       solhint-plugin-prettier:
         specifier: ^0.0.5
         version: 0.0.5(prettier-plugin-solidity@1.1.3)(prettier@2.8.8)
-      solidity-coverage:
-        specifier: ^0.8.2
-        version: 0.8.5(hardhat@2.13.1)
       solmate:
         specifier: ^6.2.0
         version: 6.2.0

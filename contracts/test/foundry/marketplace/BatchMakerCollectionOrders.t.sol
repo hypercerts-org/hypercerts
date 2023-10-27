@@ -2,23 +2,23 @@
 pragma solidity 0.8.17;
 
 // Strategies
-import { StrategyCollectionOffer } from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
+import {StrategyCollectionOffer} from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 // Helpers
-import { EIP712MerkleTree } from "./utils/EIP712MerkleTree.sol";
+import {EIP712MerkleTree} from "./utils/EIP712MerkleTree.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract BatchMakerCollectionOrdersTest is ProtocolBase {
     StrategyCollectionOffer private strategy;
@@ -50,7 +50,7 @@ contract BatchMakerCollectionOrdersTest is ProtocolBase {
 
         OrderStructs.Maker[] memory makerBids = _createBatchMakerBids(numberOrders);
 
-        (bytes memory signature, ) = eip712MerkleTree.sign(makerUserPK, makerBids, 0);
+        (bytes memory signature,) = eip712MerkleTree.sign(makerUserPK, makerBids, 0);
 
         for (uint256 i; i < numberOrders; i++) {
             // To prove that we only need 1 signature for multiple collection offers,
@@ -66,7 +66,7 @@ contract BatchMakerCollectionOrdersTest is ProtocolBase {
 
             // Execute taker ask transaction
             vm.prank(takerUser);
-            looksRareProtocol.executeTakerAsk(takerOrder, makerBidToExecute, signature, merkleTree, _EMPTY_AFFILIATE);
+            looksRareProtocol.executeTakerAsk(takerOrder, makerBidToExecute, signature, merkleTree);
 
             // Maker user has received the asset
             assertEq(mockERC721.ownerOf(i), makerUser);
@@ -80,15 +80,12 @@ contract BatchMakerCollectionOrdersTest is ProtocolBase {
 
         uint256 totalValue = price * numberOrders;
         assertEq(
-            weth.balanceOf(makerUser),
-            _initialWETHBalanceUser - totalValue,
-            "Maker bid user should pay the whole price"
+            weth.balanceOf(makerUser), _initialWETHBalanceUser - totalValue, "Maker bid user should pay the whole price"
         );
         assertEq(
             weth.balanceOf(takerUser),
-            _initialWETHBalanceUser +
-                (totalValue * _sellerProceedBpWithStandardProtocolFeeBp) /
-                ONE_HUNDRED_PERCENT_IN_BP,
+            _initialWETHBalanceUser
+                + (totalValue * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP,
             "Taker ask user should receive 99.5% of the whole price (0.5% protocol)"
         );
     }

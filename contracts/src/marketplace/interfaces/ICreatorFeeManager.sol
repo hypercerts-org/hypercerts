@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Interfaces
-import { IRoyaltyFeeRegistry } from "./IRoyaltyFeeRegistry.sol";
+import {IRoyaltyFeeRegistry} from "./IRoyaltyFeeRegistry.sol";
 
 /**
  * @title ICreatorFeeManager
@@ -28,9 +28,8 @@ interface ICreatorFeeManager {
      * @return creator Creator address
      * @return creatorFeeAmount Creator fee amount
      */
-    function viewCreatorFeeInfo(
-        address collection,
-        uint256 price,
-        uint256[] memory itemIds
-    ) external view returns (address creator, uint256 creatorFeeAmount);
+    function viewCreatorFeeInfo(address collection, uint256 price, uint256[] memory itemIds)
+        external
+        view
+        returns (address creator, uint256 creatorFeeAmount);
 }

@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { HypercertMinter } from "@hypercerts/protocol/HypercertMinter.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
 //solhint-disable-next-line max-line-length
-import { ERC1155HolderUpgradeable } from "openzeppelin-contracts-upgradeable/contracts/token/ERC1155/utils/ERC1155HolderUpgradeable.sol";
-import { Merkle } from "murky/Merkle.sol";
-import { IHypercertToken } from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {ERC1155HolderUpgradeable} from
+    "openzeppelin-contracts-upgradeable/contracts/token/ERC1155/utils/ERC1155HolderUpgradeable.sol";
+import {Merkle} from "murky/Merkle.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 contract BatchMintingHelper is Merkle, ERC1155HolderUpgradeable {
     event BatchValueTransfer(uint256[] claimIDs, uint256[] fromTokenIDs, uint256[] toTokenIDs, uint256[] values);
@@ -20,10 +21,11 @@ contract BatchMintingHelper is Merkle, ERC1155HolderUpgradeable {
         bytes32 root;
     }
 
-    function generateCustomData(
-        address[] memory addresses,
-        uint256[] memory units
-    ) public pure returns (bytes32[] memory data) {
+    function generateCustomData(address[] memory addresses, uint256[] memory units)
+        public
+        pure
+        returns (bytes32[] memory data)
+    {
         data = new bytes32[](addresses.length);
         for (uint256 i = 0; i < addresses.length; i++) {
             data[i] = _calculateLeaf(addresses[i], units[i]);
@@ -62,7 +64,7 @@ contract BatchMintingHelper is Merkle, ERC1155HolderUpgradeable {
 
     function _getSum(uint256[] memory array) public pure returns (uint256 sum) {
         uint256 len = array.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             sum += array[i];
             unchecked {
                 ++i;
@@ -107,7 +109,7 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             proofs[i] = getProof(dataset.data, index);
             ids[i] = (i + 1) << 128;
             units[i] = dataset.units[index];
-            minter.createAllowlist(user, 10000, dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+            minter.createAllowlist(user, 10_000, dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
         }
 
         units[3] = 0;
@@ -151,8 +153,8 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
 
         uint256[] memory zeroes = new uint256[](2);
 
-        minter.createAllowlist(user, 10000, one.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
-        minter.createAllowlist(user, 10000, two.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+        minter.createAllowlist(user, 10_000, one.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+        minter.createAllowlist(user, 10_000, two.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
 
         startHoax(user, 10 ether);
 
@@ -179,7 +181,7 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             ids[i] = (i + 1) << 128;
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
-            minter.createAllowlist(user, 10000, dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
+            minter.createAllowlist(user, 10_000, dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll);
         }
 
         startHoax(user, 10 ether);
@@ -215,11 +217,7 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
             minter.createAllowlist(
-                user,
-                _getSum(units),
-                dataset.root,
-                _uri,
-                IHypercertToken.TransferRestrictions.AllowAll
+                user, _getSum(units), dataset.root, _uri, IHypercertToken.TransferRestrictions.AllowAll
             );
         }
 
@@ -254,7 +252,7 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             ids[i] = (i + 1) << 128;
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
-            minter.createAllowlist(user, 10000, dataset.root, _uri, IHypercertToken.TransferRestrictions.DisallowAll);
+            minter.createAllowlist(user, 10_000, dataset.root, _uri, IHypercertToken.TransferRestrictions.DisallowAll);
         }
 
         startHoax(user, 10 ether);
@@ -289,11 +287,7 @@ contract HypercertBatchMintingTest is PRBTest, StdCheats, StdUtils, BatchMinting
             tokenIDs[i] = ids[i] + 1;
             units[i] = dataset.units[index];
             minter.createAllowlist(
-                user,
-                10000,
-                dataset.root,
-                _uri,
-                IHypercertToken.TransferRestrictions.FromCreatorOnly
+                user, 10_000, dataset.root, _uri, IHypercertToken.TransferRestrictions.FromCreatorOnly
             );
         }
 

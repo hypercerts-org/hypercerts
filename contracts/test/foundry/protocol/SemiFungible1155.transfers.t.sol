@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.16;
 
-import { StdCheats } from "forge-std/StdCheats.sol";
-import { StdUtils } from "forge-std/StdUtils.sol";
-import { PRBTest } from "prb-test/PRBTest.sol";
-import { SemiFungible1155Helper } from "./SemiFungibleHelper.sol";
+import {StdCheats} from "forge-std/StdCheats.sol";
+import {StdUtils} from "forge-std/StdUtils.sol";
+import {PRBTest} from "prb-test/PRBTest.sol";
+import {SemiFungible1155Helper} from "./SemiFungibleHelper.sol";
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
 /// https://book.getfoundry.sh/forge/writing-tests
@@ -24,14 +24,14 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
 
     // UNHAPPY PATHS
     function testFailTransferTypeIDToken() public {
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
 
         //NotApprovedOrOWner, since no owner
         semiFungible.safeTransferFrom(alice, bob, 1 << 128, 1, "");
     }
 
     function testFailTransferNonExistingFractionToken() public {
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
 
         //NotApprovedOrOWner, since no owner
         semiFungible.safeTransferFrom(alice, bob, 1 << (128 + 2), 1, "");
@@ -59,10 +59,10 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
         uint256 baseID = 1 << 128;
         uint128 tokenID = 1;
 
-        semiFungible.mintValue(alice, 10000, _uri);
+        semiFungible.mintValue(alice, 10_000, _uri);
 
         assertEq(semiFungible.balanceOf(alice, baseID), 0);
-        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, alice, 1, 10000);
+        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, alice, 1, 10_000);
 
         assertEq(semiFungible.balanceOf(bob, baseID), 0);
         semiFungible.validateNotOwnerNoBalanceNoUnits(baseID + tokenID, bob);
@@ -78,7 +78,7 @@ contract SemiFungible1155TransferTest is PRBTest, StdCheats, StdUtils {
         semiFungible.validateNotOwnerNoBalanceNoUnits(baseID + tokenID, alice);
 
         // Updates token ownership
-        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, bob, 1, 10000);
+        semiFungible.validateOwnerBalanceUnits(baseID + tokenID, bob, 1, 10_000);
     }
 
     function testFuzzTransferFullToken(address from, address to, uint256 units) public {

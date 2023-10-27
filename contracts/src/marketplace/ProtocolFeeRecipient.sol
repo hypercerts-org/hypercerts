@@ -2,9 +2,9 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { LowLevelERC20Transfer } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC20Transfer.sol";
-import { IWETH } from "@looksrare/contracts-libs/contracts/interfaces/generic/IWETH.sol";
-import { IERC20 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
+import {LowLevelERC20Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC20Transfer.sol";
+import {IWETH} from "@looksrare/contracts-libs/contracts/interfaces/generic/IWETH.sol";
+import {IERC20} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC20.sol";
 
 /**
  * @title ProtocolFeeRecipient
@@ -28,7 +28,7 @@ contract ProtocolFeeRecipient is LowLevelERC20Transfer {
         uint256 ethBalance = address(this).balance;
 
         if (ethBalance != 0) {
-            WETH.deposit{ value: ethBalance }();
+            WETH.deposit{value: ethBalance}();
         }
 
         uint256 wethBalance = IERC20(address(WETH)).balanceOf(address(this));

@@ -2,16 +2,16 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "../libraries/OrderStructs.sol";
+import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Enums
-import { QuoteType } from "../enums/QuoteType.sol";
+import {QuoteType} from "../enums/QuoteType.sol";
 
 // Shared errors
-import { OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid } from "../errors/SharedErrors.sol";
+import {OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
-import { BaseStrategy, IStrategy } from "./BaseStrategy.sol";
+import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
 /**
  * @title StrategyItemIdsRange
@@ -29,10 +29,7 @@ contract StrategyItemIdsRange is BaseStrategy {
      * @param takerAsk Taker ask struct (taker ask-specific parameters for the execution)
      * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
      */
-    function executeStrategyWithTakerAsk(
-        OrderStructs.Taker calldata takerAsk,
-        OrderStructs.Maker calldata makerBid
-    )
+    function executeStrategyWithTakerAsk(OrderStructs.Taker calldata takerAsk, OrderStructs.Maker calldata makerBid)
         external
         pure
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
@@ -43,10 +40,8 @@ contract StrategyItemIdsRange is BaseStrategy {
             revert OrderInvalid();
         }
 
-        (uint256 minItemId, uint256 maxItemId, uint256 desiredAmount) = abi.decode(
-            makerBid.additionalParameters,
-            (uint256, uint256, uint256)
-        );
+        (uint256 minItemId, uint256 maxItemId, uint256 desiredAmount) =
+            abi.decode(makerBid.additionalParameters, (uint256, uint256, uint256));
 
         if (minItemId >= maxItemId || desiredAmount == 0) {
             revert OrderInvalid();
@@ -55,7 +50,7 @@ contract StrategyItemIdsRange is BaseStrategy {
         uint256 totalOfferedAmount;
         uint256 lastItemId;
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             uint256 offeredItemId = itemIds[i];
             // Force the client to sort the item ids in ascending order,
             // in order to prevent taker ask from providing duplicated
@@ -90,10 +85,12 @@ contract StrategyItemIdsRange is BaseStrategy {
     /**
      * @inheritdoc IStrategy
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata makerBid,
-        bytes4 functionSelector
-    ) external pure override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata makerBid, bytes4 functionSelector)
+        external
+        pure
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         if (functionSelector != StrategyItemIdsRange.executeStrategyWithTakerAsk.selector) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
@@ -102,10 +99,8 @@ contract StrategyItemIdsRange is BaseStrategy {
             return (isValid, QuoteTypeInvalid.selector);
         }
 
-        (uint256 minItemId, uint256 maxItemId, uint256 desiredAmount) = abi.decode(
-            makerBid.additionalParameters,
-            (uint256, uint256, uint256)
-        );
+        (uint256 minItemId, uint256 maxItemId, uint256 desiredAmount) =
+            abi.decode(makerBid.additionalParameters, (uint256, uint256, uint256));
 
         if (minItemId >= maxItemId || desiredAmount == 0) {
             return (isValid, OrderInvalid.selector);

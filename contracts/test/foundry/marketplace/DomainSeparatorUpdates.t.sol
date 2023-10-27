@@ -2,15 +2,15 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IOwnableTwoSteps } from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
-import { SignatureEOAInvalid } from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
+import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
+import {SignatureEOAInvalid} from "@looksrare/contracts-libs/contracts/errors/SignatureCheckerErrors.sol";
 
 // Libraries and interfaces
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
-import { ILooksRareProtocol } from "@hypercerts/marketplace/interfaces/ILooksRareProtocol.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {ILooksRareProtocol} from "@hypercerts/marketplace/interfaces/ILooksRareProtocol.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 contract DomainSeparatorUpdatesTest is ProtocolBase {
     function setUp() public {
@@ -51,9 +51,8 @@ contract DomainSeparatorUpdatesTest is ProtocolBase {
         vm.prank(_owner);
         looksRareProtocol.updateDomainSeparator();
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
@@ -62,13 +61,7 @@ contract DomainSeparatorUpdatesTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(SignatureEOAInvalid.selector);
-        looksRareProtocol.executeTakerBid{ value: makerAsk.price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: makerAsk.price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testCannotTradeIfChainIdHasChanged(uint64 newChainId) public {
@@ -79,9 +72,8 @@ contract DomainSeparatorUpdatesTest is ProtocolBase {
         // ChainId update
         vm.chainId(newChainId);
 
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMockMakerAskAndTakerBid(
-            address(mockERC721)
-        );
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMockMakerAskAndTakerBid(address(mockERC721));
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
@@ -90,13 +82,7 @@ contract DomainSeparatorUpdatesTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(ILooksRareProtocol.ChainIdInvalid.selector);
-        looksRareProtocol.executeTakerBid{ value: makerAsk.price }(
-            takerBid,
-            makerAsk,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        looksRareProtocol.executeTakerBid{value: makerAsk.price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testUpdateDomainSeparatorSameDomainSeparator() public asPrankedUser(_owner) {

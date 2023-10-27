@@ -2,29 +2,31 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IOwnableTwoSteps } from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
+import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Interfaces
-import { IStrategyManager } from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
-import { IStrategy } from "@hypercerts/marketplace/interfaces/IStrategy.sol";
+import {IStrategyManager} from "@hypercerts/marketplace/interfaces/IStrategyManager.sol";
+import {IStrategy} from "@hypercerts/marketplace/interfaces/IStrategy.sol";
 
 // Random strategy
-import { StrategyCollectionOffer } from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
+import {StrategyCollectionOffer} from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
 
 // Base test
-import { ProtocolBase } from "./ProtocolBase.t.sol";
+import {ProtocolBase} from "./ProtocolBase.t.sol";
 
 contract FalseBaseStrategy is IStrategy {
     /**
      * @inheritdoc IStrategy
      */
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata,
-        bytes4
-    ) external view override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata, bytes4)
+        external
+        view
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         //
     }
 
@@ -83,13 +85,7 @@ contract StrategyManagerTest is ProtocolBase, IStrategyManager {
 
         vm.expectEmit(true, false, false, true);
         emit NewStrategy(
-            strategyId,
-            _standardProtocolFeeBp,
-            _minTotalFeeBp,
-            _maxProtocolFeeBp,
-            selector,
-            isMakerBid,
-            implementation
+            strategyId, _standardProtocolFeeBp, _minTotalFeeBp, _maxProtocolFeeBp, selector, isMakerBid, implementation
         );
 
         _addStrategy(implementation, selector, isMakerBid);
@@ -131,15 +127,8 @@ contract StrategyManagerTest is ProtocolBase, IStrategyManager {
      * Owner functions for strategy updates revert as expected under multiple revertion scenarios
      */
     function testOwnerRevertionsForInvalidParametersUpdateStrategy() public asPrankedUser(_owner) {
-        (
-            ,
-            uint16 currentStandardProtocolFee,
-            uint16 currentMinTotalFee,
-            uint16 maxProtocolFeeBp,
-            ,
-            ,
-
-        ) = looksRareProtocol.strategyInfo(0);
+        (, uint16 currentStandardProtocolFee, uint16 currentMinTotalFee, uint16 maxProtocolFeeBp,,,) =
+            looksRareProtocol.strategyInfo(0);
 
         // 1. newStandardProtocolFee is higher than maxProtocolFeeBp
         uint16 newStandardProtocolFee = maxProtocolFeeBp + 1;
@@ -171,36 +160,21 @@ contract StrategyManagerTest is ProtocolBase, IStrategyManager {
         maxProtocolFeeBp = standardProtocolFeeBp - 1;
         vm.expectRevert(abi.encodeWithSelector(IStrategyManager.StrategyProtocolFeeTooHigh.selector));
         looksRareProtocol.addStrategy(
-            standardProtocolFeeBp,
-            minTotalFeeBp,
-            maxProtocolFeeBp,
-            _EMPTY_BYTES4,
-            true,
-            implementation
+            standardProtocolFeeBp, minTotalFeeBp, maxProtocolFeeBp, _EMPTY_BYTES4, true, implementation
         );
 
         // 2. minTotalFeeBp is higher than maxProtocolFeeBp
         maxProtocolFeeBp = minTotalFeeBp - 1;
         vm.expectRevert(abi.encodeWithSelector(IStrategyManager.StrategyProtocolFeeTooHigh.selector));
         looksRareProtocol.addStrategy(
-            standardProtocolFeeBp,
-            minTotalFeeBp,
-            maxProtocolFeeBp,
-            _EMPTY_BYTES4,
-            true,
-            implementation
+            standardProtocolFeeBp, minTotalFeeBp, maxProtocolFeeBp, _EMPTY_BYTES4, true, implementation
         );
 
         // 3. maxProtocolFeeBp is higher than _MAX_PROTOCOL_FEE
         maxProtocolFeeBp = 500 + 1;
         vm.expectRevert(abi.encodeWithSelector(IStrategyManager.StrategyProtocolFeeTooHigh.selector));
         looksRareProtocol.addStrategy(
-            standardProtocolFeeBp,
-            minTotalFeeBp,
-            maxProtocolFeeBp,
-            _EMPTY_BYTES4,
-            true,
-            implementation
+            standardProtocolFeeBp, minTotalFeeBp, maxProtocolFeeBp, _EMPTY_BYTES4, true, implementation
         );
     }
 

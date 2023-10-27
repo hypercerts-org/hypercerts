@@ -2,27 +2,34 @@
 pragma solidity 0.8.17;
 
 // Murky (third-party) library is used to compute Merkle trees in Solidity
-import { Merkle } from "murky/Merkle.sol";
+import {Merkle} from "murky/Merkle.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Shared errors
-import { AmountInvalid, OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
-import { MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+import {
+    AmountInvalid,
+    OrderInvalid,
+    FunctionSelectorInvalid,
+    MerkleProofInvalid,
+    QuoteTypeInvalid
+} from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE} from
+    "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Strategies
-import { StrategyCollectionOffer } from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
+import {StrategyCollectionOffer} from "@hypercerts/marketplace/executionStrategies/StrategyCollectionOffer.sol";
 
 // Base test
-import { ProtocolBase } from "../ProtocolBase.t.sol";
+import {ProtocolBase} from "../ProtocolBase.t.sol";
 
 // Constants
-import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract CollectionOrdersTest is ProtocolBase {
     StrategyCollectionOffer public strategyCollectionOffer;
@@ -68,10 +75,8 @@ contract CollectionOrdersTest is ProtocolBase {
     function testMakerBidAmountsLengthNotOne() public {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
 
         // Adjust strategy for collection order and sign order
         // Change array to make it bigger than expected
@@ -86,7 +91,7 @@ contract CollectionOrdersTest is ProtocolBase {
         _assertMakerOrderReturnValidationCode(makerBid, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
         vm.expectRevert(OrderInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // With proof
         makerBid.strategyId = 2;
@@ -97,16 +102,14 @@ contract CollectionOrdersTest is ProtocolBase {
         _assertMakerOrderReturnValidationCode(makerBid, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
         vm.expectRevert(OrderInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testZeroAmount() public {
         _setUpUsers();
 
-        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) = _createMockMakerBidAndTakerAsk(
-            address(mockERC721),
-            address(weth)
-        );
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
 
         uint256[] memory amounts = new uint256[](1);
         amounts[0] = 0;
@@ -121,7 +124,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     /**
@@ -159,7 +162,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulTakerAsk(makerBid, tokenId);
     }
@@ -205,7 +208,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         // Execute taker ask transaction
         vm.prank(takerUser);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         _assertSuccessfulTakerAsk(makerBid, itemIdInMerkleTree);
     }
@@ -249,7 +252,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(MerkleProofInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInvalidAmounts() public {
@@ -280,7 +283,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // 2. Amount is too high for ERC721 (without merkle proof)
         makerBid.amounts[0] = 2;
@@ -290,7 +293,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // 3. Amount is 0 (with merkle proof)
         makerBid.strategyId = 2;
@@ -312,7 +315,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // 4. Amount is too high for ERC721 (with merkle proof)
         makerBid.amounts[0] = 2;
@@ -322,7 +325,7 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
-        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE, _EMPTY_AFFILIATE);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testMerkleRootLengthIsNot32() public {
@@ -346,14 +349,9 @@ contract CollectionOrdersTest is ProtocolBase {
         _assertMakerOrderReturnValidationCode(makerBid, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
         vm.prank(takerUser);
-        vm.expectRevert(); // It should revert without data (since the root cannot be extracted since the additionalParameters length is 0)
-        looksRareProtocol.executeTakerAsk(
-            _genericTakerOrder(),
-            makerBid,
-            signature,
-            _EMPTY_MERKLE_TREE,
-            _EMPTY_AFFILIATE
-        );
+        vm.expectRevert(); // It should revert without data (since the root cannot be extracted since the
+            // additionalParameters length is 0)
+        looksRareProtocol.executeTakerAsk(_genericTakerOrder(), makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testInvalidSelector() public {
@@ -391,29 +389,22 @@ contract CollectionOrdersTest is ProtocolBase {
             itemId: 0
         });
 
-        (bool orderIsValid, bytes4 errorSelector) = strategyCollectionOffer.isMakerOrderValid(
-            makerAsk,
-            selectorNoProof
-        );
+        (bool orderIsValid, bytes4 errorSelector) = strategyCollectionOffer.isMakerOrderValid(makerAsk, selectorNoProof);
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, QuoteTypeInvalid.selector);
     }
 
     function _assertOrderIsValid(OrderStructs.Maker memory makerBid, bool withProof) private {
-        (bool orderIsValid, bytes4 errorSelector) = strategyCollectionOffer.isMakerOrderValid(
-            makerBid,
-            withProof ? selectorWithProof : selectorNoProof
-        );
+        (bool orderIsValid, bytes4 errorSelector) =
+            strategyCollectionOffer.isMakerOrderValid(makerBid, withProof ? selectorWithProof : selectorNoProof);
         assertTrue(orderIsValid);
         assertEq(errorSelector, _EMPTY_BYTES4);
     }
 
     function _assertOrderIsInvalid(OrderStructs.Maker memory makerBid, bool withProof) private {
-        (bool orderIsValid, bytes4 errorSelector) = strategyCollectionOffer.isMakerOrderValid(
-            makerBid,
-            withProof ? selectorWithProof : selectorNoProof
-        );
+        (bool orderIsValid, bytes4 errorSelector) =
+            strategyCollectionOffer.isMakerOrderValid(makerBid, withProof ? selectorWithProof : selectorNoProof);
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, OrderInvalid.selector);

@@ -2,16 +2,16 @@
 pragma solidity 0.8.17;
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Custom errors
-import { OrderInvalid } from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {OrderInvalid} from "@hypercerts/marketplace/errors/SharedErrors.sol";
 
 // Base strategy contracts
-import { BaseStrategy, IStrategy } from "@hypercerts/marketplace/executionStrategies/BaseStrategy.sol";
+import {BaseStrategy, IStrategy} from "@hypercerts/marketplace/executionStrategies/BaseStrategy.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 
 contract StrategyTestMultiFillCollectionOrder is BaseStrategy {
     using OrderStructs for OrderStructs.Maker;
@@ -35,10 +35,10 @@ contract StrategyTestMultiFillCollectionOrder is BaseStrategy {
      * @param takerAsk Taker ask struct (taker ask-specific parameters for the execution)
      * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
      */
-    function executeStrategyWithTakerAsk(
-        OrderStructs.Taker calldata takerAsk,
-        OrderStructs.Maker calldata makerBid
-    ) external returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated) {
+    function executeStrategyWithTakerAsk(OrderStructs.Taker calldata takerAsk, OrderStructs.Maker calldata makerBid)
+        external
+        returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
+    {
         if (msg.sender != LOOKSRARE_PROTOCOL) revert OrderInvalid();
         // Only available for ERC721
         if (makerBid.collectionType != CollectionType.ERC721) revert OrderInvalid();
@@ -52,10 +52,8 @@ contract StrategyTestMultiFillCollectionOrder is BaseStrategy {
         uint256 countItemsToFill = amounts.length;
 
         if (
-            countItemsToFill == 0 ||
-            makerBid.amounts.length != 1 ||
-            itemIds.length != countItemsToFill ||
-            countItemsFillable < countItemsToFill + countItemsFilled
+            countItemsToFill == 0 || makerBid.amounts.length != 1 || itemIds.length != countItemsToFill
+                || countItemsFillable < countItemsToFill + countItemsFilled
         ) revert OrderInvalid();
 
         price *= countItemsToFill;
@@ -68,10 +66,12 @@ contract StrategyTestMultiFillCollectionOrder is BaseStrategy {
         }
     }
 
-    function isMakerOrderValid(
-        OrderStructs.Maker calldata,
-        bytes4
-    ) external view override returns (bool isValid, bytes4 errorSelector) {
+    function isMakerOrderValid(OrderStructs.Maker calldata, bytes4)
+        external
+        view
+        override
+        returns (bool isValid, bytes4 errorSelector)
+    {
         //
     }
 }

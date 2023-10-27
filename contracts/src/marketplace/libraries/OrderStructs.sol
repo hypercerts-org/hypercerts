@@ -2,8 +2,8 @@
 pragma solidity 0.8.17;
 
 // Enums
-import { CollectionType } from "../enums/CollectionType.sol";
-import { QuoteType } from "../enums/QuoteType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
+import {QuoteType} from "../enums/QuoteType.sol";
 
 /**
  * @title OrderStructs
@@ -106,26 +106,12 @@ library OrderStructs {
     /**
      * @notice This is the type hash constant used to compute the maker order hash.
      */
-    bytes32 internal constant _MAKER_TYPEHASH =
-        keccak256(
-            "Maker("
-            "uint8 quoteType,"
-            "uint256 globalNonce,"
-            "uint256 subsetNonce,"
-            "uint256 orderNonce,"
-            "uint256 strategyId,"
-            "uint8 collectionType,"
-            "address collection,"
-            "address currency,"
-            "address signer,"
-            "uint256 startTime,"
-            "uint256 endTime,"
-            "uint256 price,"
-            "uint256[] itemIds,"
-            "uint256[] amounts,"
-            "bytes additionalParameters"
-            ")"
-        );
+    bytes32 internal constant _MAKER_TYPEHASH = keccak256(
+        "Maker(" "uint8 quoteType," "uint256 globalNonce," "uint256 subsetNonce," "uint256 orderNonce,"
+        "uint256 strategyId," "uint8 collectionType," "address collection," "address currency," "address signer,"
+        "uint256 startTime," "uint256 endTime," "uint256 price," "uint256[] itemIds," "uint256[] amounts,"
+        "bytes additionalParameters" ")"
+    );
 
     /**
      * 5. Hash functions
@@ -138,30 +124,29 @@ library OrderStructs {
      */
     function hash(Maker memory maker) internal pure returns (bytes32) {
         // Encoding is done into two parts to avoid stack too deep issues
-        return
-            keccak256(
-                bytes.concat(
-                    abi.encode(
-                        _MAKER_TYPEHASH,
-                        maker.quoteType,
-                        maker.globalNonce,
-                        maker.subsetNonce,
-                        maker.orderNonce,
-                        maker.strategyId,
-                        maker.collectionType,
-                        maker.collection,
-                        maker.currency
-                    ),
-                    abi.encode(
-                        maker.signer,
-                        maker.startTime,
-                        maker.endTime,
-                        maker.price,
-                        keccak256(abi.encodePacked(maker.itemIds)),
-                        keccak256(abi.encodePacked(maker.amounts)),
-                        keccak256(maker.additionalParameters)
-                    )
+        return keccak256(
+            bytes.concat(
+                abi.encode(
+                    _MAKER_TYPEHASH,
+                    maker.quoteType,
+                    maker.globalNonce,
+                    maker.subsetNonce,
+                    maker.orderNonce,
+                    maker.strategyId,
+                    maker.collectionType,
+                    maker.collection,
+                    maker.currency
+                ),
+                abi.encode(
+                    maker.signer,
+                    maker.startTime,
+                    maker.endTime,
+                    maker.price,
+                    keccak256(abi.encodePacked(maker.itemIds)),
+                    keccak256(abi.encodePacked(maker.amounts)),
+                    keccak256(maker.additionalParameters)
                 )
-            );
+            )
+        );
     }
 }

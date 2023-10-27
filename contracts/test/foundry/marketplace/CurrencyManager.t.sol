@@ -2,15 +2,15 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { IOwnableTwoSteps } from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
+import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
 
 // Core contracts
-import { CurrencyManager, ICurrencyManager } from "@hypercerts/marketplace/CurrencyManager.sol";
+import {CurrencyManager, ICurrencyManager} from "@hypercerts/marketplace/CurrencyManager.sol";
 
 // Other mocks and utils
-import { TestHelpers } from "./utils/TestHelpers.sol";
-import { TestParameters } from "./utils/TestParameters.sol";
-import { MockERC20 } from "../../mock/MockERC20.sol";
+import {TestHelpers} from "./utils/TestHelpers.sol";
+import {TestParameters} from "./utils/TestParameters.sol";
+import {MockERC20} from "../../mock/MockERC20.sol";
 
 contract CurrencyManagerTest is TestHelpers, TestParameters, ICurrencyManager {
     CurrencyManager private currencyManager;

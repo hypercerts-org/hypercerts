@@ -2,22 +2,24 @@
 pragma solidity 0.8.17;
 
 // Generic interfaces
-import { IERC165 } from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC165.sol";
+import {IERC165} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC165.sol";
 
 // Libraries
-import { OrderStructs } from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 
 // Other helpers
-import { ProtocolHelpers } from "../utils/ProtocolHelpers.sol";
+import {ProtocolHelpers} from "../utils/ProtocolHelpers.sol";
 
 // Enums
-import { CollectionType } from "@hypercerts/marketplace/enums/CollectionType.sol";
-import { QuoteType } from "@hypercerts/marketplace/enums/QuoteType.sol";
+import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
+import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract MockOrderGenerator is ProtocolHelpers {
-    function _createMockMakerAskAndTakerBid(
-        address collection
-    ) internal view returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid) {
+    function _createMockMakerAskAndTakerBid(address collection)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
+    {
         CollectionType collectionType = _getCollectionType(collection);
 
         newMakerAsk = _createSingleItemMakerOrder({
@@ -37,10 +39,11 @@ contract MockOrderGenerator is ProtocolHelpers {
         newTakerBid = OrderStructs.Taker(takerUser, abi.encode());
     }
 
-    function _createMockMakerBidAndTakerAsk(
-        address collection,
-        address currency
-    ) internal view returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk) {
+    function _createMockMakerBidAndTakerAsk(address collection, address currency)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
+    {
         CollectionType collectionType = _getCollectionType(collection);
 
         newMakerBid = _createSingleItemMakerOrder({
@@ -60,16 +63,14 @@ contract MockOrderGenerator is ProtocolHelpers {
         newTakerAsk = OrderStructs.Taker(takerUser, abi.encode());
     }
 
-    function _createMockMakerAskAndTakerBidWithBundle(
-        address collection,
-        uint256 numberTokens
-    ) internal view returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid) {
+    function _createMockMakerAskAndTakerBidWithBundle(address collection, uint256 numberTokens)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
+    {
         CollectionType collectionType = _getCollectionType(collection);
 
-        (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(
-            collectionType,
-            numberTokens
-        );
+        (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(collectionType, numberTokens);
 
         newMakerAsk = _createMultiItemMakerOrder({
             quoteType: QuoteType.Ask,
@@ -89,17 +90,14 @@ contract MockOrderGenerator is ProtocolHelpers {
         newTakerBid = OrderStructs.Taker(takerUser, abi.encode());
     }
 
-    function _createMockMakerBidAndTakerAskWithBundle(
-        address collection,
-        address currency,
-        uint256 numberTokens
-    ) internal view returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk) {
+    function _createMockMakerBidAndTakerAskWithBundle(address collection, address currency, uint256 numberTokens)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
+    {
         CollectionType collectionType = _getCollectionType(collection);
 
-        (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(
-            collectionType,
-            numberTokens
-        );
+        (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(collectionType, numberTokens);
 
         newMakerBid = _createMultiItemMakerOrder({
             quoteType: QuoteType.Bid,
@@ -128,10 +126,11 @@ contract MockOrderGenerator is ProtocolHelpers {
         }
     }
 
-    function _setBundleItemIdsAndAmounts(
-        CollectionType collectionType,
-        uint256 numberTokens
-    ) private pure returns (uint256[] memory itemIds, uint256[] memory amounts) {
+    function _setBundleItemIdsAndAmounts(CollectionType collectionType, uint256 numberTokens)
+        private
+        pure
+        returns (uint256[] memory itemIds, uint256[] memory amounts)
+    {
         itemIds = new uint256[](numberTokens);
         amounts = new uint256[](numberTokens);
 

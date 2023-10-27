@@ -2,23 +2,24 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import { OwnableTwoSteps } from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
-import { LowLevelERC721Transfer } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC721Transfer.sol";
-import { LowLevelERC1155Transfer } from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol";
+import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
+import {LowLevelERC721Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC721Transfer.sol";
+import {LowLevelERC1155Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol";
 
 // Interfaces and errors
-import { ITransferManager } from "./interfaces/ITransferManager.sol";
-import { AmountInvalid, LengthsInvalid } from "./errors/SharedErrors.sol";
+import {ITransferManager} from "./interfaces/ITransferManager.sol";
+import {AmountInvalid, LengthsInvalid} from "./errors/SharedErrors.sol";
 
 // Libraries
-import { OrderStructs } from "./libraries/OrderStructs.sol";
+import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Enums
-import { CollectionType } from "./enums/CollectionType.sol";
+import {CollectionType} from "./enums/CollectionType.sol";
 
 /**
  * @title TransferManager
- * @notice This contract provides the transfer functions for ERC721/ERC1155/Hypercert/Hyperboard for contracts that require them.
+ * @notice This contract provides the transfer functions for ERC721/ERC1155/Hypercert/Hyperboard for contracts that
+ * require them.
  *         Collection type "0" refers to ERC721 transfer functions.
  *         Collection type "1" refers to ERC1155 transfer functions.
  *         Collection type "2" refers to Hypercert transfer functions.
@@ -68,7 +69,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
 
         _isOperatorValidForTransfer(from, msg.sender);
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             if (amounts[i] != 1) {
                 revert AmountInvalid();
             }
@@ -109,7 +110,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             }
             _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
         } else {
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 if (amounts[i] == 0) {
                     revert AmountInvalid();
                 }
@@ -152,7 +153,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             }
             _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
         } else {
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 if (amounts[i] == 0) {
                     revert AmountInvalid();
                 }
@@ -195,7 +196,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             }
             _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
         } else {
-            for (uint256 i; i < length; ) {
+            for (uint256 i; i < length;) {
                 if (amounts[i] == 0) {
                     revert AmountInvalid();
                 }
@@ -214,11 +215,9 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
      * @param from Sender address
      * @param to Recipient address
      */
-    function transferBatchItemsAcrossCollections(
-        BatchTransferItem[] calldata items,
-        address from,
-        address to
-    ) external {
+    function transferBatchItemsAcrossCollections(BatchTransferItem[] calldata items, address from, address to)
+        external
+    {
         uint256 itemsLength = items.length;
 
         if (itemsLength == 0) {
@@ -229,7 +228,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             _isOperatorValidForTransfer(from, msg.sender);
         }
 
-        for (uint256 i; i < itemsLength; ) {
+        for (uint256 i; i < itemsLength;) {
             uint256[] calldata itemIds = items[i].itemIds;
             uint256 itemIdsLengthForSingleCollection = itemIds.length;
             uint256[] calldata amounts = items[i].amounts;
@@ -240,7 +239,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
 
             CollectionType collectionType = items[i].collectionType;
             if (collectionType == CollectionType.ERC721) {
-                for (uint256 j; j < itemIdsLengthForSingleCollection; ) {
+                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
                     if (amounts[j] != 1) {
                         revert AmountInvalid();
                     }
@@ -250,7 +249,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
                     }
                 }
             } else if (collectionType == CollectionType.ERC1155) {
-                for (uint256 j; j < itemIdsLengthForSingleCollection; ) {
+                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
                     if (amounts[j] == 0) {
                         revert AmountInvalid();
                     }
@@ -281,7 +280,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             revert LengthsInvalid();
         }
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             address operator = operators[i];
 
             if (!isOperatorAllowed[operator]) {
@@ -313,7 +312,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
             revert LengthsInvalid();
         }
 
-        for (uint256 i; i < length; ) {
+        for (uint256 i; i < length;) {
             address operator = operators[i];
 
             if (!hasUserApprovedOperator[msg.sender][operator]) {

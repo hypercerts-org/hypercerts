@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import { MaliciousERC1271Wallet } from "./MaliciousERC1271Wallet.sol";
+import {MaliciousERC1271Wallet} from "./MaliciousERC1271Wallet.sol";
 
 contract MaliciousOnERC1155ReceivedTheThirdTimeERC1271Wallet is MaliciousERC1271Wallet {
     uint256 private isValidSignatureEnterCount;
