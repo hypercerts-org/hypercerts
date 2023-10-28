@@ -259,6 +259,17 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
                     }
                 }
                 _executeERC1155SafeBatchTransferFrom(items[i].collection, from, to, itemIds, amounts);
+            } else if (collectionType == CollectionType.Hypercert) {
+                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
+                    if (amounts[j] == 0) {
+                        revert AmountInvalid();
+                    }
+
+                    unchecked {
+                        ++j;
+                    }
+                }
+                _executeERC1155SafeBatchTransferFrom(items[i].collection, from, to, itemIds, amounts);
             }
 
             unchecked {

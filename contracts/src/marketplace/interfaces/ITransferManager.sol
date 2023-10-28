@@ -15,7 +15,7 @@ interface ITransferManager {
     /**
      * @notice This struct is only used for transferBatchItemsAcrossCollections.
      * @param collection Collection address
-     * @param collectionType 0 for ERC721, 1 for ERC1155
+     * @param collectionType 0 for ERC721, 1 for ERC1155, 2 for Hypercert, 3 for Hyperboard
      * @param itemIds Array of item ids to transfer
      * @param amounts Array of amounts to transfer
      */

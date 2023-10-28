@@ -44,6 +44,12 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     uint256 private constant amount1Hypercert = 1;
     uint256 private constant units1Hypercert = 10_000;
     uint256 private constant fractionId1Hypercert = claimId1Hypercert + 1;
+
+    uint256 private constant claimId2Hypercert = 2 << 128;
+    uint256 private constant amount2Hypercert = 1;
+    uint256 private constant units2Hypercert = 10_000;
+    uint256 private constant fractionId2Hypercert = claimId2Hypercert + 1;
+
     IHypercertToken.TransferRestrictions private constant FROM_CREATOR_ONLY =
         IHypercertToken.TransferRestrictions.FromCreatorOnly;
 
@@ -200,11 +206,40 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         assertEq(mockERC1155.balanceOf(_recipient, tokenId2), amount2);
     }
 
-    function testTransferBatchItemsAcrossCollectionERC721AndERC1155() public {
+    function testTransferBatchItemsHypercerts() public {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
 
-        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
+        uint256 tokenId1 = fractionId1Hypercert;
+        uint256 amount1 = amount1Hypercert;
+        uint256 tokenId2 = fractionId2Hypercert;
+        uint256 amount2 = amount2Hypercert;
+
+        vm.startPrank(_sender);
+        mockHypercertMinter.mintClaim(_sender, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+        mockHypercertMinter.mintClaim(_sender, units2Hypercert, "https://example.com/2", FROM_CREATOR_ONLY);
+        vm.stopPrank();
+
+        uint256[] memory itemIds = new uint256[](2);
+        itemIds[0] = tokenId1;
+        itemIds[1] = tokenId2;
+
+        uint256[] memory amounts = new uint256[](2);
+        amounts[0] = amount1;
+        amounts[1] = amount2;
+
+        vm.prank(_transferrer);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+
+        assertEq(mockHypercertMinter.balanceOf(_recipient, tokenId1), amount1);
+        assertEq(mockHypercertMinter.balanceOf(_recipient, tokenId2), amount2);
+    }
+
+    function testTransferBatchItemsAcrossCollectionERC721AndERC1155AndHypercert() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
 
         vm.prank(_transferrer);
         transferManager.transferBatchItemsAcrossCollections(items, _sender, _recipient);
@@ -212,11 +247,17 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         assertEq(mockERC721.ownerOf(tokenIdERC721), _recipient);
         assertEq(mockERC1155.balanceOf(_recipient, tokenId1ERC1155), amount1ERC1155);
         assertEq(mockERC1155.balanceOf(_recipient, tokenId2ERC1155), amount2ERC1155);
+        assertEq(mockHypercertMinter.balanceOf(_recipient, fractionId1Hypercert), amount1Hypercert);
+        assertEq(mockHypercertMinter.balanceOf(_recipient, fractionId2Hypercert), amount2Hypercert);
     }
 
-    function testTransferBatchItemsAcrossCollectionERC721AndERC1155ByOwner() public asPrankedUser(_sender) {
+    function testTransferBatchItemsAcrossCollectionERC721AndERC1155AndHypercertByOwner()
+        public
+        asPrankedUser(_sender)
+    {
         mockERC721.setApprovalForAll(address(transferManager), true);
         mockERC1155.setApprovalForAll(address(transferManager), true);
+        mockHypercertMinter.setApprovalForAll(address(transferManager), true);
 
         ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
 
@@ -225,6 +266,8 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         assertEq(mockERC721.ownerOf(tokenIdERC721), _recipient);
         assertEq(mockERC1155.balanceOf(_recipient, tokenId1ERC1155), amount1ERC1155);
         assertEq(mockERC1155.balanceOf(_recipient, tokenId2ERC1155), amount2ERC1155);
+        assertEq(mockHypercertMinter.balanceOf(_recipient, fractionId1Hypercert), amount1Hypercert);
+        assertEq(mockHypercertMinter.balanceOf(_recipient, fractionId2Hypercert), amount2Hypercert);
     }
 
     /**
@@ -268,6 +311,25 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferItemsERC1155(address(mockERC1155), _sender, _recipient, itemIds, amounts);
     }
 
+    function testTransferSingleItemHypercertAmountIsZero() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        uint256 itemId = fractionId1Hypercert;
+
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, 1, "https://example.com/1", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = itemId;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 0;
+
+        vm.expectRevert(AmountInvalid.selector);
+        vm.prank(_transferrer);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+    }
+
     function testTransferMultipleItemsERC1155AmountIsZero() public {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
@@ -290,6 +352,30 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferItemsERC1155(address(mockERC1155), _sender, _recipient, itemIds, amounts);
     }
 
+    function testTransferMultipleItemsHypercertAmountIsZero() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        uint256 itemIdOne = fractionId1Hypercert;
+        uint256 itemIdTwo = fractionId2Hypercert;
+
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, 1, "https://example.com/1", FROM_CREATOR_ONLY);
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, 1, "https://example.com/2", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](2);
+        itemIds[0] = itemIdOne;
+        itemIds[1] = itemIdTwo;
+        uint256[] memory amounts = new uint256[](2);
+        amounts[0] = 0;
+        amounts[1] = 0;
+
+        vm.expectRevert(AmountInvalid.selector);
+        vm.prank(_transferrer);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+    }
+
     function testTransferBatchItemsAcrossCollectionZeroLength() public {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
@@ -307,7 +393,7 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
 
-        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
         items[1].amounts[0] = amount;
 
         vm.expectRevert(AmountInvalid.selector);
@@ -319,8 +405,20 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
 
-        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
         items[0].amounts[0] = 0;
+
+        vm.expectRevert(AmountInvalid.selector);
+        vm.prank(_sender);
+        transferManager.transferBatchItemsAcrossCollections(items, _sender, _recipient);
+    }
+
+    function testCannotBatchTransferIfHypercertAmountIsZero() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
+        items[2].amounts[0] = 0;
 
         vm.expectRevert(AmountInvalid.selector);
         vm.prank(_sender);
@@ -331,7 +429,7 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
 
-        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
         items[0].itemIds = new uint256[](0);
         items[0].amounts = new uint256[](0);
 
@@ -404,6 +502,38 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferItemsERC1155(address(mockERC1155), _sender, _recipient, itemIds, amounts);
     }
 
+    function testCannotTransferHypercertIfOperatorApprovalsRevokedByUserOrOperatorRemovedByOwner() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        // 1. User revokes the operator
+        vm.prank(_sender);
+        vm.expectEmit(false, false, false, true);
+        emit ApprovalsRemoved(_sender, operators);
+        transferManager.revokeApprovals(operators);
+
+        uint256 itemId = fractionId1Hypercert;
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = itemId;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 5;
+
+        vm.prank(_transferrer);
+        vm.expectRevert(ITransferManager.TransferCallerInvalid.selector);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+
+        // 2. Sender grants again approvals but owner removes the operators
+        _grantApprovals(_sender);
+        vm.prank(_owner);
+        vm.expectEmit(false, false, false, true);
+        emit OperatorRemoved(_transferrer);
+        transferManager.removeOperator(_transferrer);
+
+        vm.prank(_transferrer);
+        vm.expectRevert(ITransferManager.TransferCallerInvalid.selector);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+    }
+
     function testCannotBatchTransferIfOperatorApprovalsRevoked() public {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);
@@ -414,7 +544,7 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         emit ApprovalsRemoved(_sender, operators);
         transferManager.revokeApprovals(operators);
 
-        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItems();
+        ITransferManager.BatchTransferItem[] memory items = _generateValidBatchTransferItemsPranked(_sender);
 
         vm.prank(_transferrer);
         vm.expectRevert(ITransferManager.TransferCallerInvalid.selector);
@@ -432,7 +562,7 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferBatchItemsAcrossCollections(items, _sender, _recipient);
     }
 
-    function testCannotTransferERC721OrERC1155IfArrayLengthIs0() public {
+    function testCannotTransferERC721OrERC1155orHypercertIfArrayLengthIs0() public {
         uint256[] memory emptyArrayUint256 = new uint256[](0);
 
         // 1. ERC721
@@ -446,6 +576,12 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferItemsERC1155(
             address(mockERC1155), _sender, _recipient, emptyArrayUint256, emptyArrayUint256
         );
+
+        // 3. Hypercert length is 0
+        vm.expectRevert(LengthsInvalid.selector);
+        transferManager.transferItemsHypercert(
+            address(mockHypercertMinter), _sender, _recipient, emptyArrayUint256, emptyArrayUint256
+        );
     }
 
     function testCannotTransferERC1155IfArrayLengthDiffers() public {
@@ -454,6 +590,14 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
 
         vm.expectRevert(LengthsInvalid.selector);
         transferManager.transferItemsERC1155(address(mockERC1155), _sender, _recipient, itemIds, amounts);
+    }
+
+    function testCannotTransferHypercertsIfArrayLengthDiffers() public {
+        uint256[] memory itemIds = new uint256[](2);
+        uint256[] memory amounts = new uint256[](3);
+
+        vm.expectRevert(LengthsInvalid.selector);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
     }
 
     function testUserCannotGrantOrRevokeApprovalsIfArrayLengthIs0() public {
@@ -529,12 +673,23 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     }
 
     function _generateValidBatchTransferItems() private returns (BatchTransferItem[] memory items) {
-        items = new ITransferManager.BatchTransferItem[](2);
+        items = new ITransferManager.BatchTransferItem[](3);
 
         {
             mockERC721.mint(_sender, tokenIdERC721);
             mockERC1155.mint(_sender, tokenId1ERC1155, amount1ERC1155);
             mockERC1155.mint(_sender, tokenId2ERC1155, amount2ERC1155);
+
+            mockHypercertMinter.mintClaim(_sender, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+            mockHypercertMinter.mintClaim(_sender, units2Hypercert, "https://example.com/2", FROM_CREATOR_ONLY);
+
+            uint256[] memory fractionIdsHypercerts = new uint256[](2);
+            fractionIdsHypercerts[0] = fractionId1Hypercert;
+            fractionIdsHypercerts[1] = fractionId2Hypercert;
+
+            uint256[] memory amountsHypercerts = new uint256[](2);
+            amountsHypercerts[0] = amount1Hypercert;
+            amountsHypercerts[1] = amount2Hypercert;
 
             uint256[] memory tokenIdsERC1155 = new uint256[](2);
             tokenIdsERC1155[0] = tokenId1ERC1155;
@@ -561,6 +716,71 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
                 collectionType: CollectionType.ERC721,
                 itemIds: tokenIdsERC721,
                 amounts: amountsERC721
+            });
+            items[2] = ITransferManager.BatchTransferItem({
+                collection: address(mockHypercertMinter),
+                collectionType: CollectionType.Hypercert,
+                itemIds: fractionIdsHypercerts,
+                amounts: amountsHypercerts
+            });
+        }
+    }
+
+    function _generateValidBatchTransferItemsPranked(address pranker)
+        private
+        returns (BatchTransferItem[] memory items)
+    {
+        items = new ITransferManager.BatchTransferItem[](3);
+
+        {
+            mockERC721.mint(_sender, tokenIdERC721);
+            mockERC1155.mint(_sender, tokenId1ERC1155, amount1ERC1155);
+            mockERC1155.mint(_sender, tokenId2ERC1155, amount2ERC1155);
+
+            vm.startPrank(pranker);
+            mockHypercertMinter.mintClaim(pranker, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+            mockHypercertMinter.mintClaim(pranker, units2Hypercert, "https://example.com/2", FROM_CREATOR_ONLY);
+            vm.stopPrank();
+
+            uint256[] memory fractionIdsHypercerts = new uint256[](2);
+            fractionIdsHypercerts[0] = fractionId1Hypercert;
+            fractionIdsHypercerts[1] = fractionId2Hypercert;
+
+            uint256[] memory amountsHypercerts = new uint256[](2);
+            amountsHypercerts[0] = amount1Hypercert;
+            amountsHypercerts[1] = amount2Hypercert;
+
+            uint256[] memory tokenIdsERC1155 = new uint256[](2);
+            tokenIdsERC1155[0] = tokenId1ERC1155;
+            tokenIdsERC1155[1] = tokenId2ERC1155;
+
+            uint256[] memory amountsERC1155 = new uint256[](2);
+            amountsERC1155[0] = amount1ERC1155;
+            amountsERC1155[1] = amount2ERC1155;
+
+            uint256[] memory tokenIdsERC721 = new uint256[](1);
+            tokenIdsERC721[0] = tokenIdERC721;
+
+            uint256[] memory amountsERC721 = new uint256[](1);
+            amountsERC721[0] = 1;
+
+            items[0] = ITransferManager.BatchTransferItem({
+                collection: address(mockERC1155),
+                collectionType: CollectionType.ERC1155,
+                itemIds: tokenIdsERC1155,
+                amounts: amountsERC1155
+            });
+            items[1] = ITransferManager.BatchTransferItem({
+                collection: address(mockERC721),
+                collectionType: CollectionType.ERC721,
+                itemIds: tokenIdsERC721,
+                amounts: amountsERC721
+            });
+            items[2] = ITransferManager.BatchTransferItem({
+                collection: address(mockHypercertMinter),
+                collectionType: CollectionType.Hypercert,
+                itemIds: fractionIdsHypercerts,
+                amounts: amountsHypercerts
             });
         }
     }
