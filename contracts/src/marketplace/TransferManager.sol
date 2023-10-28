@@ -239,37 +239,11 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
 
             CollectionType collectionType = items[i].collectionType;
             if (collectionType == CollectionType.ERC721) {
-                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
-                    if (amounts[j] != 1) {
-                        revert AmountInvalid();
-                    }
-                    _executeERC721TransferFrom(items[i].collection, from, to, itemIds[j]);
-                    unchecked {
-                        ++j;
-                    }
-                }
+                _processBatch721Collection(items[i], from, to);
             } else if (collectionType == CollectionType.ERC1155) {
-                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
-                    if (amounts[j] == 0) {
-                        revert AmountInvalid();
-                    }
-
-                    unchecked {
-                        ++j;
-                    }
-                }
-                _executeERC1155SafeBatchTransferFrom(items[i].collection, from, to, itemIds, amounts);
+                _processBatch1155Collection(items[i], from, to);
             } else if (collectionType == CollectionType.Hypercert) {
-                for (uint256 j; j < itemIdsLengthForSingleCollection;) {
-                    if (amounts[j] == 0) {
-                        revert AmountInvalid();
-                    }
-
-                    unchecked {
-                        ++j;
-                    }
-                }
-                _executeERC1155SafeBatchTransferFrom(items[i].collection, from, to, itemIds, amounts);
+                _processBatchHypercertCollection(items[i], from, to);
             }
 
             unchecked {
@@ -382,5 +356,57 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
         }
 
         revert TransferCallerInvalid();
+    }
+
+    function _processBatch721Collection(BatchTransferItem calldata batchItems, address from, address to) private {
+        uint256[] calldata itemIds = batchItems.itemIds;
+        uint256[] calldata amounts = batchItems.amounts;
+        uint256 length = itemIds.length;
+
+        for (uint256 j; j < length;) {
+            if (amounts[j] != 1) {
+                revert AmountInvalid();
+            }
+            _executeERC721TransferFrom(batchItems.collection, from, to, itemIds[j]);
+            unchecked {
+                ++j;
+            }
+        }
+    }
+
+    function _processBatch1155Collection(BatchTransferItem calldata batchItems, address from, address to) private {
+        uint256[] calldata itemIds = batchItems.itemIds;
+        uint256[] calldata amounts = batchItems.amounts;
+        uint256 length = itemIds.length;
+
+        for (uint256 j; j < length;) {
+            if (amounts[j] == 0) {
+                revert AmountInvalid();
+            }
+
+            unchecked {
+                ++j;
+            }
+        }
+        _executeERC1155SafeBatchTransferFrom(batchItems.collection, from, to, itemIds, amounts);
+    }
+
+    function _processBatchHypercertCollection(BatchTransferItem calldata batchItems, address from, address to)
+        private
+    {
+        uint256[] calldata itemIds = batchItems.itemIds;
+        uint256[] calldata amounts = batchItems.amounts;
+        uint256 length = itemIds.length;
+
+        for (uint256 j; j < length;) {
+            if (amounts[j] == 0) {
+                revert AmountInvalid();
+            }
+
+            unchecked {
+                ++j;
+            }
+        }
+        _executeERC1155SafeBatchTransferFrom(batchItems.collection, from, to, itemIds, amounts);
     }
 }
