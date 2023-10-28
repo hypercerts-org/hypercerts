@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Used components of Enjin example implementation for mixed fungibility
 // https://github.com/enjin/erc-1155/blob/master/contracts/ERC1155MixedFungibleMintable.sol
-pragma solidity 0.8.16;
+pragma solidity ^0.8.16;
 
 import {ERC1155Upgradeable} from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 import {ERC1155BurnableUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";

@@ -9,3 +9,4 @@ prb-test/=lib/prb-test/src/
 @looksrare/=node_modules/@looksrare/
 hardhat/=node_modules/hardhat/
 solmate/=node_modules/solmate/
+@openzeppelin/=node_modules/@openzeppelin/

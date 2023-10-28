@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.16;
 
 // LooksRare unopinionated libraries
 import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
@@ -11,10 +11,13 @@ import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 import {LooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
 import {ITransferManager, TransferManager} from "@hypercerts/marketplace/TransferManager.sol";
 import {AmountInvalid, LengthsInvalid} from "@hypercerts/marketplace/errors/SharedErrors.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Mocks and other utils
 import {MockERC721} from "../../mock/MockERC721.sol";
 import {MockERC1155} from "../../mock/MockERC1155.sol";
+import {MockHypercertMinterUUPS} from "../../mock/MockHypercertMinterUUPS.sol";
 import {TestHelpers} from "./utils/TestHelpers.sol";
 import {TestParameters} from "./utils/TestParameters.sol";
 
@@ -25,13 +28,24 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     address[] public operators;
     MockERC721 public mockERC721;
     MockERC1155 public mockERC1155;
+    MockHypercertMinterUUPS public mockHypercertMinterUUPS;
+
     TransferManager public transferManager;
+    HypercertMinter public mockHypercertMinter;
 
     uint256 private constant tokenIdERC721 = 55;
     uint256 private constant tokenId1ERC1155 = 1;
     uint256 private constant amount1ERC1155 = 2;
     uint256 private constant tokenId2ERC1155 = 2;
     uint256 private constant amount2ERC1155 = 5;
+
+    // Set the hypercert claim and first fraction id
+    uint256 private constant claimId1Hypercert = 1 << 128;
+    uint256 private constant amount1Hypercert = 1;
+    uint256 private constant units1Hypercert = 10_000;
+    uint256 private constant fractionId1Hypercert = claimId1Hypercert + 1;
+    IHypercertToken.TransferRestrictions private constant FROM_CREATOR_ONLY =
+        IHypercertToken.TransferRestrictions.FromCreatorOnly;
 
     /**
      * 0. Internal helper functions
@@ -40,6 +54,8 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     function _grantApprovals(address user) private asPrankedUser(user) {
         mockERC721.setApprovalForAll(address(transferManager), true);
         mockERC1155.setApprovalForAll(address(transferManager), true);
+        mockHypercertMinter.setApprovalForAll(address(transferManager), true);
+
         address[] memory approvedOperators = new address[](1);
         approvedOperators[0] = _transferrer;
 
@@ -59,6 +75,9 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager = new TransferManager(_owner);
         mockERC721 = new MockERC721();
         mockERC1155 = new MockERC1155();
+        mockHypercertMinterUUPS = new MockHypercertMinterUUPS();
+        mockHypercertMinterUUPS.setUp();
+        mockHypercertMinter = mockHypercertMinterUUPS.minter();
         operators.push(_transferrer);
 
         vm.deal(_transferrer, 100 ether);
@@ -107,6 +126,27 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
         transferManager.transferItemsERC1155(address(mockERC1155), _sender, _recipient, itemIds, amounts);
 
         assertEq(mockERC1155.balanceOf(_recipient, itemId), amount);
+    }
+
+    function testTransferSingleItemHypercert() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        uint256 itemId = fractionId1Hypercert;
+        uint256 amount = amount1Hypercert;
+
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = itemId;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = amount;
+
+        vm.prank(_transferrer);
+        transferManager.transferItemsHypercert(address(mockHypercertMinter), _sender, _recipient, itemIds, amounts);
+
+        assertEq(mockHypercertMinter.balanceOf(_recipient, itemId), amount);
     }
 
     function testTransferBatchItemsERC721() public {
