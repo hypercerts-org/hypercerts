@@ -21,11 +21,6 @@ env:
 on:
   # A push occurs to one of the matched branches.
   push:
-  pull_request:
-    branches:
-      - main
-      - develop
-      - develop-contracts
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
