@@ -59,7 +59,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
         } else if (collectionType == CollectionType.ERC1155) {
             transferManager.transferItemsERC1155(collection, sender, recipient, itemIds, amounts);
         } else if (collectionType == CollectionType.Hypercert) {
-            transferManager.transferItemsERC1155(collection, sender, recipient, itemIds, amounts);
+            transferManager.transferItemsHypercert(collection, sender, recipient, itemIds, amounts);
         } else if (collectionType == CollectionType.Hyperboard) {
             revert UnsupportedCollectionType();
         }

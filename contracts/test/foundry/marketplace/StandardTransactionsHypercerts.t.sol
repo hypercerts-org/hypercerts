@@ -17,10 +17,11 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/Numer
 import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
-contract StandardTransactionsTest is ProtocolBase {
-    error ERC721TransferFromFail();
+contract StandardTransactionsHypercertsTest is ProtocolBase {
+    error ERC1155SafeTransferFromFail();
 
-    uint256 private constant itemId = 420;
+    uint256 private constant fractionId = (1 << 128) + 1;
+    uint256[] private fractionUnits;
     uint16 private constant NEW_ROYALTY_FEE = uint16(50);
 
     function setUp() public {
@@ -30,24 +31,30 @@ contract StandardTransactionsTest is ProtocolBase {
         );
         vm.prank(_owner);
         looksRareProtocol.updateCreatorFeeManager(address(creatorFeeManager));
+
+        fractionUnits = new uint256[](3);
+        fractionUnits[0] = 5000;
+        fractionUnits[1] = 3000;
+        fractionUnits[2] = 2000;
     }
 
     /**
-     * One ERC721 (where royalties come from the registry) is sold through a taker bid
+     * One Hypercert fraction (where royalties come from the registry) is sold through a taker bid
      */
-    function testTakerBidERC721WithRoyaltiesFromRegistry(uint256 price) public {
+    function testTakerBidHypercertWithRoyaltiesFromRegistry(uint256 price) public {
         vm.assume(price <= 2 ether);
         _setUpUsers();
-        _setupRegistryRoyalties(address(mockERC721), NEW_ROYALTY_FEE);
+        _setupRegistryRoyalties(address(mockHypercertMinter), NEW_ROYALTY_FEE);
 
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
-            _createMockMakerAskAndTakerBid(address(mockERC721));
+            _createMockMakerAskAndTakerBid(address(mockHypercertMinter), true);
         makerAsk.price = price;
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
         // Mint asset
-        mockERC721.mint(makerUser, makerAsk.itemIds[0]);
+        vm.prank(makerUser);
+        mockHypercertMinter.mintClaim(makerUser, 10_000, "https://example.com/1", FROM_CREATOR_ONLY);
 
         // Verify validity of maker ask order
         _assertValidMakerOrder(makerAsk, signature);
@@ -91,20 +98,21 @@ contract StandardTransactionsTest is ProtocolBase {
     }
 
     /**
-     * One ERC721 is sold through taker bid. Address zero is specified as the recipient in the taker struct.
+     * One Hypercert fraction is sold through taker bid. Address zero is specified as the recipient in the taker struct.
      */
-    function testTakerBidERC721WithAddressZeroSpecifiedAsRecipient(uint256 price) public {
+    function testTakerBidHypercertsWithAddressZeroSpecifiedAsRecipient(uint256 price) public {
         vm.assume(price <= 2 ether);
         _setUpUsers();
 
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
-            _createMockMakerAskAndTakerBid(address(mockERC721));
+            _createMockMakerAskAndTakerBid(address(mockHypercertMinter), true);
         makerAsk.price = price;
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
         // Mint asset
-        mockERC721.mint(makerUser, makerAsk.itemIds[0]);
+        vm.prank(makerUser);
+        mockHypercertMinter.mintClaim(makerUser, 10_000, "https://example.com/1", FROM_CREATOR_ONLY);
 
         // Adjustment
         takerBid.recipient = address(0);
@@ -146,16 +154,16 @@ contract StandardTransactionsTest is ProtocolBase {
     }
 
     /**
-     * One ERC721 (where royalties come from the registry) is sold through a taker ask using WETH
+     * One Hypercert fraction (where royalties come from the registry) is sold through a taker ask using WETH
      */
-    function testTakerAskERC721WithRoyaltiesFromRegistry(uint256 price) public {
+    function testTakerAskHypercertWithRoyaltiesFromRegistry(uint256 price) public {
         vm.assume(price <= 2 ether);
 
         _setUpUsers();
-        _setupRegistryRoyalties(address(mockERC721), NEW_ROYALTY_FEE);
+        _setupRegistryRoyalties(address(mockHypercertMinter), NEW_ROYALTY_FEE);
 
         (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
-            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
+            _createMockMakerBidAndTakerAsk(address(mockHypercertMinter), address(weth), true);
         makerBid.price = price;
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -164,7 +172,8 @@ contract StandardTransactionsTest is ProtocolBase {
         _assertValidMakerOrder(makerBid, signature);
 
         // Mint asset
-        mockERC721.mint(takerUser, makerBid.itemIds[0]);
+        vm.prank(takerUser);
+        mockHypercertMinter.mintClaim(takerUser, 10_000, "https://example.com/1", FROM_CREATOR_ONLY);
 
         // Arrays for events
         uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: NEW_ROYALTY_FEE});
@@ -203,15 +212,15 @@ contract StandardTransactionsTest is ProtocolBase {
     }
 
     /**
-     * One ERC721 is sold through a taker ask using WETH. Address zero is specified as the recipient in the taker
+     * One Hypercert is sold through a taker ask using WETH. Address zero is specified as the recipient in the taker
      * struct.
      */
-    function testTakerAskERC721WithAddressZeroSpecifiedAsRecipient(uint256 price) public {
+    function testTakerAskHypercertWithAddressZeroSpecifiedAsRecipient(uint256 price) public {
         vm.assume(price <= 2 ether);
         _setUpUsers();
 
         (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
-            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
+            _createMockMakerBidAndTakerAsk(address(mockHypercertMinter), address(weth), true);
         makerBid.price = price;
 
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -223,7 +232,8 @@ contract StandardTransactionsTest is ProtocolBase {
         takerAsk.recipient = address(0);
 
         // Mint asset
-        mockERC721.mint(takerUser, makerBid.itemIds[0]);
+        vm.prank(takerUser);
+        mockHypercertMinter.mintClaim(takerUser, 10_000, "https://example.com/1", FROM_CREATOR_ONLY);
 
         // Arrays for events
         uint256[3] memory expectedFees = _calculateExpectedFees({price: price, royaltyFeeBp: 0});
@@ -259,9 +269,9 @@ contract StandardTransactionsTest is ProtocolBase {
     }
 
     /**
-     * Three ERC721 are sold through 3 taker bids in one transaction with non-atomicity.
+     * Three Hypercert fractions are sold through 3 taker bids in one transaction with non-atomicity.
      */
-    function testThreeTakerBidsERC721() public {
+    function testThreeTakerBidsHypercerts() public {
         uint256 price = 0.015 ether;
         _setUpUsers();
 
@@ -273,20 +283,23 @@ contract StandardTransactionsTest is ProtocolBase {
 
         for (uint256 i; i < numberPurchases; i++) {
             // Mint asset
-            mockERC721.mint(makerUser, i);
+            vm.prank(makerUser);
+            mockHypercertMinter.mintClaimWithFractions(
+                makerUser, 10_000, fractionUnits, "https://example.com/1", FROM_CREATOR_ONLY
+            );
 
             makerAsks[i] = _createSingleItemMakerOrder({
                 quoteType: QuoteType.Ask,
                 globalNonce: 0,
                 subsetNonce: 0,
                 strategyId: STANDARD_SALE_FOR_FIXED_PRICE_STRATEGY,
-                collectionType: CollectionType.ERC721,
+                collectionType: CollectionType.Hypercert,
                 orderNonce: i,
-                collection: address(mockERC721),
+                collection: address(mockHypercertMinter),
                 currency: ETH,
                 signer: makerUser,
                 price: price, // Fixed
-                itemId: i // (0, 1, etc.)
+                itemId: (1 << 128) + 1 + i
             });
 
             // Sign order
@@ -306,7 +319,7 @@ contract StandardTransactionsTest is ProtocolBase {
 
         for (uint256 i; i < numberPurchases; i++) {
             // Taker user has received the asset
-            assertEq(mockERC721.ownerOf(i), takerUser);
+            assertEq(mockHypercertMinter.ownerOf((1 << 128) + 1 + i), takerUser);
             // Verify the nonce is marked as executed
             assertEq(looksRareProtocol.userOrderNonce(makerUser, i), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
         }
@@ -326,11 +339,12 @@ contract StandardTransactionsTest is ProtocolBase {
     /**
      * Transaction cannot go through if atomic, goes through if non-atomic (fund returns to buyer).
      */
-    function testThreeTakerBidsERC721OneFails() public {
+    function testThreeTakerBidsHypercertsOneFails() public {
         _setUpUsers();
 
         uint256 numberPurchases = 3;
-        uint256 faultyTokenId = numberPurchases - 1;
+        uint256 faultyPurchase = numberPurchases - 1;
+        uint256 faultyTokenId = (numberPurchases << 128) + 1;
 
         OrderStructs.Maker[] memory makerAsks = new OrderStructs.Maker[](numberPurchases);
         OrderStructs.Taker[] memory takerBids = new OrderStructs.Taker[](numberPurchases);
@@ -338,20 +352,21 @@ contract StandardTransactionsTest is ProtocolBase {
 
         for (uint256 i; i < numberPurchases; i++) {
             // Mint asset
-            mockERC721.mint(makerUser, i);
+            vm.prank(makerUser);
+            mockHypercertMinter.mintClaim(makerUser, 10_000, "https://example.com/1", FROM_CREATOR_ONLY);
 
             makerAsks[i] = _createSingleItemMakerOrder({
                 quoteType: QuoteType.Ask,
                 globalNonce: 0,
                 subsetNonce: 0,
                 strategyId: STANDARD_SALE_FOR_FIXED_PRICE_STRATEGY,
-                collectionType: CollectionType.ERC721,
+                collectionType: CollectionType.Hypercert,
                 orderNonce: i,
-                collection: address(mockERC721),
+                collection: address(mockHypercertMinter),
                 currency: ETH,
                 signer: makerUser,
                 price: 1.4 ether, // Fixed
-                itemId: i // (0, 1, etc.)
+                itemId: ((i + 1) << 128) + 1 // First fraction of the i-th minted asset
             });
 
             // Sign order
@@ -363,7 +378,7 @@ contract StandardTransactionsTest is ProtocolBase {
         // Transfer tokenId = 2 to random user
         address randomUser = address(55);
         vm.prank(makerUser);
-        mockERC721.transferFrom(makerUser, randomUser, faultyTokenId);
+        mockHypercertMinter.safeTransferFrom(makerUser, randomUser, faultyTokenId, 1, "");
 
         /**
          * 1. The whole purchase fails if execution is atomic
@@ -372,7 +387,7 @@ contract StandardTransactionsTest is ProtocolBase {
             // Other execution parameters
             OrderStructs.MerkleTree[] memory merkleTrees = new OrderStructs.MerkleTree[](numberPurchases);
 
-            vm.expectRevert(abi.encodeWithSelector(ERC721TransferFromFail.selector));
+            vm.expectRevert(ERC1155SafeTransferFromFail.selector);
             vm.prank(takerUser);
             looksRareProtocol.executeMultipleTakerBids{value: 1.4 ether * numberPurchases}(
                 takerBids, makerAsks, signatures, merkleTrees, true
@@ -393,15 +408,15 @@ contract StandardTransactionsTest is ProtocolBase {
             );
         }
 
-        for (uint256 i; i < faultyTokenId; i++) {
+        for (uint256 i; i < faultyPurchase; i++) {
             // Taker user has received the first two assets
-            assertEq(mockERC721.ownerOf(i), takerUser);
+            assertEq(mockHypercertMinter.ownerOf(((i + 1) << 128) + 1), takerUser);
             // Verify the first two nonces are marked as executed
             assertEq(looksRareProtocol.userOrderNonce(makerUser, i), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
         }
 
         // Taker user has not received the asset
-        assertEq(mockERC721.ownerOf(faultyTokenId), randomUser);
+        assertEq(mockHypercertMinter.ownerOf(faultyTokenId), randomUser);
         // Verify the nonce is NOT marked as executed
         assertEq(looksRareProtocol.userOrderNonce(makerUser, faultyTokenId), bytes32(0));
         // Taker bid user pays the whole price
@@ -417,7 +432,7 @@ contract StandardTransactionsTest is ProtocolBase {
         assertEq(address(looksRareProtocol).balance, 1);
     }
 
-    function testThreeTakerBidsERC721LengthsInvalid() public {
+    function testThreeTakerBidsHypercertsLengthsInvalid() public {
         _setUpUsers();
 
         uint256 price = 1.12121111111 ether;
@@ -477,7 +492,7 @@ contract StandardTransactionsTest is ProtocolBase {
         uint256[3] memory expectedFees
     ) private {
         // Buyer has received the asset
-        assertEq(mockERC721.ownerOf(itemId), buyer);
+        assertEq(mockHypercertMinter.ownerOf(fractionId), buyer);
         // Buyer pays the whole price
         assertEq(weth.balanceOf(buyer), _initialWETHBalanceUser - price);
         // Seller receives 99.5% of the whole price
@@ -497,7 +512,7 @@ contract StandardTransactionsTest is ProtocolBase {
         uint256 price,
         uint256[3] memory expectedFees
     ) private {
-        assertEq(mockERC721.ownerOf(itemId), buyer);
+        assertEq(mockHypercertMinter.ownerOf(fractionId), buyer);
         // Buyer pays the whole price
         assertEq(address(buyer).balance, _initialETHBalanceUser - price);
         // Seller receives 99.5% of the whole price

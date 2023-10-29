@@ -79,7 +79,7 @@ import {QuoteType} from "./enums/QuoteType.sol";
  *                                             ~~~      ~~~
  *                                              ~~~~  ~~~~
  *                                                ~~~~~~
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 contract LooksRareProtocol is
     ILooksRareProtocol,

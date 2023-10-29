@@ -8,8 +8,6 @@ import {PausableUpgradeable} from "oz-upgradeable/security/PausableUpgradeable.s
 
 import {Errors} from "./libs/Errors.sol";
 
-import "forge-std/console.sol";
-
 /// @title Contract for managing hypercert claims and whitelists
 /// @author bitbeckers
 /// @notice Implementation of the HypercertTokenInterface using { SemiFungible1155 } as underlying token.
@@ -230,15 +228,11 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
         // Transfer case, where to and from are non-zero
         uint256 len = ids.length;
         for (uint256 i; i < len;) {
-            console.log("Validating permissions");
             uint256 typeID = getBaseType(ids[i]);
             TransferRestrictions policy = typeRestrictions[typeID];
             if (policy == TransferRestrictions.DisallowAll) {
                 revert Errors.TransfersNotAllowed();
             } else if (policy == TransferRestrictions.FromCreatorOnly && from != creators[typeID]) {
-                console.log("Not allowed: from != creator");
-                console.log("from: %s != creator", from, creators[typeID]);
-
                 revert Errors.TransfersNotAllowed();
             }
             unchecked {
