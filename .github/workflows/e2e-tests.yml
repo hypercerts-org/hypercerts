@@ -58,7 +58,7 @@ jobs:
           cache: "pnpm"
       - name: Run e2e tests
         run: |
-          env && pnpm install --frozen-lockfile e2e:ci-run-tests
+          env && pnpm install --frozen-lockfile && pnpm run e2e:ci-run-tests
 
       - name: Output logs
         if: always()
