@@ -47,21 +47,23 @@ jobs:
       - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
           version: '2.18.1'
-      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: "18.15.0"
-          cache: "yarn"
-
+          cache: "pnpm"
       - name: Run e2e tests
         run: |
-          env && yarn e2e:ci-run-tests
+          env && pnpm install --frozen-lockfile e2e:ci-run-tests
 
       - name: Output logs
         if: always()
         run: |
-          yarn e2e:ci-logs > e2e.ci.log
+          pnpm run e2e:ci-logs > e2e.ci.log
       
       - name: Save logs
         if: always()
