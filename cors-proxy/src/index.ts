@@ -63,7 +63,10 @@ export default {
       const apiUrl = url.searchParams.get(QUERYSTRING_KEY);
 
       if (apiUrl == null) {
-        return new Response(`Missing GET parameter: ${QUERYSTRING_KEY}`);
+        return new Response(`Missing GET parameter: ${QUERYSTRING_KEY}`, {
+          status: 400,
+          statusText: `Bad Request: ${QUERYSTRING_KEY} param undefined`,
+        });
       }
 
       // Rewrite request to point to API URL. This also makes the request mutable
