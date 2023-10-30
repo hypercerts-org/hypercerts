@@ -1,4 +1,4 @@
-import { Resolvers } from "../../.graphclient/index.js";
+import { Resolvers } from "../../.graphclient";
 
 export const resolvers: Resolvers = {
   Claim: {

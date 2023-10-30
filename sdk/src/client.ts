@@ -2,10 +2,9 @@ import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
 
-import { DEFAULT_CHAIN_ID } from "./constants.js";
-import HypercertEvaluator from "./evaluations/index.js";
-import HypercertIndexer from "./indexer.js";
-import HypercertsStorage from "./storage.js";
+import HypercertEvaluator from "./evaluations";
+import HypercertIndexer from "./indexer";
+import HypercertsStorage from "./storage";
 import {
   AllowlistEntry,
   ClientError,
@@ -15,10 +14,11 @@ import {
   InvalidOrMissingError,
   MalformedDataError,
   TransferRestrictions,
-} from "./types/index.js";
-import { getConfig } from "./utils/config.js";
-import logger from "./utils/logger.js";
-import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator/index.js";
+  Operator,
+} from "./types/index";
+import { getWritableConfig, getReadOnlyConfig } from "./utils/config";
+import logger from "./utils/logger";
+import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator";
 
 /**
  * Hypercerts client factory
@@ -28,12 +28,12 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  * @param storage - Hypercerts storage object
  */
 export default class HypercertClient implements HypercertClientInterface {
-  readonly _config: HypercertClientConfig;
+  private _config: HypercertClientConfig;
   private _storage: HypercertsStorage;
-  private _evaluator: HypercertEvaluator;
+  // TODO better handling readonly. For now not needed since we don't use this class;
+  private _evaluator: HypercertEvaluator | undefined;
   private _indexer: HypercertIndexer;
   //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
-  private _operator: ethers.providers.Provider | ethers.Signer;
   private _contract: HypercertMinter;
   readonly: boolean;
 
@@ -41,30 +41,44 @@ export default class HypercertClient implements HypercertClientInterface {
    * Creates a new instance of the `HypercertClient` class.
    * @param config The configuration options for the client.
    */
-  constructor(config = { chainId: DEFAULT_CHAIN_ID } as Partial<HypercertClientConfig>) {
-    this._config = getConfig(config);
-    this._operator = this._config.operator;
-
-    this._contract = <HypercertMinter>(
-      new ethers.Contract(this._config.contractAddress, HypercertMinterAbi, this._operator)
-    );
+  constructor(config: Partial<HypercertClientConfig>) {
+    this._config = getReadOnlyConfig(config);
 
     this._storage = new HypercertsStorage(this._config);
 
     this._indexer = new HypercertIndexer(this._config);
 
-    this._evaluator = new HypercertEvaluator(this._config);
+    this.readonly = this._config.readOnly || !this._config.contractAddress || this._storage.readonly;
 
-    this.readonly =
-      providers.Provider.isProvider(this._operator) ||
-      !ethers.Signer.isSigner(this._operator) ||
-      !this._config.contractAddress ||
-      this._storage.readonly;
+    this._contract = <HypercertMinter>new ethers.Contract(this._config.contractAddress, HypercertMinterAbi);
 
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
     }
   }
+
+  /**
+   * Connect the client to an operator.
+   * @param operator The operator to connect to.
+   */
+  connect = async (operator: Operator) => {
+    this._config = await getWritableConfig({ ...this._config, operator: operator });
+
+    this._indexer = new HypercertIndexer(this._config);
+
+    this._evaluator = new HypercertEvaluator(this._config);
+
+    this._contract = this._contract?.connect(operator);
+
+    this.readonly = this._config.readOnly || this._storage.readonly || !this._contract;
+
+    if (this.readonly) {
+      logger.warn("HypercertsClient is in readonly mode", "client");
+      logger.warn(this._config.readOnlyReason ?? "No reason provided", "client");
+    }
+
+    return this;
+  };
 
   /**
    * Gets the config for the client.

@@ -3,8 +3,8 @@ import { MockProvider } from "ethereum-waffle";
 import { ethers } from "ethers";
 import sinon from "sinon";
 
-import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
-import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
+import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src";
+import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types";
 
 const provider = new MockProvider();
 sinon.stub(provider, "on");
@@ -20,17 +20,17 @@ describe("HypercertClient setup tests", () => {
     sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
     sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
-    const client = new HypercertClient({ operator: provider });
+    const client = new HypercertClient({ environment: "test" });
 
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.true;
   });
 
-  it("should be able to create a new instance", () => {
+  it("should be able to create a new instance", async () => {
     const operator = ethers.Wallet.createRandom();
 
-    const config = { chainId: 5, operator, nftStorageToken: "test", web3StorageToken: "test" };
-    const client = new HypercertClient(config);
+    const config = { environment: 5, operator, nftStorageToken: "test", web3StorageToken: "test" };
+    const client = await new HypercertClient(config).connect(operator);
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;
   });
@@ -54,7 +54,7 @@ describe("HypercertClient setup tests", () => {
     sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
     sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
-    const client = new HypercertClient({ operator: provider });
+    const client = new HypercertClient({ environment: "test" });
 
     // mintClaim
     try {

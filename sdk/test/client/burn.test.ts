@@ -2,9 +2,11 @@ import { MockProvider, deployMockContract } from "ethereum-waffle";
 import { BigNumber, Wallet } from "ethers";
 import sinon from "sinon";
 
-import HypercertClient from "../../src/client.js";
-import { ClientError } from "../../src/types/errors.js";
+import HypercertClient from "../../src/client";
+import { ClientError } from "../../src/types/errors";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { deployments } from "../../src";
+
 describe("burn fraction tokens in HypercertClient", () => {
   let stub: sinon.SinonStub;
   let provider: MockProvider;
@@ -13,7 +15,11 @@ describe("burn fraction tokens in HypercertClient", () => {
   const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
 
   beforeAll(() => {
-    provider = new MockProvider();
+    provider = new MockProvider({
+      ganacheOptions: {
+        chain: { chainId: 5 },
+      },
+    });
     [user, other] = provider.getWallets();
 
     stub = sinon.stub(provider, "on");
@@ -28,15 +34,16 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("allows for a hypercert fraction to be burned", async () => {
     const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
+    const mockMinter = await deployMockContract(user, HypercertMinterAbi, {
+      address: deployments[5].contractAddress,
+      override: true,
+    });
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    const client = await new HypercertClient({
+      environment: 5,
+    }).connect(user);
 
     expect(client.readonly).toBe(false);
 
@@ -48,14 +55,15 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("throws on burning fraction not owned by signer", async () => {
     const otherUser = await other.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
+    const mockMinter = await deployMockContract(user, HypercertMinterAbi, {
+      address: deployments[5].contractAddress,
+      override: true,
+    });
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    const client = await new HypercertClient({
+      environment: 5,
+    }).connect(user);
 
     expect(client.readonly).toBe(false);
 
@@ -77,15 +85,16 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("allows for a hypercert fraction to be burned with override params", async () => {
     const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
+    const mockMinter = await deployMockContract(user, HypercertMinterAbi, {
+      address: deployments[5].contractAddress,
+      override: true,
+    });
     await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
     await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    const client = await new HypercertClient({
+      environment: 5,
+    }).connect(user);
 
     expect(client.readonly).toBe(false);
 

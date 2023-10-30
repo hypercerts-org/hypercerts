@@ -1,18 +1,17 @@
 import type { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
-import { isAddress } from "ethers/lib/utils.js";
+import { isAddress } from "ethers/lib/utils";
 import { CIDString } from "nft.storage";
 
-import { DEFAULT_CHAIN_ID } from "../constants.js";
-import HypercertsStorage from "../storage.js";
+import HypercertsStorage from "../storage";
 import {
   EASEvaluation,
   EvaluationSource,
   HypercertClientConfig,
   HypercertEvaluationSchema,
   MalformedDataError,
-} from "../types/index.js";
-import EasEvaluator from "./eas.js";
+} from "../types";
+import EasEvaluator from "./eas";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -36,7 +35,6 @@ export default class HypercertEvaluator implements EvaluatorInterface {
 
   constructor(
     config = {
-      chainId: DEFAULT_CHAIN_ID,
       easContractAddress: EASContractAddress,
       operator: new ethers.VoidSigner(""),
     } as Partial<HypercertClientConfig>,

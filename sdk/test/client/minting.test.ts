@@ -16,16 +16,19 @@ describe("mintClaim in HypercertClient", () => {
   const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(mockCorrectMetadataCid);
 
   const setUp = async () => {
-    const provider = new MockProvider();
+    const provider = new MockProvider({
+      ganacheOptions: {
+        chain: { chainId: 5 },
+      },
+    });
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
     const minter = await deployMockContract(user, HypercertMinterAbi);
 
-    const client = new HypercertClient({
+    const client = await new HypercertClient({
       chainId: 5,
-      operator: user,
-    });
+    }).connect(user);
 
     sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);
 

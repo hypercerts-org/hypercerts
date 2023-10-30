@@ -2,7 +2,7 @@ import { Offchain, SchemaEncoder, SignedOffchainAttestation } from "@ethereum-at
 import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { ethers } from "ethers";
 
-import { EAS_SCHEMAS } from "../constants.js";
+import { EAS_SCHEMAS } from "../constants";
 import {
   DuplicateEvaluation,
   EvaluationData,
@@ -10,8 +10,8 @@ import {
   InvalidOrMissingError,
   MalformedDataError,
   SimpleTextEvaluation,
-} from "../types/index.js";
-import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator/index.js";
+} from "../types";
+import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../validator";
 
 /**
  * The EasEvaluator class provides methods for signing off-chain attestations of evaluations.

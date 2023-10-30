@@ -3,10 +3,10 @@ import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
 import { expect } from "@jest/globals";
 
-import { HypercertClient } from "../../src/index.js";
-import HypercertsStorage from "../../src/storage.js";
-import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
-import { getAllowlist, getFormattedMetadata } from "../helpers.js";
+import { HypercertClient, deployments } from "../../src/index";
+import HypercertsStorage from "../../src/storage";
+import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index";
+import { getAllowlist, getFormattedMetadata } from "../helpers";
 import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
@@ -15,16 +15,22 @@ describe("Allows for minting claims from an allowlist", () => {
   const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(mockCorrectMetadataCid);
 
   const setUp = async () => {
-    const provider = new MockProvider();
+    const provider = new MockProvider({
+      ganacheOptions: {
+        chain: { chainId: 5 },
+      },
+    });
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
-    const minter = await deployMockContract(user, HypercertMinterAbi);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
+    const minter = await deployMockContract(user, HypercertMinterAbi, {
+      address: deployments[5].contractAddress,
+      override: true,
     });
+
+    const client = await new HypercertClient({
+      environment: 5,
+    }).connect(user);
 
     sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);
 
@@ -71,7 +77,7 @@ describe("Allows for minting claims from an allowlist", () => {
       sinon.assert.calledOnce(metaDataStub);
       sinon.assert.calledOnce(dataStub);
 
-      expect(res.chainId).toBe(1337);
+      expect(res.chainId).toBe(5);
       expect(_provider.callHistory.length).toBe(2);
     });
 

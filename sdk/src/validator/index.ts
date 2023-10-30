@@ -1,7 +1,7 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import Ajv from "ajv";
 import { BigNumber, BigNumberish } from "ethers";
-import { isAddress } from "ethers/lib/utils.js";
+import { isAddress } from "ethers/lib/utils";
 
 import claimDataSchema from "../resources/schema/claimdata.json";
 import evaluationSchema from "../resources/schema/evaluation.json";
@@ -13,7 +13,7 @@ import {
   HypercertMetadata,
   MintingError,
   SimpleTextEvaluation,
-} from "../types/index.js";
+} from "../types";
 
 const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");

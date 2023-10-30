@@ -3,11 +3,19 @@ import { HypercertMinter } from "@hypercerts-org/contracts";
 import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 import { CIDString } from "nft.storage";
 
-import HypercertIndexer from "../indexer.js";
-import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
-import { HypercertMetadata } from "./metadata.js";
+import HypercertIndexer from "../indexer";
+import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
+import { HypercertMetadata } from "./metadata";
+import HypercertClient from "src/client";
 
-export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
+export enum SupportedChainIds {
+  CELO = 42220,
+  GOERLI = 5,
+  OPTIMISM = 10,
+  SEPOLIA = 11155111,
+}
+
+export type Environment = "test" | "production" | SupportedChainIds;
 
 /**
  * Represents a deployment of a contract on a specific network.
@@ -23,16 +31,24 @@ export type Deployment = {
   graphUrl: string;
 };
 
+export type Operator = ethers.providers.Provider | ethers.Signer;
+
 /**
  * Configuration options for the Hypercert client.
  */
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
+    /** The environment the SDK runs in */
+    environment: Environment;
     /** The provider is inherently read-only */
-    operator: ethers.providers.Provider | ethers.Signer;
+    operator: Operator;
     /** Force the use of overridden values */
     unsafeForceOverrideConfig?: boolean;
+    /** Boolean to assert if the client is in readOnly mode */
+    readOnly: boolean;
+    /** Reason for readOnly mode */
+    readOnlyReason?: string;
   };
 
 /**
@@ -118,6 +134,9 @@ export interface HypercertClientState {
  * The methods for the Hypercert client.
  */
 export interface HypercertClientMethods {
+  /** Connect to client to an operator */
+  connect: (operator: Operator) => Promise<HypercertClient>;
+
   /**
    * Mints a new claim.
    * @param metaData The metadata for the claim.

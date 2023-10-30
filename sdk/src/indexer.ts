@@ -1,6 +1,6 @@
 import { getBuiltGraphSDK, Sdk as GraphClient } from "../.graphclient";
-import { defaultQueryParams } from "./indexer/utils.js";
-import { HypercertIndexerInterface, QueryParams } from "./types/index.js";
+import { defaultQueryParams } from "./indexer/utils";
+import { HypercertIndexerInterface, QueryParams } from "./types";
 
 /**
  * A class that provides indexing functionality for Hypercerts.

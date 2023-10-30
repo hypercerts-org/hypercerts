@@ -2,10 +2,7 @@
  * Constants
  */
 
-import { Deployment, SupportedChainIds } from "./types/index.js";
-
-// Goerli is default if nothing specified
-const DEFAULT_CHAIN_ID = 5;
+import { Deployment, SupportedChainIds } from "./types";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-admin";
 
@@ -52,4 +49,4 @@ const EAS_SCHEMAS = {
   },
 } as const;
 
-export { DEFAULT_CHAIN_ID, DEPLOYMENTS, EAS_SCHEMAS };
+export { DEPLOYMENTS, EAS_SCHEMAS };

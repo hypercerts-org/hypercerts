@@ -2,16 +2,16 @@ import axios from "axios";
 import { CIDString, NFTStorage } from "nft.storage";
 import { Blob, File, Web3Storage } from "web3.storage";
 
-import { validateMetaData } from "./validator/index.js";
+import { validateMetaData } from "./validator";
 import {
   HypercertStorageConfig,
   HypercertStorageInterface,
   HypercertMetadata,
   MalformedDataError,
   StorageError,
-} from "./types/index.js";
-import logger from "./utils/logger.js";
-import { getConfig } from "./utils/config.js";
+} from "./types";
+import logger from "./utils/logger";
+import { getNftStorageToken, getWeb3StorageToken } from "./utils/config";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -31,7 +31,8 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @param overrides The configuration overrides for the storage.
    */
   constructor(overrides: Partial<HypercertStorageConfig>) {
-    const { nftStorageToken, web3StorageToken } = getConfig(overrides);
+    const nftStorageToken = getNftStorageToken(overrides);
+    const web3StorageToken = getWeb3StorageToken(overrides);
 
     if (!nftStorageToken || nftStorageToken === "") {
       logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
