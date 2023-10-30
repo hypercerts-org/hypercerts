@@ -24,7 +24,7 @@
     "e2e:serve-for-dev": "(pnpm e2e:infra-down || true) && docker compose -f docker/compose.yaml --env-file ./.env.local --env-file ./docker/base.env --env-file ./docker/dev.env up",
     "e2e:serve-for-test": "(pnpm e2e:infra-down || true) && ENVIRONMENT=tests docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/dev.env --env-file ./.env.local --profile testing up",
     "e2e:run-tests": "(pnpm e2e:infra-down || true) && docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing run --service-ports playwright",
-    "e2e:ci-run-tests": "CI=1 docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing run --service-ports playwright",
+    "e2e:ci-run-tests": "CI=1 docker-compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing run --service-ports playwright",
     "e2e:ci-logs": "CI=1 docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./docker/e2e.env --profile testing logs",
     "e2e:infra-down": "docker compose -f docker/compose.yaml --env-file ./docker/base.env --env-file ./.env.local --env-file ./docker/base.env down",
     "e2e:clean": "pnpm e2e:infra-down --volumes",
