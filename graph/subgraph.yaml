@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: HypercertMinter
-    network: sepolia
+    network: celo
     source:
       abi: HypercertMinter
-      address: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941"
-      startBlock: 4421942
+      address: "0x16ba53b74c234c870c61efc04cd418b8f2865959"
+      startBlock: 22079542
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
