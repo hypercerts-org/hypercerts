@@ -17,19 +17,14 @@ import {
   getOrCreateClaim,
   getOrCreateClaimToken,
 } from "./utils";
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { log } from "@graphprotocol/graph-ts";
 import { ClaimToken } from "../generated/schema";
-
-const ZERO_ADDRESS = Address.fromString(
-  "0x0000000000000000000000000000000000000000"
-);
-const ZERO_TOKEN = BigInt.fromI32(0);
 
 export function handleAllowlistCreated(event: AllowlistCreatedEvent): void {
   let allowlist = getOrCreateAllowlist(
     event.params.tokenID,
     event.params.root,
-    event.address
+    event.address,
   );
 
   allowlist.save();
@@ -41,7 +36,7 @@ export function handleClaimStored(event: ClaimStoredEvent): void {
   let claim = getOrCreateClaim(
     event.params.claimID,
     event.address,
-    event.block.timestamp
+    event.block.timestamp,
   );
 
   claim.uri = event.params.uri;
@@ -57,10 +52,27 @@ export function handleInitialized(event: InitializedEvent): void {}
 export function handleLeafClaimed(event: LeafClaimedEvent): void {}
 
 export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
+  event: OwnershipTransferredEvent,
 ): void {}
 
-export function handleTransferBatch(event: TransferBatchEvent): void {}
+export function handleTransferBatch(event: TransferBatchEvent): void {
+  let ids = event.params.ids;
+  let size = ids.length;
+
+  for (let i = 0; i < size; i++) {
+    let id = getID(ids[i], event.address);
+    let token = ClaimToken.load(id);
+
+    if (!token) {
+      log.debug("Transfered ClaimToken does not exist: {}", [id]);
+      return;
+    }
+
+    token.owner = event.params.to;
+
+    token.save();
+  }
+}
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
   let id = getID(event.params.id, event.address);
@@ -95,12 +107,12 @@ export function handleValueTransfer(event: ValueTransferEvent): void {
   let from = getOrCreateClaimToken(
     event.params.claimID,
     event.params.fromTokenID,
-    event.address
+    event.address,
   );
   let to = getOrCreateClaimToken(
     event.params.claimID,
     event.params.toTokenID,
-    event.address
+    event.address,
   );
 
   let value = event.params.value;
