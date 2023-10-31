@@ -126,8 +126,11 @@ export interface HypercertClientState {
   storage: HypercertStorageInterface;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
-  /** The contract used by the client. */
-  contract: HypercertMinter;
+  /** The contract used by the client.
+   * The contract is only available when a specific chain is configured
+   * or provided by the operator (provider/signer)
+   **/
+  contract: HypercertMinter | undefined;
 }
 
 /**

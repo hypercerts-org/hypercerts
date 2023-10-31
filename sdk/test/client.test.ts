@@ -4,9 +4,9 @@ import { ethers } from "ethers";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src";
-import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types";
+import { AllowlistEntry, ClientError, SupportedChainIds, UnsupportedChainError } from "../src/types";
 
-const provider = new MockProvider();
+const provider = new MockProvider({ ganacheOptions: { chain: { chainId: 5 } } });
 sinon.stub(provider, "on");
 
 describe("HypercertClient setup tests", () => {
@@ -27,24 +27,25 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should be able to create a new instance", async () => {
-    const operator = ethers.Wallet.createRandom();
+    const operator = ethers.Wallet.createRandom().connect(provider);
 
-    const config = { environment: 5, operator, nftStorageToken: "test", web3StorageToken: "test" };
+    const config = { environment: 5, nftStorageToken: "test", web3StorageToken: "test" };
     const client = await new HypercertClient(config).connect(operator);
     expect(client).to.be.an.instanceOf(HypercertClient);
     expect(client.readonly).to.be.false;
   });
 
   it("should throw an error when the chainId is not supported", () => {
+    const falseChainId = 1337;
     try {
-      new HypercertClient({ operator: provider, chainId: 1337 });
+      new HypercertClient({ environment: falseChainId as SupportedChainIds });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e).to.be.instanceOf(UnsupportedChainError);
 
       const error = e as UnsupportedChainError;
-      expect(error.message).to.eq("chainId=1337 is not yet supported");
-      expect(Number(error.payload?.chainID)).to.eq(1337);
+      expect(error.message).to.eq(`No default config for environment=${falseChainId} found in SDK`);
+      expect(Number(error.payload?.chainID)).to.eq(falseChainId);
     }
   });
 

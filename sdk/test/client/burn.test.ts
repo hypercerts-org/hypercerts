@@ -47,10 +47,11 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     expect(client.readonly).toBe(false);
 
-    await client.burnClaimFraction(fractionId);
+    const tx = await client.burnClaimFraction(fractionId);
+    expect((await tx.wait()).status).toBe(1);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(5);
+    expect(provider.callHistory.length).toBe(4);
   });
 
   it("throws on burning fraction not owned by signer", async () => {
@@ -79,7 +80,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
     // Owner
-    expect(provider.callHistory.length).toBe(3);
+    expect(provider.callHistory.length).toBe(2);
     expect.assertions(4);
   });
 
@@ -104,9 +105,10 @@ describe("burn fraction tokens in HypercertClient", () => {
       expect((e as Error).message).toMatch(/invalid BigNumber string/);
     }
 
-    await client.burnClaimFraction(fractionId, { gasLimit: "12300000" });
+    const tx = await client.burnClaimFraction(fractionId, { gasLimit: "12300000" });
+    expect((await tx.wait()).status).toBe(1);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(6);
+    expect(provider.callHistory.length).toBe(5);
   });
 });

@@ -15,6 +15,7 @@ import {
   MalformedDataError,
   TransferRestrictions,
   Operator,
+  SupportedChainIds,
 } from "./types/index";
 import { getWritableConfig, getReadOnlyConfig } from "./utils/config";
 import logger from "./utils/logger";
@@ -34,7 +35,7 @@ export default class HypercertClient implements HypercertClientInterface {
   private _evaluator: HypercertEvaluator | undefined;
   private _indexer: HypercertIndexer;
   //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
-  private _contract: HypercertMinter;
+  private _contract: HypercertMinter | undefined;
   readonly: boolean;
 
   /**
@@ -48,9 +49,11 @@ export default class HypercertClient implements HypercertClientInterface {
 
     this._indexer = new HypercertIndexer(this._config);
 
-    this.readonly = this._config.readOnly || !this._config.contractAddress || this._storage.readonly;
+    this.readonly = this._config.readOnly || this._storage.readonly;
 
-    this._contract = <HypercertMinter>new ethers.Contract(this._config.contractAddress, HypercertMinterAbi);
+    this._contract = this._config.contractAddress
+      ? <HypercertMinter>new ethers.Contract(this._config.contractAddress, HypercertMinterAbi)
+      : undefined;
 
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
@@ -62,13 +65,13 @@ export default class HypercertClient implements HypercertClientInterface {
    * @param operator The operator to connect to.
    */
   connect = async (operator: Operator) => {
-    this._config = await getWritableConfig({ ...this._config, operator: operator });
+    this._config = await getWritableConfig({ ...this._config, operator });
 
     this._indexer = new HypercertIndexer(this._config);
 
     this._evaluator = new HypercertEvaluator(this._config);
 
-    this._contract = this._contract?.connect(operator);
+    this._contract = <HypercertMinter>new ethers.Contract(this._config.contractAddress, HypercertMinterAbi, operator);
 
     this.readonly = this._config.readOnly || this._storage.readonly || !this._contract;
 
@@ -108,7 +111,7 @@ export default class HypercertClient implements HypercertClientInterface {
    * Gets the HypercertMinter contract used by the client.
    * @returns The contract.
    */
-  get contract(): HypercertMinter {
+  get contract(): HypercertMinter | undefined {
     return this._contract;
   }
 
@@ -128,6 +131,9 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
@@ -144,8 +150,8 @@ export default class HypercertClient implements HypercertClientInterface {
     const cid = await this.storage.storeMetadata(metaData);
 
     return overrides
-      ? this.contract.mintClaim(signerAddress, totalUnits, cid, transferRestriction, overrides)
-      : this.contract.mintClaim(signerAddress, totalUnits, cid, transferRestriction);
+      ? contract.mintClaim(signerAddress, totalUnits, cid, transferRestriction, overrides)
+      : contract.mintClaim(signerAddress, totalUnits, cid, transferRestriction);
   };
 
   /**
@@ -166,6 +172,9 @@ export default class HypercertClient implements HypercertClientInterface {
     overrides?: ethers.Overrides,
   ) => {
     this.checkWritable();
+
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
 
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
@@ -196,8 +205,8 @@ export default class HypercertClient implements HypercertClientInterface {
     const cid = await this.storage.storeMetadata(metaData);
 
     return overrides
-      ? this.contract.createAllowlist(signerAddress, totalUnits, tree.root, cid, transferRestriction, overrides)
-      : this.contract.createAllowlist(signerAddress, totalUnits, tree.root, cid, transferRestriction);
+      ? contract.createAllowlist(signerAddress, totalUnits, tree.root, cid, transferRestriction, overrides)
+      : contract.createAllowlist(signerAddress, totalUnits, tree.root, cid, transferRestriction);
   };
 
   /**
@@ -211,6 +220,9 @@ export default class HypercertClient implements HypercertClientInterface {
   splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[], overrides?: ethers.Overrides) => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     // check if claim exists and is owned by the signer
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
@@ -218,19 +230,19 @@ export default class HypercertClient implements HypercertClientInterface {
 
     const signerAddress = await this._config.operator.getAddress();
 
-    const claimOwner = await this._contract.ownerOf(claimId);
+    const claimOwner = await contract.ownerOf(claimId);
     if (claimOwner.toLowerCase() !== signerAddress.toLowerCase())
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimOwner });
 
     // check if the sum of the fractions is equal to the total units
-    const totalUnits = await this._contract["unitsOf(uint256)"](claimId);
+    const totalUnits = await contract["unitsOf(uint256)"](claimId);
     const sumFractions = fractions.reduce((a, b) => BigNumber.from(a).add(b), BigNumber.from(0));
     if (!BigNumber.from(sumFractions).eq(totalUnits))
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
     return overrides
-      ? this.contract.splitFraction(signerAddress, claimId, fractions, overrides)
-      : this.contract.splitFraction(signerAddress, claimId, fractions);
+      ? contract.splitFraction(signerAddress, claimId, fractions, overrides)
+      : contract.splitFraction(signerAddress, claimId, fractions);
   };
 
   /**
@@ -242,6 +254,9 @@ export default class HypercertClient implements HypercertClientInterface {
   mergeClaimUnits = async (claimIds: BigNumberish[], overrides?: ethers.Overrides) => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     // check if all claims exist and are owned by the signer
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
@@ -249,7 +264,7 @@ export default class HypercertClient implements HypercertClientInterface {
 
     const signerAddress = await this._config.operator.getAddress();
 
-    const claims = await Promise.all(claimIds.map(async (id) => ({ id, owner: await this._contract.ownerOf(id) })));
+    const claims = await Promise.all(claimIds.map(async (id) => ({ id, owner: await contract.ownerOf(id) })));
     if (claims.some((c) => c.owner.toLowerCase() !== signerAddress.toLowerCase())) {
       const invalidClaimIDs = claims.filter((c) => c.owner !== signerAddress).map((c) => c.id);
       throw new ClientError("One or more claims are not owned by the signer", {
@@ -259,8 +274,8 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? this.contract.mergeFractions(signerAddress, claimIds, overrides)
-      : this.contract.mergeFractions(signerAddress, claimIds);
+      ? contract.mergeFractions(signerAddress, claimIds, overrides)
+      : contract.mergeFractions(signerAddress, claimIds);
   };
 
   /**
@@ -272,19 +287,22 @@ export default class HypercertClient implements HypercertClientInterface {
   burnClaimFraction = async (claimId: BigNumberish, overrides?: ethers.Overrides) => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     // check if claim exists and is owned by the signer
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
 
     const signerAddress = await this._config.operator.getAddress();
-    const claimOwner = await this._contract.ownerOf(claimId);
+    const claimOwner = await contract.ownerOf(claimId);
     if (claimOwner.toLowerCase() !== signerAddress.toLowerCase())
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimOwner });
 
     return overrides
-      ? this.contract.burnFraction(signerAddress, claimId, overrides)
-      : this.contract.burnFraction(signerAddress, claimId);
+      ? contract.burnFraction(signerAddress, claimId, overrides)
+      : contract.burnFraction(signerAddress, claimId);
   };
 
   /**
@@ -305,6 +323,9 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
@@ -321,8 +342,8 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
-      : this.contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
+      ? contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units, overrides)
+      : contract.mintClaimFromAllowlist(signerAddress, proof, claimId, units);
   };
 
   /**
@@ -344,6 +365,9 @@ export default class HypercertClient implements HypercertClientInterface {
   ): Promise<ContractTransaction> => {
     this.checkWritable();
 
+    const contract = this.contract;
+    if (!contract) throw new ClientError("Contract is undefined", { client: this });
+
     if (!ethers.Signer.isSigner(this._config.operator)) {
       throw new InvalidOrMissingError("Invalid operator: not a signer", { operator: this._config.operator });
     }
@@ -361,8 +385,8 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? this.contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units, overrides)
-      : this.contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units);
+      ? contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units, overrides)
+      : contract.batchMintClaimsFromAllowlists(signerAddress, proofs, claimIds, units);
   };
 
   private checkWritable = () => {

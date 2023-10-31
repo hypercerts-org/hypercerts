@@ -4,11 +4,11 @@ import { ethers } from "ethers";
 import sinon from "sinon";
 import { jest, test } from "@jest/globals";
 
-import HypercertClient from "../../src/client.js";
-import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src/index.js";
-import { MalformedDataError } from "../../src/types/errors.js";
-import { TransferRestrictions } from "../../src/types/hypercerts.js";
-import { getRawInputData } from "../helpers.js";
+import HypercertClient from "../../src/client";
+import { HypercertMetadata, HypercertsStorage, deployments, formatHypercertData } from "../../src";
+import { MalformedDataError } from "../../src/types/errors";
+import { TransferRestrictions } from "../../src/types/hypercerts";
+import { getRawInputData } from "../helpers";
 import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
@@ -24,10 +24,13 @@ describe("mintClaim in HypercertClient", () => {
     const [user, other, admin] = provider.getWallets();
     const stub = sinon.stub(provider, "on");
 
-    const minter = await deployMockContract(user, HypercertMinterAbi);
+    const minter = await deployMockContract(user, HypercertMinterAbi, {
+      address: deployments[5].contractAddress,
+      override: true,
+    });
 
     const client = await new HypercertClient({
-      chainId: 5,
+      environment: 5,
     }).connect(user);
 
     sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);
@@ -99,14 +102,16 @@ describe("mintClaim in HypercertClient", () => {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "FALSE_VALUE" });
+      await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, {
+        gasPrice: "FALSE_VALUE",
+      });
       expect.fail("Should throw Error");
     } catch (e) {
       expect((e as Error).message).to.match(/.*invalid BigNumber string.*/);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "100" });
+    await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "513690687" });
 
     expect(_provider.callHistory.length).to.equal(2);
   }, 10000);
