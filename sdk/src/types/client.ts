@@ -170,25 +170,25 @@ export interface HypercertClientMethods {
 
   /**
    * Splits a claim into multiple fractions.
-   * @param claimId The ID of the claim to split.
-   * @param fractions The number of units for each fraction.
+   * @param fractionId The ID of the claim to split.
+   * @param newFractions The number of units for each fraction.
    * @returns A Promise that resolves to the transaction receipt
    */
-  splitClaimUnits: (claimId: BigNumberish, fractions: BigNumberish[]) => Promise<ContractTransaction>;
+  splitFractionUnits: (fractionId: BigNumberish, newFractions: BigNumberish[]) => Promise<ContractTransaction>;
 
   /**
    * Merges multiple claim fractions into a single claim.
    * @param claimIds The IDs of the claim fractions to merge.
    * @returns A Promise that resolves to the transaction receipt
    */
-  mergeClaimUnits: (claimIds: BigNumberish[]) => Promise<ContractTransaction>;
+  mergeClaimFractions: (fractionIds: BigNumberish[]) => Promise<ContractTransaction>;
 
   /**
    * Burns a claim fraction.
    * @param claimId The ID of the claim fraction to burn.
    * @returns A Promise that resolves to the transaction receipt
    */
-  burnClaimFraction: (claimId: BigNumberish) => Promise<ContractTransaction>;
+  burnClaimFraction: (fractionId: BigNumberish) => Promise<ContractTransaction>;
 
   /**
    * Mints a claim fraction from an allowlist.

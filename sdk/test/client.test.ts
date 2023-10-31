@@ -95,7 +95,7 @@ describe("HypercertClient setup tests", () => {
       const claimId = 1;
       const fractions = [100, 200];
 
-      await client.splitClaimUnits(claimId, fractions);
+      await client.splitFractionUnits(claimId, fractions);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -109,7 +109,7 @@ describe("HypercertClient setup tests", () => {
     try {
       const claimIds = [1, 2];
 
-      await client.mergeClaimUnits(claimIds);
+      await client.mergeClaimFractions(claimIds);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);

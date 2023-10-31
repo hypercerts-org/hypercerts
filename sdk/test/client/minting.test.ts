@@ -2,7 +2,6 @@ import { expect } from "chai";
 import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
 import { ethers } from "ethers";
 import sinon from "sinon";
-import { jest, test } from "@jest/globals";
 
 import HypercertClient from "../../src/client";
 import { HypercertMetadata, HypercertsStorage, deployments, formatHypercertData } from "../../src";
@@ -31,6 +30,8 @@ describe("mintClaim in HypercertClient", () => {
 
     const client = await new HypercertClient({
       environment: 5,
+      nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+      web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
     }).connect(user);
 
     sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);

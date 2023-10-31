@@ -16,7 +16,9 @@ import { isAddress } from "ethers/lib/utils";
  * Returns the configuration for the Hypercert client, based on the given overrides.
  * @param overrides An object containing overrides for the default configuration.
  * @returns The configuration for the Hypercert client.
- * @throws An `UnsupportedChainError` if the chain ID is not 5 or 10, or if the chain ID is missing or not found.
+ * @throws An `ConfigurationError` if the `environment` in `config` is not a supported environment, or if the chain ID was not found.
+ * @dev 5, 10, 42220, 11155111 and "test", "production" are supported environments.
+ * Test and production merge the Graphs by environment, while the chain IDs are specific to the chain.
  */
 export const getReadOnlyConfig = (config: Partial<HypercertClientConfig>) => {
   let deployment;
@@ -60,6 +62,7 @@ export const getReadOnlyConfig = (config: Partial<HypercertClientConfig>) => {
   } as HypercertClientConfig;
 
   checkOnMissingValues(_config);
+  checkOnRequiredValues(_config);
 
   return _config;
 };
@@ -68,7 +71,9 @@ export const getReadOnlyConfig = (config: Partial<HypercertClientConfig>) => {
  * Returns the configuration for the Hypercert client, based on the given overrides.
  * @param overrides An object containing overrides for the default configuration.
  * @returns The configuration for the Hypercert client.
- * @throws An `UnsupportedChainError` if the chain ID is not 5 or 10, or if the chain ID is missing or not found.
+ * @throws An `ConfigurationError` if the `environment` in `config` is not a supported environment, or if the chain ID was not found.
+ * @dev 5, 10, 42220, 11155111 and "test", "production" are supported environments.
+ * Test and production merge the Graphs by environment, while the chain IDs are specific to the chain.
  */
 export const getWritableConfig = async (config: Partial<HypercertClientConfig>) => {
   let deployment;
@@ -80,6 +85,11 @@ export const getWritableConfig = async (config: Partial<HypercertClientConfig>) 
     throw new ConfigurationError(
       "An environment must be specified. For example, 'test', 'production' or a supported chainId.",
     );
+  }
+
+  // Need to get an provider for the writeable bits
+  if (!config.operator || !ethers.Signer.isSigner(config.operator)) {
+    throw new ConfigurationError("An operator must be provided to sign and submit transactions");
   }
 
   // If we know the chainID from the operator or the config, we can use that to get the deployment
@@ -106,16 +116,6 @@ export const getWritableConfig = async (config: Partial<HypercertClientConfig>) 
     deployment = { ...deployment, ...getDeploymentFromOverrides(config) };
   }
 
-  // TODO execute validations
-  // else {
-  //   if (!Object.values(SupportedChainIds).includes(deployment?.chainId as SupportedChainIds)) {
-  //     throw new UnsupportedChainError(`Default config for chainId=${deployment?.chainId} is missing in SDK`, {
-  //       chainID: deployment?.chainId,
-  //     });
-  //   }
-  // }
-  //
-
   const _config = {
     ...config,
     // Start with the hardcoded values
@@ -131,6 +131,7 @@ export const getWritableConfig = async (config: Partial<HypercertClientConfig>) 
   } as HypercertClientConfig;
 
   checkOnMissingValues(_config);
+  checkOnRequiredValues(_config);
 
   return _config;
 };
@@ -140,6 +141,15 @@ const checkOnMissingValues = (config: Partial<HypercertClientConfig>) => {
   for (const [key, value] of Object.entries(config)) {
     if (!value && !allowMissing.includes(key)) {
       logger.warn(`Missing value in client config. ${key} is possibly undefined`);
+    }
+  }
+};
+
+const checkOnRequiredValues = (config: Partial<HypercertClientConfig>) => {
+  const required = ["environment", "graphUrl"];
+  for (const [key, value] of Object.entries(config)) {
+    if (!value && required.includes(key)) {
+      throw new InvalidOrMissingError(`Missing or incorrect ${key}`, Object.fromEntries([[key, value]]));
     }
   }
 };
@@ -257,27 +267,13 @@ const getOperator = (config: Partial<HypercertClientConfig>) => {
 };
 
 export const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.nftStorageToken) {
-    return overrides.nftStorageToken;
-  }
-
-  if (process.env.NFT_STORAGE_TOKEN) {
-    return process.env.NFT_STORAGE_TOKEN;
-  }
+  return overrides.nftStorageToken;
 };
 
 export const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.web3StorageToken) {
-    return overrides.web3StorageToken;
-  }
-
-  if (process.env.WEB3_STORAGE_TOKEN) {
-    return process.env.WEB3_STORAGE_TOKEN;
-  }
+  return overrides.web3StorageToken;
 };
 
 const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.easContractAddress) {
-    return overrides.easContractAddress;
-  }
+  return overrides.easContractAddress;
 };

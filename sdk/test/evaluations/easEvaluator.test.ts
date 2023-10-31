@@ -1,10 +1,10 @@
 import { MockProvider } from "ethereum-waffle";
 import sinon from "sinon";
 
-import { EAS_SCHEMAS } from "../../src/constants.js";
-import EasEvaluator from "../../src/evaluations/eas.js";
-import { HypercertClientConfig } from "../../src/index.js";
-import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation.js";
+import { EAS_SCHEMAS } from "../../src/constants";
+import EasEvaluator from "../../src/evaluations/eas";
+import { HypercertClientConfig } from "../../src";
+import { DuplicateEvaluation, SimpleTextEvaluation } from "../../src/types/evaluation";
 
 describe("EasEvaluator", () => {
   let stub: sinon.SinonStub;

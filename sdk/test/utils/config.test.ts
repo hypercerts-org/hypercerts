@@ -1,6 +1,5 @@
 import chai, { expect } from "chai";
 import chaiSubset from "chai-subset";
-import { ethers } from "ethers";
 import sinon from "sinon";
 
 import {
@@ -8,12 +7,13 @@ import {
   Environment,
   HypercertClientConfig,
   InvalidOrMissingError,
-  SupportedChainIds,
   UnsupportedChainError,
 } from "../../src/types";
 import { getReadOnlyConfig, getWritableConfig } from "../../src/utils/config";
 import { reloadEnv } from "../../test/setup-env";
 import { deployments } from "../../src";
+import { ethers } from "ethers";
+import { MockProvider } from "ethereum-waffle";
 
 chai.use(chaiSubset);
 
@@ -108,147 +108,79 @@ describe("Config: graphUrl", () => {
   });
 });
 
-// describe("Config: nftStorageToken", () => {
-//   afterEach(() => {
-//     sinon.restore();
+describe("Config: nftStorageToken & web3storageToken", () => {
+  afterEach(() => {
+    sinon.restore();
 
-//     reloadEnv();
-//   });
-//   it("should return an empty object when no overrides or environment variables are specified", () => {
-//     sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: "NFTSTOR" });
+    reloadEnv();
+  });
+  it("should not return an nftStorageToken when no overrides are specified", () => {
+    const result = getReadOnlyConfig({ environment: 5 });
+    expect(result.nftStorageToken).to.be.undefined;
+    expect(result.web3StorageToken).to.be.undefined;
+  });
 
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       nftStorageToken: "NFTSTOR",
-//     });
-//   });
+  it("should return the nftStorageToken specified by overrides", () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      ...defaultOverrides,
+      nftStorageToken: "NFTSTOR",
+      web3StorageToken: "WEB3STOR",
+    };
+    const result = getReadOnlyConfig(overrides);
+    expect(result).to.deep.include({
+      nftStorageToken: overrides.nftStorageToken,
+      web3StorageToken: overrides.web3StorageToken,
+    });
+  });
+});
 
-//   it("should return the nftStorageToken specified by overrides", () => {
-//     const overrides: Partial<HypercertClientConfig> = {
-//       nftStorageToken: "NFTSTOR",
-//     };
-//     const result = getReadOnlyConfig(overrides);
-//     expect(result).to.deep.include({
-//       nftStorageToken: overrides.nftStorageToken,
-//     });
-//   });
+describe("Config: getOperator", () => {
+  afterEach(() => {
+    sinon.restore();
 
-//   it("should return the nftStorageToken specified by the NFT_STORAGE_TOKEN environment variable", () => {
-//     sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: "NFTSTOR" });
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       nftStorageToken: "NFTSTOR",
-//     });
-//   });
+    reloadEnv();
+  });
+  it("should not return a provider when no overrides or environment variables are specified", async () => {
+    try {
+      await getWritableConfig(defaultOverrides);
+    } catch (e) {
+      expect(e instanceof ConfigurationError).to.be.true;
+      expect((e as Error).message).to.eq("An operator must be provided to sign and submit transactions");
+    }
+  });
 
-//   it("should return the nftStorageToken specified by the NEXT_PUBLIC_NFT_STORAGE_TOKEN environment variable", () => {
-//     sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: "NFTSTOR" });
+  it("should return the operator specified by client config", async () => {
+    const chainIdStub = sinon.stub(ethers.Signer.prototype, "getChainId").resolves(5);
+    const provider = new MockProvider({
+      ganacheOptions: {
+        chain: { chainId: 5 },
+      },
+    });
 
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       nftStorageToken: "NFTSTOR",
-//     });
-//   });
+    const signer = ethers.Wallet.createRandom().connect(provider);
 
-//   it("should not throw an error when the nftStorageToken specified by overrides is invalid", () => {
-//     sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+    const overrides: Partial<HypercertClientConfig> = {
+      ...defaultOverrides,
+      operator: signer,
+    };
 
-//     const overrides: Partial<HypercertClientConfig> = {};
-//     expect(() => getReadOnlyConfig(overrides)).to.not.throw();
-//   });
-// });
+    const result = await getWritableConfig(overrides);
+    console.log(result);
+    expect(result.operator).to.not.be.undefined;
+  });
 
-// describe("Config: getOperator", () => {
-//   afterEach(() => {
-//     sinon.restore();
+  it("should throw an error when the operator specified by overrides is invalid", async () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      ...defaultOverrides,
+      operator: "invalid" as unknown as ethers.Signer,
+    };
 
-//     reloadEnv();
-//   });
-//   it("should not return a provider when no overrides or environment variables are specified", () => {
-//     try {
-//       const result = getWritableConfig({});
-//     } catch (e) {
-//       expect(e instanceof InvalidOrMissingError).to.be.true;
-//       expect((e as Error).message).to.eq("Invalid operator.");
-//     }
-//   });
-
-//   it("should return the operator specified by client config", async () => {
-//     const overrides: Partial<HypercertClientConfig> = {
-//       environment: 5,
-//       operator: ethers.getDefaultProvider(5),
-//     };
-
-//     const result = await getWritableConfig(overrides);
-//     expect(result.operator).to.equal(overrides.operator);
-//   });
-
-//   it("should return the operator specified by the PRIVATE_KEY environment variable", () => {
-//     const PRIVATE_KEY = "0x0123456789012345678901234567890123456789012345678901234567890123";
-//     sinon.stub(process, "env").value({ PRIVATE_KEY });
-
-//     const result = getReadOnlyConfig({});
-//     const provider = ethers.getDefaultProvider(5);
-//     const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-//     expect(JSON.stringify(result.operator)).to.equal(JSON.stringify(wallet));
-//   });
-
-//   it("should throw an error when the operator specified by overrides is invalid", () => {
-//     const overrides: Partial<HypercertClientConfig> = {
-//       operator: "invalid" as unknown as ethers.Signer,
-//     };
-//     expect(() => getReadOnlyConfig(overrides)).to.throw(InvalidOrMissingError, "Invalid operator.");
-//   });
-// });
-
-// describe("Config: web3StorageToken", () => {
-//   afterEach(() => {
-//     sinon.restore();
-
-//     reloadEnv();
-//   });
-
-//   it("should return an empty object when no overrides or environment variables are specified", () => {
-//     const WEB3_STORAGE_TOKEN = "WEB3";
-//     sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN });
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       web3StorageToken: WEB3_STORAGE_TOKEN,
-//     });
-//   });
-
-//   it("should return the web3StorageToken specified by overrides", () => {
-//     const overrides: Partial<HypercertClientConfig> = {
-//       web3StorageToken: "WEB3STOR",
-//     };
-//     const result = getReadOnlyConfig(overrides);
-//     expect(result).to.deep.include({
-//       web3StorageToken: overrides.web3StorageToken,
-//     });
-//   });
-
-//   it("should return the web3StorageToken specified by the WEB3_STORAGE_TOKEN environment variable", () => {
-//     const WEB3_STORAGE_TOKEN = "WEB3";
-//     sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN });
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       web3StorageToken: WEB3_STORAGE_TOKEN,
-//     });
-//   });
-
-//   it("should return the web3StorageToken specified by the NEXT_PUBLIC_WEB3_STORAGE_TOKEN environment variable", () => {
-//     const NEXT_PUBLIC_WEB3_STORAGE_TOKEN = "WEB3";
-//     sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN });
-
-//     const result = getReadOnlyConfig({});
-//     expect(result).to.deep.include({
-//       web3StorageToken: NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
-//     });
-//   });
-
-//   it("should not throw an error when the web3StorageToken specified by overrides is invalid", () => {
-//     sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
-//     const overrides: Partial<HypercertClientConfig> = {};
-//     expect(() => getReadOnlyConfig(overrides)).to.not.throw();
-//   });
-// });
+    try {
+      await getWritableConfig(overrides);
+      expect.fail("Should have failed on incorrect operator");
+    } catch (e) {
+      expect(e instanceof ConfigurationError).to.be.true;
+      expect((e as Error).message).to.eq("An operator must be provided to sign and submit transactions");
+    }
+  });
+});

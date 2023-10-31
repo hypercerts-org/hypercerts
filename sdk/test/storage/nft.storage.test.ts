@@ -30,7 +30,10 @@ describe("NFT.Storage Client", () => {
     }),
   );
 
-  const storage = new HypercertsStorage({});
+  const storage = new HypercertsStorage({
+    nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+    web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
+  });
 
   beforeAll(() => server.listen());
 

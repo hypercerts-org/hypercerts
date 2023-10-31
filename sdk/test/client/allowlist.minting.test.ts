@@ -3,9 +3,9 @@ import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
 import { expect } from "@jest/globals";
 
-import { HypercertClient, deployments } from "../../src/index";
+import { HypercertClient, deployments } from "../../src";
 import HypercertsStorage from "../../src/storage";
-import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index";
+import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
 import { getAllowlist, getFormattedMetadata } from "../helpers";
 import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
@@ -30,6 +30,8 @@ describe("Allows for minting claims from an allowlist", () => {
 
     const client = await new HypercertClient({
       environment: 5,
+      nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+      web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
     }).connect(user);
 
     sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);

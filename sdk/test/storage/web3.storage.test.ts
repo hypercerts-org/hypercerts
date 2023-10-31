@@ -28,8 +28,11 @@ describe("Web3.Storage Client", () => {
       return res(ctx.status(200), ctx.json(mockData));
     }),
   );
-  const storage = new HypercertsStorage({});
 
+  const storage = new HypercertsStorage({
+    nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+    web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
+  });
   beforeAll(() => server.listen());
 
   afterEach(() => {

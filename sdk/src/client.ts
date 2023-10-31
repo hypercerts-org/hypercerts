@@ -1,6 +1,6 @@
 import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers, providers } from "ethers";
+import { BigNumber, BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
 
 import HypercertEvaluator from "./evaluations";
 import HypercertIndexer from "./indexer";
@@ -15,7 +15,6 @@ import {
   MalformedDataError,
   TransferRestrictions,
   Operator,
-  SupportedChainIds,
 } from "./types/index";
 import { getWritableConfig, getReadOnlyConfig } from "./utils/config";
 import logger from "./utils/logger";
@@ -213,11 +212,11 @@ export default class HypercertClient implements HypercertClientInterface {
    * Split a Hypercert's unit into multiple claims with the given fractions
    * @dev Submit the ID of the claim to split and new fraction values.
    * @notice The sum of the fractions must be equal to the total units of the claim
-   * @param claimId - Hypercert claim id
-   * @param fractions - Fractions of the Hypercert claim to split
+   * @param fractionId - Hypercert claim id
+   * @param newFractions - Fractions of the Hypercert claim to split
    * @returns Contract transaction
    */
-  splitClaimUnits = async (claimId: BigNumberish, fractions: BigNumberish[], overrides?: ethers.Overrides) => {
+  splitFractionUnits = async (fractionId: BigNumberish, newFractions: BigNumberish[], overrides?: ethers.Overrides) => {
     this.checkWritable();
 
     const contract = this.contract;
@@ -229,29 +228,29 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     const signerAddress = await this._config.operator.getAddress();
+    const claimOwner = await contract.ownerOf(fractionId);
 
-    const claimOwner = await contract.ownerOf(claimId);
     if (claimOwner.toLowerCase() !== signerAddress.toLowerCase())
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimOwner });
 
     // check if the sum of the fractions is equal to the total units
-    const totalUnits = await contract["unitsOf(uint256)"](claimId);
-    const sumFractions = fractions.reduce((a, b) => BigNumber.from(a).add(b), BigNumber.from(0));
+    const totalUnits = await contract["unitsOf(uint256)"](fractionId);
+    const sumFractions = newFractions.reduce((a, b) => BigNumber.from(a).add(b), BigNumber.from(0));
     if (!BigNumber.from(sumFractions).eq(totalUnits))
       throw new ClientError("Sum of fractions is not equal to the total units", { totalUnits, sumFractions });
 
     return overrides
-      ? contract.splitFraction(signerAddress, claimId, fractions, overrides)
-      : contract.splitFraction(signerAddress, claimId, fractions);
+      ? contract.splitFraction(signerAddress, fractionId, newFractions, overrides)
+      : contract.splitFraction(signerAddress, fractionId, newFractions);
   };
 
   /**
    * Merge multiple Hypercert claims fractions into one
    * @dev Merges multiple Hypercert claims into one
-   * @param claimIds - Hypercert claim ids
+   * @param fractionIds - Hypercert claim ids
    * @returns Contract transaction
    */
-  mergeClaimUnits = async (claimIds: BigNumberish[], overrides?: ethers.Overrides) => {
+  mergeClaimFractions = async (fractionIds: BigNumberish[], overrides?: ethers.Overrides) => {
     this.checkWritable();
 
     const contract = this.contract;
@@ -264,7 +263,7 @@ export default class HypercertClient implements HypercertClientInterface {
 
     const signerAddress = await this._config.operator.getAddress();
 
-    const claims = await Promise.all(claimIds.map(async (id) => ({ id, owner: await contract.ownerOf(id) })));
+    const claims = await Promise.all(fractionIds.map(async (id) => ({ id, owner: await contract.ownerOf(id) })));
     if (claims.some((c) => c.owner.toLowerCase() !== signerAddress.toLowerCase())) {
       const invalidClaimIDs = claims.filter((c) => c.owner !== signerAddress).map((c) => c.id);
       throw new ClientError("One or more claims are not owned by the signer", {
@@ -274,17 +273,17 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     return overrides
-      ? contract.mergeFractions(signerAddress, claimIds, overrides)
-      : contract.mergeFractions(signerAddress, claimIds);
+      ? contract.mergeFractions(signerAddress, fractionIds, overrides)
+      : contract.mergeFractions(signerAddress, fractionIds);
   };
 
   /**
    * Burn a Hypercert claim by providing the claim id
    * @dev Burns a Hypercert claim
-   * @param claimId - Hypercert claim id
+   * @param fractionId - Hypercert claim id
    * @returns Contract transaction
    */
-  burnClaimFraction = async (claimId: BigNumberish, overrides?: ethers.Overrides) => {
+  burnClaimFraction = async (fractionId: BigNumberish, overrides?: ethers.Overrides) => {
     this.checkWritable();
 
     const contract = this.contract;
@@ -296,13 +295,13 @@ export default class HypercertClient implements HypercertClientInterface {
     }
 
     const signerAddress = await this._config.operator.getAddress();
-    const claimOwner = await contract.ownerOf(claimId);
+    const claimOwner = await contract.ownerOf(fractionId);
     if (claimOwner.toLowerCase() !== signerAddress.toLowerCase())
       throw new ClientError("Claim is not owned by the signer", { signer: signerAddress, claimOwner });
 
     return overrides
-      ? contract.burnFraction(signerAddress, claimId, overrides)
-      : contract.burnFraction(signerAddress, claimId);
+      ? contract.burnFraction(signerAddress, fractionId, overrides)
+      : contract.burnFraction(signerAddress, fractionId);
   };
 
   /**
