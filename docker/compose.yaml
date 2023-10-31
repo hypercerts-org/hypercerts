@@ -27,7 +27,7 @@ services:
     ports:
       - "${FRONTEND_RPC_PORT}:8545"
     working_dir: /usr/src/app/contracts
-    command: yarn hardhat node
+    command: pnpm run hardhat node
     depends_on:
       install:
         condition: service_completed_successfully

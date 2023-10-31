@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6"],
+    "lib": ["es6", "dom"],
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -18,7 +18,9 @@
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
-    "outDir": "build"
+    "outDir": "build",
+    "skipLibCheck": true,
+    "types": ["@testing-library/cypress", "@testing-library/dom", "@types/node", "cypress"]
   },
   "include": ["./src"],
   "files": [

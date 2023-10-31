@@ -9,10 +9,10 @@ LOCAL_TESTING_ADDRESS=${LOCAL_TESTING_ADDRESS:-}
 deploy_json=/deploy.json
 
 export LOCALHOST_NETWORK_URL=http://localchain:8545
-export NEXT_PUBLIC_DEFAULT_CHAIN_ID=31337
+export NEXT_PUBLIC_DEFAULT_CHAIN_ID=5
 
 function hardhat_local() {
-    yarn hardhat --network localhost $@
+    pnpm run hardhat --network localhost $@
 }
 
 # Clean up stateful data related to any previous invocation of this
@@ -34,10 +34,7 @@ fi
 # Rebuild the project if necessary
 # TODO this is failing in docker. Need to figure out why. Probably dude to shared vms
 cd "${REPO_DIR}"
-yarn build:contracts
-yarn build:defender
-yarn build:graph
-yarn build:sdk
+pnpm run build
 
 cd "${REPO_DIR}/contracts"
 
@@ -105,4 +102,4 @@ source /usr/src/app/node_modules/app.env.sh
 
 cd $REPO_DIR
 # Run a full build (this seems to be necessary)
-yarn build
+pnpm run build

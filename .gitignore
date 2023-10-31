@@ -44,3 +44,4 @@ graph/.test.subgraph.yaml
 
 # playwright
 playwright-report/
+/cors-proxy/.wrangler
