@@ -165,7 +165,6 @@ describe("Config: getOperator", () => {
     };
 
     const result = await getWritableConfig(overrides);
-    console.log(result);
     expect(result.operator).to.not.be.undefined;
   });
 
