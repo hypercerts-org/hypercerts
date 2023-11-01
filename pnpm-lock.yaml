@@ -580,7 +580,7 @@ importers:
         specifier: ^16.0.3
         version: 16.3.1
       ethers:
-        specifier: ^5.7.2
+        specifier: 5.7.2
         version: 5.7.2
       graphql:
         specifier: ^16.6.0

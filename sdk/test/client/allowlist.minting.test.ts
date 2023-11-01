@@ -3,10 +3,10 @@ import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
 import { expect } from "@jest/globals";
 
-import { HypercertClient } from "../../src/index.js";
-import HypercertsStorage from "../../src/storage.js";
-import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types/index.js";
-import { getAllowlist, getFormattedMetadata } from "../helpers.js";
+import { HypercertClient } from "../../src";
+import HypercertsStorage from "../../src/storage";
+import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
+import { getAllowlist, getFormattedMetadata } from "../helpers";
 import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
 const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 

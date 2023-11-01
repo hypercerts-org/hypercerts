@@ -2,7 +2,7 @@
  * Constants
  */
 
-import { Deployment, SupportedChainIds } from "./types/index.js";
+import { Deployment, SupportedChainIds } from "./types";
 
 // Goerli is default if nothing specified
 const DEFAULT_CHAIN_ID = 5;
