@@ -22,11 +22,17 @@
   },
   "include": ["./src"],
   "files": [
-    "src/abi/HypercertMinter.json",
-    "src/types/src/protocol/AllowlistMinter.ts",
-    "src/types/src/protocol/HypercertMinter.ts",
-    "src/types/src/protocol/interfaces/IAllowlist.ts",
-    "src/types/src/protocol/interfaces/IHypercertToken.ts",
-    "src/types/src/protocol/libs/Errors.ts"
+    "types/src/marketplace/CurrencyManager.ts",
+    "types/src/marketplace/ExecutionManager.ts",
+    "types/src/marketplace/LooksRareProtocol.ts",
+    "types/src/marketplace/NonceManager.ts",
+    "types/src/marketplace/helpers/OrderValidatorV2A.ts",
+    "types/src/marketplace/StrategyManager.ts",
+    "types/src/marketplace/TransferManager.ts",
+    "types/src/protocol/AllowlistMinter.ts",
+    "types/src/protocol/HypercertMinter.ts",
+    "types/src/protocol/interfaces/IAllowlist.ts",
+    "types/src/protocol/interfaces/IHypercertToken.ts",
+    "types/src/protocol/libs/Errors.ts"
   ]
 }

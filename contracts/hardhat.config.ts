@@ -1,8 +1,7 @@
-import "@nomicfoundation/hardhat-chai-matchers";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades";
-import "@openzeppelin/hardhat-defender";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -99,7 +98,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
   return config;
 }
 
-const config = {
+const config: HardhatUserConfig = {
   abiExporter: {
     path: "./abi",
     runOnCompile: true,
@@ -155,9 +154,7 @@ const config = {
     sepolia: getChainConfig("sepolia"),
     mainnet: getChainConfig("mainnet"),
     "optimism-goerli": getChainConfig("optimism-goerli"),
-    "optimism-mainnet": {
-      ...getChainConfig("optimism-mainnet"),
-    },
+    "optimism-mainnet": getChainConfig("optimism-mainnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
@@ -180,7 +177,7 @@ const config = {
     }),
   },
   solidity: {
-    version: "0.8.16",
+    version: "0.8.17",
     settings: {
       optimizer: {
         enabled: true,
@@ -190,7 +187,6 @@ const config = {
   },
   typechain: {
     outDir: "./types",
-    target: "ethers-v5",
   },
 };
 
