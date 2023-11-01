@@ -695,7 +695,7 @@ PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
     disabled: "boolean",
     text: {
       type: "string",
-      defaultValue: "Split",
+      defaultValue: "Merge",
       helpText: "Text to display on button",
     },
   },
