@@ -48,6 +48,6 @@
   },
   "resolutions": {
     "graphql": "^16.6.0",
-    "ethers": "^5.7.2"
+    "ethers": "5.7.2"
   }
 }
