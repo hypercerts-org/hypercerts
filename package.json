@@ -47,6 +47,7 @@
     "url": "git+https://github.com/hypercerts-org/hypercerts.git"
   },
   "resolutions": {
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "ethers": "^5.7.2"
   }
 }
