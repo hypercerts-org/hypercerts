@@ -9,7 +9,15 @@ import { TransferRestrictions } from "../../src/types/hypercerts";
 import { getRawInputData, publicClient, walletClient } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { CIDString, NFTStorage } from "nft.storage";
+
 describe("mintClaim in HypercertClient", () => {
+  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
+
+  const storeBlobMock = sinon.stub(NFTStorage, "storeBlob").resolves(mockCorrectMetadataCid);
+
   const client = new HypercertClient({
     id: 5,
     walletClient,
@@ -19,12 +27,20 @@ describe("mintClaim in HypercertClient", () => {
   const readSpy = sinon.stub(publicClient, "request");
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
+  const mintClaimResult = encodeFunctionResult({
+    abi: parseAbi(HypercertMinterAbi),
+    functionName: "mintClaim",
+    result: [],
+  });
+
   beforeEach(async () => {
     readSpy.resetBehavior();
     readSpy.resetHistory();
 
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
+
+    storeBlobMock.resetHistory();
   });
 
   afterAll(() => {
@@ -37,12 +53,6 @@ describe("mintClaim in HypercertClient", () => {
     const rawData = getRawInputData();
     const { data: formattedData } = formatHypercertData(rawData);
 
-    const mintClaimResult = encodeFunctionResult({
-      abi: parseAbi(HypercertMinterAbi),
-      functionName: "mintClaim",
-      result: [],
-    });
-
     writeSpy = writeSpy.resolves(mintClaimResult);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -51,7 +61,8 @@ describe("mintClaim in HypercertClient", () => {
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
     expect(writeSpy.callCount).to.equal(1);
-  }, 10000);
+    expect(storeBlobMock.callCount).to.equal(1);
+  });
 
   it("throws on malformed metadata", async () => {
     try {
@@ -70,17 +81,13 @@ describe("mintClaim in HypercertClient", () => {
 
     const { data: formattedData } = formatHypercertData(rawData);
 
-    const mintClaimResult = encodeFunctionResult({
-      abi: parseAbi(HypercertMinterAbi),
-      functionName: "mintClaim",
-      result: [],
-    });
-
     writeSpy = writeSpy.resolves(mintClaimResult);
+
+    let hash;
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, {
+      hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, {
         gasPrice: "FALSE_VALUE" as unknown as bigint,
       });
       expect.fail("Should throw Error");
@@ -89,10 +96,11 @@ describe("mintClaim in HypercertClient", () => {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, { gasPrice: 100n });
+    hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, { gasPrice: 100n });
 
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
     expect(writeSpy.callCount).to.equal(1);
-  }, 10000);
+    expect(storeBlobMock.callCount).to.equal(2);
+  });
 });
