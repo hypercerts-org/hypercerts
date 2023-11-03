@@ -1,59 +1,46 @@
 import { expect } from "chai";
-import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
-import { ethers } from "ethers";
 import sinon from "sinon";
+import { encodeFunctionResult, isHex, parseAbi } from "viem";
 
-import HypercertClient from "../../src/client.js";
-import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src/index.js";
-import { MalformedDataError } from "../../src/types/errors.js";
-import { TransferRestrictions } from "../../src/types/hypercerts.js";
-import { getRawInputData } from "../helpers.js";
-import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
-const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+import HypercertClient from "../../src/client";
+import { HypercertMetadata, formatHypercertData } from "../../src";
+import { MalformedDataError } from "../../src/types/errors";
+import { TransferRestrictions } from "../../src/types/hypercerts";
+import { getRawInputData, publicClient, walletClient } from "../helpers";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { CIDString, NFTStorage } from "nft.storage";
 
 describe("mintClaim in HypercertClient", () => {
-  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(mockCorrectMetadataCid);
+  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
 
-  const setUp = async () => {
-    const provider = new MockProvider();
-    const [user, other, admin] = provider.getWallets();
-    const stub = sinon.stub(provider, "on");
+  const storeBlobMock = sinon.stub(NFTStorage, "storeBlob").resolves(mockCorrectMetadataCid);
 
-    const minter = await deployMockContract(user, HypercertMinterAbi);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-    });
-
-    sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);
-
-    return {
-      client,
-      provider,
-      users: { user, other, admin },
-      minter,
-      stub,
-    };
-  };
-
-  let _client: HypercertClient;
-  let _provider: MockProvider;
-  let _users: { user: ethers.Wallet; other: ethers.Wallet; admin: ethers.Wallet };
-  let _minter: MockContract;
-  let _stub: sinon.SinonStub;
-
-  beforeAll(async () => {
-    const { client, provider, users, minter, stub } = await setUp();
-    _client = client;
-    _provider = provider;
-    _users = users;
-    _minter = minter;
-    _stub = stub;
+  const client = new HypercertClient({
+    id: 5,
+    walletClient,
+    publicClient,
   });
 
-  beforeEach(() => {
-    _provider.clearCallHistory();
+  const readSpy = sinon.stub(publicClient, "request");
+  let writeSpy = sinon.stub(walletClient, "writeContract");
+
+  const mintClaimResult = encodeFunctionResult({
+    abi: parseAbi(HypercertMinterAbi),
+    functionName: "mintClaim",
+    result: [],
+  });
+
+  beforeEach(async () => {
+    readSpy.resetBehavior();
+    readSpy.resetHistory();
+
+    writeSpy.resetBehavior();
+    writeSpy.resetHistory();
+
+    storeBlobMock.resetHistory();
   });
 
   afterAll(() => {
@@ -61,49 +48,59 @@ describe("mintClaim in HypercertClient", () => {
   });
 
   it("mints a hypercerts", async () => {
-    expect(_client.readonly).to.be.false;
+    expect(client.readonly).to.be.false;
 
     const rawData = getRawInputData();
     const { data: formattedData } = formatHypercertData(rawData);
 
-    await _minter.mock.mintClaim.returns();
+    writeSpy = writeSpy.resolves(mintClaimResult);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll);
+    const hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll);
 
-    sinon.assert.calledOnce(metaDataStub);
-    expect(_provider.callHistory.length).to.equal(2);
-  }, 10000);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.equal(0);
+    expect(writeSpy.callCount).to.equal(1);
+    expect(storeBlobMock.callCount).to.equal(1);
+  });
 
   it("throws on malformed metadata", async () => {
     try {
-      await _client.mintClaim({} as HypercertMetadata, 1000, TransferRestrictions.AllowAll);
+      await client.mintClaim({} as HypercertMetadata, 1000n, TransferRestrictions.AllowAll);
       expect.fail("Should throw MalformedDataError");
     } catch (e) {
       expect(e).to.be.instanceOf(MalformedDataError);
       const error = e as MalformedDataError;
       expect(error.message).to.equal("Metadata validation failed");
     }
-    expect(_provider.callHistory.length).to.equal(0);
+    expect(writeSpy.callCount).to.equal(0);
   });
 
   it("mints a hypercerts with override params", async () => {
     const rawData = getRawInputData();
 
-    await _minter.mock.mintClaim.returns();
     const { data: formattedData } = formatHypercertData(rawData);
+
+    writeSpy = writeSpy.resolves(mintClaimResult);
+
+    let hash;
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "FALSE_VALUE" });
+      hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, {
+        gasPrice: "FALSE_VALUE" as unknown as bigint,
+      });
       expect.fail("Should throw Error");
     } catch (e) {
-      expect((e as Error).message).to.match(/.*invalid BigNumber string.*/);
+      expect((e as Error).message).to.match(/.Cannot convert FALSE_VALUE to a BigInt/);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await _client.mintClaim(formattedData!, 1000, TransferRestrictions.AllowAll, { gasPrice: "100" });
+    hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, { gasPrice: 100n });
 
-    expect(_provider.callHistory.length).to.equal(2);
-  }, 10000);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.equal(0);
+    expect(writeSpy.callCount).to.equal(1);
+    expect(storeBlobMock.callCount).to.equal(2);
+  });
 });

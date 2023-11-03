@@ -1,11 +1,11 @@
 import { expect } from "chai";
 
-import { validateClaimData, validateMetaData } from "../src/index.js";
-import type { HypercertClaimdata, HypercertMetadata } from "../src/index.js";
+import { validateClaimData, validateMetaData } from "../src";
+import type { HypercertClaimdata, HypercertMetadata } from "../src";
 import testData from "./res/mockMetadata.js";
-import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../src/validator/index.js";
-import { getDuplicateEvaluationData, getSimpleTextEvaluationData } from "./helpers.js";
-import { DuplicateEvaluation, SimpleTextEvaluation } from "../src/types/evaluation.js";
+import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../src/validator";
+import { getDuplicateEvaluationData, getSimpleTextEvaluationData } from "./helpers";
+import { DuplicateEvaluation, SimpleTextEvaluation } from "../src/types/evaluation";
 
 describe("Validate claim test", () => {
   it("checking default metadata", () => {

@@ -1,6 +1,8 @@
 import { jest } from "@jest/globals";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { NFTStorage } from "nft.storage";
 
 import HypercertsStorage from "../../src/storage.js";

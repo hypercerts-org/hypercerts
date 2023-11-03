@@ -14,6 +14,7 @@ const config: Config = {
   resolver: "ts-jest-resolver",
   moduleFileExtensions: ["js", "jsx", "json", "ts"],
   transform: {},
+  workerThreads: true,
 };
 
 export default config;

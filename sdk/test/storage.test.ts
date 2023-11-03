@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { providers } from "ethers";
 import sinon from "sinon";
-import { HypercertMetadata } from "src/index.js";
+import { HypercertMetadata } from "../src/index.js";
 
 import HypercertsStorage from "../src/storage.js";
 import { StorageError } from "../src/types/errors.js";

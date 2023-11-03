@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { FetchError, MalformedDataError, UnsupportedChainError } from "../../src/types/errors.js";
-import { handleError } from "../../src/utils/errors.js";
+import { FetchError, MalformedDataError, UnsupportedChainError } from "../../src/types/errors";
+import { handleError } from "../../src/utils/errors";
 
 describe("Error handler test", () => {
   it("checking error handler", () => {

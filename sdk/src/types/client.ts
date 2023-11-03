@@ -1,22 +1,25 @@
 import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
-import { HypercertMinter } from "@hypercerts-org/contracts";
-import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertIndexer from "../indexer.js";
-import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
-import { HypercertMetadata } from "./metadata.js";
+import HypercertIndexer from "../indexer";
+import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
+import { HypercertMetadata } from "./metadata";
+
+import { ByteArray, Chain, Hex, PublicClient, WalletClient, WriteContractReturnType } from "viem";
 
 export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
+export type SupportedOverrides = {
+  value?: bigint;
+  gasPrice?: bigint;
+  gasLimit?: bigint;
+};
 
 /**
  * Represents a deployment of a contract on a specific network.
  */
-export type Deployment = {
-  /** The ID of the network on which the contract is deployed. */
-  chainId: number;
-  /** The name of the network on which the contract is deployed. */
-  chainName: string;
+export type Deployment = Chain & {
   /** The address of the deployed contract. */
   contractAddress: string;
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
@@ -29,8 +32,9 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
-    /** The provider is inherently read-only */
-    operator: ethers.providers.Provider | ethers.Signer;
+    /** The PublicClient is inherently read-only */
+    publicClient: PublicClient;
+    walletClient: WalletClient;
     /** Force the use of overridden values */
     unsafeForceOverrideConfig?: boolean;
   };
@@ -110,8 +114,6 @@ export interface HypercertClientState {
   storage: HypercertStorageInterface;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
-  /** The contract used by the client. */
-  contract: HypercertMinter;
 }
 
 /**
@@ -127,9 +129,9 @@ export interface HypercertClientMethods {
    */
   mintClaim: (
     metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
+    totalUnits: bigint,
     transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
+  ) => Promise<WriteContractReturnType>;
 
   /**
    * Creates a new allowlist and mints a new claim with the allowlist.
@@ -142,9 +144,9 @@ export interface HypercertClientMethods {
   createAllowlist: (
     allowList: AllowlistEntry[],
     metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
+    totalUnits: bigint,
     transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
+  ) => Promise<WriteContractReturnType>;
 
   /**
    * Splits a claim into multiple fractions.
@@ -152,21 +154,21 @@ export interface HypercertClientMethods {
    * @param fractions The number of units for each fraction.
    * @returns A Promise that resolves to the transaction receipt
    */
-  splitClaimUnits: (claimId: BigNumberish, fractions: BigNumberish[]) => Promise<ContractTransaction>;
+  splitClaimUnits: (claimId: bigint, fractions: bigint[]) => Promise<WriteContractReturnType>;
 
   /**
    * Merges multiple claim fractions into a single claim.
    * @param claimIds The IDs of the claim fractions to merge.
    * @returns A Promise that resolves to the transaction receipt
    */
-  mergeClaimUnits: (claimIds: BigNumberish[]) => Promise<ContractTransaction>;
+  mergeClaimUnits: (claimIds: bigint[]) => Promise<WriteContractReturnType>;
 
   /**
    * Burns a claim fraction.
    * @param claimId The ID of the claim fraction to burn.
    * @returns A Promise that resolves to the transaction receipt
    */
-  burnClaimFraction: (claimId: BigNumberish) => Promise<ContractTransaction>;
+  burnClaimFraction: (claimId: bigint) => Promise<WriteContractReturnType>;
 
   /**
    * Mints a claim fraction from an allowlist.
@@ -176,10 +178,10 @@ export interface HypercertClientMethods {
    * @returns A Promise that resolves to the transaction receipt
    */
   mintClaimFractionFromAllowlist: (
-    claimId: BigNumberish,
-    units: BigNumberish,
-    proof: BytesLike[],
-  ) => Promise<ContractTransaction>;
+    claimId: bigint,
+    units: bigint,
+    proof: (Hex | ByteArray)[],
+  ) => Promise<WriteContractReturnType>;
 
   /**
    * Batch mints a claim fraction from an allowlist
@@ -192,8 +194,8 @@ export interface HypercertClientMethods {
    * @returns A Promise that resolves to the transaction receipt
    */
   batchMintClaimFractionsFromAllowlists: (
-    claimIds: BigNumberish[],
-    units: BigNumberish[],
-    proofs: BytesLike[][],
-  ) => Promise<ContractTransaction>;
+    claimIds: bigint[],
+    units: bigint[],
+    proofs: (Hex | ByteArray)[][],
+  ) => Promise<WriteContractReturnType>;
 }

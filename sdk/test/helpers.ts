@@ -1,15 +1,53 @@
 import { faker } from "@faker-js/faker";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { BigNumber, BigNumberish, ContractReceipt, ContractTransaction } from "ethers";
 
-import { HypercertMetadata } from "../src/index.js";
-import {
-  AllowlistEntry,
-  DuplicateEvaluation,
-  HypercertEvaluationSchema,
-  SimpleTextEvaluation,
-} from "../src/types/index.js";
-import { formatHypercertData } from "../src/utils/formatter.js";
+import { HypercertMetadata } from "../src";
+import { AllowlistEntry, DuplicateEvaluation, HypercertEvaluationSchema, SimpleTextEvaluation } from "../src/types";
+import { formatHypercertData } from "../src/utils/formatter";
+import { Chain, foundry } from "viem/chains";
+import { PublicClient, createPublicClient, createTestClient, createWalletClient, http } from "viem";
+import * as HypercertMinter from "./resources/HypercertMinter.json";
+
+export const pool = Number(process.env.VITEST_POOL_ID ?? 1);
+export const anvil = {
+  ...foundry, // We are using a mainnet fork for testing.
+  id: foundry.id,
+  rpcUrls: {
+    // These rpc urls are automatically used in the transports.
+    default: {
+      // Note how we append the worker id to the local rpc urls.
+      http: [`http://127.0.0.1:8545/${pool}`],
+      webSocket: [`ws://127.0.0.1:8545/${pool}`],
+    },
+    public: {
+      // Note how we append the worker id to the local rpc urls.
+      http: [`http://127.0.0.1:8545/${pool}`],
+      webSocket: [`ws://127.0.0.1:8545/${pool}`],
+    },
+  },
+} as const satisfies Chain;
+
+export const testClient = createTestClient({
+  chain: anvil,
+  mode: "anvil",
+  transport: http(),
+});
+
+export const publicClient: PublicClient = createPublicClient({
+  chain: anvil,
+  batch: {
+    multicall: true,
+  },
+  transport: http(),
+});
+
+export const walletClient = createWalletClient({
+  chain: anvil,
+  transport: http(),
+  account: faker.finance.ethereumAddress() as `0x${string}`,
+});
+
+export const HypercertMinterByteCode = HypercertMinter.bytecode as `0x${string}`;
 
 export type TestDataType = Parameters<typeof formatHypercertData>[0];
 
@@ -19,12 +57,12 @@ export type TestDataType = Parameters<typeof formatHypercertData>[0];
  */
 const getAllowlist = ({
   size = 10,
-  units = 1,
+  units = 1n,
   address,
 }: {
   size?: number;
   address?: `0x${string}`;
-  units?: BigNumberish;
+  units?: bigint;
 } = {}) => {
   //generate allowlist array based on possible overrides
   const allowlist: AllowlistEntry[] = [];
@@ -43,7 +81,7 @@ const getAllowlist = ({
 
   const merkleTree = StandardMerkleTree.of(mappedAllowlist, ["address", "uint256"]);
 
-  const totalUnits = allowlist.reduce((acc, entry) => acc.add(entry.units), BigNumber.from(0));
+  const totalUnits = allowlist.reduce((acc, entry) => acc + BigInt(entry.units), 0n);
 
   return { allowlist, merkleTree, totalUnits };
 };
@@ -78,42 +116,6 @@ const getFormattedMetadata = (overrides?: Partial<TestDataType>): HypercertMetad
   return formattedData as HypercertMetadata;
 };
 
-const mockContractResponse = (): Promise<ContractTransaction> => {
-  // mock transaction receipt
-  const receipt: ContractReceipt = {
-    to: "0x0",
-    from: "0x0",
-    contractAddress: "0x0",
-    transactionIndex: 0,
-    gasUsed: BigNumber.from(0),
-    logsBloom: "0x0",
-    blockHash: "0x0",
-    transactionHash: "0x0",
-    logs: [],
-    blockNumber: 0,
-    confirmations: 0,
-    cumulativeGasUsed: BigNumber.from(0),
-    effectiveGasPrice: BigNumber.from(0),
-    byzantium: true,
-    type: 0,
-    status: 1,
-  };
-
-  const transaction: ContractTransaction = {
-    gasLimit: BigNumber.from(0),
-    data: "0x0",
-    value: BigNumber.from(0),
-    chainId: 1337,
-    hash: "0x0",
-    confirmations: 1,
-    from: "0x0",
-    nonce: 0,
-    wait: () => Promise.resolve(receipt),
-  };
-
-  return Promise.resolve(transaction);
-};
-
 const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): HypercertEvaluationSchema => {
   const mockData: HypercertEvaluationSchema = {
     creator: "0x17ec8597ff92C3F44523bDc65BF0f1bE632917ff",
@@ -139,10 +141,8 @@ const getEvaluationData = (overrides?: Partial<HypercertEvaluationSchema>): Hype
       explanation: "These hypercerts are duplicates",
     },
     evaluationSource: {
-      type: "EAS",
-      chainId: "0x1",
-      contract: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
-      uid: "0x1234567890abcdef",
+      type: "IPFS",
+      cid: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
     },
   };
 
@@ -193,7 +193,6 @@ export {
   getAllowlist,
   getFormattedMetadata,
   getRawInputData,
-  mockContractResponse,
   getEvaluationData,
   getDuplicateEvaluationData,
   getSimpleTextEvaluationData,
