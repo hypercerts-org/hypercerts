@@ -1,5 +1,9 @@
 import axios from "axios";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
 import { validateMetaData } from "./validator/index.js";
@@ -11,7 +15,7 @@ import {
   StorageError,
 } from "./types/index.js";
 import logger from "./utils/logger.js";
-import { getConfig } from "./utils/config.js";
+import { getNftStorageToken, getWeb3StorageToken } from "./utils/config.js";
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
 
@@ -31,13 +35,14 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @param overrides The configuration overrides for the storage.
    */
   constructor(overrides: Partial<HypercertStorageConfig>) {
-    const { nftStorageToken, web3StorageToken } = getConfig(overrides);
+    const { nftStorageToken } = getNftStorageToken(overrides);
+    const { web3StorageToken } = getWeb3StorageToken(overrides);
 
-    if (!nftStorageToken || nftStorageToken === "") {
+    if (!nftStorageToken) {
       logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
     }
 
-    if (!web3StorageToken || web3StorageToken === "") {
+    if (!web3StorageToken) {
       logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
     }
 
@@ -45,8 +50,8 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       logger.warn("HypercertsStorage is read only", "storage");
       this.readonly = true;
     } else {
-      this.nftStorageClient = new NFTStorage({ token: nftStorageToken });
-      this.web3StorageClient = new Web3Storage({ token: web3StorageToken });
+      this.nftStorageClient = new NFTStorage({ token: nftStorageToken || "" });
+      this.web3StorageClient = new Web3Storage({ web3StorageToken });
       this.readonly = false;
     }
   }

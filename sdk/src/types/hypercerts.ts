@@ -1,5 +1,3 @@
-import { BigNumberish } from "ethers";
-
 /**
  * Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
  * @dev AllowAll: All transfers are allowed
@@ -21,5 +19,5 @@ export type TransferRestrictions = (typeof TransferRestrictions)[keyof typeof Tr
  */
 export type AllowlistEntry = {
   address: string;
-  units: BigNumberish;
+  units: bigint;
 };
