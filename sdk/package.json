@@ -49,7 +49,7 @@
     "loglevel": "^1.8.1",
     "mime": "^3.0.0",
     "nft.storage": "^7.1.1",
-    "viem": "1.5.3",
+    "viem": "^1.18.4",
     "web3.storage": "^4.5.5"
   },
   "devDependencies": {

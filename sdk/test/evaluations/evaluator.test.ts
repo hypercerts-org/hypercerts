@@ -25,7 +25,7 @@ describe("HypercertEvaluator", () => {
   describe("submitEvaluation", () => {
     it("should throw an error for unexpected evaluation source", async () => {
       const evaluation = {
-        creator: signer.address,
+        creator: signer?.address,
         evaluationSource: {
           type: "invalid",
         },
@@ -68,7 +68,7 @@ describe("HypercertEvaluator", () => {
       sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
       sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer?.address });
 
       const readonlyEvaluator = new HypercertEvaluator({
         id: 5,

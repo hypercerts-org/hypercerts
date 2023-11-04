@@ -13,14 +13,14 @@ describe("Allows for minting claims from an allowlist", () => {
   const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(hypercertMetadata.cid);
   const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(hypercertData.cid);
   const wallet = walletClient;
-  const userAddress = wallet.account.address;
+  const userAddress = wallet.account?.address;
   const client = new HypercertClient({
     id: 5,
     walletClient,
     publicClient,
   });
 
-  const readSpy = sinon.stub(publicClient, "request");
+  const readSpy = sinon.stub(publicClient, "readContract");
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const mintClaimFromAllowlistResult = encodeFunctionResult({

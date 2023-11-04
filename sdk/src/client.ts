@@ -5,6 +5,7 @@ import {
   GetContractReturnType,
   Hex,
   PublicClient,
+  WalletClient,
   WriteContractReturnType,
   getContract,
   parseAbi,
@@ -42,7 +43,7 @@ export default class HypercertClient implements HypercertClientInterface {
   private _indexer: HypercertIndexer;
   //TODO added the TypedDataSigner since that's needed for EAS signing. Will this work on front-end?
   private _publicClient: PublicClient;
-  private _walletClient;
+  private _walletClient: WalletClient | undefined;
   readonly: boolean;
 
   /**
@@ -315,13 +316,16 @@ export default class HypercertClient implements HypercertClientInterface {
 
     const claimOwner = await readContract.read.ownerOf([claimId]);
 
-    if ((claimOwner as `0x${string}`).toLowerCase() !== operator.account?.address.toLowerCase())
+    if ((claimOwner as `0x${string}`).toLowerCase() !== operator.account?.address.toLowerCase()) {
+      console.log("claimOwner", claimOwner);
+      console.log("operator.account?.address", operator.account?.address);
       throw new ClientError("Claim is not owned by the signer", { signer: operator.account?.address, claimOwner });
+    }
 
     const { request } = await this._publicClient.simulateContract({
       functionName: "burnFraction",
-      account: operator.account.address,
-      args: [operator.account.address, claimId],
+      account: operator.account?.address,
+      args: [operator.account?.address, claimId],
       ...this.getContractConfig(),
       ...this.getCleanedOverrides(overrides),
     });

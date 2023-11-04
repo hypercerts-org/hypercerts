@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { encodeFunctionResult, isHex, parseAbi } from "viem";
+import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseAbi } from "viem";
 
 import HypercertClient from "../../src/client";
 import { HypercertMetadata, formatHypercertData } from "../../src";
@@ -24,7 +24,7 @@ describe("mintClaim in HypercertClient", () => {
     publicClient,
   });
 
-  const readSpy = sinon.stub(publicClient, "request");
+  const readSpy = sinon.stub(publicClient, "readContract");
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const mintClaimResult = encodeFunctionResult({
@@ -34,9 +34,6 @@ describe("mintClaim in HypercertClient", () => {
   });
 
   beforeEach(async () => {
-    readSpy.resetBehavior();
-    readSpy.resetHistory();
-
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
 
@@ -92,7 +89,7 @@ describe("mintClaim in HypercertClient", () => {
       });
       expect.fail("Should throw Error");
     } catch (e) {
-      expect((e as Error).message).to.match(/.Cannot convert FALSE_VALUE to a BigInt/);
+      expect(e).to.be.instanceOf(ContractFunctionExecutionError);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

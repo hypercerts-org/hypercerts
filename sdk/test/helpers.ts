@@ -5,7 +5,7 @@ import { HypercertMetadata } from "../src";
 import { AllowlistEntry, DuplicateEvaluation, HypercertEvaluationSchema, SimpleTextEvaluation } from "../src/types";
 import { formatHypercertData } from "../src/utils/formatter";
 import { Chain, foundry } from "viem/chains";
-import { PublicClient, createPublicClient, createTestClient, createWalletClient, http } from "viem";
+import { PublicClient, WalletClient, createPublicClient, createTestClient, createWalletClient, http } from "viem";
 import * as HypercertMinter from "./resources/HypercertMinter.json";
 import mockMetadata from "./res/mockMetadata";
 import mockData from "./res/mockData";
@@ -62,7 +62,7 @@ export const publicClient: PublicClient = createPublicClient({
   transport: http(),
 });
 
-export const walletClient = createWalletClient({
+export const walletClient: WalletClient = createWalletClient({
   chain: anvil,
   transport: http(),
   account: faker.finance.ethereumAddress() as `0x${string}`,
