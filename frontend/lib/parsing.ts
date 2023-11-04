@@ -30,9 +30,12 @@ export function parseAllowlistCsv(
   // Get the addresses and units from the CSV
   const csvData = rawData.map((row: any) => ({
     address: row["address"].trim().toLowerCase(),
-    units: parseInt(row["fractions"].trim(), 10),
+    units: BigInt((row["fractions"].trim(), 10)),
   }));
-  const csvTotalSupply = csvData.reduce((accum, curr) => accum + curr.units, 0);
+  const csvTotalSupply = csvData.reduce(
+    (accum, curr) => accum + curr.units,
+    0n,
+  );
   if (csvTotalSupply <= 0) {
     throw new InvalidDataError("Did not find any valid rows");
   }
@@ -53,11 +56,12 @@ export function parseAllowlistCsv(
   }
   // Combine CSV data with manually added addresses
   const csvTotalPercentage = 1.0 - addTotalPercentage;
-  const totalSupply = csvTotalSupply / csvTotalPercentage;
+  const totalSupply = csvTotalSupply / BigInt(csvTotalPercentage);
+  // TODO risk over overflow on units - casting bigint to number
   const data = csvData.concat(
     add.map((x) => ({
       address: x.address.trim().toLowerCase(),
-      units: Math.floor(totalSupply * x.percentage),
+      units: BigInt(Math.floor(Number(totalSupply) * x.percentage)),
     })),
   );
 
@@ -69,7 +73,7 @@ export function parseAllowlistCsv(
   // Deduplicate
   const groups = _.groupBy(data, (x) => x.address);
   const addressToUnits = _.mapValues(groups, (x) =>
-    x.reduce((accum, curr) => accum + curr.units, 0),
+    x.reduce((accum, curr) => accum + curr.units, 0n),
   );
 
   const result = _.toPairs(addressToUnits).map(([address, units]) => ({

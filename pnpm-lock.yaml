@@ -312,8 +312,8 @@ importers:
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
       '@hypercerts-org/sdk':
-        specifier: 0.9.0-viem
-        version: 0.9.0-viem(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
+        specifier: 0.9.1-viem
+        version: 0.9.1-viem(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
       '@mui/icons-material':
         specifier: ^5.11.9
         version: 5.14.15(@mui/material@5.14.15)(@types/react@18.2.33)(react@18.2.0)
@@ -796,6 +796,7 @@ packages:
 
   /@adraffy/ens-normalize@1.9.0:
     resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
+    dev: true
 
   /@adraffy/ens-normalize@1.9.4:
     resolution: {integrity: sha512-UK0bHA7hh9cR39V+4gl2/NnBBjoXIxkuWAPCaY4X7fbH4L/azIi7ilWOCjMUYfpJgraLUAqkRi2BqrjME8Rynw==}
@@ -7518,8 +7519,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/sdk@0.9.0-viem(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
-    resolution: {integrity: sha512-o6zmVQj0w3UnpDk+V8yn6z/mPrW1vfzN8FU22wdulESWf6IrLb09yo75V6srS5PxowC3ggiKfYflBZYpocJWvw==}
+  /@hypercerts-org/sdk@0.9.1-viem(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
+    resolution: {integrity: sha512-OWGHBiONrSOJ0si3fBpaLpF8qdNJFQXgPekhKyE2rVWs76YfqrJzMjCxODsi0lq59JCGb1TyuAq28GLASvG3aw==}
     dependencies:
       '@ethereum-attestation-service/eas-sdk': 1.2.2-beta.0(ts-node@10.9.1)(typescript@5.1.6)
       '@ethersproject/abstract-signer': 5.7.0
@@ -7547,7 +7548,7 @@ packages:
       loglevel: 1.8.1
       mime: 3.0.0
       nft.storage: 7.1.1(node-fetch@3.3.2)
-      viem: 1.5.3(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.18.4(typescript@5.1.6)(zod@3.22.4)
       web3.storage: 4.5.5(node-fetch@3.3.2)
     transitivePeerDependencies:
       - '@envelop/core'
@@ -9566,6 +9567,7 @@ packages:
     resolution: {integrity: sha512-2upgEu0iLiDVDZkNLeFV2+ht0BAVgQnEmCk6JsOch9Rp8xfkMCbvbAZlA2pBHQc73dbl+vFOXfqkf4uemdn0bw==}
     dependencies:
       '@noble/hashes': 1.3.0
+    dev: true
 
   /@noble/curves@1.1.0:
     resolution: {integrity: sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==}
@@ -9587,6 +9589,7 @@ packages:
 
   /@noble/hashes@1.3.0:
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
+    dev: true
 
   /@noble/hashes@1.3.1:
     resolution: {integrity: sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==}
@@ -11083,6 +11086,7 @@ packages:
       '@noble/curves': 1.0.0
       '@noble/hashes': 1.3.2
       '@scure/base': 1.1.3
+    dev: true
 
   /@scure/bip32@1.3.1:
     resolution: {integrity: sha512-osvveYtyzdEVbt3OfwwXFr4P2iVBL5u1Q3q4ONBfDY/UpOuXmOlbgwc1xECEboY8wIays8Yt6onaWMUdUbfl0A==}
@@ -11111,6 +11115,7 @@ packages:
     dependencies:
       '@noble/hashes': 1.3.2
       '@scure/base': 1.1.3
+    dev: true
 
   /@scure/bip39@1.2.1:
     resolution: {integrity: sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==}
@@ -13138,17 +13143,6 @@ packages:
       typescript: 5.1.6
     dev: true
 
-  /@wagmi/chains@1.6.0(typescript@5.1.6):
-    resolution: {integrity: sha512-5FRlVxse5P4ZaHG3GTvxwVANSmYJas1eQrTBHhjxVtqXoorm0aLmCHbhmN8Xo1yu09PaWKlleEvfE98yH4AgIw==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      typescript: 5.1.6
-    dev: false
-
   /@wagmi/connectors@2.7.0(react@18.2.0)(typescript@5.1.6)(viem@1.18.4)(zod@3.22.4):
     resolution: {integrity: sha512-1KOL0HTJl5kzSC/YdKwFwiokr6poUQn1V/tcT0TpG3iH2x0lSM7FTkvCjVVY/6lKzTXrLlo9y2aE7AsOPnkvqg==}
     peerDependencies:
@@ -14112,21 +14106,6 @@ packages:
     dependencies:
       typescript: 5.1.6
       zod: 3.22.4
-
-  /abitype@0.9.3(typescript@5.1.6)(zod@3.22.4):
-    resolution: {integrity: sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
-    dependencies:
-      typescript: 5.1.6
-      zod: 3.22.4
-    dev: false
 
   /abitype@0.9.8(typescript@5.1.6)(zod@3.22.4):
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
@@ -23289,6 +23268,7 @@ packages:
       ws: '*'
     dependencies:
       ws: 8.12.0
+    dev: true
 
   /isomorphic-ws@5.0.0(ws@8.13.0):
     resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
@@ -33287,31 +33267,6 @@ packages:
       - zod
     dev: false
 
-  /viem@1.5.3(typescript@5.1.6)(zod@3.22.4):
-    resolution: {integrity: sha512-oImpSDDvm8Y72qxXV0pCAGAqQLYgo8YENdz9EKS8ExnnOJLascpex4LNazNyp9cksjm3ORpVpbqGMr9Cy1z2mg==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.0
-      '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
-      '@scure/bip32': 1.3.0
-      '@scure/bip39': 1.2.0
-      '@types/ws': 8.5.8
-      '@wagmi/chains': 1.6.0(typescript@5.1.6)
-      abitype: 0.9.3(typescript@5.1.6)(zod@3.22.4)
-      isomorphic-ws: 5.0.0(ws@8.12.0)
-      typescript: 5.1.6
-      ws: 8.12.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
-
   /vite-node@0.28.5(@types/node@18.18.7):
     resolution: {integrity: sha512-LmXb9saMGlrMZbXTvOveJKwMTBTNUH66c8rJnQ0ZPNX+myPEol64+szRzXtV5ORb0Hb/91yq+/D3oERoyAt6LA==}
     engines: {node: '>=v14.16.0'}
@@ -34169,6 +34124,7 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: true
 
   /ws@8.13.0:
     resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}

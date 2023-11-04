@@ -4,7 +4,6 @@ import {
   DEFAULT_CHAIN_ID,
   NFT_STORAGE_TOKEN,
   WEB3_STORAGE_TOKEN,
-  OVERRIDE_GRAPH_URL,
   CONTRACT_ADDRESS,
   UNSAFE_FORCE_OVERRIDE_CONFIG,
 } from "../lib/config";
@@ -12,16 +11,13 @@ import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 import { useWalletClient, useNetwork } from "wagmi";
 
 const clientConfig: Partial<HypercertClientConfig> = {
-  id: DEFAULT_CHAIN_ID,
+  id: DEFAULT_CHAIN_ID ? Number(DEFAULT_CHAIN_ID) : 5,
   nftStorageToken: NFT_STORAGE_TOKEN,
   web3StorageToken: WEB3_STORAGE_TOKEN,
 };
 
+// TODO - make overrides explicit in loading config
 function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
-  if (OVERRIDE_GRAPH_URL) {
-    clientConfig.graphUrl = OVERRIDE_GRAPH_URL;
-  }
-
   if (CONTRACT_ADDRESS) {
     clientConfig.contractAddress = CONTRACT_ADDRESS;
   }
@@ -33,9 +29,7 @@ function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
   return clientConfig;
 }
 
-loadOverridingConfig(clientConfig);
-
-const defaultClient = new HypercertClient(clientConfig);
+const defaultClient = new HypercertClient(loadOverridingConfig(clientConfig));
 
 export const useHypercertClient = () => {
   const { chain } = useNetwork();
@@ -53,13 +47,13 @@ export const useHypercertClient = () => {
     if (chain?.id && !walletClientLoading && !isError && walletClient) {
       setIsLoading(true);
 
-      let config: Partial<HypercertClientConfig> = {
-        id: chain.id,
-        walletClient,
-      };
-      config = loadOverridingConfig(config);
       try {
-        const client = new HypercertClient(config);
+        const config: Partial<HypercertClientConfig> = {
+          id: chain.id,
+          walletClient,
+        };
+
+        const client = new HypercertClient(loadOverridingConfig(config));
         setClient(client);
       } catch (e) {
         console.error(e);

@@ -1,9 +1,7 @@
-import { BlueprintCreateForm } from "./components/blueprint-create";
 import { BurnFractionButton } from "./components/burn-fraction-button";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
-import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
 import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
@@ -238,29 +236,6 @@ PLASMIC.registerComponent(HypercertCreateForm, {
   },
   providesData: true,
   importPath: "./components/hypercert-create",
-});
-
-PLASMIC.registerComponent(BlueprintCreateForm, {
-  name: "BlueprintCreateForm",
-  description: "Create a blueprint",
-  props: {
-    children: {
-      type: "slot",
-      defaultValue: {
-        type: "text",
-        value: "Placeholder",
-      },
-    },
-  },
-  providesData: true,
-  importPath: "./components/blueprint-create",
-});
-
-PLASMIC.registerComponent(ContributionBlueprintCreate, {
-  name: "ContributionBlueprintCreate",
-  description: "Create a contribution blueprint",
-  importPath: "./components/contribution-blueprint-create",
-  props: {},
 });
 
 PLASMIC.registerComponent(FormError, {
