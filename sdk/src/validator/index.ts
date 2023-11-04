@@ -1,7 +1,5 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import Ajv from "ajv";
-import { BigNumber, BigNumberish } from "ethers";
-import { isAddress } from "ethers/lib/utils";
 
 import claimDataSchema from "../resources/schema/claimdata.json";
 import evaluationSchema from "../resources/schema/evaluation.json";
@@ -13,7 +11,8 @@ import {
   HypercertMetadata,
   MintingError,
   SimpleTextEvaluation,
-} from "../types";
+} from "../types/index.js";
+import { isAddress } from "viem";
 
 const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
@@ -88,16 +87,16 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
  * @param units The total number of units in the allowlist.
  * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
  */
-const validateAllowlist = (data: AllowlistEntry[], units: BigNumberish) => {
+const validateAllowlist = (data: AllowlistEntry[], units: bigint) => {
   const errors: Record<string, string | string[]> = {};
-  const totalUnits = data.reduce((acc, curr) => acc.add(curr.units), BigNumber.from(0));
-  if (!totalUnits.eq(units)) {
+  const totalUnits = data.reduce((acc, curr) => acc + BigInt(curr.units.toString()), 0n);
+  if (totalUnits != units) {
     errors[
       "units"
     ] = `Total units in allowlist must match total units [expected: ${units}, got: ${totalUnits.toString()}]`;
   }
 
-  if (totalUnits.eq(0)) {
+  if (totalUnits == 0n) {
     errors["units"] = "Total units in allowlist must be greater than 0";
   }
 
@@ -167,7 +166,7 @@ const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): Validatio
  * @param proof The Merkle proof to verify.
  * @throws {MintingError} If the Merkle proof verification fails.
  */
-function verifyMerkleProof(root: string, signerAddress: string, units: BigNumberish, proof: string[]): void {
+function verifyMerkleProof(root: string, signerAddress: string, units: bigint, proof: string[]): void {
   if (!isAddress(signerAddress)) {
     throw new MintingError("Invalid address", { signerAddress });
   }
@@ -187,7 +186,7 @@ function verifyMerkleProof(root: string, signerAddress: string, units: BigNumber
  * @throws {MintingError} If the Merkle proof verification fails.
  * @notice Wrapper around `verifyMerkleProof` to batch verify multiple proofs
  */
-function verifyMerkleProofs(roots: string[], signerAddress: string, units: BigNumberish[], proofs: string[][]) {
+function verifyMerkleProofs(roots: string[], signerAddress: string, units: bigint[], proofs: string[][]) {
   if (roots.length !== units.length || units.length !== proofs.length) {
     throw new MintingError("Invalid input", { roots, units, proofs });
   }

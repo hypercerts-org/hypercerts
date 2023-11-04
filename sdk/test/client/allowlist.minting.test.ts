@@ -1,67 +1,55 @@
-import { MockContract, MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, ethers } from "ethers";
 import sinon from "sinon";
 import { expect } from "@jest/globals";
 
-import { HypercertClient, deployments } from "../../src";
-import HypercertsStorage from "../../src/storage";
+import { HypercertClient } from "../../src";
+import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
-import { getAllowlist, getFormattedMetadata } from "../helpers";
-import { HypercertMinter, HypercertMinterAbi } from "@hypercerts-org/contracts";
-const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+import { getAllowlist, getFormattedMetadata, publicClient, walletClient, mockDataSets } from "../helpers";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { encodeFunctionResult, isHex, parseAbi, stringToHex } from "viem";
 
 describe("Allows for minting claims from an allowlist", () => {
-  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(mockCorrectMetadataCid);
-  const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(mockCorrectMetadataCid);
-
-  const setUp = async () => {
-    const provider = new MockProvider({
-      ganacheOptions: {
-        chain: { chainId: 5 },
-      },
-    });
-    const [user, other, admin] = provider.getWallets();
-    const stub = sinon.stub(provider, "on");
-
-    const minter = await deployMockContract(user, HypercertMinterAbi, {
-      address: deployments[5].contractAddress,
-      override: true,
-    });
-
-    const client = await new HypercertClient({
-      environment: 5,
-      nftStorageToken: process.env.NFT_STORAGE_TOKEN,
-      web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
-    }).connect(user);
-
-    sinon.replaceGetter(client, "contract", () => minter as unknown as HypercertMinter);
-
-    return {
-      client,
-      provider,
-      users: { user, other, admin },
-      minter,
-      stub,
-    };
-  };
-
-  let _client: HypercertClient;
-  let _provider: MockProvider;
-  let _users: { user: ethers.Wallet; other: ethers.Wallet; admin: ethers.Wallet };
-  let _minter: MockContract;
-  let _stub: sinon.SinonStub;
-
-  beforeAll(async () => {
-    const { client, provider, users, minter, stub } = await setUp();
-    _client = client;
-    _provider = provider;
-    _users = users;
-    _minter = minter;
-    _stub = stub;
+  const { hypercertData, hypercertMetadata } = mockDataSets;
+  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(hypercertMetadata.cid);
+  const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(hypercertData.cid);
+  const wallet = walletClient;
+  const userAddress = wallet.account.address;
+  const client = new HypercertClient({
+    id: 5,
+    walletClient,
+    publicClient,
   });
 
-  beforeEach(() => {
-    _provider.clearCallHistory();
+  const readSpy = sinon.stub(publicClient, "request");
+  let writeSpy = sinon.stub(walletClient, "writeContract");
+
+  const mintClaimFromAllowlistResult = encodeFunctionResult({
+    abi: parseAbi(HypercertMinterAbi),
+    functionName: "mintClaimFromAllowlist",
+    result: [],
+  });
+
+  const batchMintClaimFromAllowlistResult = encodeFunctionResult({
+    abi: parseAbi(HypercertMinterAbi),
+    functionName: "batchMintClaimsFromAllowlists",
+    result: [],
+  });
+
+  const mintClaimResult = encodeFunctionResult({
+    abi: parseAbi(HypercertMinterAbi),
+    functionName: "createAllowlist",
+    result: [],
+  });
+
+  beforeEach(async () => {
+    readSpy.resetBehavior();
+    readSpy.resetHistory();
+
+    writeSpy.resetBehavior();
+    writeSpy.resetHistory();
+
+    metaDataStub.resetHistory();
+    dataStub.resetHistory();
   });
 
   afterAll(() => {
@@ -73,22 +61,24 @@ describe("Allows for minting claims from an allowlist", () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      await _minter.mock.createAllowlist.returns();
-      const res = await _client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
+      writeSpy = writeSpy.resolves(mintClaimResult);
 
-      sinon.assert.calledOnce(metaDataStub);
-      sinon.assert.calledOnce(dataStub);
+      const hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
 
-      expect(res.chainId).toBe(5);
-      expect(_provider.callHistory.length).toBe(2);
+      expect(isHex(hash)).toBeTruthy();
+      expect(metaDataStub.callCount).toBe(1);
+      expect(dataStub.callCount).toBe(1);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(1);
     });
 
     it("should not create an allowlist if the total units mismatch", async () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
+      let hash;
       try {
-        await _client.createAllowlist(allowlist, metaData, totalUnits.add(1), TransferRestrictions.FromCreatorOnly);
+        hash = await client.createAllowlist(allowlist, metaData, totalUnits + 1n, TransferRestrictions.FromCreatorOnly);
       } catch (e) {
         expect(e instanceof MalformedDataError).toBeTruthy();
 
@@ -99,28 +89,40 @@ describe("Allows for minting claims from an allowlist", () => {
         });
       }
 
-      expect(_provider.callHistory.length).toBe(0);
-      expect.assertions(4);
+      expect(hash).toBeUndefined();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(0);
+      expect.assertions(8);
     });
 
     it("should not create an allowlist if the allowlist is empty", async () => {
-      const { allowlist, totalUnits } = getAllowlist({ size: 1 });
+      const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      allowlist[0].units = BigNumber.from(0);
+      let hash;
+
+      allowlist[0].units = 0n;
 
       try {
-        await _client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
+        hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
       } catch (e) {
         expect(e instanceof MalformedDataError).toBeTruthy();
 
         const error = e as MalformedDataError;
         expect(error.message).toBe("Allowlist validation failed");
-        expect(error.payload).toEqual({ units: "Total units in allowlist must be greater than 0" });
+        expect(error.payload).toEqual({
+          units: "Total units in allowlist must match total units [expected: 10, got: 9]",
+        });
       }
 
-      expect(_provider.callHistory.length).toBe(0);
-      expect.assertions(4);
+      expect(hash).toBeUndefined();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(0);
+      expect.assertions(8);
     });
   });
 
@@ -128,41 +130,53 @@ describe("Allows for minting claims from an allowlist", () => {
     it("should allow to mint a claim from an allowlist without the root", async () => {
       const { allowlist, merkleTree } = getAllowlist({ size: 1 });
 
-      await _minter.mock.mintClaimFromAllowlist.returns();
+      writeSpy = writeSpy.resolves(mintClaimFromAllowlistResult);
 
-      await _client.mintClaimFractionFromAllowlist(
-        1,
+      const hash = await client.mintClaimFractionFromAllowlist(
+        1n,
         allowlist[0].units,
-        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]),
+        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
       );
 
-      expect(_provider.callHistory.length).toBe(2);
+      expect(isHex(hash)).toBeTruthy();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(1);
+      expect.assertions(5);
     });
 
     it("should allow to mint a claim from an allowlist with a correct root", async () => {
-      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
+      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: userAddress });
 
-      await _minter.mock.mintClaimFromAllowlist.returns();
+      writeSpy = writeSpy.resolves(mintClaimFromAllowlistResult);
 
-      await _client.mintClaimFractionFromAllowlist(
-        1,
+      const hash = await client.mintClaimFractionFromAllowlist(
+        1n,
         allowlist[0].units,
-        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]),
-        merkleTree.root,
+        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
+        merkleTree.root as `0x${string}`,
       );
 
-      expect(_provider.callHistory.length).toBe(2);
+      expect(isHex(hash)).toBeTruthy();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(1);
+      expect.assertions(5);
     });
 
     it("should not allow to mint a claim from an allowlist with an incorrect root", async () => {
-      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
+      const { allowlist, merkleTree } = getAllowlist({ size: 1, address: userAddress });
 
-      const mockRoot = ethers.utils.formatBytes32String("MOCK_ROOT");
+      const mockRoot = stringToHex("MOCK_ROOT", { size: 32 });
+
+      let hash;
       try {
-        await _client.mintClaimFractionFromAllowlist(
-          1,
+        hash = await client.mintClaimFractionFromAllowlist(
+          1n,
           allowlist[0].units,
-          merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]),
+          merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
           mockRoot,
         );
       } catch (e) {
@@ -176,17 +190,21 @@ describe("Allows for minting claims from an allowlist", () => {
         });
       }
 
-      expect(_provider.callHistory.length).toBe(0);
-      expect.assertions(4);
+      expect(hash).toBeUndefined();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(0);
+      expect.assertions(8);
     });
   });
 
   describe("Batch mint fractions", () => {
     it("should allow to batch mint a claim from an allowlist without the root", async () => {
       const firstList = getAllowlist({ size: 1 });
-      const secondList = getAllowlist({ size: 1, units: 42 });
+      const secondList = getAllowlist({ size: 1, units: 42n });
 
-      await _minter.mock.batchMintClaimsFromAllowlists.returns();
+      writeSpy = writeSpy.resolves(batchMintClaimFromAllowlistResult);
 
       const firstProofs = firstList.merkleTree.getProof([
         firstList.allowlist[0].address,
@@ -196,20 +214,25 @@ describe("Allows for minting claims from an allowlist", () => {
         secondList.allowlist[0].address,
         secondList.allowlist[0].units.toString(),
       ]);
-      await _client.batchMintClaimFractionsFromAllowlists(
-        [1, 2],
+      const hash = await client.batchMintClaimFractionsFromAllowlists(
+        [1n, 2n],
         [firstList.allowlist[0].units, secondList.allowlist[0].units],
-        [firstProofs, secondProofs],
+        [firstProofs, secondProofs] as `0x${string}`[][],
       );
 
-      expect(_provider.callHistory.length).toBe(2);
+      expect(isHex(hash)).toBeTruthy();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(1);
+      expect.assertions(5);
     });
 
     it("should allow to mint a claim from an allowlist with a correct root", async () => {
-      const firstList = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
-      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address as `0x${string}` });
+      const firstList = getAllowlist({ size: 1, address: userAddress });
+      const secondList = getAllowlist({ size: 1, units: 42n, address: userAddress });
 
-      await _minter.mock.batchMintClaimsFromAllowlists.returns();
+      writeSpy = writeSpy.resolves(batchMintClaimFromAllowlistResult);
 
       const firstProofs = firstList.merkleTree.getProof([
         firstList.allowlist[0].address,
@@ -219,21 +242,26 @@ describe("Allows for minting claims from an allowlist", () => {
         secondList.allowlist[0].address,
         secondList.allowlist[0].units.toString(),
       ]);
-      await _client.batchMintClaimFractionsFromAllowlists(
-        [1, 2],
+      const hash = await client.batchMintClaimFractionsFromAllowlists(
+        [1n, 2n],
         [firstList.allowlist[0].units, secondList.allowlist[0].units],
-        [firstProofs, secondProofs],
-        [firstList.merkleTree.root, secondList.merkleTree.root],
+        [firstProofs, secondProofs] as `0x${string}`[][],
+        [firstList.merkleTree.root, secondList.merkleTree.root] as `0x${string}`[],
       );
 
-      expect(_provider.callHistory.length).toBe(2);
+      expect(isHex(hash)).toBeTruthy();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(1);
+      expect.assertions(5);
     });
 
     it("should not allow to mint a claim from an allowlist with an incorrect root", async () => {
-      const firstList = getAllowlist({ size: 1, address: _users.user.address as `0x${string}` });
-      const secondList = getAllowlist({ size: 1, units: 42, address: _users.user.address as `0x${string}` });
+      const firstList = getAllowlist({ size: 1, address: userAddress });
+      const secondList = getAllowlist({ size: 1, units: 42n, address: userAddress });
 
-      await _minter.mock.batchMintClaimsFromAllowlists.returns();
+      writeSpy = writeSpy.resolves(batchMintClaimFromAllowlistResult);
 
       const firstProofs = firstList.merkleTree.getProof([
         firstList.allowlist[0].address,
@@ -244,13 +272,14 @@ describe("Allows for minting claims from an allowlist", () => {
         secondList.allowlist[0].units.toString(),
       ]);
 
-      const mockRoot = ethers.utils.formatBytes32String("MOCK_ROOT");
+      const mockRoot = stringToHex("MOCK_ROOT", { size: 32 });
+      let hash;
       try {
-        await _client.batchMintClaimFractionsFromAllowlists(
-          [1, 2],
+        hash = await client.batchMintClaimFractionsFromAllowlists(
+          [1n, 2n],
           [firstList.allowlist[0].units, secondList.allowlist[0].units],
-          [firstProofs, secondProofs],
-          [firstList.merkleTree.root, mockRoot],
+          [firstProofs, secondProofs] as `0x${string}`[][],
+          [firstList.merkleTree.root as `0x${string}`, mockRoot],
         );
       } catch (e) {
         expect(e instanceof MintingError).toBeTruthy();
@@ -263,8 +292,12 @@ describe("Allows for minting claims from an allowlist", () => {
         });
       }
 
-      // Signer getAddress
-      expect(_provider.callHistory.length).toBe(1);
+      expect(hash).toBeUndefined();
+      expect(metaDataStub.callCount).toBe(0);
+      expect(dataStub.callCount).toBe(0);
+      expect(readSpy.callCount).toBe(0);
+      expect(writeSpy.callCount).toBe(0);
+      expect.assertions(8);
     });
   });
 });

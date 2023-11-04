@@ -2,50 +2,12 @@ import chai, { expect } from "chai";
 import chaiSubset from "chai-subset";
 import sinon from "sinon";
 
-import {
-  ConfigurationError,
-  Environment,
-  HypercertClientConfig,
-  InvalidOrMissingError,
-  UnsupportedChainError,
-} from "../../src/types";
-import { getReadOnlyConfig, getWritableConfig } from "../../src/utils/config";
+import { ConfigurationError, HypercertClientConfig, InvalidOrMissingError } from "../../src/types";
+import { getConfig } from "../../src/utils/config";
 import { reloadEnv } from "../../test/setup-env";
-import { deployments } from "../../src";
-import { ethers } from "ethers";
-import { MockProvider } from "ethereum-waffle";
+import { walletClient, publicClient } from "../helpers";
 
 chai.use(chaiSubset);
-
-const defaultOverrides: Partial<HypercertClientConfig> = {
-  environment: 5,
-  chainId: 5,
-  chainName: "testnet",
-  graphUrl: "https://api.example.com",
-  contractAddress: "0x1234567890123456789012345678901234567890",
-  unsafeForceOverrideConfig: true,
-};
-
-describe("Config: environment", () => {
-  it("should throw an error when the environment is not supported", () => {
-    const falseEnvironment = "DEGEN_COUNTRY" as Environment;
-    try {
-      getReadOnlyConfig({ environment: falseEnvironment });
-      expect.fail("Should throw UnsupportedChainError");
-    } catch (e) {
-      expect(e instanceof UnsupportedChainError).to.be.true;
-      const error = e as UnsupportedChainError;
-      expect(error.message).to.eq(`No default config for environment=${falseEnvironment} found in SDK`);
-    }
-  });
-
-  it("should return the environment according to the chainId provided", () => {
-    const environment = 5 as Environment;
-    const config = getReadOnlyConfig({ environment });
-    const expectedDeployment = deployments[5];
-    expect(config).to.deep.include(expectedDeployment);
-  });
-});
 
 describe("Config: contractAddress", () => {
   afterEach(() => {
@@ -55,17 +17,22 @@ describe("Config: contractAddress", () => {
   });
 
   it("should return the contract address specified by overrides", () => {
-    const config = getReadOnlyConfig(defaultOverrides);
-    expect(config.contractAddress).to.equal(defaultOverrides.contractAddress);
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      contractAddress: "0x1234567890123456789012345678901234567890",
+    };
+    const config = getConfig(overrides);
+    expect(config.contractAddress).to.equal(overrides.contractAddress);
   });
 
   it("should throw an error when the contract address specified by overrides is invalid", () => {
+    const overrides: Partial<HypercertClientConfig> = { id: 5, contractAddress: "invalid-address" };
     try {
-      getReadOnlyConfig({ ...defaultOverrides, contractAddress: "invalid-address" });
-      expect.fail("Should throw UnsupportedChainError");
+      getConfig(overrides);
     } catch (e) {
       expect(e instanceof InvalidOrMissingError).to.be.true;
-      expect((e as Error).message).to.eq("Provided contract address in overrides is not an address");
+      const error = e as InvalidOrMissingError;
+      expect(error.message).to.eq("Invalid contract address.");
     }
   });
 });
@@ -75,34 +42,53 @@ describe("Config: graphUrl", () => {
     reloadEnv();
   });
 
-  it("should return the default graphUrl for the environment when no overrides are specified", () => {
-    const result = getReadOnlyConfig({ environment: 5 });
-    expect(result.graphUrl).to.equal(deployments[5].graphUrl);
+  it("should return the default graphUrl when no overrides are specified", () => {
+    const result = getConfig({ id: 5 });
+    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet");
   });
 
   it("should return the config specified by overrides", () => {
-    const result = getReadOnlyConfig(defaultOverrides);
-    expect(result.graphUrl).to.equal(defaultOverrides.graphUrl);
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      graphUrl: "https://api.example.com",
+      contractAddress: "0x1234567890123456789012345678901234567890",
+      unsafeForceOverrideConfig: true,
+    };
+    const result = getConfig(overrides);
+    expect(result.graphUrl).to.equal(overrides.graphUrl);
   });
 
   it("should throw an error when the graph URL specified by overrides is invalid", () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      graphUrl: "incorrect-url",
+      contractAddress: "0x1234567890123456789012345678901234567890",
+      unsafeForceOverrideConfig: true,
+    };
+
     try {
-      getReadOnlyConfig({ ...defaultOverrides, graphUrl: "incorrect-url" });
-      expect.fail("Should have failed on Graph URL");
+      getConfig(overrides);
     } catch (e) {
-      expect(e instanceof InvalidOrMissingError).to.be.true;
-      expect((e as Error).message).to.equal("Provided graph URL in overrides is not a valid URL");
+      expect(e instanceof ConfigurationError).to.be.true;
+      const error = e as ConfigurationError;
+      expect(error.message).to.eq("Invalid graph URL");
     }
   });
 
   it("should throw an error when the graph URL specified by overrides is missing", () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      contractAddress: "0x1234567890123456789012345678901234567890",
+      unsafeForceOverrideConfig: true,
+    };
+
     try {
-      getReadOnlyConfig({ ...defaultOverrides, graphUrl: undefined });
-      expect.fail("Should have failed on Graph URL");
+      getConfig(overrides);
     } catch (e) {
       expect(e instanceof InvalidOrMissingError).to.be.true;
-      expect((e as Error).message).to.equal(
-        "attempted to override with chainId=5, but requires chainId, chainName, graphUrl, and contractAddress to be set",
+      const error = e as InvalidOrMissingError;
+      expect(error.message).to.eq(
+        "attempted to override with chainId=5, but requires chainName, graphUrl, and contractAddress to be set",
       );
     }
   });
@@ -114,72 +100,117 @@ describe("Config: nftStorageToken & web3storageToken", () => {
 
     reloadEnv();
   });
-  it("should not return an nftStorageToken when no overrides are specified", () => {
-    const result = getReadOnlyConfig({ environment: 5 });
-    expect(result.nftStorageToken).to.be.undefined;
-    expect(result.web3StorageToken).to.be.undefined;
+  it("should return an empty object when no overrides or environment variables are specified", () => {
+    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: "NFTSTOR" });
+
+    const result = getConfig({ id: 5 });
+    expect(result).to.deep.include({
+      id: 5,
+      nftStorageToken: "NFTSTOR",
+    });
   });
 
   it("should return the nftStorageToken specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      ...defaultOverrides,
+      id: 5,
       nftStorageToken: "NFTSTOR",
       web3StorageToken: "WEB3STOR",
     };
-    const result = getReadOnlyConfig(overrides);
+    const result = getConfig(overrides);
     expect(result).to.deep.include({
       nftStorageToken: overrides.nftStorageToken,
       web3StorageToken: overrides.web3StorageToken,
     });
   });
+
+  it("should return the nftStorageToken specified by the NFT_STORAGE_TOKEN environment variable", () => {
+    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: "NFTSTOR" });
+    const result = getConfig({ id: 5 });
+    expect(result).to.deep.include({
+      nftStorageToken: "NFTSTOR",
+    });
+  });
+  it("should not throw an error when the nftStorageToken specified by overrides is invalid", () => {
+    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
+
+    const overrides: Partial<HypercertClientConfig> = { id: 5 };
+    expect(() => getConfig(overrides)).to.not.throw();
+  });
 });
 
-describe("Config: getOperator", () => {
+describe("Config: getPublicClient", () => {
   afterEach(() => {
     sinon.restore();
 
     reloadEnv();
   });
-  it("should not return a provider when no overrides or environment variables are specified", async () => {
-    try {
-      await getWritableConfig(defaultOverrides);
-    } catch (e) {
-      expect(e instanceof ConfigurationError).to.be.true;
-      expect((e as Error).message).to.eq("An operator must be provided to sign and submit transactions");
-    }
+
+  it("should return the operator specified by overrides", () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      publicClient,
+    };
+    const result = getConfig(overrides);
+    expect(result.publicClient).to.equal(overrides.publicClient);
+  });
+});
+
+describe("Config: getWalletClient", () => {
+  afterEach(() => {
+    sinon.restore();
+
+    reloadEnv();
   });
 
-  it("should return the operator specified by client config", async () => {
-    const chainIdStub = sinon.stub(ethers.Signer.prototype, "getChainId").resolves(5);
-    const provider = new MockProvider({
-      ganacheOptions: {
-        chain: { chainId: 5 },
-      },
+  it("should return the operator specified by overrides", () => {
+    const overrides: Partial<HypercertClientConfig> = {
+      id: 5,
+      walletClient,
+    };
+    const result = getConfig(overrides);
+    expect(result.walletClient).to.equal(overrides.walletClient);
+  });
+});
+
+describe("Config: web3StorageToken", () => {
+  afterEach(() => {
+    sinon.restore();
+
+    reloadEnv();
+  });
+
+  it("should return an empty object when no overrides or environment variables are specified", () => {
+    const WEB3_STORAGE_TOKEN = "WEB3";
+    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN });
+    const result = getConfig({ id: 5 });
+    expect(result).to.deep.include({
+      web3StorageToken: WEB3_STORAGE_TOKEN,
     });
-
-    const signer = ethers.Wallet.createRandom().connect(provider);
-
-    const overrides: Partial<HypercertClientConfig> = {
-      ...defaultOverrides,
-      operator: signer,
-    };
-
-    const result = await getWritableConfig(overrides);
-    expect(result.operator).to.not.be.undefined;
   });
 
-  it("should throw an error when the operator specified by overrides is invalid", async () => {
+  it("should return the web3StorageToken specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      ...defaultOverrides,
-      operator: "invalid" as unknown as ethers.Signer,
+      id: 5,
+      web3StorageToken: "WEB3STOR",
     };
+    const result = getConfig(overrides);
+    expect(result).to.deep.include({
+      web3StorageToken: overrides.web3StorageToken,
+    });
+  });
 
-    try {
-      await getWritableConfig(overrides);
-      expect.fail("Should have failed on incorrect operator");
-    } catch (e) {
-      expect(e instanceof ConfigurationError).to.be.true;
-      expect((e as Error).message).to.eq("An operator must be provided to sign and submit transactions");
-    }
+  it("should return the web3StorageToken specified by the WEB3_STORAGE_TOKEN environment variable", () => {
+    const WEB3_STORAGE_TOKEN = "WEB3";
+    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN });
+    const result = getConfig({ id: 5 });
+    expect(result).to.deep.include({
+      web3StorageToken: WEB3_STORAGE_TOKEN,
+    });
+  });
+
+  it("should not throw an error when the web3StorageToken specified by overrides is invalid", () => {
+    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
+    const overrides: Partial<HypercertClientConfig> = { id: 5 };
+    expect(() => getConfig(overrides)).to.not.throw();
   });
 });

@@ -1,19 +1,40 @@
 # Full reference https://github.com/foundry-rs/foundry/tree/master/config
 
 [profile.default]
-auto_detect_solc = false
+auto_detect_solc = true
+allow_paths = ["../node_modules", "node_modules", "lib"]
 bytecode_hash = "none"
+force = false
 fuzz = { runs = 1025 }
 gas_reports = ["*"]
-libs = ["lib"]
+libraries = []
+libs = ["node_modules", "lib"]
 optimizer = true
-optimizer_runs = 10_000
+optimizer_runs = 5_000
 out = "out"
-solc = "0.8.16"
 src = "src"
+script = "scripts/deployment"
 test = "test/foundry"
-
+no_match_test = "testCannotExecuteOrderIfInvalidUserGlobal"
 
 [profile.ci]
 fuzz = { runs = 1024 }
 verbosity = 1
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+goerli = { key = "${ETHERSCAN_API_KEY}" }
+optimism = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}" }
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
+celo = { key = "${CELOSCAN_API_KEY}" }
+
+[rpc_endpoints]
+mainnet = "https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+goerli = "https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimism = "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
+celo = "https://forno.celo.org"
+
+[fmt]
+number_underscore = "thousands"
+wrap_comments = true

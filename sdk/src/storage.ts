@@ -1,5 +1,9 @@
 import axios from "axios";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Blob, File, Web3Storage } from "web3.storage";
 
 import { validateMetaData } from "./validator";
@@ -31,14 +35,14 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @param overrides The configuration overrides for the storage.
    */
   constructor(overrides: Partial<HypercertStorageConfig>) {
-    const nftStorageToken = getNftStorageToken(overrides);
-    const web3StorageToken = getWeb3StorageToken(overrides);
+    const { nftStorageToken } = getNftStorageToken(overrides);
+    const { web3StorageToken } = getWeb3StorageToken(overrides);
 
-    if (!nftStorageToken || nftStorageToken === "") {
+    if (!nftStorageToken) {
       logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
     }
 
-    if (!web3StorageToken || web3StorageToken === "") {
+    if (!web3StorageToken) {
       logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
     }
 
@@ -46,11 +50,25 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       logger.warn("HypercertsStorage is read only", "storage");
       this.readonly = true;
     } else {
-      this.nftStorageClient = new NFTStorage({ token: nftStorageToken });
-      this.web3StorageClient = new Web3Storage({ token: web3StorageToken });
+      this.nftStorageClient = new NFTStorage({ token: nftStorageToken || "" });
+      this.web3StorageClient = new Web3Storage({ web3StorageToken });
       this.readonly = false;
     }
   }
+
+  getFromIPFS = async (cidOrIpfsUri: string) => {
+    const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
+    logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+
+    //TODO add fallback methods
+    const res = await axios.get(nftStorageGatewayLink);
+
+    if (!res || !res.data) {
+      throw new StorageError(`Failed to get ${cidOrIpfsUri}`);
+    }
+
+    return res.data;
+  };
 
   /**
    * Stores metadata for a Hypercert.
@@ -92,22 +110,14 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @throws A `MalformedDataError` if the metadata is invalid. E.g. unknown schema
    */
   public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
-    const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+    const res = await this.getFromIPFS(cidOrIpfsUri);
 
-    const res = await axios.get<HypercertMetadata>(nftStorageGatewayLink);
-
-    if (!res || !res.data) {
-      throw new StorageError(`Failed to get ${cidOrIpfsUri}`);
-    }
-
-    const data = res.data;
-    const validation = validateMetaData(data);
+    const validation = validateMetaData(res);
     if (!validation.valid) {
       throw new MalformedDataError(`Invalid metadata at ${cidOrIpfsUri}`, { errors: validation.errors });
     }
 
-    return data;
+    return res;
   }
 
   /**
@@ -169,10 +179,9 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     */
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
-    const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
-    logger.info(`Getting data ${cidOrIpfsUri} at ${nftStorageGatewayLink}`, "storage");
+    const res = await this.getFromIPFS(cidOrIpfsUri);
 
-    return axios.get(nftStorageGatewayLink).then((result) => result.data);
+    return res;
   }
 
   getNftStorageGatewayUri = (cidOrIpfsUri: string) => {

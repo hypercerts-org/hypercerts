@@ -4,6 +4,6 @@ packages:
   - "docs"
   - "frontend"
   - "graph"
-  - "vendor/observabletreemap"
   - "sdk"
+  - "vendor/observabletreemap"
   - "contracts"

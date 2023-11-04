@@ -1,10 +1,8 @@
 {
   "editor.formatOnSave": true,
-  "solidity.formatter": "prettier",
   "solidity.packageDefaultDependenciesContractsDirectory": "src",
   "solidity.packageDefaultDependenciesDirectory": "lib",
   "solidity.remappings": ["./remappings.txt"],
-  "solidity.defaultCompiler": "remoteFile",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

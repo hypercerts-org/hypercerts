@@ -1,13 +1,9 @@
 import { expect } from "chai";
-import { MockProvider } from "ethereum-waffle";
-import { ethers } from "ethers";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src";
-import { AllowlistEntry, ClientError, SupportedChainIds, UnsupportedChainError } from "../src/types";
-
-const provider = new MockProvider({ ganacheOptions: { chain: { chainId: 5 } } });
-sinon.stub(provider, "on");
+import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types";
+import { publicClient, walletClient } from "./helpers";
 
 describe("HypercertClient setup tests", () => {
   afterAll(() => {
@@ -15,36 +11,34 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should be able to create a new read only instance when missing storage keys", () => {
-    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
+    const readOnlyClient = new HypercertClient({
+      id: 5,
+      publicClient,
+    });
 
-    const client = new HypercertClient({ environment: "test" });
-
-    expect(client).to.be.an.instanceOf(HypercertClient);
-    expect(client.readonly).to.be.true;
+    expect(readOnlyClient).to.be.an.instanceOf(HypercertClient);
+    expect(readOnlyClient.readonly).to.be.true;
   });
 
-  it("should be able to create a new instance", async () => {
-    const operator = ethers.Wallet.createRandom().connect(provider);
-
-    const config = { environment: 5, nftStorageToken: "test", web3StorageToken: "test" };
-    const client = await new HypercertClient(config).connect(operator);
+  it("should be able to create a new instance", () => {
+    const config = { id: 5, publicClient, walletClient, nftStorageToken: "test", web3StorageToken: "test" };
+    const client = new HypercertClient(config);
     expect(client).to.be.an.instanceOf(HypercertClient);
+
+    //TODO currently only publicClient added as a test, also add other flows
     expect(client.readonly).to.be.false;
   });
 
   it("should throw an error when the chainId is not supported", () => {
     const falseChainId = 1337;
     try {
-      new HypercertClient({ environment: falseChainId as SupportedChainIds });
+      new HypercertClient({ id: falseChainId });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e).to.be.instanceOf(UnsupportedChainError);
 
       const error = e as UnsupportedChainError;
-      expect(error.message).to.eq(`No default config for environment=${falseChainId} found in SDK`);
+      expect(error.message).to.eq("No default config for chainId=1337 found in SDK");
       expect(Number(error.payload?.chainID)).to.eq(falseChainId);
     }
   });
@@ -55,12 +49,12 @@ describe("HypercertClient setup tests", () => {
     sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
     sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
 
-    const client = new HypercertClient({ environment: "test" });
+    const client = new HypercertClient({ id: 5 });
 
     // mintClaim
     try {
       const metaData = { name: "test" } as HypercertMetadata;
-      const totalUnits = 1;
+      const totalUnits = 1n;
       const transferRestrictions = TransferRestrictions.AllowAll;
 
       await client.mintClaim(metaData, totalUnits, transferRestrictions);
@@ -75,9 +69,9 @@ describe("HypercertClient setup tests", () => {
 
     // createAllowlist
     try {
-      const allowlist: AllowlistEntry[] = [{ address: "0x0000000", units: 100 }];
+      const allowlist: AllowlistEntry[] = [{ address: "0x0000000", units: 100n }];
       const metaData = { name: "test" } as HypercertMetadata;
-      const totalUnits = 1;
+      const totalUnits = 1n;
       const transferRestrictions = TransferRestrictions.AllowAll;
 
       await client.createAllowlist(allowlist, metaData, totalUnits, transferRestrictions);
@@ -92,8 +86,8 @@ describe("HypercertClient setup tests", () => {
 
     // splitClaimUnits
     try {
-      const claimId = 1;
-      const fractions = [100, 200];
+      const claimId = 1n;
+      const fractions = [100n, 200n];
 
       await client.splitFractionUnits(claimId, fractions);
       expect.fail("Should throw ClientError");
@@ -107,9 +101,9 @@ describe("HypercertClient setup tests", () => {
 
     // mergeClaimUnits
     try {
-      const claimIds = [1, 2];
+      const claimIds = [1n, 2n];
 
-      await client.mergeClaimFractions(claimIds);
+      await client.mergeFractionUnits(claimIds);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -121,7 +115,7 @@ describe("HypercertClient setup tests", () => {
 
     // burnClaimFraction
     try {
-      const claimId = 1;
+      const claimId = 1n;
 
       await client.burnClaimFraction(claimId);
       expect.fail("Should throw ClientError");
@@ -135,10 +129,10 @@ describe("HypercertClient setup tests", () => {
 
     // mintClaimFractionFromAllowlist
     try {
-      const claimId = 1;
-      const units = 100;
-      const proof = ["0x1", "0x2", "0x3"];
-      const root = "0x4";
+      const claimId = 1n;
+      const units = 100n;
+      const proof = ["0x1", "0x2", "0x3"] as `0x${string}`[];
+      const root = "0x4" as `0x${string}`;
 
       await client.mintClaimFractionFromAllowlist(claimId, units, proof, root);
       expect.fail("Should throw ClientError");
@@ -152,13 +146,10 @@ describe("HypercertClient setup tests", () => {
 
     // batchMintClaimFractionsFromAllowlist
     try {
-      const claimIds = [1, 2];
-      const units = [100, 200];
-      const proofs = [
-        ["0x1", "0x2", "0x3"],
-        ["0x4", "0x5", "0x6"],
-      ];
-      const roots = ["0x7", "0x8"];
+      const claimIds = [1n, 2n];
+      const units = [100n, 200n];
+      const proofs = [["0x1", "0x2", "0x3"] as `0x${string}`[], ["0x4", "0x5", "0x6"] as `0x${string}`[]];
+      const roots = ["0x7", "0x8"] as `0x${string}`[];
 
       await client.batchMintClaimFractionsFromAllowlists(claimIds, units, proofs, roots);
       expect.fail("Should throw ClientError");

@@ -2,8 +2,8 @@
   "compilerOptions": {
     "lib": ["ES6", "DOM", "ESNext"],
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "outDir": "dist",
     "allowJs": true,
@@ -22,5 +22,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/*.ts", "./src/**/*.ts", "./test", "global.d.ts"]
+  "include": ["./src/*.ts", "./src/**/*", "./test/*.ts", "./test/**/*.ts", "global.d.ts"]
 }

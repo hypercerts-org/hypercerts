@@ -1,0 +1,22 @@
+{
+  "5": {
+    "HypercertMinterUUPS": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    "HypercertMinterImplementation": "0x0a00a2f09cd37b24e7429c5238323bfebcff3ed9",
+    "TransferManager": "0x91CC106977934becc64e56987a89547077E95186",
+    "HypercertExchange": "0xE6563d73D19794d50526eB1B02441530ED190dc5"
+  },
+  "11155111": {
+    "HypercertMinterUUPS": "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+    "HypercertMinterImplementation": "0x0a0df97bddb36eef95fef089a4aeb7aceabf2101",
+    "TransferManager": "0x91CC106977934becc64e56987a89547077E95186",
+    "HypercertExchange": "0x7AFc7938130bd03b792C0B05C796f42E9beBB2D6"
+  },
+  "10": {
+    "HypercertMinterUUPS": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    "HypercertMinterImplementation": "0x396d5f1ef3aa92ddad4dead04388374a03bc5577"
+  },
+  "42220": {
+    "HypercertMinterUUPS": "0x16bA53B74c234C870c61EFC04cD418B8f2865959",
+    "HypercertMinterImplementation": "0x620257e9301a813be7cc5b75aae8dda3f6a926d2"
+  }
+}

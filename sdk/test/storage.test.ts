@@ -1,17 +1,12 @@
 import { expect } from "chai";
-import { providers } from "ethers";
-import sinon from "sinon";
-import { HypercertMetadata } from "src/index.js";
+import { HypercertMetadata } from "../src";
 
-import HypercertsStorage from "../src/storage.js";
-import { StorageError } from "../src/types/errors.js";
-import { reloadEnv } from "./setup-env.js";
+import HypercertsStorage from "../src/storage";
+import { StorageError } from "../src/types/errors";
+import { reloadEnv } from "./setup-env";
 
 describe("HypercertsStorage", () => {
-  let stub: sinon.SinonStub;
   beforeAll(() => {
-    stub = sinon.stub(providers.BaseProvider.prototype, "on");
-
     delete process.env.NFT_STORAGE_TOKEN;
     delete process.env.WEB3_STORAGE_TOKEN;
     delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
@@ -19,7 +14,6 @@ describe("HypercertsStorage", () => {
   });
 
   afterAll(() => {
-    stub.restore();
     reloadEnv();
   });
 

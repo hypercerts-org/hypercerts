@@ -6,7 +6,6 @@ const config: Config = {
   setupFiles: ["./test/setup-env.ts"],
   setupFilesAfterEnv: ["jest-extended/all"],
   rootDir: ".",
-  moduleDirectories: ["node_modules", "<rootDir>/src", ".graphclient"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
     "^@hypercerts-org/contracts$": require.resolve("@hypercerts-org/contracts"), // this is the trick!
@@ -15,6 +14,7 @@ const config: Config = {
   resolver: "ts-jest-resolver",
   moduleFileExtensions: ["js", "jsx", "json", "ts"],
   transform: {},
+  workerThreads: true,
 };
 
 export default config;
