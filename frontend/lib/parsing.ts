@@ -61,14 +61,19 @@ export function parseAllowlistCsv(
   const csvTotalPercentage = 1.0 - addTotalPercentage;
 
   // 75
-  const percentageBigInt = BigInt(Math.floor(csvTotalPercentage * 100)); // convert percentage to BigInt
-  const creatorSupply = (csvTotalSupply * 100n) / percentageBigInt; // calculate total supply
+  const csvTotalPercentageBigInt = BigInt(Math.floor(csvTotalPercentage * 100)); // convert percentage to BigInt
+  const addTotalPercentageBigInt = BigInt(Math.floor(addTotalPercentage * 100)); // convert percentage to BigInt
+  const creatorSupply =
+    (((csvTotalSupply * 100n) / csvTotalPercentageBigInt) *
+      addTotalPercentageBigInt) /
+    100n;
+  const totalSupply = csvTotalSupply + creatorSupply; // calculate total supply
 
   // TODO risk over overflow on units - casting bigint to number
   const data = csvData.concat(
     add.map((x) => ({
       address: x.address.trim().toLowerCase(),
-      units: creatorSupply,
+      units: (totalSupply * BigInt(Math.floor(x.percentage * 100))) / 100n,
     })),
   );
 
