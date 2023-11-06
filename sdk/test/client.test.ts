@@ -63,7 +63,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client instanceof HypercertClient).to.be.true;
     }
 
@@ -80,7 +80,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -95,7 +95,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -109,7 +109,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -123,7 +123,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -140,7 +140,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -157,7 +157,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
   });

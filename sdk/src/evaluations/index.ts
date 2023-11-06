@@ -1,9 +1,9 @@
-import { isAddress } from "ethers/lib/utils.js";
+import { isAddress } from "viem";
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertsStorage from "../storage.js";
+import HypercertsStorage from "../storage";
 import { HypercertClientConfig, HypercertEvaluationSchema, MalformedDataError } from "../types";
 
 export interface EvaluatorInterface {

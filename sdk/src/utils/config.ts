@@ -9,7 +9,7 @@ import {
   SupportedChainIds,
   UnsupportedChainError,
 } from "../types";
-import logger from "./logger.js";
+import logger from "./logger";
 import { createPublicClient, http, isAddress } from "viem";
 import { deployments } from "../../src";
 
@@ -125,11 +125,6 @@ const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
     }
     return { contractAddress: overrides.contractAddress };
   }
-  const contractAddress = process.env.CONTRACT_ADDRESS;
-  if (contractAddress && !isAddress(contractAddress)) {
-    throw new InvalidOrMissingError("Invalid contract address.", { contractAddress });
-  }
-  return contractAddress ? { contractAddress } : undefined;
 };
 
 const getGraphUrl = (overrides: Partial<HypercertClientConfig>) => {

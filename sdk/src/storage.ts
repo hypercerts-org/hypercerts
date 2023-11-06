@@ -38,17 +38,17 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     const { nftStorageToken } = getNftStorageToken(overrides);
     const { web3StorageToken } = getWeb3StorageToken(overrides);
 
-    if (!nftStorageToken) {
-      logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
-    }
-
-    if (!web3StorageToken) {
-      logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
-    }
-
     if (!nftStorageToken || !web3StorageToken) {
       logger.warn("HypercertsStorage is read only", "storage");
       this.readonly = true;
+
+      if (!nftStorageToken) {
+        logger.warn(`NFT Storage API key is missing or invalid: ${nftStorageToken}}`);
+      }
+
+      if (!web3StorageToken) {
+        logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
+      }
     } else {
       this.nftStorageClient = new NFTStorage({ token: nftStorageToken || "" });
       this.web3StorageClient = new Web3Storage({ web3StorageToken });
@@ -58,10 +58,14 @@ export default class HypercertsStorage implements HypercertStorageInterface {
 
   getFromIPFS = async (cidOrIpfsUri: string) => {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
+    const web3StorageGatewayLink = this.getWeb3StorageGatewayUri(cidOrIpfsUri);
     logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
-    //TODO add fallback methods
-    const res = await axios.get(nftStorageGatewayLink);
+    const res = await axios.get(nftStorageGatewayLink, { timeout: 5000 }).catch(() => {
+      logger.debug(`${nftStorageGatewayLink} timed out.`);
+      logger.debug(`Getting metadata ${cidOrIpfsUri} at ${web3StorageGatewayLink}`);
+      return axios.get(web3StorageGatewayLink, { timeout: 5000 });
+    });
 
     if (!res || !res.data) {
       throw new StorageError(`Failed to get ${cidOrIpfsUri}`);
@@ -187,5 +191,10 @@ export default class HypercertsStorage implements HypercertStorageInterface {
   getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
     const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
     return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
+  };
+
+  getWeb3StorageGatewayUri = (cidOrIpfsUri: string) => {
+    const WEB3_STORAGE_IPFS_GATEWAY = "https://w3s.link/ipfs/{cid}";
+    return WEB3_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
   };
 }

@@ -11,7 +11,7 @@ import {
   HypercertMetadata,
   MintingError,
   SimpleTextEvaluation,
-} from "../types/index.js";
+} from "../types";
 import { isAddress } from "viem";
 
 const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
