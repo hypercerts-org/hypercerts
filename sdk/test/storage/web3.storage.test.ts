@@ -3,8 +3,8 @@ import { jest } from "@jest/globals";
 // @ts-ignore
 import { Web3Storage } from "web3.storage";
 
-import HypercertsStorage from "../../src/storage.js";
-import { mockDataSets } from "../helpers.js";
+import HypercertsStorage from "../../src/storage";
+import { mockDataSets } from "../helpers";
 
 describe("Web3.Storage Client", () => {
   const { hypercertData, hypercertMetadata } = mockDataSets;
