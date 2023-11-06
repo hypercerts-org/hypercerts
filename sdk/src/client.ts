@@ -20,11 +20,23 @@ import logger from "./utils/logger";
 import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator";
 
 /**
- * Hypercerts client factory
- * @dev Creates a Hypercerts client instance
- * @notice The client is readonly if the storage is readonly (no nft.storage/web3.storage keys)
- * or if nog walletClient was found.
+ * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
+ *
+ * It encapsulates the logic for storage, evaluation, indexing, and wallet interactions, abstracting the complexity and providing a simple API for users.
+ * The client is read-only if the storage is read-only (no nft.storage/web3.storage keys) or if no walletClient was found.
+ *
+ * Here's an example of how to create a new instance of `HypercertClient`:
+ *
+ * ```typescript
+ * const config: Partial<HypercertClientConfig> = {
+ *  id: 5
+ * };
+ *
+ * const client = new HypercertClient(config);
+ * ```
+ *
  * @param config - Hypercerts client configuration
+ * @dev Creates a Hypercerts client instance
  */
 export default class HypercertClient implements HypercertClientInterface {
   readonly _config;

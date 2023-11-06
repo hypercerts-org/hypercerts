@@ -8,10 +8,10 @@ sources:
 
 additionalTypeDefs: |
   extend type Claim {
-    chainName: String!
+    graphName: String!
   }
    extend type ClaimToken {
-    chainName: String!
+    graphName: String!
   }
 
 additionalResolvers:
@@ -21,7 +21,7 @@ documents:
   - ./src/indexer/queries/*.graphql
 
 codegen:
-  contextType: "MeshContext & { graphUrl: string, chainName: string }"
+  contextType: "MeshContext & { graphUrl: string, graphName: string }"
 
 plugins:
   - pollingLive:

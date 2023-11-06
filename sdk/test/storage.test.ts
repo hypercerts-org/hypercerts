@@ -6,13 +6,6 @@ import { StorageError } from "../src/types/errors";
 import { reloadEnv } from "./setup-env";
 
 describe("HypercertsStorage", () => {
-  beforeAll(() => {
-    delete process.env.NFT_STORAGE_TOKEN;
-    delete process.env.WEB3_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
-  });
-
   afterAll(() => {
     reloadEnv();
   });
@@ -41,11 +34,6 @@ describe("HypercertsStorage", () => {
   });
 
   it("should throw an error when executing write method in readonly mode", async () => {
-    delete process.env.NFT_STORAGE_TOKEN;
-    delete process.env.WEB3_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
-    delete process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
-
     const client = new HypercertsStorage({});
 
     // storeMetadata

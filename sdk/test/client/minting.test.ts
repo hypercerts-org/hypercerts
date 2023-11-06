@@ -19,9 +19,11 @@ describe("mintClaim in HypercertClient", () => {
   const storeBlobMock = sinon.stub(NFTStorage, "storeBlob").resolves(mockCorrectMetadataCid);
 
   const client = new HypercertClient({
-    id: 5,
+    chain: { id: 5 },
     walletClient,
     publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");

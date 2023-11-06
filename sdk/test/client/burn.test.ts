@@ -9,9 +9,11 @@ describe("burn fraction tokens in HypercertClient", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    id: 5,
+    chain: { id: 5 },
     walletClient,
     publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;

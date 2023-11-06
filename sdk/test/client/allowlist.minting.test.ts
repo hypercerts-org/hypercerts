@@ -15,9 +15,11 @@ describe("Allows for minting claims from an allowlist", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    id: 5,
+    chain: { id: 5 },
     walletClient,
     publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");

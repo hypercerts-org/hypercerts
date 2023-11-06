@@ -282,7 +282,7 @@ export type Claim = {
   creator?: Maybe<Scalars['Bytes']>;
   owner?: Maybe<Scalars['Bytes']>;
   totalUnits?: Maybe<Scalars['BigInt']>;
-  chainName: Scalars['String'];
+  graphName: Scalars['String'];
 };
 
 export type ClaimToken = {
@@ -291,7 +291,7 @@ export type ClaimToken = {
   claim: Claim;
   owner: Scalars['Bytes'];
   units: Scalars['BigInt'];
-  chainName: Scalars['String'];
+  graphName: Scalars['String'];
 };
 
 export type ClaimToken_filter = {
@@ -681,21 +681,21 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type entityDirectiveArgs = { };
 
-export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, chainName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type subgraphIdDirectiveArgs = {
   id: Scalars['String'];
 };
 
-export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, chainName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type derivedFromDirectiveArgs = {
   field: Scalars['String'];
 };
 
-export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, chainName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   allowlist?: Resolver<Maybe<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: Resolver<Array<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: Resolver<Maybe<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<QueryclaimArgs, 'id' | 'subgraphError'>>;
@@ -705,7 +705,7 @@ export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, chain
   _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
 }>;
 
-export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   allowlist?: SubscriptionResolver<Maybe<ResolversTypes['Allowlist']>, "allowlist", ParentType, ContextType, RequireFields<SubscriptionallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: SubscriptionResolver<Array<ResolversTypes['Allowlist']>, "allowlists", ParentType, ContextType, RequireFields<SubscriptionallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: SubscriptionResolver<Maybe<ResolversTypes['Claim']>, "claim", ParentType, ContextType, RequireFields<SubscriptionclaimArgs, 'id' | 'subgraphError'>>;
@@ -715,7 +715,7 @@ export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string
   _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
 }>;
 
-export type AllowlistResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
+export type AllowlistResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   root?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
@@ -734,7 +734,7 @@ export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversType
   name: 'Bytes';
 }
 
-export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
+export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   creation?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -743,17 +743,17 @@ export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, chain
   creator?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   totalUnits?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  chainName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  graphName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ClaimTokenResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
+export type ClaimTokenResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   units?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  chainName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  graphName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -761,21 +761,21 @@ export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Int8';
 }
 
-export type _Block_Resolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
+export type _Block_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type _Meta_Resolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
+export type _Meta_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }> = ResolversObject<{
+export type Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   Allowlist?: AllowlistResolvers<ContextType>;
@@ -789,7 +789,7 @@ export type Resolvers<ContextType = MeshContext & { graphUrl: string, chainName:
   _Meta_?: _Meta_Resolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = MeshContext & { graphUrl: string, chainName: string }> = ResolversObject<{
+export type DirectiveResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
   entity?: entityDirectiveResolver<any, any, ContextType>;
   subgraphId?: subgraphIdDirectiveResolver<any, any, ContextType>;
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
@@ -852,7 +852,7 @@ sources[0] = {
           handler: hypercertsHandler,
           transforms: hypercertsTransforms
         }
-const additionalTypeDefs = [parse("extend type Claim {\n  chainName: String!\n}\n\nextend type ClaimToken {\n  chainName: String!\n}"),] as any[];
+const additionalTypeDefs = [parse("extend type Claim {\n  graphName: String!\n}\n\nextend type ClaimToken {\n  graphName: String!\n}"),] as any[];
 additionalEnvelopPlugins[0] = await UsePollingLive({
           ...({
   "defaultInterval": 5000
@@ -968,7 +968,7 @@ export type ClaimsByOwnerQueryVariables = Exact<{
 }>;
 
 
-export type ClaimsByOwnerQuery = { claims: Array<Pick<Claim, 'chainName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
+export type ClaimsByOwnerQuery = { claims: Array<Pick<Claim, 'graphName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
 
 export type RecentClaimsQueryVariables = Exact<{
   orderDirection?: InputMaybe<OrderDirection>;
@@ -977,14 +977,14 @@ export type RecentClaimsQueryVariables = Exact<{
 }>;
 
 
-export type RecentClaimsQuery = { claims: Array<Pick<Claim, 'chainName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
+export type RecentClaimsQuery = { claims: Array<Pick<Claim, 'graphName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
 
 export type ClaimByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type ClaimByIdQuery = { claim?: Maybe<Pick<Claim, 'chainName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
+export type ClaimByIdQuery = { claim?: Maybe<Pick<Claim, 'graphName' | 'contract' | 'tokenID' | 'creator' | 'id' | 'owner' | 'totalUnits' | 'uri'>> };
 
 export type ClaimTokensByOwnerQueryVariables = Exact<{
   owner?: InputMaybe<Scalars['Bytes']>;
@@ -995,7 +995,7 @@ export type ClaimTokensByOwnerQueryVariables = Exact<{
 
 
 export type ClaimTokensByOwnerQuery = { claimTokens: Array<(
-    Pick<ClaimToken, 'chainName' | 'id' | 'owner' | 'tokenID' | 'units'>
+    Pick<ClaimToken, 'graphName' | 'id' | 'owner' | 'tokenID' | 'units'>
     & { claim: Pick<Claim, 'id' | 'creation' | 'uri' | 'totalUnits'> }
   )> };
 
@@ -1007,7 +1007,7 @@ export type ClaimTokensByClaimQueryVariables = Exact<{
 }>;
 
 
-export type ClaimTokensByClaimQuery = { claimTokens: Array<Pick<ClaimToken, 'chainName' | 'id' | 'owner' | 'tokenID' | 'units'>> };
+export type ClaimTokensByClaimQuery = { claimTokens: Array<Pick<ClaimToken, 'graphName' | 'id' | 'owner' | 'tokenID' | 'units'>> };
 
 export type ClaimTokenByIdQueryVariables = Exact<{
   claimTokenId: Scalars['ID'];
@@ -1015,7 +1015,7 @@ export type ClaimTokenByIdQueryVariables = Exact<{
 
 
 export type ClaimTokenByIdQuery = { claimToken?: Maybe<(
-    Pick<ClaimToken, 'chainName' | 'id' | 'owner' | 'tokenID' | 'units'>
+    Pick<ClaimToken, 'graphName' | 'id' | 'owner' | 'tokenID' | 'units'>
     & { claim: Pick<Claim, 'id' | 'creation' | 'uri' | 'totalUnits'> }
   )> };
 
@@ -1028,7 +1028,7 @@ export const ClaimsByOwnerDocument = gql`
     first: $first
     orderDirection: $orderDirection
   ) {
-    chainName
+    graphName
     contract
     tokenID
     creator
@@ -1042,7 +1042,7 @@ export const ClaimsByOwnerDocument = gql`
 export const RecentClaimsDocument = gql`
     query RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {
   claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {
-    chainName
+    graphName
     contract
     tokenID
     creator
@@ -1056,7 +1056,7 @@ export const RecentClaimsDocument = gql`
 export const ClaimByIdDocument = gql`
     query ClaimById($id: ID!) {
   claim(id: $id) {
-    chainName
+    graphName
     contract
     tokenID
     creator
@@ -1075,7 +1075,7 @@ export const ClaimTokensByOwnerDocument = gql`
     first: $first
     orderDirection: $orderDirection
   ) {
-    chainName
+    graphName
     id
     owner
     tokenID
@@ -1097,7 +1097,7 @@ export const ClaimTokensByClaimDocument = gql`
     first: $first
     orderDirection: $orderDirection
   ) {
-    chainName
+    graphName
     id
     owner
     tokenID
@@ -1108,7 +1108,7 @@ export const ClaimTokensByClaimDocument = gql`
 export const ClaimTokenByIdDocument = gql`
     query ClaimTokenById($claimTokenId: ID!) {
   claimToken(id: $claimTokenId) {
-    chainName
+    graphName
     id
     owner
     tokenID

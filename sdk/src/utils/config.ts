@@ -31,35 +31,34 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   let baseDeployment: (Partial<Deployment> & { unsafeForceOverrideConfig?: boolean }) | undefined;
 
   if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.id || !overrides.contractAddress || !overrides.graphUrl) {
+    if (!overrides.chain?.id || !overrides.contractAddress || !overrides.graphUrl) {
       throw new InvalidOrMissingError(
-        `attempted to override with chainId=${overrides.id}, but requires chainName, graphUrl, and contractAddress to be set`,
+        `attempted to override with chainId=${overrides.chain?.id}, but requires chainName, graphUrl, and contractAddress to be set`,
         {
-          chainID: overrides.id?.toString(),
+          chainID: overrides.chain?.id?.toString(),
           graphUrl: overrides.graphUrl,
           contractAddress: overrides.contractAddress,
         },
       );
     }
     baseDeployment = {
-      ...chain,
-      id: overrides.id,
+      ...{ ...chain, id: overrides.chain?.id },
       contractAddress: overrides.contractAddress,
       graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
     //TODO doo many casts
-    baseDeployment = overrides.id
-      ? (getDeployment(overrides.id as SupportedChainIds) as Partial<Deployment> & {
+    baseDeployment = overrides.chain?.id
+      ? (getDeployment(overrides.chain?.id as SupportedChainIds) as Partial<Deployment> & {
           unsafeForceOverrideConfig?: boolean;
         })
       : chain?.id
       ? (getDeployment(chain.id as SupportedChainIds) as Partial<Deployment> & { unsafeForceOverrideConfig?: boolean })
       : undefined;
     if (!baseDeployment) {
-      throw new UnsupportedChainError(`Default config for chainId=${overrides.id} is missing in SDK`, {
-        chainID: overrides.id,
+      throw new UnsupportedChainError(`Default config for chainId=${overrides.chain?.id} is missing in SDK`, {
+        chainID: overrides.chain?.id,
       });
     }
 
@@ -97,11 +96,7 @@ const getDeployment = (chainId: SupportedChainIds) => {
 };
 
 const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
-  const chainId = overrides?.id
-    ? overrides.id
-    : process.env.DEFAULT_CHAIN_ID
-    ? parseInt(process.env.DEFAULT_CHAIN_ID)
-    : undefined;
+  const chainId = overrides?.chain?.id ? overrides.chain?.id : undefined;
 
   if (!chainId) {
     throw new ConfigurationError("No chainId specified in config or environment variables");
@@ -189,32 +184,12 @@ export const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) =>
   if (overrides.nftStorageToken) {
     return { nftStorageToken: overrides.nftStorageToken };
   }
-
-  if (process.env.NFT_STORAGE_TOKEN) {
-    return { nftStorageToken: process.env.NFT_STORAGE_TOKEN };
-  }
-
-  if (process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN) {
-    return { nftStorageToken: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN };
-  }
-
-  return {};
 };
 
 export const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
   if (overrides.web3StorageToken) {
     return { web3StorageToken: overrides.web3StorageToken };
   }
-
-  if (process.env.WEB3_STORAGE_TOKEN) {
-    return { web3StorageToken: process.env.WEB3_STORAGE_TOKEN };
-  }
-
-  if (process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN) {
-    return { web3StorageToken: process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN };
-  }
-
-  return {};
 };
 
 const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {

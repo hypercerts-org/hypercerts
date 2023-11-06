@@ -35,8 +35,8 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @param overrides The configuration overrides for the storage.
    */
   constructor(overrides: Partial<HypercertStorageConfig>) {
-    const { nftStorageToken } = getNftStorageToken(overrides);
-    const { web3StorageToken } = getWeb3StorageToken(overrides);
+    const nftStorageToken = getNftStorageToken(overrides);
+    const web3StorageToken = getWeb3StorageToken(overrides);
 
     if (!nftStorageToken || !web3StorageToken) {
       logger.warn("HypercertsStorage is read only", "storage");
@@ -50,7 +50,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
         logger.warn(`Web3 Storage API key is missing or invalid: ${web3StorageToken}`);
       }
     } else {
-      this.nftStorageClient = new NFTStorage({ token: nftStorageToken || "" });
+      this.nftStorageClient = new NFTStorage({ token: nftStorageToken.nftStorageToken || "" });
       this.web3StorageClient = new Web3Storage({ web3StorageToken });
       this.readonly = false;
     }

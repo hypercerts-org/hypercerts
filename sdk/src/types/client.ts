@@ -19,11 +19,13 @@ export type SupportedOverrides = {
 /**
  * Represents a deployment of a contract on a specific network.
  */
-export type Deployment = Chain & {
+export type Deployment = {
+  chain: Partial<Chain>;
   /** The address of the deployed contract. */
   contractAddress: string;
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
   graphUrl: string;
+  graphName: string;
 };
 
 /**

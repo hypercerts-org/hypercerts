@@ -10,18 +10,22 @@ const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercer
 const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
   5: {
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-testnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-testnet`,
   } as const,
   10: {
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-optimism-mainnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-optimism-mainnet`,
   } as const,
   42220: {
     contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+    graphName: "hypercerts-arbitrum",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
   },
   11155111: {
     contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+    graphName: "hypercerts-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
   } as const,
 };

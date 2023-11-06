@@ -56,12 +56,15 @@ export function parseAllowlistCsv(
   }
   // Combine CSV data with manually added addresses
   const csvTotalPercentage = 1.0 - addTotalPercentage;
-  const totalSupply = csvTotalSupply / BigInt(csvTotalPercentage);
+
+  const percentageBigInt = BigInt(Math.floor(csvTotalPercentage * 100)); // convert percentage to BigInt
+  const creatorSupply = (csvTotalSupply * 100n) / percentageBigInt; // calculate total supply
+
   // TODO risk over overflow on units - casting bigint to number
   const data = csvData.concat(
     add.map((x) => ({
       address: x.address.trim().toLowerCase(),
-      units: BigInt(Math.floor(Number(totalSupply) * x.percentage)),
+      units: creatorSupply,
     })),
   );
 
