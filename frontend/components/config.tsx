@@ -24,10 +24,13 @@ export function Config(props: ConfigProps) {
     ? Number(hypercertClient.config.chain.id)
     : undefined;
 
+  console.log(chainId);
+  console.log("Config: ", hypercertClient.config);
+
   const data: ConfigData = {
     domain: DOMAIN,
-    chainId,
-    graphUrl: hypercertClient.config.graphUrl,
+    chainId: chainId,
+    graphUrl: hypercertClient?.config.graphUrl,
     supabaseTable: SUPABASE_TABLE,
   };
   return (

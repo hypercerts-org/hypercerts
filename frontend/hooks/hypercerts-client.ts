@@ -1,35 +1,20 @@
 import React, { useEffect } from "react";
 
 import {
-  DEFAULT_CHAIN_ID,
   NFT_STORAGE_TOKEN,
   WEB3_STORAGE_TOKEN,
-  CONTRACT_ADDRESS,
-  UNSAFE_FORCE_OVERRIDE_CONFIG,
+  NEXT_PUBLIC_DEFAULT_CHAIN_ID,
 } from "../lib/config";
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 import { useWalletClient, useNetwork } from "wagmi";
 
 const clientConfig: Partial<HypercertClientConfig> = {
-  id: DEFAULT_CHAIN_ID ? Number(DEFAULT_CHAIN_ID) : 5,
+  chain: { id: Number(NEXT_PUBLIC_DEFAULT_CHAIN_ID) },
   nftStorageToken: NFT_STORAGE_TOKEN,
   web3StorageToken: WEB3_STORAGE_TOKEN,
 };
 
-// TODO - make overrides explicit in loading config
-function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
-  if (CONTRACT_ADDRESS) {
-    clientConfig.contractAddress = CONTRACT_ADDRESS;
-  }
-
-  if (UNSAFE_FORCE_OVERRIDE_CONFIG) {
-    clientConfig.unsafeForceOverrideConfig = UNSAFE_FORCE_OVERRIDE_CONFIG;
-  }
-
-  return clientConfig;
-}
-
-const defaultClient = new HypercertClient(loadOverridingConfig(clientConfig));
+const defaultClient = new HypercertClient(clientConfig);
 
 export const useHypercertClient = () => {
   const { chain } = useNetwork();
@@ -49,11 +34,11 @@ export const useHypercertClient = () => {
 
       try {
         const config: Partial<HypercertClientConfig> = {
-          id: chain.id,
+          chain: { id: chain.id },
           walletClient,
         };
 
-        const client = new HypercertClient(loadOverridingConfig(config));
+        const client = new HypercertClient({ ...clientConfig, ...config });
         setClient(client);
       } catch (e) {
         console.error(e);

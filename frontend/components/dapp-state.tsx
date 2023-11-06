@@ -1,6 +1,5 @@
 import { useAccountLowerCase } from "../hooks/account";
 import useCheckWriteable from "../hooks/checkWriteable";
-import { DEFAULT_CHAIN_ID } from "../lib/config";
 import { claimedRecently } from "./claim-all-fractions-button";
 import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
@@ -15,7 +14,6 @@ const ALL_CHAINS = [optimism, goerli, hardhat, sepolia];
 
 export interface DappStateData {
   myAddress?: string;
-  defaultChainId?: number;
   chain?: Chain;
   chains?: Chain[];
   waitToClaim?: boolean;
@@ -25,7 +23,6 @@ export interface DappStateData {
 //TODO revert to testnet data. Needed to override for local dev of WC-wagmi-safe integration
 export const DEFAULT_TEST_DATA: DappStateData = {
   myAddress: "0x22E4b9b003Cc7B7149CF2135dfCe2BaddC7a534f".toLowerCase(),
-  defaultChainId: 10,
   chain: optimism,
   chains: ALL_CHAINS,
   waitToClaim: false,
@@ -63,7 +60,6 @@ export function DappState(props: DappStateProps) {
           myAddress: address,
           chain,
           chains,
-          defaultChainId: DEFAULT_CHAIN_ID,
           waitToClaim,
           writeable,
         };

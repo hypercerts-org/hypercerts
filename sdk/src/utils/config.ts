@@ -42,7 +42,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       );
     }
     baseDeployment = {
-      ...{ ...chain, id: overrides.chain?.id },
+      chain: { ...chain, id: overrides.chain?.id },
       contractAddress: overrides.contractAddress,
       graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
@@ -62,7 +62,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
       });
     }
 
-    baseDeployment = { ...chain, ...baseDeployment };
+    baseDeployment = { ...baseDeployment, chain };
   }
 
   const config: Partial<HypercertClientConfig> = {
