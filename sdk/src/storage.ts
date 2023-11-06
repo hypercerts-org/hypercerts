@@ -51,7 +51,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
       }
     } else {
       this.nftStorageClient = new NFTStorage({ token: nftStorageToken.nftStorageToken || "" });
-      this.web3StorageClient = new Web3Storage({ web3StorageToken });
+      this.web3StorageClient = new Web3Storage({ token: web3StorageToken.web3StorageToken || "" });
       this.readonly = false;
     }
   }

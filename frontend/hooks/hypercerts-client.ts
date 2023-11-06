@@ -34,11 +34,12 @@ export const useHypercertClient = () => {
 
       try {
         const config: Partial<HypercertClientConfig> = {
+          ...clientConfig,
           chain: { id: chain.id },
           walletClient,
         };
 
-        const client = new HypercertClient({ ...clientConfig, ...config });
+        const client = new HypercertClient(config);
         setClient(client);
       } catch (e) {
         console.error(e);
@@ -47,6 +48,8 @@ export const useHypercertClient = () => {
 
     setIsLoading(false);
   }, [chain?.id, walletClient, walletClientLoading]);
+
+  console.log(client);
 
   return { client, isLoading };
 };
