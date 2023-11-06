@@ -20,11 +20,14 @@ export interface ConfigProps {
 export function Config(props: ConfigProps) {
   const { className, children } = props;
   const { client: hypercertClient } = useHypercertClient();
+  const chainId = hypercertClient.config.chain?.id
+    ? Number(hypercertClient.config.chain.id)
+    : undefined;
 
   const data: ConfigData = {
     domain: DOMAIN,
-    chainId: Number(hypercertClient._config.chainId),
-    graphUrl: hypercertClient._config.graphUrl,
+    chainId,
+    graphUrl: hypercertClient.config.graphUrl,
     supabaseTable: SUPABASE_TABLE,
   };
   return (
