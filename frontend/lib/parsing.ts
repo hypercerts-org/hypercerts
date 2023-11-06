@@ -27,10 +27,12 @@ export function parseAllowlistCsv(
     console.error("Errors parsing allowlist:", errors);
     throw new InvalidDataError("Errors parsing allowlist");
   }
+
+  console.log(rawData);
   // Get the addresses and units from the CSV
   const csvData = rawData.map((row: any) => ({
     address: row["address"].trim().toLowerCase(),
-    units: BigInt((row["fractions"].trim(), 10)),
+    units: BigInt(row["fractions"].trim()),
   }));
   const csvTotalSupply = csvData.reduce(
     (accum, curr) => accum + curr.units,
@@ -55,8 +57,10 @@ export function parseAllowlistCsv(
     }
   }
   // Combine CSV data with manually added addresses
+  // 0.75
   const csvTotalPercentage = 1.0 - addTotalPercentage;
 
+  // 75
   const percentageBigInt = BigInt(Math.floor(csvTotalPercentage * 100)); // convert percentage to BigInt
   const creatorSupply = (csvTotalSupply * 100n) / percentageBigInt; // calculate total supply
 
