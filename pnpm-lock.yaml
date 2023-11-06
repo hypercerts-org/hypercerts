@@ -312,8 +312,8 @@ importers:
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
       '@hypercerts-org/sdk':
-        specifier: 1.0.0-alpha.3
-        version: 1.0.0-alpha.3(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
+        specifier: 1.0.0-alpha.5
+        version: 1.0.0-alpha.5(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
       '@mui/icons-material':
         specifier: ^5.11.9
         version: 5.14.15(@mui/material@5.14.15)(@types/react@18.2.33)(react@18.2.0)
@@ -7528,8 +7528,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/sdk@1.0.0-alpha.3(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
-    resolution: {integrity: sha512-QTzqwdABd2gaLBfxsDINY1UIREmy3JEX7yAYYWxip5KVCy+X9JTIWZySgMuUAEnUqvuSXAZQ6VxTYTBk7lm1jw==}
+  /@hypercerts-org/sdk@1.0.0-alpha.5(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
+    resolution: {integrity: sha512-t1Q0w/dWbZa2Xn8x3QkS6Mp8nKTOGRaURZHyVvGFCbyWeL2/vTe+3ZEIH0R6xApwXRUvNm0ZFOf8vFJHZQB61A==}
     dependencies:
       '@ethereum-attestation-service/eas-sdk': 1.2.2-beta.0(ts-node@10.9.1)(typescript@5.1.6)
       '@ethersproject/abstract-signer': 5.7.0

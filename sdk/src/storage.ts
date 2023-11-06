@@ -56,15 +56,15 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     }
   }
 
-  getFromIPFS = async (cidOrIpfsUri: string) => {
+  getFromIPFS = async (cidOrIpfsUri: string, timeout = 10000) => {
     const nftStorageGatewayLink = this.getNftStorageGatewayUri(cidOrIpfsUri);
     const web3StorageGatewayLink = this.getWeb3StorageGatewayUri(cidOrIpfsUri);
     logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
 
-    const res = await axios.get(nftStorageGatewayLink, { timeout: 5000 }).catch(() => {
+    const res = await axios.get(nftStorageGatewayLink, { timeout }).catch(() => {
       logger.debug(`${nftStorageGatewayLink} timed out.`);
       logger.debug(`Getting metadata ${cidOrIpfsUri} at ${web3StorageGatewayLink}`);
-      return axios.get(web3StorageGatewayLink, { timeout: 5000 });
+      return axios.get(web3StorageGatewayLink, { timeout });
     });
 
     if (!res || !res.data) {
