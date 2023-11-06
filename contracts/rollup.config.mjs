@@ -8,7 +8,7 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export default [
   {
-    input: `build/index.js`,
+    input: `build/src/index.js`,
     plugins: [
       autoExternal(),
       nodePolyfills(),
@@ -33,7 +33,7 @@ export default [
     ],
   },
   {
-    input: `build/index.d.ts`,
+    input: `build/src/index.d.ts`,
     plugins: [json(), dts()],
     output: {
       file: `dist/index.d.ts`,

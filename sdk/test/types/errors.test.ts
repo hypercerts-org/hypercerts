@@ -8,7 +8,7 @@ import {
   StorageError,
   UnknownSchemaError,
   UnsupportedChainError,
-} from "../../src/types/errors.js";
+} from "../../src/types/errors";
 
 describe.only("Error types", () => {
   it("has ClientError", () => {

@@ -16,11 +16,6 @@
     "prettier",
     "next"
   ],
-  "ignorePatterns": [
-    "**/graph/generated/*",
-    "**/vendor/*.js",
-    "vendor/**/*.js"
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {

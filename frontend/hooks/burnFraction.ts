@@ -13,6 +13,7 @@ export const useBurnFraction = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to burn fraction",
@@ -31,19 +32,22 @@ export const useBurnFraction = ({
 
       setStep("burning");
 
-      const tx = await client.burnClaimFraction(claimId);
+      const hash = await client.burnClaimFraction(claimId);
+
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
 
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Burning failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(burnInteractionLabels.toastSuccess(receipt.transactionHash), {
           type: "success",
         });

@@ -8,7 +8,7 @@ import {
   StorageError,
   UnknownSchemaError,
   UnsupportedChainError,
-} from "../types/errors.js";
+} from "../types/errors";
 
 /**
  *

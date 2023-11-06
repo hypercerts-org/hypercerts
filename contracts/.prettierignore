@@ -17,13 +17,15 @@
 **/deployments
 **/.openzeppelin
 **/docs
-**/src/abi/
+**/abi
 
 # files
 *.env
 *.log
+*.sol
 .pnp.*
 coverage.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.DS_Store

@@ -1,5 +1,5 @@
-import { HypercertClaimdata, HypercertMetadata } from "../types/index.js";
-import { validateClaimData, validateMetaData } from "../validator/index.js";
+import { HypercertClaimdata, HypercertMetadata } from "../types";
+import { validateClaimData, validateMetaData } from "../validator";
 
 export const INDEFINITE_DATE_STRING = "indefinite";
 const formatUnixTime = (seconds: number) => {

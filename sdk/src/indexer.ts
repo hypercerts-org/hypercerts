@@ -1,6 +1,6 @@
 import { getBuiltGraphSDK, Sdk as GraphClient } from "../.graphclient";
-import { defaultQueryParams } from "./indexer/utils.js";
-import { HypercertIndexerInterface, QueryParams } from "./types/index.js";
+import { defaultQueryParams } from "./indexer/utils";
+import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from "./types";
 
 /**
  * A class that provides indexing functionality for Hypercerts.
@@ -14,9 +14,10 @@ export default class HypercertIndexer implements HypercertIndexerInterface {
    * Creates a new instance of the `HypercertIndexer` class.
    * @param options The configuration options for the indexer.
    */
-  constructor(options: { graphUrl?: string }) {
+  constructor(options: Partial<HypercertClientConfig>) {
     this._graphClient = getBuiltGraphSDK({
-      graphUrl: options.graphUrl || "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet",
+      graphUrl: options.graphUrl,
+      graphName: options.graphName,
     });
   }
 

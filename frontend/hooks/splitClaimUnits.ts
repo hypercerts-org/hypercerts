@@ -24,22 +24,29 @@ export const useSplitFractionUnits = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
+  const publicClient = client.config.publicClient;
+
   const initializeWrite = async (id: bigint, fractions: bigint[]) => {
     setStep("splitting");
     try {
       setTxPending(true);
 
-      const tx = await client.splitClaimUnits(id, fractions);
+      const hash = await client.splitFractionUnits(id, fractions);
+
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
+
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Splitting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");
