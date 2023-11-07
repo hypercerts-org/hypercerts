@@ -24,9 +24,6 @@ export function Config(props: ConfigProps) {
     ? Number(hypercertClient.config.chain.id)
     : undefined;
 
-  console.log(chainId);
-  console.log("Config: ", hypercertClient.config);
-
   const data: ConfigData = {
     domain: DOMAIN,
     chainId: chainId,
