@@ -32,7 +32,7 @@ const getMerkleTreeFromIPFS = async (cidOrIpfsUri: string) => {
  * @throws Will throw an error if the Merkle tree cannot be fetched.
  * @async
  */
-export const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x${string}`) => {
+const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x${string}`) => {
   const tree = await getMerkleTreeFromIPFS(cidOrIpfsUri);
   for (const [i, v] of tree.entries()) {
     if (v[0] === account) {
@@ -42,3 +42,5 @@ export const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x$
     }
   }
 };
+
+export default { getProofsFromAllowlist };
