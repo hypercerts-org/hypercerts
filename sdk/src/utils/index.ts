@@ -1,7 +1,7 @@
 import { walletClientToSigner, publicClientToProvider } from "./adapters";
 
-import { getProofsFromAllowlist } from "./allowlist";
+import allowlist from "./allowlist";
 import fetchers from "./fetchers";
 import { formatHypercertData } from "./formatter";
 
-export { walletClientToSigner, publicClientToProvider, getProofsFromAllowlist, fetchers, formatHypercertData };
+export { walletClientToSigner, publicClientToProvider, allowlist, fetchers, formatHypercertData };
