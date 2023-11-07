@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.8",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -38,7 +38,7 @@
     "@graphql-mesh/utils": "^0.95.7",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hypercerts-org/contracts": "0.8.11",
-    "@openzeppelin/merkle-tree": "^1.0.4",
+    "@openzeppelin/merkle-tree": "^1.0.5",
     "@whatwg-node/fetch": "^0.9.13",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",

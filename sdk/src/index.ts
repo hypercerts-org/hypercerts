@@ -32,9 +32,9 @@ export * from "./types";
 export * from "./validator";
 
 /**
- * Formatters
+ * Utils
  */
-export * from "./utils/formatter";
+export * from "./utils";
 
 /**
  * Graph
