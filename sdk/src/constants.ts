@@ -20,7 +20,7 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
   } as const,
   42220: {
     contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
-    graphName: "hypercerts-arbitrum",
+    graphName: "hypercerts-celo",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
   },
   11155111: {

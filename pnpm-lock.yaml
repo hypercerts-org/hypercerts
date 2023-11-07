@@ -565,7 +565,7 @@ importers:
         specifier: 0.8.11
         version: 0.8.11
       '@openzeppelin/merkle-tree':
-        specifier: ^1.0.4
+        specifier: ^1.0.5
         version: 1.0.5
       '@whatwg-node/fetch':
         specifier: ^0.9.13

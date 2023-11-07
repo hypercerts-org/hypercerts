@@ -25,18 +25,13 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  * It encapsulates the logic for storage, evaluation, indexing, and wallet interactions, abstracting the complexity and providing a simple API for users.
  * The client is read-only if the storage is read-only (no nft.storage/web3.storage keys) or if no walletClient was found.
  *
- * Here's an example of how to create a new instance of `HypercertClient`:
- *
- * ```typescript
+ * @example
  * const config: Partial<HypercertClientConfig> = {
- *  id: 5
+ *  chain: {id: 5},
  * };
- *
  * const client = new HypercertClient(config);
- * ```
  *
- * @param config - Hypercerts client configuration
- * @dev Creates a Hypercerts client instance
+ * @param {Partial<HypercertClientConfig>} config - The configuration options for the client.
  */
 export default class HypercertClient implements HypercertClientInterface {
   readonly _config;
@@ -50,7 +45,11 @@ export default class HypercertClient implements HypercertClientInterface {
 
   /**
    * Creates a new instance of the `HypercertClient` class.
-   * @param config The configuration options for the client.
+   *
+   * This constructor takes a `config` parameter that is used to configure the client. The `config` parameter should be a `HypercertClientConfig` object. If the public client cannot be connected, it throws a `ClientError`.
+   *
+   * @param {Partial<HypercertClientConfig>} config - The configuration options for the client.
+   * @throws {ClientError} Will throw a `ClientError` if the public client cannot be connected.
    */
   constructor(config: Partial<HypercertClientConfig>) {
     this._config = getConfig(config);
@@ -110,19 +109,26 @@ export default class HypercertClient implements HypercertClientInterface {
   }
 
   /**
-   * Mint a Hypercert claim
-   * @dev Mints a Hypercert claim with the given metadata, total units and transfer restrictions
-   * @param metaData - Hypercert metadata
-   * @param totalUnits - Total number of units for the Hypercert
-   * @param transferRestriction - Transfer restrictions for the Hypercert
-   * @returns Contract transaction
+   * Mints a new claim.
+   *
+   * This method first validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
+   * It then stores the metadata on IPFS using the `storeMetadata` method of the storage client.
+   * After that, it simulates a contract call to the `mintClaim` function with the provided parameters and the stored metadata CID to validate the transaction.
+   * Finally, it submits the request using the `submitRequest` method.
+   *
+   * @param {HypercertMetadata} metaData - The metadata for the claim.
+   * @param {bigint} totalUnits - The total units for the claim.
+   * @param {TransferRestrictions} transferRestriction - The transfer restrictions for the claim.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {MalformedDataError} Will throw a `MalformedDataError` if the provided metadata is invalid.
    */
   mintClaim = async (
     metaData: HypercertMetadata,
     totalUnits: bigint,
     transferRestriction: TransferRestrictions,
     overrides?: SupportedOverrides,
-  ) => {
+  ): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     // validate metadata
@@ -146,14 +152,20 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Create a Hypercert claim with an allowlist
-   * @dev Mints a Hypercert claim with the given metadata, total units, transfer restrictions and allowlist
-   * @notice The total number of units in the allowlist must match the total number of units for the Hypercert
-   * @param allowList - Allowlist for the Hypercert
-   * @param metaData  - Hypercert metadata
-   * @param totalUnits - Total number of units for the Hypercert
-   * @param transferRestriction - Transfer restrictions for the Hypercert
-   * @returns Contract transaction
+   * Creates an allowlist.
+   *
+   * This method first validates the provided allowlist and metadata using the `validateAllowlist` and `validateMetaData` functions respectively. If either is invalid, it throws a `MalformedDataError`.
+   * It then creates an allowlist from the provided entries and stores it on IPFS using the `storeData` method of the storage client.
+   * After that, it stores the metadata (including the CID of the allowlist) on IPFS using the `storeMetadata` method of the storage client.
+   * Finally, it simulates a contract call to the `createAllowlist` function with the provided parameters and the stored metadata CID, and submits the request using the `submitRequest` method.
+   *
+   * @param {AllowlistEntry[]} allowList - The entries for the allowlist.
+   * @param {HypercertMetadata} metaData - The metadata for the claim.
+   * @param {bigint} totalUnits - The total units for the claim.
+   * @param {TransferRestrictions} transferRestriction - The transfer restrictions for the claim.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {MalformedDataError} Will throw a `MalformedDataError` if the provided allowlist or metadata is invalid.
    */
   createAllowlist = async (
     allowList: AllowlistEntry[],
@@ -161,7 +173,7 @@ export default class HypercertClient implements HypercertClientInterface {
     totalUnits: bigint,
     transferRestriction: TransferRestrictions,
     overrides?: SupportedOverrides,
-  ) => {
+  ): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     // validate allowlist
@@ -196,14 +208,24 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Split a Hypercert's unit into multiple claims with the given fractions
-   * @dev Submit the ID of the claim to split and new fraction values.
-   * @notice The sum of the fractions must be equal to the total units of the claim
-   * @param fractionId - Hypercert claim id
-   * @param newFractions - Fractions of the Hypercert claim to split
-   * @returns Contract transaction
+   * Splits a fraction into multiple fractions.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method. It then retrieves the owner and total units of the fraction using the `ownerOf` and `unitsOf` methods of the read contract.
+   * If the fraction is not owned by the account, it throws a `ClientError`.
+   * It then checks if the sum of the provided fractions is equal to the total units of the fraction. If not, it throws a `ClientError`.
+   * Finally, it simulates a contract call to the `splitFraction` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param {bigint} fractionId - The ID of the fraction to split.
+   * @param {bigint[]} fractions - The fractions to split the fraction into.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {ClientError} Will throw a `ClientError` if the fraction is not owned by the account or if the sum of the fractions is not equal to the total units of the fraction.
    */
-  splitFractionUnits = async (fractionId: bigint, fractions: bigint[], overrides?: SupportedOverrides) => {
+  splitFractionUnits = async (
+    fractionId: bigint,
+    fractions: bigint[],
+    overrides?: SupportedOverrides,
+  ): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     const readContract = getContract({
@@ -234,12 +256,18 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Merge multiple Hypercert claims fractions into one
-   * @dev Merges multiple Hypercert claims into one
-   * @param fractionIds - Hypercert claim ids
-   * @returns Contract transaction
+   * Merges multiple fractions into a single fraction.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method. It then retrieves the owner of each fraction using the `ownerOf` method of the read contract.
+   * If any of the fractions are not owned by the account, it throws a `ClientError`.
+   * It then simulates a contract call to the `mergeFractions` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param {bigint[]} fractionIds - The IDs of the fractions to merge.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {ClientError} Will throw a `ClientError` if any of the fractions are not owned by the account.
    */
-  mergeFractionUnits = async (fractionIds: bigint[], overrides?: SupportedOverrides) => {
+  mergeFractionUnits = async (fractionIds: bigint[], overrides?: SupportedOverrides): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     const readContract = getContract({
@@ -272,12 +300,18 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Burn a Hypercert claim by providing the claim id
-   * @dev Burns a Hypercert claim
-   * @param fractionId - Hypercert claim id
-   * @returns Contract transaction
+   * Burns a claim fraction.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method. It then retrieves the owner of the claim using the `ownerOf` method of the read contract.
+   * If the claim is not owned by the account, it throws a `ClientError`.
+   * It then simulates a contract call to the `burnFraction` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param {bigint} claimId - The ID of the claim to burn.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {ClientError} Will throw a `ClientError` if the claim is not owned by the account.
    */
-  burnClaimFraction = async (claimId: bigint, overrides?: SupportedOverrides) => {
+  burnClaimFraction = async (claimId: bigint, overrides?: SupportedOverrides): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     const readContract = getContract({
@@ -303,13 +337,18 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Mint a Hypercert claim fraction from an allowlist.
-   * @dev Verifies the claim proof and mints the claim fraction
-   * @notice If known, provide the root for client side verification
-   * @param claimId - Hypercert claim id
-   * @param units - Number of units to mint
-   * @param proof - Merkle proof for the claim
-   * @returns Contract transaction
+   * Mints a claim fraction from an allowlist.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method. It then verifies the provided proof using the `verifyMerkleProof` function. If the proof is invalid, it throws an `InvalidOrMissingError`.
+   * It then simulates a contract call to the `mintClaimFromAllowlist` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param {bigint} claimId - The ID of the claim to mint.
+   * @param {bigint} units - The units of the claim to mint.
+   * @param {(Hex | ByteArray)[]} proof - The proof for the claim.
+   * @param {Hex | ByteArray} [root] - The root of the proof. If provided, it is used to verify the proof.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the proof is invalid.
    */
   mintClaimFractionFromAllowlist = async (
     claimId: bigint,
@@ -317,7 +356,7 @@ export default class HypercertClient implements HypercertClientInterface {
     proof: (Hex | ByteArray)[],
     root?: Hex | ByteArray,
     overrides?: SupportedOverrides,
-  ) => {
+  ): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     //verify the proof using the OZ merkle tree library
@@ -343,14 +382,18 @@ export default class HypercertClient implements HypercertClientInterface {
   };
 
   /**
-   * Batch mints a claim fraction from an allowlist
-   * @param claimIds Array of the IDs of the claims to mint fractions for.
-   * @param units Array of the number of units for each fraction.
-   * @param proofs Array of Merkle proofs for the allowlists.
-   * @returns A Promise that resolves to the transaction receipt
-   * @note The length of the arrays must be equal.
-   * @note The order of the arrays must be equal.
-   * @returns A Promise that resolves to the transaction receipt
+   * Mints multiple claim fractions from allowlists in a batch.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method. If the roots are provided, it verifies each proof using the `verifyMerkleProofs` function. If any of the proofs are invalid, it throws an `InvalidOrMissingError`.
+   * It then simulates a contract call to the `batchMintClaimsFromAllowlists` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param {bigint[]} claimIds - The IDs of the claims to mint.
+   * @param {bigint[]} units - The units of each claim to mint.
+   * @param {(Hex | ByteArray)[][]} proofs - The proofs for each claim.
+   * @param {(Hex | ByteArray)[]} [roots] - The roots of each proof. If provided, they are used to verify the proofs.
+   * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if any of the proofs are invalid.
    */
   batchMintClaimFractionsFromAllowlists = async (
     claimIds: bigint[],
@@ -358,7 +401,7 @@ export default class HypercertClient implements HypercertClientInterface {
     proofs: (Hex | ByteArray)[][],
     roots?: (Hex | ByteArray)[],
     overrides?: SupportedOverrides,
-  ) => {
+  ): Promise<`0x${string}`> => {
     const { account } = this.getWallet();
 
     //verify the proof using the OZ merkle tree library
@@ -412,8 +455,17 @@ export default class HypercertClient implements HypercertClientInterface {
     return { walletClient: this._walletClient, account: this._walletClient.account };
   };
 
+  /**
+   * Submits a contract request.
+   *
+   * This method submits a contract request using the `writeContract` method of the wallet client. If the request fails, it throws a `ClientError`.
+   *
+   * @param {any} request - The contract request to submit.
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the hash of the submitted request.
+   * @throws {ClientError} Will throw a `ClientError` if the request fails.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private submitRequest = async (request: any) => {
+  private submitRequest = async (request: any): Promise<`0x${string}`> => {
     const hash = this._walletClient?.writeContract(request);
 
     if (!hash) {
