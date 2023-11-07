@@ -7,27 +7,22 @@ env:
   NEXT_PUBLIC_DEFAULT_CHAIN_ID: ${{ vars.NEXT_PUBLIC_DEFAULT_CHAIN_ID }}
   NEXT_PUBLIC_CONTRACT_ADDRESS: ${{ vars.NEXT_PUBLIC_CONTRACT_ADDRESS }}
   NEXT_PUBLIC_GRAPH_URL: ${{ vars.NEXT_PUBLIC_GRAPH_URL }}
+  NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+  WEB3_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
   NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
   NEXT_PUBLIC_WEB3_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
   NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
   NEXT_PUBLIC_SUPABASE_TABLE: ${{ vars.NEXT_PUBLIC_SUPABASE_TABLE }}
   NEXT_PUBLIC_WALLETCONNECT_ID: ${{ secrets.NEXT_PUBLIC_WALLETCONNECT_ID }}
+  INFURA_API_KEY: ${{ vars.INFURA_API_KEY }}
+  ALCHEMY_API_KEY: ${{ vars.ALCHEMY_API_KEY }}
   DOCKER_PLATFORM: "amd64"
 
 # Trigger the workflow when:
 on:
   # A push occurs to one of the matched branches.
   push:
-    branches:
-      - main
-      - develop
-  # Or when a pull request event occurs for a pull request against one of the
-  # matched branches.
-  pull_request:
-    branches:
-      - main
-      - develop
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

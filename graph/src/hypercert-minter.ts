@@ -12,36 +12,33 @@ import {
   ValueTransfer as ValueTransferEvent,
 } from "../generated/HypercertMinter/HypercertMinter";
 import {
+  ZERO_ADDRESS,
   getID,
   getOrCreateAllowlist,
   getOrCreateClaim,
   getOrCreateClaimToken,
 } from "./utils";
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { log } from "@graphprotocol/graph-ts";
 import { ClaimToken } from "../generated/schema";
 
-const ZERO_ADDRESS = Address.fromString(
-  "0x0000000000000000000000000000000000000000"
-);
-const ZERO_TOKEN = BigInt.fromI32(0);
-
 export function handleAllowlistCreated(event: AllowlistCreatedEvent): void {
-  let allowlist = getOrCreateAllowlist(
+  const allowlist = getOrCreateAllowlist(
     event.params.tokenID,
     event.params.root,
-    event.address
+    event.address,
   );
 
   allowlist.save();
 }
 
-export function handleApprovalForAll(event: ApprovalForAllEvent): void {}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function handleApprovalForAll(_event: ApprovalForAllEvent): void {}
 
 export function handleClaimStored(event: ClaimStoredEvent): void {
-  let claim = getOrCreateClaim(
+  const claim = getOrCreateClaim(
     event.params.claimID,
     event.address,
-    event.block.timestamp
+    event.block.timestamp,
   );
 
   claim.uri = event.params.uri;
@@ -52,19 +49,39 @@ export function handleClaimStored(event: ClaimStoredEvent): void {
   claim.save();
 }
 
-export function handleInitialized(event: InitializedEvent): void {}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function handleInitialized(_: InitializedEvent): void {}
 
-export function handleLeafClaimed(event: LeafClaimedEvent): void {}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function handleLeafClaimed(_: LeafClaimedEvent): void {}
 
 export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
+  _event: OwnershipTransferredEvent,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,
 ): void {}
 
-export function handleTransferBatch(event: TransferBatchEvent): void {}
+export function handleTransferBatch(event: TransferBatchEvent): void {
+  const ids = event.params.ids;
+  const size = ids.length;
+
+  for (let i = 0; i < size; i++) {
+    const id = getID(ids[i], event.address);
+    const token = ClaimToken.load(id);
+
+    if (!token) {
+      log.debug("Transfered ClaimToken does not exist: {}", [id]);
+      return;
+    }
+
+    token.owner = event.params.to;
+
+    token.save();
+  }
+}
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
-  let id = getID(event.params.id, event.address);
-  let token = ClaimToken.load(id);
+  const id = getID(event.params.id, event.address);
+  const token = ClaimToken.load(id);
 
   if (!token) {
     log.debug("Transfered ClaimToken does not exist: {}", [id]);
@@ -75,7 +92,8 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
   token.save();
 }
 
-export function handleURI(event: URIEvent): void {}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function handleURI(_event: URIEvent): void {}
 
 export function handleValueTransfer(event: ValueTransferEvent): void {
   log.debug("Received ValueTransferEvent claimID: {}", [
@@ -92,18 +110,18 @@ export function handleValueTransfer(event: ValueTransferEvent): void {
     event.params.value.toString(),
   ]);
 
-  let from = getOrCreateClaimToken(
+  const from = getOrCreateClaimToken(
     event.params.claimID,
     event.params.fromTokenID,
-    event.address
+    event.address,
   );
-  let to = getOrCreateClaimToken(
+  const to = getOrCreateClaimToken(
     event.params.claimID,
     event.params.toTokenID,
-    event.address
+    event.address,
   );
 
-  let value = event.params.value;
+  const value = event.params.value;
 
   log.debug("Got from: {}", [from.id]);
   log.debug("Got to: {}", [to.id]);
@@ -123,6 +141,7 @@ export function handleValueTransfer(event: ValueTransferEvent): void {
   // Burn value
   if (!from.tokenID.isZero() && to.tokenID.isZero()) {
     from.units = from.units.minus(value);
+    from.owner = ZERO_ADDRESS;
   }
 
   log.debug("Saving from: {}", [from.id]);
@@ -134,18 +153,23 @@ export function handleValueTransfer(event: ValueTransferEvent): void {
 
 //TODO cleanup to nicer state handling
 export function handleBatchValueTransfer(event: BatchValueTransfer): void {
-  let claimIDs = event.params.claimIDs;
-  let fromIDs = event.params.fromTokenIDs;
-  let toIDs = event.params.toTokenIDs;
-  let values = event.params.values;
+  const claimIDs = event.params.claimIDs;
+  const fromIDs = event.params.fromTokenIDs;
+  const toIDs = event.params.toTokenIDs;
+  const values = event.params.values;
+  const contractAddress = event.address;
 
-  let size = claimIDs.length;
+  const size = claimIDs.length;
 
   for (let i = 0; i < size; i++) {
-    let from = getOrCreateClaimToken(claimIDs[i], fromIDs[i], event.address);
-    let to = getOrCreateClaimToken(claimIDs[i], toIDs[i], event.address);
+    const from = getOrCreateClaimToken(
+      claimIDs[i],
+      fromIDs[i],
+      contractAddress,
+    );
+    const to = getOrCreateClaimToken(claimIDs[i], toIDs[i], contractAddress);
 
-    let value = values[i];
+    const value = values[i];
 
     log.debug("Got from: {}", [from.id]);
     log.debug("Got to: {}", [to.id]);
@@ -164,6 +188,7 @@ export function handleBatchValueTransfer(event: BatchValueTransfer): void {
     // Burn value
     if (!from.tokenID.isZero() && to.tokenID.isZero()) {
       from.units = from.units.minus(value);
+      from.owner = ZERO_ADDRESS;
     }
 
     log.debug("Saving from: {}", [from.id]);

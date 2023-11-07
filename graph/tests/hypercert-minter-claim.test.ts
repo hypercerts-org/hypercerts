@@ -20,7 +20,7 @@ describe("Describe entity assertions", () => {
     let claimStoredEvent = createClaimStoredEvent(
       BigInt.fromI64(1),
       "ipfs://exampleshash",
-      BigInt.fromI64(10000)
+      BigInt.fromI64(10000),
     );
     handleClaimStored(claimStoredEvent);
   });
@@ -43,13 +43,13 @@ describe("Describe entity assertions", () => {
       "Claim",
       claimId,
       "creator",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a"
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
     );
     assert.fieldEquals(
       "Claim",
       claimId,
       "owner",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a"
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
     );
     assert.fieldEquals("Claim", claimId, "totalUnits", "10000");
   });

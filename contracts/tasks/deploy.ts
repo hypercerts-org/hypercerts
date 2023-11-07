@@ -1,7 +1,7 @@
 import { task } from "hardhat/config";
 import { writeFile } from "node:fs/promises";
 
-task("deploy", "Deploy contracts and verify")
+task("deploy-minter", "Deploy contracts and verify")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
   .setAction(async ({ output }, { ethers, upgrades, network, run }) => {
     console.log("Using address: ", await ethers.getSigners().then((res) => res[0]));

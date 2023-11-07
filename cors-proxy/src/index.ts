@@ -69,6 +69,9 @@ export default {
       // Rewrite request to point to API URL. This also makes the request mutable
       // so you can add the correct Origin header to make the API server think
       // that this request is not cross-site.
+      // TODO: Never use ts ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       request = new Request(apiUrl, request);
       request.headers.set("Origin", new URL(apiUrl).origin);
       let response = await fetch(request);

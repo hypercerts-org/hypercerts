@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import HypercertsIndexer from "../src/indexer.js";
+import HypercertsIndexer from "../src/indexer";
 
 describe("HypercertsIndexer", () => {
   it("should be able to create a new instance without valid graphName", () => {

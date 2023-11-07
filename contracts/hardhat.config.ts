@@ -1,8 +1,7 @@
-import "@nomicfoundation/hardhat-chai-matchers";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades";
-import "@openzeppelin/hardhat-defender";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -34,17 +33,20 @@ const dotenvConfigPath: string = process.env.DOTENV_PATH ?? fs.existsSync("./.en
 dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
-const mnemonic = requireEnv(process.env.MNEMONIC, "MNEMONIC");
-const mnemonic_celo = requireEnv(process.env.MNEMONIC_CELO, "MNEMONIC_CELO");
-const infuraApiKey = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
-const alchemyOptimismUrl = requireEnv(process.env.ALCHEMY_OPTIMISM_URL, "ALCHEMY_OPTIMISM_URL");
+const MNEMONIC = requireEnv(process.env.MNEMONIC, "MNEMONIC");
+const MNEMONIC_CELO = requireEnv(process.env.MNEMONIC_CELO, "MNEMONIC_CELO");
+const INFURA_API_KEY = requireEnv(process.env.INFURA_API_KEY, "INFURA_API_KEY");
+const ALCHEMY_API_KEY = requireEnv(process.env.ALCHEMY_API_KEY, "ALCHEMY_API_KEY");
 
-const etherscanApiKey = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
-const optimisticEtherscanApiKey = requireEnv(process.env.OPTIMISTIC_ETHERSCAN_API_KEY, "OPTIMISTIC_ETHERSCAN_API_KEY");
-const celoscanApiKey = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
+const ETHERSCAN_API_KEY = requireEnv(process.env.ETHERSCAN_API_KEY, "ETHERSCAN_API_KEY");
+const OPTIMISTIC_ETHERSCAN_API_KEY = requireEnv(
+  process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
+  "OPTIMISTIC_ETHERSCAN_API_KEY",
+);
+const CELOSCAN_API_KEY = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
 
-const ozApiKey = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
-const ozSecretKey = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
+const OPENZEPPELIN_API_KEY = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
+const OPENZEPPELIN_SECRET_KEY = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
 
 /**
  * Maps a key to the chain ID
@@ -64,23 +66,30 @@ const chainIds = {
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
-  const jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
+  const jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + INFURA_API_KEY;
   let config = {
     accounts: {
       count: 10,
-      mnemonic,
+      mnemonic: MNEMONIC,
       path: "m/44'/60'/0'/0",
     },
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
 
+  if (chain === "optimism-mainnet") {
+    config = {
+      ...config,
+      url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
   if (chain === "celo-mainnet") {
     config = {
       ...config,
       accounts: {
         count: 10,
-        mnemonic: mnemonic_celo,
+        mnemonic: MNEMONIC_CELO,
         path: "m/44'/52752'/0'/0",
       },
     };
@@ -89,9 +98,9 @@ function getChainConfig(chain: keyof typeof chainIds) {
   return config;
 }
 
-const config = {
+const config: HardhatUserConfig = {
   abiExporter: {
-    path: "./src/abi",
+    path: "./abi",
     runOnCompile: true,
     clear: true,
     flat: true,
@@ -99,8 +108,8 @@ const config = {
     except: ["@openzeppelin"],
   },
   defender: {
-    apiKey: ozApiKey!,
-    apiSecret: ozSecretKey!,
+    apiKey: OPENZEPPELIN_API_KEY!,
+    apiSecret: OPENZEPPELIN_SECRET_KEY!,
     useDefenderDeploy: true,
   },
   dodoc: {
@@ -111,10 +120,10 @@ const config = {
   },
   etherscan: {
     apiKey: {
-      goerli: etherscanApiKey!,
-      sepolia: etherscanApiKey!,
-      optimisticEthereum: optimisticEtherscanApiKey!,
-      celo: celoscanApiKey!,
+      goerli: ETHERSCAN_API_KEY!,
+      sepolia: ETHERSCAN_API_KEY!,
+      optimisticEthereum: OPTIMISTIC_ETHERSCAN_API_KEY!,
+      celo: CELOSCAN_API_KEY!,
     },
     customChains: [
       {
@@ -133,7 +142,7 @@ const config = {
       // metamask can't transfer when connected to hardhat's network.
       initialBaseFeePerGas: 0,
       accounts: {
-        mnemonic,
+        mnemonic: MNEMONIC,
       },
       chainId: chainIds.hardhat,
     },
@@ -145,10 +154,7 @@ const config = {
     sepolia: getChainConfig("sepolia"),
     mainnet: getChainConfig("mainnet"),
     "optimism-goerli": getChainConfig("optimism-goerli"),
-    "optimism-mainnet": {
-      ...getChainConfig("optimism-mainnet"),
-      url: alchemyOptimismUrl,
-    },
+    "optimism-mainnet": getChainConfig("optimism-mainnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
@@ -156,31 +162,31 @@ const config = {
     tests: "./test",
   },
   preprocess: {
-    eachLine: () => ({
+    eachLine: (hre) => ({
       transform: (line: string) => {
         if (line.match(/^\s*import /i)) {
-          getRemappings().forEach(([find, replace]) => {
-            if (line.match(find)) {
-              line = line.replace(find, replace);
+          for (const [from, to] of getRemappings()) {
+            if (line.includes(from)) {
+              line = line.replace(from, to);
+              break;
             }
-          });
+          }
         }
         return line;
       },
     }),
   },
   solidity: {
-    version: "0.8.16",
+    version: "0.8.17",
     settings: {
       optimizer: {
         enabled: true,
-        runs: 10_000,
+        runs: 5_000,
       },
     },
   },
   typechain: {
-    outDir: "./src/types",
-    target: "ethers-v5",
+    outDir: "./types",
   },
 };
 

@@ -1,4 +1,4 @@
-import { QueryParams } from "../types/index.js";
+import { QueryParams } from "../types";
 
 export const defaultQueryParams: QueryParams = {
   orderDirections: "desc",

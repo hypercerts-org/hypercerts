@@ -27,12 +27,17 @@ export function parseAllowlistCsv(
     console.error("Errors parsing allowlist:", errors);
     throw new InvalidDataError("Errors parsing allowlist");
   }
+
+  console.log(rawData);
   // Get the addresses and units from the CSV
   const csvData = rawData.map((row: any) => ({
     address: row["address"].trim().toLowerCase(),
-    units: parseInt(row["fractions"].trim(), 10),
+    units: BigInt(row["fractions"].trim()),
   }));
-  const csvTotalSupply = csvData.reduce((accum, curr) => accum + curr.units, 0);
+  const csvTotalSupply = csvData.reduce(
+    (accum, curr) => accum + curr.units,
+    0n,
+  );
   if (csvTotalSupply <= 0) {
     throw new InvalidDataError("Did not find any valid rows");
   }
@@ -52,12 +57,23 @@ export function parseAllowlistCsv(
     }
   }
   // Combine CSV data with manually added addresses
+  // 0.75
   const csvTotalPercentage = 1.0 - addTotalPercentage;
-  const totalSupply = csvTotalSupply / csvTotalPercentage;
+
+  // 75
+  const csvTotalPercentageBigInt = BigInt(Math.floor(csvTotalPercentage * 100)); // convert percentage to BigInt
+  const addTotalPercentageBigInt = BigInt(Math.floor(addTotalPercentage * 100)); // convert percentage to BigInt
+  const creatorSupply =
+    (((csvTotalSupply * 100n) / csvTotalPercentageBigInt) *
+      addTotalPercentageBigInt) /
+    100n;
+  const totalSupply = csvTotalSupply + creatorSupply; // calculate total supply
+
+  // TODO risk over overflow on units - casting bigint to number
   const data = csvData.concat(
     add.map((x) => ({
       address: x.address.trim().toLowerCase(),
-      units: Math.floor(totalSupply * x.percentage),
+      units: (totalSupply * BigInt(Math.floor(x.percentage * 100))) / 100n,
     })),
   );
 
@@ -69,7 +85,7 @@ export function parseAllowlistCsv(
   // Deduplicate
   const groups = _.groupBy(data, (x) => x.address);
   const addressToUnits = _.mapValues(groups, (x) =>
-    x.reduce((accum, curr) => accum + curr.units, 0),
+    x.reduce((accum, curr) => accum + curr.units, 0n),
   );
 
   const result = _.toPairs(addressToUnits).map(([address, units]) => ({

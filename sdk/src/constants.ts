@@ -2,37 +2,30 @@
  * Constants
  */
 
-import { Deployment, SupportedChainIds } from "./types/index.js";
-
-// Goerli is default if nothing specified
-const DEFAULT_CHAIN_ID = 5;
+import { Deployment, SupportedChainIds } from "./types";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-admin";
 
 // These are the deployments we manage
-const DEPLOYMENTS: { [key in SupportedChainIds]: Deployment } = {
+const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
   5: {
-    chainId: 5,
-    chainName: "goerli",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-testnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-testnet`,
   } as const,
   10: {
-    chainId: 10,
-    chainName: "optimism-mainnet",
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    graphName: "hypercerts-optimism-mainnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-optimism-mainnet`,
   } as const,
   42220: {
-    chainId: 42220,
-    chainName: "celo-mainnet",
     contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+    graphName: "hypercerts-celo",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
   },
   11155111: {
-    chainId: 11155111,
-    chainName: "sepolia",
     contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+    graphName: "hypercerts-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
   } as const,
 };
@@ -52,4 +45,4 @@ const EAS_SCHEMAS = {
   },
 } as const;
 
-export { DEFAULT_CHAIN_ID, DEPLOYMENTS, EAS_SCHEMAS };
+export { DEPLOYMENTS, EAS_SCHEMAS };
