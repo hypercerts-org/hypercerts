@@ -3,6 +3,8 @@ import { startProxy } from "@viem/anvil";
 import fetchMock from "jest-fetch-mock";
 
 fetchMock.enableMocks();
+
+fetchMock.enableMocks();
 dotenv.config({ path: "./.env" });
 
 const reloadEnv = () => {

@@ -1,58 +1,48 @@
 import { jest } from "@jest/globals";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Web3Storage } from "web3.storage";
 
-import HypercertsStorage from "../../src/storage.js";
-import logger from "../../src/utils/logger.js";
-import mockData from "../res/mockData.js";
-import mockMetadata from "../res/mockMetadata.js";
+import HypercertsStorage from "../../src/storage";
+import { mockDataSets } from "../helpers";
+import fetchers from "../../src/utils/fetchers";
+import sinon from "sinon";
 
 describe("Web3.Storage Client", () => {
-  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
-  const mockIncorrectMetadataCid = "errrCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+  const { hypercertData, hypercertMetadata } = mockDataSets;
 
   const storeBlobMock = jest.spyOn(Web3Storage.prototype, "put").mockImplementation((_: unknown, __?: unknown) => {
-    logger.debug("Hit mock storeBlob");
-
-    return Promise.resolve(mockCorrectMetadataCid);
+    return Promise.resolve(hypercertMetadata.cid);
   });
 
-  const server = setupServer(
-    rest.get(`https://nftstorage.link/ipfs/${mockCorrectMetadataCid}`, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockMetadata));
-    }),
-    rest.get(`https://nftstorage.link/ipfs/${mockIncorrectMetadataCid}`, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockData));
-    }),
-  );
-  const storage = new HypercertsStorage({});
+  const ipfsFetcherMock = sinon.stub(fetchers, "getFromIPFS");
 
-  beforeAll(() => server.listen());
+  const storage = new HypercertsStorage({
+    nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+    web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
+  });
 
   afterEach(() => {
-    server.resetHandlers();
     jest.clearAllMocks();
   });
 
   afterAll(() => {
-    server.close();
     jest.resetAllMocks();
+    sinon.resetBehavior();
   });
 
   /**
    * Currently just testing against the production NFT.Storage service.
    */
   it("Smoke test - add data", async () => {
-    await storage.storeData(mockData);
+    await storage.storeData(hypercertData.data);
     expect(storeBlobMock).toHaveBeenCalledTimes(1);
   });
 
   it("Smoke test - get data", async () => {
-    const res = await storage.getData(mockCorrectMetadataCid);
+    ipfsFetcherMock.returns(Promise.resolve(hypercertData.data));
+    const res = await storage.getData(hypercertData.cid);
 
-    expect(res).toMatchObject(mockMetadata);
+    expect(res).toMatchObject(hypercertData.data);
   });
 });

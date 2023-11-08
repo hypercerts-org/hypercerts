@@ -9,16 +9,30 @@ import {
   SupportedChainIds,
   UnsupportedChainError,
 } from "../types";
-import logger from "./logger.js";
+import logger from "./logger";
 import { createPublicClient, http, isAddress } from "viem";
+import { deployments } from "../../src";
 
 /**
- * Returns the configuration for the Hypercert client, based on the given overrides.
- * @param overrides An object containing overrides for the default configuration.
- * @returns The configuration for the Hypercert client.
- * @throws An `UnsupportedChainError` if the chain ID is not 5 or 10, or if the chain ID is missing or not found.
+ * Returns a configuration object for the Hypercert client.
+ *
+ * This function first retrieves the chain configuration, then checks if there are any overrides provided. If the `unsafeForceOverrideConfig` flag is set,
+ * it validates the overrides and uses them to create the base deployment configuration. If the flag is not set, it retrieves the deployment configuration
+ * for the provided chain ID or the default chain ID. It then merges the base deployment configuration with the overrides and the values retrieved from
+ * environment variables to create the final configuration object. If any required properties are missing, it logs a warning.
+ *
+ * Current supported chain IDs are:
+ * - 5: Goerli
+ * - 10: Optimism
+ * - 42220: Celo
+ * - 11155111: Sepolia
+ *
+ * @param {Partial<HypercertClientConfig>} overrides - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
+ * @returns {Partial<HypercertClientConfig>} The final configuration object for the Hypercert client.
+ * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
+ * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
-export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
+export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<HypercertClientConfig> => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const chain = getChainConfig(overrides);
   if (!chain) {
@@ -28,39 +42,38 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   let baseDeployment: (Partial<Deployment> & { unsafeForceOverrideConfig?: boolean }) | undefined;
 
   if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.id || !overrides.contractAddress || !overrides.graphUrl) {
+    if (!overrides.chain?.id || !overrides.contractAddress || !overrides.graphUrl) {
       throw new InvalidOrMissingError(
-        `attempted to override with chainId=${overrides.id}, but requires chainName, graphUrl, and contractAddress to be set`,
+        `attempted to override with chainId=${overrides.chain?.id}, but requires chainName, graphUrl, and contractAddress to be set`,
         {
-          chainID: overrides.id?.toString(),
+          chainID: overrides.chain?.id?.toString(),
           graphUrl: overrides.graphUrl,
           contractAddress: overrides.contractAddress,
         },
       );
     }
     baseDeployment = {
-      ...chain,
-      id: overrides.id,
+      chain: { ...chain, id: overrides.chain?.id },
       contractAddress: overrides.contractAddress,
       graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
     //TODO doo many casts
-    baseDeployment = overrides.id
-      ? (DEPLOYMENTS[overrides.id as SupportedChainIds] as Partial<Deployment> & {
+    baseDeployment = overrides.chain?.id
+      ? (getDeployment(overrides.chain?.id as SupportedChainIds) as Partial<Deployment> & {
           unsafeForceOverrideConfig?: boolean;
         })
       : chain?.id
-      ? (DEPLOYMENTS[chain.id as SupportedChainIds] as Partial<Deployment> & { unsafeForceOverrideConfig?: boolean })
+      ? (getDeployment(chain.id as SupportedChainIds) as Partial<Deployment> & { unsafeForceOverrideConfig?: boolean })
       : undefined;
     if (!baseDeployment) {
-      throw new UnsupportedChainError(`Default config for chainId=${overrides.id} is missing in SDK`, {
-        chainID: overrides.id,
+      throw new UnsupportedChainError(`Default config for chainId=${overrides.chain?.id} is missing in SDK`, {
+        chainID: overrides.chain?.id,
       });
     }
 
-    baseDeployment = { ...chain, ...baseDeployment };
+    baseDeployment = { ...baseDeployment, chain };
   }
 
   const config: Partial<HypercertClientConfig> = {
@@ -89,12 +102,12 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
   return config;
 };
 
+const getDeployment = (chainId: SupportedChainIds) => {
+  return deployments[chainId];
+};
+
 const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
-  const chainId = overrides?.id
-    ? overrides.id
-    : process.env.DEFAULT_CHAIN_ID
-    ? parseInt(process.env.DEFAULT_CHAIN_ID)
-    : undefined;
+  const chainId = overrides?.chain?.id ? overrides.chain?.id : undefined;
 
   if (!chainId) {
     throw new ConfigurationError("No chainId specified in config or environment variables");
@@ -118,11 +131,6 @@ const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
     }
     return { contractAddress: overrides.contractAddress };
   }
-  const contractAddress = process.env.CONTRACT_ADDRESS;
-  if (contractAddress && !isAddress(contractAddress)) {
-    throw new InvalidOrMissingError("Invalid contract address.", { contractAddress });
-  }
-  return contractAddress ? { contractAddress } : undefined;
 };
 
 const getGraphUrl = (overrides: Partial<HypercertClientConfig>) => {
@@ -187,40 +195,28 @@ export const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) =>
   if (overrides.nftStorageToken) {
     return { nftStorageToken: overrides.nftStorageToken };
   }
-
-  if (process.env.NFT_STORAGE_TOKEN) {
-    return { nftStorageToken: process.env.NFT_STORAGE_TOKEN };
-  }
-
-  if (process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN) {
-    return { nftStorageToken: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN };
-  }
-
-  return {};
 };
 
 export const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
   if (overrides.web3StorageToken) {
     return { web3StorageToken: overrides.web3StorageToken };
   }
-
-  if (process.env.WEB3_STORAGE_TOKEN) {
-    return { web3StorageToken: process.env.WEB3_STORAGE_TOKEN };
-  }
-
-  if (process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN) {
-    return { web3StorageToken: process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN };
-  }
-
-  return {};
 };
 
 const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.easContractAddress) {
-    return { easContractAddress: overrides.easContractAddress };
-  }
+  return { easContractAddress: overrides.easContractAddress };
+};
 
-  return { easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e" };
+const getDefaultChain = (chainId: number) => {
+  const _chains = [sepolia, goerli, optimism, celo];
+
+  for (const chain of Object.values(_chains)) {
+    if ("id" in chain) {
+      if (chain.id === chainId) {
+        return chain as Chain;
+      }
+    }
+  }
 };
 
 const getDefaultChain = (chainId: number) => {

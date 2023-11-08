@@ -1,9 +1,7 @@
-import { BlueprintCreateForm } from "./components/blueprint-create";
 import { BurnFractionButton } from "./components/burn-fraction-button";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
-import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
 import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
@@ -32,6 +30,8 @@ import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import dynamic from "next/dynamic";
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/tailwind-light/theme.css";
+import { MergeAllClaimFractionsButton } from "./components/merge-all-claim-fractions-button";
+import { SplitFractionButton } from "./components/split-fraction-button";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -236,29 +236,6 @@ PLASMIC.registerComponent(HypercertCreateForm, {
   },
   providesData: true,
   importPath: "./components/hypercert-create",
-});
-
-PLASMIC.registerComponent(BlueprintCreateForm, {
-  name: "BlueprintCreateForm",
-  description: "Create a blueprint",
-  props: {
-    children: {
-      type: "slot",
-      defaultValue: {
-        type: "text",
-        value: "Placeholder",
-      },
-    },
-  },
-  providesData: true,
-  importPath: "./components/blueprint-create",
-});
-
-PLASMIC.registerComponent(ContributionBlueprintCreate, {
-  name: "ContributionBlueprintCreate",
-  description: "Create a contribution blueprint",
-  importPath: "./components/contribution-blueprint-create",
-  props: {},
 });
 
 PLASMIC.registerComponent(FormError, {
@@ -681,4 +658,37 @@ PLASMIC.registerComponent(ProjectsClientProvider, {
   defaultStyles: {
     width: "Full bleed",
   },
+});
+
+PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
+  name: "MergeAllClaimFractionsButton",
+  description:
+    "Button that will merge all fractions in selected claim owned by current owner upon clicking",
+  props: {
+    className: "string",
+    claimId: "string",
+    disabled: "boolean",
+    text: {
+      type: "string",
+      defaultValue: "Split",
+      helpText: "Text to display on button",
+    },
+  },
+  importPath: "./components/merge-all-claim-fractions-button",
+});
+
+PLASMIC.registerComponent(SplitFractionButton, {
+  name: "SplitFractionButton",
+  description: "Button that will split the fraction currently selected",
+  props: {
+    text: {
+      type: "string",
+      defaultValue: "Split",
+      helpText: "Text to display on button",
+    },
+    fractionId: "string",
+    disabled: "boolean",
+    className: "string",
+  },
+  importPath: "./components/split-fraction-button",
 });

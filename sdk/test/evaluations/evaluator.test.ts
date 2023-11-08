@@ -9,7 +9,7 @@ import { getEvaluationData, publicClient, walletClient } from "../helpers.js";
 describe("HypercertEvaluator", () => {
   const signer = walletClient.account;
   const evaluator = new HypercertEvaluator({
-    id: 5,
+    chain: { id: 5 },
     easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
     publicClient,
   });
@@ -25,7 +25,7 @@ describe("HypercertEvaluator", () => {
   describe("submitEvaluation", () => {
     it("should throw an error for unexpected evaluation source", async () => {
       const evaluation = {
-        creator: signer.address,
+        creator: signer?.address,
         evaluationSource: {
           type: "invalid",
         },
@@ -63,15 +63,10 @@ describe("HypercertEvaluator", () => {
     });
 
     it("should throw an error for readonly storage", async () => {
-      sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
-      sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
-      sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
-      sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
-
-      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer.address });
+      const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer?.address });
 
       const readonlyEvaluator = new HypercertEvaluator({
-        id: 5,
+        chain: { id: 5 },
         easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
         publicClient,
       });

@@ -24,17 +24,17 @@ export { HypercertsStorage };
 /**
  * Types
  */
-export * from "./types/index.js";
+export * from "./types";
 
 /**
  * Validators
  */
-export * from "./validator/index.js";
+export * from "./validator";
 
 /**
- * Formatters
+ * Utils
  */
-export * from "./utils/formatter.js";
+export * from "./utils";
 
 /**
  * Graph

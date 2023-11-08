@@ -8,7 +8,7 @@
     "no-console": "off",
     "no-empty-blocks": "off",
     "not-rely-on-time": "off",
-    "private-vars-leading-underscore": ["off", { "strict": false }],
+    "private-vars-leading-underscore": "off",
     "reason-string": ["warn", { "maxLength": 64 }],
     "one-contract-per-file": "off"
   }

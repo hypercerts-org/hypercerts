@@ -11,9 +11,9 @@ describe("allowlist", () => {
       true,
     );
     expect(resultDeduped).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
     ]);
 
     const resultNotDeduped = parseAllowlistCsv(
@@ -25,9 +25,9 @@ describe("allowlist", () => {
       false,
     );
     expect(resultNotDeduped).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
     ]);
   });
 
@@ -43,9 +43,9 @@ describe("allowlist", () => {
       true,
     );
     expect(result).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 200 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 80 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 200n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 80n },
     ]);
   });
 
@@ -61,11 +61,11 @@ describe("allowlist", () => {
       false,
     );
     expect(result).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
     ]);
   });
 
@@ -85,10 +85,10 @@ describe("allowlist", () => {
       ],
     );
     expect(result).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
-      { address: "0x22e4b9b003cc7b7149cf2135dfce2baddc7a534f", units: 570 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 100n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
+      { address: "0x22e4b9b003cc7b7149cf2135dfce2baddc7a534f", units: 570n },
     ]);
   });
 
@@ -112,10 +112,10 @@ describe("allowlist", () => {
       ],
     );
     expect(result).toEqual([
-      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 290 },
-      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50 },
-      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40 },
-      { address: "0x22e4b9b003cc7b7149cf2135dfce2baddc7a534f", units: 380 },
+      { address: "0x20326e144532f17f76aca759e61e19af20a58ef3", units: 290n },
+      { address: "0x15c7281842a45465b4cbb8f89111d99e36e5bab8", units: 50n },
+      { address: "0x1cca19b823afa773b09708d94d2ee6ff96c60057", units: 40n },
+      { address: "0x22e4b9b003cc7b7149cf2135dfce2baddc7a534f", units: 380n },
     ]);
   });
 

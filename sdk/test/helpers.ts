@@ -5,8 +5,29 @@ import { HypercertMetadata } from "../src";
 import { AllowlistEntry, DuplicateEvaluation, HypercertEvaluationSchema, SimpleTextEvaluation } from "../src/types";
 import { formatHypercertData } from "../src/utils/formatter";
 import { Chain, foundry } from "viem/chains";
-import { PublicClient, createPublicClient, createTestClient, createWalletClient, http } from "viem";
+import { PublicClient, WalletClient, createPublicClient, createTestClient, createWalletClient, http } from "viem";
 import * as HypercertMinter from "./resources/HypercertMinter.json";
+import mockMetadata from "./res/mockMetadata";
+import mockData from "./res/mockData";
+
+const mockCorrectMetadataCid = "testCIDMETAfkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+const mockCorrectDataCid = "testCIDDATAfkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+const mockSomeDataCid = "someCIDDATAfkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+
+export const mockDataSets = {
+  hypercertMetadata: {
+    cid: mockCorrectMetadataCid,
+    data: mockMetadata,
+  },
+  hypercertData: {
+    cid: mockCorrectDataCid,
+    data: mockMetadata.hypercert,
+  },
+  someData: {
+    cid: mockSomeDataCid,
+    data: mockData,
+  },
+};
 
 export const pool = Number(process.env.VITEST_POOL_ID ?? 1);
 export const anvil = {
@@ -41,7 +62,7 @@ export const publicClient: PublicClient = createPublicClient({
   transport: http(),
 });
 
-export const walletClient = createWalletClient({
+export const walletClient: WalletClient = createWalletClient({
   chain: anvil,
   transport: http(),
   account: faker.finance.ethereumAddress() as `0x${string}`,

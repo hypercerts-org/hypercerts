@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "0.9.0-viem",
+  "version": "1.0.0-alpha.8",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -38,7 +38,7 @@
     "@graphql-mesh/utils": "^0.95.7",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hypercerts-org/contracts": "0.8.11",
-    "@openzeppelin/merkle-tree": "^1.0.4",
+    "@openzeppelin/merkle-tree": "^1.0.5",
     "@whatwg-node/fetch": "^0.9.13",
     "ajv": "^8.11.2",
     "axios": "^1.2.2",
@@ -49,7 +49,7 @@
     "loglevel": "^1.8.1",
     "mime": "^3.0.0",
     "nft.storage": "^7.1.1",
-    "viem": "1.5.3",
+    "viem": "^1.18.4",
     "web3.storage": "^4.5.5"
   },
   "devDependencies": {
@@ -82,7 +82,6 @@
     "jest-extended": "^4.0.0",
     "jest-fetch-mock": "^3.0.3",
     "json-schema-to-typescript": "^12.0.0",
-    "msw": "^1.2.1",
     "nyc": "^15.1.0",
     "rollup": "^3.17.2",
     "rollup-plugin-auto-external": "^2.0.0",
@@ -112,7 +111,7 @@
     "clean": "rm -rf ./dist",
     "prebuild": "pnpm clean",
     "prepack": "pnpm build",
-    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest",
+    "test": "NODE_OPTIONS=\"--no-warnings --experimental-vm-modules\" jest --detectOpenHandles --forceExit",
     "types:json": "pnpm json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
   }
 }

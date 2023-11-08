@@ -281,7 +281,7 @@ type Claim {
   creator: Bytes
   owner: Bytes
   totalUnits: BigInt
-  chainName: String!
+  graphName: String!
 }
 
 type ClaimToken {
@@ -290,7 +290,7 @@ type ClaimToken {
   claim: Claim!
   owner: Bytes!
   units: BigInt!
-  chainName: String!
+  graphName: String!
 }
 
 input ClaimToken_filter {

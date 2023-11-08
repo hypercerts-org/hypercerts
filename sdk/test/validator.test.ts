@@ -2,14 +2,15 @@ import { expect } from "chai";
 
 import { validateClaimData, validateMetaData } from "../src";
 import type { HypercertClaimdata, HypercertMetadata } from "../src";
-import testData from "./res/mockMetadata.js";
 import { validateDuplicateEvaluationData, validateSimpleTextEvaluationData } from "../src/validator";
-import { getDuplicateEvaluationData, getSimpleTextEvaluationData } from "./helpers";
+import { getDuplicateEvaluationData, getSimpleTextEvaluationData, mockDataSets } from "./helpers";
 import { DuplicateEvaluation, SimpleTextEvaluation } from "../src/types/evaluation";
 
 describe("Validate claim test", () => {
+  const { hypercertData, hypercertMetadata } = mockDataSets;
   it("checking default metadata", () => {
-    expect(validateMetaData(testData).valid).to.be.true;
+    const result = validateMetaData(hypercertMetadata.data);
+    expect(result.valid).to.be.true;
 
     const invalidResult = validateMetaData({} as HypercertMetadata);
 
@@ -18,7 +19,9 @@ describe("Validate claim test", () => {
   });
 
   it("checking default claimdata", () => {
-    expect(validateClaimData(testData.hypercert).valid).to.be.true;
+    const result = validateClaimData(hypercertData.data);
+    console.log(result);
+    expect(result.valid).to.be.true;
 
     const invalidResult = validateClaimData({} as HypercertClaimdata);
 

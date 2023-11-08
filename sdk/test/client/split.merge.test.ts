@@ -2,42 +2,25 @@ import sinon from "sinon";
 
 import HypercertClient from "../../src/client";
 
-import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { publicClient, walletClient } from "../helpers";
-import { encodeFunctionResult, isHex, parseAbi } from "viem";
+import { ContractFunctionExecutionError, isHex, toHex } from "viem";
 
 describe("splitClaimUnits in HypercertClient", () => {
   const wallet = walletClient;
-  const userAddress = wallet.account.address;
+  const userAddress = wallet.account?.address;
 
-  let readSpy = sinon.stub(publicClient, "request");
+  let readSpy = sinon.stub(publicClient, "readContract");
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const client = new HypercertClient({
-    id: 5,
+    chain: { id: 5 },
     walletClient,
     publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;
-
-  const ownerOfResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
-    functionName: "ownerOf",
-    result: [userAddress],
-  });
-
-  const unitsOfResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
-    functionName: "unitsOf",
-    result: [300n],
-  });
-
-  const splitFractionResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
-    functionName: "splitFraction",
-    result: [],
-  });
 
   beforeEach(async () => {
     readSpy.resetBehavior();
@@ -52,12 +35,12 @@ describe("splitClaimUnits in HypercertClient", () => {
   });
 
   it("allows for a hypercert fractions to be splitted over value", async () => {
-    readSpy = readSpy.onFirstCall().resolves(ownerOfResult).onSecondCall().resolves(unitsOfResult);
-    writeSpy = writeSpy.resolves(splitFractionResult);
+    readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(300n);
+    writeSpy = writeSpy.resolves(toHex(420));
 
     expect(client.readonly).toBe(false);
 
-    const hash = await client.splitClaimUnits(fractionId, [100n, 200n]);
+    const hash = await client.splitFractionUnits(fractionId, [100n, 200n]);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
     expect(isHex(hash)).toBeTruthy();
@@ -69,25 +52,25 @@ describe("splitClaimUnits in HypercertClient", () => {
   it("allows for a hypercert fractions to be splitted over value with override params", async () => {
     readSpy = readSpy
       .onFirstCall()
-      .resolves(ownerOfResult)
+      .resolves(userAddress)
       .onSecondCall()
-      .resolves(unitsOfResult)
+      .resolves(300n)
       .onThirdCall()
-      .resolves(ownerOfResult)
+      .resolves(userAddress)
       .onCall(3)
-      .resolves(unitsOfResult);
+      .resolves(300n);
 
-    writeSpy = writeSpy.resolves(splitFractionResult);
+    writeSpy = writeSpy.resolves(toHex(420));
 
     expect(client.readonly).toBe(false);
 
     try {
-      await client.splitClaimUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
+      await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
     } catch (e) {
-      expect((e as Error).message).toMatch(/Cannot convert FALSE_VALUE to a BigInt/);
+      expect(e instanceof ContractFunctionExecutionError).toBeTruthy();
     }
 
-    const hash = await client.splitClaimUnits(fractionId, [100n, 200n], { gasLimit: 12300000n });
+    const hash = await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: 12300000n });
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
     expect(isHex(hash)).toBeTruthy();

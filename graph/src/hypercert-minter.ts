@@ -13,16 +13,13 @@ import {
 } from "../generated/HypercertMinter/HypercertMinter";
 import { ClaimToken } from "../generated/schema";
 import {
+  ZERO_ADDRESS,
   getID,
   getOrCreateAllowlist,
   getOrCreateClaim,
   getOrCreateClaimToken,
 } from "./utils";
-import { Address, log } from "@graphprotocol/graph-ts";
-
-const ZERO_ADDRESS = Address.fromString(
-  "0x0000000000000000000000000000000000000000",
-);
+import { log } from "@graphprotocol/graph-ts";
 
 export function handleAllowlistCreated(event: AllowlistCreatedEvent): void {
   const allowlist = getOrCreateAllowlist(
@@ -53,20 +50,22 @@ export function handleClaimStored(event: ClaimStoredEvent): void {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export function handleInitialized(_event: InitializedEvent): void {}
+export function handleInitialized(_: InitializedEvent): void {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export function handleLeafClaimed(_event: LeafClaimedEvent): void {}
+export function handleLeafClaimed(_: LeafClaimedEvent): void {}
 
 export function handleOwnershipTransferred(
   _event: OwnershipTransferredEvent,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,
 ): void {}
 
-// operator, from, to, ids, values
 export function handleTransferBatch(event: TransferBatchEvent): void {
-  for (let i = 0; i < event.params.ids.length; i++) {
-    const id = getID(event.params.ids[i], event.address);
+  const ids = event.params.ids;
+  const size = ids.length;
+
+  for (let i = 0; i < size; i++) {
+    const id = getID(ids[i], event.address);
     const token = ClaimToken.load(id);
 
     if (!token) {

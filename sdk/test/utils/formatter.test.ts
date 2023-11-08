@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { formatHypercertData } from "../../src/index.js";
-import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../../src/utils/formatter.js";
+import { formatHypercertData } from "../../src";
+import { INDEFINITE_DATE_STRING, formatDate, formatUnixTime } from "../../src/utils/formatter";
 
 type TestDataType = Parameters<typeof formatHypercertData>[0];
 const testData: Partial<TestDataType> = {

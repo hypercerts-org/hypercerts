@@ -4,24 +4,25 @@ import { expect } from "@jest/globals";
 import { HypercertClient } from "../../src";
 import HypercertsStorage from "../../src/storage.js";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
-import { getAllowlist, getFormattedMetadata, publicClient, walletClient } from "../helpers";
+import { getAllowlist, getFormattedMetadata, publicClient, walletClient, mockDataSets } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { encodeFunctionResult, isHex, parseAbi, stringToHex } from "viem";
 
-const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
-
 describe("Allows for minting claims from an allowlist", () => {
-  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(mockCorrectMetadataCid);
-  const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(mockCorrectMetadataCid);
+  const { hypercertData, hypercertMetadata } = mockDataSets;
+  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(hypercertMetadata.cid);
+  const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(hypercertData.cid);
   const wallet = walletClient;
-  const userAddress = wallet.account.address;
+  const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    id: 5,
+    chain: { id: 5 },
     walletClient,
     publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
 
-  const readSpy = sinon.stub(publicClient, "request");
+  const readSpy = sinon.stub(publicClient, "readContract");
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const mintClaimFromAllowlistResult = encodeFunctionResult({

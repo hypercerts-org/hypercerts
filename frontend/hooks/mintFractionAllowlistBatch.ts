@@ -27,6 +27,8 @@ export const useMintFractionAllowlistBatch = ({
   const { data: claimIds } = useGetAllEligibility(address ?? "", chain?.id);
   const parseError = useParseBlockchainError();
 
+  const publicClient = client.config.publicClient;
+
   const stepDescriptions = {
     initial: "Initializing interaction",
     proofs: "Getting and verifying proofs",
@@ -56,7 +58,9 @@ export const useMintFractionAllowlistBatch = ({
     const verified: ClaimProof[] = results.flat().filter((x) => x);
     const unique = _.uniqWith(verified, _.isEqual);
 
-    const claimIDs = unique.map((claimProof) => claimProof.claimIDContract);
+    const claimIDs = unique.map((claimProof) =>
+      BigInt(claimProof.claimIDContract),
+    );
     const units = unique.map((claimProof) => BigInt(claimProof.units));
     const proofs = unique.map((claimProof) => claimProof.proof as HexString[]);
 
@@ -69,21 +73,25 @@ export const useMintFractionAllowlistBatch = ({
     try {
       setTxPending(true);
 
-      const tx = await client.batchMintClaimFractionsFromAllowlists(
+      const hash = await client.batchMintClaimFractionsFromAllowlists(
         claimIDs,
         units,
         proofs,
       );
+
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Minting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");

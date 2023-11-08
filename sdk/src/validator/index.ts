@@ -7,11 +7,12 @@ import metaDataSchema from "../resources/schema/metadata.json";
 import {
   AllowlistEntry,
   DuplicateEvaluation,
+  EvaluationData,
   HypercertClaimdata,
   HypercertMetadata,
   MintingError,
   SimpleTextEvaluation,
-} from "../types/index.js";
+} from "../types";
 import { isAddress } from "viem";
 
 const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
@@ -20,25 +21,33 @@ ajv.addSchema(claimDataSchema, "claimData");
 ajv.addSchema(evaluationSchema, "evaluation.json");
 
 /**
- * The result of a validation.
- * @property valid - Whether the data is valid.
- * @property errors - A map of errors, where the key is the field that failed validation and the value is the error message.
+ * Represents the result of a validation operation.
+ *
+ * This type is used to return the result of validating data against a schema. It includes a `valid` flag that indicates
+ * whether the data is valid, and an `errors` object that contains any errors that occurred during validation.
+ *
  */
 type ValidationResult = {
+  data: AllowlistEntry[] | EvaluationData | HypercertClaimdata | HypercertMetadata | unknown;
   valid: boolean;
-  errors: Record<string, string>;
+  errors: Record<string, string | string[]>;
 };
 
 /**
- * Validates the data for a simple text evaluation.
- * @param data The data to validate.
- * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ * Validates Hypercert metadata.
+ *
+ * This function uses the AJV library to validate the metadata. It first retrieves the schema for the metadata,
+ * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
+ * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
+ *
+ * @param {unknown} data - The metadata to validate. This should be an object that conforms to the HypercertMetadata type.
+ * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
  */
-const validateMetaData = (data: HypercertMetadata): ValidationResult => {
+const validateMetaData = (data: unknown): ValidationResult => {
   const schemaName = "metaData";
   const validate = ajv.getSchema<HypercertMetadata>(schemaName);
   if (!validate) {
-    return { valid: false, errors: { schema: "Schema not found" } };
+    return { data, valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -49,22 +58,27 @@ const validateMetaData = (data: HypercertMetadata): ValidationResult => {
         errors[key] = e.message;
       }
     }
-    return { valid: false, errors };
+    return { data, valid: false, errors };
   }
 
-  return { valid: true, errors: {} };
+  return { data: data as HypercertMetadata, valid: true, errors: {} };
 };
 
 /**
- * Validates the data for a simple text evaluation.
- * @param data The data to validate.
- * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ * Validates Hypercert claim data.
+ *
+ * This function uses the AJV library to validate the claim data. It first retrieves the schema for the claim data,
+ * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
+ * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
+ *
+ * @param {unknown} data - The claim data to validate. This should be an object that conforms to the HypercertClaimdata type.
+ * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
  */
-const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
+const validateClaimData = (data: unknown): ValidationResult => {
   const schemaName = "claimData";
   const validate = ajv.getSchema<HypercertClaimdata>(schemaName);
   if (!validate) {
-    return { valid: false, errors: { schema: "Schema not found" } };
+    return { data, valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -75,19 +89,23 @@ const validateClaimData = (data: HypercertClaimdata): ValidationResult => {
         errors[key] = e.message;
       }
     }
-    return { valid: false, errors };
+    return { data, valid: false, errors };
   }
 
-  return { valid: true, errors: {} };
+  return { data: data as HypercertClaimdata, valid: true, errors: {} };
 };
 
 /**
- * Validates the data for an allowlist.
- * @param data The data to validate.
- * @param units The total number of units in the allowlist.
- * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ * Validates an array of allowlist entries.
+ *
+ * This function checks that the total units in the allowlist match the expected total units, that the total units are greater than 0,
+ * and that all addresses in the allowlist are valid Ethereum addresses. It returns an object that includes a validity flag and any errors that occurred during validation.
+ *
+ * @param {AllowlistEntry[]} data - The allowlist entries to validate. Each entry should be an object that includes an address and a number of units.
+ * @param {bigint} units - The expected total units in the allowlist.
+ * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation. The keys in the errors object are the names of the invalid properties, and the values are the error messages.
  */
-const validateAllowlist = (data: AllowlistEntry[], units: bigint) => {
+const validateAllowlist = (data: AllowlistEntry[], units: bigint): ValidationResult => {
   const errors: Record<string, string | string[]> = {};
   const totalUnits = data.reduce((acc, curr) => acc + BigInt(curr.units.toString()), 0n);
   if (totalUnits != units) {
@@ -105,18 +123,23 @@ const validateAllowlist = (data: AllowlistEntry[], units: bigint) => {
     errors["address"] = filteredAddresses.map((entry) => entry.address);
   }
 
-  return { valid: Object.keys(errors).length === 0, errors };
+  return { data, valid: Object.keys(errors).length === 0, errors };
 };
 
 /**
- * Validates the data for a duplicate evaluation.
- * @param data The data to validate.
- * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ * Validates duplicate evaluation data.
+ *
+ * This function uses the AJV library to validate the duplicate evaluation data. It first retrieves the schema for the duplicate evaluation data,
+ * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
+ * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
+ *
+ * @param {DuplicateEvaluation} data - The duplicate evaluation data to validate. This should be an object that conforms to the DuplicateEvaluation type.
+ * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
  */
 const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationResult => {
   const validate = ajv.getSchema<DuplicateEvaluation>("evaluation.json#/definitions/DuplicateEvaluation");
   if (!validate) {
-    return { valid: false, errors: { schema: "Schema not found" } };
+    return { data, valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -127,21 +150,26 @@ const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationR
         errors[key] = e.message;
       }
     }
-    return { valid: false, errors };
+    return { data, valid: false, errors };
   }
 
-  return { valid: true, errors: {} };
+  return { data, valid: true, errors: {} };
 };
 
 /**
- * Validates the data for a simple text evaluation.
- * @param data The data to validate.
- * @returns A `ValidationResult` object indicating whether the data is valid and any errors that were found.
+ * Validates simple text evaluation data against a predefined schema.
+ *
+ * This function uses the AJV library to validate the simple text evaluation data. It first retrieves the schema for the simple text evaluation data,
+ * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
+ * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
+ *
+ * @param {SimpleTextEvaluation} data - The simple text evaluation data to validate. This should be an object that conforms to the SimpleTextEvaluation type.
+ * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
  */
 const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): ValidationResult => {
   const validate = ajv.getSchema<SimpleTextEvaluation>("evaluation.json#/definitions/SimpleTextEvaluation");
   if (!validate) {
-    return { valid: false, errors: { schema: "Schema not found" } };
+    return { data, valid: false, errors: { schema: "Schema not found" } };
   }
 
   if (!validate(data)) {
@@ -152,19 +180,23 @@ const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): Validatio
         errors[key] = e.message;
       }
     }
-    return { valid: false, errors };
+    return { data, valid: false, errors };
   }
 
-  return { valid: true, errors: {} };
+  return { data, valid: true, errors: {} };
 };
 
 /**
- * Verifies a Merkle proof for a given address and units.
- * @param root The Merkle root hash to verify against.
- * @param signerAddress The address to verify.
- * @param units The units to verify.
- * @param proof The Merkle proof to verify.
- * @throws {MintingError} If the Merkle proof verification fails.
+ * Verifies a Merkle proof for a given root, signer address, units, and proof.
+ *
+ * This function first checks if the signer address is a valid Ethereum address. If it's not, it throws a `MintingError`.
+ * It then verifies the Merkle proof using the `StandardMerkleTree.verify` method. If the verification fails, it throws a `MintingError`.
+ *
+ * @param {string} root - The root of the Merkle tree.
+ * @param {string} signerAddress - The signer's Ethereum address.
+ * @param {bigint} units - The number of units.
+ * @param {string[]} proof - The Merkle proof to verify.
+ * @throws {MintingError} Will throw a `MintingError` if the signer address is invalid or if the Merkle proof verification fails.
  */
 function verifyMerkleProof(root: string, signerAddress: string, units: bigint, proof: string[]): void {
   if (!isAddress(signerAddress)) {
@@ -178,13 +210,16 @@ function verifyMerkleProof(root: string, signerAddress: string, units: bigint, p
 }
 
 /**
- * Batch verifies Merkle proofs for multiple roots, units and proofs for a single address
- * @param roots The Merkle root hashes to verify against.
- * @param signerAddress The address to verify.
- * @param units The units to verify.
- * @param proofs The Merkle proofs to verify.
- * @throws {MintingError} If the Merkle proof verification fails.
- * @notice Wrapper around `verifyMerkleProof` to batch verify multiple proofs
+ * Verifies multiple Merkle proofs for given roots, a signer address, units, and proofs.
+ *
+ * This function first checks if the lengths of the roots, units, and proofs arrays are equal. If they're not, it throws a `MintingError`.
+ * It then iterates over the arrays and verifies each Merkle proof using the `verifyMerkleProof` function. If any verification fails, it throws a `MintingError`.
+ *
+ * @param {string[]} roots - The roots of the Merkle trees.
+ * @param {string} signerAddress - The signer's Ethereum address.
+ * @param {bigint[]} units - The numbers of units.
+ * @param {string[][]} proofs - The Merkle proofs to verify.
+ * @throws {MintingError} Will throw a `MintingError` if the lengths of the input arrays are not equal or if any Merkle proof verification fails.
  */
 function verifyMerkleProofs(roots: string[], signerAddress: string, units: bigint[], proofs: string[][]) {
   if (roots.length !== units.length || units.length !== proofs.length) {

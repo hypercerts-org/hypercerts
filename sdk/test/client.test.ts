@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src/index.js";
-import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types/index.js";
-import { publicClient, walletClient } from "./helpers.js";
+import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src";
+import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types";
+import { publicClient, walletClient } from "./helpers";
 
 describe("HypercertClient setup tests", () => {
   afterAll(() => {
@@ -12,7 +12,7 @@ describe("HypercertClient setup tests", () => {
 
   it("should be able to create a new read only instance when missing storage keys", () => {
     const readOnlyClient = new HypercertClient({
-      id: 5,
+      chain: { id: 5 },
       publicClient,
     });
 
@@ -21,8 +21,13 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should be able to create a new instance", () => {
-    const config = { id: 5, publicClient, walletClient, nftStorageToken: "test", web3StorageToken: "test" };
-    const client = new HypercertClient(config);
+    const client = new HypercertClient({
+      chain: { id: 5 },
+      publicClient,
+      walletClient,
+      nftStorageToken: "test",
+      web3StorageToken: "test",
+    });
     expect(client).to.be.an.instanceOf(HypercertClient);
 
     //TODO currently only publicClient added as a test, also add other flows
@@ -30,25 +35,21 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should throw an error when the chainId is not supported", () => {
+    const falseChainId = 1337;
     try {
-      new HypercertClient({ id: 1337 });
+      new HypercertClient({ chain: { id: falseChainId } });
       expect.fail("Should throw UnsupportedChainError");
     } catch (e) {
       expect(e).to.be.instanceOf(UnsupportedChainError);
 
       const error = e as UnsupportedChainError;
       expect(error.message).to.eq("No default config for chainId=1337 found in SDK");
-      expect(Number(error.payload?.chainID)).to.eq(1337);
+      expect(Number(error.payload?.chainID)).to.eq(falseChainId);
     }
   });
 
   it("should throw an error when executing write method in readonly mode", async () => {
-    sinon.stub(process, "env").value({ NFT_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ WEB3_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ NEXT_PUBLIC_NFT_STORAGE_TOKEN: null });
-    sinon.stub(process, "env").value({ NEXT_PUBLIC_WEB3_STORAGE_TOKEN: null });
-
-    const client = new HypercertClient({ id: 5 });
+    const client = new HypercertClient({ chain: { id: 5 } });
 
     // mintClaim
     try {
@@ -62,7 +63,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client instanceof HypercertClient).to.be.true;
     }
 
@@ -79,7 +80,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -88,13 +89,13 @@ describe("HypercertClient setup tests", () => {
       const claimId = 1n;
       const fractions = [100n, 200n];
 
-      await client.splitClaimUnits(claimId, fractions);
+      await client.splitFractionUnits(claimId, fractions);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -102,13 +103,13 @@ describe("HypercertClient setup tests", () => {
     try {
       const claimIds = [1n, 2n];
 
-      await client.mergeClaimUnits(claimIds);
+      await client.mergeFractionUnits(claimIds);
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -122,7 +123,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -139,7 +140,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
 
@@ -156,7 +157,7 @@ describe("HypercertClient setup tests", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Client is readonly");
+      expect(error.message).to.eq("Could not connect to wallet; sending transactions not allowed.");
       expect(error.payload?.client).to.be.instanceOf(HypercertClient);
     }
   });
