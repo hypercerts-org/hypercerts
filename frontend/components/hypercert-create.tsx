@@ -3,7 +3,7 @@ import { parseListFromString } from "../lib/parsing";
 import { useConfetti } from "./confetti";
 import { useContractModal } from "./contract-interaction-dialog-context";
 import { DATE_INDEFINITE, DateIndefinite, FormContext } from "./forms";
-import { formatHypercertData } from "@hypercerts-org/sdk";
+import { TransferRestrictions, formatHypercertData } from "@hypercerts-org/sdk";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
@@ -62,6 +62,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   backgroundColor: "",
   backgroundVectorArt: "",
   metadataProperties: "",
+  transferRestrictions: TransferRestrictions.FromCreatorOnly,
 };
 
 interface HypercertCreateFormData {
@@ -89,6 +90,7 @@ interface HypercertCreateFormData {
   backgroundColor: string;
   backgroundVectorArt: string;
   metadataProperties: string;
+  transferRestrictions: TransferRestrictions;
 }
 
 /**
@@ -385,9 +387,14 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
                 allowlistUrl: values.allowlistUrl,
                 allowlistPercentage: values.allowlistPercentage,
                 deduplicate: values.deduplicateAllowlist,
+                transferRestrictions: values.transferRestrictions,
               });
             } else {
-              await mintClaim(metaData.data, DEFAULT_NUM_FRACTIONS);
+              await mintClaim(
+                metaData.data,
+                DEFAULT_NUM_FRACTIONS,
+                values.transferRestrictions,
+              );
             }
           } else {
             toast("Error creating hypercert. Please contact the team.", {
