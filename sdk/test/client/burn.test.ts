@@ -38,10 +38,6 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    readSpy = readSpy.withArgs(sinon.match({ method: "eth_call" })).resolves(ownerOfResult);
-
-    writeSpy = writeSpy.resolves(burnFractionResult);
-
     expect(client.readonly).toBe(false);
 
     const hash = await client.burnClaimFraction(fractionId);
@@ -55,10 +51,6 @@ describe("burn fraction tokens in HypercertClient", () => {
 
   it("throws on burning fraction not owned by signer", async () => {
     readSpy = readSpy.resolves(faker.finance.ethereumAddress());
-
-    readSpy = readSpy.withArgs(sinon.match({ method: "eth_call" })).resolves(ownerOfResult);
-
-    writeSpy = writeSpy.resolves(burnFractionResult);
 
     expect(client.readonly).toBe(false);
 
@@ -83,10 +75,6 @@ describe("burn fraction tokens in HypercertClient", () => {
     readSpy = readSpy.resolves(userAddress);
 
     writeSpy = writeSpy.resolves(toHex(420));
-
-    readSpy = readSpy.withArgs(sinon.match({ method: "eth_call" })).resolves(ownerOfResult);
-
-    writeSpy = writeSpy.resolves(burnFractionResult);
 
     expect(client.readonly).toBe(false);
 

@@ -218,15 +218,3 @@ const getDefaultChain = (chainId: number) => {
     }
   }
 };
-
-const getDefaultChain = (chainId: number) => {
-  const _chains = [sepolia, goerli, optimism, celo];
-
-  for (const chain of Object.values(_chains)) {
-    if ("id" in chain) {
-      if (chain.id === chainId) {
-        return chain as Chain;
-      }
-    }
-  }
-};
