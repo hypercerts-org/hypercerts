@@ -97,7 +97,7 @@
     "template"
   ],
   "scripts": {
-    "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c && pnpm copy:contracts",
+    "build": "hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "forge build",
     "clean": "rimraf cache out dist typechain abi",
     "copy:contracts": "copyfiles -u 1 ./src/**/*.sol  ./src/*.sol ./contracts",
