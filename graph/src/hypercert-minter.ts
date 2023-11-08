@@ -11,6 +11,7 @@ import {
   URI as URIEvent,
   ValueTransfer as ValueTransferEvent,
 } from "../generated/HypercertMinter/HypercertMinter";
+import { ClaimToken } from "../generated/schema";
 import {
   ZERO_ADDRESS,
   getID,
@@ -19,7 +20,6 @@ import {
   getOrCreateClaimToken,
 } from "./utils";
 import { log } from "@graphprotocol/graph-ts";
-import { ClaimToken } from "../generated/schema";
 
 export function handleAllowlistCreated(event: AllowlistCreatedEvent): void {
   const allowlist = getOrCreateAllowlist(
@@ -74,7 +74,6 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     }
 
     token.owner = event.params.to;
-
     token.save();
   }
 }

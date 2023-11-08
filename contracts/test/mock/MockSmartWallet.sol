@@ -54,7 +54,7 @@ contract MockSmartWallet {
     }
 
     function execute(address dest, uint256 value, bytes calldata calldata_) public onlyOwner {
-        (bool success, bytes memory result) = dest.call{value: value}(calldata_);
+        (bool success, bytes memory result) = dest.call{ value: value }(calldata_);
 
         if (!success) {
             assembly {

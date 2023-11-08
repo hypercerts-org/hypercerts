@@ -11,6 +11,8 @@ import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 import {LooksRareProtocol, ILooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
 import {TransferManager} from "@hypercerts/marketplace/TransferManager.sol";
 import {ProtocolFeeRecipient} from "@hypercerts/marketplace/ProtocolFeeRecipient.sol";
+import {HypercertMinter} from "@hypercerts/protocol/HypercertMinter.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Other contracts
 import {OrderValidatorV2A} from "@hypercerts/marketplace/helpers/OrderValidatorV2A.sol";
@@ -21,6 +23,7 @@ import {MockERC721} from "../../mock/MockERC721.sol";
 import {MockERC721WithRoyalties} from "../../mock/MockERC721WithRoyalties.sol";
 import {MockERC1155} from "../../mock/MockERC1155.sol";
 import {MockRoyaltyFeeRegistry} from "../../mock/MockRoyaltyFeeRegistry.sol";
+import {MockHypercertMinterUUPS} from "../../mock/MockHypercertMinterUUPS.sol";
 
 // Utils
 import {MockOrderGenerator} from "./utils/MockOrderGenerator.sol";
@@ -32,6 +35,11 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
     MockERC721WithRoyalties public mockERC721WithRoyalties;
     MockERC721 public mockERC721;
     MockERC1155 public mockERC1155;
+    MockHypercertMinterUUPS public mockHypercertMinterUUPS;
+    HypercertMinter public mockHypercertMinter;
+
+    IHypercertToken.TransferRestrictions public constant FROM_CREATOR_ONLY =
+        IHypercertToken.TransferRestrictions.FromCreatorOnly;
 
     ProtocolFeeRecipient public protocolFeeRecipient;
     LooksRareProtocol public looksRareProtocol;
@@ -125,6 +133,8 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         mockERC721.setApprovalForAll(address(transferManager), true);
         mockERC1155.setApprovalForAll(address(transferManager), true);
         mockERC721WithRoyalties.setApprovalForAll(address(transferManager), true);
+        mockHypercertMinter.setApprovalForAll(address(transferManager), true);
+
         weth.approve(address(looksRareProtocol), type(uint256).max);
 
         // Grant approvals for transfer manager
@@ -153,6 +163,9 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         looksRareToken = new MockERC20();
         mockERC721 = new MockERC721();
         mockERC1155 = new MockERC1155();
+        mockHypercertMinterUUPS = new MockHypercertMinterUUPS();
+        mockHypercertMinterUUPS.setUp();
+        mockHypercertMinter = mockHypercertMinterUUPS.minter();
 
         transferManager = new TransferManager(_owner);
         royaltyFeeRegistry = new MockRoyaltyFeeRegistry(_owner, 9500);

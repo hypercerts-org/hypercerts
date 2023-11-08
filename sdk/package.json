@@ -76,6 +76,7 @@
     "chai-subset": "^1.6.0",
     "esbuild": "^0.17.10",
     "ethereum-waffle": "^4.0.10",
+    "fetch-mock": "^9.11.0",
     "it-all": "^2.0.0",
     "jest": "^29.3.1",
     "jest-extended": "^4.0.0",

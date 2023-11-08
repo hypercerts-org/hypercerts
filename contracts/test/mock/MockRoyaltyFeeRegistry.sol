@@ -2,13 +2,13 @@
 pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
-import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
+import { OwnableTwoSteps } from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
 
 // Royalty Fee Registry interface
-import {IRoyaltyFeeRegistry} from "@hypercerts/marketplace/interfaces/IRoyaltyFeeRegistry.sol";
+import { IRoyaltyFeeRegistry } from "@hypercerts/marketplace/interfaces/IRoyaltyFeeRegistry.sol";
 
 // Constants
-import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
+import { ONE_HUNDRED_PERCENT_IN_BP } from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
 /**
  * @title MockRoyaltyFeeRegistry
@@ -36,7 +36,7 @@ contract MockRoyaltyFeeRegistry is IRoyaltyFeeRegistry, OwnableTwoSteps {
      * @param _royaltyFeeLimit new royalty fee limit (500 = 5%, 1,000 = 10%)
      */
     constructor(address _owner, uint256 _royaltyFeeLimit) OwnableTwoSteps(_owner) {
-        require(_royaltyFeeLimit <= 9500, "Owner: Royalty fee limit too high");
+        require(_royaltyFeeLimit <= 9_500, "Owner: Royalty fee limit too high");
         royaltyFeeLimit = _royaltyFeeLimit;
     }
 
@@ -45,7 +45,7 @@ contract MockRoyaltyFeeRegistry is IRoyaltyFeeRegistry, OwnableTwoSteps {
      * @param _royaltyFeeLimit new royalty fee limit (500 = 5%, 1,000 = 10%)
      */
     function updateRoyaltyFeeLimit(uint256 _royaltyFeeLimit) external onlyOwner {
-        require(_royaltyFeeLimit <= 9500, "Owner: Royalty fee limit too high");
+        require(_royaltyFeeLimit <= 9_500, "Owner: Royalty fee limit too high");
         royaltyFeeLimit = _royaltyFeeLimit;
 
         emit NewRoyaltyFeeLimit(_royaltyFeeLimit);
@@ -58,12 +58,14 @@ contract MockRoyaltyFeeRegistry is IRoyaltyFeeRegistry, OwnableTwoSteps {
      * @param receiver receiver for the royalty fee
      * @param fee fee (500 = 5%, 1,000 = 10%)
      */
-    function updateRoyaltyInfoForCollection(address collection, address setter, address receiver, uint256 fee)
-        external
-        onlyOwner
-    {
+    function updateRoyaltyInfoForCollection(
+        address collection,
+        address setter,
+        address receiver,
+        uint256 fee
+    ) external onlyOwner {
         require(fee <= royaltyFeeLimit, "Registry: Royalty fee too high");
-        _royaltyFeeInfoCollection[collection] = FeeInfo({setter: setter, receiver: receiver, fee: fee});
+        _royaltyFeeInfoCollection[collection] = FeeInfo({ setter: setter, receiver: receiver, fee: fee });
 
         emit RoyaltyFeeUpdate(collection, setter, receiver, fee);
     }
