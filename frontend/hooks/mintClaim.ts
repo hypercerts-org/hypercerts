@@ -25,6 +25,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const initializeWrite = async (
     metaData: HypercertMetadata,
     units: number,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("minting");
     try {
@@ -33,7 +34,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
       const hash = await client.mintClaim(
         metaData,
         BigInt(units),
-        TransferRestrictions.FromCreatorOnly,
+        transferRestrictions,
       );
 
       const receipt = await publicClient?.waitForTransactionReceipt({
@@ -67,10 +68,14 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   };
 
   return {
-    write: async (metaData: HypercertMetadata, units: number) => {
+    write: async (
+      metaData: HypercertMetadata,
+      units: number,
+      transferRestrictions: TransferRestrictions = TransferRestrictions.FromCreatorOnly,
+    ) => {
       showModal({ stepDescriptions });
       setStep("preparing");
-      await initializeWrite(metaData, units);
+      await initializeWrite(metaData, units, transferRestrictions);
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,
