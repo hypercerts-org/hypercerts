@@ -84,6 +84,7 @@ export const useMintClaimAllowlist = ({
     allowlistUrl: string,
     allowlistPercentage: number,
     deduplicate: boolean,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("validateAllowlist");
 
@@ -125,7 +126,7 @@ export const useMintClaimAllowlist = ({
         _allowlist,
         metaData,
         _totalSupply,
-        TransferRestrictions.FromCreatorOnly,
+        transferRestrictions,
       );
       setStep("writing");
 
@@ -159,11 +160,13 @@ export const useMintClaimAllowlist = ({
       allowlistUrl,
       allowlistPercentage,
       deduplicate,
+      transferRestrictions = TransferRestrictions.FromCreatorOnly,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl: string;
       allowlistPercentage: number;
       deduplicate: boolean;
+      transferRestrictions?: TransferRestrictions;
     }) => {
       showModal({ stepDescriptions });
       await initializeWrite(
@@ -171,6 +174,7 @@ export const useMintClaimAllowlist = ({
         allowlistUrl,
         allowlistPercentage,
         deduplicate,
+        transferRestrictions,
       );
     },
     txPending,

@@ -52,7 +52,7 @@ export const PLASMIC = initPlasmicLoader({
   ],
   // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
-  preview: false,
+  preview: true,
 });
 
 /**
@@ -224,6 +224,11 @@ PLASMIC.registerComponent(HypercertFetcher, {
   importPath: "./components/hypercert-metadata-fetcher",
 });
 
+/**
+ * AllowAll: 0,
+ * DisallowAll: 1,
+ * FromCreatorOnly: 2,
+ */
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
   description: "Create a hypercert",
@@ -234,6 +239,11 @@ PLASMIC.registerComponent(HypercertCreateForm, {
         type: "text",
         value: "Placeholder",
       },
+    },
+    transferRestrictions: {
+      type: "choice",
+      options: ["AllowAll", "DisallowAll", "FromCreatorOnly"],
+      defaultValueHint: "FromCreatorOnly",
     },
   },
   providesData: true,
