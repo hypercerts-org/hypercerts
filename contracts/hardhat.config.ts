@@ -2,6 +2,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades";
+import "@openzeppelin/defender-sdk";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -137,6 +138,9 @@ const config: HardhatUserConfig = {
     ],
   },
   networks: {
+    fork: {
+      url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    },
     hardhat: {
       // Setting this is necessary for metamask to work with hardhat. Otherwise
       // metamask can't transfer when connected to hardhat's network.

@@ -8,3 +8,4 @@ export * from "./test-tx-client";
 export * from "./upgrade";
 export * from "./unpause";
 export * from "./validate-upgrade";
+export * from "./deploy-marketplace";

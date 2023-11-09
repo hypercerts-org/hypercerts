@@ -36,6 +36,7 @@
     "@looksrare/contracts-libs": "^3.4.0",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@openzeppelin/contracts": "<5.0.0",
+    "@openzeppelin/defender-sdk": "^1.4.0",
     "@openzeppelin/hardhat-upgrades": "2.3.3",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
