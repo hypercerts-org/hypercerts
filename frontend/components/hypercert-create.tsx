@@ -62,8 +62,6 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   backgroundColor: "",
   backgroundVectorArt: "",
   metadataProperties: "",
-  transferRestrictions: TransferRestrictions.FromCreatorOnly,
-  applicationName: "hypercerts.org",
 };
 
 interface HypercertCreateFormData {
@@ -91,8 +89,6 @@ interface HypercertCreateFormData {
   backgroundColor: string;
   backgroundVectorArt: string;
   metadataProperties: string;
-  transferRestrictions: TransferRestrictions;
-  applicationName: string;
 }
 
 /**
@@ -294,10 +290,12 @@ const ValidationSchema = Yup.object().shape({
 export interface HypercertCreateFormProps {
   className?: string; // Plasmic CSS class
   children?: ReactNode; // Form elements
+  transferRestrictions: TransferRestrictions;
+  applicationName: string;
 }
 
 export function HypercertCreateForm(props: HypercertCreateFormProps) {
-  const { className, children } = props;
+  const { className, children, transferRestrictions, applicationName } = props;
   const { address } = useAccountLowerCase();
   const { push } = useRouter();
   const { hideModal } = useContractModal();
@@ -378,6 +376,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
             values,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address!,
+            applicationName,
             image,
           );
           console.log(`Metadata(valid=${metaData.valid}): `, metaData.data);
@@ -389,13 +388,13 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
                 allowlistUrl: values.allowlistUrl,
                 allowlistPercentage: values.allowlistPercentage,
                 deduplicate: values.deduplicateAllowlist,
-                transferRestrictions: values.transferRestrictions,
+                transferRestrictions,
               });
             } else {
               await mintClaim(
                 metaData.data,
                 DEFAULT_NUM_FRACTIONS,
-                values.transferRestrictions,
+                transferRestrictions,
               );
             }
           } else {
@@ -444,6 +443,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
 const formatValuesToMetaData = (
   val: HypercertCreateFormData,
   address: string,
+  applicationName: string,
   image?: string,
 ) => {
   // Split contributor names and addresses.
@@ -481,7 +481,7 @@ const formatValuesToMetaData = (
     {
       trait_type: "Minted by",
       value: "true",
-      application: val.applicationName,
+      application: applicationName,
     },
   ];
   if (val.metadataProperties) {
