@@ -243,6 +243,10 @@ PLASMIC.registerComponent(HypercertCreateForm, {
       options: ["AllowAll", "DisallowAll", "FromCreatorOnly"],
       defaultValueHint: "FromCreatorOnly",
     },
+    applicationName: {
+      type: "string",
+      defaultValueHint: "hypercerts.org/create",
+    },
   },
   providesData: true,
   importPath: "./components/hypercert-create",

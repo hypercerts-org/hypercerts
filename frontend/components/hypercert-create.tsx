@@ -63,6 +63,7 @@ const DEFAULT_FORM_DATA: HypercertCreateFormData = {
   backgroundVectorArt: "",
   metadataProperties: "",
   transferRestrictions: TransferRestrictions.FromCreatorOnly,
+  applicationName: "hypercerts.org",
 };
 
 interface HypercertCreateFormData {
@@ -91,6 +92,7 @@ interface HypercertCreateFormData {
   backgroundVectorArt: string;
   metadataProperties: string;
   transferRestrictions: TransferRestrictions;
+  applicationName: string;
 }
 
 /**
@@ -475,10 +477,16 @@ const formatValuesToMetaData = (
     ? new Date(val.workTimeEnd).getTime() / 1000
     : 0;
 
-  let properties = [];
+  let properties = [
+    {
+      trait_type: "Minted by",
+      value: "true",
+      application: val.applicationName,
+    },
+  ];
   if (val.metadataProperties) {
     try {
-      properties = JSON.parse(val.metadataProperties);
+      properties = [...properties, ...JSON.parse(val.metadataProperties)];
     } catch (e) {
       console.warn(
         `Unable to parse metadataProperties: ${val.metadataProperties}`,
