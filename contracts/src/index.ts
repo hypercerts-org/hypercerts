@@ -21,7 +21,7 @@ import type { IAllowlist } from "../types/src/protocol/interfaces/IAllowlist";
 import type { IHypercertToken } from "../types/src/protocol/interfaces/IHypercertToken";
 import type { Errors } from "../types/src/protocol/libs/Errors";
 
-import deployments from "./deployments.json";
+import deploymentsJSON from "./deployments.json";
 
 /*
   in order to adjust the build folder:
@@ -31,8 +31,24 @@ import deployments from "./deployments.json";
     4) bump package.json version to publish a new package to npm.
 */
 
+export type Deployment = {
+  HypercertMinterUUPS: `0x${string}`;
+  HypercertMinterImplementation: `0x${string}`;
+  TransferManager?: `0x${string}`;
+  HypercertExchange?: `0x${string}`;
+};
+
+export type DeployedChains = keyof typeof deploymentsJSON;
+
 // Deployments
-export { deployments };
+const deployments = deploymentsJSON as Record<DeployedChains, Deployment>;
+
+const asDeployedChain = (chainId: string | number) => {
+  if (chainId in deployments) return chainId as DeployedChains;
+  throw new Error(`Chain ${chainId} not deployed`);
+};
+
+export { deployments, asDeployedChain };
 
 // Interfaces
 export { IAllowlist, IHypercertToken };
