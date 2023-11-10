@@ -16,8 +16,8 @@ import {
 } from "@hypercerts-org/sdk";
 
 const allowlist: Allowlist = [
-  { address: "0x123", units: 100 },
-  { address: "0xabc", units: 100 },
+  { address: "0x123", units: 100n },
+  { address: "0xabc", units: 100n },
 ];
 ```
 
@@ -50,11 +50,11 @@ Finally, the method invokes the `createAllowlist` function on the contract with 
 
 Users can claim their fraction tokens for many hypercerts at once using `mintClaimFractionFromAllowlist`. To determine the input the following information is required:
 
-| Variable | Type         | Source       |
-| -------- | ------------ | ------------ |
-| claimId  | BigNumberish | Hypercert ID |
-| units    | BigNumberish | Allowlist    |
-| proof    | BytesLike[]  | Merkle tree  |
+| Variable | Type        | Source       |
+| -------- | ----------- | ------------ |
+| claimId  | bigint      | Hypercert ID |
+| units    | bigint      | Allowlist    |
+| proof    | BytesLike[] | Merkle tree  |
 
 We store the allowlist and the Merkle tree in the metadata of the Hypercert. To understand the Merkle tree data structures, check out the [OpenZeppelin merkle tree library](https://github.com/OpenZeppelin/merkle-tree). You can get the `proof` and `units` by traversing the merkle tree.
 
@@ -66,10 +66,19 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 const claimId = "0x822f17a9a5eecfd...85254363386255337";
 const address = "0xc0ffee254729296a45a3885639AC7E10F9d54979";
 
+// Get modules from client
 const { indexer, storage } = hypercertsClient;
+
+// Get claim by ID from indexer
 const claimById = await indexer.claimById(claimId);
+
+// Get metadata and token ID from claim
 const { uri, tokenID: _id } = claimById.claim;
+
+// Get metadata and tree from storage
 const metadata = await storage.getMetadata(uri || "");
+
+// Load tree from metadata
 const treeResponse = await storage.getData(metadata.allowList);
 const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
 

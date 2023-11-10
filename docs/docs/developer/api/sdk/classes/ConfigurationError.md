@@ -28,7 +28,7 @@ The configuration was invalid
 
 ### constructor
 
-• **new ConfigurationError**(`message`, `payload?`)
+• **new ConfigurationError**(`message`, `payload?`): [`ConfigurationError`](ConfigurationError.md)
 
 #### Parameters
 
@@ -37,13 +37,17 @@ The configuration was invalid
 | `message`  | `string` |
 | `payload?` | `Object` |
 
+#### Returns
+
+[`ConfigurationError`](ConfigurationError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:166](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L166)
+sdk/src/types/errors.ts:166
 
 ## Properties
 
@@ -63,4 +67,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:165](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L165)
+sdk/src/types/errors.ts:165

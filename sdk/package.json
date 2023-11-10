@@ -96,14 +96,14 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
     "tsx": "^3.14.0",
-    "typedoc": "^0.23.25",
-    "typedoc-plugin-markdown": "^3.14.0",
-    "typedoc-plugin-missing-exports": "^2.0.0",
+    "typedoc": "^0.25.3",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typedoc-plugin-missing-exports": "^2.1.0",
     "typescript": "5.1.6"
   },
   "scripts": {
     "build": "pnpm types:json && pnpm graph:build:esm && rollup -c",
-    "docs": "typedoc",
+    "build:docs": "typedoc --plugin typedoc-plugin-missing-exports --plugin typedoc-plugin-markdown",
     "graph:compile": "graphql-codegen",
     "graph:serve": "graphclient serve-dev",
     "graph:watch": "graphql-codegen -w",

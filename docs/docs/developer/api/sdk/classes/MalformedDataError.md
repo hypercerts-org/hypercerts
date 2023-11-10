@@ -28,7 +28,7 @@ Data doesn't conform to expectations
 
 ### constructor
 
-• **new MalformedDataError**(`message`, `payload?`)
+• **new MalformedDataError**(`message`, `payload?`): [`MalformedDataError`](MalformedDataError.md)
 
 Creates a new instance of the MalformedDataError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the MalformedDataError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`MalformedDataError`](MalformedDataError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:133](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L133)
+sdk/src/types/errors.ts:133
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:126](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L126)
+sdk/src/types/errors.ts:126

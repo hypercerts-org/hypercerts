@@ -16,9 +16,7 @@
 
 ### Properties
 
-- [eas](internal.default.md#eas)
 - [readonly](internal.default.md#readonly)
-- [signer](internal.default.md#signer)
 - [storage](internal.default.md#storage)
 
 ### Methods
@@ -29,29 +27,23 @@
 
 ### constructor
 
-• **new default**(`config?`)
+• **new default**(`config`): [`default`](internal.default.md)
 
 #### Parameters
 
-| Name     | Type                                                                       |
-| :------- | :------------------------------------------------------------------------- |
-| `config` | `Partial`<[`HypercertClientConfig`](../modules.md#hypercertclientconfig)\> |
+| Name     | Type                                                                        |
+| :------- | :-------------------------------------------------------------------------- |
+| `config` | `Partial`\<[`HypercertClientConfig`](../modules.md#hypercertclientconfig)\> |
+
+#### Returns
+
+[`default`](internal.default.md)
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:37](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L37)
+sdk/src/evaluations/index.ts:23
 
 ## Properties
-
-### eas
-
-• **eas**: [`default`](internal.default-2.md)
-
-#### Defined in
-
-[sdk/src/evaluations/index.ts:33](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L33)
-
----
 
 ### readonly
 
@@ -59,17 +51,7 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:35](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L35)
-
----
-
-### signer
-
-• `Optional` **signer**: `Signer` & `TypedDataSigner`
-
-#### Defined in
-
-[sdk/src/evaluations/index.ts:29](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L29)
+sdk/src/evaluations/index.ts:21
 
 ---
 
@@ -79,13 +61,13 @@
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:31](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L31)
+sdk/src/evaluations/index.ts:19
 
 ## Methods
 
 ### submitEvaluation
 
-▸ **submitEvaluation**(`evaluation`): `Promise`<`CIDString`\>
+▸ **submitEvaluation**(`evaluation`): `Promise`\<`CIDString`\>
 
 Submits an evaluation to the prefered storage system.
 
@@ -97,14 +79,14 @@ Submits an evaluation to the prefered storage system.
 
 #### Returns
 
-`Promise`<`CIDString`\>
+`Promise`\<`CIDString`\>
 
 - The CID of the submitted evaluation.
 
 #### Implementation of
 
-EvaluatorInterface.submitEvaluation
+[EvaluatorInterface](../interfaces/internal.EvaluatorInterface.md).[submitEvaluation](../interfaces/internal.EvaluatorInterface.md#submitevaluation)
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:53](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L53)
+sdk/src/evaluations/index.ts:32

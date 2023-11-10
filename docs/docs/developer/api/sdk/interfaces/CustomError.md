@@ -36,4 +36,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:8](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L8)
+sdk/src/types/errors.ts:8

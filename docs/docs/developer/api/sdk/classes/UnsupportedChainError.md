@@ -29,7 +29,7 @@ Please file an issue
 
 ### constructor
 
-• **new UnsupportedChainError**(`message`, `payload?`)
+• **new UnsupportedChainError**(`message`, `payload?`): [`UnsupportedChainError`](UnsupportedChainError.md)
 
 Creates a new instance of the UnsupportedChainError class.
 
@@ -41,13 +41,17 @@ Creates a new instance of the UnsupportedChainError class.
 | `payload?`        | `Object`                            | Additional error payload. |
 | `payload.chainID` | `undefined` \| `string` \| `number` | -                         |
 
+#### Returns
+
+[`UnsupportedChainError`](UnsupportedChainError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:152](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L152)
+sdk/src/types/errors.ts:152
 
 ## Properties
 
@@ -69,4 +73,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:145](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L145)
+sdk/src/types/errors.ts:145

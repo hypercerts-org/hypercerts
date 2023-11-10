@@ -22,11 +22,11 @@
 
 ### claimById
 
-• **claimById**: (`id`: `string`) => `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+• **claimById**: (`id`: `string`) => `Promise`\<[`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 #### Type declaration
 
-▸ (`id`): `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+▸ (`id`): `Promise`\<[`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 ##### Parameters
 
@@ -36,21 +36,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+`Promise`\<[`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L20)
+sdk/src/types/indexer.ts:21
 
 ---
 
 ### claimsByOwner
 
-• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`\<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+▸ (`owner`, `params?`): `Promise`\<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 ##### Parameters
 
@@ -61,21 +61,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+`Promise`\<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L19)
+sdk/src/types/indexer.ts:20
 
 ---
 
 ### firstClaims
 
-• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`\<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 #### Type declaration
 
-▸ (`params?`): `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+▸ (`params?`): `Promise`\<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 ##### Parameters
 
@@ -85,21 +85,21 @@
 
 ##### Returns
 
-`Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+`Promise`\<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L21)
+sdk/src/types/indexer.ts:22
 
 ---
 
 ### fractionById
 
-• **fractionById**: (`fractionId`: `string`) => `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+• **fractionById**: (`fractionId`: `string`) => `Promise`\<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 #### Type declaration
 
-▸ (`fractionId`): `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+▸ (`fractionId`): `Promise`\<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 ##### Parameters
 
@@ -109,21 +109,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+`Promise`\<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L24)
+sdk/src/types/indexer.ts:25
 
 ---
 
 ### fractionsByClaim
 
-• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`\<[`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 #### Type declaration
 
-▸ (`claimId`, `params?`): `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+▸ (`claimId`, `params?`): `Promise`\<[`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 ##### Parameters
 
@@ -134,21 +134,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+`Promise`\<[`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L23)
+sdk/src/types/indexer.ts:24
 
 ---
 
 ### fractionsByOwner
 
-• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`\<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+▸ (`owner`, `params?`): `Promise`\<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 ##### Parameters
 
@@ -159,18 +159,29 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+`Promise`\<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L22)
+sdk/src/types/indexer.ts:23
 
 ---
 
 ### graphClient
 
-• **graphClient**: `any`
+• **graphClient**: `Object`
+
+#### Type declaration
+
+| Name                 | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ClaimById`          | (`variables`: [`Exact`](../modules/internal.md#exact)\<\{ `id`: `string` }\>, `options?`: `unknown`) => `Promise`\<[`ClaimByIdQuery`](../modules.md#claimbyidquery)\>                                                                                                                                                                                                                                                                                                                     |
+| `ClaimTokenById`     | (`variables`: [`Exact`](../modules/internal.md#exact)\<\{ `claimTokenId`: `string` }\>, `options?`: `unknown`) => `Promise`\<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>                                                                                                                                                                                                                                                                                        |
+| `ClaimTokensByClaim` | (`variables`: [`Exact`](../modules/internal.md#exact)\<\{ `claimId`: `string` ; `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> }\>, `options?`: `unknown`) => `Promise`\<[`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>       |
+| `ClaimTokensByOwner` | (`variables?`: [`Exact`](../modules/internal.md#exact)\<\{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> }\>, `options?`: `unknown`) => `Promise`\<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\> |
+| `ClaimsByOwner`      | (`variables?`: [`Exact`](../modules/internal.md#exact)\<\{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `owner?`: `any` ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> }\>, `options?`: `unknown`) => `Promise`\<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>           |
+| `RecentClaims`       | (`variables?`: [`Exact`](../modules/internal.md#exact)\<\{ `first?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> ; `orderDirection?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<[`OrderDirection`](../modules/internal.md#orderdirection)\> ; `skip?`: [`InputMaybe`](../modules/internal.md#inputmaybe)\<`number`\> }\>, `options?`: `unknown`) => `Promise`\<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>                               |
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L18)
+sdk/src/types/indexer.ts:19

@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:35](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L35)
+sdk/src/types/evaluation.d.ts:35
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:36](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L36)
+sdk/src/types/evaluation.d.ts:36
 
 ---
 
@@ -42,4 +42,4 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:34](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L34)
+sdk/src/types/evaluation.d.ts:34

@@ -28,7 +28,7 @@ Fails storing to a remote resource
 
 ### constructor
 
-• **new StorageError**(`message`, `payload?`)
+• **new StorageError**(`message`, `payload?`): [`StorageError`](StorageError.md)
 
 Creates a new instance of the StorageError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the StorageError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`StorageError`](StorageError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:97](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L97)
+sdk/src/types/errors.ts:97
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:90](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L90)
+sdk/src/types/errors.ts:90

@@ -18,11 +18,11 @@
 
 ### submitEvaluation
 
-• **submitEvaluation**: (`evaluation`: [`HypercertEvaluationSchema`](HypercertEvaluationSchema.md)) => `Promise`<`CIDString`\>
+• **submitEvaluation**: (`evaluation`: [`HypercertEvaluationSchema`](HypercertEvaluationSchema.md)) => `Promise`\<`CIDString`\>
 
 #### Type declaration
 
-▸ (`evaluation`): `Promise`<`CIDString`\>
+▸ (`evaluation`): `Promise`\<`CIDString`\>
 
 Submits an evaluation to the prefered storage system.
 
@@ -34,10 +34,10 @@ Submits an evaluation to the prefered storage system.
 
 ##### Returns
 
-`Promise`<`CIDString`\>
+`Promise`\<`CIDString`\>
 
 - The CID of the submitted evaluation.
 
 #### Defined in
 
-[sdk/src/evaluations/index.ts:25](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/evaluations/index.ts#L25)
+sdk/src/evaluations/index.ts:15

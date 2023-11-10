@@ -4,7 +4,7 @@ Hypercerts SDK Documentation / [Exports](modules.md)
 
 ## Quickstart Guide
 
-1. Install the SDK using npm or yarn:
+1. Install the SDK using npm, yarn or pnpm:
 
 ```bash
 npm install @hypercerts-org/sdk
@@ -26,15 +26,13 @@ import { HypercertClient } from "@hypercerts-org/sdk";
 
 ```js
 const client = new HypercertClient({
-  chainId: 5,
-  provider,
-  signer,
+  chain: { id: 5 } // required
   nftStorageToken,
   web3StorageToken,
 });
 ```
 
-> **Note** If there's no `signer`, `provider`, `nftStorageToken` or `web3StorageToken` provided, the client will run in
+> **Note** If there's no `walletClient`, `nftStorageToken` or `web3StorageToken` provided, the client will run in
 > [read-only mode](#read-only-mode)
 
 4. Use the client object to interact with the Hypercert network.
@@ -67,77 +65,35 @@ environment variables for your NFT.storage and web3.storage API keys in your .en
 
 ## Config
 
-The SDK will try to determine the `DEFAULT_CHAIN_ID` and use that to inform the configuration. We allow for `overrides`
-when creating the SDK by passing configuration variables. Finally, when not defaults or overrides are found, we check
-the environment variables.
+HypercertClientConfig is a configuration object used when initializing a new instance of the HypercertClient. It allows
+you to customize the client by setting your own providers or deployments. At it's simplest, you only need to provide
+`chain.id` to initalize the client in `readonly` mode.
+
+| Field                       | Type    | Description                                                                                    |
+| --------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `chain`                     | Object  | Partial configuration for the blockchain network.                                              |
+| `contractAddress`           | String  | The address of the deployed contract.                                                          |
+| `graphUrl`                  | String  | The URL to the subgraph that indexes the contract events. Override for localized testing.      |
+| `graphName`                 | String  | The name of the subgraph.                                                                      |
+| `nftStorageToken`           | String  | The API token for NFT.storage.                                                                 |
+| `web3StorageToken`          | String  | The API token for Web3.storage.                                                                |
+| `easContractAddress`        | String  | The address of the EAS contract.                                                               |
+| `publicClient`              | Object  | The PublicClient is inherently read-only and is used for reading data from the blockchain.     |
+| `walletClient`              | Object  | The WalletClient is used for signing and sending transactions.                                 |
+| `unsafeForceOverrideConfig` | Boolean | Boolean to force the use of overridden values.                                                 |
+| `readOnly`                  | Boolean | Boolean to assert if the client is in read-only mode.                                          |
+| `readOnlyReason`            | String  | Reason for read-only mode. This is optional and can be used for logging or debugging purposes. |
 
 ### Read-only mode
 
 The SDK client will be in read-only mode if any of the following conditions are true:
 
-- The client was initialized without a signer or provider.
-- The client was initialized with a provider but not a signer.
-- The client was initialized with a signer but not a provider.
+- The client was initialized without a walletprovider.
 - The contract address is not set.
 - The storage layer is in read-only mode.
 
 If any of these conditions are true, the readonly property of the HypercertClient instance will be set to true, and a
 warning message will be logged indicating that the client is in read-only mode.
-
-### Defaults
-
-The constants.ts file defines various constants that are used throughout the Hypercert system. Here's a brief
-explanation of each constant:
-
-`DEFAULT_CHAIN_ID`: This constant defines the default chain ID to use if no chain ID is specified. In this case, the
-default chain ID is set to 5, which corresponds to the Goerli testnet.
-
-Based on `DEFAULT_CHAIN_ID` the SDK will select a `DEPLOYMENT`.
-
-`DEPLOYMENTS`: This constant defines the deployments that are managed by the Hypercert system. Each Deployment object
-contains information about a specific deployment, including the chain ID, chain name, contract address, and graph name.
-
-For example:
-
-```json
-{
-  "5": {
-    "chainId": 5,
-    "chainName": "goerli",
-    "contractAddress": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    "graphName": "hypercerts-testnet"
-  }
-}
-```
-
-### Client config properties
-
-| \| Property        | Type                 | Description                            |
-| ------------------ | -------------------- | -------------------------------------- |
-| `chainId`          | `number`             | The chain ID of the network to use.    |
-| `chainName`        | `string`             | The name of the network to use.        |
-| `contractAddress`  | `string`             | The address of the Hypercert contract. |
-| `rpcUrl`           | `string`             | The URL of the RPC endpoint to use.    |
-| `graphName`        | `string`             | The name of the Gsubgraph to use.      |
-| `provider`         | `providers.Provider` | A custom provider to use.              |
-| `signer`           | `Signer`             | A custom signer to use.                |
-| `nftStorageToken`  | `string`             | Your NFT.storage API key.              |
-| `web3StorageToken` | `string`             | Your web3.storage API key.             |
-
-### Environment variables
-
-To determine the missing configuration values the SDK defaults to the following environment variables:
-
-| Environment Variable             | Description                                                                                         |
-| -------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `DEFAULT_CHAIN_ID`               | Specifies the default chain ID to use if no chain ID is specified.                                  |
-| `CONTRACT_ADDRESS`               | Specifies the contract address to use for the Hypercert protocol.                                   |
-| `RPC_URL`                        | Specifies the RPC URL to use for the evm-compatible network.                                        |
-| `PRIVATE_KEY`                    | Specifies the private key to use for signing transactions.                                          |
-| `NFT_STORAGE_TOKEN`              | Specifies the NFT.storage API token to use for storing Hypercert metadata.                          |
-| `NEXT_PUBLIC_NFT_STORAGE_TOKEN`  | Specifies the NFT.storage API token to use for storing Hypercert metadata in a Next.js application. |
-| `WEB3_STORAGE_TOKEN`             | Specifies the Web3.storage API token to use for storing Hypercert data.                             |
-| `NEXT_PUBLIC_WEB3_STORAGE_TOKEN` | Specifies the Web3.storage API token to use for storing Hypercert data in a Next.js application.    |
 
 ### Logging
 
@@ -154,7 +110,7 @@ HypercertIndexer, and HypercertMinter classes, respectively.
 ```js
 const {
   client: { storage },
-} = new HypercertClient({});
+} = new HypercertClient({ chain: { id: 5 } });
 ```
 
 The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata on IPFS and
@@ -163,7 +119,7 @@ NFT.storage. It is used by the HypercertClient to store metadata when creating n
 ```js
 const {
   client: { indexer },
-} = new HypercertClient({});
+} = new HypercertClient({ chain: { id: 5 } });
 ```
 
 The `indexer` is a utility class that provides methods for indexing and searching Hypercerts based on various criteria.
@@ -172,7 +128,7 @@ It is used by the HypercertClient to retrieve event-based data via the subgraph
 ```js
 const {
   client: { contract },
-} = new HypercertClient({});
+} = new HypercertClient({ chain: { id: 5 } });
 ```
 
 Finally we have a `contract` that provides methods for interacting with the HypercertMinter smart contract. It is used

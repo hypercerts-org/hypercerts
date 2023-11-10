@@ -2,7 +2,7 @@
 
 ## Quickstart Guide
 
-1. Install the SDK using npm or yarn:
+1. Install the SDK using npm, yarn or pnpm:
 
 ```bash
 npm install @hypercerts-org/sdk

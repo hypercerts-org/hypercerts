@@ -25,13 +25,40 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  * It encapsulates the logic for storage, evaluation, indexing, and wallet interactions, abstracting the complexity and providing a simple API for users.
  * The client is read-only if the storage is read-only (no nft.storage/web3.storage keys) or if no walletClient was found.
  *
- * @example
- * const config: Partial<HypercertClientConfig> = {
- *  chain: {id: 5},
- * };
- * const client = new HypercertClient(config);
+ * The client can be configured using the `HypercertClientConfig` object. The `HypercertClientConfig` object can be passed to the constructor of the `HypercertClient` class.
  *
  * @param {Partial<HypercertClientConfig>} config - The configuration options for the client.
+ * chain - Partial configuration for the blockchain network.
+ * contractAddress - The address of the deployed contract.
+ * graphUrl - The URL to the subgraph that indexes the contract events. Override for localized testing.
+ * graphName - The name of the subgraph.
+ * nftStorageToken - The API token for NFT.storage.
+ * web3StorageToken - The API token for Web3.storage.
+ * easContractAddress - The address of the EAS contract.
+ * publicClient - The PublicClient is inherently read-only and is used for reading data from the blockchain.
+ * walletClient - The WalletClient is used for signing and sending transactions.
+ * unsafeForceOverrideConfig - Boolean to force the use of overridden values.
+ * readOnly - Boolean to assert if the client is in read-only mode.
+ * readOnlyReason - Reason for read-only mode. This is optional and can be used for logging or debugging purposes.
+ *
+ * __`{chain: { id: <chainId>}}` is the only required field.__
+ *
+ * @returns {HypercertClient} A new instance of the `HypercertClient` class.
+ * @throws {ClientError} Will throw a `ClientError` if the public client cannot be found.
+ *
+ * @example
+ * ```ts
+ * import HypercertClient from '@hypercert.org/sdk';
+ *
+ * const client = new HypercertClient({ chain: {id: 5} });
+ *
+ * const metaData = {...}
+ *
+ * const totalUnits = 1n;
+ * const transferRestriction = TransferRestrictions.FromCreatorOnly;
+ *
+ * const txHash = await client.mintClaim(metaData, totalUnits, transferRestriction);
+ * ```
  */
 export default class HypercertClient implements HypercertClientInterface {
   readonly _config;
@@ -54,7 +81,7 @@ export default class HypercertClient implements HypercertClientInterface {
   constructor(config: Partial<HypercertClientConfig>) {
     this._config = getConfig(config);
     if (!this._config.publicClient) {
-      throw new ClientError("Could not connect to public client.");
+      throw new ClientError("Can't find publicClient in config", { config });
     }
 
     this._publicClient = this._config.publicClient;
@@ -122,6 +149,16 @@ export default class HypercertClient implements HypercertClientInterface {
    * @param {SupportedOverrides} [overrides] - Optional overrides for the contract call.
    * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the provided metadata is invalid.
+   *
+   * @example
+   * ```
+   * const metaData = {...}
+   *
+   * const totalUnits = 1n;
+   * const transferRestriction = TransferRestrictions.FromCreatorOnly;
+   *
+   * const txHash = await client.mintClaim(metaData, totalUnits, transferRestriction);
+   * ```
    */
   mintClaim = async (
     metaData: HypercertMetadata,

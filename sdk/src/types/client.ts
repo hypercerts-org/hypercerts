@@ -17,7 +17,12 @@ export type SupportedOverrides = {
 };
 
 /**
- * Represents a deployment of a contract on a specific network.
+ * Configuration object for the Deployment.
+ *
+ * @property chain - The chain the contract is deployed on. Type is a viem Chain object.
+ * @property contractAddress - The address of the deployed contract.
+ * @property graphUrl - The URL to the subgraph that indexes the contract events.
+ * @property graphName - The name of the subgraph.
  */
 export type Deployment = {
   chain: Partial<Chain>;
@@ -46,8 +51,11 @@ export type HypercertClientConfig = Deployment &
   };
 
 /**
- * Configuration options for the Hypercert storage layer.
- * @note The API tokens are optional, but required for storing data on NFT.storage and Web3.storage.
+ * Configuration object for the HypercertStorage.
+ *
+ * @property nftStorageToken - The API token for NFT.storage.
+ * @property web3StorageToken - The API token for Web3.storage.
+ * @remark The API tokens are optional, but required for storing data on NFT.storage and Web3.storage.
  */
 export type HypercertStorageConfig = {
   /** The API token for NFT.storage. */
@@ -57,8 +65,9 @@ export type HypercertStorageConfig = {
 };
 
 /**
- * Configuration options for the Hypercert evaluator.
- * @note The signer is required for submitting evaluations.
+ * Configuration object for the HypercertEvaluator.
+ *
+ * @property easContractAddress - The address of the EAS contract.
  */
 export type HypercertEvaluatorConfig = Omit<PartialTypedDataConfig, "address"> & {
   easContractAddress: string;

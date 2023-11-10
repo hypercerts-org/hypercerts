@@ -28,7 +28,7 @@ An error that is caused by a problem with the client.
 
 ### constructor
 
-• **new ClientError**(`message`, `payload?`)
+• **new ClientError**(`message`, `payload?`): [`ClientError`](ClientError.md)
 
 Creates a new instance of the ClientError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the ClientError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`ClientError`](ClientError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:25](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L25)
+sdk/src/types/errors.ts:25
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:18](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L18)
+sdk/src/types/errors.ts:18

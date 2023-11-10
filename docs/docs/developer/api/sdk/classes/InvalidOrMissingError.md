@@ -28,7 +28,7 @@ The provided value was undefined or empty
 
 ### constructor
 
-• **new InvalidOrMissingError**(`message`, `payload?`)
+• **new InvalidOrMissingError**(`message`, `payload?`): [`InvalidOrMissingError`](InvalidOrMissingError.md)
 
 Creates a new instance of the InvalidOrMissingError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the InvalidOrMissingError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`InvalidOrMissingError`](InvalidOrMissingError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:61](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L61)
+sdk/src/types/errors.ts:61
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:54](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L54)
+sdk/src/types/errors.ts:54

@@ -8,92 +8,67 @@
 
 - [default](../classes/internal.default.md)
 - [default](../classes/internal.default-1.md)
-- [default](../classes/internal.default-2.md)
 
 ### Interfaces
 
 - [EvaluatorInterface](../interfaces/internal.EvaluatorInterface.md)
 - [HypercertClaimdata](../interfaces/internal.HypercertClaimdata.md)
-- [HypercertMinter](../interfaces/internal.HypercertMinter.md)
 
 ### Type Aliases
 
-- [Claim](internal.md#claim)
-- [ClaimByIdQuery](internal.md#claimbyidquery)
-- [ClaimToken](internal.md#claimtoken)
+- [AcceptedToken](internal.md#acceptedtoken)
+- [Allowlist](internal.md#allowlist)
 - [ClaimTokenByIdQuery](internal.md#claimtokenbyidquery)
-- [ClaimTokensByClaimQuery](internal.md#claimtokensbyclaimquery)
 - [ClaimTokensByOwnerQuery](internal.md#claimtokensbyownerquery)
 - [ClaimsByOwnerQuery](internal.md#claimsbyownerquery)
 - [Exact](internal.md#exact)
 - [FormatResult](internal.md#formatresult)
 - [InputMaybe](internal.md#inputmaybe)
 - [Maybe](internal.md#maybe)
+- [Offer](internal.md#offer)
+- [OfferStatus](internal.md#offerstatus)
 - [OrderDirection](internal.md#orderdirection)
 - [RecentClaimsQuery](internal.md#recentclaimsquery)
 - [Scalars](internal.md#scalars)
+- [Token](internal.md#token)
 - [ValidationResult](internal.md#validationresult)
 
 ## Type Aliases
 
-### Claim
+### AcceptedToken
 
-Ƭ **Claim**: `Object`
+Ƭ **AcceptedToken**: `Object`
 
 #### Type declaration
 
-| Name          | Type                                                                          |
-| :------------ | :---------------------------------------------------------------------------- |
-| `chainName`   | [`Scalars`](internal.md#scalars)[``"String"``]                                |
-| `contract`    | [`Scalars`](internal.md#scalars)[``"String"``]                                |
-| `creation`    | [`Scalars`](internal.md#scalars)[``"BigInt"``]                                |
-| `creator?`    | [`Maybe`](internal.md#maybe)<[`Scalars`](internal.md#scalars)[``"Bytes"``]\>  |
-| `id`          | [`Scalars`](internal.md#scalars)[``"String"``]                                |
-| `owner?`      | [`Maybe`](internal.md#maybe)<[`Scalars`](internal.md#scalars)[``"Bytes"``]\>  |
-| `tokenID`     | [`Scalars`](internal.md#scalars)[``"BigInt"``]                                |
-| `totalUnits?` | [`Maybe`](internal.md#maybe)<[`Scalars`](internal.md#scalars)[``"BigInt"``]\> |
-| `uri?`        | [`Maybe`](internal.md#maybe)<[`Scalars`](internal.md#scalars)[``"String"``]\> |
+| Name                   | Type                                            |
+| :--------------------- | :---------------------------------------------- |
+| `accepted`             | [`Scalars`](internal.md#scalars)[``"Boolean"``] |
+| `id`                   | [`Scalars`](internal.md#scalars)[``"String"``]  |
+| `minimumAmountPerUnit` | [`Scalars`](internal.md#scalars)[``"BigInt"``]  |
+| `token`                | [`Token`](internal.md#token)                    |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:275](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L275)
+sdk/.graphclient/index.ts:349
 
 ---
 
-### ClaimByIdQuery
+### Allowlist
 
-Ƭ **ClaimByIdQuery**: `Object`
-
-#### Type declaration
-
-| Name     | Type                                                                                                                                                                                  |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `claim?` | [`Maybe`](internal.md#maybe)<`Pick`<[`Claim`](internal.md#claim), `"chainName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>\> |
-
-#### Defined in
-
-[sdk/.graphclient/index.ts:985](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L985)
-
----
-
-### ClaimToken
-
-Ƭ **ClaimToken**: `Object`
+Ƭ **Allowlist**: `Object`
 
 #### Type declaration
 
-| Name        | Type                                           |
-| :---------- | :--------------------------------------------- |
-| `chainName` | [`Scalars`](internal.md#scalars)[``"String"``] |
-| `claim`     | [`Claim`](internal.md#claim)                   |
-| `id`        | [`Scalars`](internal.md#scalars)[``"String"``] |
-| `owner`     | [`Scalars`](internal.md#scalars)[``"Bytes"``]  |
-| `tokenID`   | [`Scalars`](internal.md#scalars)[``"BigInt"``] |
-| `units`     | [`Scalars`](internal.md#scalars)[``"BigInt"``] |
+| Name    | Type                                           |
+| :------ | :--------------------------------------------- |
+| `claim` | [`Claim`](../modules.md#claim)                 |
+| `id`    | [`Scalars`](internal.md#scalars)[``"String"``] |
+| `root`  | [`Scalars`](internal.md#scalars)[``"Bytes"``]  |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:287](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L287)
+sdk/.graphclient/index.ts:426
 
 ---
 
@@ -103,29 +78,13 @@
 
 #### Type declaration
 
-| Name          | Type                                                                                                                                                                                                                                                       |
-| :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `claimToken?` | [`Maybe`](internal.md#maybe)<`Pick`<[`ClaimToken`](internal.md#claimtoken), `"chainName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\> & { `claim`: `Pick`<[`Claim`](internal.md#claim), `"id"` \| `"creation"` \| `"uri"` \| `"totalUnits"`\> }\> |
+| Name          | Type                                                                                                                                                                                                                                                               |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `claimToken?` | [`Maybe`](internal.md#maybe)\<`Pick`\<[`ClaimToken`](../modules.md#claimtoken), `"graphName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\> & \{ `claim`: `Pick`\<[`Claim`](../modules.md#claim), `"id"` \| `"creation"` \| `"uri"` \| `"totalUnits"`\> }\> |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:1015](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L1015)
-
----
-
-### ClaimTokensByClaimQuery
-
-Ƭ **ClaimTokensByClaimQuery**: `Object`
-
-#### Type declaration
-
-| Name          | Type                                                                                                                |
-| :------------ | :------------------------------------------------------------------------------------------------------------------ |
-| `claimTokens` | `Pick`<[`ClaimToken`](internal.md#claimtoken), `"chainName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\>[] |
-
-#### Defined in
-
-[sdk/.graphclient/index.ts:1008](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L1008)
+sdk/.graphclient/index.ts:1700
 
 ---
 
@@ -135,13 +94,13 @@
 
 #### Type declaration
 
-| Name          | Type                                                                                                                                                                                                                          |
-| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `claimTokens` | `Pick`<[`ClaimToken`](internal.md#claimtoken), `"chainName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\> & { `claim`: `Pick`<[`Claim`](internal.md#claim), `"id"` \| `"creation"` \| `"uri"` \| `"totalUnits"`\> }[] |
+| Name          | Type                                                                                                                                                                                                                                 |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `claimTokens` | `Pick`\<[`ClaimToken`](../modules.md#claimtoken), `"graphName"` \| `"id"` \| `"owner"` \| `"tokenID"` \| `"units"`\> & \{ `claim`: `Pick`\<[`Claim`](../modules.md#claim), `"id"` \| `"creation"` \| `"uri"` \| `"totalUnits"`\> }[] |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:995](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L995)
+sdk/.graphclient/index.ts:1680
 
 ---
 
@@ -151,19 +110,19 @@
 
 #### Type declaration
 
-| Name     | Type                                                                                                                                                     |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `claims` | `Pick`<[`Claim`](internal.md#claim), `"chainName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>[] |
+| Name     | Type                                                                                                                                                        |
+| :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `claims` | `Pick`\<[`Claim`](../modules.md#claim), `"graphName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>[] |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:969](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L969)
+sdk/.graphclient/index.ts:1654
 
 ---
 
 ### Exact
 
-Ƭ **Exact**<`T`\>: { [K in keyof T]: T[K] }
+Ƭ **Exact**\<`T`\>: \{ [K in keyof T]: T[K] }
 
 #### Type parameters
 
@@ -173,7 +132,7 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L28)
+sdk/.graphclient/index.ts:29
 
 ---
 
@@ -186,18 +145,18 @@
 | Name     | Type                                                                |
 | :------- | :------------------------------------------------------------------ |
 | `data`   | [`HypercertMetadata`](../interfaces/HypercertMetadata.md) \| `null` |
-| `errors` | `Record`<`string`, `string`\> \| `null`                             |
+| `errors` | `Record`\<`string`, `string`\> \| `null`                            |
 | `valid`  | `boolean`                                                           |
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:20](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/utils/formatter.ts#L20)
+sdk/src/utils/formatter.ts:20
 
 ---
 
 ### InputMaybe
 
-Ƭ **InputMaybe**<`T`\>: [`Maybe`](internal.md#maybe)<`T`\>
+Ƭ **InputMaybe**\<`T`\>: [`Maybe`](internal.md#maybe)\<`T`\>
 
 #### Type parameters
 
@@ -207,13 +166,13 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:27](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L27)
+sdk/.graphclient/index.ts:28
 
 ---
 
 ### Maybe
 
-Ƭ **Maybe**<`T`\>: `T` \| `null`
+Ƭ **Maybe**\<`T`\>: `T` \| `null`
 
 #### Type parameters
 
@@ -223,7 +182,39 @@
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:26](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L26)
+sdk/.graphclient/index.ts:27
+
+---
+
+### Offer
+
+Ƭ **Offer**: `Object`
+
+#### Type declaration
+
+| Name               | Type                                           |
+| :----------------- | :--------------------------------------------- |
+| `acceptedTokens`   | [`AcceptedToken`](internal.md#acceptedtoken)[] |
+| `fractionID`       | [`ClaimToken`](../modules.md#claimtoken)       |
+| `id`               | [`Scalars`](internal.md#scalars)[``"String"``] |
+| `maxUnitsPerTrade` | [`Scalars`](internal.md#scalars)[``"BigInt"``] |
+| `minUnitsPerTrade` | [`Scalars`](internal.md#scalars)[``"BigInt"``] |
+| `status`           | [`OfferStatus`](internal.md#offerstatus)       |
+| `unitsAvailable`   | [`Scalars`](internal.md#scalars)[``"BigInt"``] |
+
+#### Defined in
+
+sdk/.graphclient/index.ts:781
+
+---
+
+### OfferStatus
+
+Ƭ **OfferStatus**: `"Open"` \| `"Fulfilled"` \| `"Cancelled"`
+
+#### Defined in
+
+sdk/.graphclient/index.ts:800
 
 ---
 
@@ -235,7 +226,7 @@ Defines the order direction, either ascending or descending
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:507](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L507)
+sdk/.graphclient/index.ts:902
 
 ---
 
@@ -245,13 +236,13 @@ Defines the order direction, either ascending or descending
 
 #### Type declaration
 
-| Name     | Type                                                                                                                                                     |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `claims` | `Pick`<[`Claim`](internal.md#claim), `"chainName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>[] |
+| Name     | Type                                                                                                                                                        |
+| :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `claims` | `Pick`\<[`Claim`](../modules.md#claim), `"graphName"` \| `"contract"` \| `"tokenID"` \| `"creator"` \| `"id"` \| `"owner"` \| `"totalUnits"` \| `"uri"`\>[] |
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:978](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L978)
+sdk/.graphclient/index.ts:1663
 
 ---
 
@@ -277,7 +268,26 @@ All built-in and custom scalars, mapped to their actual values
 
 #### Defined in
 
-[sdk/.graphclient/index.ts:36](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/.graphclient/index.ts#L36)
+sdk/.graphclient/index.ts:37
+
+---
+
+### Token
+
+Ƭ **Token**: `Object`
+
+#### Type declaration
+
+| Name        | Type                                                                           |
+| :---------- | :----------------------------------------------------------------------------- |
+| `decimals?` | [`Maybe`](internal.md#maybe)\<[`Scalars`](internal.md#scalars)[``"BigInt"``]\> |
+| `id`        | [`Scalars`](internal.md#scalars)[``"String"``]                                 |
+| `name`      | [`Scalars`](internal.md#scalars)[``"String"``]                                 |
+| `symbol?`   | [`Maybe`](internal.md#maybe)\<[`Scalars`](internal.md#scalars)[``"String"``]\> |
+
+#### Defined in
+
+sdk/.graphclient/index.ts:906
 
 ---
 
@@ -285,23 +295,19 @@ All built-in and custom scalars, mapped to their actual values
 
 Ƭ **ValidationResult**: `Object`
 
-The result of a validation.
+Represents the result of a validation operation.
 
-**`Property`**
-
-Whether the data is valid.
-
-**`Property`**
-
-A map of errors, where the key is the field that failed validation and the value is the error message.
+This type is used to return the result of validating data against a schema. It includes a `valid` flag that indicates
+whether the data is valid, and an `errors` object that contains any errors that occurred during validation.
 
 #### Type declaration
 
-| Name     | Type                          |
-| :------- | :---------------------------- |
-| `errors` | `Record`<`string`, `string`\> |
-| `valid`  | `boolean`                     |
+| Name     | Type                                                                                                                                                                                                                                            |
+| :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`   | [`AllowlistEntry`](../modules.md#allowlistentry)[] \| [`EvaluationData`](../modules.md#evaluationdata) \| [`HypercertClaimdata`](../interfaces/HypercertClaimdata.md) \| [`HypercertMetadata`](../interfaces/HypercertMetadata.md) \| `unknown` |
+| `errors` | `Record`\<`string`, `string` \| `string`[]\>                                                                                                                                                                                                    |
+| `valid`  | `boolean`                                                                                                                                                                                                                                       |
 
 #### Defined in
 
-[sdk/src/validator/index.ts:28](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/validator/index.ts#L28)
+sdk/src/validator/index.ts:30

@@ -28,7 +28,7 @@ Minting transaction failed
 
 ### constructor
 
-• **new MintingError**(`message`, `payload?`)
+• **new MintingError**(`message`, `payload?`): [`MintingError`](MintingError.md)
 
 Creates a new instance of the MintingError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the MintingError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`MintingError`](MintingError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:79](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L79)
+sdk/src/types/errors.ts:79
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:72](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L72)
+sdk/src/types/errors.ts:72

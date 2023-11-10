@@ -21,11 +21,11 @@ The interface for the Hypercert storage layer.
 
 ### getData
 
-• **getData**: (`cidOrIpfsUri`: `string`) => `Promise`<`unknown`\>
+• **getData**: (`cidOrIpfsUri`: `string`) => `Promise`\<`unknown`\>
 
 #### Type declaration
 
-▸ (`cidOrIpfsUri`): `Promise`<`unknown`\>
+▸ (`cidOrIpfsUri`): `Promise`\<`unknown`\>
 
 Retrieves arbitrary data from IPFS.
 
@@ -37,23 +37,23 @@ Retrieves arbitrary data from IPFS.
 
 ##### Returns
 
-`Promise`<`unknown`\>
+`Promise`\<`unknown`\>
 
 A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:93](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L93)
+sdk/src/types/client.ts:106
 
 ---
 
 ### getMetadata
 
-• **getMetadata**: (`cidOrIpfsUri`: `string`) => `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
+• **getMetadata**: (`cidOrIpfsUri`: `string`) => `Promise`\<[`HypercertMetadata`](HypercertMetadata.md)\>
 
 #### Type declaration
 
-▸ (`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
+▸ (`cidOrIpfsUri`): `Promise`\<[`HypercertMetadata`](HypercertMetadata.md)\>
 
 Retrieves the metadata for a Hypercert evaluation.
 
@@ -65,23 +65,23 @@ Retrieves the metadata for a Hypercert evaluation.
 
 ##### Returns
 
-`Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
+`Promise`\<[`HypercertMetadata`](HypercertMetadata.md)\>
 
 A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:79](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L79)
+sdk/src/types/client.ts:92
 
 ---
 
 ### storeData
 
-• **storeData**: (`data`: `unknown`) => `Promise`<`CIDString`\>
+• **storeData**: (`data`: `unknown`) => `Promise`\<`CIDString`\>
 
 #### Type declaration
 
-▸ (`data`): `Promise`<`CIDString`\>
+▸ (`data`): `Promise`\<`CIDString`\>
 
 Stores arbitrary data on IPFS.
 
@@ -93,23 +93,23 @@ Stores arbitrary data on IPFS.
 
 ##### Returns
 
-`Promise`<`CIDString`\>
+`Promise`\<`CIDString`\>
 
 A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:86](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L86)
+sdk/src/types/client.ts:99
 
 ---
 
 ### storeMetadata
 
-• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md)) => `Promise`<`CIDString`\>
+• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md)) => `Promise`\<`CIDString`\>
 
 #### Type declaration
 
-▸ (`metadata`): `Promise`<`CIDString`\>
+▸ (`metadata`): `Promise`\<`CIDString`\>
 
 Stores the metadata for a Hypercert evaluation.
 
@@ -121,10 +121,10 @@ Stores the metadata for a Hypercert evaluation.
 
 ##### Returns
 
-`Promise`<`CIDString`\>
+`Promise`\<`CIDString`\>
 
 A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:72](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L72)
+sdk/src/types/client.ts:85

@@ -28,7 +28,7 @@ Fails fetching a remote resource
 
 ### constructor
 
-• **new FetchError**(`message`, `payload?`)
+• **new FetchError**(`message`, `payload?`): [`FetchError`](FetchError.md)
 
 Creates a new instance of the FetchError class.
 
@@ -39,13 +39,17 @@ Creates a new instance of the FetchError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`FetchError`](FetchError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:43](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L43)
+sdk/src/types/errors.ts:43
 
 ## Properties
 
@@ -65,4 +69,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:36](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L36)
+sdk/src/types/errors.ts:36

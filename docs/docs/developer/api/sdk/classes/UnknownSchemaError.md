@@ -28,7 +28,7 @@ Schema could not be loaded
 
 ### constructor
 
-• **new UnknownSchemaError**(`message`, `payload?`)
+• **new UnknownSchemaError**(`message`, `payload?`): [`UnknownSchemaError`](UnknownSchemaError.md)
 
 Creates a new instance of the UnknownSchemaError class.
 
@@ -40,13 +40,17 @@ Creates a new instance of the UnknownSchemaError class.
 | `payload?`           | `Object` | Additional error payload. |
 | `payload.schemaName` | `string` | -                         |
 
+#### Returns
+
+[`UnknownSchemaError`](UnknownSchemaError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:115](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L115)
+sdk/src/types/errors.ts:115
 
 ## Properties
 
@@ -68,4 +72,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:108](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L108)
+sdk/src/types/errors.ts:108
