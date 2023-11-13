@@ -5,10 +5,11 @@ import {
   HypercertClient,
 } from "@hypercerts-org/sdk";
 import BN from "bn.js";
+import { formatExternalUrl } from "./formatting";
 
 export interface Hypercert {
   getTokensFor(owner: string): HypercertTokens;
-  metadata?: HypercertMetadata;
+  metadata?: HypercertMetadata & { external_uri_formatted?: string };
   claim?: ClaimByIdQuery["claim"];
   claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
   name: string;
@@ -39,13 +40,25 @@ export async function loadHypercert(
         : claimQueryResp.claim?.uri;
     if (metadataUri) {
       const metadata = await client.storage.getMetadata(metadataUri);
-      hypercert.metadata = metadata;
+      hypercert.metadata = {
+        ...metadata,
+        external_url_formatted: formatExternalUrl(
+          client,
+          metadata.external_url,
+        ),
+      };
     }
     return hypercert;
   } else {
     if (options.metadataUri) {
       const metadata = await client.storage.getMetadata(options.metadataUri);
-      return new MetadataOnlyHypercert(options.metadataUri, metadata);
+      return new MetadataOnlyHypercert(options.metadataUri, {
+        ...metadata,
+        external_url_formatted: formatExternalUrl(
+          client,
+          metadata.external_url,
+        ),
+      });
     }
     throw new Error(
       "A metadataUri or claimId are required to load a hypercert",
@@ -102,10 +115,13 @@ export class HypercertTokens {
 export class MetadataOnlyHypercert implements Hypercert {
   claim?: ClaimByIdQuery["claim"];
   claimTokens?: ClaimTokensByClaimQuery["claimTokens"];
-  metadata: HypercertMetadata;
+  metadata: HypercertMetadata & { external_url_formatted?: string };
   metadataUri: string;
 
-  constructor(metadataUri: string, metadata: HypercertMetadata) {
+  constructor(
+    metadataUri: string,
+    metadata: HypercertMetadata & { external_url_formatted?: string },
+  ) {
     this.metadata = metadata;
     this.metadataUri = metadataUri;
   }
@@ -139,7 +155,7 @@ export class FullHypercert implements Hypercert {
   // previous HypercertData type
   claim: ClaimByIdQuery["claim"];
   claimTokens: ClaimTokensByClaimQuery["claimTokens"];
-  metadata?: HypercertMetadata;
+  metadata?: HypercertMetadata & { external_url_formatted?: string };
 
   constructor(
     claimQueryResp: ClaimByIdQuery,
