@@ -7,6 +7,7 @@ import exchangeContract from "../out/LooksRareProtocol.sol/LooksRareProtocol.jso
 import transferManagerContract from "../out/TransferManager.sol/TransferManager.json";
 import orderValidatorContract from "../out/OrderValidatorV2A.sol/OrderValidatorV2A.json";
 import strategyCollectionOfferContract from "../out/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
+import protocolFeeRecipientContract from "../out/ProtocolFeeRecipient.sol/ProtocolFeeRecipient.json";
 
 const getCreate2Address = async (
   deployer: WalletClient,
@@ -57,6 +58,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     );
     console.log("Calculated salt: ", salt);
 
+    // Create2 Transfermanager
     const transferManagerArgs = [deployer.account.address];
     const transferManagerCreate2 = await getCreate2Address(
       deployer,
@@ -81,14 +83,27 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log(`Comparing calculated address: ${transferManagerCreate2.address} with ${findCreate2Address}`);
 
+    // Create2 ProtocolFeeRecipient
+    const protocolFeeRecipientArgs = [deployer.account.address, wethAddress];
+    const protocolFeeRecipientCreate2 = await getCreate2Address(
+      deployer,
+      create2Address,
+      encodeDeployData({
+        abi: protocolFeeRecipientContract.abi,
+        bytecode: protocolFeeRecipientContract.bytecode.object as `0x${string}`,
+        args: protocolFeeRecipientArgs,
+      }),
+      salt,
+    );
+
+    // Create2 HypercertsExchange
     const hypercertsExchangeArgs = [
       deployer.account.address,
-      deployer.account.address,
+      protocolFeeRecipientCreate2.address,
       transferManagerCreate2.address,
       wethAddress,
     ];
 
-    // Determine create2 address HypercertsExchange, TransferManager, OrderValidator, StrategyCollectionOffer
     const hypercertsExchangeCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -115,6 +130,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log("Calculated exchange address using CREATE2: ", hypercertsExchangeCreate2.address);
     console.log("Calculated transferManager address using CREATE2: ", transferManagerCreate2.address);
+    console.log("Calculated protocolFeeRecipient address using CREATE2: ", protocolFeeRecipientCreate2.address);
     console.log("Calculated strategyCollectionOffer address using CREATE2: ", strategyCollectionOfferCreate2.address);
 
     // Deploy transferManager
@@ -136,8 +152,24 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       value: 1n,
     });
 
-    // // Deploy HypercertsExchange
+    // Deploy ProtocolFeeRecipient
+    console.log("Deploying ProtocolFeeRecipient...");
+    const protocolFeeRecipientCreation = await create2Instance.write.safeCreate2([
+      salt,
+      protocolFeeRecipientCreate2.deployData,
+    ]);
 
+    const protocolFeeRecipientTx = await publicClient.waitForTransactionReceipt({
+      hash: protocolFeeRecipientCreation,
+    });
+
+    console.log(
+      protocolFeeRecipientTx.status === "success"
+        ? "Deployed ProtocolFeeRecipient successfully"
+        : "Failed to deploy ProtocolFeeRecipient",
+    );
+
+    // Deploy HypercertsExchange
     console.log("Deploying HypercertsExchange...");
     const hypercertsExchange = await create2Instance.write.safeCreate2([salt, hypercertsExchangeCreate2.deployData]);
     const hypercertsExchangeTx = await publicClient.waitForTransactionReceipt({
@@ -354,6 +386,14 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         args: hypercertsExchangeArgs,
         encodedArgs: solidityPacked(["address", "address", "address", "address"], hypercertsExchangeArgs),
         tx: hypercertsExchangeTx.transactionHash,
+      },
+      "protocol-fee-recipient": {
+        address: protocolFeeRecipientCreate2.address,
+        abi: protocolFeeRecipientContract.abi,
+        fullNamespace: "ProtocolFeeRecipient",
+        args: [deployer.account.address, wethAddress],
+        encodedArgs: solidityPacked(["address", "address"], [deployer.account.address, wethAddress]),
+        tx: protocolFeeRecipientTx.transactionHash,
       },
       "transfer-manager": {
         address: transferManagerCreate2.address,

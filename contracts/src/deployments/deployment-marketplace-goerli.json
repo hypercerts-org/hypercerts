@@ -1,6 +1,6 @@
 {
   "hypercerts-exchange": {
-    "address": "0x54E196903c7E71182025aBa9DBE5Dd136755D05a",
+    "address": "0x483e634b79A933CDf369c46f6138a781B7495233",
     "abi": [
       {
         "inputs": [
@@ -707,14 +707,15 @@
     "fullNamespace": "LooksRareProtocol",
     "args": [
       "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-      "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-      "0xeec4DFb4A230e92c854a643130BA7F89617CD8e6",
+      "0x67B32834610E5cE95Cf8a4d5Bc90e43E09121409",
+      "0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1",
       "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
     ],
-    "tx": "0x074996f87788ac4aa89b1910382bacaa2972d02f18594481f55023b2361c6cd1"
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a67b32834610e5ce95cf8a4d5bc90e43e091214097aac4c1407f5f83256581ecc913dc8b20f7bdab1b4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "tx": "0xc52cf3d6507a29dc6ddcfe36eea4baa8425d199c3315cb1f5b971780c7c56537"
   },
   "transfer-manager": {
-    "address": "0xeec4DFb4A230e92c854a643130BA7F89617CD8e6",
+    "address": "0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1",
     "abi": [
       {
         "inputs": [{ "internalType": "address", "name": "_owner", "type": "address" }],
@@ -962,10 +963,11 @@
     ],
     "fullNamespace": "TransferManager",
     "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],
-    "tx": "0x21367c070d765aaf2ceead57a07b5ca251151b9473397ecbbefc129314cc3b88"
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+    "tx": "0xd16227c67ac0445f22865cfedbebb3599ae80bb3d21146b63a09e657b2ae7f66"
   },
   "order-validator": {
-    "address": "0x9626265537c50528a6579e23d44f4d877d27af0b",
+    "address": "0xbad0897927a2333c1c4c440c679c634ffbfd9c71",
     "abi": [
       {
         "inputs": [{ "internalType": "address", "name": "_looksRareProtocol", "type": "address" }],
@@ -1147,11 +1149,12 @@
       }
     ],
     "fullNamespace": "OrderValidatorV2A",
-    "args": ["0x54E196903c7E71182025aBa9DBE5Dd136755D05a"],
-    "tx": "0x8cc150658c320db01d7f5bca127a6dde8cf0739053a9705b59c834b9587a130f"
+    "args": ["0x483e634b79A933CDf369c46f6138a781B7495233"],
+    "encodedArgs": "0x483e634b79a933cdf369c46f6138a781b7495233",
+    "tx": "0xc417e2d30504a983d1898f357edec96e8d41af6ec63072ed732c6b4f469ab370"
   },
   "strategy-collection-offer": {
-    "address": "0xc996164a147d0bc1d449d4b34924195c41c033b1",
+    "address": "0x9874463e1821d8f8de3eb84fc91e7c10e14bfa83",
     "abi": [
       { "inputs": [], "name": "MerkleProofInvalid", "type": "error" },
       { "inputs": [], "name": "OrderInvalid", "type": "error" },
@@ -1287,6 +1290,7 @@
     ],
     "fullNamespace": "StrategyCollectionOffer",
     "args": [],
-    "tx": "0xaa4ddde9393e160bd892692a503d41b24cd44550df906ec3e712cbf83d80c417"
+    "encodedArgs": "0x",
+    "tx": "0x2e1065ba99ff70094cd9782d72166f2d0e579052fa0b70749e068cbba008f66c"
   }
 }
