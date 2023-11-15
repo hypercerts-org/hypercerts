@@ -18,16 +18,18 @@ const supabase = createClient(
 );
 
 const fetchAllowlistPage = async (lastId: number) => {
+  console.log("fetching page with id >", lastId);
   return supabase
     .from("allowlistCache-chainId")
     .select("*")
-    .eq("chainId", 10)
     .order("id", { ascending: true })
-    .lt("id", lastId)
+    .gt("id", lastId)
+    .eq("chainId", 10)
     .limit(pageSize);
 };
 
 const deleteEntries = async (ids: number[]) => {
+  console.log("deleting entries", ids);
   return supabase.from("allowlistCache-chainId").delete().in("id", ids);
 };
 
@@ -70,8 +72,6 @@ const main = async () => {
 
   console.log("totalNumberOfResults", totalNumberOfResults.count);
 
-  const numberOfPages = Math.ceil(totalNumberOfResults.count / pageSize);
-
   let lastId = 1;
 
   // Iterate over all pages
@@ -111,9 +111,9 @@ const main = async () => {
         );
         // console.log("duplicates found for claimId", claimId, duplicates.length);
         // console.log("duplicates", duplicates);
-        console.log("duplicate supabaseEntries", supabaseEntries);
+        // console.log("duplicate supabaseEntries", supabaseEntries);
         const idsToDelete = supabaseEntries.map((x) => x.id);
-        // await deleteEntries(idsToDelete);
+        await deleteEntries(idsToDelete);
       }
     }
   }
