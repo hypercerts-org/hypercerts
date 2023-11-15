@@ -10,19 +10,24 @@
     "deploy:test": "pnpm build && pnpm setup:test",
     "deploy:prod": "pnpm build && pnpm setup:prod",
     "setup:test": "npx tsx src/setup.ts TEST",
-    "setup:prod": "npx tsx src/setup.ts PROD"
+    "setup:prod": "npx tsx src/setup.ts PROD",
+    "scripts:fix-allowlist-duplicates": "npx tsx src/scripts/fix-allowlist-duplicates.ts"
   },
   "dependencies": {
+    "@graphql-mesh/cache-localforage": "^0.95.7",
     "@hypercerts-org/contracts": "0.8.11",
+    "@hypercerts-org/sdk": "1.0.0-alpha.9",
     "@openzeppelin/defender-autotask-client": "^1.48.0",
     "@openzeppelin/defender-autotask-utils": "^1.48.0",
     "@openzeppelin/defender-base-client": "^1.48.0",
     "@openzeppelin/defender-sentinel-client": "^1.48.0",
     "@openzeppelin/merkle-tree": "^1.0.2",
     "@supabase/supabase-js": "^2.4.1",
+    "@types/lodash": "^4.14.199",
     "axios": "^1.2.6",
     "dotenv": "^16.0.3",
     "ethers": "5.7.2",
+    "lodash": "^4.17.21",
     "node-fetch": "^3.3.0"
   },
   "devDependencies": {
