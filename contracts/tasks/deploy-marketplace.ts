@@ -49,7 +49,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const _minTotalFeeBp = 50;
     const _maxProtocolFeeBp = 200;
 
-    const releaseCounter = "f";
+    const releaseCounter = "g";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -379,7 +379,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     };
 
     const contracts: ContractDeployments = {
-      "hypercerts-exchange": {
+      HypercertsExchange: {
         address: hypercertsExchangeCreate2.address,
         abi: exchangeContract.abi,
         fullNamespace: "LooksRareProtocol",
@@ -387,7 +387,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         encodedArgs: solidityPacked(["address", "address", "address", "address"], hypercertsExchangeArgs),
         tx: hypercertsExchangeTx.transactionHash,
       },
-      "protocol-fee-recipient": {
+      ProtocolFeeRecipient: {
         address: protocolFeeRecipientCreate2.address,
         abi: protocolFeeRecipientContract.abi,
         fullNamespace: "ProtocolFeeRecipient",
@@ -395,7 +395,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         encodedArgs: solidityPacked(["address", "address"], [deployer.account.address, wethAddress]),
         tx: protocolFeeRecipientTx.transactionHash,
       },
-      "transfer-manager": {
+      TransferManager: {
         address: transferManagerCreate2.address,
         abi: transferManagerContract.abi,
         fullNamespace: "TransferManager",
@@ -403,7 +403,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         encodedArgs: solidityPacked(["address"], transferManagerArgs),
         tx: transferManagerTx.transactionHash,
       },
-      "order-validator": {
+      OrderValidator: {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         address: orderValidatorTx.contractAddress!,
         abi: orderValidatorContract.abi,
@@ -412,7 +412,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         encodedArgs: solidityPacked(["address"], orderValidatorArgs),
         tx: orderValidatorTx.transactionHash,
       },
-      "strategy-collection-offer": {
+      StrategyCollectionOffer: {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         address: strategyCollectionOfferTx.contractAddress!,
         abi: strategyCollectionOfferContract.abi,

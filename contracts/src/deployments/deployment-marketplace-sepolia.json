@@ -1,1 +1,1296 @@
-{"hypercerts-exchange":{"address":"0x4072ABD45a95c56372eAA00059B101C95191ea2A","abi":[{"inputs":[{"internalType":"address","name":"_owner","type":"address"},{"internalType":"address","name":"_protocolFeeRecipient","type":"address"},{"internalType":"address","name":"_transferManager","type":"address"},{"internalType":"address","name":"_weth","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"CallerInvalid","type":"error"},{"inputs":[],"name":"ChainIdInvalid","type":"error"},{"inputs":[],"name":"CreatorFeeBpTooHigh","type":"error"},{"inputs":[],"name":"CurrencyInvalid","type":"error"},{"inputs":[],"name":"ERC20TransferFromFail","type":"error"},{"inputs":[],"name":"LengthsInvalid","type":"error"},{"inputs":[],"name":"MerkleProofInvalid","type":"error"},{"inputs":[{"internalType":"uint256","name":"length","type":"uint256"}],"name":"MerkleProofTooLarge","type":"error"},{"inputs":[],"name":"NewGasLimitETHTransferTooLow","type":"error"},{"inputs":[],"name":"NewProtocolFeeRecipientCannotBeNullAddress","type":"error"},{"inputs":[],"name":"NoOngoingTransferInProgress","type":"error"},{"inputs":[],"name":"NoSelectorForStrategy","type":"error"},{"inputs":[],"name":"NoncesInvalid","type":"error"},{"inputs":[],"name":"NotAContract","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"NotV2Strategy","type":"error"},{"inputs":[],"name":"NullSignerAddress","type":"error"},{"inputs":[],"name":"OutsideOfTimeRange","type":"error"},{"inputs":[],"name":"QuoteTypeInvalid","type":"error"},{"inputs":[],"name":"ReentrancyFail","type":"error"},{"inputs":[],"name":"RenouncementNotInProgress","type":"error"},{"inputs":[],"name":"SameDomainSeparator","type":"error"},{"inputs":[],"name":"SignatureEOAInvalid","type":"error"},{"inputs":[],"name":"SignatureERC1271Invalid","type":"error"},{"inputs":[{"internalType":"uint256","name":"length","type":"uint256"}],"name":"SignatureLengthInvalid","type":"error"},{"inputs":[],"name":"SignatureParameterSInvalid","type":"error"},{"inputs":[{"internalType":"uint8","name":"v","type":"uint8"}],"name":"SignatureParameterVInvalid","type":"error"},{"inputs":[],"name":"StrategyHasNoSelector","type":"error"},{"inputs":[{"internalType":"uint256","name":"strategyId","type":"uint256"}],"name":"StrategyNotAvailable","type":"error"},{"inputs":[],"name":"StrategyNotUsed","type":"error"},{"inputs":[],"name":"StrategyProtocolFeeTooHigh","type":"error"},{"inputs":[],"name":"TransferAlreadyInProgress","type":"error"},{"inputs":[],"name":"TransferNotInProgress","type":"error"},{"inputs":[],"name":"UnsupportedCollectionType","type":"error"},{"inputs":[],"name":"WrongPotentialOwner","type":"error"},{"anonymous":false,"inputs":[],"name":"CancelOwnershipTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"currency","type":"address"},{"indexed":false,"internalType":"bool","name":"isAllowed","type":"bool"}],"name":"CurrencyStatusUpdated","type":"event"},{"anonymous":false,"inputs":[],"name":"InitiateOwnershipRenouncement","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":false,"internalType":"address","name":"potentialOwner","type":"address"}],"name":"InitiateOwnershipTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"bidNonce","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"askNonce","type":"uint256"}],"name":"NewBidAskNonces","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"creatorFeeManager","type":"address"}],"name":"NewCreatorFeeManager","type":"event"},{"anonymous":false,"inputs":[],"name":"NewDomainSeparator","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"gasLimitETHTransfer","type":"uint256"}],"name":"NewGasLimitETHTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"maxCreatorFeeBp","type":"uint256"}],"name":"NewMaxCreatorFeeBp","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"NewOwner","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"protocolFeeRecipient","type":"address"}],"name":"NewProtocolFeeRecipient","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"strategyId","type":"uint256"},{"indexed":false,"internalType":"uint16","name":"standardProtocolFeeBp","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"minTotalFeeBp","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"maxProtocolFeeBp","type":"uint16"},{"indexed":false,"internalType":"bytes4","name":"selector","type":"bytes4"},{"indexed":false,"internalType":"bool","name":"isMakerBid","type":"bool"},{"indexed":false,"internalType":"address","name":"implementation","type":"address"}],"name":"NewStrategy","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"orderNonces","type":"uint256[]"}],"name":"OrderNoncesCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"strategyId","type":"uint256"},{"indexed":false,"internalType":"bool","name":"isActive","type":"bool"},{"indexed":false,"internalType":"uint16","name":"standardProtocolFeeBp","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"minTotalFeeBp","type":"uint16"}],"name":"StrategyUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"subsetNonces","type":"uint256[]"}],"name":"SubsetNoncesCancelled","type":"event"},{"anonymous":false,"inputs":[{"components":[{"internalType":"bytes32","name":"orderHash","type":"bytes32"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"bool","name":"isNonceInvalidated","type":"bool"}],"indexed":false,"internalType":"struct ILooksRareProtocol.NonceInvalidationParameters","name":"nonceInvalidationParameters","type":"tuple"},{"indexed":false,"internalType":"address","name":"askUser","type":"address"},{"indexed":false,"internalType":"address","name":"bidUser","type":"address"},{"indexed":false,"internalType":"uint256","name":"strategyId","type":"uint256"},{"indexed":false,"internalType":"address","name":"currency","type":"address"},{"indexed":false,"internalType":"address","name":"collection","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"indexed":false,"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"indexed":false,"internalType":"address[2]","name":"feeRecipients","type":"address[2]"},{"indexed":false,"internalType":"uint256[3]","name":"feeAmounts","type":"uint256[3]"}],"name":"TakerAsk","type":"event"},{"anonymous":false,"inputs":[{"components":[{"internalType":"bytes32","name":"orderHash","type":"bytes32"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"bool","name":"isNonceInvalidated","type":"bool"}],"indexed":false,"internalType":"struct ILooksRareProtocol.NonceInvalidationParameters","name":"nonceInvalidationParameters","type":"tuple"},{"indexed":false,"internalType":"address","name":"bidUser","type":"address"},{"indexed":false,"internalType":"address","name":"bidRecipient","type":"address"},{"indexed":false,"internalType":"uint256","name":"strategyId","type":"uint256"},{"indexed":false,"internalType":"address","name":"currency","type":"address"},{"indexed":false,"internalType":"address","name":"collection","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"indexed":false,"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"indexed":false,"internalType":"address[2]","name":"feeRecipients","type":"address[2]"},{"indexed":false,"internalType":"uint256[3]","name":"feeAmounts","type":"uint256[3]"}],"name":"TakerBid","type":"event"},{"inputs":[],"name":"MAGIC_VALUE_ORDER_NONCE_EXECUTED","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"WETH","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"standardProtocolFeeBp","type":"uint16"},{"internalType":"uint16","name":"minTotalFeeBp","type":"uint16"},{"internalType":"uint16","name":"maxProtocolFeeBp","type":"uint16"},{"internalType":"bytes4","name":"selector","type":"bytes4"},{"internalType":"bool","name":"isMakerBid","type":"bool"},{"internalType":"address","name":"implementation","type":"address"}],"name":"addStrategy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"orderNonces","type":"uint256[]"}],"name":"cancelOrderNonces","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"cancelOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"subsetNonces","type":"uint256[]"}],"name":"cancelSubsetNonces","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"chainId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"confirmOwnershipRenouncement","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"confirmOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"creatorFeeManager","outputs":[{"internalType":"contract ICreatorFeeManager","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"domainSeparator","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker[]","name":"takerBids","type":"tuple[]"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker[]","name":"makerAsks","type":"tuple[]"},{"internalType":"bytes[]","name":"makerSignatures","type":"bytes[]"},{"components":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"bytes32","name":"value","type":"bytes32"},{"internalType":"enum OrderStructs.MerkleTreeNodePosition","name":"position","type":"uint8"}],"internalType":"struct OrderStructs.MerkleTreeNode[]","name":"proof","type":"tuple[]"}],"internalType":"struct OrderStructs.MerkleTree[]","name":"merkleTrees","type":"tuple[]"},{"internalType":"bool","name":"isAtomic","type":"bool"}],"name":"executeMultipleTakerBids","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker","name":"takerAsk","type":"tuple"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerBid","type":"tuple"},{"internalType":"bytes","name":"makerSignature","type":"bytes"},{"components":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"bytes32","name":"value","type":"bytes32"},{"internalType":"enum OrderStructs.MerkleTreeNodePosition","name":"position","type":"uint8"}],"internalType":"struct OrderStructs.MerkleTreeNode[]","name":"proof","type":"tuple[]"}],"internalType":"struct OrderStructs.MerkleTree","name":"merkleTree","type":"tuple"}],"name":"executeTakerAsk","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker","name":"takerBid","type":"tuple"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerAsk","type":"tuple"},{"internalType":"bytes","name":"makerSignature","type":"bytes"},{"components":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"bytes32","name":"value","type":"bytes32"},{"internalType":"enum OrderStructs.MerkleTreeNodePosition","name":"position","type":"uint8"}],"internalType":"struct OrderStructs.MerkleTreeNode[]","name":"proof","type":"tuple[]"}],"internalType":"struct OrderStructs.MerkleTree","name":"merkleTree","type":"tuple"}],"name":"executeTakerBid","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"internalType":"uint256","name":"proofLength","type":"uint256"}],"name":"hashBatchOrder","outputs":[{"internalType":"bytes32","name":"batchOrderHash","type":"bytes32"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"bool","name":"bid","type":"bool"},{"internalType":"bool","name":"ask","type":"bool"}],"name":"incrementBidAskNonces","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"initiateOwnershipRenouncement","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newPotentialOwner","type":"address"}],"name":"initiateOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isCurrencyAllowed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"maxCreatorFeeBp","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ownershipStatus","outputs":[{"internalType":"enum IOwnableTwoSteps.Status","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"potentialOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"protocolFeeRecipient","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker","name":"takerBid","type":"tuple"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerAsk","type":"tuple"},{"internalType":"address","name":"sender","type":"address"},{"internalType":"bytes32","name":"orderHash","type":"bytes32"}],"name":"restrictedExecuteTakerBid","outputs":[{"internalType":"uint256","name":"protocolFeeAmount","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"strategyInfo","outputs":[{"internalType":"bool","name":"isActive","type":"bool"},{"internalType":"uint16","name":"standardProtocolFeeBp","type":"uint16"},{"internalType":"uint16","name":"minTotalFeeBp","type":"uint16"},{"internalType":"uint16","name":"maxProtocolFeeBp","type":"uint16"},{"internalType":"bytes4","name":"selector","type":"bytes4"},{"internalType":"bool","name":"isMakerBid","type":"bool"},{"internalType":"address","name":"implementation","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"transferManager","outputs":[{"internalType":"contract TransferManager","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newCreatorFeeManager","type":"address"}],"name":"updateCreatorFeeManager","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"currency","type":"address"},{"internalType":"bool","name":"isAllowed","type":"bool"}],"name":"updateCurrencyStatus","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"updateDomainSeparator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newGasLimitETHTransfer","type":"uint256"}],"name":"updateETHGasLimitForTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint16","name":"newMaxCreatorFeeBp","type":"uint16"}],"name":"updateMaxCreatorFeeBp","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newProtocolFeeRecipient","type":"address"}],"name":"updateProtocolFeeRecipient","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"},{"internalType":"uint16","name":"newStandardProtocolFee","type":"uint16"},{"internalType":"uint16","name":"newMinTotalFee","type":"uint16"}],"name":"updateStrategy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userBidAskNonces","outputs":[{"internalType":"uint256","name":"bidNonce","type":"uint256"},{"internalType":"uint256","name":"askNonce","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userOrderNonce","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userSubsetNonce","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}],"fullNamespace":"LooksRareProtocol","args":["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a","0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a","0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1","0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"],"encodedArgs":"0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199adf2c3dace6f31e650fd03b8ff72bee82cb1c199a7aac4c1407f5f83256581ecc913dc8b20f7bdab1b4fbf271143f4fbf7b91a5ded31805e42b2208d6","tx":"0xaf695468ed6ad7ce6cdf04fb553e658dc268f45dea036119e636b272bf2db9ce"},"transfer-manager":{"address":"0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1","abi":[{"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"AmountInvalid","type":"error"},{"inputs":[],"name":"ERC1155SafeBatchTransferFromFail","type":"error"},{"inputs":[],"name":"ERC1155SafeTransferFromFail","type":"error"},{"inputs":[],"name":"ERC721TransferFromFail","type":"error"},{"inputs":[],"name":"LengthsInvalid","type":"error"},{"inputs":[],"name":"NoOngoingTransferInProgress","type":"error"},{"inputs":[],"name":"NotAContract","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"OperatorAlreadyAllowed","type":"error"},{"inputs":[],"name":"OperatorAlreadyApprovedByUser","type":"error"},{"inputs":[],"name":"OperatorNotAllowed","type":"error"},{"inputs":[],"name":"OperatorNotApprovedByUser","type":"error"},{"inputs":[],"name":"RenouncementNotInProgress","type":"error"},{"inputs":[],"name":"TransferAlreadyInProgress","type":"error"},{"inputs":[],"name":"TransferCallerInvalid","type":"error"},{"inputs":[],"name":"TransferNotInProgress","type":"error"},{"inputs":[],"name":"WrongPotentialOwner","type":"error"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"address[]","name":"operators","type":"address[]"}],"name":"ApprovalsGranted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"address[]","name":"operators","type":"address[]"}],"name":"ApprovalsRemoved","type":"event"},{"anonymous":false,"inputs":[],"name":"CancelOwnershipTransfer","type":"event"},{"anonymous":false,"inputs":[],"name":"InitiateOwnershipRenouncement","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":false,"internalType":"address","name":"potentialOwner","type":"address"}],"name":"InitiateOwnershipTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"NewOwner","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"operator","type":"address"}],"name":"OperatorAllowed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"operator","type":"address"}],"name":"OperatorRemoved","type":"event"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"allowOperator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"cancelOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"confirmOwnershipRenouncement","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"confirmOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address[]","name":"operators","type":"address[]"}],"name":"grantApprovals","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"hasUserApprovedOperator","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"initiateOwnershipRenouncement","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newPotentialOwner","type":"address"}],"name":"initiateOwnershipTransfer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isOperatorAllowed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ownershipStatus","outputs":[{"internalType":"enum IOwnableTwoSteps.Status","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"potentialOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"removeOperator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address[]","name":"operators","type":"address[]"}],"name":"revokeApprovals","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"collection","type":"address"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"internalType":"struct ITransferManager.BatchTransferItem[]","name":"items","type":"tuple[]"},{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"}],"name":"transferBatchItemsAcrossCollections","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"name":"transferItemsERC1155","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"name":"transferItemsERC721","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"name":"transferItemsHyperboard","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"name":"transferItemsHypercert","outputs":[],"stateMutability":"nonpayable","type":"function"}],"fullNamespace":"TransferManager","args":["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],"encodedArgs":"0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a","tx":"0xdd3e6cf435bd446c9d53d74968396e82560443ca9629c4c2cfd521e389a85f1e"},"order-validator":{"address":"0x11cf91a633b292e90afc1dd063db9ce0b94a89ae","abi":[{"inputs":[{"internalType":"address","name":"_looksRareProtocol","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"CRITERIA_GROUPS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ERC1155_INTERFACE_ID","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ERC721_INTERFACE_ID_1","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ERC721_INTERFACE_ID_2","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAGIC_VALUE_ORDER_NONCE_EXECUTED","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerOrder","type":"tuple"},{"internalType":"bytes","name":"signature","type":"bytes"},{"components":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"bytes32","name":"value","type":"bytes32"},{"internalType":"enum OrderStructs.MerkleTreeNodePosition","name":"position","type":"uint8"}],"internalType":"struct OrderStructs.MerkleTreeNode[]","name":"proof","type":"tuple[]"}],"internalType":"struct OrderStructs.MerkleTree","name":"merkleTree","type":"tuple"}],"name":"checkMakerOrderValidity","outputs":[{"internalType":"uint256[9]","name":"validationCodes","type":"uint256[9]"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker[]","name":"makerOrders","type":"tuple[]"},{"internalType":"bytes[]","name":"signatures","type":"bytes[]"},{"components":[{"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"bytes32","name":"value","type":"bytes32"},{"internalType":"enum OrderStructs.MerkleTreeNodePosition","name":"position","type":"uint8"}],"internalType":"struct OrderStructs.MerkleTreeNode[]","name":"proof","type":"tuple[]"}],"internalType":"struct OrderStructs.MerkleTree[]","name":"merkleTrees","type":"tuple[]"}],"name":"checkMultipleMakerOrderValidities","outputs":[{"internalType":"uint256[9][]","name":"validationCodes","type":"uint256[9][]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"creatorFeeManager","outputs":[{"internalType":"contract ICreatorFeeManager","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"deriveProtocolParameters","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"domainSeparator","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"looksRareProtocol","outputs":[{"internalType":"contract LooksRareProtocol","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"maxCreatorFeeBp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"transferManager","outputs":[{"internalType":"contract TransferManager","name":"","type":"address"}],"stateMutability":"view","type":"function"}],"fullNamespace":"OrderValidatorV2A","args":["0x4072ABD45a95c56372eAA00059B101C95191ea2A"],"encodedArgs":"0x4072abd45a95c56372eaa00059b101c95191ea2a","tx":"0xebbaed0b616b5e4acce94c7de515f99722fec238e7cb3d2a6b6e6c102e9606b3"},"strategy-collection-offer":{"address":"0x478b6d99efa2689649762a4b4e2590872184078f","abi":[{"inputs":[],"name":"MerkleProofInvalid","type":"error"},{"inputs":[],"name":"OrderInvalid","type":"error"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker","name":"takerAsk","type":"tuple"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerBid","type":"tuple"}],"name":"executeCollectionStrategyWithTakerAsk","outputs":[{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bool","name":"isNonceInvalidated","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Taker","name":"takerAsk","type":"tuple"},{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerBid","type":"tuple"}],"name":"executeCollectionStrategyWithTakerAskWithProof","outputs":[{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bool","name":"isNonceInvalidated","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"isLooksRareV2Strategy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[{"components":[{"internalType":"enum QuoteType","name":"quoteType","type":"uint8"},{"internalType":"uint256","name":"globalNonce","type":"uint256"},{"internalType":"uint256","name":"subsetNonce","type":"uint256"},{"internalType":"uint256","name":"orderNonce","type":"uint256"},{"internalType":"uint256","name":"strategyId","type":"uint256"},{"internalType":"enum CollectionType","name":"collectionType","type":"uint8"},{"internalType":"address","name":"collection","type":"address"},{"internalType":"address","name":"currency","type":"address"},{"internalType":"address","name":"signer","type":"address"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"price","type":"uint256"},{"internalType":"uint256[]","name":"itemIds","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"bytes","name":"additionalParameters","type":"bytes"}],"internalType":"struct OrderStructs.Maker","name":"makerBid","type":"tuple"},{"internalType":"bytes4","name":"functionSelector","type":"bytes4"}],"name":"isMakerOrderValid","outputs":[{"internalType":"bool","name":"isValid","type":"bool"},{"internalType":"bytes4","name":"errorSelector","type":"bytes4"}],"stateMutability":"pure","type":"function"}],"fullNamespace":"StrategyCollectionOffer","args":[],"encodedArgs":"0x","tx":"0xbd5e6bbb524df8747ef58974f6dd68f5ad41db59183d1849e6b9b588d777eefa"}}
+{
+  "hypercerts-exchange": {
+    "address": "0x4072ABD45a95c56372eAA00059B101C95191ea2A",
+    "abi": [
+      {
+        "inputs": [
+          { "internalType": "address", "name": "_owner", "type": "address" },
+          { "internalType": "address", "name": "_protocolFeeRecipient", "type": "address" },
+          { "internalType": "address", "name": "_transferManager", "type": "address" },
+          { "internalType": "address", "name": "_weth", "type": "address" }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      { "inputs": [], "name": "CallerInvalid", "type": "error" },
+      { "inputs": [], "name": "ChainIdInvalid", "type": "error" },
+      { "inputs": [], "name": "CreatorFeeBpTooHigh", "type": "error" },
+      { "inputs": [], "name": "CurrencyInvalid", "type": "error" },
+      { "inputs": [], "name": "ERC20TransferFromFail", "type": "error" },
+      { "inputs": [], "name": "LengthsInvalid", "type": "error" },
+      { "inputs": [], "name": "MerkleProofInvalid", "type": "error" },
+      {
+        "inputs": [{ "internalType": "uint256", "name": "length", "type": "uint256" }],
+        "name": "MerkleProofTooLarge",
+        "type": "error"
+      },
+      { "inputs": [], "name": "NewGasLimitETHTransferTooLow", "type": "error" },
+      { "inputs": [], "name": "NewProtocolFeeRecipientCannotBeNullAddress", "type": "error" },
+      { "inputs": [], "name": "NoOngoingTransferInProgress", "type": "error" },
+      { "inputs": [], "name": "NoSelectorForStrategy", "type": "error" },
+      { "inputs": [], "name": "NoncesInvalid", "type": "error" },
+      { "inputs": [], "name": "NotAContract", "type": "error" },
+      { "inputs": [], "name": "NotOwner", "type": "error" },
+      { "inputs": [], "name": "NotV2Strategy", "type": "error" },
+      { "inputs": [], "name": "NullSignerAddress", "type": "error" },
+      { "inputs": [], "name": "OutsideOfTimeRange", "type": "error" },
+      { "inputs": [], "name": "QuoteTypeInvalid", "type": "error" },
+      { "inputs": [], "name": "ReentrancyFail", "type": "error" },
+      { "inputs": [], "name": "RenouncementNotInProgress", "type": "error" },
+      { "inputs": [], "name": "SameDomainSeparator", "type": "error" },
+      { "inputs": [], "name": "SignatureEOAInvalid", "type": "error" },
+      { "inputs": [], "name": "SignatureERC1271Invalid", "type": "error" },
+      {
+        "inputs": [{ "internalType": "uint256", "name": "length", "type": "uint256" }],
+        "name": "SignatureLengthInvalid",
+        "type": "error"
+      },
+      { "inputs": [], "name": "SignatureParameterSInvalid", "type": "error" },
+      {
+        "inputs": [{ "internalType": "uint8", "name": "v", "type": "uint8" }],
+        "name": "SignatureParameterVInvalid",
+        "type": "error"
+      },
+      { "inputs": [], "name": "StrategyHasNoSelector", "type": "error" },
+      {
+        "inputs": [{ "internalType": "uint256", "name": "strategyId", "type": "uint256" }],
+        "name": "StrategyNotAvailable",
+        "type": "error"
+      },
+      { "inputs": [], "name": "StrategyNotUsed", "type": "error" },
+      { "inputs": [], "name": "StrategyProtocolFeeTooHigh", "type": "error" },
+      { "inputs": [], "name": "TransferAlreadyInProgress", "type": "error" },
+      { "inputs": [], "name": "TransferNotInProgress", "type": "error" },
+      { "inputs": [], "name": "UnsupportedCollectionType", "type": "error" },
+      { "inputs": [], "name": "WrongPotentialOwner", "type": "error" },
+      { "anonymous": false, "inputs": [], "name": "CancelOwnershipTransfer", "type": "event" },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "currency", "type": "address" },
+          { "indexed": false, "internalType": "bool", "name": "isAllowed", "type": "bool" }
+        ],
+        "name": "CurrencyStatusUpdated",
+        "type": "event"
+      },
+      { "anonymous": false, "inputs": [], "name": "InitiateOwnershipRenouncement", "type": "event" },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "previousOwner", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "potentialOwner", "type": "address" }
+        ],
+        "name": "InitiateOwnershipTransfer",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "user", "type": "address" },
+          { "indexed": false, "internalType": "uint256", "name": "bidNonce", "type": "uint256" },
+          { "indexed": false, "internalType": "uint256", "name": "askNonce", "type": "uint256" }
+        ],
+        "name": "NewBidAskNonces",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "creatorFeeManager", "type": "address" }],
+        "name": "NewCreatorFeeManager",
+        "type": "event"
+      },
+      { "anonymous": false, "inputs": [], "name": "NewDomainSeparator", "type": "event" },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "uint256", "name": "gasLimitETHTransfer", "type": "uint256" }],
+        "name": "NewGasLimitETHTransfer",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "uint256", "name": "maxCreatorFeeBp", "type": "uint256" }],
+        "name": "NewMaxCreatorFeeBp",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "newOwner", "type": "address" }],
+        "name": "NewOwner",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "protocolFeeRecipient", "type": "address" }],
+        "name": "NewProtocolFeeRecipient",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+          { "indexed": false, "internalType": "uint16", "name": "standardProtocolFeeBp", "type": "uint16" },
+          { "indexed": false, "internalType": "uint16", "name": "minTotalFeeBp", "type": "uint16" },
+          { "indexed": false, "internalType": "uint16", "name": "maxProtocolFeeBp", "type": "uint16" },
+          { "indexed": false, "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          { "indexed": false, "internalType": "bool", "name": "isMakerBid", "type": "bool" },
+          { "indexed": false, "internalType": "address", "name": "implementation", "type": "address" }
+        ],
+        "name": "NewStrategy",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "user", "type": "address" },
+          { "indexed": false, "internalType": "uint256[]", "name": "orderNonces", "type": "uint256[]" }
+        ],
+        "name": "OrderNoncesCancelled",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+          { "indexed": false, "internalType": "bool", "name": "isActive", "type": "bool" },
+          { "indexed": false, "internalType": "uint16", "name": "standardProtocolFeeBp", "type": "uint16" },
+          { "indexed": false, "internalType": "uint16", "name": "minTotalFeeBp", "type": "uint16" }
+        ],
+        "name": "StrategyUpdated",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "user", "type": "address" },
+          { "indexed": false, "internalType": "uint256[]", "name": "subsetNonces", "type": "uint256[]" }
+        ],
+        "name": "SubsetNoncesCancelled",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "orderHash", "type": "bytes32" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "bool", "name": "isNonceInvalidated", "type": "bool" }
+            ],
+            "indexed": false,
+            "internalType": "struct ILooksRareProtocol.NonceInvalidationParameters",
+            "name": "nonceInvalidationParameters",
+            "type": "tuple"
+          },
+          { "indexed": false, "internalType": "address", "name": "askUser", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "bidUser", "type": "address" },
+          { "indexed": false, "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+          { "indexed": false, "internalType": "address", "name": "currency", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "collection", "type": "address" },
+          { "indexed": false, "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "indexed": false, "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+          { "indexed": false, "internalType": "address[2]", "name": "feeRecipients", "type": "address[2]" },
+          { "indexed": false, "internalType": "uint256[3]", "name": "feeAmounts", "type": "uint256[3]" }
+        ],
+        "name": "TakerAsk",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "orderHash", "type": "bytes32" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "bool", "name": "isNonceInvalidated", "type": "bool" }
+            ],
+            "indexed": false,
+            "internalType": "struct ILooksRareProtocol.NonceInvalidationParameters",
+            "name": "nonceInvalidationParameters",
+            "type": "tuple"
+          },
+          { "indexed": false, "internalType": "address", "name": "bidUser", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "bidRecipient", "type": "address" },
+          { "indexed": false, "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+          { "indexed": false, "internalType": "address", "name": "currency", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "collection", "type": "address" },
+          { "indexed": false, "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "indexed": false, "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+          { "indexed": false, "internalType": "address[2]", "name": "feeRecipients", "type": "address[2]" },
+          { "indexed": false, "internalType": "uint256[3]", "name": "feeAmounts", "type": "uint256[3]" }
+        ],
+        "name": "TakerBid",
+        "type": "event"
+      },
+      {
+        "inputs": [],
+        "name": "MAGIC_VALUE_ORDER_NONCE_EXECUTED",
+        "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "WETH",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "uint16", "name": "standardProtocolFeeBp", "type": "uint16" },
+          { "internalType": "uint16", "name": "minTotalFeeBp", "type": "uint16" },
+          { "internalType": "uint16", "name": "maxProtocolFeeBp", "type": "uint16" },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          { "internalType": "bool", "name": "isMakerBid", "type": "bool" },
+          { "internalType": "address", "name": "implementation", "type": "address" }
+        ],
+        "name": "addStrategy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "uint256[]", "name": "orderNonces", "type": "uint256[]" }],
+        "name": "cancelOrderNonces",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "cancelOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "uint256[]", "name": "subsetNonces", "type": "uint256[]" }],
+        "name": "cancelSubsetNonces",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "chainId",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "confirmOwnershipRenouncement",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "confirmOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "creatorFeeManager",
+        "outputs": [{ "internalType": "contract ICreatorFeeManager", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "domainSeparator",
+        "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker[]",
+            "name": "takerBids",
+            "type": "tuple[]"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker[]",
+            "name": "makerAsks",
+            "type": "tuple[]"
+          },
+          { "internalType": "bytes[]", "name": "makerSignatures", "type": "bytes[]" },
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+              {
+                "components": [
+                  { "internalType": "bytes32", "name": "value", "type": "bytes32" },
+                  { "internalType": "enum OrderStructs.MerkleTreeNodePosition", "name": "position", "type": "uint8" }
+                ],
+                "internalType": "struct OrderStructs.MerkleTreeNode[]",
+                "name": "proof",
+                "type": "tuple[]"
+              }
+            ],
+            "internalType": "struct OrderStructs.MerkleTree[]",
+            "name": "merkleTrees",
+            "type": "tuple[]"
+          },
+          { "internalType": "bool", "name": "isAtomic", "type": "bool" }
+        ],
+        "name": "executeMultipleTakerBids",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker",
+            "name": "takerAsk",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerBid",
+            "type": "tuple"
+          },
+          { "internalType": "bytes", "name": "makerSignature", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+              {
+                "components": [
+                  { "internalType": "bytes32", "name": "value", "type": "bytes32" },
+                  { "internalType": "enum OrderStructs.MerkleTreeNodePosition", "name": "position", "type": "uint8" }
+                ],
+                "internalType": "struct OrderStructs.MerkleTreeNode[]",
+                "name": "proof",
+                "type": "tuple[]"
+              }
+            ],
+            "internalType": "struct OrderStructs.MerkleTree",
+            "name": "merkleTree",
+            "type": "tuple"
+          }
+        ],
+        "name": "executeTakerAsk",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker",
+            "name": "takerBid",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerAsk",
+            "type": "tuple"
+          },
+          { "internalType": "bytes", "name": "makerSignature", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+              {
+                "components": [
+                  { "internalType": "bytes32", "name": "value", "type": "bytes32" },
+                  { "internalType": "enum OrderStructs.MerkleTreeNodePosition", "name": "position", "type": "uint8" }
+                ],
+                "internalType": "struct OrderStructs.MerkleTreeNode[]",
+                "name": "proof",
+                "type": "tuple[]"
+              }
+            ],
+            "internalType": "struct OrderStructs.MerkleTree",
+            "name": "merkleTree",
+            "type": "tuple"
+          }
+        ],
+        "name": "executeTakerBid",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+          { "internalType": "uint256", "name": "proofLength", "type": "uint256" }
+        ],
+        "name": "hashBatchOrder",
+        "outputs": [{ "internalType": "bytes32", "name": "batchOrderHash", "type": "bytes32" }],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "bool", "name": "bid", "type": "bool" },
+          { "internalType": "bool", "name": "ask", "type": "bool" }
+        ],
+        "name": "incrementBidAskNonces",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "initiateOwnershipRenouncement",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "newPotentialOwner", "type": "address" }],
+        "name": "initiateOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "name": "isCurrencyAllowed",
+        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "maxCreatorFeeBp",
+        "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "ownershipStatus",
+        "outputs": [{ "internalType": "enum IOwnableTwoSteps.Status", "name": "", "type": "uint8" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "potentialOwner",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "protocolFeeRecipient",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker",
+            "name": "takerBid",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerAsk",
+            "type": "tuple"
+          },
+          { "internalType": "address", "name": "sender", "type": "address" },
+          { "internalType": "bytes32", "name": "orderHash", "type": "bytes32" }
+        ],
+        "name": "restrictedExecuteTakerBid",
+        "outputs": [{ "internalType": "uint256", "name": "protocolFeeAmount", "type": "uint256" }],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "name": "strategyInfo",
+        "outputs": [
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          { "internalType": "uint16", "name": "standardProtocolFeeBp", "type": "uint16" },
+          { "internalType": "uint16", "name": "minTotalFeeBp", "type": "uint16" },
+          { "internalType": "uint16", "name": "maxProtocolFeeBp", "type": "uint16" },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          { "internalType": "bool", "name": "isMakerBid", "type": "bool" },
+          { "internalType": "address", "name": "implementation", "type": "address" }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "transferManager",
+        "outputs": [{ "internalType": "contract TransferManager", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "newCreatorFeeManager", "type": "address" }],
+        "name": "updateCreatorFeeManager",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "currency", "type": "address" },
+          { "internalType": "bool", "name": "isAllowed", "type": "bool" }
+        ],
+        "name": "updateCurrencyStatus",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "updateDomainSeparator",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "uint256", "name": "newGasLimitETHTransfer", "type": "uint256" }],
+        "name": "updateETHGasLimitForTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "uint16", "name": "newMaxCreatorFeeBp", "type": "uint16" }],
+        "name": "updateMaxCreatorFeeBp",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "newProtocolFeeRecipient", "type": "address" }],
+        "name": "updateProtocolFeeRecipient",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          { "internalType": "uint16", "name": "newStandardProtocolFee", "type": "uint16" },
+          { "internalType": "uint16", "name": "newMinTotalFee", "type": "uint16" }
+        ],
+        "name": "updateStrategy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "name": "userBidAskNonces",
+        "outputs": [
+          { "internalType": "uint256", "name": "bidNonce", "type": "uint256" },
+          { "internalType": "uint256", "name": "askNonce", "type": "uint256" }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "", "type": "address" },
+          { "internalType": "uint256", "name": "", "type": "uint256" }
+        ],
+        "name": "userOrderNonce",
+        "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "", "type": "address" },
+          { "internalType": "uint256", "name": "", "type": "uint256" }
+        ],
+        "name": "userSubsetNonce",
+        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "fullNamespace": "LooksRareProtocol",
+    "args": [
+      "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+      "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+      "0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1",
+      "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
+    ],
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199adf2c3dace6f31e650fd03b8ff72bee82cb1c199a7aac4c1407f5f83256581ecc913dc8b20f7bdab1b4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "tx": "0xaf695468ed6ad7ce6cdf04fb553e658dc268f45dea036119e636b272bf2db9ce"
+  },
+  "transfer-manager": {
+    "address": "0x7AAC4C1407f5F83256581eCc913dC8b20F7bdab1",
+    "abi": [
+      {
+        "inputs": [{ "internalType": "address", "name": "_owner", "type": "address" }],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      { "inputs": [], "name": "AmountInvalid", "type": "error" },
+      { "inputs": [], "name": "ERC1155SafeBatchTransferFromFail", "type": "error" },
+      { "inputs": [], "name": "ERC1155SafeTransferFromFail", "type": "error" },
+      { "inputs": [], "name": "ERC721TransferFromFail", "type": "error" },
+      { "inputs": [], "name": "LengthsInvalid", "type": "error" },
+      { "inputs": [], "name": "NoOngoingTransferInProgress", "type": "error" },
+      { "inputs": [], "name": "NotAContract", "type": "error" },
+      { "inputs": [], "name": "NotOwner", "type": "error" },
+      { "inputs": [], "name": "OperatorAlreadyAllowed", "type": "error" },
+      { "inputs": [], "name": "OperatorAlreadyApprovedByUser", "type": "error" },
+      { "inputs": [], "name": "OperatorNotAllowed", "type": "error" },
+      { "inputs": [], "name": "OperatorNotApprovedByUser", "type": "error" },
+      { "inputs": [], "name": "RenouncementNotInProgress", "type": "error" },
+      { "inputs": [], "name": "TransferAlreadyInProgress", "type": "error" },
+      { "inputs": [], "name": "TransferCallerInvalid", "type": "error" },
+      { "inputs": [], "name": "TransferNotInProgress", "type": "error" },
+      { "inputs": [], "name": "WrongPotentialOwner", "type": "error" },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "user", "type": "address" },
+          { "indexed": false, "internalType": "address[]", "name": "operators", "type": "address[]" }
+        ],
+        "name": "ApprovalsGranted",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "user", "type": "address" },
+          { "indexed": false, "internalType": "address[]", "name": "operators", "type": "address[]" }
+        ],
+        "name": "ApprovalsRemoved",
+        "type": "event"
+      },
+      { "anonymous": false, "inputs": [], "name": "CancelOwnershipTransfer", "type": "event" },
+      { "anonymous": false, "inputs": [], "name": "InitiateOwnershipRenouncement", "type": "event" },
+      {
+        "anonymous": false,
+        "inputs": [
+          { "indexed": false, "internalType": "address", "name": "previousOwner", "type": "address" },
+          { "indexed": false, "internalType": "address", "name": "potentialOwner", "type": "address" }
+        ],
+        "name": "InitiateOwnershipTransfer",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "newOwner", "type": "address" }],
+        "name": "NewOwner",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "operator", "type": "address" }],
+        "name": "OperatorAllowed",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{ "indexed": false, "internalType": "address", "name": "operator", "type": "address" }],
+        "name": "OperatorRemoved",
+        "type": "event"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }],
+        "name": "allowOperator",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "cancelOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "confirmOwnershipRenouncement",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "confirmOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address[]", "name": "operators", "type": "address[]" }],
+        "name": "grantApprovals",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "", "type": "address" },
+          { "internalType": "address", "name": "", "type": "address" }
+        ],
+        "name": "hasUserApprovedOperator",
+        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "initiateOwnershipRenouncement",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "newPotentialOwner", "type": "address" }],
+        "name": "initiateOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "name": "isOperatorAllowed",
+        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "ownershipStatus",
+        "outputs": [{ "internalType": "enum IOwnableTwoSteps.Status", "name": "", "type": "uint8" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "potentialOwner",
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }],
+        "name": "removeOperator",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{ "internalType": "address[]", "name": "operators", "type": "address[]" }],
+        "name": "revokeApprovals",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+            ],
+            "internalType": "struct ITransferManager.BatchTransferItem[]",
+            "name": "items",
+            "type": "tuple[]"
+          },
+          { "internalType": "address", "name": "from", "type": "address" },
+          { "internalType": "address", "name": "to", "type": "address" }
+        ],
+        "name": "transferBatchItemsAcrossCollections",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "collection", "type": "address" },
+          { "internalType": "address", "name": "from", "type": "address" },
+          { "internalType": "address", "name": "to", "type": "address" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+        ],
+        "name": "transferItemsERC1155",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "collection", "type": "address" },
+          { "internalType": "address", "name": "from", "type": "address" },
+          { "internalType": "address", "name": "to", "type": "address" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+        ],
+        "name": "transferItemsERC721",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "collection", "type": "address" },
+          { "internalType": "address", "name": "from", "type": "address" },
+          { "internalType": "address", "name": "to", "type": "address" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+        ],
+        "name": "transferItemsHyperboard",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "collection", "type": "address" },
+          { "internalType": "address", "name": "from", "type": "address" },
+          { "internalType": "address", "name": "to", "type": "address" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+        ],
+        "name": "transferItemsHypercert",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "fullNamespace": "TransferManager",
+    "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+    "tx": "0xdd3e6cf435bd446c9d53d74968396e82560443ca9629c4c2cfd521e389a85f1e"
+  },
+  "order-validator": {
+    "address": "0x11cf91a633b292e90afc1dd063db9ce0b94a89ae",
+    "abi": [
+      {
+        "inputs": [{ "internalType": "address", "name": "_looksRareProtocol", "type": "address" }],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [],
+        "name": "CRITERIA_GROUPS",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "ERC1155_INTERFACE_ID",
+        "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "ERC721_INTERFACE_ID_1",
+        "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "ERC721_INTERFACE_ID_2",
+        "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "MAGIC_VALUE_ORDER_NONCE_EXECUTED",
+        "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerOrder",
+            "type": "tuple"
+          },
+          { "internalType": "bytes", "name": "signature", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+              {
+                "components": [
+                  { "internalType": "bytes32", "name": "value", "type": "bytes32" },
+                  { "internalType": "enum OrderStructs.MerkleTreeNodePosition", "name": "position", "type": "uint8" }
+                ],
+                "internalType": "struct OrderStructs.MerkleTreeNode[]",
+                "name": "proof",
+                "type": "tuple[]"
+              }
+            ],
+            "internalType": "struct OrderStructs.MerkleTree",
+            "name": "merkleTree",
+            "type": "tuple"
+          }
+        ],
+        "name": "checkMakerOrderValidity",
+        "outputs": [{ "internalType": "uint256[9]", "name": "validationCodes", "type": "uint256[9]" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker[]",
+            "name": "makerOrders",
+            "type": "tuple[]"
+          },
+          { "internalType": "bytes[]", "name": "signatures", "type": "bytes[]" },
+          {
+            "components": [
+              { "internalType": "bytes32", "name": "root", "type": "bytes32" },
+              {
+                "components": [
+                  { "internalType": "bytes32", "name": "value", "type": "bytes32" },
+                  { "internalType": "enum OrderStructs.MerkleTreeNodePosition", "name": "position", "type": "uint8" }
+                ],
+                "internalType": "struct OrderStructs.MerkleTreeNode[]",
+                "name": "proof",
+                "type": "tuple[]"
+              }
+            ],
+            "internalType": "struct OrderStructs.MerkleTree[]",
+            "name": "merkleTrees",
+            "type": "tuple[]"
+          }
+        ],
+        "name": "checkMultipleMakerOrderValidities",
+        "outputs": [{ "internalType": "uint256[9][]", "name": "validationCodes", "type": "uint256[9][]" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "creatorFeeManager",
+        "outputs": [{ "internalType": "contract ICreatorFeeManager", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "deriveProtocolParameters",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "domainSeparator",
+        "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "looksRareProtocol",
+        "outputs": [{ "internalType": "contract LooksRareProtocol", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "maxCreatorFeeBp",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "transferManager",
+        "outputs": [{ "internalType": "contract TransferManager", "name": "", "type": "address" }],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "fullNamespace": "OrderValidatorV2A",
+    "args": ["0x4072ABD45a95c56372eAA00059B101C95191ea2A"],
+    "encodedArgs": "0x4072abd45a95c56372eaa00059b101c95191ea2a",
+    "tx": "0xebbaed0b616b5e4acce94c7de515f99722fec238e7cb3d2a6b6e6c102e9606b3"
+  },
+  "strategy-collection-offer": {
+    "address": "0x478b6d99efa2689649762a4b4e2590872184078f",
+    "abi": [
+      { "inputs": [], "name": "MerkleProofInvalid", "type": "error" },
+      { "inputs": [], "name": "OrderInvalid", "type": "error" },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker",
+            "name": "takerAsk",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerBid",
+            "type": "tuple"
+          }
+        ],
+        "name": "executeCollectionStrategyWithTakerAsk",
+        "outputs": [
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+          { "internalType": "bool", "name": "isNonceInvalidated", "type": "bool" }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "address", "name": "recipient", "type": "address" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Taker",
+            "name": "takerAsk",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerBid",
+            "type": "tuple"
+          }
+        ],
+        "name": "executeCollectionStrategyWithTakerAskWithProof",
+        "outputs": [
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+          { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+          { "internalType": "bool", "name": "isNonceInvalidated", "type": "bool" }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "isLooksRareV2Strategy",
+        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              { "internalType": "enum QuoteType", "name": "quoteType", "type": "uint8" },
+              { "internalType": "uint256", "name": "globalNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "subsetNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "orderNonce", "type": "uint256" },
+              { "internalType": "uint256", "name": "strategyId", "type": "uint256" },
+              { "internalType": "enum CollectionType", "name": "collectionType", "type": "uint8" },
+              { "internalType": "address", "name": "collection", "type": "address" },
+              { "internalType": "address", "name": "currency", "type": "address" },
+              { "internalType": "address", "name": "signer", "type": "address" },
+              { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+              { "internalType": "uint256", "name": "price", "type": "uint256" },
+              { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+              { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+              { "internalType": "bytes", "name": "additionalParameters", "type": "bytes" }
+            ],
+            "internalType": "struct OrderStructs.Maker",
+            "name": "makerBid",
+            "type": "tuple"
+          },
+          { "internalType": "bytes4", "name": "functionSelector", "type": "bytes4" }
+        ],
+        "name": "isMakerOrderValid",
+        "outputs": [
+          { "internalType": "bool", "name": "isValid", "type": "bool" },
+          { "internalType": "bytes4", "name": "errorSelector", "type": "bytes4" }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      }
+    ],
+    "fullNamespace": "StrategyCollectionOffer",
+    "args": [],
+    "encodedArgs": "0x",
+    "tx": "0xbd5e6bbb524df8747ef58974f6dd68f5ad41db59183d1849e6b9b588d777eefa"
+  }
+}
