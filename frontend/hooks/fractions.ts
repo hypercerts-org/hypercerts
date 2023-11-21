@@ -18,11 +18,10 @@ export const useFractionsByClaim = (claimId: string) => {
     client: { indexer },
   } = useHypercertClient();
 
-  return (
-    useQuery(["graph", "fractions", "claim", claimId], () =>
-      indexer.fractionsByClaim(claimId),
-    ),
-    { enabled: !!claimId, refetchInterval: 5000 }
+  return useQuery(
+    ["graph", "fractions", "claim", claimId],
+    () => indexer.fractionsByClaim(claimId),
+    { enabled: !!claimId, refetchInterval: 5000 },
   );
 };
 
@@ -34,6 +33,6 @@ export const useFractionById = (fractionId: string) => {
   return useQuery(
     ["graph", "fractions", fractionId],
     () => indexer.fractionById(fractionId),
-    { enabled: !!fractionId, refetchInterval: 5000 },
+    { enabled: !!fractionId },
   );
 };
