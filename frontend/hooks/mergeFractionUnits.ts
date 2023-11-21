@@ -45,7 +45,7 @@ export const useMergeFractionUnits = ({
         console.error(receipt);
       }
       if (receipt?.status === "success") {
-        toast(mintInteractionLabels.toastSuccess, { type: "success" });
+        toast("Fractions successfully merged", { type: "success" });
 
         setStep("complete");
         onComplete?.();
@@ -66,6 +66,7 @@ export const useMergeFractionUnits = ({
       showModal({ stepDescriptions });
       setStep("preparing");
       await initializeWrite(ids);
+      window.location.reload();
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,
