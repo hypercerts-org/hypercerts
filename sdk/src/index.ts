@@ -1,4 +1,4 @@
-import type { HypercertMinter, IHypercertToken } from "@hypercerts-org/contracts";
+import { HypercertMinterAbi, HypercertExchangeAbi } from "@hypercerts-org/contracts";
 
 import { execute } from "../.graphclient";
 import HypercertClient from "./client";
@@ -8,7 +8,7 @@ import { DEPLOYMENTS } from "./constants";
 /**
  * Protocol
  */
-export type { HypercertMinter, IHypercertToken };
+export { HypercertMinterAbi, HypercertExchangeAbi };
 export { DEPLOYMENTS as deployments };
 
 /**

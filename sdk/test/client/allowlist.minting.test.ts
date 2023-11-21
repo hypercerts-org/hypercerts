@@ -2,7 +2,7 @@ import sinon from "sinon";
 import { expect } from "@jest/globals";
 
 import { HypercertClient } from "../../src";
-import HypercertsStorage from "../../src/storage.js";
+import HypercertsStorage from "../../src/storage";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
 import { getAllowlist, getFormattedMetadata, publicClient, walletClient, mockDataSets } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";

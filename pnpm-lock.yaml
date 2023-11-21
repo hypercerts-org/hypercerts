@@ -324,14 +324,14 @@ importers:
         specifier: ^2.2.16
         version: 2.2.22(@babel/core@7.23.2)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(graphql-tag@2.12.6)(graphql@16.8.1)(react-native@0.72.6)
       '@hypercerts-org/contracts':
-        specifier: 0.9.0
-        version: 0.9.0(typescript@5.1.6)
+        specifier: 1.0.0-alpha.2
+        version: 1.0.0-alpha.2(ts-node@10.9.1)(typescript@5.1.6)
       '@hypercerts-org/observabletreemap':
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
       '@hypercerts-org/sdk':
-        specifier: 1.0.0-alpha.8
-        version: 1.0.0-alpha.8(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
+        specifier: 1.0.0-alpha.10
+        version: 1.0.0-alpha.10(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4)
       '@mui/icons-material':
         specifier: ^5.11.9
         version: 5.14.15(@mui/material@5.14.15)(@types/react@18.2.33)(react@18.2.0)
@@ -580,8 +580,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts':
-        specifier: 0.8.11
-        version: 0.8.11
+        specifier: 1.0.0-alpha.2
+        version: 1.0.0-alpha.2(ts-node@10.9.1)(typescript@5.1.6)
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.5
         version: 1.0.5
@@ -7527,10 +7527,10 @@ packages:
     resolution: {integrity: sha512-n6fwMsaoR50VITM2upR4OOi4EZJmZvU6vvXrHWCSakP9e1OeDuAOk+kHiK+egqDRYj6uKtg9VTUFKZBYvu3jRg==}
     dev: false
 
-  /@hypercerts-org/contracts@0.9.0(typescript@5.1.6):
-    resolution: {integrity: sha512-enXkIzZxYMDaOchL9peq6ddIfo0uJeJb1o+nj3LMy5AzK5B+3ijNkJFDUx0N8RZPO2jVgqO3/4czAavndLfNww==}
+  /@hypercerts-org/contracts@1.0.0-alpha.2(ts-node@10.9.1)(typescript@5.1.6):
+    resolution: {integrity: sha512-I9TMEyN4cKW3Gfv3Wysk9xoZzwpUjI+dgCECJVjBlInRiCxnaUdahBSqhVvKg1gViWaPMDvDGe5v9jVknZIN/A==}
     dependencies:
-      hardhat: 2.18.3(typescript@5.1.6)
+      hardhat: 2.18.3(ts-node@10.9.1)(typescript@5.1.6)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7539,8 +7539,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/sdk@1.0.0-alpha.8(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
-    resolution: {integrity: sha512-T44kiplKi4qJQFlnn9Ac8KSOyWeGdglaGjMxhYZzqCEhqWPYYOscm6Q6qu2/X+HDhKpO68MbJPnCp88ajpVAOg==}
+  /@hypercerts-org/sdk@1.0.0-alpha.10(@envelop/core@3.0.6)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.18.7)(node-fetch@3.3.2)(react-dom@18.2.0)(react@18.2.0)(tslib@2.6.2)(typescript@5.1.6)(uint8arraylist@2.4.3)(zod@3.22.4):
+    resolution: {integrity: sha512-PEGKxzxhGZuz0cjYCCj90+bBmbfU4n1mP+q911Kx6jZ0g5sQyj+m685x0cq8OIL4JnYNPShZ2OWDjcX93KzbBA==}
     dependencies:
       '@ethereum-attestation-service/eas-sdk': 1.2.2-beta.0(ts-node@10.9.1)(typescript@5.1.6)
       '@ethersproject/abstract-signer': 5.7.0
@@ -7556,7 +7556,7 @@ packages:
       '@graphql-mesh/types': 0.95.8(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.95.8(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
-      '@hypercerts-org/contracts': 0.8.11
+      '@hypercerts-org/contracts': 1.0.0-alpha.2(ts-node@10.9.1)(typescript@5.1.6)
       '@openzeppelin/merkle-tree': 1.0.5
       '@whatwg-node/fetch': 0.9.14
       ajv: 8.12.0
@@ -7568,7 +7568,7 @@ packages:
       loglevel: 1.8.1
       mime: 3.0.0
       nft.storage: 7.1.1(node-fetch@3.3.2)
-      viem: 1.18.4(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
       web3.storage: 4.5.5(node-fetch@3.3.2)
     transitivePeerDependencies:
       - '@envelop/core'
@@ -21673,7 +21673,7 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /hardhat@2.18.3(typescript@5.1.6):
+  /hardhat@2.18.3(ts-node@10.9.1)(typescript@5.1.6):
     resolution: {integrity: sha512-JuYaTG+4ZHVjEHCW5Hn6jCHH3LpO75dtgznZpM/dLv12RcSlw/xHbeQh3FAsGahQr1epKryZcZEMHvztVZHe0g==}
     hasBin: true
     peerDependencies:
@@ -21729,6 +21729,7 @@ packages:
       solc: 0.7.3(debug@4.3.4)
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.10
+      ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.1.6)
       tsort: 0.0.1
       typescript: 5.1.6
       undici: 5.26.5
@@ -33950,6 +33951,29 @@ packages:
       - utf-8-validate
       - zod
     dev: true
+
+  /viem@1.18.9(typescript@5.1.6)(zod@3.22.4):
+    resolution: {integrity: sha512-eAXtoTwAFA3YEgjTYMb5ZTQrDC0UPx5qyZ4sv90TirVKepcM9mBPksTkC1SSWya0UdxhBmhEBL/CiYMjmGCTWg==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@adraffy/ens-normalize': 1.9.4
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/bip32': 1.3.2
+      '@scure/bip39': 1.2.1
+      abitype: 0.9.8(typescript@5.1.6)(zod@3.22.4)
+      isows: 1.0.3(ws@8.13.0)
+      typescript: 5.1.6
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
+    dev: false
 
   /vite-node@0.28.5(@types/node@18.18.7):
     resolution: {integrity: sha512-LmXb9saMGlrMZbXTvOveJKwMTBTNUH66c8rJnQ0ZPNX+myPEol64+szRzXtV5ORb0Hb/91yq+/D3oERoyAt6LA==}
