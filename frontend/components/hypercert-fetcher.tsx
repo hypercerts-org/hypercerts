@@ -79,7 +79,7 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
   }, [useQueryString, byClaimId, byMetadataUri]);
 
   // Show when loading
-  if (!ignoreLoading && !!loading && !data) {
+  if (!client && !ignoreLoading && !!loading && !data) {
     return <div className={className}> {loading} </div>;
   }
 

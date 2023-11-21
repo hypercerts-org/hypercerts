@@ -10,6 +10,7 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to mint hypercert",
@@ -24,26 +25,32 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const initializeWrite = async (
     metaData: HypercertMetadata,
     units: number,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("minting");
     try {
       setTxPending(true);
 
-      const tx = await client.mintClaim(
+      const hash = await client.mintClaim(
         metaData,
-        units,
-        TransferRestrictions.FromCreatorOnly,
+        BigInt(units),
+        transferRestrictions,
       );
+
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
+
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Minting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");
@@ -61,10 +68,14 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   };
 
   return {
-    write: async (metaData: HypercertMetadata, units: number) => {
+    write: async (
+      metaData: HypercertMetadata,
+      units: number,
+      transferRestrictions: TransferRestrictions = TransferRestrictions.FromCreatorOnly,
+    ) => {
       showModal({ stepDescriptions });
       setStep("preparing");
-      await initializeWrite(metaData, units);
+      await initializeWrite(metaData, units, transferRestrictions);
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

@@ -1,10 +1,10 @@
-import { BigNumberish } from "ethers";
-
 /**
- * Transfer restrictions for Hypercerts matching the definitions in the Hypercerts protocol
- * @dev AllowAll: All transfers are allowed
- * @dev DisallowAll: All transfers are disallowed
- * @dev FromCreatorOnly: Only the creator can transfer the Hypercert
+ * Represents the possible transfer restrictions of a claim matching the hypercerts protocol.
+ *
+ * @typedef {Object} TransferRestrictions
+ * @property {number} AllowAll - Represents no restrictions on the transfer of the claim.
+ * @property {number} DisallowAll - Represents complete restriction on the transfer of the claim.
+ * @property {number} FromCreatorOnly - Represents that the claim can only be transferred by its creator.
  */
 export const TransferRestrictions = {
   AllowAll: 0,
@@ -15,11 +15,13 @@ export const TransferRestrictions = {
 export type TransferRestrictions = (typeof TransferRestrictions)[keyof typeof TransferRestrictions];
 
 /**
- * Allowlist entry for Hypercerts matching the definitions in the Hypercerts protocol
- * @param address - Address of the recipient
- * @param units - Number of units allocated to the recipient
+ * Represents an entry in an allowlist.
+ *
+ * @typedef {Object} AllowlistEntry
+ * @property {string} address - The address of the entry.
+ * @property {bigint} units - The units associated with the entry.
  */
 export type AllowlistEntry = {
   address: string;
-  units: BigNumberish;
+  units: bigint;
 };

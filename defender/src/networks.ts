@@ -30,7 +30,6 @@ export const NETWORKS: SupportedNetworks = {
     {
       networkKey: "sepolia",
       contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
-      alchemyKeyEnvName: "ALCHEMY_SEPOLIA_KEY",
       chainId: 11155111,
       rpc: "https://rpc.sepolia.org",
     },

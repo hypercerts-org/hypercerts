@@ -23,6 +23,7 @@ export const useMintClaimAllowlist = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     validateAllowlist: "Validating allowlist",
@@ -84,6 +85,7 @@ export const useMintClaimAllowlist = ({
     allowlistUrl: string,
     allowlistPercentage: number,
     deduplicate: boolean,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("validateAllowlist");
 
@@ -121,22 +123,27 @@ export const useMintClaimAllowlist = ({
       setStep("preparing");
       setTxPending(true);
 
-      const tx = await client.createAllowlist(
+      const hash = await client.createAllowlist(
         _allowlist,
         metaData,
         _totalSupply,
-        TransferRestrictions.FromCreatorOnly,
+        transferRestrictions,
       );
+
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
+
       setStep("writing");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Minting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");
@@ -159,11 +166,13 @@ export const useMintClaimAllowlist = ({
       allowlistUrl,
       allowlistPercentage,
       deduplicate,
+      transferRestrictions = TransferRestrictions.FromCreatorOnly,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl: string;
       allowlistPercentage: number;
       deduplicate: boolean;
+      transferRestrictions?: TransferRestrictions;
     }) => {
       showModal({ stepDescriptions });
       await initializeWrite(
@@ -171,6 +180,7 @@ export const useMintClaimAllowlist = ({
         allowlistUrl,
         allowlistPercentage,
         deduplicate,
+        transferRestrictions,
       );
     },
     txPending,

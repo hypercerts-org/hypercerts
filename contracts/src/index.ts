@@ -1,10 +1,28 @@
-import HypercertMinterAbi from "./abi/HypercertMinter.json";
-// import { HypercertMinter__factory } from "./types/factories/src/HypercertMinter__factory";
-import type { AllowlistMinter } from "./types/src/AllowlistMinter";
-import type { HypercertMinter } from "./types/src/HypercertMinter";
-import type { IAllowlist } from "./types/src/interfaces/IAllowlist";
-import type { IHypercertToken } from "./types/src/interfaces/IHypercertToken";
-import type { Errors } from "./types/src/libs/Errors";
+import HypercertMinterAbi from "../abi/HypercertMinter.json";
+import AllowlistMinterAbi from "../abi/AllowlistMinter.json";
+import CurrencyManagerAbi from "../abi/CurrencyManager.json";
+import ExecutionManagerAbi from "../abi/ExecutionManager.json";
+import LooksRareProtocolAbi from "../abi/LooksRareProtocol.json";
+import NonceManagerAbi from "../abi/NonceManager.json";
+import OrderValidatorV2AAbi from "../abi/OrderValidatorV2A.json";
+import StrategyManagerAbi from "../abi/StrategyManager.json";
+import TransferManagerAbi from "../abi/TransferManager.json";
+
+import type { CurrencyManager } from "../types/src/marketplace/CurrencyManager";
+import type { ExecutionManager } from "../types/src/marketplace/ExecutionManager";
+import type { LooksRareProtocol } from "../types/src/marketplace/LooksRareProtocol";
+import type { NonceManager } from "../types/src/marketplace/NonceManager";
+import type { OrderValidatorV2A } from "../types/src/marketplace/helpers/OrderValidatorV2A";
+import type { StrategyManager } from "../types/src/marketplace/StrategyManager";
+import type { TransferManager } from "../types/src/marketplace/TransferManager";
+import type { AllowlistMinter } from "../types/src/protocol/AllowlistMinter";
+import type { HypercertMinter } from "../types/src/protocol/HypercertMinter";
+import type { IAllowlist } from "../types/src/protocol/interfaces/IAllowlist";
+import type { IHypercertToken } from "../types/src/protocol/interfaces/IHypercertToken";
+import type { Errors } from "../types/src/protocol/libs/Errors";
+
+import deploymentsJSON from "./deployments.json";
+
 /*
   in order to adjust the build folder:
     1) import any files here you want in the final build package.
@@ -13,15 +31,51 @@ import type { Errors } from "./types/src/libs/Errors";
     4) bump package.json version to publish a new package to npm.
 */
 
-// Factory
-// export { HypercertMinter__factory };
+export type Deployment = {
+  HypercertMinterUUPS: `0x${string}`;
+  HypercertMinterImplementation: `0x${string}`;
+  TransferManager?: `0x${string}`;
+  HypercertExchange?: `0x${string}`;
+};
+
+export type DeployedChains = keyof typeof deploymentsJSON;
+
+// Deployments
+const deployments = deploymentsJSON as Record<DeployedChains, Deployment>;
+
+const asDeployedChain = (chainId: string | number) => {
+  if (chainId in deployments) return chainId as DeployedChains;
+  throw new Error(`Chain ${chainId} not deployed`);
+};
+
+export { deployments, asDeployedChain };
 
 // Interfaces
 export { IAllowlist, IHypercertToken };
-export { HypercertMinterAbi };
+export {
+  HypercertMinterAbi,
+  AllowlistMinterAbi,
+  CurrencyManagerAbi,
+  ExecutionManagerAbi,
+  LooksRareProtocolAbi as HypercertExchangeAbi,
+  NonceManagerAbi,
+  OrderValidatorV2AAbi,
+  StrategyManagerAbi,
+  TransferManagerAbi,
+};
 
 // Contracts
-export { HypercertMinter, AllowlistMinter };
+export {
+  HypercertMinter,
+  AllowlistMinter,
+  CurrencyManager,
+  ExecutionManager,
+  LooksRareProtocol as HypercertExchange,
+  NonceManager,
+  OrderValidatorV2A,
+  StrategyManager,
+  TransferManager,
+};
 
 // Libs
 export { Errors };

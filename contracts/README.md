@@ -88,7 +88,7 @@ yarn hardhat deploy --network goerli
 To transfer ownership of the proxy contract for upgrades, run the following:
 
 ```sh
-yarn hardhat transfer-owner --network goerli --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
+yarn hardhat transfer-owner-minter --network goerli --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
 ```
 
 This is typically done to transfer control to a multi-sig (i.e. Gnosis Safe).
@@ -110,7 +110,7 @@ Propose an upgrade via OpenZeppelin Defender. For more information, see this
 
 ```sh
 yarn build:hardhat
-yarn hardhat propose-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS --multisig OWNER_MULTISIG_ADDRESS
+yarn hardhat propose-upgrade-minter --network goerli --proxy PROXY_CONTRACT_ADDRESS --multisig OWNER_MULTISIG_ADDRESS
 ```
 
 This will output an OpenZeppelin URL that multi-sig members can use to approve/reject the upgrade.
