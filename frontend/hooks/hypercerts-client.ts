@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 
-import {
-  NFT_STORAGE_TOKEN,
-  WEB3_STORAGE_TOKEN,
-  NEXT_PUBLIC_DEFAULT_CHAIN_ID,
-} from "../lib/config";
+import { NFT_STORAGE_TOKEN, WEB3_STORAGE_TOKEN } from "../lib/config";
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 import { useWalletClient, useNetwork } from "wagmi";
 
 const clientConfig: Partial<HypercertClientConfig> = {
-  chain: { id: Number(NEXT_PUBLIC_DEFAULT_CHAIN_ID) },
+  chain: { id: 5 },
   nftStorageToken: NFT_STORAGE_TOKEN,
   web3StorageToken: WEB3_STORAGE_TOKEN,
 };
@@ -19,7 +15,7 @@ const defaultClient = new HypercertClient(clientConfig);
 export const useHypercertClient = () => {
   const { chain } = useNetwork();
 
-  const [client, setClient] = React.useState<HypercertClient>(defaultClient);
+  const [client, setClient] = React.useState<HypercertClient>();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const {

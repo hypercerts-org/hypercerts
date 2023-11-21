@@ -1,3 +1,4 @@
+import { logger } from "ethers";
 import { getBuiltGraphSDK, Sdk as GraphClient } from "../.graphclient";
 import { defaultQueryParams } from "./indexer/utils";
 import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from "./types";
@@ -23,8 +24,8 @@ export default class HypercertIndexer implements HypercertIndexerInterface {
    * @param options The configuration options for the indexer.
    */
   constructor(options: Partial<HypercertClientConfig>) {
+    logger.info("Creating HypercertIndexer", "constructor", options);
     this._graphClient = getBuiltGraphSDK({
-      graphUrl: options.graphUrl,
       graphName: options.graphName,
     });
   }
