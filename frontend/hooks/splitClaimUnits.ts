@@ -26,12 +26,12 @@ export const useSplitFractionUnits = ({
 
   const publicClient = client.config.publicClient;
 
-  const initializeWrite = async (id: bigint, fractions: bigint[]) => {
+  const initializeWrite = async (fractionId: bigint, fractions: bigint[]) => {
     setStep("splitting");
     try {
       setTxPending(true);
 
-      const hash = await client.splitFractionUnits(id, fractions);
+      const hash = await client.splitFractionUnits(fractionId, fractions);
 
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,

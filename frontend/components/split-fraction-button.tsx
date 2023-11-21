@@ -32,7 +32,7 @@ export function SplitFractionButton({
   className,
   disabled,
 }: Props) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -96,7 +96,7 @@ export function SplitFractionButton({
                 return;
               }
               await write(
-                tokenId,
+                BigInt(tokenId),
                 values.units.map((x) => BigInt(x)),
               );
             }}
@@ -162,8 +162,7 @@ export function SplitFractionButton({
                             type="button"
                             onClick={() => arrayHelpers.push("")}
                           >
-                            {/* show this when user has removed all friends from the list */}
-                            Add a friend
+                            Add a fraction
                           </Button>
                         )}
                         {errors.units && (
