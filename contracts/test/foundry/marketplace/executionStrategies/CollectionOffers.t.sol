@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // Murky (third-party) library is used to compute Merkle trees in Solidity
 import {Merkle} from "murky/Merkle.sol";
@@ -35,6 +35,8 @@ contract CollectionOrdersTest is ProtocolBase {
     StrategyCollectionOffer public strategyCollectionOffer;
     bytes4 public selectorNoProof = strategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector;
     bytes4 public selectorWithProof = strategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector;
+    bytes4 public selectorWithProofAllowlist =
+        strategyCollectionOffer.executeCollectionStrategyWithTakerAskWithAllowlist.selector;
 
     uint256 private constant price = 1 ether; // Fixed price of sale
     bytes32 private constant mockMerkleRoot = bytes32(keccak256("Mock")); // Mock merkle root
@@ -48,6 +50,7 @@ contract CollectionOrdersTest is ProtocolBase {
         strategyCollectionOffer = new StrategyCollectionOffer();
         _addStrategy(address(strategyCollectionOffer), selectorNoProof, true);
         _addStrategy(address(strategyCollectionOffer), selectorWithProof, true);
+        _addStrategy(address(strategyCollectionOffer), selectorWithProofAllowlist, true);
     }
 
     function testNewStrategies() public {
@@ -169,6 +172,8 @@ contract CollectionOrdersTest is ProtocolBase {
 
     /**
      * A collection offer with merkle tree criteria
+     *
+     * COLLECTION TOKEN IDs
      */
     function testTakerAskCollectionOrderWithMerkleTreeERC721() public {
         _setUpUsers();
@@ -245,6 +250,97 @@ contract CollectionOrdersTest is ProtocolBase {
         // Prepare the taker ask
         proof[0] = bytes32(0); // Tamper with the proof
         OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(itemIdSold, proof));
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerBid, true);
+        _assertValidMakerOrder(makerBid, signature);
+
+        vm.prank(takerUser);
+        vm.expectRevert(MerkleProofInvalid.selector);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    /**
+     * TAKER ALLOWLIST
+     */
+    function testTakerAskCollectionOrderWithMerkleTreeERC721AccountAllowlist() public {
+        _setUpUsers();
+
+        OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
+            quoteType: QuoteType.Bid,
+            globalNonce: 0,
+            subsetNonce: 0,
+            strategyId: 3,
+            collectionType: CollectionType.ERC721,
+            orderNonce: 0,
+            collection: address(mockERC721),
+            currency: address(weth),
+            signer: makerUser,
+            price: price,
+            itemId: 0 // Not used
+        });
+
+        address accountInMerkleTree = takerUser;
+        uint256 tokenIdInMerkleTree = 2;
+        (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
+            owner: takerUser,
+            numberOfAccountsInMerkleTree: 5,
+            accountInMerkleTree: accountInMerkleTree
+        });
+
+        makerBid.additionalParameters = abi.encode(merkleRoot);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+
+        // Prepare the taker ask
+        OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(tokenIdInMerkleTree, proof));
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerBid, true);
+        _assertValidMakerOrder(makerBid, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+
+        _assertSuccessfulTakerAsk(makerBid, tokenIdInMerkleTree);
+    }
+
+    function testTakerAskCannotExecuteWithInvalidProofAccountAllowlist(uint256 itemIdSold) public {
+        vm.assume(itemIdSold > 5);
+        _setUpUsers();
+
+        OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
+            quoteType: QuoteType.Bid,
+            globalNonce: 0,
+            subsetNonce: 0,
+            strategyId: 3,
+            collectionType: CollectionType.ERC721,
+            orderNonce: 0,
+            collection: address(mockERC721),
+            currency: address(weth),
+            signer: makerUser,
+            price: price,
+            itemId: 0 // Not used
+        });
+
+        address accountInMerkleTree = takerUser;
+        uint256 tokenIdInMerkleTree = 2;
+        (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
+            owner: takerUser,
+            numberOfAccountsInMerkleTree: 5,
+            // Doesn't matter what itemIdInMerkleTree is as we are are going to tamper with the proof
+            accountInMerkleTree: accountInMerkleTree
+        });
+        makerBid.additionalParameters = abi.encode(merkleRoot);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+
+        // Prepare the taker ask
+        proof[0] = bytes32(0); // Tamper with the proof
+        OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(tokenIdInMerkleTree, proof));
 
         // Verify validity of maker bid order
         _assertOrderIsValid(makerBid, true);
@@ -431,6 +527,27 @@ contract CollectionOrdersTest is ProtocolBase {
         proof = m.getProof(merkleTreeIds, itemIdInMerkleTree);
 
         assertTrue(m.verifyProof(merkleRoot, proof, merkleTreeIds[itemIdInMerkleTree]));
+    }
+
+    function _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist(
+        address owner,
+        uint256 numberOfAccountsInMerkleTree,
+        address accountInMerkleTree
+    ) private returns (bytes32 merkleRoot, bytes32[] memory proof) {
+        // Initialize Merkle Tree
+        Merkle m = new Merkle();
+
+        bytes32[] memory merkleTreeAccounts = new bytes32[](numberOfAccountsInMerkleTree);
+        for (uint256 i; i < numberOfAccountsInMerkleTree; i++) {
+            mockERC721.mint(owner, i);
+            merkleTreeAccounts[i] = keccak256(abi.encodePacked(accountInMerkleTree));
+        }
+
+        // Compute merkle root
+        merkleRoot = m.getRoot(merkleTreeAccounts);
+        proof = m.getProof(merkleTreeAccounts, 2);
+
+        assertTrue(m.verifyProof(merkleRoot, proof, merkleTreeAccounts[0]));
     }
 
     function _assertSuccessfulTakerAsk(OrderStructs.Maker memory makerBid, uint256 tokenId) private {
