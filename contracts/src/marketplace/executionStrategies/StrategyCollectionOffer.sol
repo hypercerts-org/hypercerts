@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
@@ -99,6 +99,46 @@ contract StrategyCollectionOffer is BaseStrategy {
     }
 
     /**
+     * @notice This function validates the order under the context of the chosen strategy
+     *         and returns the fulfillable items/amounts/price/nonce invalidation status.
+     *         This strategy executes a collection offer against a taker ask order with the need of a merkle proof
+     *         that the address is allowed to fullfil the ask.
+     * @param takerAsk Taker ask struct (taker ask-specific parameters for the execution)
+     * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
+     * @dev The transaction reverts if the maker does not include a merkle root in the additionalParameters.
+     */
+    function executeCollectionStrategyWithTakerAskWithAllowlist(
+        OrderStructs.Taker calldata takerAsk,
+        OrderStructs.Maker calldata makerBid
+    )
+        external
+        pure
+        returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
+    {
+        price = makerBid.price;
+        amounts = makerBid.amounts;
+
+        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
+        if (amounts.length != 1) {
+            revert OrderInvalid();
+        }
+
+        (uint256 offeredItemId, bytes32[] memory proof) =
+            abi.decode(takerAsk.additionalParameters, (uint256, bytes32[]));
+        itemIds = new uint256[](1);
+        itemIds[0] = offeredItemId;
+        isNonceInvalidated = true;
+
+        bytes32 root = abi.decode(makerBid.additionalParameters, (bytes32));
+        bytes32 node = keccak256(abi.encodePacked(takerAsk.recipient));
+
+        // Verify the merkle root for the given merkle proof
+        if (!MerkleProofMemory.verify(proof, root, node)) {
+            revert MerkleProofInvalid();
+        }
+    }
+
+    /**
      * @inheritdoc IStrategy
      */
     function isMakerOrderValid(OrderStructs.Maker calldata makerBid, bytes4 functionSelector)
@@ -110,6 +150,7 @@ contract StrategyCollectionOffer is BaseStrategy {
         if (
             functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
                 && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector
+                && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithAllowlist.selector
         ) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
