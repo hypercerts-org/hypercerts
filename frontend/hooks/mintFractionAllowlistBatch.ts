@@ -27,8 +27,6 @@ export const useMintFractionAllowlistBatch = ({
   const { data: claimIds } = useGetAllEligibility(address ?? "", chain?.id);
   const parseError = useParseBlockchainError();
 
-  const publicClient = client.config.publicClient;
-
   const stepDescriptions = {
     initial: "Initializing interaction",
     proofs: "Getting and verifying proofs",
@@ -38,6 +36,9 @@ export const useMintFractionAllowlistBatch = ({
   };
 
   const initializeWrite = async () => {
+    if (!client) {
+      throw new Error("No client found");
+    }
     if (!address) {
       throw new Error("No address found for current user");
     }
@@ -79,6 +80,7 @@ export const useMintFractionAllowlistBatch = ({
         proofs,
       );
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

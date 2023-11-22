@@ -13,7 +13,6 @@ export const useBurnFraction = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to burn fraction",
@@ -32,8 +31,16 @@ export const useBurnFraction = ({
 
       setStep("burning");
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.burnClaimFraction(claimId);
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

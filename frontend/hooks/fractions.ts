@@ -2,37 +2,40 @@ import { useHypercertClient } from "./hypercerts-client";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFractionsByOwner = (owner: string) => {
-  const {
-    client: { indexer },
-  } = useHypercertClient();
+  const { client } = useHypercertClient();
 
   return useQuery(
     ["graph", "fractions", "owner", owner],
-    () => indexer.fractionsByOwner(owner),
+    () => {
+      if (!client) return null;
+      return client.indexer.fractionsByOwner(owner);
+    },
     { enabled: !!owner, refetchInterval: 5000 },
   );
 };
 
 export const useFractionsByClaim = (claimId: string) => {
-  const {
-    client: { indexer },
-  } = useHypercertClient();
+  const { client } = useHypercertClient();
 
   return useQuery(
     ["graph", "fractions", "claim", claimId],
-    () => indexer.fractionsByClaim(claimId),
+    () => {
+      if (!client) return null;
+      return client.indexer.fractionsByClaim(claimId);
+    },
     { enabled: !!claimId, refetchInterval: 5000 },
   );
 };
 
 export const useFractionById = (fractionId: string) => {
-  const {
-    client: { indexer },
-  } = useHypercertClient();
+  const { client } = useHypercertClient();
 
   return useQuery(
     ["graph", "fractions", fractionId],
-    () => indexer.fractionById(fractionId),
+    () => {
+      if (!client) return null;
+      return client.indexer.fractionById(fractionId);
+    },
     { enabled: !!fractionId },
   );
 };

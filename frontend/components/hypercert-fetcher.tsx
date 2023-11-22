@@ -45,6 +45,9 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
   const { client } = useHypercertClient();
 
   React.useEffect(() => {
+    if (!client) {
+      return;
+    }
     spawn(
       (async () => {
         const hashQueryString = window.location.hash.slice(
@@ -76,7 +79,7 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
         setData(hypercert);
       })(),
     );
-  }, [useQueryString, byClaimId, byMetadataUri]);
+  }, [useQueryString, byClaimId, byMetadataUri, client]);
 
   // Show when loading
   if (!client && !ignoreLoading && !!loading && !data) {
