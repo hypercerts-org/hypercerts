@@ -239,9 +239,8 @@ PLASMIC.registerComponent(HypercertCreateForm, {
       },
     },
     transferRestrictions: {
-      type: "choice",
-      options: ["AllowAll", "DisallowAll", "FromCreatorOnly"],
-      defaultValueHint: "FromCreatorOnly",
+      type: "number",
+      description: "0: AllowAll, 1: DisallowAll, 2: FromCreatorOnly",
     },
     applicationName: {
       type: "string",
@@ -684,7 +683,7 @@ PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
     disabled: "boolean",
     text: {
       type: "string",
-      defaultValue: "Split",
+      defaultValue: "Merge",
       helpText: "Text to display on button",
     },
   },
