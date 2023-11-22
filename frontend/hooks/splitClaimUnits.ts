@@ -23,9 +23,13 @@ export const useSplitFractionUnits = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const publicClient = client.config.publicClient;
-
   const initializeWrite = async (fractionId: bigint, fractions: bigint[]) => {
+    if (!client) {
+      toast("No client found", {
+        type: "error",
+      });
+      return;
+    }
     showModal({ stepDescriptions });
     setStep("splitting");
     try {
@@ -34,6 +38,7 @@ export const useSplitFractionUnits = ({
       const hash = await client.splitFractionUnits(fractionId, fractions);
 
       setStep("waiting");
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

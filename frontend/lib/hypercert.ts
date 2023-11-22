@@ -27,6 +27,7 @@ export async function loadHypercert(
   client: HypercertClient,
   options: LoadOptions,
 ): Promise<Hypercert> {
+  console.log("Options: ", options);
   if (options.claimId) {
     const claimQueryResp = await client.indexer.claimById(options.claimId);
     const claimTokensQueryResp = await client.indexer.fractionsByClaim(

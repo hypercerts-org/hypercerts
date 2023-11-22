@@ -23,7 +23,6 @@ export const useMintClaimAllowlist = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     validateAllowlist: "Validating allowlist",
@@ -89,6 +88,13 @@ export const useMintClaimAllowlist = ({
   ) => {
     setStep("validateAllowlist");
 
+    if (!client) {
+      toast("No client found", {
+        type: "error",
+      });
+      return;
+    }
+
     let _totalSupply;
     let _allowlist: AllowlistEntry[];
 
@@ -130,6 +136,7 @@ export const useMintClaimAllowlist = ({
         transferRestrictions,
       );
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

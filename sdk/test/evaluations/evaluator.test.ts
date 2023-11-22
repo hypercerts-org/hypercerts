@@ -1,10 +1,10 @@
 import { expect } from "@jest/globals";
 import sinon from "sinon";
 
-import HypercertEvaluator from "../../src/evaluations/index.js";
-import { MalformedDataError, StorageError } from "../../src/types/errors.js";
-import { HypercertEvaluationSchema } from "../../src/types/evaluation.js";
-import { getEvaluationData, publicClient, walletClient } from "../helpers.js";
+import HypercertEvaluator from "../../src/evaluations";
+import { MalformedDataError, StorageError } from "../../src/types/errors";
+import { HypercertEvaluationSchema } from "../../src/types/evaluation";
+import { getEvaluationData, publicClient, walletClient } from "../helpers";
 
 describe("HypercertEvaluator", () => {
   const signer = walletClient.account;

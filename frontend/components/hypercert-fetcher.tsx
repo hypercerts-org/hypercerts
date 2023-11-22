@@ -45,6 +45,9 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
   const { client } = useHypercertClient();
 
   React.useEffect(() => {
+    if (!client) {
+      return;
+    }
     spawn(
       (async () => {
         const hashQueryString = window.location.hash.slice(
@@ -70,13 +73,13 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           overrideMetadataUri: useQueryString && byMetadataUri !== undefined,
         });
         console.log(
-          `Hypercert name='${hypercert.name}' claimId=${claimId}, metadataUri=${hypercert.metadataUri}: `,
+          `Hypercert name='${hypercert.name}' claimId=${claimId}, qClaimId=${qClaimId} byClaimId=${byClaimId} metadataUri=${hypercert.metadataUri}: `,
           hypercert,
         );
         setData(hypercert);
       })(),
     );
-  }, [useQueryString, byClaimId, byMetadataUri]);
+  }, [useQueryString, byClaimId, byMetadataUri, client]);
 
   // Show when loading
   if (!client && !ignoreLoading && !!loading && !data) {

@@ -1,6 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
 
 import "@primitivefi/hardhat-dodoc";
@@ -9,6 +11,8 @@ import fs from "fs";
 import "hardhat-abi-exporter";
 import "hardhat-preprocessor";
 import { resolve } from "path";
+
+import "xdeployer";
 
 import "./tasks";
 
@@ -103,14 +107,20 @@ const config: HardhatUserConfig = {
     path: "./abi",
     runOnCompile: true,
     clear: true,
-    flat: true,
-    format: "minimal",
+    pretty: true,
+    only: [
+      "CurrencyManager",
+      "HypercertMinter",
+      "LooksRareProtocol",
+      "OrderValidatorV2A",
+      "StrategyManager",
+      "TransferManager",
+    ],
     except: ["@openzeppelin"],
   },
   defender: {
     apiKey: OPENZEPPELIN_API_KEY!,
     apiSecret: OPENZEPPELIN_SECRET_KEY!,
-    useDefenderDeploy: true,
   },
   dodoc: {
     runOnCompile: true,
@@ -142,12 +152,21 @@ const config: HardhatUserConfig = {
       // metamask can't transfer when connected to hardhat's network.
       initialBaseFeePerGas: 0,
       accounts: {
+        count: 10,
         mnemonic: MNEMONIC,
+        path: "m/44'/60'/0'/0",
       },
       chainId: chainIds.hardhat,
+      forking: {
+        url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      },
     },
     localhost: {
-      url: process.env.LOCALHOST_NETWORK_URL || "http://127.0.0.1:8545",
+      accounts: {
+        count: 10,
+        mnemonic: MNEMONIC,
+        path: "m/44'/60'/0'/0",
+      },
     },
     "celo-mainnet": getChainConfig("celo-mainnet"),
     goerli: getChainConfig("goerli"),
@@ -179,6 +198,9 @@ const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.17",
     settings: {
+      metadata: {
+        bytecodeHash: "none",
+      },
       optimizer: {
         enabled: true,
         runs: 5_000,

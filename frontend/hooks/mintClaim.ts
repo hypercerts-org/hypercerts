@@ -10,7 +10,6 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to mint hypercert",
@@ -31,16 +30,24 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
     try {
       setTxPending(true);
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.mintClaim(
         metaData,
         BigInt(units),
         transferRestrictions,
       );
 
-      const receipt = await publicClient?.waitForTransactionReceipt({
-        confirmations: 3,
-        hash: hash,
-      });
+      const receipt =
+        await client.config.publicClient?.waitForTransactionReceipt({
+          confirmations: 3,
+          hash: hash,
+        });
 
       setStep("waiting");
 

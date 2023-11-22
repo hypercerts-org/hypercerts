@@ -13,7 +13,6 @@ export const useMergeFractionUnits = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to merge fraction values",
@@ -30,8 +29,16 @@ export const useMergeFractionUnits = ({
     try {
       setTxPending(true);
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.mergeFractionUnits(ids);
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

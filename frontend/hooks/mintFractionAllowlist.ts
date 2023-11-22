@@ -15,7 +15,6 @@ export const useMintFractionAllowlist = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const { setStep, showModal, hideModal } = useContractModal();
 
@@ -37,12 +36,20 @@ export const useMintFractionAllowlist = ({
     try {
       setTxPending(true);
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.mintClaimFractionFromAllowlist(
         claimID,
         units,
         proof,
       );
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,

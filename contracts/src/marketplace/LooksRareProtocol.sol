@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // LooksRare unopinionated libraries
 import {SignatureCheckerCalldata} from "@looksrare/contracts-libs/contracts/SignatureCheckerCalldata.sol";
@@ -81,6 +81,7 @@ import {QuoteType} from "./enums/QuoteType.sol";
  *                                                ~~~~~~
  * @author LooksRare protocol team (👀,💎); bitbeckers
  */
+
 contract LooksRareProtocol is
     ILooksRareProtocol,
     TransferSelectorNFT,

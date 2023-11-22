@@ -1305,21 +1305,21 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type entityDirectiveArgs = { };
 
-export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type subgraphIdDirectiveArgs = {
   id: Scalars['String'];
 };
 
-export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type derivedFromDirectiveArgs = {
   field: Scalars['String'];
 };
 
-export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   allowlist?: Resolver<Maybe<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: Resolver<Array<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: Resolver<Maybe<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<QueryclaimArgs, 'id' | 'subgraphError'>>;
@@ -1337,7 +1337,7 @@ export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, graph
   _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
 }>;
 
-export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+export type SubscriptionResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   allowlist?: SubscriptionResolver<Maybe<ResolversTypes['Allowlist']>, "allowlist", ParentType, ContextType, RequireFields<SubscriptionallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: SubscriptionResolver<Array<ResolversTypes['Allowlist']>, "allowlists", ParentType, ContextType, RequireFields<SubscriptionallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: SubscriptionResolver<Maybe<ResolversTypes['Claim']>, "claim", ParentType, ContextType, RequireFields<SubscriptionclaimArgs, 'id' | 'subgraphError'>>;
@@ -1355,7 +1355,7 @@ export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string
   _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
 }>;
 
-export type AcceptedTokenResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['AcceptedToken'] = ResolversParentTypes['AcceptedToken']> = ResolversObject<{
+export type AcceptedTokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['AcceptedToken'] = ResolversParentTypes['AcceptedToken']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   minimumAmountPerUnit?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -1363,7 +1363,7 @@ export type AcceptedTokenResolvers<ContextType = MeshContext & { graphUrl: strin
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type AllowlistResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
+export type AllowlistResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   root?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
@@ -1382,7 +1382,7 @@ export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversType
   name: 'Bytes';
 }
 
-export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
+export type ClaimResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   creation?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -1396,7 +1396,7 @@ export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, graph
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ClaimTokenResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
+export type ClaimTokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
@@ -1411,7 +1411,7 @@ export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Int8';
 }
 
-export type OfferResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Offer'] = ResolversParentTypes['Offer']> = ResolversObject<{
+export type OfferResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Offer'] = ResolversParentTypes['Offer']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fractionID?: Resolver<ResolversTypes['ClaimToken'], ParentType, ContextType>;
   unitsAvailable?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -1422,7 +1422,7 @@ export type OfferResolvers<ContextType = MeshContext & { graphUrl: string, graph
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TokenResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = ResolversObject<{
+export type TokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   symbol?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1430,7 +1430,7 @@ export type TokenResolvers<ContextType = MeshContext & { graphUrl: string, graph
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TradeResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Trade'] = ResolversParentTypes['Trade']> = ResolversObject<{
+export type TradeResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Trade'] = ResolversParentTypes['Trade']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   buyer?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   offerID?: Resolver<ResolversTypes['Offer'], ParentType, ContextType>;
@@ -1440,21 +1440,21 @@ export type TradeResolvers<ContextType = MeshContext & { graphUrl: string, graph
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type _Block_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
+export type _Block_Resolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type _Meta_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
+export type _Meta_Resolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
+export type Resolvers<ContextType = MeshContext & { graphName: string }> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   AcceptedToken?: AcceptedTokenResolvers<ContextType>;
@@ -1472,7 +1472,7 @@ export type Resolvers<ContextType = MeshContext & { graphUrl: string, graphName:
   _Meta_?: _Meta_Resolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
+export type DirectiveResolvers<ContextType = MeshContext & { graphName: string }> = ResolversObject<{
   entity?: entityDirectiveResolver<any, any, ContextType>;
   subgraphId?: subgraphIdDirectiveResolver<any, any, ContextType>;
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
@@ -1522,7 +1522,7 @@ const additionalEnvelopPlugins: MeshPlugin<any>[] = [];
 const hypercertsTransforms = [];
 const hypercertsHandler = new GraphqlHandler({
               name: "Hypercerts",
-              config: {"endpoint":"{context.graphUrl:https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet}"},
+              config: {"endpoint":"https://api.thegraph.com/subgraphs/name/hypercerts-admin/{context.graphName:hypercerts-testnet}"},
               baseDir,
               cache,
               pubsub,

@@ -1,27 +1,17 @@
-import HypercertMinterAbi from "../abi/HypercertMinter.json";
-import AllowlistMinterAbi from "../abi/AllowlistMinter.json";
-import CurrencyManagerAbi from "../abi/CurrencyManager.json";
-import ExecutionManagerAbi from "../abi/ExecutionManager.json";
-import LooksRareProtocolAbi from "../abi/LooksRareProtocol.json";
-import NonceManagerAbi from "../abi/NonceManager.json";
-import OrderValidatorV2AAbi from "../abi/OrderValidatorV2A.json";
-import StrategyManagerAbi from "../abi/StrategyManager.json";
-import TransferManagerAbi from "../abi/TransferManager.json";
+import DEPLOYMENTS from "./deployments";
 
-import type { CurrencyManager } from "../types/src/marketplace/CurrencyManager";
-import type { ExecutionManager } from "../types/src/marketplace/ExecutionManager";
-import type { LooksRareProtocol } from "../types/src/marketplace/LooksRareProtocol";
-import type { NonceManager } from "../types/src/marketplace/NonceManager";
-import type { OrderValidatorV2A } from "../types/src/marketplace/helpers/OrderValidatorV2A";
-import type { StrategyManager } from "../types/src/marketplace/StrategyManager";
-import type { TransferManager } from "../types/src/marketplace/TransferManager";
-import type { AllowlistMinter } from "../types/src/protocol/AllowlistMinter";
-import type { HypercertMinter } from "../types/src/protocol/HypercertMinter";
-import type { IAllowlist } from "../types/src/protocol/interfaces/IAllowlist";
-import type { IHypercertToken } from "../types/src/protocol/interfaces/IHypercertToken";
-import type { Errors } from "../types/src/protocol/libs/Errors";
+import HypercertMinterAbi from "../abi/src/protocol/HypercertMinter.sol/HypercertMinter.json";
+import HypercertExchangeAbi from "../abi/src/marketplace/LooksRareProtocol.sol/LooksRareProtocol.json";
+import OrderValidatorV2AAbi from "../abi/src/marketplace/helpers/OrderValidatorV2A.sol/OrderValidatorV2A.json";
+import StrategyManagerAbi from "../abi/src/marketplace/StrategyManager.sol/StrategyManager.json";
+import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/TransferManager.json";
 
-import deploymentsJSON from "./deployments.json";
+import {
+  HypercertMinter,
+  IHypercertToken,
+  LooksRareProtocol as HypercertExchange,
+  ILooksRareProtocol as IHypercertExchange,
+} from "types";
 
 /*
   in order to adjust the build folder:
@@ -31,17 +21,43 @@ import deploymentsJSON from "./deployments.json";
     4) bump package.json version to publish a new package to npm.
 */
 
-export type Deployment = {
+export type DeploymentProtocol = {
   HypercertMinterUUPS: `0x${string}`;
   HypercertMinterImplementation: `0x${string}`;
   TransferManager?: `0x${string}`;
   HypercertExchange?: `0x${string}`;
 };
 
-export type DeployedChains = keyof typeof deploymentsJSON;
+export type DeploymentMarketplace = {
+  HypercertsExchange: `0x${string}`;
+  TransferManager: `0x${string}`;
+  OrderValidatorV2A: `0x${string}`;
+};
+
+export type Deployment = DeploymentProtocol & Partial<DeploymentMarketplace>;
+export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 
 // Deployments
-const deployments = deploymentsJSON as Record<DeployedChains, Deployment>;
+const deployments = {
+  5: {
+    ...DEPLOYMENTS.protocol["5"],
+    HypercertsExchange: DEPLOYMENTS.marketplace[5]["hypercerts-exchange"].address,
+    TransferManager: DEPLOYMENTS.marketplace[5]["transfer-manager"].address,
+    OrderValidatorV2A: DEPLOYMENTS.marketplace[5]["order-validator"].address,
+  },
+  10: {
+    ...DEPLOYMENTS.protocol["10"],
+  },
+  42220: {
+    ...DEPLOYMENTS.protocol[42220],
+  },
+  11155111: {
+    ...DEPLOYMENTS.protocol["11155111"],
+    HypercertsExchange: DEPLOYMENTS.marketplace[11155111]["hypercerts-exchange"].address,
+    TransferManager: DEPLOYMENTS.marketplace[11155111]["transfer-manager"].address,
+    OrderValidatorV2A: DEPLOYMENTS.marketplace[11155111]["order-validator"].address,
+  },
+} as Record<DeployedChains, Deployment>;
 
 const asDeployedChain = (chainId: string | number) => {
   if (chainId in deployments) return chainId as DeployedChains;
@@ -50,32 +66,8 @@ const asDeployedChain = (chainId: string | number) => {
 
 export { deployments, asDeployedChain };
 
+// Abis
+export { HypercertMinterAbi, HypercertExchangeAbi, OrderValidatorV2AAbi, StrategyManagerAbi, TransferManagerAbi };
+
 // Interfaces
-export { IAllowlist, IHypercertToken };
-export {
-  HypercertMinterAbi,
-  AllowlistMinterAbi,
-  CurrencyManagerAbi,
-  ExecutionManagerAbi,
-  LooksRareProtocolAbi as HypercertExchangeAbi,
-  NonceManagerAbi,
-  OrderValidatorV2AAbi,
-  StrategyManagerAbi,
-  TransferManagerAbi,
-};
-
-// Contracts
-export {
-  HypercertMinter,
-  AllowlistMinter,
-  CurrencyManager,
-  ExecutionManager,
-  LooksRareProtocol as HypercertExchange,
-  NonceManager,
-  OrderValidatorV2A,
-  StrategyManager,
-  TransferManager,
-};
-
-// Libs
-export { Errors };
+export type { IHypercertExchange, IHypercertToken, HypercertExchange, HypercertMinter };
