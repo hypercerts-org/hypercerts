@@ -332,7 +332,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       strategyCollectionOfferTx.contractAddress,
     ]);
 
-    console.log("Adding strategy CollectionWithTakerAsk to exchange...");
+    console.log("Adding strategy CollectionWithTakerAsk [strategyId 1] to exchange...");
     const addStratTakerAskTx = await publicClient.waitForTransactionReceipt({
       hash: addStratTakerAsk,
     });
@@ -343,6 +343,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         : "Failed to add strategy executeCollectionStrategyWithTakerAsk to exchange",
     );
 
+    // Add executeCollectionStrategyWithTakerAskWithProof strategy to HypercertsExchange
+
     const addStratTakerAskProof = await hypercertsExchangeInstance.write.addStrategy([
       _standardProtocolFeeBP,
       _minTotalFeeBp,
@@ -352,7 +354,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       strategyCollectionOfferTx.contractAddress,
     ]);
 
-    console.log("Adding strategy CollectionWithTakerAskWithProof to exchange...");
+    console.log("Adding strategy CollectionWithTakerAskWithProof [strategyId 2] to exchange...");
     const addStratTakerAskProofTx = await publicClient.waitForTransactionReceipt({
       hash: addStratTakerAskProof,
     });
