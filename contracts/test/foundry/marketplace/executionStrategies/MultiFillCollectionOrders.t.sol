@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: MIT
-pragma solidity >=0.8.7;
+pragma solidity >=0.8.17;
 
 // Libraries
 import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";

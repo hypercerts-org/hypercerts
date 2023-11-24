@@ -83,32 +83,21 @@ contract EIP712MerkleTree is Test {
     }
 
     function _getBatchOrderTypehash(uint256 treeHeight) private pure returns (bytes32 batchOrderTypehash) {
-        if (treeHeight == 1) {
-            batchOrderTypehash = hex"9661287f7a4aa4867db46a2453ee15bebac4e8fc25667a58718da658f15de643";
-        } else if (treeHeight == 2) {
-            batchOrderTypehash = hex"a54ab330ea9e1dfccee2b86f3666989e7fbd479704416c757c8de8e820142a08";
-        } else if (treeHeight == 3) {
-            batchOrderTypehash = hex"93390f5d45ede9dea305f16aec86b2472af4f823851637f1b7019ad0775cea49";
-        } else if (treeHeight == 4) {
-            batchOrderTypehash = hex"9dda2c8358da895e43d574bb15954ce5727b22e923a2d8f28261f297bce42f0b";
-        } else if (treeHeight == 5) {
-            batchOrderTypehash = hex"92dc717124e161262f9d10c7079e7d54dc51271893fba54aa4a0f270fecdcc98";
-        } else if (treeHeight == 6) {
-            batchOrderTypehash = hex"ce02aee5a7a35d40d974463c4c6e5534954fb07a7e7bc966fee268a15337bfd8";
-        } else if (treeHeight == 7) {
-            batchOrderTypehash = hex"f7a65efd167a18f7091b2bb929d687dd94503cf0a43620487055ed7d6b727559";
-        } else if (treeHeight == 8) {
-            batchOrderTypehash = hex"def24acacad1318b664520f7c10e8bc6d1e7f6f6f7c8b031e70624ceb42266a6";
-        } else if (treeHeight == 9) {
-            batchOrderTypehash = hex"4cb4080dc4e7bae88b4dc4307ad5117fa4f26195998a1b5f40368809d7f4c7f2";
-        } else if (treeHeight == 10) {
-            batchOrderTypehash = hex"f8b1f864164d8d6e0b45f1399bd711223117a4ab0b057a9c2d7779e86a7c88db";
-        } else if (treeHeight == 11) {
-            batchOrderTypehash = hex"4787f505db237e03a7193c312d5159add8a5705278e1c7dcf92ab87126cbe490";
-        } else if (treeHeight == 12) {
-            batchOrderTypehash = hex"7a6517e5a16c56b29947b57b748aa91736987376e1a366d948e7a802a9df3431";
-        } else if (treeHeight == 13) {
-            batchOrderTypehash = hex"35806d347e9929042ce209d143da48f100f0ff0cbdb1fde68cf13af8059d79df";
-        }
+        bytes32[] memory batchOrderTypehashes = new bytes32[](14);
+        batchOrderTypehashes[1] = hex"9661287f7a4aa4867db46a2453ee15bebac4e8fc25667a58718da658f15de643";
+        batchOrderTypehashes[2] = hex"a54ab330ea9e1dfccee2b86f3666989e7fbd479704416c757c8de8e820142a08";
+        batchOrderTypehashes[3] = hex"93390f5d45ede9dea305f16aec86b2472af4f823851637f1b7019ad0775cea49";
+        batchOrderTypehashes[4] = hex"9dda2c8358da895e43d574bb15954ce5727b22e923a2d8f28261f297bce42f0b";
+        batchOrderTypehashes[5] = hex"92dc717124e161262f9d10c7079e7d54dc51271893fba54aa4a0f270fecdcc98";
+        batchOrderTypehashes[6] = hex"ce02aee5a7a35d40d974463c4c6e5534954fb07a7e7bc966fee268a15337bfd8";
+        batchOrderTypehashes[7] = hex"f7a65efd167a18f7091b2bb929d687dd94503cf0a43620487055ed7d6b727559";
+        batchOrderTypehashes[8] = hex"def24acacad1318b664520f7c10e8bc6d1e7f6f6f7c8b031e70624ceb42266a6";
+        batchOrderTypehashes[9] = hex"4cb4080dc4e7bae88b4dc4307ad5117fa4f26195998a1b5f40368809d7f4c7f2";
+        batchOrderTypehashes[10] = hex"f8b1f864164d8d6e0b45f1399bd711223117a4ab0b057a9c2d7779e86a7c88db";
+        batchOrderTypehashes[11] = hex"4787f505db237e03a7193c312d5159add8a5705278e1c7dcf92ab87126cbe490";
+        batchOrderTypehashes[12] = hex"7a6517e5a16c56b29947b57b748aa91736987376e1a366d948e7a802a9df3431";
+        batchOrderTypehashes[13] = hex"35806d347e9929042ce209d143da48f100f0ff0cbdb1fde68cf13af8059d79df";
+
+        batchOrderTypehash = batchOrderTypehashes[treeHeight];
     }
 }
