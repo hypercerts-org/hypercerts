@@ -28,24 +28,24 @@ import "forge-std/console2.sol";
  *         Example:
  *         Alice has 100 units of a hypercert (id: 42) for sale at a minimum price of 0.001 ETH/unit.
  *         Bob wants to buy 10 units.
- *         Bob can create a bid order with the following parameters:
+ *         Bob can create a taker bid order with the following parameters:
  *         - unitAmount: 10
  *         - acceptedTokenAmount: 1000000000000000 (0.001 ETH in wei)
  *         - acceptedTokenAddress: 0x0000000000000000000000000000000000000000
+ *         - proof: [0xsdadfa....s9fds,0xdasdas...asff8e]
  *         This strategy will validate the available units and the price.
  * @notice This contract offers execution strategies for users to create maker bid offers for items in a collection.
  *         There are three available functions:
  *         1. executeCollectionStrategyWithTakerAsk --> it applies to all itemIds in a collection
- *         2. executeCollectionStrategyWithTakerAskWithProof --> it allows adding merkle proof criteria for tokenIds.
  *         2. executeCollectionStrategyWithTakerAskWithAllowlist --> it allows adding merkle proof criteria for
  * accounts.
  * @notice The bidder can only bid on 1 item id at a time.
  *         1. If ERC721, the amount must be 1.
  *         2. If ERC1155, the amount can be greater than 1.
+ *         3. If Hypercert, the amount must be 1 (fractions are NFTs)
  * @dev Use cases can include trait-based offers or rarity score offers.
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
-// TODO This allows for a buyer to declare a set of items they're willing to buy in a merkle tree
 contract StrategyHypercertFractionOffer is BaseStrategy {
     /**
      * @notice This function validates the order under the context of the chosen strategy and
@@ -65,18 +65,25 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         amounts = makerAsk.amounts;
         itemIds = makerAsk.itemIds;
 
-        uint256 tokenBalance = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]);
-        (,, uint256 unitAmount, uint256 acceptedTokenAmount, address acceptedTokenAddress) =
-            abi.decode(takerBid.additionalParameters, (uint256, bytes32[], uint256, uint256, address));
+        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
+        if (amounts.length != 1 || itemIds.length != 1) {
+            revert OrderInvalid();
+        }
 
-        (, uint256 minUnitAmount, uint256 maxUnitAmount) =
-            abi.decode(makerAsk.additionalParameters, (bytes32, uint256, uint256));
+        uint256 tokenBalance = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]);
+
+        //units, amount, proof[]
+        (uint256 unitAmount, uint256 acceptedTokenAmount) =
+            abi.decode(takerBid.additionalParameters, (uint256, uint256));
+
+        //minUnitAmount, maxUnitAmount, root
+        (uint256 minUnitAmount, uint256 maxUnitAmount) = abi.decode(makerAsk.additionalParameters, (uint256, uint256));
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (
-            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || acceptedTokenAddress != makerAsk.currency
-                || minUnitAmount > maxUnitAmount || unitAmount < minUnitAmount || makerAsk.price > acceptedTokenAmount
-                || makerAsk.price == 0 || tokenBalance < amounts[0]
+            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount
+                || unitAmount < minUnitAmount || makerAsk.price > acceptedTokenAmount || makerAsk.price == 0
+                || tokenBalance < amounts[0]
         ) {
             revert OrderInvalid();
         }
@@ -86,44 +93,48 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         isNonceInvalidated = true;
     }
 
-    /**
-     * @notice This function validates the order under the context of the chosen strategy
-     *         and returns the fulfillable items/amounts/price/nonce invalidation status.
-     *         This strategy executes a collection offer against a taker ask order with the need of a merkle proof.
-     * @param takerBid Taker ask struct (taker ask-specific parameters for the execution)
-     * @param makerAsk Maker bid struct (maker bid-specific parameters for the execution)
-     * @dev The transaction reverts if the maker does not include a merkle root in the additionalParameters.
-     */
-    function executeHypercertFractionStrategyWithTakerBidWithProof(
-        OrderStructs.Taker calldata takerBid,
-        OrderStructs.Maker calldata makerAsk
-    )
-        external
-        pure
-        returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
-    {
-        price = makerAsk.price;
-        amounts = makerAsk.amounts;
+    // /**
+    //  * @notice This function validates the order under the context of the chosen strategy
+    //  *         and returns the fulfillable items/amounts/price/nonce invalidation status.
+    //  *         This strategy executes a collection offer against a taker ask order with the need of a merkle proof.
+    //  * @param takerBid Taker ask struct (taker ask-specific parameters for the execution)
+    //  * @param makerAsk Maker bid struct (maker bid-specific parameters for the execution)
+    //  * @dev The transaction reverts if the maker does not include a merkle root in the additionalParameters.
+    //  */
+    // function executeHypercertFractionStrategyWithTakerBidWithProof(
+    //     OrderStructs.Taker calldata takerBid,
+    //     OrderStructs.Maker calldata makerAsk
+    // )
+    //     external
+    //     pure
+    //     returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
+    // {
+    //     price = makerAsk.price;
+    //     amounts = makerAsk.amounts;
+    //     itemIds = makerAsk.itemIds;
 
-        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1) {
-            revert OrderInvalid();
-        }
+    //     // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
+    //     if (amounts.length != 1 || itemIds.length != 1) {
+    //         revert OrderInvalid();
+    //     }
 
-        (uint256 offeredItemId, bytes32[] memory proof) =
-            abi.decode(takerBid.additionalParameters, (uint256, bytes32[]));
-        itemIds = new uint256[](1);
-        itemIds[0] = offeredItemId;
-        isNonceInvalidated = true;
+    //     //units, amount, currency, proof[]
+    //     (uint256 unitAmount, uint256 acceptedTokenAmount, address acceptedTokenAddress, bytes32[] memory proof) =
+    //         abi.decode(takerBid.additionalParameters, (uint256, uint256, address, bytes32[]));
 
-        bytes32 root = abi.decode(makerAsk.additionalParameters, (bytes32));
-        bytes32 node = keccak256(abi.encodePacked(offeredItemId));
+    //     //minUnitAmount, maxUnitAmount, root
+    //     (uint256 minUnitAmount, uint256 maxUnitAmount, bytes32 root) =
+    //         abi.decode(makerAsk.additionalParameters, (uint256, uint256, bytes32));
 
-        // Verify the merkle root for the given merkle proof
-        if (!MerkleProofMemory.verify(proof, root, node)) {
-            revert MerkleProofInvalid();
-        }
-    }
+    //     isNonceInvalidated = true;
+
+    //     bytes32 node = keccak256(abi.encodePacked(itemIds[0]));
+
+    //     // Verify the merkle root for the given merkle proof
+    //     if (!MerkleProofMemory.verify(proof, root, node)) {
+    //         revert MerkleProofInvalid();
+    //     }
+    // }
 
     /**
      * @notice This function validates the order under the context of the chosen strategy
@@ -144,19 +155,23 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
     {
         price = makerAsk.price;
         amounts = makerAsk.amounts;
+        itemIds = makerAsk.itemIds;
 
         // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1) {
+        if (amounts.length != 1 || itemIds.length != 1) {
             revert OrderInvalid();
         }
 
-        (uint256 offeredItemId, bytes32[] memory proof) =
-            abi.decode(takerBid.additionalParameters, (uint256, bytes32[]));
-        itemIds = new uint256[](1);
-        itemIds[0] = offeredItemId;
+        //units, amount, currency, proof[]
+        (uint256 unitAmount, uint256 acceptedTokenAmount, address acceptedTokenAddress, bytes32[] memory proof) =
+            abi.decode(takerBid.additionalParameters, (uint256, uint256, address, bytes32[]));
+
+        //minUnitAmount, maxUnitAmount, root
+        (uint256 minUnitAmount, uint256 maxUnitAmount, bytes32 root) =
+            abi.decode(makerAsk.additionalParameters, (uint256, uint256, bytes32));
+
         isNonceInvalidated = true;
 
-        bytes32 root = abi.decode(makerAsk.additionalParameters, (bytes32));
         bytes32 node = keccak256(abi.encodePacked(takerBid.recipient));
 
         // Verify the merkle root for the given merkle proof
@@ -174,29 +189,35 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         override
         returns (bool isValid, bytes4 errorSelector)
     {
+        console2.log("CHECK 0");
+
         if (
-            functionSelector
-                != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithProof.selector
-                && functionSelector != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+            functionSelector != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
                 && functionSelector
                     != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
         ) {
+            console2.log("CHECK 1");
             return (isValid, FunctionSelectorInvalid.selector);
         }
 
         if (makerAsk.quoteType != QuoteType.Ask) {
+            console2.log("CHECK 2");
+
             return (isValid, QuoteTypeInvalid.selector);
         }
 
         if (makerAsk.amounts.length != 1) {
+            console2.log("CHECK 3");
+
             return (isValid, OrderInvalid.selector);
         }
 
-        (, uint256 minUnitAmount, uint256 maxUnitAmount) =
-            abi.decode(makerAsk.additionalParameters, (bytes32, uint256, uint256));
+        (uint256 minUnitAmount, uint256 maxUnitAmount) = abi.decode(makerAsk.additionalParameters, (uint256, uint256));
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (minUnitAmount > maxUnitAmount || makerAsk.price == 0 || maxUnitAmount == 0) {
+            console2.log("CHECK 4");
+
             revert OrderInvalid();
         }
 
@@ -204,13 +225,13 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
+        // @dev 200 is the length of the bytes32 array when the merkle root is provided together with two uint256 params
+        // declared in the additionalParameters.
         if (
             (
                 functionSelector
-                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithProof.selector
-                    || functionSelector
-                        == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
-            ) && makerAsk.additionalParameters.length != 32
+                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            ) && makerAsk.additionalParameters.length != 200
         ) {
             return (isValid, OrderInvalid.selector);
         }

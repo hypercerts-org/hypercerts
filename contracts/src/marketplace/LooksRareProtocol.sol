@@ -446,6 +446,8 @@ contract LooksRareProtocol is
         if (
             strategyInfo[makerAsk.strategyId].selector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                || strategyInfo[makerAsk.strategyId].selector
+                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
         ) {
             _splitNFT(
                 makerAsk.collection,
