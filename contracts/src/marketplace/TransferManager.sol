@@ -6,9 +6,13 @@ import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSte
 import {LowLevelERC721Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC721Transfer.sol";
 import {LowLevelERC1155Transfer} from "@looksrare/contracts-libs/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol";
 
+// Hypercert low-level callers
+import {LowLevelHypercertCaller} from "./libraries/LowLevelHypercertCaller.sol";
+
 // Interfaces and errors
 import {ITransferManager} from "./interfaces/ITransferManager.sol";
 import {AmountInvalid, LengthsInvalid} from "./errors/SharedErrors.sol";
+import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Libraries
 import {OrderStructs} from "./libraries/OrderStructs.sol";
@@ -28,8 +32,13 @@ import {CollectionType} from "./enums/CollectionType.sol";
  *       to verify if the recipient is a contract as it requires verifying the receiver interface is valid.
  * @author LooksRare protocol team (👀,💎)
  */
-// TODO Needs to be updated to split a fraction and transfer the new fraction to the bidder
-contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelERC1155Transfer, OwnableTwoSteps {
+contract TransferManager is
+    ITransferManager,
+    LowLevelERC721Transfer,
+    LowLevelERC1155Transfer,
+    LowLevelHypercertCaller,
+    OwnableTwoSteps
+{
     /**
      * @notice This returns whether the user has approved the operator address.
      * The first address is the user and the second address is the operator (e.g. LooksRareProtocol).
@@ -167,7 +176,7 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
     }
 
     /**
-     * @notice This function transfers items for a single Hyperboard.
+     * @notice This function transfers items for a single Hypercert.
      * @param collection Collection address
      * @param from Sender address
      * @param to Recipient address
@@ -175,38 +184,28 @@ contract TransferManager is ITransferManager, LowLevelERC721Transfer, LowLevelER
      * @param amounts Array of amounts
      * @dev It does not allow batch transferring if from = msg.sender since native function should be used.
      */
-    function transferItemsHyperboard(
+    function splitItemsHypercert(
         address collection,
         address from,
         address to,
         uint256[] calldata itemIds,
         uint256[] calldata amounts
     ) external {
-        uint256 length = itemIds.length;
+        IHypercertToken hypercert = IHypercertToken(collection);
 
-        if (length == 0 || amounts.length != length) {
+        if (itemIds.length != 1 || amounts.length != 1) {
             revert LengthsInvalid();
         }
 
         _isOperatorValidForTransfer(from, msg.sender);
 
-        if (length == 1) {
-            if (amounts[0] == 0) {
-                revert AmountInvalid();
-            }
-            _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
-        } else {
-            for (uint256 i; i < length;) {
-                if (amounts[i] == 0) {
-                    revert AmountInvalid();
-                }
-
-                unchecked {
-                    ++i;
-                }
-            }
-            _executeERC1155SafeBatchTransferFrom(collection, from, to, itemIds, amounts);
+        if (amounts[0] == 0) {
+            revert AmountInvalid();
         }
+        uint256[] memory newAmounts = new uint256[](2);
+        newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
+        newAmounts[1] = amounts[0];
+        _executeHypercertSplitFraction(collection, from, to, itemIds[0], newAmounts);
     }
 
     /**

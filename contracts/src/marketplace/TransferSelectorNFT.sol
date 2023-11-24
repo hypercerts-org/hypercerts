@@ -15,7 +15,7 @@ import {CollectionType} from "./enums/CollectionType.sol";
 /**
  * @title TransferSelectorNFT
  * @notice This contract handles the logic for transferring non-fungible items.
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
 contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     error UnsupportedCollectionType();
@@ -60,8 +60,31 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
             transferManager.transferItemsERC1155(collection, sender, recipient, itemIds, amounts);
         } else if (collectionType == CollectionType.Hypercert) {
             transferManager.transferItemsHypercert(collection, sender, recipient, itemIds, amounts);
-        } else if (collectionType == CollectionType.Hyperboard) {
+        } else {
             revert UnsupportedCollectionType();
         }
+    }
+
+    /**
+     * @notice This function is internal and used to transfer non-fungible tokens.
+     * @param collection Collection address
+     * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155, 2 = Hypercert)
+     * @param sender Sender address
+     * @param recipient Recipient address
+     * @param itemIds Array of itemIds
+     * @param amounts Array of amounts
+     */
+    function _splitNFT(
+        address collection,
+        CollectionType collectionType,
+        address sender,
+        address recipient,
+        uint256[] memory itemIds,
+        uint256[] memory amounts
+    ) internal {
+        if (collectionType != CollectionType.Hypercert) {
+            revert UnsupportedCollectionType();
+        }
+        transferManager.splitItemsHypercert(collection, sender, recipient, itemIds, amounts);
     }
 }

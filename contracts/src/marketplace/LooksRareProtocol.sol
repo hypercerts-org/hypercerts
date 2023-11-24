@@ -16,6 +16,7 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Interfaces
 import {ILooksRareProtocol} from "./interfaces/ILooksRareProtocol.sol";
+import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
 import {
@@ -30,6 +31,7 @@ import {
 // Direct dependencies
 import {TransferSelectorNFT} from "./TransferSelectorNFT.sol";
 import {BatchOrderTypehashRegistry} from "./BatchOrderTypehashRegistry.sol";
+import {StrategyHypercertFractionOffer} from "./executionStrategies/StrategyHypercertFractionOffer.sol";
 
 // Constants
 import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "./constants/NumericConstants.sol";
@@ -442,14 +444,32 @@ contract LooksRareProtocol is
         _transferToAskRecipientAndCreatorIfAny(recipients, feeAmounts, makerAsk.currency, sender);
 
         // Maker action goes second
-        _transferNFT(
-            makerAsk.collection,
-            makerAsk.collectionType,
-            signer,
-            takerBid.recipient == address(0) ? sender : takerBid.recipient,
-            itemIds,
-            amounts
-        );
+        if (
+            (
+                strategyInfo[makerAsk.strategyId].selector
+                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                    || strategyInfo[makerAsk.strategyId].selector
+                        == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            ) && (IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) > amounts[0])
+        ) {
+            _splitNFT(
+                makerAsk.collection,
+                makerAsk.collectionType,
+                signer,
+                takerBid.recipient == address(0) ? sender : takerBid.recipient,
+                itemIds,
+                amounts
+            );
+        } else {
+            _transferNFT(
+                makerAsk.collection,
+                makerAsk.collectionType,
+                signer,
+                takerBid.recipient == address(0) ? sender : takerBid.recipient,
+                itemIds,
+                amounts
+            );
+        }
 
         emit TakerBid(
             NonceInvalidationParameters({

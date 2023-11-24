@@ -7,7 +7,6 @@ pragma solidity ^0.8.17;
  *         It is based on the 4.7.0 (utils/cryptography/MerkleProof.sol).
  * @author OpenZeppelin (adjusted by LooksRare)
  */
-// TODO compare changes with OpenZeppelin
 library MerkleProofMemory {
     /**
      * @notice This returns true if a `leaf` can be proved to be a part of a Merkle tree defined by `root`.

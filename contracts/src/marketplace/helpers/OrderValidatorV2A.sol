@@ -48,7 +48,6 @@ import {QuoteType} from "../enums/QuoteType.sol";
  * @dev This version does not handle strategies with partial fills.
  * @author LooksRare protocol team (👀,💎)
  */
-//TODO this might need hypercerts specific changes like checking on amount of units in a fraction
 contract OrderValidatorV2A {
     using OrderStructs for OrderStructs.Maker;
 

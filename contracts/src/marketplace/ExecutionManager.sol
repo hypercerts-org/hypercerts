@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // Libraries
 import {OrderStructs} from "./libraries/OrderStructs.sol";
@@ -7,6 +7,7 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 // Interfaces
 import {IExecutionManager} from "./interfaces/IExecutionManager.sol";
 import {ICreatorFeeManager} from "./interfaces/ICreatorFeeManager.sol";
+import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Direct dependencies
 import {InheritedStrategy} from "./InheritedStrategy.sol";
@@ -27,13 +28,14 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "./constants/NumericConstants.sol";
 
 // Enums
 import {QuoteType} from "./enums/QuoteType.sol";
+import {CollectionType} from "./enums/CollectionType.sol";
 
 /**
  * @title ExecutionManager
  * @notice This contract handles the execution and resolution of transactions. A transaction is executed on-chain
  *         when an off-chain maker order is matched by on-chain taker order of a different kind.
  *         For instance, a taker ask is executed against a maker bid (or a taker bid against a maker ask).
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
 contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, IExecutionManager {
     /**
@@ -44,7 +46,6 @@ contract ExecutionManager is InheritedStrategy, NonceManager, StrategyManager, I
     /**
      * @notice Maximum creator fee (in basis point).
      */
-    // TODO do we need a max? Is 1% max fair?
     uint16 public maxCreatorFeeBp = 1000;
 
     /**

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.7;
+pragma solidity >=0.8.17;
 
 // WETH
 import {WETH} from "solmate/src/tokens/WETH.sol";
@@ -170,12 +170,8 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
         transferManager = new TransferManager(_owner);
         royaltyFeeRegistry = new MockRoyaltyFeeRegistry(_owner, 9500);
         protocolFeeRecipient = new ProtocolFeeRecipient(0x5924A28caAF1cc016617874a2f0C3710d881f3c1, address(weth));
-        looksRareProtocol = new LooksRareProtocol(
-            _owner,
-            address(protocolFeeRecipient),
-            address(transferManager),
-            address(weth)
-        );
+        looksRareProtocol =
+            new LooksRareProtocol(_owner, address(protocolFeeRecipient), address(transferManager), address(weth));
         mockERC721WithRoyalties = new MockERC721WithRoyalties(_royaltyRecipient, _standardRoyaltyFee);
 
         // Operations

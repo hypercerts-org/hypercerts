@@ -7,6 +7,7 @@ import exchangeContract from "../out/LooksRareProtocol.sol/LooksRareProtocol.jso
 import transferManagerContract from "../out/TransferManager.sol/TransferManager.json";
 import orderValidatorContract from "../out/OrderValidatorV2A.sol/OrderValidatorV2A.json";
 import strategyCollectionOfferContract from "../out/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
+import strategyHypercertFractionOfferContract from "../out/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
 import protocolFeeRecipientContract from "../out/ProtocolFeeRecipient.sol/ProtocolFeeRecipient.json";
 
 const getCreate2Address = async (
@@ -49,7 +50,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const _minTotalFeeBp = 50;
     const _maxProtocolFeeBp = 200;
 
-    const releaseCounter = "g";
+    const releaseCounter = "h";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -300,6 +301,10 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         : "Failed to deploy OrderValidator",
     );
 
+    // DEPLOYING STRATEGIES
+
+    console.log("Deploying and adding strategies....");
+
     // Deploy strategyCollectionOffer
 
     const deployStrategyCollectionOffer = await deployer.deployContract({
@@ -332,7 +337,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       strategyCollectionOfferTx.contractAddress,
     ]);
 
-    console.log("Adding strategy CollectionWithTakerAsk to exchange...");
+    console.log("Adding strategy CollectionWithTakerAsk [strategyId 1] to exchange...");
     const addStratTakerAskTx = await publicClient.waitForTransactionReceipt({
       hash: addStratTakerAsk,
     });
@@ -343,6 +348,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         : "Failed to add strategy executeCollectionStrategyWithTakerAsk to exchange",
     );
 
+    // Add executeCollectionStrategyWithTakerAskWithProof strategy to HypercertsExchange
+
     const addStratTakerAskProof = await hypercertsExchangeInstance.write.addStrategy([
       _standardProtocolFeeBP,
       _minTotalFeeBp,
@@ -352,7 +359,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       strategyCollectionOfferTx.contractAddress,
     ]);
 
-    console.log("Adding strategy CollectionWithTakerAskWithProof to exchange...");
+    console.log("Adding strategy CollectionWithTakerAskWithProof [strategyId 2] to exchange...");
     const addStratTakerAskProofTx = await publicClient.waitForTransactionReceipt({
       hash: addStratTakerAskProof,
     });
@@ -363,11 +370,78 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         : "Failed to add strategy executeCollectionStrategyWithTakerAskWithProof to exchange",
     );
 
+    // Deploy strategyHypercertFractionOffer
+
+    const deployStrategyHypercertFractionOffer = await deployer.deployContract({
+      abi: strategyHypercertFractionOfferContract.abi,
+      account: deployer.account,
+      args: [],
+      bytecode: strategyHypercertFractionOfferContract.bytecode.object as `0x${string}`,
+    });
+
+    const strategyHypercertFractionOfferTx = await publicClient.waitForTransactionReceipt({
+      hash: deployStrategyHypercertFractionOffer,
+    });
+
+    console.log(
+      strategyHypercertFractionOfferTx.status === "success"
+        ? "Deployed StrategyHypercertOffer successfully"
+        : "Failed to deploy StrategyHypercertOffer",
+    );
+
+    // Add executeHypercertFractionStrategyWithTakerBid strategy to HypercertsExchange
+
+    const strategyHypercertFractionOfferFactory = await ethers.getContractFactory("StrategyHypercertFractionOffer");
+
+    const addHypercertFractionStrategyWithTakerBid = await hypercertsExchangeInstance.write.addStrategy([
+      _standardProtocolFeeBP,
+      _minTotalFeeBp,
+      _maxProtocolFeeBp,
+      strategyHypercertFractionOfferFactory.interface.getFunction("executeHypercertFractionStrategyWithTakerBid")
+        ?.selector,
+      true,
+      strategyHypercertFractionOfferTx.contractAddress,
+    ]);
+
+    console.log("Adding strategy HypercertFraction to exchange...");
+    const addHypercertFractionStrategyWithTakerBidTx = await publicClient.waitForTransactionReceipt({
+      hash: addHypercertFractionStrategyWithTakerBid,
+    });
+
+    console.log(
+      addHypercertFractionStrategyWithTakerBidTx.status === "success"
+        ? "Added strategy executeHypercertFractionStrategyWithTakerBid to exchange successfully"
+        : "Failed to add strategy executeHypercertFractionStrategyWithTakerBid to exchange",
+    );
+
+    // Add executeHypercertFractionStrategyWithTakerBidWithAllowlist strategy to HypercertsExchange
+
+    const addHypercertFractionStrategyWithTakerBidWithAllowlist = await hypercertsExchangeInstance.write.addStrategy([
+      _standardProtocolFeeBP,
+      _minTotalFeeBp,
+      _maxProtocolFeeBp,
+      strategyHypercertFractionOfferFactory.interface.getFunction(
+        "executeHypercertFractionStrategyWithTakerBidWithAllowlist",
+      )?.selector,
+      true,
+      strategyHypercertFractionOfferTx.contractAddress,
+    ]);
+
+    console.log("Adding strategy HypercertFraction WithAllowlist to exchange...");
+    const addHypercertFractionStrategyWithTakerBidWithAllowlistTx = await publicClient.waitForTransactionReceipt({
+      hash: addHypercertFractionStrategyWithTakerBidWithAllowlist,
+    });
+
+    console.log(
+      addHypercertFractionStrategyWithTakerBidWithAllowlistTx.status === "success"
+        ? "Added strategy executeHypercertFractionStrategyWithTakerBidWithAllowlist to exchange successfully"
+        : "Failed to add strategy executeHypercertFractionStrategyWithTakerBidWithAllowlist to exchange",
+    );
+
     console.log("🚀 Done!");
 
     interface ContractDeployment {
       address: string;
-      abi: any;
       fullNamespace: string;
       args: string[];
       encodedArgs: string;
@@ -381,7 +455,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const contracts: ContractDeployments = {
       HypercertsExchange: {
         address: hypercertsExchangeCreate2.address,
-        abi: exchangeContract.abi,
         fullNamespace: "LooksRareProtocol",
         args: hypercertsExchangeArgs,
         encodedArgs: solidityPacked(["address", "address", "address", "address"], hypercertsExchangeArgs),
@@ -389,7 +462,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       },
       ProtocolFeeRecipient: {
         address: protocolFeeRecipientCreate2.address,
-        abi: protocolFeeRecipientContract.abi,
         fullNamespace: "ProtocolFeeRecipient",
         args: [deployer.account.address, wethAddress],
         encodedArgs: solidityPacked(["address", "address"], [deployer.account.address, wethAddress]),
@@ -397,7 +469,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       },
       TransferManager: {
         address: transferManagerCreate2.address,
-        abi: transferManagerContract.abi,
         fullNamespace: "TransferManager",
         args: transferManagerArgs,
         encodedArgs: solidityPacked(["address"], transferManagerArgs),
@@ -406,7 +477,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       OrderValidator: {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         address: orderValidatorTx.contractAddress!,
-        abi: orderValidatorContract.abi,
         fullNamespace: "OrderValidatorV2A",
         args: orderValidatorArgs,
         encodedArgs: solidityPacked(["address"], orderValidatorArgs),
@@ -415,21 +485,23 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       StrategyCollectionOffer: {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         address: strategyCollectionOfferTx.contractAddress!,
-        abi: strategyCollectionOfferContract.abi,
         fullNamespace: "StrategyCollectionOffer",
         args: [],
         encodedArgs: solidityPacked([], []),
         tx: strategyCollectionOfferTx.transactionHash,
       },
+      StrategyHypercertFractionOffer: {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        address: strategyHypercertFractionOfferTx.contractAddress!,
+        fullNamespace: "StrategyCollectionOffer",
+        args: [],
+        encodedArgs: solidityPacked([], []),
+        tx: strategyHypercertFractionOfferTx.transactionHash,
+      },
     };
 
+    await writeFile(`src/deployments/deployment-marketplace-${network.name}.json`, JSON.stringify(contracts), "utf-8");
     if (network.name !== "hardhat" && network.name !== "localhost") {
-      await writeFile(
-        `src/deployments/deployment-marketplace-${network.name}.json`,
-        JSON.stringify(contracts),
-        "utf-8",
-      );
-
       // Verify contracts
       for (const [name, { address, tx }] of Object.entries(contracts)) {
         try {

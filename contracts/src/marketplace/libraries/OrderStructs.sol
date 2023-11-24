@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // Enums
 import {CollectionType} from "../enums/CollectionType.sol";
@@ -8,7 +8,7 @@ import {QuoteType} from "../enums/QuoteType.sol";
 /**
  * @title OrderStructs
  * @notice This library contains all order struct types for the LooksRare protocol (v2).
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 library OrderStructs {
     /**

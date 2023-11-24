@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // LooksRare unopinionated libraries
 import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/IOwnableTwoSteps.sol";
@@ -208,75 +208,4 @@ contract ExecutionManagerTest is ProtocolBase, IExecutionManager, IStrategyManag
         vm.expectRevert(OrderInvalid.selector);
         looksRareProtocol.executeTakerBid{value: makerAsk.price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
-
-    // TODO check is we need this test and replace the chainlink floor strategy
-    // function testCannotExecuteTransactionIfMakerBidWithStrategyForMakerAsk() public {
-    //     _setUpUsers();
-
-    //     vm.prank(_owner);
-    //     StrategyChainlinkFloor strategy = new StrategyChainlinkFloor(_owner, address(weth));
-
-    //     bool isMakerBid = true;
-    //     vm.prank(_owner);
-    //     looksRareProtocol.addStrategy(
-    //         250,
-    //         250,
-    //         300,
-    //         StrategyChainlinkFloor.executeBasisPointsDiscountCollectionOfferStrategyWithTakerAsk.selector,
-    //         isMakerBid,
-    //         address(strategy)
-    //     );
-
-    //     (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
-    //         _createMockMakerAskAndTakerBid(address(mockERC721));
-    //     makerAsk.strategyId = 1; // Fake strategy
-
-    //     bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
-
-    //     // Mint asset
-    //     mockERC721.mint(makerUser, makerAsk.itemIds[0]);
-
-    //     _assertMakerOrderReturnValidationCode(makerAsk, signature, STRATEGY_INVALID_QUOTE_TYPE);
-
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(IExecutionManager.NoSelectorForStrategy.selector);
-    //     looksRareProtocol.executeTakerBid{value: makerAsk.price}(
-    //         takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE
-    //     );
-    // }
-
-    // TODO check is we need this test and replace the chainlink floor strategy
-    // function testCannotExecuteTransactionIfMakerAskWithStrategyForMakerBid() public {
-    //     _setUpUsers();
-
-    //     vm.prank(_owner);
-    //     StrategyChainlinkFloor strategy = new StrategyChainlinkFloor(_owner, address(weth));
-
-    //     bool isMakerBid = false;
-    //     vm.prank(_owner);
-    //     // All parameters are random, including the selector and the implementation
-    //     looksRareProtocol.addStrategy(
-    //         250,
-    //         250,
-    //         300,
-    //         StrategyChainlinkFloor.executeFixedPremiumStrategyWithTakerBid.selector,
-    //         isMakerBid,
-    //         address(strategy)
-    //     );
-
-    //     (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
-    //         _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
-    //     makerBid.strategyId = 1; // Fake strategy
-
-    //     bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
-
-    //     // Mint asset to ask user
-    //     mockERC721.mint(takerUser, makerBid.itemIds[0]);
-
-    //     _assertMakerOrderReturnValidationCode(makerBid, signature, STRATEGY_INVALID_QUOTE_TYPE);
-
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(IExecutionManager.NoSelectorForStrategy.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
-    // }
 }
