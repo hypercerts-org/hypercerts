@@ -19,7 +19,6 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  *         a specific amount of items in a range bounded by 2 item ids.
  * @author LooksRare protocol team (👀,💎)
  */
-// TODO this enables bidding on all fractions belonging to a claimID
 contract StrategyItemIdsRange is BaseStrategy {
     /**
      * @notice This function validates the order under the context of the chosen strategy

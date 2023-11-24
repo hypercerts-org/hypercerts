@@ -25,6 +25,9 @@ import {StrategyHypercertFractionOffer} from
 // Base test
 import {ProtocolBase} from "../ProtocolBase.t.sol";
 
+// Libraries
+import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+
 // Constants
 import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/NumericConstants.sol";
 
@@ -35,13 +38,18 @@ import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 import "forge-std/console2.sol";
 
 contract HypercertFractionOffersTest is ProtocolBase {
+    using OrderStructs for OrderStructs.Maker;
+
     StrategyHypercertFractionOffer public strategyHypercertFractionOffer;
     bytes4 public selectorNoProof = StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector;
     bytes4 public selectorWithProofAllowlist =
         StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector;
 
-    uint256 private constant price = 1 ether; // Fixed price of sale
+    uint256 private constant price = 0.001 ether; // Fixed price of sale
     bytes32 private constant mockMerkleRoot = bytes32(keccak256("Mock")); // Mock merkle root
+
+    uint256 private constant minUnitAmount = 1;
+    uint256 private constant maxUnitAmount = 100;
 
     function _createMakerAskAndTakerBidHypercert(bool mint)
         private
@@ -55,7 +63,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         itemIds[0] = (1 << 128) + 1;
 
         uint256[] memory amounts = new uint256[](1);
-        amounts[0] = 1;
+        amounts[0] = 5000;
 
         newMakerAsk = _createSingleItemMakerOrder({
             quoteType: QuoteType.Ask,
@@ -67,26 +75,18 @@ contract HypercertFractionOffersTest is ProtocolBase {
             collection: address(mockHypercertMinter),
             currency: address(weth),
             signer: makerUser,
-            price: 10_000,
+            price: price,
             itemId: 0
         });
 
         newMakerAsk.itemIds = itemIds;
         newMakerAsk.amounts = amounts;
-
-        uint256 minUnitAmount = 1;
-        uint256 maxUnitAmount = 100;
         newMakerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, mockMerkleRoot);
 
         // Using startPrice as the maxPrice
-        uint256 offeredItemId = itemIds[0];
         bytes32[] memory proofs = new bytes32[](0);
-        uint256 unitAmount = amounts[0];
-        uint256 acceptedTokenAmount = 0.001 ether;
-        address acceptedTokenAddress = address(weth);
 
-        newTakerBid =
-            OrderStructs.Taker(takerUser, abi.encode(unitAmount, acceptedTokenAmount, acceptedTokenAddress, proofs));
+        newTakerBid = OrderStructs.Taker(takerUser, abi.encode(minUnitAmount, price, proofs));
     }
 
     function setUp() public {
@@ -132,9 +132,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         // Change array to make it bigger than expected
         uint256[] memory amounts = new uint256[](2);
         amounts[0] = 1;
-        makerAsk.strategyId = 1;
         makerAsk.amounts = amounts;
-        takerBid.additionalParameters = abi.encode(mockMerkleRoot, 1);
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
         _assertOrderIsInvalid(makerAsk, false);
@@ -143,7 +141,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         vm.expectRevert(OrderInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
-        // With proof
+        // // With proof
         makerAsk.strategyId = 2;
         signature = _signMakerOrder(makerAsk, makerUserPK);
 
@@ -177,52 +175,44 @@ contract HypercertFractionOffersTest is ProtocolBase {
     /**
      * A collection offer with merkle tree criteria
      */
-    // /**
-    //  * TAKER ALLOWLIST
-    //  */
-    // function testTakerAskCollectionOrderWithMerkleTreeERC721AccountAllowlist() public {
-    //     _setUpUsers();
+    /**
+     * TAKER ALLOWLIST
+     */
+    function testTakerBidCollectionOrderWithMerkleTreeHypercertAccountAllowlist() public {
+        _setUpUsers();
 
-    //     OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
-    //         quoteType: QuoteType.Bid,
-    //         globalNonce: 0,
-    //         subsetNonce: 0,
-    //         strategyId: 3,
-    //         collectionType: CollectionType.ERC721,
-    //         orderNonce: 0,
-    //         collection: address(mockERC721),
-    //         currency: address(weth),
-    //         signer: makerUser,
-    //         price: price,
-    //         itemId: 0 // Not used
-    //     });
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(false);
 
-    //     address accountInMerkleTree = takerUser;
-    //     uint256 tokenIdInMerkleTree = 2;
-    //     (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
-    //         owner: takerUser,
-    //         numberOfAccountsInMerkleTree: 5,
-    //         accountInMerkleTree: accountInMerkleTree
-    //     });
+        address accountInMerkleTree = takerUser;
+        uint256 tokenIdInMerkleTree = 2;
+        (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
+            owner: makerUser,
+            numberOfAccountsInMerkleTree: 5,
+            accountInMerkleTree: accountInMerkleTree
+        });
 
-    //     makerBid.additionalParameters = abi.encode(merkleRoot);
+        makerAsk.strategyId = 2;
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, merkleRoot);
 
-    //     // Sign order
-    //     bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
-    //     // Prepare the taker ask
-    //     OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(tokenIdInMerkleTree, proof));
+        // Prepare the taker ask
+        takerBid.additionalParameters = abi.encode(100, price, proof);
 
-    //     // Verify validity of maker bid order
-    //     _assertOrderIsValid(makerBid, true);
-    //     _assertValidMakerOrder(makerBid, signature);
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, true);
+        _assertValidMakerOrder(makerAsk, signature);
 
-    //     // Execute taker ask transaction
-    //     vm.prank(takerUser);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+        // // Execute taker ask transaction
+        vm.prank(takerUser);
+        console2.log("length amounts: ", makerAsk.amounts.length);
+        console2.log("length itemIds: ", makerAsk.itemIds.length);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
-    //     _assertSuccessfulTakerAsk(makerBid, tokenIdInMerkleTree);
-    // }
+        // _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
+    }
 
     // function testTakerAskCannotExecuteWithInvalidProofAccountAllowlist(uint256 itemIdSold) public {
     //     vm.assume(itemIdSold > 5);
@@ -412,12 +402,13 @@ contract HypercertFractionOffersTest is ProtocolBase {
         (bool orderIsValid, bytes4 errorSelector) = strategyHypercertFractionOffer.isMakerOrderValid(
             makerBid, withProof ? selectorWithProofAllowlist : selectorNoProof
         );
+
+        console2.logBytes4(errorSelector);
         assertTrue(orderIsValid);
         assertEq(errorSelector, _EMPTY_BYTES4);
     }
 
     function _assertOrderIsInvalid(OrderStructs.Maker memory makerBid, bool withProof) private {
-        console2.log("makerBid", makerBid.strategyId);
         (bool orderIsValid, bytes4 errorSelector) = strategyHypercertFractionOffer.isMakerOrderValid(
             makerBid, withProof ? selectorWithProofAllowlist : selectorNoProof
         );
@@ -435,10 +426,12 @@ contract HypercertFractionOffersTest is ProtocolBase {
         Merkle m = new Merkle();
 
         bytes32[] memory merkleTreeAccounts = new bytes32[](numberOfAccountsInMerkleTree);
+        vm.startPrank(owner);
         for (uint256 i; i < numberOfAccountsInMerkleTree; i++) {
-            mockERC721.mint(owner, i);
+            mockHypercertMinter.mintClaim(owner, 10_000, "https://examle.com", FROM_CREATOR_ONLY);
             merkleTreeAccounts[i] = keccak256(abi.encodePacked(accountInMerkleTree));
         }
+        vm.stopPrank();
 
         // Compute merkle root
         merkleRoot = m.getRoot(merkleTreeAccounts);
@@ -472,6 +465,6 @@ contract HypercertFractionOffersTest is ProtocolBase {
                 + (unitAmount * price * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP
         );
         // Verify the nonce is marked as executed
-        assertEq(looksRareProtocol.userOrderNonce(makerUser, makerAsk.orderNonce), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
+        assertEq(looksRareProtocol.userOrderNonce(makerUser, makerAsk.orderNonce), _computeOrderHash(makerAsk));
     }
 }

@@ -27,10 +27,9 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  * @notice The bidder can only bid on 1 item id at a time.
  *         1. If ERC721, the amount must be 1.
  *         2. If ERC1155, the amount can be greater than 1.
- * @dev Use cases can include trait-based offers or rarity score offers.
- * @author LooksRare protocol team (👀,💎)
+ *         3. If Hypercert, the amount must be 1 (fractions are NFTs)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
-// TODO This allows for a buyer to declare a set of items they're willing to buy in a merkle tree
 contract StrategyCollectionOffer is BaseStrategy {
     /**
      * @notice This function validates the order under the context of the chosen strategy and

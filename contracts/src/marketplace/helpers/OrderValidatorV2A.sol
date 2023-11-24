@@ -32,8 +32,6 @@ import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "../constants
 import {CollectionType} from "../enums/CollectionType.sol";
 import {QuoteType} from "../enums/QuoteType.sol";
 
-import "forge-std/console2.sol";
-
 /**
  * @title OrderValidatorV2A
  * @notice This contract is used to check the validity of maker ask/bid orders in the LooksRareProtocol (v2).
@@ -297,7 +295,6 @@ contract OrderValidatorV2A {
             looksRareProtocol.strategyInfo(strategyId);
 
         if (strategyId != 0 && strategyImplementation == address(0)) {
-            console2.log("Check 1");
             return STRATEGY_NOT_IMPLEMENTED;
         }
 
@@ -306,17 +303,11 @@ contract OrderValidatorV2A {
                 (strategyIsMakerBid && quoteType != QuoteType.Bid)
                     || (!strategyIsMakerBid && quoteType != QuoteType.Ask)
             ) {
-                console2.log("Check 2");
-                console2.log("strategyIsMakerBid", strategyIsMakerBid);
-                console2.log("quoteType", uint256(quoteType));
-
                 return STRATEGY_INVALID_QUOTE_TYPE;
             }
         }
 
         if (!strategyIsActive) {
-            console2.log("Check 3");
-
             return STRATEGY_NOT_ACTIVE;
         }
     }

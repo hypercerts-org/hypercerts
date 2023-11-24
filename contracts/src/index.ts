@@ -41,9 +41,9 @@ export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 const deployments = {
   5: {
     ...DEPLOYMENTS.protocol["5"],
-    HypercertsExchange: DEPLOYMENTS.marketplace[5]["hypercerts-exchange"].address,
-    TransferManager: DEPLOYMENTS.marketplace[5]["transfer-manager"].address,
-    OrderValidatorV2A: DEPLOYMENTS.marketplace[5]["order-validator"].address,
+    HypercertsExchange: DEPLOYMENTS.marketplace[5].HypercertsExchange.address,
+    TransferManager: DEPLOYMENTS.marketplace[5].TransferManager.address,
+    OrderValidatorV2A: DEPLOYMENTS.marketplace[5].OrderValidator.address,
   },
   10: {
     ...DEPLOYMENTS.protocol["10"],
@@ -53,9 +53,6 @@ const deployments = {
   },
   11155111: {
     ...DEPLOYMENTS.protocol["11155111"],
-    HypercertsExchange: DEPLOYMENTS.marketplace[11155111]["hypercerts-exchange"].address,
-    TransferManager: DEPLOYMENTS.marketplace[11155111]["transfer-manager"].address,
-    OrderValidatorV2A: DEPLOYMENTS.marketplace[11155111]["order-validator"].address,
   },
 } as Record<DeployedChains, Deployment>;
 

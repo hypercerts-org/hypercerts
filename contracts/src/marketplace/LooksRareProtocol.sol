@@ -16,6 +16,7 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Interfaces
 import {ILooksRareProtocol} from "./interfaces/ILooksRareProtocol.sol";
+import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
 import {
@@ -444,10 +445,12 @@ contract LooksRareProtocol is
 
         // Maker action goes second
         if (
-            strategyInfo[makerAsk.strategyId].selector
-                == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
-                || strategyInfo[makerAsk.strategyId].selector
-                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            (
+                strategyInfo[makerAsk.strategyId].selector
+                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                    || strategyInfo[makerAsk.strategyId].selector
+                        == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            ) && (IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) > amounts[0])
         ) {
             _splitNFT(
                 makerAsk.collection,

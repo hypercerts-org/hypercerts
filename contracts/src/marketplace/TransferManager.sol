@@ -192,81 +192,20 @@ contract TransferManager is
         uint256[] calldata amounts
     ) external {
         IHypercertToken hypercert = IHypercertToken(collection);
-        uint256 length = itemIds.length;
 
-        if (length == 0 || amounts.length != length) {
+        if (itemIds.length != 1 || amounts.length != 1) {
             revert LengthsInvalid();
         }
 
         _isOperatorValidForTransfer(from, msg.sender);
 
-        if (length == 1) {
-            if (amounts[0] == 0) {
-                revert AmountInvalid();
-            }
-            uint256[] memory newAmounts = new uint256[](2);
-            newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
-            newAmounts[1] = amounts[0];
-            _executeHypercertSplitFraction(collection, from, to, itemIds[0], newAmounts);
-        } else {
-            for (uint256 i; i < length;) {
-                if (amounts[i] == 0) {
-                    revert AmountInvalid();
-                }
-
-                uint256[] memory newAmounts = new uint256[](2);
-                newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
-                newAmounts[1] = amounts[0];
-                _executeHypercertSplitFraction(collection, from, to, itemIds[0], newAmounts);
-
-                unchecked {
-                    ++i;
-                }
-            }
+        if (amounts[0] == 0) {
+            revert AmountInvalid();
         }
-    }
-
-    /**
-     * @notice This function transfers items for a single Hyperboard.
-     * @param collection Collection address
-     * @param from Sender address
-     * @param to Recipient address
-     * @param itemIds Array of itemIds
-     * @param amounts Array of amounts
-     * @dev It does not allow batch transferring if from = msg.sender since native function should be used.
-     */
-    function transferItemsHyperboard(
-        address collection,
-        address from,
-        address to,
-        uint256[] calldata itemIds,
-        uint256[] calldata amounts
-    ) external {
-        uint256 length = itemIds.length;
-
-        if (length == 0 || amounts.length != length) {
-            revert LengthsInvalid();
-        }
-
-        _isOperatorValidForTransfer(from, msg.sender);
-
-        if (length == 1) {
-            if (amounts[0] == 0) {
-                revert AmountInvalid();
-            }
-            _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
-        } else {
-            for (uint256 i; i < length;) {
-                if (amounts[i] == 0) {
-                    revert AmountInvalid();
-                }
-
-                unchecked {
-                    ++i;
-                }
-            }
-            _executeERC1155SafeBatchTransferFrom(collection, from, to, itemIds, amounts);
-        }
+        uint256[] memory newAmounts = new uint256[](2);
+        newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
+        newAmounts[1] = amounts[0];
+        _executeHypercertSplitFraction(collection, from, to, itemIds[0], newAmounts);
     }
 
     /**
