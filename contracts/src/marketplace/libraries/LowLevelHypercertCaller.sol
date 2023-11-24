@@ -7,7 +7,7 @@ import {IHypercertToken} from "../../protocol/interfaces/IHypercertToken.sol";
 /**
  * @title LowLevelHypercertCaller
  * @notice This contract contains low-level calls to transfer ERC1155 tokens.
- * @author LooksRare protocol team (👀,💎)
+ * @author bitbeckers
  */
 contract LowLevelHypercertCaller {
     error NotAContract();
