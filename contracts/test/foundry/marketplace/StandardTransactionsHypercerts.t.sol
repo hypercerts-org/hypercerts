@@ -26,9 +26,8 @@ contract StandardTransactionsHypercertsTest is ProtocolBase {
 
     function setUp() public {
         _setUp();
-        CreatorFeeManagerWithRoyalties creatorFeeManager = new CreatorFeeManagerWithRoyalties(
-            address(royaltyFeeRegistry)
-        );
+        CreatorFeeManagerWithRoyalties creatorFeeManager =
+            new CreatorFeeManagerWithRoyalties(address(royaltyFeeRegistry));
         vm.prank(_owner);
         looksRareProtocol.updateCreatorFeeManager(address(creatorFeeManager));
 

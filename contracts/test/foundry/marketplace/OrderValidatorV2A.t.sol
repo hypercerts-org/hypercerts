@@ -59,12 +59,9 @@ contract OrderValidatorV2ATest is TestParameters {
     function setUp() public {
         transferManager = new TransferManager(address(this));
         looksRareProtocol = new LooksRareProtocol(
-            address(this),
-            address(this),
-            address(transferManager),
-            0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+            address(this), address(this), address(transferManager), 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
         );
-        royaltyFeeRegistry = new MockRoyaltyFeeRegistry(address(this), 9_500);
+        royaltyFeeRegistry = new MockRoyaltyFeeRegistry(address(this), 9500);
         creatorFeeManager = new CreatorFeeManagerWithRoyalties(address(royaltyFeeRegistry));
         looksRareProtocol.updateCreatorFeeManager(address(creatorFeeManager));
         looksRareProtocol.updateCurrencyStatus(ETH, true);

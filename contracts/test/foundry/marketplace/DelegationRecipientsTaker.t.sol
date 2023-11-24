@@ -14,9 +14,8 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/Numer
 contract DelegationRecipientsTakerTest is ProtocolBase {
     function setUp() public {
         _setUp();
-        CreatorFeeManagerWithRoyalties creatorFeeManager = new CreatorFeeManagerWithRoyalties(
-            address(royaltyFeeRegistry)
-        );
+        CreatorFeeManagerWithRoyalties creatorFeeManager =
+            new CreatorFeeManagerWithRoyalties(address(royaltyFeeRegistry));
         vm.prank(_owner);
         looksRareProtocol.updateCreatorFeeManager(address(creatorFeeManager));
     }
