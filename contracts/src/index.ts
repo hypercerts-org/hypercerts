@@ -5,12 +5,20 @@ import HypercertExchangeAbi from "../abi/src/marketplace/LooksRareProtocol.sol/L
 import OrderValidatorV2AAbi from "../abi/src/marketplace/helpers/OrderValidatorV2A.sol/OrderValidatorV2A.json";
 import StrategyManagerAbi from "../abi/src/marketplace/StrategyManager.sol/StrategyManager.json";
 import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/TransferManager.json";
+import StrategyCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
+import StrategyHypercertFractionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
+import CreatorFeeManagerWithRoyaltiesAbi from "../abi/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
 
 import {
   HypercertMinter,
   IHypercertToken,
   LooksRareProtocol as HypercertExchange,
   ILooksRareProtocol as IHypercertExchange,
+  TransferManager,
+  StrategyCollectionOffer,
+  StrategyHypercertFractionOffer,
+  CreatorFeeManagerWithRoyalties,
+  OrderValidatorV2A,
 } from "types";
 
 /*
@@ -64,7 +72,26 @@ const asDeployedChain = (chainId: string | number) => {
 export { deployments, asDeployedChain };
 
 // Abis
-export { HypercertMinterAbi, HypercertExchangeAbi, OrderValidatorV2AAbi, StrategyManagerAbi, TransferManagerAbi };
+export {
+  CreatorFeeManagerWithRoyaltiesAbi,
+  HypercertMinterAbi,
+  HypercertExchangeAbi,
+  OrderValidatorV2AAbi,
+  StrategyManagerAbi,
+  StrategyCollectionOfferAbi,
+  StrategyHypercertFractionOfferAbi,
+  TransferManagerAbi,
+};
 
 // Interfaces
-export type { IHypercertExchange, IHypercertToken, HypercertExchange, HypercertMinter };
+export type {
+  CreatorFeeManagerWithRoyalties,
+  IHypercertExchange,
+  IHypercertToken,
+  HypercertExchange,
+  HypercertMinter,
+  OrderValidatorV2A,
+  TransferManager,
+  StrategyCollectionOffer,
+  StrategyHypercertFractionOffer,
+};

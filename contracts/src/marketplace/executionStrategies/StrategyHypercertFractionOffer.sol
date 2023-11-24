@@ -19,8 +19,6 @@ import {OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInva
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
-import "forge-std/console2.sol";
-
 /**
  * @title StrategyHypercertFractionOffer
  * @notice This contract offers a single execution strategy for users to bid on
