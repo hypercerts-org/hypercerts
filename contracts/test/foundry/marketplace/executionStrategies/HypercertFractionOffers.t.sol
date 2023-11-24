@@ -35,8 +35,6 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/Numer
 import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
-import "forge-std/console2.sol";
-
 contract HypercertFractionOffersTest is ProtocolBase {
     using OrderStructs for OrderStructs.Maker;
 
@@ -207,133 +205,87 @@ contract HypercertFractionOffersTest is ProtocolBase {
 
         // // Execute taker ask transaction
         vm.prank(takerUser);
-        console2.log("length amounts: ", makerAsk.amounts.length);
-        console2.log("length itemIds: ", makerAsk.itemIds.length);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
-        // _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
+        _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
     }
 
-    // function testTakerAskCannotExecuteWithInvalidProofAccountAllowlist(uint256 itemIdSold) public {
-    //     vm.assume(itemIdSold > 5);
-    //     _setUpUsers();
+    function testTakerAskCannotExecuteWithInvalidProofAccountAllowlist(uint256 itemIdSold) public {
+        vm.assume(itemIdSold > 5);
+        _setUpUsers();
 
-    //     OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
-    //         quoteType: QuoteType.Bid,
-    //         globalNonce: 0,
-    //         subsetNonce: 0,
-    //         strategyId: 3,
-    //         collectionType: CollectionType.ERC721,
-    //         orderNonce: 0,
-    //         collection: address(mockERC721),
-    //         currency: address(weth),
-    //         signer: makerUser,
-    //         price: price,
-    //         itemId: 0 // Not used
-    //     });
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(false);
 
-    //     address accountInMerkleTree = takerUser;
-    //     uint256 tokenIdInMerkleTree = 2;
-    //     (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
-    //         owner: takerUser,
-    //         numberOfAccountsInMerkleTree: 5,
-    //         // Doesn't matter what itemIdInMerkleTree is as we are are going to tamper with the proof
-    //         accountInMerkleTree: accountInMerkleTree
-    //     });
-    //     makerBid.additionalParameters = abi.encode(merkleRoot);
+        address accountInMerkleTree = takerUser;
+        uint256 tokenIdInMerkleTree = 2;
+        (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
+            owner: makerUser,
+            numberOfAccountsInMerkleTree: 5,
+            accountInMerkleTree: accountInMerkleTree
+        });
 
-    //     // Sign order
-    //     bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+        makerAsk.strategyId = 2;
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, merkleRoot);
 
-    //     // Prepare the taker ask
-    //     proof[0] = bytes32(0); // Tamper with the proof
-    //     OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(tokenIdInMerkleTree, proof));
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
-    //     // Verify validity of maker bid order
-    //     _assertOrderIsValid(makerBid, true);
-    //     _assertValidMakerOrder(makerBid, signature);
+        // Prepare the taker ask
+        proof[0] = bytes32(0); // Tamper with the proof
+        takerBid.additionalParameters = abi.encode(100, price, proof);
 
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(MerkleProofInvalid.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
-    // }
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, true);
+        _assertValidMakerOrder(makerAsk, signature);
 
-    // function testInvalidAmounts() public {
-    //     _setUpUsers();
+        vm.prank(takerUser);
+        vm.expectRevert(MerkleProofInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
 
-    //     OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
-    //         quoteType: QuoteType.Bid,
-    //         globalNonce: 0,
-    //         subsetNonce: 0,
-    //         strategyId: 1,
-    //         collectionType: CollectionType.ERC721,
-    //         orderNonce: 0,
-    //         collection: address(mockERC721),
-    //         currency: address(weth),
-    //         signer: makerUser,
-    //         price: price,
-    //         itemId: 0
-    //     });
+    function testInvalidAmounts() public {
+        _setUpUsers();
 
-    //     // Prepare the taker ask
-    //     OrderStructs.Taker memory takerAsk = OrderStructs.Taker(takerUser, abi.encode(5));
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
 
-    //     // 1. Amount is 0 (without merkle proof)
-    //     makerBid.amounts[0] = 0;
-    //     bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
-    //     _assertOrderIsInvalid(makerBid, false);
-    //     _assertMakerOrderReturnValidationCode(makerBid, signature,
-    // MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+        // Prepare the taker ask
+        takerBid.additionalParameters = abi.encode(1, price);
 
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(AmountInvalid.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+        // 1. Amount is 0 (without merkle proof)
+        makerAsk.amounts[0] = 0;
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+        _assertOrderIsInvalid(makerAsk, false);
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
-    //     // 2. Amount is too high for ERC721 (without merkle proof)
-    //     makerBid.amounts[0] = 2;
-    //     signature = _signMakerOrder(makerBid, makerUserPK);
-    //     _assertOrderIsInvalid(makerBid, false);
-    //     _assertMakerOrderReturnValidationCode(makerBid, signature,
-    // MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+        vm.prank(takerUser);
+        vm.expectRevert(AmountInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(AmountInvalid.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+        // 2. Amount is 0 (with merkle proof)
+        makerAsk.strategyId = 2;
+        address accountInMerkleTree = takerUser;
+        uint256 tokenIdInMerkleTree = 2;
+        (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
+            owner: makerUser,
+            numberOfAccountsInMerkleTree: 5,
+            accountInMerkleTree: accountInMerkleTree
+        });
 
-    //     // 3. Amount is 0 (with merkle proof)
-    //     makerBid.strategyId = 2;
-    //     uint256 itemIdInMerkleTree = 5;
-    //     (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProof({
-    //         owner: takerUser,
-    //         numberOfItemsInMerkleTree: 6,
-    //         itemIdInMerkleTree: itemIdInMerkleTree
-    //     });
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, merkleRoot);
+        makerAsk.amounts[0] = 0;
+        signature = _signMakerOrder(makerAsk, makerUserPK);
 
-    //     makerBid.additionalParameters = abi.encode(merkleRoot);
-    //     makerBid.amounts[0] = 0;
-    //     signature = _signMakerOrder(makerBid, makerUserPK);
+        takerBid.additionalParameters = abi.encode(0, price, proof);
 
-    //     takerAsk.additionalParameters = abi.encode(itemIdInMerkleTree, proof);
+        _assertOrderIsInvalid(makerAsk, true);
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
-    //     _assertOrderIsInvalid(makerBid, true);
-    //     _assertMakerOrderReturnValidationCode(makerBid, signature,
-    // MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
-
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(AmountInvalid.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
-
-    //     // 4. Amount is too high for ERC721 (with merkle proof)
-    //     makerBid.amounts[0] = 2;
-    //     signature = _signMakerOrder(makerBid, makerUserPK);
-    //     _assertOrderIsInvalid(makerBid, true);
-    //     _assertMakerOrderReturnValidationCode(makerBid, signature,
-    // MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
-
-    //     vm.prank(takerUser);
-    //     vm.expectRevert(AmountInvalid.selector);
-    //     looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
-    // }
+        vm.prank(takerUser);
+        vm.expectRevert(AmountInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
 
     function testMerkleRootLengthIsNot200() public {
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
@@ -377,7 +329,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
     }
 
     function testWrongQuoteType() public {
-        OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
+        OrderStructs.Maker memory makerAsk = _createSingleItemMakerOrder({
             quoteType: QuoteType.Bid,
             globalNonce: 0,
             subsetNonce: 0,
@@ -392,25 +344,24 @@ contract HypercertFractionOffersTest is ProtocolBase {
         });
 
         (bool orderIsValid, bytes4 errorSelector) =
-            strategyHypercertFractionOffer.isMakerOrderValid(makerBid, selectorNoProof);
+            strategyHypercertFractionOffer.isMakerOrderValid(makerAsk, selectorNoProof);
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, QuoteTypeInvalid.selector);
     }
 
-    function _assertOrderIsValid(OrderStructs.Maker memory makerBid, bool withProof) private {
+    function _assertOrderIsValid(OrderStructs.Maker memory makerAsk, bool withProof) private {
         (bool orderIsValid, bytes4 errorSelector) = strategyHypercertFractionOffer.isMakerOrderValid(
-            makerBid, withProof ? selectorWithProofAllowlist : selectorNoProof
+            makerAsk, withProof ? selectorWithProofAllowlist : selectorNoProof
         );
 
-        console2.logBytes4(errorSelector);
         assertTrue(orderIsValid);
         assertEq(errorSelector, _EMPTY_BYTES4);
     }
 
-    function _assertOrderIsInvalid(OrderStructs.Maker memory makerBid, bool withProof) private {
+    function _assertOrderIsInvalid(OrderStructs.Maker memory makerAsk, bool withProof) private {
         (bool orderIsValid, bytes4 errorSelector) = strategyHypercertFractionOffer.isMakerOrderValid(
-            makerBid, withProof ? selectorWithProofAllowlist : selectorNoProof
+            makerAsk, withProof ? selectorWithProofAllowlist : selectorNoProof
         );
 
         assertFalse(orderIsValid);

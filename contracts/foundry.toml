@@ -3,18 +3,24 @@
 [profile.default]
 auto_detect_solc = true
 allow_paths = ["../node_modules", "node_modules", "lib"]
+block_base_fee_per_gas = 0
+block_coinbase = '0x0000000000000000000000000000000000000000'
+block_difficulty = 0
+block_number = 0
+block_timestamp = 0
 bytecode_hash = "none"
 force = false
 fuzz = { runs = 1025 }
-gas_reports = ["*"]
+gas_reports = ["LookRareProtocol", "HypercertMinter"]
 libraries = []
 libs = ["node_modules", "lib"]
 optimizer = true
-optimizer_runs = 5_000
+optimizer_runs = 10000
 out = "out"
 src = "src"
 script = "scripts/deployment"
 test = "test/foundry"
+via_ir = false
 no_match_test = "testCannotExecuteOrderIfInvalidUserGlobal"
 
 [profile.ci]
