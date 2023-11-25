@@ -1,9 +1,15 @@
+import { describe, it, beforeEach, afterAll } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
+
 import sinon from "sinon";
 
-import HypercertClient from "../../src/client";
+import { HypercertClient } from "../../src/client";
 
 import { publicClient, walletClient } from "../helpers";
 import { ContractFunctionExecutionError, isHex, toHex } from "viem";
+
+chai.use(assertionsCount);
 
 describe("splitClaimUnits in HypercertClient", () => {
   const wallet = walletClient;
@@ -23,6 +29,7 @@ describe("splitClaimUnits in HypercertClient", () => {
   const fractionId = 9868188640707215440437863615521278132232n;
 
   beforeEach(async () => {
+    chai.Assertion.resetAssertsCheck();
     readSpy.resetBehavior();
     readSpy.resetHistory();
 
@@ -35,21 +42,22 @@ describe("splitClaimUnits in HypercertClient", () => {
   });
 
   it("allows for a hypercert fractions to be splitted over value", async () => {
+    chai.Assertion.expectExpects(4);
     readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(300n);
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
     const hash = await client.splitFractionUnits(fractionId, [100n, 200n]);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(isHex(hash)).toBeTruthy();
-    expect(readSpy.callCount).toBe(2);
-    expect(writeSpy.callCount).toBe(1);
-    expect.assertions(4);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(2);
+    expect(writeSpy.callCount).to.eq(1);
   });
 
   it("allows for a hypercert fractions to be splitted over value with override params", async () => {
+    chai.Assertion.expectExpects(5);
     readSpy = readSpy
       .onFirstCall()
       .resolves(userAddress)
@@ -62,21 +70,20 @@ describe("splitClaimUnits in HypercertClient", () => {
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
     try {
       await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
     } catch (e) {
-      expect(e instanceof ContractFunctionExecutionError).toBeTruthy();
+      expect(e instanceof ContractFunctionExecutionError).to.be.true;
     }
 
     const hash = await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: 12300000n });
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(isHex(hash)).toBeTruthy();
-    expect(readSpy.callCount).toBe(4);
-    expect(writeSpy.callCount).toBe(1);
-    expect.assertions(5);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(4);
+    expect(writeSpy.callCount).to.eq(1);
   });
 
   //   it("throws on splitting with incorrect new total value", async () => {

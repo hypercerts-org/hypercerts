@@ -3,7 +3,7 @@ import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
 // @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertIndexer from "../indexer";
+import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
 import { HypercertMetadata } from "./metadata";
 

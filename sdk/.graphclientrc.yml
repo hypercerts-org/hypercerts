@@ -15,10 +15,10 @@ additionalTypeDefs: |
   }
 
 additionalResolvers:
-  - ./src/utils/resolvers.ts
+  - src/utils/resolvers.ts
 
 documents:
-  - ./src/indexer/queries/*.graphql
+  - src/indexer/queries/*.graphql
 
 codegen:
   contextType: "MeshContext & { graphName: string }"

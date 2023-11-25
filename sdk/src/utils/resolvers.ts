@@ -1,6 +1,6 @@
 import { Resolvers } from "../../.graphclient";
 
-export const resolvers: Resolvers = {
+const resolvers: Resolvers = {
   Claim: {
     graphName: (root, args, context) => root.graphName || context.graphName || "hypercerts-testnet", // The value we provide in the config
   },
@@ -8,3 +8,5 @@ export const resolvers: Resolvers = {
     graphName: (root, args, context) => root.graphName || context.graphName || "hypercerts-testnet", // The value we provide in the config
   },
 };
+
+export { resolvers };

@@ -1,9 +1,15 @@
-import HypercertClient from "../../src/client";
+import { describe, it, beforeEach, afterAll } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
+
+import { HypercertClient } from "../../src/client";
 import { walletClient, publicClient } from "../helpers";
 import { ContractFunctionExecutionError, isHex, toHex } from "viem";
 import sinon from "sinon";
 import { faker } from "@faker-js/faker";
 import { ClientError } from "../../src";
+
+chai.use(assertionsCount);
 
 describe("burn fraction tokens in HypercertClient", () => {
   const wallet = walletClient;
@@ -22,6 +28,8 @@ describe("burn fraction tokens in HypercertClient", () => {
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   beforeEach(async () => {
+    chai.Assertion.resetAssertsCheck();
+
     readSpy.resetBehavior();
     readSpy.resetHistory();
 
@@ -38,45 +46,45 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
     const hash = await client.burnClaimFraction(fractionId);
-    console.log(hash);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(isHex(hash)).toBeTruthy();
-    expect(readSpy.callCount).toBe(1);
-    expect(writeSpy.callCount).toBe(1);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(1);
+    expect(writeSpy.callCount).to.eq(1);
   });
 
   it("throws on burning fraction not owned by signer", async () => {
+    chai.Assertion.expectAssertions(6);
     readSpy = readSpy.resolves(faker.finance.ethereumAddress());
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
     let hash;
     try {
       hash = await client.burnClaimFraction(fractionId);
     } catch (e) {
-      expect(e instanceof ClientError).toBeTruthy();
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).toBe("Claim is not owned by the signer");
+      expect(error.message).to.eq("Claim is not owned by the signer");
     }
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(hash).toBeUndefined();
-    expect(readSpy.callCount).toBe(1);
-    expect(writeSpy.callCount).toBe(0);
-    expect.assertions(6);
+    expect(hash).to.be.undefined;
+    expect(readSpy.callCount).to.eq(1);
+    expect(writeSpy.callCount).to.eq(0);
   });
 
   it("allows for a hypercert fraction to be burned with override params", async () => {
+    chai.Assertion.expectAssertions(6);
     readSpy = readSpy.resolves(userAddress);
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
     let noHash;
 
@@ -84,17 +92,15 @@ describe("burn fraction tokens in HypercertClient", () => {
       noHash = await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" as unknown as bigint });
       expect.fail("should have thrown on incorrect gasLimit value");
     } catch (e) {
-      expect(e instanceof ContractFunctionExecutionError).toBeTruthy();
+      expect(e).to.be.instanceOf(ContractFunctionExecutionError);
     }
 
     const hash = await client.burnClaimFraction(fractionId, { gasLimit: 12300000n });
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(noHash).toBeUndefined();
-
-    expect(isHex(hash)).toBeTrue();
-    expect(readSpy.callCount).toBe(2);
-    expect(writeSpy.callCount).toBe(1);
-    expect.assertions(6);
+    expect(noHash).to.be.undefined;
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(2);
+    expect(writeSpy.callCount).to.eq(1);
   });
 });

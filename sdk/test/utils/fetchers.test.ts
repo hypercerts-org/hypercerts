@@ -1,8 +1,10 @@
+import { describe, it, afterEach } from "vitest";
+
 import chai, { expect } from "chai";
 import chaiSubset from "chai-subset";
 import sinon from "sinon";
 
-import fetchers from "../../src/utils/fetchers";
+import { getFromIPFS } from "../../src/utils/fetchers";
 import axios from "axios";
 
 chai.use(chaiSubset);
@@ -16,7 +18,7 @@ describe("Fetchers", () => {
     const validResponse = { data: "TEST_PASSED" };
     const axiosStub = sinon.stub(axios, "get").resolves(Promise.resolve(validResponse));
 
-    const res = await fetchers.getFromIPFS("test");
+    const res = await getFromIPFS("test");
     expect(res).to.equal(validResponse.data);
     expect(axiosStub.calledOnce).to.be.true;
   });
@@ -30,7 +32,7 @@ describe("Fetchers", () => {
       .onSecondCall()
       .resolves(Promise.resolve(validResponse));
 
-    const res = await fetchers.getFromIPFS("test");
+    const res = await getFromIPFS("test");
     expect(res).to.equal(validResponse.data);
     expect(axiosStub.calledTwice).to.be.true;
   });

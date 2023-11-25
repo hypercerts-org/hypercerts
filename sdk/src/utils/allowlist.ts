@@ -1,9 +1,9 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import fetchers from "./fetchers";
-import logger from "./logger";
+import { getFromIPFS } from "./fetchers";
+import { logger } from "./logger";
 
 const getMerkleTreeFromIPFS = async (cidOrIpfsUri: string) => {
-  const data = await fetchers.getFromIPFS(cidOrIpfsUri);
+  const data = await getFromIPFS(cidOrIpfsUri);
   const allowlist = typeof data === "string" ? data : undefined;
 
   if (!allowlist) {
@@ -43,4 +43,4 @@ const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x${string
   }
 };
 
-export default { getProofsFromAllowlist };
+export { getProofsFromAllowlist };
