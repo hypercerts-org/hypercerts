@@ -8,7 +8,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import dayjs from "dayjs";
 import { Formik, FormikProps } from "formik";
 import html2canvas from "html2canvas";
-import _ from "lodash";
+import _, { get } from "lodash";
 import { useRouter } from "next/router";
 import qs from "qs";
 import React, { ReactNode } from "react";
@@ -377,6 +377,7 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             address!,
             applicationName,
+            transferRestrictions,
             image,
           );
           console.log(`Metadata(valid=${metaData.valid}): `, metaData.data);
@@ -440,10 +441,28 @@ export function HypercertCreateForm(props: HypercertCreateFormProps) {
   );
 }
 
+const getTransferRights = (transferRestrictions: TransferRestrictions) => {
+  // enum TransferRestrictions {
+  //   AllowAll,
+  //   DisallowAll,
+  //   FromCreatorOnly
+  // }
+  if (transferRestrictions === 0) {
+    return "Allow All Transfers";
+  }
+  if (transferRestrictions === 1) {
+    return "Disallow All Transfers";
+  }
+  if (transferRestrictions === 2) {
+    return "Transfer From Creator Only";
+  }
+};
+
 const formatValuesToMetaData = (
   val: HypercertCreateFormData,
   address: string,
   applicationName: string,
+  transferRestrictions: TransferRestrictions,
   image?: string,
 ) => {
   // Split contributor names and addresses.
@@ -477,11 +496,18 @@ const formatValuesToMetaData = (
     ? new Date(val.workTimeEnd).getTime() / 1000
     : 0;
 
+  const transferRights = getTransferRights(transferRestrictions);
+  const rightsProps = [...val.rights, transferRights];
+
   let properties = [
     {
       trait_type: "Minted by",
       value: "true",
       application: applicationName,
+    },
+    {
+      trait_type: "Rights",
+      value: rightsProps.join(", "),
     },
   ];
   if (val.metadataProperties) {
