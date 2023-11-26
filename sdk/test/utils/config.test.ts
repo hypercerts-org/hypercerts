@@ -1,3 +1,5 @@
+import { describe, it, afterEach } from "vitest";
+
 import chai, { expect } from "chai";
 import chaiSubset from "chai-subset";
 import sinon from "sinon";

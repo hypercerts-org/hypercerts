@@ -13,9 +13,8 @@ import {
   MalformedDataError,
   StorageError,
 } from "./types";
-import logger from "./utils/logger";
+import { logger, getFromIPFS } from "./utils";
 import { getNftStorageToken, getWeb3StorageToken } from "./utils/config";
-import fetchers from "./utils/fetchers";
 
 /**
  * A class that provides storage functionality for Hypercerts.
@@ -30,7 +29,7 @@ import fetchers from "./utils/fetchers";
  * const storage = new HypercertsStorage({ nftStorageToken: 'your-nft-storage-token', web3StorageToken: 'your-web3-storage-token' });
  * const metadata = await storage.getMetadata('your-hypercert-id');
  */
-export default class HypercertsStorage implements HypercertStorageInterface {
+export class HypercertsStorage implements HypercertStorageInterface {
   /** Whether the storage is read-only. */
   readonly: boolean = true;
   /** The NFT storage client. */
@@ -113,7 +112,7 @@ export default class HypercertsStorage implements HypercertStorageInterface {
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the retrieved data is invalid.
    */
   public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
-    const res = await fetchers.getFromIPFS(cidOrIpfsUri);
+    const res = await getFromIPFS(cidOrIpfsUri);
 
     const validation = validateMetaData(res);
     if (!validation.valid) {
@@ -193,6 +192,6 @@ export default class HypercertsStorage implements HypercertStorageInterface {
     */
 
     // TODO: replace current temporary fix of just using NFT.Storage IPFS gateway
-    return await fetchers.getFromIPFS(cidOrIpfsUri);
+    return await getFromIPFS(cidOrIpfsUri);
   }
 }

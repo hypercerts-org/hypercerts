@@ -1,10 +1,14 @@
-import { expect } from "@jest/globals";
+import { describe, it, afterAll, beforeEach } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
 
-import HypercertEvaluator from "../../src/evaluations";
+import { HypercertEvaluator } from "../../src/evaluations";
 import { MalformedDataError, StorageError } from "../../src/types/errors";
 import { HypercertEvaluationSchema } from "../../src/types/evaluation";
 import { getEvaluationData, publicClient, walletClient } from "../helpers";
+
+chai.use(assertionsCount);
 
 describe("HypercertEvaluator", () => {
   const signer = walletClient.account;
@@ -24,6 +28,8 @@ describe("HypercertEvaluator", () => {
 
   describe("submitEvaluation", () => {
     it("should throw an error for unexpected evaluation source", async () => {
+      chai.Assertion.expectAssertions(2);
+
       const evaluation = {
         creator: signer?.address,
         evaluationSource: {
@@ -38,15 +44,15 @@ describe("HypercertEvaluator", () => {
       try {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
-        expect(e).toBeInstanceOf(Error);
+        expect(e).to.be.instanceOf(Error);
         const error = e as StorageError;
-        expect(error.message).toEqual(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
+        expect(error.message).to.eq(`Unexpected evaluation source: ${evaluation.evaluationSource.toString()}`);
       }
-
-      expect.assertions(2);
     });
 
     it("should throw an error for invalid creator address", async () => {
+      chai.Assertion.expectAssertions(2);
+
       const evaluation = {
         creator: "bob",
       };
@@ -54,15 +60,15 @@ describe("HypercertEvaluator", () => {
       try {
         await evaluator.submitEvaluation(evaluation as HypercertEvaluationSchema);
       } catch (e) {
-        expect(e).toBeInstanceOf(MalformedDataError);
+        expect(e).to.be.instanceOf(MalformedDataError);
         const error = e as MalformedDataError;
-        expect(error.message).toEqual(`Invalid creator address: ${evaluation.creator.toString()}`);
+        expect(error.message).to.be.eq(`Invalid creator address: ${evaluation.creator.toString()}`);
       }
-
-      expect.assertions(2);
     });
 
     it("should throw an error for readonly storage", async () => {
+      chai.Assertion.expectAssertions(2);
+
       const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer?.address });
 
       const readonlyEvaluator = new HypercertEvaluator({
@@ -75,11 +81,10 @@ describe("HypercertEvaluator", () => {
         await readonlyEvaluator.submitEvaluation(evaluation);
       } catch (e) {
         const error = e as Error;
-        expect(error).toBeInstanceOf(Error);
-        expect(error.message).toMatch(/Unexpected evaluation source/);
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.match(/Unexpected evaluation source/);
       }
 
-      expect.assertions(2);
       sinon.restore();
     });
   });

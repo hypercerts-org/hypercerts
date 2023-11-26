@@ -3,7 +3,7 @@ import { isAddress } from "viem";
 // @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertsStorage from "../storage";
+import { HypercertsStorage } from "../storage";
 import { HypercertClientConfig, HypercertEvaluationSchema, MalformedDataError } from "../types";
 
 export interface EvaluatorInterface {
@@ -15,7 +15,7 @@ export interface EvaluatorInterface {
   submitEvaluation: (evaluation: HypercertEvaluationSchema) => Promise<CIDString>;
 }
 
-export default class HypercertEvaluator implements EvaluatorInterface {
+export class HypercertEvaluator implements EvaluatorInterface {
   storage: HypercertsStorage;
 
   readonly = true;

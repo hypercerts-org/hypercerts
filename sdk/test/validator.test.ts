@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 import { expect } from "chai";
 
 import { validateClaimData, validateMetaData } from "../src";
@@ -20,7 +22,6 @@ describe("Validate claim test", () => {
 
   it("checking default claimdata", () => {
     const result = validateClaimData(hypercertData.data);
-    console.log(result);
     expect(result.valid).to.be.true;
 
     const invalidResult = validateClaimData({} as HypercertClaimdata);

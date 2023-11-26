@@ -1,5 +1,5 @@
 import { StorageError } from "../types/errors";
-import logger from "./logger";
+import { logger } from "./logger";
 import axios from "axios";
 
 /**
@@ -44,4 +44,4 @@ const getWeb3StorageGatewayUri = (cidOrIpfsUri: string) => {
   return WEB3_STORAGE_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
 };
 
-export default { getFromIPFS };
+export { getFromIPFS };

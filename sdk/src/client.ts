@@ -1,9 +1,9 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { ByteArray, GetContractReturnType, Hex, PublicClient, WalletClient, getContract, parseAbi } from "viem";
-import HypercertEvaluator from "./evaluations";
-import HypercertIndexer from "./indexer";
-import HypercertsStorage from "./storage";
+import { HypercertEvaluator } from "./evaluations";
+import { HypercertIndexer } from "./indexer";
+import { HypercertsStorage } from "./storage";
 import {
   AllowlistEntry,
   ClientError,
@@ -16,7 +16,7 @@ import {
   TransferRestrictions,
 } from "./types";
 import { getConfig } from "./utils/config";
-import logger from "./utils/logger";
+import { logger } from "./utils";
 import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator";
 
 /**
@@ -33,7 +33,7 @@ import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerklePro
  *
  * @param {Partial<HypercertClientConfig>} config - The configuration options for the client.
  */
-export default class HypercertClient implements HypercertClientInterface {
+export class HypercertClient implements HypercertClientInterface {
   readonly _config;
   private _storage: HypercertsStorage;
   // TODO better handling readonly. For now not needed since we don't use this class;

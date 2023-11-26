@@ -1,3 +1,5 @@
+import { describe, it, afterAll } from "vitest";
+
 import { expect } from "chai";
 import sinon from "sinon";
 

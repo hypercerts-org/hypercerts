@@ -1,17 +1,21 @@
-import { expect } from "chai";
+import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
-import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseAbi } from "viem";
+import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseAbi, parseEther } from "viem";
 
-import HypercertClient from "../../src/client";
+import { HypercertClient } from "../../src/client";
 import { HypercertMetadata, formatHypercertData } from "../../src";
 import { MalformedDataError } from "../../src/types/errors";
 import { TransferRestrictions } from "../../src/types/hypercerts";
-import { getRawInputData, publicClient, walletClient } from "../helpers";
+import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
+
+chai.use(assertionsCount);
 
 describe("mintClaim in HypercertClient", () => {
   const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
@@ -35,7 +39,13 @@ describe("mintClaim in HypercertClient", () => {
     result: [],
   });
 
+  beforeAll(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await testClient.setBalance({ address: walletClient.account!.address, value: parseEther("1") });
+  });
+
   beforeEach(async () => {
+    chai.Assertion.resetAssertsCheck();
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
 

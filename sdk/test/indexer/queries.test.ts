@@ -1,37 +1,32 @@
-import { jest } from "@jest/globals";
+import { describe, it, beforeEach, afterEach, afterAll, vi, expect } from "vitest";
 
-import {
-  ClaimByIdQuery,
-  ClaimTokenByIdQuery,
-  ClaimTokensByClaimQuery,
-  ClaimTokensByOwnerQuery,
-  ClaimsByOwnerQuery,
-  RecentClaimsQuery,
-} from "../../.graphclient/index.js";
-import HypercertIndexer from "../../src/indexer.js";
-import { defaultQueryParams } from "../../src/indexer/utils.js";
+import { HypercertIndexer } from "../../src/indexer";
+import { defaultQueryParams } from "../../src/indexer/utils";
 
 describe("HypercertIndexer", () => {
   let indexer: HypercertIndexer;
 
   beforeEach(() => {
-    indexer = new HypercertIndexer({ graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet" });
+    indexer = new HypercertIndexer({
+      graphName: "hypercerts-testnet",
+      graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet",
+    });
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("should call graphClient.ClaimsByOwner with the correct parameters", async () => {
     const owner = "0x1234567890123456789012345678901234567890";
     const params = defaultQueryParams;
-    const mockResponse: ClaimsByOwnerQuery = { claims: [] };
+    const mockResponse = { claims: [] };
 
-    const spy = jest.spyOn(indexer, "claimsByOwner").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "claimsByOwner").mockResolvedValue(mockResponse);
 
     const result = await indexer.claimsByOwner(owner, params);
 
@@ -42,9 +37,9 @@ describe("HypercertIndexer", () => {
 
   it("should call graphClient.ClaimById with the correct parameters", async () => {
     const id = "0x1234567890123456789012345678901234567890123456789012345678901234";
-    const mockResponse: ClaimByIdQuery = { claim: null };
+    const mockResponse = { claim: null };
 
-    const spy = jest.spyOn(indexer, "claimById").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "claimById").mockResolvedValue(mockResponse);
 
     const result = await indexer.claimById(id);
 
@@ -55,9 +50,9 @@ describe("HypercertIndexer", () => {
 
   it("should call graphClient.RecentClaims with the correct parameters", async () => {
     const params = defaultQueryParams;
-    const mockResponse: RecentClaimsQuery = { claims: [] };
+    const mockResponse = { claims: [] };
 
-    const spy = jest.spyOn(indexer, "firstClaims").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "firstClaims").mockResolvedValue(mockResponse);
 
     const result = await indexer.firstClaims(params);
 
@@ -69,9 +64,9 @@ describe("HypercertIndexer", () => {
   it("should call graphClient.ClaimTokensByOwner with the correct parameters", async () => {
     const owner = "0x1234567890123456789012345678901234567890";
     const params = defaultQueryParams;
-    const mockResponse: ClaimTokensByOwnerQuery = { claimTokens: [] };
+    const mockResponse = { claimTokens: [] };
 
-    const spy = jest.spyOn(indexer, "fractionsByOwner").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "fractionsByOwner").mockResolvedValue(mockResponse);
 
     const result = await indexer.fractionsByOwner(owner, params);
 
@@ -83,9 +78,9 @@ describe("HypercertIndexer", () => {
   it("should call graphClient.ClaimTokensByClaim with the correct parameters", async () => {
     const claimId = "0x1234567890123456789012345678901234567890123456789012345678901234";
     const params = defaultQueryParams;
-    const mockResponse: ClaimTokensByClaimQuery = { claimTokens: [] };
+    const mockResponse = { claimTokens: [] };
 
-    const spy = jest.spyOn(indexer, "fractionsByClaim").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "fractionsByClaim").mockResolvedValue(mockResponse);
 
     const result = await indexer.fractionsByClaim(claimId, params);
 
@@ -96,9 +91,9 @@ describe("HypercertIndexer", () => {
 
   it("should call graphClient.ClaimTokenById with the correct parameters", async () => {
     const fractionId = "0x1234567890123456789012345678901234567890123456789012345678901234";
-    const mockResponse: ClaimTokenByIdQuery = { claimToken: null };
+    const mockResponse = { claimToken: null };
 
-    const spy = jest.spyOn(indexer, "fractionById").mockResolvedValue(mockResponse);
+    const spy = vi.spyOn(indexer, "fractionById").mockResolvedValue(mockResponse);
 
     const result = await indexer.fractionById(fractionId);
     expect(spy).toHaveBeenCalledWith(fractionId);
