@@ -1,6 +1,6 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { ByteArray, GetContractReturnType, Hex, PublicClient, WalletClient, getContract, parseAbi } from "viem";
+import { ByteArray, GetContractReturnType, Hex, PublicClient, WalletClient, getContract } from "viem";
 import { HypercertEvaluator } from "./evaluations";
 import { HypercertIndexer } from "./indexer";
 import { HypercertsStorage } from "./storage";
@@ -99,10 +99,10 @@ export class HypercertClient implements HypercertClientInterface {
    * Gets the HypercertMinter contract used by the client.
    * @returns The contract.
    */
-  get contract(): GetContractReturnType {
+  get contract(): GetContractReturnType<typeof HypercertMinterAbi> {
     return getContract({
       address: this._config.contractAddress as `0x${string}`,
-      abi: parseAbi(HypercertMinterAbi),
+      abi: HypercertMinterAbi,
       publicClient: this._publicClient,
       walletClient: this._walletClient,
     });
@@ -296,6 +296,8 @@ export class HypercertClient implements HypercertClientInterface {
       ...this.getCleanedOverrides(overrides),
     });
 
+    console.log(request);
+
     return this.submitRequest(request);
   };
 
@@ -432,7 +434,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     return getContract({
       address: this.config.contractAddress as `0x${string}`,
-      abi: parseAbi(HypercertMinterAbi),
+      abi: HypercertMinterAbi,
     });
   };
 

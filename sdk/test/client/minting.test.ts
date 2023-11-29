@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
 import chai, { expect } from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
-import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseAbi, parseEther } from "viem";
+import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseEther } from "viem";
 
 import { HypercertClient } from "../../src/client";
 import { HypercertMetadata, formatHypercertData } from "../../src";
@@ -34,7 +34,7 @@ describe("mintClaim in HypercertClient", () => {
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const mintClaimResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
+    abi: HypercertMinterAbi,
     functionName: "mintClaim",
     result: [],
   });
