@@ -37,7 +37,7 @@ export type DeploymentProtocol = {
 };
 
 export type DeploymentMarketplace = {
-  HypercertsExchange: `0x${string}`;
+  HypercertExchange: `0x${string}`;
   TransferManager: `0x${string}`;
   OrderValidatorV2A: `0x${string}`;
 };
@@ -49,7 +49,7 @@ export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 const deployments = {
   5: {
     ...DEPLOYMENTS.protocol["5"],
-    HypercertsExchange: DEPLOYMENTS.marketplace[5].HypercertsExchange.address,
+    HypercertExchange: DEPLOYMENTS.marketplace[5].HypercertExchange.address,
     TransferManager: DEPLOYMENTS.marketplace[5].TransferManager.address,
     OrderValidatorV2A: DEPLOYMENTS.marketplace[5].OrderValidator.address,
   },

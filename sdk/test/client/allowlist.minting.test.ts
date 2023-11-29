@@ -8,7 +8,7 @@ import { HypercertClient, HypercertsStorage } from "../../src";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
 import { getAllowlist, getFormattedMetadata, publicClient, walletClient, mockDataSets } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
-import { encodeFunctionResult, isHex, parseAbi, stringToHex } from "viem";
+import { encodeFunctionResult, isHex, stringToHex } from "viem";
 
 chai.use(assertionsCount);
 
@@ -30,19 +30,19 @@ describe("Allows for minting claims from an allowlist", () => {
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const mintClaimFromAllowlistResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
+    abi: HypercertMinterAbi,
     functionName: "mintClaimFromAllowlist",
     result: [],
   });
 
   const batchMintClaimFromAllowlistResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
+    abi: HypercertMinterAbi,
     functionName: "batchMintClaimsFromAllowlists",
     result: [],
   });
 
   const mintClaimResult = encodeFunctionResult({
-    abi: parseAbi(HypercertMinterAbi),
+    abi: HypercertMinterAbi,
     functionName: "createAllowlist",
     result: [],
   });

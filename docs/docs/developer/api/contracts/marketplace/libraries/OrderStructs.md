@@ -1,6 +1,6 @@
 # OrderStructs
 
-_LooksRare protocol team (👀,💎)_
+_LooksRare protocol team (👀,💎); bitbeckers_
 
 > OrderStructs
 
