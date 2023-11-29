@@ -222,6 +222,11 @@ PLASMIC.registerComponent(HypercertFetcher, {
   importPath: "./components/hypercert-metadata-fetcher",
 });
 
+/**
+ * AllowAll: 0,
+ * DisallowAll: 1,
+ * FromCreatorOnly: 2,
+ */
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
   description: "Create a hypercert",
@@ -232,6 +237,14 @@ PLASMIC.registerComponent(HypercertCreateForm, {
         type: "text",
         value: "Placeholder",
       },
+    },
+    transferRestrictions: {
+      type: "number",
+      description: "0: AllowAll, 1: DisallowAll, 2: FromCreatorOnly",
+    },
+    applicationName: {
+      type: "string",
+      defaultValueHint: "hypercerts.org/create",
     },
   },
   providesData: true,
@@ -670,7 +683,7 @@ PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
     disabled: "boolean",
     text: {
       type: "string",
-      defaultValue: "Split",
+      defaultValue: "Merge",
       helpText: "Text to display on button",
     },
   },

@@ -23,7 +23,6 @@ export const useMintClaimAllowlist = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     validateAllowlist: "Validating allowlist",
@@ -85,8 +84,16 @@ export const useMintClaimAllowlist = ({
     allowlistUrl: string,
     allowlistPercentage: number,
     deduplicate: boolean,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("validateAllowlist");
+
+    if (!client) {
+      toast("No client found", {
+        type: "error",
+      });
+      return;
+    }
 
     let _totalSupply;
     let _allowlist: AllowlistEntry[];
@@ -126,9 +133,10 @@ export const useMintClaimAllowlist = ({
         _allowlist,
         metaData,
         _totalSupply,
-        TransferRestrictions.FromCreatorOnly,
+        transferRestrictions,
       );
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,
@@ -165,11 +173,13 @@ export const useMintClaimAllowlist = ({
       allowlistUrl,
       allowlistPercentage,
       deduplicate,
+      transferRestrictions = TransferRestrictions.FromCreatorOnly,
     }: {
       metaData: HypercertMetadata;
       allowlistUrl: string;
       allowlistPercentage: number;
       deduplicate: boolean;
+      transferRestrictions?: TransferRestrictions;
     }) => {
       showModal({ stepDescriptions });
       await initializeWrite(
@@ -177,6 +187,7 @@ export const useMintClaimAllowlist = ({
         allowlistUrl,
         allowlistPercentage,
         deduplicate,
+        transferRestrictions,
       );
     },
     txPending,

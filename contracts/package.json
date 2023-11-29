@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "0.9.0",
+  "version": "1.0.0-alpha.6",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -34,8 +34,12 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@dlsl/hardhat-markup": "^1.0.0-rc.7",
     "@looksrare/contracts-libs": "^3.4.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@openzeppelin/contracts": "<5.0.0",
+    "@nomicfoundation/hardhat-viem": "^1.0.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/defender-sdk": "^1.4.0",
     "@openzeppelin/hardhat-upgrades": "2.3.3",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
@@ -61,6 +65,7 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.0.2",
     "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
@@ -70,7 +75,9 @@
     "solmate": "^6.2.0",
     "ts-node": "^10.9.1",
     "typechain": "^8.3.1",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "viem": "^1.18.9",
+    "xdeployer": "^2.1.13"
   },
   "keywords": [
     "blockchain",
@@ -83,7 +90,7 @@
     "template"
   ],
   "scripts": {
-    "build": "pnpm clean && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
+    "build": "pnpm clean && forge compile && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "pnpm clean && forge build",
     "clean": "rimraf abi artifacts build cache cache_hardhat dist out types",
     "deploy:marketplace:goerli": "forge script scripts/deployment/Deployment.s.sol:Deployment --broadcast --verify --fork-url goerli",
@@ -92,7 +99,7 @@
     "deploy:marketplace:dryrun": "forge script scripts/deployment/Deployment.s.sol:Deployment --fork-url",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
-    "lint:sol": "forge fmt --check && solhint \"./{src,test/protocol,test/marketplace}/**/*.sol\"",
+    "lint:sol": "forge fmt --check && solhint \"./{src,test/foundry/protocol,test/foundry/marketplace}/**/*.sol\"",
     "prepublish": "pnpm build",
     "prettier": "prettier --config \"./.prettierrc.yml\" --write \"**/*.{json,md,ts,yml}\"",
     "prettier:check": "prettier --config \"./.prettierrc.yml\" --check \"**/*.{json,md,ts,yml}\"",

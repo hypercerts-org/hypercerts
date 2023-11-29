@@ -10,7 +10,6 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to mint hypercert",
@@ -25,21 +24,30 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const initializeWrite = async (
     metaData: HypercertMetadata,
     units: number,
+    transferRestrictions: TransferRestrictions,
   ) => {
     setStep("minting");
     try {
       setTxPending(true);
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.mintClaim(
         metaData,
         BigInt(units),
-        TransferRestrictions.FromCreatorOnly,
+        transferRestrictions,
       );
 
-      const receipt = await publicClient?.waitForTransactionReceipt({
-        confirmations: 3,
-        hash: hash,
-      });
+      const receipt =
+        await client.config.publicClient?.waitForTransactionReceipt({
+          confirmations: 3,
+          hash: hash,
+        });
 
       setStep("waiting");
 
@@ -67,10 +75,14 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   };
 
   return {
-    write: async (metaData: HypercertMetadata, units: number) => {
+    write: async (
+      metaData: HypercertMetadata,
+      units: number,
+      transferRestrictions: TransferRestrictions = TransferRestrictions.FromCreatorOnly,
+    ) => {
       showModal({ stepDescriptions });
       setStep("preparing");
-      await initializeWrite(metaData, units);
+      await initializeWrite(metaData, units, transferRestrictions);
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

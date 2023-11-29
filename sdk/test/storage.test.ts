@@ -1,7 +1,9 @@
+import { describe, it, afterAll } from "vitest";
+
 import { expect } from "chai";
 import { HypercertMetadata } from "../src";
 
-import HypercertsStorage from "../src/storage";
+import { HypercertsStorage } from "../src/storage";
 import { StorageError } from "../src/types/errors";
 import { reloadEnv } from "./setup-env";
 

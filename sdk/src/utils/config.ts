@@ -9,19 +9,30 @@ import {
   SupportedChainIds,
   UnsupportedChainError,
 } from "../types";
-import logger from "./logger";
+import { logger } from "./logger";
 import { createPublicClient, http, isAddress } from "viem";
 import { deployments } from "../../src";
 
 /**
- * Returns the configuration for the Hypercert client, based on the given overrides.
- * @param config An object containing overrides for the default configuration.
- * @returns The configuration for the Hypercert client.
- * @throws An `ConfigurationError` if the `environment` in `config` is not a supported environment, or if the chain ID was not found.
- * @dev 5, 10, 42220, 11155111 and "test", "production" are supported environments.
- * Test and production merge the Graphs by environment, while the chain IDs are specific to the chain.
+ * Returns a configuration object for the Hypercert client.
+ *
+ * This function first retrieves the chain configuration, then checks if there are any overrides provided. If the `unsafeForceOverrideConfig` flag is set,
+ * it validates the overrides and uses them to create the base deployment configuration. If the flag is not set, it retrieves the deployment configuration
+ * for the provided chain ID or the default chain ID. It then merges the base deployment configuration with the overrides and the values retrieved from
+ * environment variables to create the final configuration object. If any required properties are missing, it logs a warning.
+ *
+ * Current supported chain IDs are:
+ * - 5: Goerli
+ * - 10: Optimism
+ * - 42220: Celo
+ * - 11155111: Sepolia
+ *
+ * @param {Partial<HypercertClientConfig>} overrides - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
+ * @returns {Partial<HypercertClientConfig>} The final configuration object for the Hypercert client.
+ * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
+ * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
-export const getConfig = (overrides: Partial<HypercertClientConfig>) => {
+export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<HypercertClientConfig> => {
   // Get the chainId, first from overrides, then environment variables, then the constant
   const chain = getChainConfig(overrides);
   if (!chain) {

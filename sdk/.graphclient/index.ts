@@ -53,6 +53,14 @@ export type Query = {
   claims: Array<Claim>;
   claimToken?: Maybe<ClaimToken>;
   claimTokens: Array<ClaimToken>;
+  token?: Maybe<Token>;
+  tokens: Array<Token>;
+  acceptedToken?: Maybe<AcceptedToken>;
+  acceptedTokens: Array<AcceptedToken>;
+  offer?: Maybe<Offer>;
+  offers: Array<Offer>;
+  trade?: Maybe<Trade>;
+  trades: Array<Trade>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -112,6 +120,78 @@ export type QueryclaimTokensArgs = {
 };
 
 
+export type QuerytokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Token_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Token_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryacceptedTokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryacceptedTokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AcceptedToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<AcceptedToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryofferArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryoffersArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Offer_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Offer_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytradeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytradesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Trade_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Trade_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type Query_metaArgs = {
   block?: InputMaybe<Block_height>;
 };
@@ -123,6 +203,14 @@ export type Subscription = {
   claims: Array<Claim>;
   claimToken?: Maybe<ClaimToken>;
   claimTokens: Array<ClaimToken>;
+  token?: Maybe<Token>;
+  tokens: Array<Token>;
+  acceptedToken?: Maybe<AcceptedToken>;
+  acceptedTokens: Array<AcceptedToken>;
+  offer?: Maybe<Offer>;
+  offers: Array<Offer>;
+  trade?: Maybe<Trade>;
+  trades: Array<Trade>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -182,9 +270,158 @@ export type SubscriptionclaimTokensArgs = {
 };
 
 
+export type SubscriptiontokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Token_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Token_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionacceptedTokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionacceptedTokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AcceptedToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<AcceptedToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionofferArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionoffersArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Offer_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Offer_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontradeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontradesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Trade_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Trade_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type Subscription_metaArgs = {
   block?: InputMaybe<Block_height>;
 };
+
+export type AcceptedToken = {
+  id: Scalars['String'];
+  token: Token;
+  minimumAmountPerUnit: Scalars['BigInt'];
+  accepted: Scalars['Boolean'];
+};
+
+export type AcceptedToken_filter = {
+  id?: InputMaybe<Scalars['String']>;
+  id_not?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_starts_with?: InputMaybe<Scalars['String']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_starts_with?: InputMaybe<Scalars['String']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_ends_with?: InputMaybe<Scalars['String']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  token_not?: InputMaybe<Scalars['String']>;
+  token_gt?: InputMaybe<Scalars['String']>;
+  token_lt?: InputMaybe<Scalars['String']>;
+  token_gte?: InputMaybe<Scalars['String']>;
+  token_lte?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<Scalars['String']>>;
+  token_not_in?: InputMaybe<Array<Scalars['String']>>;
+  token_contains?: InputMaybe<Scalars['String']>;
+  token_contains_nocase?: InputMaybe<Scalars['String']>;
+  token_not_contains?: InputMaybe<Scalars['String']>;
+  token_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  token_starts_with?: InputMaybe<Scalars['String']>;
+  token_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  token_not_starts_with?: InputMaybe<Scalars['String']>;
+  token_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  token_ends_with?: InputMaybe<Scalars['String']>;
+  token_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  token_not_ends_with?: InputMaybe<Scalars['String']>;
+  token_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  token_?: InputMaybe<Token_filter>;
+  minimumAmountPerUnit?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_not?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_gt?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_lt?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_gte?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_lte?: InputMaybe<Scalars['BigInt']>;
+  minimumAmountPerUnit_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  minimumAmountPerUnit_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  accepted?: InputMaybe<Scalars['Boolean']>;
+  accepted_not?: InputMaybe<Scalars['Boolean']>;
+  accepted_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  accepted_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<AcceptedToken_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<AcceptedToken_filter>>>;
+};
+
+export type AcceptedToken_orderBy =
+  | 'id'
+  | 'token'
+  | 'token__id'
+  | 'token__name'
+  | 'token__symbol'
+  | 'token__decimals'
+  | 'minimumAmountPerUnit'
+  | 'accepted';
 
 export type Allowlist = {
   id: Scalars['String'];
@@ -282,6 +519,7 @@ export type Claim = {
   creator?: Maybe<Scalars['Bytes']>;
   owner?: Maybe<Scalars['Bytes']>;
   totalUnits?: Maybe<Scalars['BigInt']>;
+  allowlist?: Maybe<Allowlist>;
   graphName: Scalars['String'];
 };
 
@@ -291,7 +529,17 @@ export type ClaimToken = {
   claim: Claim;
   owner: Scalars['Bytes'];
   units: Scalars['BigInt'];
+  offers?: Maybe<Array<Offer>>;
   graphName: Scalars['String'];
+};
+
+
+export type ClaimTokenoffersArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Offer_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Offer_filter>;
 };
 
 export type ClaimToken_filter = {
@@ -362,6 +610,7 @@ export type ClaimToken_filter = {
   units_lte?: InputMaybe<Scalars['BigInt']>;
   units_in?: InputMaybe<Array<Scalars['BigInt']>>;
   units_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  offers_?: InputMaybe<Offer_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<ClaimToken_filter>>>;
@@ -381,7 +630,8 @@ export type ClaimToken_orderBy =
   | 'claim__owner'
   | 'claim__totalUnits'
   | 'owner'
-  | 'units';
+  | 'units'
+  | 'offers';
 
 export type Claim_filter = {
   id?: InputMaybe<Scalars['String']>;
@@ -488,6 +738,27 @@ export type Claim_filter = {
   totalUnits_lte?: InputMaybe<Scalars['BigInt']>;
   totalUnits_in?: InputMaybe<Array<Scalars['BigInt']>>;
   totalUnits_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  allowlist?: InputMaybe<Scalars['String']>;
+  allowlist_not?: InputMaybe<Scalars['String']>;
+  allowlist_gt?: InputMaybe<Scalars['String']>;
+  allowlist_lt?: InputMaybe<Scalars['String']>;
+  allowlist_gte?: InputMaybe<Scalars['String']>;
+  allowlist_lte?: InputMaybe<Scalars['String']>;
+  allowlist_in?: InputMaybe<Array<Scalars['String']>>;
+  allowlist_not_in?: InputMaybe<Array<Scalars['String']>>;
+  allowlist_contains?: InputMaybe<Scalars['String']>;
+  allowlist_contains_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_contains?: InputMaybe<Scalars['String']>;
+  allowlist_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_starts_with?: InputMaybe<Scalars['String']>;
+  allowlist_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_starts_with?: InputMaybe<Scalars['String']>;
+  allowlist_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_ends_with?: InputMaybe<Scalars['String']>;
+  allowlist_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_not_ends_with?: InputMaybe<Scalars['String']>;
+  allowlist_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  allowlist_?: InputMaybe<Allowlist_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<Claim_filter>>>;
@@ -502,12 +773,344 @@ export type Claim_orderBy =
   | 'uri'
   | 'creator'
   | 'owner'
-  | 'totalUnits';
+  | 'totalUnits'
+  | 'allowlist'
+  | 'allowlist__id'
+  | 'allowlist__root';
+
+export type Offer = {
+  id: Scalars['String'];
+  fractionID: ClaimToken;
+  unitsAvailable: Scalars['BigInt'];
+  minUnitsPerTrade: Scalars['BigInt'];
+  maxUnitsPerTrade: Scalars['BigInt'];
+  status: OfferStatus;
+  acceptedTokens: Array<AcceptedToken>;
+};
+
+
+export type OfferacceptedTokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AcceptedToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<AcceptedToken_filter>;
+};
+
+export type OfferStatus =
+  | 'Open'
+  | 'Fulfilled'
+  | 'Cancelled';
+
+export type Offer_filter = {
+  id?: InputMaybe<Scalars['String']>;
+  id_not?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_starts_with?: InputMaybe<Scalars['String']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_starts_with?: InputMaybe<Scalars['String']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_ends_with?: InputMaybe<Scalars['String']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fractionID?: InputMaybe<Scalars['String']>;
+  fractionID_not?: InputMaybe<Scalars['String']>;
+  fractionID_gt?: InputMaybe<Scalars['String']>;
+  fractionID_lt?: InputMaybe<Scalars['String']>;
+  fractionID_gte?: InputMaybe<Scalars['String']>;
+  fractionID_lte?: InputMaybe<Scalars['String']>;
+  fractionID_in?: InputMaybe<Array<Scalars['String']>>;
+  fractionID_not_in?: InputMaybe<Array<Scalars['String']>>;
+  fractionID_contains?: InputMaybe<Scalars['String']>;
+  fractionID_contains_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_not_contains?: InputMaybe<Scalars['String']>;
+  fractionID_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_starts_with?: InputMaybe<Scalars['String']>;
+  fractionID_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_not_starts_with?: InputMaybe<Scalars['String']>;
+  fractionID_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_ends_with?: InputMaybe<Scalars['String']>;
+  fractionID_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_not_ends_with?: InputMaybe<Scalars['String']>;
+  fractionID_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fractionID_?: InputMaybe<ClaimToken_filter>;
+  unitsAvailable?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_not?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_gt?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_lt?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_gte?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_lte?: InputMaybe<Scalars['BigInt']>;
+  unitsAvailable_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  unitsAvailable_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  minUnitsPerTrade?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_not?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_gt?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_lt?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_gte?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_lte?: InputMaybe<Scalars['BigInt']>;
+  minUnitsPerTrade_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  minUnitsPerTrade_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  maxUnitsPerTrade?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_not?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_gt?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_lt?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_gte?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_lte?: InputMaybe<Scalars['BigInt']>;
+  maxUnitsPerTrade_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  maxUnitsPerTrade_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  status?: InputMaybe<OfferStatus>;
+  status_not?: InputMaybe<OfferStatus>;
+  status_in?: InputMaybe<Array<OfferStatus>>;
+  status_not_in?: InputMaybe<Array<OfferStatus>>;
+  acceptedTokens?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_not?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_contains?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_not_contains?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_not_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
+  acceptedTokens_?: InputMaybe<AcceptedToken_filter>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Offer_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Offer_filter>>>;
+};
+
+export type Offer_orderBy =
+  | 'id'
+  | 'fractionID'
+  | 'fractionID__id'
+  | 'fractionID__tokenID'
+  | 'fractionID__owner'
+  | 'fractionID__units'
+  | 'unitsAvailable'
+  | 'minUnitsPerTrade'
+  | 'maxUnitsPerTrade'
+  | 'status'
+  | 'acceptedTokens';
 
 /** Defines the order direction, either ascending or descending */
 export type OrderDirection =
   | 'asc'
   | 'desc';
+
+export type Token = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  symbol?: Maybe<Scalars['String']>;
+  decimals?: Maybe<Scalars['BigInt']>;
+};
+
+export type Token_filter = {
+  id?: InputMaybe<Scalars['String']>;
+  id_not?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_starts_with?: InputMaybe<Scalars['String']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_starts_with?: InputMaybe<Scalars['String']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_ends_with?: InputMaybe<Scalars['String']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_not?: InputMaybe<Scalars['String']>;
+  name_gt?: InputMaybe<Scalars['String']>;
+  name_lt?: InputMaybe<Scalars['String']>;
+  name_gte?: InputMaybe<Scalars['String']>;
+  name_lte?: InputMaybe<Scalars['String']>;
+  name_in?: InputMaybe<Array<Scalars['String']>>;
+  name_not_in?: InputMaybe<Array<Scalars['String']>>;
+  name_contains?: InputMaybe<Scalars['String']>;
+  name_contains_nocase?: InputMaybe<Scalars['String']>;
+  name_not_contains?: InputMaybe<Scalars['String']>;
+  name_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  name_starts_with?: InputMaybe<Scalars['String']>;
+  name_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  name_not_starts_with?: InputMaybe<Scalars['String']>;
+  name_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  name_ends_with?: InputMaybe<Scalars['String']>;
+  name_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  name_not_ends_with?: InputMaybe<Scalars['String']>;
+  name_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  symbol?: InputMaybe<Scalars['String']>;
+  symbol_not?: InputMaybe<Scalars['String']>;
+  symbol_gt?: InputMaybe<Scalars['String']>;
+  symbol_lt?: InputMaybe<Scalars['String']>;
+  symbol_gte?: InputMaybe<Scalars['String']>;
+  symbol_lte?: InputMaybe<Scalars['String']>;
+  symbol_in?: InputMaybe<Array<Scalars['String']>>;
+  symbol_not_in?: InputMaybe<Array<Scalars['String']>>;
+  symbol_contains?: InputMaybe<Scalars['String']>;
+  symbol_contains_nocase?: InputMaybe<Scalars['String']>;
+  symbol_not_contains?: InputMaybe<Scalars['String']>;
+  symbol_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  symbol_starts_with?: InputMaybe<Scalars['String']>;
+  symbol_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  symbol_not_starts_with?: InputMaybe<Scalars['String']>;
+  symbol_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  symbol_ends_with?: InputMaybe<Scalars['String']>;
+  symbol_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  symbol_not_ends_with?: InputMaybe<Scalars['String']>;
+  symbol_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  decimals?: InputMaybe<Scalars['BigInt']>;
+  decimals_not?: InputMaybe<Scalars['BigInt']>;
+  decimals_gt?: InputMaybe<Scalars['BigInt']>;
+  decimals_lt?: InputMaybe<Scalars['BigInt']>;
+  decimals_gte?: InputMaybe<Scalars['BigInt']>;
+  decimals_lte?: InputMaybe<Scalars['BigInt']>;
+  decimals_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  decimals_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Token_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Token_filter>>>;
+};
+
+export type Token_orderBy =
+  | 'id'
+  | 'name'
+  | 'symbol'
+  | 'decimals';
+
+export type Trade = {
+  id: Scalars['String'];
+  buyer: Scalars['Bytes'];
+  offerID: Offer;
+  unitsSold: Scalars['BigInt'];
+  token: Token;
+  amountPerUnit: Scalars['BigInt'];
+};
+
+export type Trade_filter = {
+  id?: InputMaybe<Scalars['String']>;
+  id_not?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  id_starts_with?: InputMaybe<Scalars['String']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_starts_with?: InputMaybe<Scalars['String']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  id_ends_with?: InputMaybe<Scalars['String']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  buyer?: InputMaybe<Scalars['Bytes']>;
+  buyer_not?: InputMaybe<Scalars['Bytes']>;
+  buyer_gt?: InputMaybe<Scalars['Bytes']>;
+  buyer_lt?: InputMaybe<Scalars['Bytes']>;
+  buyer_gte?: InputMaybe<Scalars['Bytes']>;
+  buyer_lte?: InputMaybe<Scalars['Bytes']>;
+  buyer_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  buyer_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  buyer_contains?: InputMaybe<Scalars['Bytes']>;
+  buyer_not_contains?: InputMaybe<Scalars['Bytes']>;
+  offerID?: InputMaybe<Scalars['String']>;
+  offerID_not?: InputMaybe<Scalars['String']>;
+  offerID_gt?: InputMaybe<Scalars['String']>;
+  offerID_lt?: InputMaybe<Scalars['String']>;
+  offerID_gte?: InputMaybe<Scalars['String']>;
+  offerID_lte?: InputMaybe<Scalars['String']>;
+  offerID_in?: InputMaybe<Array<Scalars['String']>>;
+  offerID_not_in?: InputMaybe<Array<Scalars['String']>>;
+  offerID_contains?: InputMaybe<Scalars['String']>;
+  offerID_contains_nocase?: InputMaybe<Scalars['String']>;
+  offerID_not_contains?: InputMaybe<Scalars['String']>;
+  offerID_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  offerID_starts_with?: InputMaybe<Scalars['String']>;
+  offerID_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  offerID_not_starts_with?: InputMaybe<Scalars['String']>;
+  offerID_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  offerID_ends_with?: InputMaybe<Scalars['String']>;
+  offerID_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  offerID_not_ends_with?: InputMaybe<Scalars['String']>;
+  offerID_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  offerID_?: InputMaybe<Offer_filter>;
+  unitsSold?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_not?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_gt?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_lt?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_gte?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_lte?: InputMaybe<Scalars['BigInt']>;
+  unitsSold_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  unitsSold_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  token?: InputMaybe<Scalars['String']>;
+  token_not?: InputMaybe<Scalars['String']>;
+  token_gt?: InputMaybe<Scalars['String']>;
+  token_lt?: InputMaybe<Scalars['String']>;
+  token_gte?: InputMaybe<Scalars['String']>;
+  token_lte?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<Scalars['String']>>;
+  token_not_in?: InputMaybe<Array<Scalars['String']>>;
+  token_contains?: InputMaybe<Scalars['String']>;
+  token_contains_nocase?: InputMaybe<Scalars['String']>;
+  token_not_contains?: InputMaybe<Scalars['String']>;
+  token_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  token_starts_with?: InputMaybe<Scalars['String']>;
+  token_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  token_not_starts_with?: InputMaybe<Scalars['String']>;
+  token_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  token_ends_with?: InputMaybe<Scalars['String']>;
+  token_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  token_not_ends_with?: InputMaybe<Scalars['String']>;
+  token_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  token_?: InputMaybe<Token_filter>;
+  amountPerUnit?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_not?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_gt?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_lt?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_gte?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_lte?: InputMaybe<Scalars['BigInt']>;
+  amountPerUnit_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amountPerUnit_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Trade_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Trade_filter>>>;
+};
+
+export type Trade_orderBy =
+  | 'id'
+  | 'buyer'
+  | 'offerID'
+  | 'offerID__id'
+  | 'offerID__unitsAvailable'
+  | 'offerID__minUnitsPerTrade'
+  | 'offerID__maxUnitsPerTrade'
+  | 'offerID__status'
+  | 'unitsSold'
+  | 'token'
+  | 'token__id'
+  | 'token__name'
+  | 'token__symbol'
+  | 'token__decimals'
+  | 'amountPerUnit';
 
 export type _Block_ = {
   /** The hash of the block */
@@ -628,6 +1231,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   Subscription: ResolverTypeWrapper<{}>;
+  AcceptedToken: ResolverTypeWrapper<AcceptedToken>;
+  AcceptedToken_filter: AcceptedToken_filter;
+  AcceptedToken_orderBy: AcceptedToken_orderBy;
   Allowlist: ResolverTypeWrapper<Allowlist>;
   Allowlist_filter: Allowlist_filter;
   Allowlist_orderBy: Allowlist_orderBy;
@@ -647,8 +1253,18 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Int8: ResolverTypeWrapper<Scalars['Int8']>;
+  Offer: ResolverTypeWrapper<Offer>;
+  OfferStatus: OfferStatus;
+  Offer_filter: Offer_filter;
+  Offer_orderBy: Offer_orderBy;
   OrderDirection: OrderDirection;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Token: ResolverTypeWrapper<Token>;
+  Token_filter: Token_filter;
+  Token_orderBy: Token_orderBy;
+  Trade: ResolverTypeWrapper<Trade>;
+  Trade_filter: Trade_filter;
+  Trade_orderBy: Trade_orderBy;
   _Block_: ResolverTypeWrapper<_Block_>;
   _Meta_: ResolverTypeWrapper<_Meta_>;
   _SubgraphErrorPolicy_: _SubgraphErrorPolicy_;
@@ -658,6 +1274,8 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
   Subscription: {};
+  AcceptedToken: AcceptedToken;
+  AcceptedToken_filter: AcceptedToken_filter;
   Allowlist: Allowlist;
   Allowlist_filter: Allowlist_filter;
   BigDecimal: Scalars['BigDecimal'];
@@ -674,48 +1292,78 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Int8: Scalars['Int8'];
+  Offer: Offer;
+  Offer_filter: Offer_filter;
   String: Scalars['String'];
+  Token: Token;
+  Token_filter: Token_filter;
+  Trade: Trade;
+  Trade_filter: Trade_filter;
   _Block_: _Block_;
   _Meta_: _Meta_;
 }>;
 
 export type entityDirectiveArgs = { };
 
-export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type entityDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = entityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type subgraphIdDirectiveArgs = {
   id: Scalars['String'];
 };
 
-export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type subgraphIdDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = subgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type derivedFromDirectiveArgs = {
   field: Scalars['String'];
 };
 
-export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphUrl: string, graphName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext & { graphName: string }, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type QueryResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   allowlist?: Resolver<Maybe<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: Resolver<Array<ResolversTypes['Allowlist']>, ParentType, ContextType, RequireFields<QueryallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: Resolver<Maybe<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<QueryclaimArgs, 'id' | 'subgraphError'>>;
   claims?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<QueryclaimsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claimToken?: Resolver<Maybe<ResolversTypes['ClaimToken']>, ParentType, ContextType, RequireFields<QueryclaimTokenArgs, 'id' | 'subgraphError'>>;
   claimTokens?: Resolver<Array<ResolversTypes['ClaimToken']>, ParentType, ContextType, RequireFields<QueryclaimTokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  token?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<QuerytokenArgs, 'id' | 'subgraphError'>>;
+  tokens?: Resolver<Array<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<QuerytokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  acceptedToken?: Resolver<Maybe<ResolversTypes['AcceptedToken']>, ParentType, ContextType, RequireFields<QueryacceptedTokenArgs, 'id' | 'subgraphError'>>;
+  acceptedTokens?: Resolver<Array<ResolversTypes['AcceptedToken']>, ParentType, ContextType, RequireFields<QueryacceptedTokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  offer?: Resolver<Maybe<ResolversTypes['Offer']>, ParentType, ContextType, RequireFields<QueryofferArgs, 'id' | 'subgraphError'>>;
+  offers?: Resolver<Array<ResolversTypes['Offer']>, ParentType, ContextType, RequireFields<QueryoffersArgs, 'skip' | 'first' | 'subgraphError'>>;
+  trade?: Resolver<Maybe<ResolversTypes['Trade']>, ParentType, ContextType, RequireFields<QuerytradeArgs, 'id' | 'subgraphError'>>;
+  trades?: Resolver<Array<ResolversTypes['Trade']>, ParentType, ContextType, RequireFields<QuerytradesArgs, 'skip' | 'first' | 'subgraphError'>>;
   _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
 }>;
 
-export type SubscriptionResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+export type SubscriptionResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   allowlist?: SubscriptionResolver<Maybe<ResolversTypes['Allowlist']>, "allowlist", ParentType, ContextType, RequireFields<SubscriptionallowlistArgs, 'id' | 'subgraphError'>>;
   allowlists?: SubscriptionResolver<Array<ResolversTypes['Allowlist']>, "allowlists", ParentType, ContextType, RequireFields<SubscriptionallowlistsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claim?: SubscriptionResolver<Maybe<ResolversTypes['Claim']>, "claim", ParentType, ContextType, RequireFields<SubscriptionclaimArgs, 'id' | 'subgraphError'>>;
   claims?: SubscriptionResolver<Array<ResolversTypes['Claim']>, "claims", ParentType, ContextType, RequireFields<SubscriptionclaimsArgs, 'skip' | 'first' | 'subgraphError'>>;
   claimToken?: SubscriptionResolver<Maybe<ResolversTypes['ClaimToken']>, "claimToken", ParentType, ContextType, RequireFields<SubscriptionclaimTokenArgs, 'id' | 'subgraphError'>>;
   claimTokens?: SubscriptionResolver<Array<ResolversTypes['ClaimToken']>, "claimTokens", ParentType, ContextType, RequireFields<SubscriptionclaimTokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  token?: SubscriptionResolver<Maybe<ResolversTypes['Token']>, "token", ParentType, ContextType, RequireFields<SubscriptiontokenArgs, 'id' | 'subgraphError'>>;
+  tokens?: SubscriptionResolver<Array<ResolversTypes['Token']>, "tokens", ParentType, ContextType, RequireFields<SubscriptiontokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  acceptedToken?: SubscriptionResolver<Maybe<ResolversTypes['AcceptedToken']>, "acceptedToken", ParentType, ContextType, RequireFields<SubscriptionacceptedTokenArgs, 'id' | 'subgraphError'>>;
+  acceptedTokens?: SubscriptionResolver<Array<ResolversTypes['AcceptedToken']>, "acceptedTokens", ParentType, ContextType, RequireFields<SubscriptionacceptedTokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  offer?: SubscriptionResolver<Maybe<ResolversTypes['Offer']>, "offer", ParentType, ContextType, RequireFields<SubscriptionofferArgs, 'id' | 'subgraphError'>>;
+  offers?: SubscriptionResolver<Array<ResolversTypes['Offer']>, "offers", ParentType, ContextType, RequireFields<SubscriptionoffersArgs, 'skip' | 'first' | 'subgraphError'>>;
+  trade?: SubscriptionResolver<Maybe<ResolversTypes['Trade']>, "trade", ParentType, ContextType, RequireFields<SubscriptiontradeArgs, 'id' | 'subgraphError'>>;
+  trades?: SubscriptionResolver<Array<ResolversTypes['Trade']>, "trades", ParentType, ContextType, RequireFields<SubscriptiontradesArgs, 'skip' | 'first' | 'subgraphError'>>;
   _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
 }>;
 
-export type AllowlistResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
+export type AcceptedTokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['AcceptedToken'] = ResolversParentTypes['AcceptedToken']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
+  minimumAmountPerUnit?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  accepted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type AllowlistResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Allowlist'] = ResolversParentTypes['Allowlist']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   root?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
@@ -734,7 +1382,7 @@ export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversType
   name: 'Bytes';
 }
 
-export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
+export type ClaimResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Claim'] = ResolversParentTypes['Claim']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   creation?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -743,16 +1391,18 @@ export type ClaimResolvers<ContextType = MeshContext & { graphUrl: string, graph
   creator?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   totalUnits?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  allowlist?: Resolver<Maybe<ResolversTypes['Allowlist']>, ParentType, ContextType>;
   graphName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ClaimTokenResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
+export type ClaimTokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['ClaimToken'] = ResolversParentTypes['ClaimToken']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   claim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   units?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  offers?: Resolver<Maybe<Array<ResolversTypes['Offer']>>, ParentType, ContextType, RequireFields<ClaimTokenoffersArgs, 'skip' | 'first'>>;
   graphName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -761,23 +1411,53 @@ export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Int8';
 }
 
-export type _Block_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
+export type OfferResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Offer'] = ResolversParentTypes['Offer']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fractionID?: Resolver<ResolversTypes['ClaimToken'], ParentType, ContextType>;
+  unitsAvailable?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  minUnitsPerTrade?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  maxUnitsPerTrade?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['OfferStatus'], ParentType, ContextType>;
+  acceptedTokens?: Resolver<Array<ResolversTypes['AcceptedToken']>, ParentType, ContextType, RequireFields<OfferacceptedTokensArgs, 'skip' | 'first'>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TokenResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  symbol?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  decimals?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TradeResolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['Trade'] = ResolversParentTypes['Trade']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  buyer?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
+  offerID?: Resolver<ResolversTypes['Offer'], ParentType, ContextType>;
+  unitsSold?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
+  amountPerUnit?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type _Block_Resolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type _Meta_Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
+export type _Meta_Resolvers<ContextType = MeshContext & { graphName: string }, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
+export type Resolvers<ContextType = MeshContext & { graphName: string }> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  AcceptedToken?: AcceptedTokenResolvers<ContextType>;
   Allowlist?: AllowlistResolvers<ContextType>;
   BigDecimal?: GraphQLScalarType;
   BigInt?: GraphQLScalarType;
@@ -785,11 +1465,14 @@ export type Resolvers<ContextType = MeshContext & { graphUrl: string, graphName:
   Claim?: ClaimResolvers<ContextType>;
   ClaimToken?: ClaimTokenResolvers<ContextType>;
   Int8?: GraphQLScalarType;
+  Offer?: OfferResolvers<ContextType>;
+  Token?: TokenResolvers<ContextType>;
+  Trade?: TradeResolvers<ContextType>;
   _Block_?: _Block_Resolvers<ContextType>;
   _Meta_?: _Meta_Resolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = MeshContext & { graphUrl: string, graphName: string }> = ResolversObject<{
+export type DirectiveResolvers<ContextType = MeshContext & { graphName: string }> = ResolversObject<{
   entity?: entityDirectiveResolver<any, any, ContextType>;
   subgraphId?: subgraphIdDirectiveResolver<any, any, ContextType>;
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
@@ -839,7 +1522,7 @@ const additionalEnvelopPlugins: MeshPlugin<any>[] = [];
 const hypercertsTransforms = [];
 const hypercertsHandler = new GraphqlHandler({
               name: "Hypercerts",
-              config: {"endpoint":"{context.graphUrl:https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet}"},
+              config: {"endpoint":"https://api.thegraph.com/subgraphs/name/hypercerts-admin/{context.graphName:hypercerts-testnet}"},
               baseDir,
               cache,
               pubsub,

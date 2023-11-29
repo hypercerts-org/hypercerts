@@ -13,7 +13,6 @@ export const useMergeFractionUnits = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const publicClient = client.config.publicClient;
 
   const stepDescriptions = {
     preparing: "Preparing to merge fraction values",
@@ -30,8 +29,16 @@ export const useMergeFractionUnits = ({
     try {
       setTxPending(true);
 
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
       const hash = await client.mergeFractionUnits(ids);
 
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,
@@ -45,7 +52,7 @@ export const useMergeFractionUnits = ({
         console.error(receipt);
       }
       if (receipt?.status === "success") {
-        toast(mintInteractionLabels.toastSuccess, { type: "success" });
+        toast("Fractions successfully merged", { type: "success" });
 
         setStep("complete");
         onComplete?.();
@@ -66,6 +73,7 @@ export const useMergeFractionUnits = ({
       showModal({ stepDescriptions });
       setStep("preparing");
       await initializeWrite(ids);
+      window.location.reload();
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

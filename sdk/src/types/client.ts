@@ -3,11 +3,12 @@ import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
 // @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertIndexer from "../indexer";
+import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
 import { HypercertMetadata } from "./metadata";
 
-import { ByteArray, Chain, Hex, PublicClient, WalletClient, Abi } from "viem";
+import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
 export type SupportedOverrides = {
@@ -120,7 +121,7 @@ export interface HypercertClientState {
   storage: HypercertStorageInterface;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
-  contract: { abi: Abi; address?: `0x${string}` };
+  contract: GetContractReturnType<typeof HypercertMinterAbi>;
 }
 
 /**

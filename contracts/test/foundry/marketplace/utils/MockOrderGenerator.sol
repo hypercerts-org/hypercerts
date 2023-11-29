@@ -20,8 +20,16 @@ contract MockOrderGenerator is ProtocolHelpers {
         view
         returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
     {
-        CollectionType collectionType = _getCollectionType(collection);
+        return _createMockMakerAskAndTakerBid(collection, false);
+    }
 
+    function _createMockMakerAskAndTakerBid(address collection, bool hypercerts)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
+    {
+        CollectionType collectionType = hypercerts ? CollectionType.Hypercert : _getCollectionType(collection);
+        uint256 itemId = hypercerts ? ((1 << 128) + 1) : 420;
         newMakerAsk = _createSingleItemMakerOrder({
             quoteType: QuoteType.Ask,
             globalNonce: 0,
@@ -33,7 +41,7 @@ contract MockOrderGenerator is ProtocolHelpers {
             currency: ETH,
             signer: makerUser,
             price: 1 ether,
-            itemId: 420
+            itemId: itemId
         });
 
         newTakerBid = OrderStructs.Taker(takerUser, abi.encode());
@@ -44,7 +52,15 @@ contract MockOrderGenerator is ProtocolHelpers {
         view
         returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
     {
-        CollectionType collectionType = _getCollectionType(collection);
+        return _createMockMakerBidAndTakerAsk(collection, currency, false);
+    }
+
+    function _createMockMakerBidAndTakerAsk(address collection, address currency, bool hypercerts)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
+    {
+        CollectionType collectionType = hypercerts ? CollectionType.Hypercert : _getCollectionType(collection);
 
         newMakerBid = _createSingleItemMakerOrder({
             quoteType: QuoteType.Bid,
@@ -57,7 +73,7 @@ contract MockOrderGenerator is ProtocolHelpers {
             currency: currency,
             signer: makerUser,
             price: 1 ether,
-            itemId: 420
+            itemId: hypercerts ? (1 << 128) + 1 : 420
         });
 
         newTakerAsk = OrderStructs.Taker(takerUser, abi.encode());
@@ -68,7 +84,15 @@ contract MockOrderGenerator is ProtocolHelpers {
         view
         returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
     {
-        CollectionType collectionType = _getCollectionType(collection);
+        return _createMockMakerAskAndTakerBidWithBundle(collection, numberTokens, false);
+    }
+
+    function _createMockMakerAskAndTakerBidWithBundle(address collection, uint256 numberTokens, bool hypercerts)
+        internal
+        view
+        returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
+    {
+        CollectionType collectionType = hypercerts ? CollectionType.Hypercert : _getCollectionType(collection);
 
         (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(collectionType, numberTokens);
 
@@ -95,7 +119,16 @@ contract MockOrderGenerator is ProtocolHelpers {
         view
         returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk)
     {
-        CollectionType collectionType = _getCollectionType(collection);
+        return _createMockMakerBidAndTakerAskWithBundle(collection, currency, numberTokens, false);
+    }
+
+    function _createMockMakerBidAndTakerAskWithBundle(
+        address collection,
+        address currency,
+        uint256 numberTokens,
+        bool hypercerts
+    ) internal view returns (OrderStructs.Maker memory newMakerBid, OrderStructs.Taker memory newTakerAsk) {
+        CollectionType collectionType = hypercerts ? CollectionType.Hypercert : _getCollectionType(collection);
 
         (uint256[] memory itemIds, uint256[] memory amounts) = _setBundleItemIdsAndAmounts(collectionType, numberTokens);
 
@@ -137,6 +170,9 @@ contract MockOrderGenerator is ProtocolHelpers {
         for (uint256 i; i < itemIds.length; i++) {
             itemIds[i] = i;
             if (collectionType != CollectionType.ERC1155) {
+                amounts[i] = 1;
+            } else if (collectionType == CollectionType.Hypercert) {
+                itemIds[i] = (1 << 128) + 1 + i;
                 amounts[i] = 1;
             } else {
                 amounts[i] = 1 + i;

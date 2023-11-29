@@ -82,9 +82,8 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
     }
 
     function testTakerBidIsInvalidSignatureReentrancy() public {
-        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet = new MaliciousIsValidSignatureERC1271Wallet(
-            address(looksRareProtocol)
-        );
+        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet =
+            new MaliciousIsValidSignatureERC1271Wallet(address(looksRareProtocol));
         _setUpUser(address(maliciousERC1271Wallet));
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteTakerBid);
 
@@ -135,9 +134,8 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
     }
 
     function testTakerAskIsValidSignatureReentrancy() public {
-        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet = new MaliciousIsValidSignatureERC1271Wallet(
-            address(looksRareProtocol)
-        );
+        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet =
+            new MaliciousIsValidSignatureERC1271Wallet(address(looksRareProtocol));
         _setUpUser(address(maliciousERC1271Wallet));
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteTakerAsk);
 
@@ -150,9 +148,8 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
     }
 
     function testTakerAskOnERC1155ReceivedReentrancy() public {
-        MaliciousOnERC1155ReceivedERC1271Wallet maliciousERC1271Wallet = new MaliciousOnERC1155ReceivedERC1271Wallet(
-            address(looksRareProtocol)
-        );
+        MaliciousOnERC1155ReceivedERC1271Wallet maliciousERC1271Wallet =
+            new MaliciousOnERC1155ReceivedERC1271Wallet(address(looksRareProtocol));
         _setUpUser(address(maliciousERC1271Wallet));
 
         (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid) =
@@ -185,9 +182,8 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
     }
 
     function testBatchTakerAskOnERC1155BatchReceivedReentrancy() public {
-        MaliciousOnERC1155ReceivedERC1271Wallet maliciousERC1271Wallet = new MaliciousOnERC1155ReceivedERC1271Wallet(
-            address(looksRareProtocol)
-        );
+        MaliciousOnERC1155ReceivedERC1271Wallet maliciousERC1271Wallet =
+            new MaliciousOnERC1155ReceivedERC1271Wallet(address(looksRareProtocol));
         _setUpUser(address(maliciousERC1271Wallet));
 
         (OrderStructs.Taker memory takerAsk, OrderStructs.Maker memory makerBid) =
@@ -262,9 +258,8 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
     }
 
     function testExecuteMultipleTakerBidsIsValidSignatureReentrancy() public {
-        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet = new MaliciousIsValidSignatureERC1271Wallet(
-            address(looksRareProtocol)
-        );
+        MaliciousIsValidSignatureERC1271Wallet maliciousERC1271Wallet =
+            new MaliciousIsValidSignatureERC1271Wallet(address(looksRareProtocol));
         _setUpUser(address(maliciousERC1271Wallet));
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteMultipleTakerBids);
 
@@ -288,9 +283,7 @@ contract SignaturesERC1271WalletForERC1155Test is ProtocolBase {
 
     function testExecuteMultipleTakerBidsOnERC1155ReceivedReentrancyOnlyInTheLastCall() public {
         MaliciousOnERC1155ReceivedTheThirdTimeERC1271Wallet maliciousERC1271Wallet =
-        new MaliciousOnERC1155ReceivedTheThirdTimeERC1271Wallet(
-                takerUser
-            );
+            new MaliciousOnERC1155ReceivedTheThirdTimeERC1271Wallet(takerUser);
         _setUpUser(makerUser);
         maliciousERC1271Wallet.setFunctionToReenter(MaliciousERC1271Wallet.FunctionToReenter.ExecuteMultipleTakerBids);
 

@@ -72,3 +72,20 @@ export const formatAddress = (address: string) =>
  */
 export const cidToIpfsUri = (cid: string) =>
   cid.startsWith("ipfs://") ? cid : `ipfs://${cid}`;
+
+const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
+  const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
+  const cid = cidOrIpfsUri.replace("ipfs://", "");
+  return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
+};
+
+export const formatExternalUrl = (externalUrl?: string) => {
+  if (!externalUrl) {
+    return "";
+  }
+  if (!externalUrl.startsWith("ipfs://")) {
+    return externalUrl;
+  }
+
+  return getIpfsGatewayUri(externalUrl);
+};

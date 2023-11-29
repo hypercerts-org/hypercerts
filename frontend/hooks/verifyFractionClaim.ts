@@ -8,18 +8,19 @@ export type ClaimProof = {
 };
 
 export const useVerifyFractionClaim = () => {
-  const {
-    client: { indexer, storage },
-  } = useHypercertClient();
+  const { client } = useHypercertClient();
 
   const verifyFractionClaim = async (claimId: string, address: string) => {
-    const claimByIdRes = await indexer.claimById(claimId);
+    if (!client) {
+      throw new Error("No client found");
+    }
+    const claimByIdRes = await client.indexer.claimById(claimId);
     if (!claimByIdRes?.claim) {
       throw new Error("No claim found for ${claimID}");
     }
 
     const { uri, tokenID: _id } = claimByIdRes.claim;
-    const metadata = await storage.getMetadata(uri || "");
+    const metadata = await client.storage.getMetadata(uri || "");
 
     if (!metadata?.allowList) {
       throw new Error(`No allowlist found for ${claimId}`);
@@ -27,7 +28,7 @@ export const useVerifyFractionClaim = () => {
 
     // TODO: this should be retrieved with `getData`, but it fails on res.files()
     // Need to investigate further
-    const treeResponse = await storage.getData(metadata.allowList);
+    const treeResponse = await client.storage.getData(metadata.allowList);
 
     if (!treeResponse) {
       throw new Error("Could not fetch json tree dump for allowlist");

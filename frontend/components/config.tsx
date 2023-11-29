@@ -20,12 +20,9 @@ export interface ConfigProps {
 export function Config(props: ConfigProps) {
   const { className, children } = props;
   const { client: hypercertClient } = useHypercertClient();
-  const chainId = hypercertClient.config.chain?.id
+  const chainId = hypercertClient?.config.chain?.id
     ? Number(hypercertClient.config.chain.id)
     : undefined;
-
-  console.log(chainId);
-  console.log("Config: ", hypercertClient.config);
 
   const data: ConfigData = {
     domain: DOMAIN,

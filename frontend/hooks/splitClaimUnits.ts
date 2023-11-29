@@ -15,8 +15,7 @@ export const useSplitFractionUnits = ({
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
-    preparing: "Preparing to merge fraction values",
-    merging: "Splitting fraction units on-chain",
+    splitting: "Splitting fraction units on-chain",
     waiting: "Awaiting confirmation",
     complete: "Done splitting",
   };
@@ -24,21 +23,26 @@ export const useSplitFractionUnits = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const publicClient = client.config.publicClient;
-
-  const initializeWrite = async (id: bigint, fractions: bigint[]) => {
+  const initializeWrite = async (fractionId: bigint, fractions: bigint[]) => {
+    if (!client) {
+      toast("No client found", {
+        type: "error",
+      });
+      return;
+    }
+    showModal({ stepDescriptions });
     setStep("splitting");
     try {
       setTxPending(true);
 
-      const hash = await client.splitFractionUnits(id, fractions);
+      const hash = await client.splitFractionUnits(fractionId, fractions);
 
+      setStep("waiting");
+      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash: hash,
       });
-
-      setStep("waiting");
 
       if (receipt?.status === "reverted") {
         toast("Splitting failed", {
@@ -65,9 +69,8 @@ export const useSplitFractionUnits = ({
 
   return {
     write: async (id: bigint, fractions: bigint[]) => {
-      showModal({ stepDescriptions });
-      setStep("preparing");
       await initializeWrite(id, fractions);
+      window.location.reload();
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

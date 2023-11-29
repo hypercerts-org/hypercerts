@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 // Libraries, interfaces, errors
 import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
@@ -25,9 +25,8 @@ contract StandardTransactionsTest is ProtocolBase {
 
     function setUp() public {
         _setUp();
-        CreatorFeeManagerWithRoyalties creatorFeeManager = new CreatorFeeManagerWithRoyalties(
-            address(royaltyFeeRegistry)
-        );
+        CreatorFeeManagerWithRoyalties creatorFeeManager =
+            new CreatorFeeManagerWithRoyalties(address(royaltyFeeRegistry));
         vm.prank(_owner);
         looksRareProtocol.updateCreatorFeeManager(address(creatorFeeManager));
     }

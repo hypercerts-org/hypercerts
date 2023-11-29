@@ -207,6 +207,26 @@ _Each operator address must be approved at the user level to be revoked._
 | --------- | --------- | --------------------------- |
 | operators | address[] | Array of operator addresses |
 
+### splitItemsHypercert
+
+```solidity
+function splitItemsHypercert(address collection, address from, address to, uint256[] itemIds, uint256[] amounts) external nonpayable
+```
+
+This function transfers items for a single Hypercert.
+
+_It does not allow batch transferring if from = msg.sender since native function should be used._
+
+#### Parameters
+
+| Name       | Type      | Description        |
+| ---------- | --------- | ------------------ |
+| collection | address   | Collection address |
+| from       | address   | Sender address     |
+| to         | address   | Recipient address  |
+| itemIds    | uint256[] | Array of itemIds   |
+| amounts    | uint256[] | Array of amounts   |
+
 ### transferBatchItemsAcrossCollections
 
 ```solidity
@@ -248,26 +268,6 @@ function transferItemsERC721(address collection, address from, address to, uint2
 ```
 
 This function transfers items for a single ERC721 collection.
-
-#### Parameters
-
-| Name       | Type      | Description        |
-| ---------- | --------- | ------------------ |
-| collection | address   | Collection address |
-| from       | address   | Sender address     |
-| to         | address   | Recipient address  |
-| itemIds    | uint256[] | Array of itemIds   |
-| amounts    | uint256[] | Array of amounts   |
-
-### transferItemsHyperboard
-
-```solidity
-function transferItemsHyperboard(address collection, address from, address to, uint256[] itemIds, uint256[] amounts) external nonpayable
-```
-
-This function transfers items for a single Hyperboard.
-
-_It does not allow batch transferring if from = msg.sender since native function should be used._
 
 #### Parameters
 
@@ -437,6 +437,12 @@ error ERC721TransferFromFail()
 ```
 
 It is emitted if the ERC721 transferFrom fails.
+
+### HypercertSplitFractionError
+
+```solidity
+error HypercertSplitFractionError()
+```
 
 ### LengthsInvalid
 
