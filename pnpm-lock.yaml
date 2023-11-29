@@ -316,7 +316,7 @@ importers:
         version: 3.8.6(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
       '@celo/rainbowkit-celo':
         specifier: ^1.1.0
-        version: 1.1.0(@rainbow-me/rainbowkit@1.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(wagmi@1.4.5)(zod@3.22.4)
+        version: 1.1.0(@rainbow-me/rainbowkit@1.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(wagmi@1.4.5)(zod@3.22.4)
       '@emotion/react':
         specifier: ^11.10.5
         version: 11.11.1(@types/react@18.2.33)(react@18.2.0)
@@ -361,7 +361,7 @@ importers:
         version: 1.0.333(next@14.0.3)(react-dom@18.2.0)(react@18.2.0)
       '@rainbow-me/rainbowkit':
         specifier: 1.2.0
-        version: 1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.9)(wagmi@1.4.5)
+        version: 1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.19.9)(wagmi@1.4.5)
       '@sentry/nextjs':
         specifier: ^7.73.0
         version: 7.75.1(next@14.0.3)(react@18.2.0)(webpack@5.89.0)
@@ -456,11 +456,11 @@ importers:
         specifier: ^14.0.1
         version: 14.2.1
       viem:
-        specifier: 1.18.9
-        version: 1.18.9(typescript@5.1.6)(zod@3.22.4)
+        specifier: 1.19.9
+        version: 1.19.9(typescript@5.1.6)(zod@3.22.4)
       wagmi:
         specifier: 1.4.5
-        version: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
+        version: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
       yup:
         specifier: ^0.32.11
         version: 0.32.11
@@ -800,6 +800,7 @@ packages:
 
   /@adraffy/ens-normalize@1.9.4:
     resolution: {integrity: sha512-UK0bHA7hh9cR39V+4gl2/NnBBjoXIxkuWAPCaY4X7fbH4L/azIi7ilWOCjMUYfpJgraLUAqkRi2BqrjME8Rynw==}
+    dev: true
 
   /@algolia/autocomplete-core@1.9.3(@algolia/client-search@4.20.0)(algoliasearch@4.20.0)(search-insights@2.9.0):
     resolution: {integrity: sha512-009HdfugtGCdC4JdXUbVJClA0q0zh24yyePn+KUGk3rP7j8FEe/m5Yo/z65gn6nP/cM39PxpzqKrL7A6fP6PPw==}
@@ -2615,7 +2616,7 @@ packages:
     resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
     dev: false
 
-  /@celo/rainbowkit-celo@1.1.0(@rainbow-me/rainbowkit@1.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(wagmi@1.4.5)(zod@3.22.4):
+  /@celo/rainbowkit-celo@1.1.0(@rainbow-me/rainbowkit@1.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(wagmi@1.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-/G4HFhJNwUk6uU1yqGfQ/LIoNg9UAA4BUcEvFdd0M3DImnKlhodNLUdCmzqv96sjc/I7tMJqBeTnmbhwXdlsjQ==}
     peerDependencies:
       '@rainbow-me/rainbowkit': '>=1.0.2 && <=2.0.0'
@@ -2623,10 +2624,10 @@ packages:
       wagmi: '>=1.0.0 && <=2.0.0'
     dependencies:
       '@metamask/providers': 11.1.2
-      '@rainbow-me/rainbowkit': 1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.9)(wagmi@1.4.5)
-      '@wagmi/connectors': 2.7.0(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
-      wagmi: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
+      '@rainbow-me/rainbowkit': 1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.19.9)(wagmi@1.4.5)
+      '@wagmi/connectors': 2.7.0(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
+      wagmi: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@wagmi/chains'
@@ -6324,7 +6325,7 @@ packages:
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       graphql: 16.8.1
       localforage: 1.10.0
@@ -6380,7 +6381,7 @@ packages:
       '@graphql-mesh/http': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/runtime@0.93.2)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/runtime': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/store': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
       ajv: 8.12.0
@@ -6436,7 +6437,7 @@ packages:
       '@graphql-mesh/merger-stitching': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/runtime': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/store': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-tools/code-file-loader': 7.3.23(@babel/core@7.23.2)(graphql@16.8.1)
       '@graphql-tools/graphql-file-loader': 7.5.17(graphql@16.8.1)
@@ -6623,7 +6624,7 @@ packages:
     dependencies:
       '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(react-native@0.72.6)
       '@graphql-mesh/runtime': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       fets: 0.1.5
       graphql: 16.8.1
@@ -6683,7 +6684,7 @@ packages:
       tslib: ^2.4.0
     dependencies:
       '@graphql-mesh/merger-stitching': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-tools/schema': 9.0.19(graphql@16.8.1)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
@@ -6746,7 +6747,7 @@ packages:
       tslib: ^2.4.0
     dependencies:
       '@graphql-mesh/store': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-mesh/utils@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-tools/delegate': 9.0.35(graphql@16.8.1)
       '@graphql-tools/schema': 9.0.19(graphql@16.8.1)
@@ -6815,7 +6816,7 @@ packages:
       '@envelop/extended-validation': 2.0.6(@envelop/core@3.0.6)(graphql@16.8.1)
       '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(react-native@0.72.6)
       '@graphql-mesh/string-interpolation': 0.4.4(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
+      '@graphql-mesh/types': 0.93.2(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-mesh/utils': 0.93.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.2)(@graphql-tools/utils@9.2.1)(graphql@16.8.1)(tslib@2.6.2)
       '@graphql-tools/batch-delegate': 8.4.27(graphql@16.8.1)
       '@graphql-tools/batch-execute': 8.5.22(graphql@16.8.1)
@@ -10937,7 +10938,7 @@ packages:
   /@protobufjs/utf8@1.1.0:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  /@rainbow-me/rainbowkit@1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.9)(wagmi@1.4.5):
+  /@rainbow-me/rainbowkit@1.2.0(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(viem@1.19.9)(wagmi@1.4.5):
     resolution: {integrity: sha512-XjdeX31GwFdRR/1rCRqPXiO94nbq2qOlnaox5P4K/KMRIUwyelKzak27uWw8Krmor/Hcrd5FisfepGDS0tUfEA==}
     engines: {node: '>=12.4'}
     peerDependencies:
@@ -10956,8 +10957,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.4(@types/react@18.2.33)(react@18.2.0)
       ua-parser-js: 1.0.36
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
-      wagmi: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
+      wagmi: 1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -13651,7 +13652,7 @@ packages:
       typescript: 5.1.6
     dev: true
 
-  /@wagmi/connectors@2.7.0(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4):
+  /@wagmi/connectors@2.7.0(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4):
     resolution: {integrity: sha512-1KOL0HTJl5kzSC/YdKwFwiokr6poUQn1V/tcT0TpG3iH2x0lSM7FTkvCjVVY/6lKzTXrLlo9y2aE7AsOPnkvqg==}
     peerDependencies:
       '@wagmi/chains': '>=1.7.0'
@@ -13674,7 +13675,7 @@ packages:
       abitype: 0.8.7(typescript@5.1.6)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - bufferutil
@@ -13686,7 +13687,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/connectors@3.1.3(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4):
+  /@wagmi/connectors@3.1.3(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4):
     resolution: {integrity: sha512-UgwsQKQDFObJVJMf9pDfFoXTv710o4zrTHyhIWKBTMMkLpCMsMxN5+ZaDhBYt/BgoRinfRYQo8uwuwLhxE6Log==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -13706,7 +13707,7 @@ packages:
       abitype: 0.8.7(typescript@5.1.6)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -13719,7 +13720,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.5(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4):
+  /@wagmi/core@1.4.5(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4):
     resolution: {integrity: sha512-N9luRb1Uk4tBN9kaYcQSWKE9AsRt/rvZaFt5IZech4JPzNN2sQlfhKd9GEjOXYRDqEPHdDvos7qyBKiDNTz4GA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -13728,11 +13729,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.3(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
+      '@wagmi/connectors': 3.1.3(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
       abitype: 0.8.7(typescript@5.1.6)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
       zustand: 4.4.4(@types/react@18.2.33)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -34289,29 +34290,6 @@ packages:
       - zod
     dev: true
 
-  /viem@1.18.9(typescript@5.1.6)(zod@3.22.4):
-    resolution: {integrity: sha512-eAXtoTwAFA3YEgjTYMb5ZTQrDC0UPx5qyZ4sv90TirVKepcM9mBPksTkC1SSWya0UdxhBmhEBL/CiYMjmGCTWg==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.4
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@scure/bip32': 1.3.2
-      '@scure/bip39': 1.2.1
-      abitype: 0.9.8(typescript@5.1.6)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0)
-      typescript: 5.1.6
-      ws: 8.13.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
-
   /viem@1.19.9(typescript@5.1.6)(zod@3.22.4):
     resolution: {integrity: sha512-Sf9U2x4jU0S/FALqYypcspWOGene0NZyD470oUripNhE0Ta6uOE/OgE4toTDVfRxov8qw0JFinr/wPGxYE3+HQ==}
     peerDependencies:
@@ -34489,7 +34467,7 @@ packages:
     hasBin: true
     dev: true
 
-  /wagmi@1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4):
+  /wagmi@1.4.5(@types/react@18.2.33)(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4):
     resolution: {integrity: sha512-Ph62E6cO5n2Z8Z5LTyZrkaNprxTsbC4w0qZJT4OJdXrEELziI8z/b4FO6amVFXdu2rDp/wpvF56e4mhKC8/Kdw==}
     peerDependencies:
       react: '>=17.0.0'
@@ -34502,12 +34480,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.5(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)(zod@3.22.4)
+      '@wagmi/core': 1.4.5(@types/react@18.2.33)(react@18.2.0)(typescript@5.1.6)(viem@1.19.9)(zod@3.22.4)
       abitype: 0.8.7(typescript@5.1.6)(zod@3.22.4)
       react: 18.2.0
       typescript: 5.1.6
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.18.9(typescript@5.1.6)(zod@3.22.4)
+      viem: 1.19.9(typescript@5.1.6)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
