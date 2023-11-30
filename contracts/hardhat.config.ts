@@ -109,6 +109,7 @@ const config: HardhatUserConfig = {
     clear: true,
     only: [
       "CurrencyManager",
+      "ExecutionManager",
       "HypercertMinter",
       "LooksRareProtocol",
       "OrderValidatorV2A",

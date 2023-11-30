@@ -84,6 +84,10 @@ contract LooksRareProtocolTest is ProtocolBase {
             _createMockMakerAskAndTakerBid(address(mockERC721));
         makerAsk.currency = address(mockERC20);
 
+        mockERC20.mint(takerUser, 10 ether);
+        vm.prank(takerUser);
+        mockERC20.approve(address(looksRareProtocol), 10 ether);
+
         // Mint asset
         mockERC721.mint(makerUser, makerAsk.itemIds[0]);
 
@@ -125,6 +129,12 @@ contract LooksRareProtocolTest is ProtocolBase {
             merkleTrees,
             false // Non-atomic
         );
+
+        vm.prank(_owner);
+        looksRareProtocol.updateCurrencyStatus(address(mockERC20), true);
+
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid{value: price}(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function testCannotTradeIfETHIsUsedForMakerBid() public {
