@@ -4,7 +4,11 @@ import { NFT_STORAGE_TOKEN, WEB3_STORAGE_TOKEN } from "../lib/config";
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 import { useWalletClient, useNetwork } from "wagmi";
 
-export const useHypercertClient = () => {
+export const useHypercertClient = ({
+  overrideChainId,
+}: {
+  overrideChainId?: number;
+} = {}) => {
   const { chain } = useNetwork();
   const clientConfig = {
     chain,
@@ -26,13 +30,14 @@ export const useHypercertClient = () => {
   } = useWalletClient();
 
   useEffect(() => {
-    if (chain?.id && !walletClientLoading && !isError && walletClient) {
+    const chainId = overrideChainId || chain?.id;
+    if (chainId && !walletClientLoading && !isError && walletClient) {
       setIsLoading(true);
 
       try {
         const config: Partial<HypercertClientConfig> = {
           ...clientConfig,
-          chain: { id: chain.id },
+          chain: { id: chainId },
           walletClient,
         };
 
