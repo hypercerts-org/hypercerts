@@ -91,7 +91,7 @@ export const useTransferFraction = ({
     write: async (id: bigint, to: string) => {
       try {
         await initializeWrite(id, to);
-        // window.location.reload();
+        window.location.reload();
       } catch (e) {
         console.error(e);
       }

@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Modal,
   TextField,
@@ -13,6 +18,7 @@ import { Form, Formik } from "formik";
 import { isAddress } from "viem";
 import { useClaimById, useFractionById } from "../hooks/fractions";
 import { useAccountLowerCase } from "../hooks/account";
+import { formatAddress } from "../lib/formatting";
 
 const style = {
   position: "absolute",
@@ -49,6 +55,16 @@ export function TransferFractionButton({
       handleClose();
     },
   });
+
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   const { data: fractionData, isLoading: isLoadingFraction } =
     useFractionById(fractionId);
@@ -104,44 +120,76 @@ export function TransferFractionButton({
                 return { to: "Invalid address" };
               }
             }}
-            onSubmit={async (values) => {
-              await write(BigInt(tokenId), values.to);
+            onSubmit={() => {
+              handleDialogOpen();
             }}
           >
-            {({ isSubmitting, isValid, setFieldValue, errors }) => {
+            {({ isSubmitting, isValid, setFieldValue, errors, values }) => {
               const isDisabled = _disabled || isSubmitting;
               return (
-                <Form
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "1rem",
-                  }}
-                >
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    Transfer this fraction
-                  </Typography>
-                  <TextField
-                    error={!!errors.to}
-                    helperText={errors.to}
-                    name="to"
-                    required
-                    style={{ width: "100%" }}
-                    disabled={isDisabled}
-                    placeholder="Recipient address"
-                    onChange={(e) => {
-                      setFieldValue("to", e.target.value);
+                <>
+                  <Form
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      gap: "1rem",
                     }}
-                  />
-                  <Button disabled={!isValid} type="submit">
-                    Transfer
-                  </Button>
-                </Form>
+                  >
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                    >
+                      Transfer this fraction
+                    </Typography>
+                    <TextField
+                      error={!!errors.to}
+                      helperText={errors.to}
+                      name="to"
+                      required
+                      style={{ width: "100%" }}
+                      disabled={isDisabled}
+                      placeholder="Recipient address"
+                      onChange={(e) => {
+                        setFieldValue("to", e.target.value);
+                      }}
+                    />
+                    <Button disabled={!isValid} type={"submit"}>
+                      Transfer
+                    </Button>
+                  </Form>{" "}
+                  <Dialog
+                    open={dialogOpen}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      Are you sure you want to transfer?
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Transferring to {formatAddress(values.to)}. This action
+                        cannot be reversed.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button color="error" onClick={handleDialogClose}>
+                        cancel
+                      </Button>
+                      <Button
+                        color="primary"
+                        onClick={async () => {
+                          await write(BigInt(tokenId), values.to);
+                        }}
+                        autoFocus
+                      >
+                        transfer
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </>
               );
             }}
           </Formik>
