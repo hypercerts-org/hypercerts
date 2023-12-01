@@ -12,6 +12,7 @@ import {LowLevelHypercertCaller} from "./libraries/LowLevelHypercertCaller.sol";
 // Interfaces and errors
 import {ITransferManager} from "./interfaces/ITransferManager.sol";
 import {AmountInvalid, LengthsInvalid} from "./errors/SharedErrors.sol";
+import {UnitAmountInvalid} from "./errors/HypercertErrors.sol";
 import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Libraries
@@ -202,6 +203,11 @@ contract TransferManager is
         if (amounts[0] == 0) {
             revert AmountInvalid();
         }
+
+        if (IHypercertToken(collection).unitsOf(itemIds[0]) <= amounts[0]) {
+            revert UnitAmountInvalid();
+        }
+
         uint256[] memory newAmounts = new uint256[](2);
         newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
         newAmounts[1] = amounts[0];

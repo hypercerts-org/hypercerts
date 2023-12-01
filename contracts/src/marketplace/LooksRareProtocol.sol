@@ -444,32 +444,7 @@ contract LooksRareProtocol is
         _transferToAskRecipientAndCreatorIfAny(recipients, feeAmounts, makerAsk.currency, sender);
 
         // Maker action goes second
-        if (
-            (
-                strategyInfo[makerAsk.strategyId].selector
-                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
-                    || strategyInfo[makerAsk.strategyId].selector
-                        == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
-            ) && (IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) > amounts[0])
-        ) {
-            _splitNFT(
-                makerAsk.collection,
-                makerAsk.collectionType,
-                signer,
-                takerBid.recipient == address(0) ? sender : takerBid.recipient,
-                itemIds,
-                amounts
-            );
-        } else {
-            _transferNFT(
-                makerAsk.collection,
-                makerAsk.collectionType,
-                signer,
-                takerBid.recipient == address(0) ? sender : takerBid.recipient,
-                itemIds,
-                amounts
-            );
-        }
+        _executeTakerBidMakerAction(makerAsk, takerBid, signer, sender, itemIds, amounts);
 
         emit TakerBid(
             NonceInvalidationParameters({
@@ -490,6 +465,35 @@ contract LooksRareProtocol is
 
         // It returns the protocol fee amount
         return feeAmounts[2];
+    }
+
+    function _executeTakerBidMakerAction(
+        OrderStructs.Maker calldata makerAsk,
+        OrderStructs.Taker calldata takerBid,
+        address sender,
+        address recipient,
+        uint256[] memory itemIds,
+        uint256[] memory amounts
+    ) internal {
+        if (makerAsk.collectionType == 3) {
+            _transferHypercertFraction(
+                makerAsk.collection,
+                makerAsk.collectionType,
+                sender,
+                takerBid.recipient == address(0) ? recipient : takerBid.recipient,
+                itemIds,
+                amounts
+            );
+        } else {
+            _transferNFT(
+                makerAsk.collection,
+                makerAsk.collectionType,
+                sender,
+                takerBid.recipient == address(0) ? recipient : takerBid.recipient,
+                itemIds,
+                amounts
+            );
+        }
     }
 
     /**

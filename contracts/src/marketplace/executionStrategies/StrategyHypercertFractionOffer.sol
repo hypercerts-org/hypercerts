@@ -68,8 +68,6 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             revert OrderInvalid();
         }
 
-        uint256 tokenBalance = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]);
-
         //units, amount, proof[]
         (uint256 unitAmount, uint256 acceptedTokenAmount) =
             abi.decode(takerBid.additionalParameters, (uint256, uint256));
@@ -81,7 +79,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         if (
             makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount
                 || unitAmount < minUnitAmount || makerAsk.price > acceptedTokenAmount || makerAsk.price == 0
-                || tokenBalance < amounts[0]
+                || IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) < amounts[0]
         ) {
             revert OrderInvalid();
         }

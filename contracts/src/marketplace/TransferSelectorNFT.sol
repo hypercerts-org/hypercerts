@@ -12,6 +12,9 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 // Enums
 import {CollectionType} from "./enums/CollectionType.sol";
 
+// Interfaces
+import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
+
 /**
  * @title TransferSelectorNFT
  * @notice This contract handles the logic for transferring non-fungible items.
@@ -66,7 +69,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     }
 
     /**
-     * @notice This function is internal and used to transfer non-fungible tokens.
+     * @notice This function is internal and used to split a hypercert fraction or execute a transfer of the fraction.
      * @param collection Collection address
      * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155, 2 = Hypercert)
      * @param sender Sender address
@@ -74,7 +77,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
      * @param itemIds Array of itemIds
      * @param amounts Array of amounts
      */
-    function _splitNFT(
+    function _transferHypercertFraction(
         address collection,
         CollectionType collectionType,
         address sender,
@@ -85,6 +88,16 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
         if (collectionType != CollectionType.Hypercert) {
             revert UnsupportedCollectionType();
         }
-        transferManager.splitItemsHypercert(collection, sender, recipient, itemIds, amounts);
+
+        if (
+            strategyInfo[makerAsk.strategyId].selector
+                == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                || strategyInfo[makerAsk.strategyId].selector
+                    == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+        ) {
+            transferManager.splitItemsHypercert(collection, sender, recipient, itemIds, amounts);
+        } else if (amounts[0] == 1) {
+            transferManager.transferItemsHypercert(collection, sender, recipient, itemIds, amounts);
+        }
     }
 }
