@@ -11,7 +11,7 @@ export const useHypercertClient = ({
 } = {}) => {
   const { chain } = useNetwork();
   const clientConfig = {
-    chain,
+    chain: overrideChainId ? { id: overrideChainId } : chain,
     nftStorageToken: NFT_STORAGE_TOKEN,
     web3StorageToken: WEB3_STORAGE_TOKEN,
   };
@@ -49,7 +49,7 @@ export const useHypercertClient = ({
     }
 
     setIsLoading(false);
-  }, [chain?.id, walletClient, walletClientLoading]);
+  }, [chain?.id, overrideChainId, walletClient, walletClientLoading]);
 
   return { client, isLoading };
 };
