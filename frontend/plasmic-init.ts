@@ -183,6 +183,12 @@ PLASMIC.registerComponent(HypercertFetcher, {
   name: "HypercertFetcher",
   description: "Client-side fetch metadata from IPFS",
   props: {
+    overrideChainId: {
+      type: "number",
+      helpText: "Override chainId",
+      editOnly: true,
+      defaultValue: 5,
+    },
     variableName: {
       type: "string",
       helpText: "Name to use in Plasmic data picker",
