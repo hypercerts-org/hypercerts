@@ -6,7 +6,6 @@ import { PlusIcon } from "primereact/icons/plus";
 import { Delete } from "@mui/icons-material";
 import { useSplitFractionUnits } from "../hooks/splitClaimUnits";
 import { toast } from "react-toastify";
-import { TransferFractionButton } from "./transfer-fraction-button";
 
 const style = {
   position: "absolute",
@@ -184,7 +183,6 @@ export function SplitFractionButton({
           </Formik>
         </Box>
       </Modal>
-      <TransferFractionButton fractionId={fractionId} />
     </>
   );
 }
