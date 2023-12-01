@@ -89,6 +89,10 @@ export function TransferFractionButton({
       return false;
     }
 
+    if (!fractionData.claimToken.owner === address) {
+      return false;
+    }
+
     if (!(transferRestrictions in TransferRestrictions)) {
       return false;
     }
