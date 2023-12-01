@@ -16,6 +16,7 @@ const nextConfig = {
     return config;
   },
   transpilePackages: ["@hypercerts-org/sdk"],
+  output: 'export'
 };
 
 export default withSentryConfig(
