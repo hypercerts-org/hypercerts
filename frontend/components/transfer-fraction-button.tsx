@@ -19,6 +19,8 @@ import { isAddress } from "viem";
 import { useClaimById, useFractionById } from "../hooks/fractions";
 import { useAccountLowerCase } from "../hooks/account";
 import { formatAddress } from "../lib/formatting";
+import { TransferRestrictions } from "@hypercerts-org/sdk";
+import { useReadTransferRestrictions } from "../hooks/readTransferRestriction";
 
 const style = {
   position: "absolute",
@@ -73,11 +75,54 @@ export function TransferFractionButton({
     fractionData?.claimToken?.claim.id,
   );
 
-  const canTransfer = !!address && claim?.claim?.creator === address;
+  const {
+    data: transferRestrictions,
+    isLoading: isLoadingTransferRestrictions,
+  } = useReadTransferRestrictions(claim?.claim?.tokenID);
+
+  const determineCanTransfer = () => {
+    if (!address) {
+      return false;
+    }
+
+    if (!transferRestrictions) {
+      return false;
+    }
+
+    if (!(transferRestrictions in TransferRestrictions)) {
+      return false;
+    }
+
+    const transferRestrictionValue =
+      TransferRestrictions[
+        transferRestrictions as keyof typeof TransferRestrictions
+      ];
+
+    if (transferRestrictionValue === TransferRestrictions.DisallowAll) {
+      return false;
+    }
+
+    if (transferRestrictionValue === TransferRestrictions.AllowAll) {
+      return true;
+    }
+
+    if (transferRestrictionValue === TransferRestrictions.FromCreatorOnly) {
+      return claim?.claim?.creator === address;
+    }
+
+    return false;
+  };
+
+  const canTransfer = determineCanTransfer();
 
   const tokenId = fractionId.split("-")[1];
   const _disabled =
-    txPending || readOnly || disabled || isLoadingFraction || isLoadingClaim;
+    txPending ||
+    readOnly ||
+    disabled ||
+    isLoadingFraction ||
+    isLoadingClaim ||
+    isLoadingTransferRestrictions;
 
   if (!canTransfer) {
     return null;
