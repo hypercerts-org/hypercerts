@@ -133,7 +133,7 @@ export interface HypercertClientMethods {
    * @param metaData The metadata for the claim.
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   mintClaim: (
     metaData: HypercertMetadata,
@@ -142,12 +142,37 @@ export interface HypercertClientMethods {
   ) => Promise<`0x${string}`>;
 
   /**
+   * Retrieves the TransferRestrictions for a claim.
+   * @param fractionId The ID of the claim to retrieve.
+   * @returns A Promise that resolves to the applicable transfer restrictions.
+   */
+  getTransferRestrictions: (fractionId: bigint) => Promise<TransferRestrictions>;
+
+  /**
+   * Transfers a claim fraction to a new owner.
+   * @param fractionId
+   * @param to
+   * @param overrides
+   * @returns A Promise that resolves to the transaction hash
+   */
+  transferFraction: (fractionId: bigint, to: string, overrides?: SupportedOverrides) => Promise<`0x${string}`>;
+
+  /**
+   * Transfers multiple claim fractions to a new owner.
+   * @param fractionIds
+   * @param to
+   * @param overrides
+   * @returns A Promise that resolves to the transaction hash
+   */
+  batchTransferFractions: (fractionIds: bigint[], to: string, overrides?: SupportedOverrides) => Promise<`0x${string}`>;
+
+  /**
    * Creates a new allowlist and mints a new claim with the allowlist.
    * @param allowList The allowlist for the claim.
    * @param metaData The metadata for the claim.
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   createAllowlist: (
     allowList: AllowlistEntry[],
@@ -160,21 +185,21 @@ export interface HypercertClientMethods {
    * Splits a claim into multiple fractions.
    * @param fractionId The ID of the claim to split.
    * @param newFractions The number of units for each fraction.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   splitFractionUnits: (fractionId: bigint, fractions: bigint[]) => Promise<`0x${string}`>;
 
   /**
    * Merges multiple claim fractions into a single claim.
    * @param fractionIds The IDs of the claim fractions to merge.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   mergeFractionUnits: (fractionIds: bigint[]) => Promise<`0x${string}`>;
 
   /**
    * Burns a claim fraction.
    * @param fractionId The ID of the claim fraction to burn.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   burnClaimFraction: (fractionId: bigint) => Promise<`0x${string}`>;
 
@@ -183,7 +208,7 @@ export interface HypercertClientMethods {
    * @param claimId The ID of the claim to mint a fraction for.
    * @param units The number of units for the fraction.
    * @param proof The Merkle proof for the allowlist.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   mintClaimFractionFromAllowlist: (
     claimId: bigint,
@@ -199,7 +224,7 @@ export interface HypercertClientMethods {
    * @returns A Promise that resolves to the transaction receipt
    * @note The length of the arrays must be equal.
    * @note The order of the arrays must be equal.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   batchMintClaimFractionsFromAllowlists: (
     claimIds: bigint[],

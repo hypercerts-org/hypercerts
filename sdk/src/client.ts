@@ -152,6 +152,81 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   /**
+   * Gets the TransferRestrictions for a claim.
+   *
+   * This method first retrieves the read contract using the `getContract` method. It then simulates a contract call to the `readTransferRestriction` function with the provided fraction ID.
+   *
+   * @param fractionId
+   * @returns a Promise that resolves to the applicable transfer restrictions.
+   */
+  getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
+    const readContract = getContract({
+      ...this.getContractConfig(),
+      publicClient: this._publicClient,
+    });
+
+    return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
+  };
+
+  /**
+   * Transfers a claim fraction to a new owner.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method.
+   * It then simulates a contract call to the `safeTransferFrom` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param fractionId
+   * @param to
+   * @param overrides
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   */
+  transferFraction = async (
+    fractionId: bigint,
+    to: string,
+    overrides?: SupportedOverrides | undefined,
+  ): Promise<`0x${string}`> => {
+    const { account } = this.getWallet();
+
+    const { request } = await this._publicClient.simulateContract({
+      functionName: "safeTransferFrom",
+      account,
+      args: [account?.address, to, fractionId, 1, "0x"],
+      ...this.getContractConfig(),
+      ...this.getCleanedOverrides(overrides),
+    });
+
+    return this.submitRequest(request);
+  };
+
+  /**
+   * Transfers multiple claim fractions to a new owner.
+   *
+   * This method first retrieves the wallet client and account using the `getWallet` method.
+   * It then simulates a contract call to the `batchSafeTransferFrom` function with the provided parameters and the account, and submits the request using the `submitRequest` method.
+   *
+   * @param fractionIds
+   * @param to
+   * @param overrides
+   * @returns {Promise<`0x${string}`>} A promise that resolves to the transaction hash.
+   */
+  batchTransferFractions = async (
+    fractionIds: bigint[],
+    to: string,
+    overrides?: SupportedOverrides | undefined,
+  ): Promise<`0x${string}`> => {
+    const { account } = this.getWallet();
+
+    const { request } = await this._publicClient.simulateContract({
+      functionName: "batchSafeTransferFrom",
+      account,
+      args: [account?.address, to, fractionIds, fractionIds.map(() => 1n), "0x"],
+      ...this.getContractConfig(),
+      ...this.getCleanedOverrides(overrides),
+    });
+
+    return this.submitRequest(request);
+  };
+
+  /**
    * Creates an allowlist.
    *
    * This method first validates the provided allowlist and metadata using the `validateAllowlist` and `validateMetaData` functions respectively. If either is invalid, it throws a `MalformedDataError`.
