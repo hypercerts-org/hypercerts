@@ -14,7 +14,14 @@ import {MerkleProofMemory} from "../libraries/OpenZeppelin/MerkleProofMemory.sol
 import {QuoteType} from "../enums/QuoteType.sol";
 
 // Shared errors
-import {OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
+import {
+    AmountInvalid,
+    LengthsInvalid,
+    OrderInvalid,
+    FunctionSelectorInvalid,
+    MerkleProofInvalid,
+    QuoteTypeInvalid
+} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
@@ -58,37 +65,42 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
     )
         external
         view
-        returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
+        returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
     {
-        amounts = makerAsk.amounts;
         itemIds = makerAsk.itemIds;
 
         // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1 || itemIds.length != 1) {
-            revert OrderInvalid();
+        if (makerAsk.amounts.length != 1 || itemIds.length != 1) {
+            revert LengthsInvalid();
         }
 
-        uint256 tokenBalance = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]);
+        if (makerAsk.amounts[0] == 0) {
+            revert AmountInvalid();
+        }
 
-        //units, amount, proof[]
-        (uint256 unitAmount, uint256 acceptedTokenAmount) =
-            abi.decode(takerBid.additionalParameters, (uint256, uint256));
+        //units, pricePerUnit
+        (uint256 unitAmount, uint256 pricePerUnit) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
 
         //minUnitAmount, maxUnitAmount, root
         (uint256 minUnitAmount, uint256 maxUnitAmount) = abi.decode(makerAsk.additionalParameters, (uint256, uint256));
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (
-            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount
-                || unitAmount < minUnitAmount || makerAsk.price > acceptedTokenAmount || makerAsk.price == 0
-                || tokenBalance < amounts[0]
+            minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount || unitAmount > maxUnitAmount
+                || pricePerUnit < makerAsk.price || makerAsk.price == 0
+                || IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) < unitAmount
         ) {
             revert OrderInvalid();
         }
 
-        price = acceptedTokenAmount * unitAmount;
+        uint256[] memory amountsToFill = new uint256[](1);
+        amountsToFill[0] = unitAmount;
+        amounts = amountsToFill;
 
-        isNonceInvalidated = true;
+        price = unitAmount * pricePerUnit;
+        // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
+        // Otherwise, we do not invalidate the nonce because it is a partial fill.
+        isNonceInvalidated = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) == unitAmount;
     }
 
     /**
@@ -105,42 +117,46 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         OrderStructs.Maker calldata makerAsk
     )
         external
-        pure
+        view
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
     {
         itemIds = makerAsk.itemIds;
 
         // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
         if (makerAsk.amounts.length != 1 || itemIds.length != 1) {
-            revert OrderInvalid();
+            revert LengthsInvalid();
         }
 
-        //units, amount, proof[]
+        if (makerAsk.amounts[0] == 0) {
+            revert AmountInvalid();
+        }
+
+        //units, pricePerUnit, proof[]
         (uint256 unitAmount, uint256 pricePerUnit, bytes32[] memory proof) =
             abi.decode(takerBid.additionalParameters, (uint256, uint256, bytes32[]));
-
-        // A bid needs to at least match the minimum price per unit
-        if (pricePerUnit < makerAsk.price) {
-            revert OrderInvalid();
-        }
-
-        price = unitAmount * pricePerUnit;
-        amounts = new uint256[](1);
-        amounts[0] = unitAmount;
-
-        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1 || itemIds.length != 1) {
-            revert OrderInvalid();
-        }
 
         //minUnitAmount, maxUnitAmount, root
         (uint256 minUnitAmount, uint256 maxUnitAmount, bytes32 root) =
             abi.decode(makerAsk.additionalParameters, (uint256, uint256, bytes32));
 
-        // Nonce is not invalidated because it can be a partial fill
-        // @dev This strategy represents a partial fill. The protocol will call transfer if the bid would clear the
-        // offered fraction.
-        isNonceInvalidated = false;
+        // A collection order can only be executable for 1 itemId but quantity to fill can vary
+        if (
+            minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount || unitAmount > maxUnitAmount
+                || pricePerUnit < makerAsk.price || makerAsk.price == 0
+                || IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) < unitAmount
+        ) {
+            revert OrderInvalid();
+        }
+
+        uint256[] memory amountsToFill = new uint256[](1);
+        amountsToFill[0] = unitAmount;
+        amounts = amountsToFill;
+
+        price = unitAmount * pricePerUnit;
+
+        // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
+        // Otherwise, we do not invalidate the nonce because it is a partial fill.
+        isNonceInvalidated = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) == unitAmount;
 
         bytes32 node = keccak256(abi.encodePacked(takerBid.recipient));
 

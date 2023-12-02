@@ -12,6 +12,7 @@ import {LowLevelHypercertCaller} from "./libraries/LowLevelHypercertCaller.sol";
 // Interfaces and errors
 import {ITransferManager} from "./interfaces/ITransferManager.sol";
 import {AmountInvalid, LengthsInvalid} from "./errors/SharedErrors.sol";
+import {UnitAmountInvalid} from "./errors/HypercertErrors.sol";
 import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Libraries
@@ -30,7 +31,7 @@ import {CollectionType} from "./enums/CollectionType.sol";
  *         Collection type "3" refers to Hyperboard transfer functions.
  * @dev "Safe" transfer functions for ERC721 are not implemented since they come with added gas costs
  *       to verify if the recipient is a contract as it requires verifying the receiver interface is valid.
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 contract TransferManager is
     ITransferManager,
@@ -176,13 +177,13 @@ contract TransferManager is
     }
 
     /**
-     * @notice This function transfers items for a single Hypercert.
+     * @notice This function splits and transfers a fraction of a hypercert.
      * @param collection Collection address
      * @param from Sender address
      * @param to Recipient address
      * @param itemIds Array of itemIds
      * @param amounts Array of amounts
-     * @dev It does not allow batch transferring if from = msg.sender since native function should be used.
+     * @dev It does not allow batch transferring.
      */
     function splitItemsHypercert(
         address collection,
@@ -191,8 +192,6 @@ contract TransferManager is
         uint256[] calldata itemIds,
         uint256[] calldata amounts
     ) external {
-        IHypercertToken hypercert = IHypercertToken(collection);
-
         if (itemIds.length != 1 || amounts.length != 1) {
             revert LengthsInvalid();
         }
@@ -202,10 +201,20 @@ contract TransferManager is
         if (amounts[0] == 0) {
             revert AmountInvalid();
         }
+
         uint256[] memory newAmounts = new uint256[](2);
-        newAmounts[0] = hypercert.unitsOf(itemIds[0]) - amounts[0];
+
+        //The new amount is the difference between the total amount and the amount being split.
+        //This will underflow if the amount being split is greater than the total amount.
+        newAmounts[0] = IHypercertToken(collection).unitsOf(itemIds[0]) - amounts[0];
         newAmounts[1] = amounts[0];
-        _executeHypercertSplitFraction(collection, from, to, itemIds[0], newAmounts);
+
+        // If the new amount is 0, then the split is will revert but the whole fraction can be transferred.
+        if (newAmounts[0] == 0) {
+            _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], 1);
+        } else {
+            _executeHypercertSplitFraction(collection, to, itemIds[0], newAmounts);
+        }
     }
 
     /**
