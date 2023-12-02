@@ -31,13 +31,13 @@ import {
 // Direct dependencies
 import {TransferSelectorNFT} from "./TransferSelectorNFT.sol";
 import {BatchOrderTypehashRegistry} from "./BatchOrderTypehashRegistry.sol";
-import {StrategyHypercertFractionOffer} from "./executionStrategies/StrategyHypercertFractionOffer.sol";
 
 // Constants
 import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "./constants/NumericConstants.sol";
 
 // Enums
 import {QuoteType} from "./enums/QuoteType.sol";
+import {CollectionType} from "./enums/CollectionType.sol";
 
 /**
  * @title LooksRareProtocol
@@ -371,7 +371,7 @@ contract LooksRareProtocol is
         _updateUserOrderNonce(isNonceInvalidated, signer, makerBid.orderNonce, orderHash);
 
         // Taker action goes first
-        _transferNFT(makerBid.collection, makerBid.collectionType, msg.sender, signer, itemIds, amounts);
+        _executeTakerAskTakerAction(makerBid, takerAsk, msg.sender, signer, itemIds, amounts);
 
         // Maker action goes second
         _transferToAskRecipientAndCreatorIfAny(recipients, feeAmounts, makerBid.currency, signer);
@@ -467,6 +467,23 @@ contract LooksRareProtocol is
         return feeAmounts[2];
     }
 
+    function _executeTakerAskTakerAction(
+        OrderStructs.Maker calldata makerBid,
+        OrderStructs.Taker calldata takerAsk,
+        address sender,
+        address recipient,
+        uint256[] memory itemIds,
+        uint256[] memory amounts
+    ) internal {
+        if (makerBid.collectionType == CollectionType.Hypercert) {
+            _transferHypercertFraction(
+                makerBid.collection, makerBid.collectionType, makerBid.strategyId, sender, recipient, itemIds, amounts
+            );
+        } else {
+            _transferNFT(makerBid.collection, makerBid.collectionType, sender, recipient, itemIds, amounts);
+        }
+    }
+
     function _executeTakerBidMakerAction(
         OrderStructs.Maker calldata makerAsk,
         OrderStructs.Taker calldata takerBid,
@@ -475,10 +492,11 @@ contract LooksRareProtocol is
         uint256[] memory itemIds,
         uint256[] memory amounts
     ) internal {
-        if (makerAsk.collectionType == 3) {
+        if (makerAsk.collectionType == CollectionType.Hypercert) {
             _transferHypercertFraction(
                 makerAsk.collection,
                 makerAsk.collectionType,
+                makerAsk.strategyId,
                 sender,
                 takerBid.recipient == address(0) ? recipient : takerBid.recipient,
                 itemIds,

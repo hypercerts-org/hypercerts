@@ -5,6 +5,7 @@ pragma solidity ^0.8.17;
 import {PackableReentrancyGuard} from "@looksrare/contracts-libs/contracts/PackableReentrancyGuard.sol";
 import {ExecutionManager} from "./ExecutionManager.sol";
 import {TransferManager} from "./TransferManager.sol";
+import {StrategyHypercertFractionOffer} from "./executionStrategies/StrategyHypercertFractionOffer.sol";
 
 // Libraries
 import {OrderStructs} from "./libraries/OrderStructs.sol";
@@ -23,7 +24,7 @@ import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     error UnsupportedCollectionType();
     /**
-     * @notice Transfer manager for ERC721 and ERC1155.
+     * @notice Transfer manager for ERC721, ERC1155 and Hypercerts.
      */
 
     TransferManager public immutable transferManager;
@@ -61,8 +62,6 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
             transferManager.transferItemsERC721(collection, sender, recipient, itemIds, amounts);
         } else if (collectionType == CollectionType.ERC1155) {
             transferManager.transferItemsERC1155(collection, sender, recipient, itemIds, amounts);
-        } else if (collectionType == CollectionType.Hypercert) {
-            transferManager.transferItemsHypercert(collection, sender, recipient, itemIds, amounts);
         } else {
             revert UnsupportedCollectionType();
         }
@@ -80,6 +79,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     function _transferHypercertFraction(
         address collection,
         CollectionType collectionType,
+        uint256 strategyId,
         address sender,
         address recipient,
         uint256[] memory itemIds,
@@ -90,13 +90,13 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
         }
 
         if (
-            strategyInfo[makerAsk.strategyId].selector
+            strategyInfo[strategyId].selector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
-                || strategyInfo[makerAsk.strategyId].selector
+                || strategyInfo[strategyId].selector
                     == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
         ) {
             transferManager.splitItemsHypercert(collection, sender, recipient, itemIds, amounts);
-        } else if (amounts[0] == 1) {
+        } else {
             transferManager.transferItemsHypercert(collection, sender, recipient, itemIds, amounts);
         }
     }
