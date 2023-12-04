@@ -1,3 +1,5 @@
+import { BaseError, Hex } from "viem";
+
 /**
  * An interface for errors that have a specific type.
  */
@@ -23,6 +25,26 @@ export class ClientError extends Error implements CustomError {
    * @param payload Additional error payload.
    */
   constructor(message: string, payload?: { [key: string]: unknown }) {
+    super(message);
+    this.message = message;
+    this.payload = payload;
+  }
+}
+
+/**
+ * An error that is returned by the contract
+ */
+export class ContractError extends Error implements CustomError {
+  /**
+   * Additional error payload.
+   */
+  payload?: { [key: string]: unknown };
+
+  constructor(errorName?: string, payload?: { data: BaseError | Hex; [key: string]: unknown }) {
+    const message = errorName
+      ? `Contract returned ${errorName}`
+      : "Contract returned unparsable error. Inspect payload for returned data.";
+
     super(message);
     this.message = message;
     this.payload = payload;
