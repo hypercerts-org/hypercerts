@@ -9,7 +9,6 @@ The client provides a high level interface that communicates with the Graph, IPF
 The SDK allows for minimal configuration, explicit overrides and defining values in environment variables. We apply the following hierarchy:
 
 1. Overrides declared in `Partial<HypercertClientConfig>`
-2. Environment variables exposed via `process.env`
 
 Based on the chainID (either 5 or 10) we load the default config for Goerli or Optimism.
 
@@ -17,8 +16,7 @@ We then process the rest of the overrides and possible environment variables to 
 
 To get started quickly you can either:
 
-- set `process.env.DEFAULT_CHAIN_ID` to 5 or 10
-- initialize a new client by calling `new HypercertClient({chainId: 5})` (or 10)
+- initialize a new client by calling `new HypercertClient({chain: {id: 5})` (or 10)
 
 Using either of the options above will launch the client in `read only` mode using the defaults in [constants.ts](https://github.com/hypercerts-org/hypercerts/blob/main/sdk/src/constants.ts)
 
