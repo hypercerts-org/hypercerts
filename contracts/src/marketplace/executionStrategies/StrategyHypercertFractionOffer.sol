@@ -34,7 +34,9 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  *         Alice has 100 units of a hypercert (id: 42) for sale at a minimum price of 0.001 ETH/unit.
  *         Bob wants to buy 10 units.
  *         Bob can create a taker bid order with the following parameters:
- *         - unitAmount: 10
+ *         - unitAmount: 10000 // Total amount for sale; in `amounts` array
+ *         - minUnitAmount: 100 // Minimum amount to buy; in `additionalParameters`
+ *         - maxUnitAmount: 1000 // Maximum amount to buy; in `additionalParameters`
  *         - acceptedTokenAmount: 1000000000000000 (0.001 ETH in wei)
  *         - acceptedTokenAddress: 0x0000000000000000000000000000000000000000
  *         - proof: [0xsdadfa....s9fds,0xdasdas...asff8e]

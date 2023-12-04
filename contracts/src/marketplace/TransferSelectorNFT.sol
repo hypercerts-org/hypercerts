@@ -33,7 +33,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
      * @notice Constructor
      * @param _owner Owner address
      * @param _protocolFeeRecipient Protocol fee recipient address
-     * @param _transferManager Address of the transfer manager for ERC721/ERC1155
+     * @param _transferManager Address of the transfer manager for ERC721/ERC1155/Hypercerts
      */
     constructor(address _owner, address _protocolFeeRecipient, address _transferManager)
         ExecutionManager(_owner, _protocolFeeRecipient)
@@ -44,7 +44,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     /**
      * @notice This function is internal and used to transfer non-fungible tokens.
      * @param collection Collection address
-     * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155)
+     * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155, 2 = Hypercert); only 0 and 1 are supported.
      * @param sender Sender address
      * @param recipient Recipient address
      * @param itemIds Array of itemIds
@@ -70,7 +70,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     /**
      * @notice This function is internal and used to split a hypercert fraction or execute a transfer of the fraction.
      * @param collection Collection address
-     * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155, 2 = Hypercert)
+     * @param collectionType Collection type (e.g. 0 = ERC721, 1 = ERC1155, 2 = Hypercert); only 2 is supported.
      * @param sender Sender address
      * @param recipient Recipient address
      * @param itemIds Array of itemIds
@@ -89,6 +89,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
             revert UnsupportedCollectionType();
         }
 
+        // Check if split strategies
         if (
             strategyInfo[strategyId].selector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
