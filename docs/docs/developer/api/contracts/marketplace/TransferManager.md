@@ -1,10 +1,10 @@
 # TransferManager
 
-_LooksRare protocol team (👀,💎)_
+_LooksRare protocol team (👀,💎); bitbeckers_
 
 > TransferManager
 
-This contract provides the transfer functions for ERC721/ERC1155/Hypercert/Hyperboard for contracts that require them. Collection type &quot;0&quot; refers to ERC721 transfer functions. Collection type &quot;1&quot; refers to ERC1155 transfer functions. Collection type &quot;2&quot; refers to Hypercert transfer functions. Collection type &quot;3&quot; refers to Hyperboard transfer functions.
+This contract provides the transfer functions for ERC721/ERC1155/Hypercert for contracts that require them. Collection type &quot;0&quot; refers to ERC721 transfer functions. Collection type &quot;1&quot; refers to ERC1155 transfer functions. Collection type &quot;2&quot; refers to Hypercert transfer functions.
 
 _&quot;Safe&quot; transfer functions for ERC721 are not implemented since they come with added gas costs to verify if the recipient is a contract as it requires verifying the receiver interface is valid._
 
@@ -213,9 +213,9 @@ _Each operator address must be approved at the user level to be revoked._
 function splitItemsHypercert(address collection, address from, address to, uint256[] itemIds, uint256[] amounts) external nonpayable
 ```
 
-This function transfers items for a single Hypercert.
+This function splits and transfers a fraction of a hypercert.
 
-_It does not allow batch transferring if from = msg.sender since native function should be used._
+_It does not allow batch transferring._
 
 #### Parameters
 
@@ -412,7 +412,7 @@ It is emitted if an operator is removed from the global allowlist.
 error AmountInvalid()
 ```
 
-It is returned if the amount is invalid. For ERC721, any number that is not 1. For ERC1155, if amount is 0.
+It is returned if the amount is invalid. For ERC721, any number that is not 1. For ERC1155 and Hypercert, if amount is 0.
 
 ### ERC1155SafeBatchTransferFromFail
 

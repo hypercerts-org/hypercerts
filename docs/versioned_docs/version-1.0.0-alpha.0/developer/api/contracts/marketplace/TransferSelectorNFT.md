@@ -278,7 +278,7 @@ This returns the strategy information for a strategy id.
 function transferManager() external view returns (contract TransferManager)
 ```
 
-Transfer manager for ERC721 and ERC1155.
+Transfer manager for ERC721, ERC1155 and Hypercerts.
 
 #### Returns
 

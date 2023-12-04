@@ -1,10 +1,10 @@
 # OrderValidatorV2A
 
-_LooksRare protocol team (👀,💎)_
+_LooksRare protocol team (👀,💎); bitbeckers_
 
 > OrderValidatorV2A
 
-This contract is used to check the validity of maker ask/bid orders in the LooksRareProtocol (v2). It performs checks for: 1. Protocol allowlist issues (i.e. currency or strategy not allowed) 2. Maker order-specific issues (e.g., order invalid due to format or other-strategy specific issues) 3. Nonce related issues (e.g., nonce executed or cancelled) 4. Signature related issues and merkle tree parameters 5. Timestamp related issues (e.g., order expired) 6. Asset-related issues for ERC20/ERC721/ERC1155 (approvals and balances) 7. Collection-type suggestions 8. Transfer manager related issues 9. Creator fee related issues (e.g., creator fee too high, ERC2981 bundles)
+This contract is used to check the validity of maker ask/bid orders in the LooksRareProtocol (v2). It performs checks for: 1. Protocol allowlist issues (i.e. currency or strategy not allowed) 2. Maker order-specific issues (e.g., order invalid due to format or other-strategy specific issues) 3. Nonce related issues (e.g., nonce executed or cancelled) 4. Signature related issues and merkle tree parameters 5. Timestamp related issues (e.g., order expired) 6. Asset-related issues for ERC20/ERC721/ERC1155/Hypercerts (approvals and balances) 7. Collection-type suggestions 8. Transfer manager related issues 9. Creator fee related issues (e.g., creator fee too high, ERC2981 bundles)
 
 _This version does not handle strategies with partial fills._
 
@@ -59,6 +59,20 @@ function ERC721_INTERFACE_ID_2() external view returns (bytes4)
 ```
 
 ERC721 potential interfaceId.
+
+#### Returns
+
+| Name | Type   | Description |
+| ---- | ------ | ----------- |
+| \_0  | bytes4 | undefined   |
+
+### HYPERCERT_INTERFACE_ID
+
+```solidity
+function HYPERCERT_INTERFACE_ID() external view returns (bytes4)
+```
+
+Hypercert interfaceId
 
 #### Returns
 

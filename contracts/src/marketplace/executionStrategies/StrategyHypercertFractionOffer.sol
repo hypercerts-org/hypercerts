@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Interface
-import {IHypercertToken} from "../../protocol/interfaces/IHypercertToken.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
@@ -48,7 +48,7 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  *         1. If ERC721, the amount must be 1.
  *         2. If ERC1155, the amount can be greater than 1.
  *         3. If Hypercert, the amount can be greater than 1 because they represent units held by the hypercert.
- * @dev Use cases can include trait-based offers or rarity score offers.
+ * @dev Use cases can include tiered pricing; think early bird tickets.
  * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
 contract StrategyHypercertFractionOffer is BaseStrategy {
