@@ -68,7 +68,7 @@ contract OrderValidatorV2A {
     bytes4 public constant ERC1155_INTERFACE_ID = 0xd9b67a26;
 
     /**
-     * @notice IHypercertToken interfaceId
+     * @notice Hypercert interfaceId
      */
     bytes4 public constant HYPERCERT_INTERFACE_ID = 0xda69bafa;
 

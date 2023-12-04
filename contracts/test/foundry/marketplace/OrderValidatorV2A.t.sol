@@ -19,10 +19,13 @@ import {
     ERC1155_BALANCE_OF_ITEM_ID_INFERIOR_TO_AMOUNT,
     ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST,
     ERC1155_NO_APPROVAL_FOR_ALL,
+    HYPERCERT_UNITS_NOT_HELD_BY_USER,
+    HYPERCERT_UNITS_OF_DOES_NOT_EXIST,
     MAKER_ORDER_INVALID_STANDARD_SALE,
     MISSING_IS_VALID_SIGNATURE_FUNCTION_EIP1271,
     POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC721,
     POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC1155,
+    POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_HYPERCERT,
     STRATEGY_NOT_IMPLEMENTED,
     TRANSFER_MANAGER_APPROVAL_REVOKED_BY_OWNER_FOR_EXCHANGE
 } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
@@ -39,6 +42,10 @@ import {MockERC1155WithoutAnyBalanceOf} from "../../mock/MockERC1155WithoutAnyBa
 import {MockERC1155WithoutIsApprovedForAll} from "../../mock/MockERC1155WithoutIsApprovedForAll.sol";
 import {MockERC721SupportsNoInterface} from "../../mock/MockERC721SupportsNoInterface.sol";
 import {MockERC1155SupportsNoInterface} from "../../mock/MockERC1155SupportsNoInterface.sol";
+import {MockHypercertMinter} from "../../mock/MockHypercertMinter.sol";
+import {MockHypercertMinterSupportsNoInterface} from "../../mock/MockHypercertMinterSupportsNoInterface.sol";
+import {MockHypercertMinterWithoutAnyBalanceOf} from "../../mock/MockHypercertMinterWithoutAnyBalanceOf.sol";
+import {MockHypercertMinterWithoutAnyUnitsOf} from "../../mock/MockHypercertMinterWithoutAnyUnitsOf.sol";
 import {MockERC20} from "../../mock/MockERC20.sol";
 
 // Enums
@@ -203,6 +210,25 @@ contract OrderValidatorV2ATest is TestParameters {
         uint256[9] memory validationCodes =
             orderValidator.checkMakerOrderValidity(makerBid, new bytes(65), _EMPTY_MERKLE_TREE);
         assertEq(validationCodes[6], POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC1155);
+    }
+
+    function testMakerAskWrongCollectionTypeHypercert() public {
+        OrderStructs.Maker memory makerAsk;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        makerAsk.collection = address(new MockHypercertMinterSupportsNoInterface());
+        uint256[9] memory validationCodes =
+            orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
+        assertEq(validationCodes[6], POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_HYPERCERT);
+    }
+
+    function testMakerBidWrongCollectionTypeHypercert() public {
+        OrderStructs.Maker memory makerBid;
+        makerBid.quoteType = QuoteType.Bid;
+        makerBid.collectionType = CollectionType.Hypercert;
+        makerBid.collection = address(new MockHypercertMinterSupportsNoInterface());
+        uint256[9] memory validationCodes =
+            orderValidator.checkMakerOrderValidity(makerBid, new bytes(65), _EMPTY_MERKLE_TREE);
+        assertEq(validationCodes[6], POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_HYPERCERT);
     }
 
     function testMakerBidInsufficientERC20Allowance() public {
@@ -371,5 +397,54 @@ contract OrderValidatorV2ATest is TestParameters {
         uint256[9] memory validationCodes =
             orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
         assertEq(validationCodes[5], ERC1155_NO_APPROVAL_FOR_ALL);
+    }
+
+    // HYPERCERTS
+
+    function _testMakerAskHypercertUnitsInferiorToAmount(bool revertBalanceOf) public {
+        address collection;
+        if (revertBalanceOf) {
+            MockHypercertMinterWithoutAnyBalanceOf mockHypercert = new MockHypercertMinterWithoutAnyBalanceOf();
+            collection = address(mockHypercert);
+        } else {
+            MockHypercertMinter mockHypercert = new MockHypercertMinter();
+            collection = address(mockHypercert);
+        }
+
+        OrderStructs.Maker memory makerAsk;
+        makerAsk.quoteType = QuoteType.Ask;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        makerAsk.collection = collection;
+        makerAsk.signer = makerUser;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        uint256[] memory itemIds = new uint256[](1);
+        makerAsk.itemIds = itemIds;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+        makerAsk.amounts = amounts;
+
+        uint256[9] memory validationCodes =
+            orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
+        assertEq(validationCodes[5], HYPERCERT_UNITS_NOT_HELD_BY_USER);
+    }
+
+    function testMakerAskHypercertUnitsOfDoesNotExist() public {
+        MockHypercertMinterWithoutAnyUnitsOf mockHypercert = new MockHypercertMinterWithoutAnyUnitsOf();
+
+        OrderStructs.Maker memory makerAsk;
+        makerAsk.quoteType = QuoteType.Ask;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        makerAsk.collection = address(mockHypercert);
+        makerAsk.signer = makerUser;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        uint256[] memory itemIds = new uint256[](1);
+        makerAsk.itemIds = itemIds;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+        makerAsk.amounts = amounts;
+
+        uint256[9] memory validationCodes =
+            orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
+        assertEq(validationCodes[5], HYPERCERT_UNITS_OF_DOES_NOT_EXIST);
     }
 }
