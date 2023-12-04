@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity 0.8.17;
 
 /**
  * @notice CollectionType is used in OrderStructs.Maker's collectionType to determine the collection type being traded.

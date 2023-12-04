@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
 import {IERC165} from "@looksrare/contracts-libs/contracts/interfaces/generic/IERC165.sol";
@@ -16,6 +16,7 @@ import {MerkleProofCalldataWithNodes} from "../libraries/OpenZeppelin/MerkleProo
 import {ICreatorFeeManager} from "../interfaces/ICreatorFeeManager.sol";
 import {IStrategy} from "../interfaces/IStrategy.sol";
 import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
 import {OrderInvalid} from "../errors/SharedErrors.sol";
@@ -41,12 +42,12 @@ import {QuoteType} from "../enums/QuoteType.sol";
  *         3. Nonce related issues (e.g., nonce executed or cancelled)
  *         4. Signature related issues and merkle tree parameters
  *         5. Timestamp related issues (e.g., order expired)
- *         6. Asset-related issues for ERC20/ERC721/ERC1155 (approvals and balances)
+ *         6. Asset-related issues for ERC20/ERC721/ERC1155/Hypercerts (approvals and balances)
  *         7. Collection-type suggestions
  *         8. Transfer manager related issues
  *         9. Creator fee related issues (e.g., creator fee too high, ERC2981 bundles)
  * @dev This version does not handle strategies with partial fills.
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 contract OrderValidatorV2A {
     using OrderStructs for OrderStructs.Maker;
@@ -65,6 +66,11 @@ contract OrderValidatorV2A {
      * @notice ERC1155 interfaceId.
      */
     bytes4 public constant ERC1155_INTERFACE_ID = 0xd9b67a26;
+
+    /**
+     * @notice IHypercertToken interfaceId
+     */
+    bytes4 public constant HYPERCERT_INTERFACE_ID = 0xda69bafa;
 
     /**
      * @notice Magic value nonce returned if executed (or cancelled).
@@ -364,6 +370,10 @@ contract OrderValidatorV2A {
             if (!IERC165(collection).supportsInterface(ERC1155_INTERFACE_ID)) {
                 return POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC1155;
             }
+        } else if (collectionType == CollectionType.Hypercert) {
+            if (!IERC165(collection).supportsInterface(HYPERCERT_INTERFACE_ID)) {
+                return POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_HYPERCERT;
+            }
         }
     }
 
@@ -417,6 +427,8 @@ contract OrderValidatorV2A {
             validationCode = _checkValidityERC721AndEquivalents(collection, user, itemIds);
         } else if (collectionType == CollectionType.ERC1155) {
             validationCode = _checkValidityERC1155(collection, user, itemIds, amounts);
+        } else if (collectionType == CollectionType.Hypercert) {
+            validationCode = _checkValidityHypercert(collection, user, itemIds, amounts);
         }
     }
 
@@ -540,6 +552,60 @@ contract OrderValidatorV2A {
         }
 
         // 2. Verify if collection is approved by transfer manager
+        (success, data) =
+            collection.staticcall(abi.encodeCall(IERC1155.isApprovedForAll, (user, address(transferManager))));
+
+        if (!success) {
+            return ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST;
+        }
+
+        if (!abi.decode(data, (bool))) {
+            return ERC1155_NO_APPROVAL_FOR_ALL;
+        }
+    }
+
+    /**
+     * @notice This function verifies the validity of (1) Hypercerts + 1155 approvals
+     *         (2) and balances to process the maker ask order.
+     * @param collection Collection address
+     * @param user User address
+     * @param itemIds Array of fraction ids
+     * @param amounts Array of units held by each fraction
+     * @return validationCode Validation code
+     */
+    function _checkValidityHypercert(
+        address collection,
+        address user,
+        uint256[] memory itemIds,
+        uint256[] memory amounts
+    ) private view returns (uint256 validationCode) {
+        // 1. Verify each itemId is owned by user and catch revertion if ERC1155 ownerOf fails
+        address[] memory users = new address[](1);
+        users[0] = user;
+
+        uint256 length = itemIds.length;
+
+        bool success;
+        bytes memory data;
+
+        bytes4 selector = bytes4(keccak256(bytes("unitsOf(address,uint256)")));
+        for (uint256 i; i < length;) {
+            (success, data) = collection.staticcall(abi.encodeWithSelector(selector, user, itemIds[i]));
+
+            if (!success) {
+                return HYPERCERT_UNITS_OF_DOES_NOT_EXIST;
+            }
+
+            if (abi.decode(data, (uint256)) < amounts[i]) {
+                return HYPERCERT_UNITS_NOT_HELD_BY_USER;
+            }
+
+            unchecked {
+                ++i;
+            }
+        }
+
+        // 3. Verify if collection is approved by transfer manager
         (success, data) =
             collection.staticcall(abi.encodeCall(IERC1155.isApprovedForAll, (user, address(transferManager))));
 

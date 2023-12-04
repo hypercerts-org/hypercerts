@@ -68,6 +68,17 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         startHoax(alice, 10 ether);
     }
 
+    function testSupportsInterface() public {
+        // 721
+        assertEq(hypercertMinter.supportsInterface(0x80ac58cd), false);
+
+        // 1155
+        assertEq(hypercertMinter.supportsInterface(0xd9b67a26), true);
+
+        // IHypercertToken
+        assertEq(hypercertMinter.supportsInterface(0xda69bafa), true);
+    }
+
     /// @dev Run Forge with `-vvvv` to see console logs.
     function testFailInitialize() public {
         hypercertMinter.initialize();

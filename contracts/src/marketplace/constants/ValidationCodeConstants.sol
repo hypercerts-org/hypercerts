@@ -192,7 +192,7 @@ uint256 constant TOO_LATE_TO_EXECUTE_ORDER = 502;
 uint256 constant TOO_EARLY_TO_EXECUTE_ORDER = 503;
 
 /**
- * 6. Transfer-related (ERC20, ERC721, ERC1155 tokens), including transfers and approvals, codes.
+ * 6. Transfer-related (ERC20, ERC721, ERC1155, Hypercert tokens), including transfers and approvals, codes.
  */
 
 /**
@@ -258,6 +258,18 @@ uint256 constant ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST = 633;
  */
 uint256 constant ERC1155_NO_APPROVAL_FOR_ALL = 634;
 
+/*
+ * @dev The Hypercert collaction does not support balanceOf.
+ *      This maker order can become valid without any user's action.
+ */
+uint256 constant HYPERCERT_UNITS_OF_DOES_NOT_EXIST = 641;
+
+/*
+ * @dev The Hypercert fractionId is not owned by the signer (maker ask user).
+ *      This maker order can become valid without any user's action.
+ */
+uint256 constant HYPERCERT_UNITS_NOT_HELD_BY_USER = 642;
+
 /**
  * 7. Asset-type codes
  */
@@ -273,6 +285,12 @@ uint256 constant POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC721 = 701;
  *      It is expected to be collectionType = 1.
  */
 uint256 constant POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC1155 = 702;
+
+/**
+ * @dev The collection type specified in the order seems incorrect.
+ *      It is expected to be collectionType = 2.
+ */
+uint256 constant POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_HYPERCERT = 703;
 
 /**
  * 8. Transfer manager-related codes
