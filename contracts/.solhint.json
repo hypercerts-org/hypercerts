@@ -3,7 +3,7 @@
   "rules": {
     "avoid-low-level-calls": "off",
     "code-complexity": ["error", 12],
-    "compiler-version": ["error", ">=0.8.16"],
+    "compiler-version": ["error", "0.8.17"],
     "func-visibility": ["error", { "ignoreConstructors": true }],
     "no-console": "off",
     "no-empty-blocks": "off",

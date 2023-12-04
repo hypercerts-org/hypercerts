@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity 0.8.17;
 
 // LooksRare unopinionated libraries
 import {OwnableTwoSteps} from "@looksrare/contracts-libs/contracts/OwnableTwoSteps.sol";
@@ -23,12 +23,11 @@ import {CollectionType} from "./enums/CollectionType.sol";
 
 /**
  * @title TransferManager
- * @notice This contract provides the transfer functions for ERC721/ERC1155/Hypercert/Hyperboard for contracts that
+ * @notice This contract provides the transfer functions for ERC721/ERC1155/Hypercert for contracts that
  * require them.
  *         Collection type "0" refers to ERC721 transfer functions.
  *         Collection type "1" refers to ERC1155 transfer functions.
  *         Collection type "2" refers to Hypercert transfer functions.
- *         Collection type "3" refers to Hyperboard transfer functions.
  * @dev "Safe" transfer functions for ERC721 are not implemented since they come with added gas costs
  *       to verify if the recipient is a contract as it requires verifying the receiver interface is valid.
  * @author LooksRare protocol team (👀,💎); bitbeckers
