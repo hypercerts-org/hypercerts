@@ -42,7 +42,7 @@ export class ContractError extends Error implements CustomError {
 
   constructor(errorName?: string, payload?: { data: BaseError | Hex; [key: string]: unknown }) {
     const message = errorName
-      ? `Contract returned ${errorName}`
+      ? `Contract reverted: ${errorName}`
       : "Contract returned unparsable error. Inspect payload for returned data.";
 
     super(message);

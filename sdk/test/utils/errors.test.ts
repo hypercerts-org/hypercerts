@@ -1,7 +1,8 @@
 import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
-import chai, { expect } from "chai";
+import chai from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
+import sinonChai from "sinon-chai";
 
 import { ContractError, FetchError, MalformedDataError, UnsupportedChainError } from "../../src/types/errors";
 import { handleSdkError } from "../../src/utils/errors";
@@ -11,10 +12,13 @@ import { getRawInputData, publicClient, walletClient, testClient } from "../help
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString, NFTStorage } from "nft.storage";
-import { HypercertClient, TransferRestrictions, formatHypercertData } from "src";
-import { parseEther } from "viem";
+import { HypercertClient, HypercertMinterAbi, TransferRestrictions, formatHypercertData } from "src";
+import { parseEther, encodeErrorResult } from "viem";
 
 chai.use(assertionsCount);
+
+const expect = chai.expect;
+chai.use(sinonChai);
 
 describe("SDK Error handler", () => {
   it("handles SDK errors", () => {
@@ -39,6 +43,7 @@ describe("Contract Error handler", () => {
     web3StorageToken: "test",
   });
 
+  const readSpy = sinon.stub(publicClient, "readContract");
   const writeSpy = sinon.stub(walletClient, "writeContract");
 
   beforeAll(async () => {
@@ -58,19 +63,26 @@ describe("Contract Error handler", () => {
     sinon.restore();
   });
 
-  it("mints a hypercerts", async () => {
+  it("handles throw on mintClaim", async () => {
     expect(client.readonly).to.be.false;
 
     const rawData = getRawInputData();
     const { data: formattedData } = formatHypercertData(rawData);
+    readSpy.resolves(walletClient.account!.address);
+
+    const value = encodeErrorResult({
+      abi: HypercertMinterAbi,
+      errorName: "NotAllowed",
+    });
+    writeSpy.resolves(value);
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await client.mintClaim(formattedData!, 0n, TransferRestrictions.AllowAll);
-      expect.fail("Should have thrown an error");
+      await client.mintClaim(formattedData!, 0n, TransferRestrictions.DisallowAll);
     } catch (e) {
-      console.log(e);
       expect(e).to.be.instanceOf(ContractError);
+      const err = e as ContractError;
+      expect(err.message).to.equal("Contract returned NotAllowed");
     }
   });
 });

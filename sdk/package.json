@@ -81,6 +81,7 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "shx": "^0.3.4",
     "sinon": "^15.2.0",
+    "sinon-chai": "^3.7.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.5.0",

@@ -522,9 +522,8 @@ export class HypercertClient implements HypercertClientInterface {
     args: unknown[],
     overrides?: SupportedOverrides,
   ) => {
-    let _request;
     try {
-      const { result, request } = await this._publicClient.simulateContract({
+      const { request } = await this._publicClient.simulateContract({
         functionName,
         account,
         args,
@@ -532,13 +531,10 @@ export class HypercertClient implements HypercertClientInterface {
         ...this.getCleanedOverrides(overrides),
       });
 
-      console.log("Result: ", result);
-      _request = request;
+      return request;
     } catch (err) {
-      handleSimulatedContractError(err);
+      throw handleSimulatedContractError(err);
     }
-
-    return _request;
   };
 
   /**

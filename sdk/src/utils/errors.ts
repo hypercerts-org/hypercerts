@@ -43,12 +43,12 @@ const handleContractError = (data: Hex) => {
       data,
     });
 
-    throw new ContractError(value.errorName, {
+    return new ContractError(value.errorName, {
       data,
       args: value.args,
     });
   } catch (err) {
-    throw new ContractError(undefined, {
+    return new ContractError(undefined, {
       data,
     });
   }
@@ -60,17 +60,17 @@ const handleSimulatedContractError = (err: unknown) => {
     if (revertError instanceof ContractFunctionRevertedError) {
       const errorName = revertError.data?.errorName;
 
-      throw new ContractError(errorName, {
+      return new ContractError(errorName, {
         data: revertError.signature ?? err,
         args: revertError.data?.args,
         error: revertError,
       });
     } else {
-      throw new ContractError(undefined, { data: err });
+      return new ContractError(undefined, { data: err });
     }
   }
 
-  throw err;
+  return err;
 };
 
 export { handleSdkError, handleContractError, handleSimulatedContractError };
