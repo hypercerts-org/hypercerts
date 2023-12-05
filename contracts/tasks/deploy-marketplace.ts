@@ -453,7 +453,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     };
 
     const contracts: ContractDeployments = {
-      HypercertsExchange: {
+      HypercertExchange: {
         address: hypercertsExchangeCreate2.address,
         fullNamespace: "LooksRareProtocol",
         args: hypercertsExchangeArgs,

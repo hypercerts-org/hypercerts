@@ -107,9 +107,9 @@ const config: HardhatUserConfig = {
     path: "./abi",
     runOnCompile: true,
     clear: true,
-    pretty: true,
     only: [
       "CurrencyManager",
+      "ExecutionManager",
       "HypercertMinter",
       "LooksRareProtocol",
       "OrderValidatorV2A",

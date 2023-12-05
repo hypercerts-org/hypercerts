@@ -32,6 +32,7 @@ import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { MergeAllClaimFractionsButton } from "./components/merge-all-claim-fractions-button";
 import { SplitFractionButton } from "./components/split-fraction-button";
+import { TransferFractionButton } from "./components/transfer-fraction-button";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -182,6 +183,12 @@ PLASMIC.registerComponent(HypercertFetcher, {
   name: "HypercertFetcher",
   description: "Client-side fetch metadata from IPFS",
   props: {
+    overrideChainId: {
+      type: "number",
+      helpText: "Override chainId",
+      editOnly: true,
+      defaultValue: 5,
+    },
     variableName: {
       type: "string",
       helpText: "Name to use in Plasmic data picker",
@@ -671,6 +678,22 @@ PLASMIC.registerComponent(ProjectsClientProvider, {
   defaultStyles: {
     width: "Full bleed",
   },
+});
+
+PLASMIC.registerComponent(TransferFractionButton, {
+  name: "TransferFractionButton",
+  description: "Button that will transfer the fraction currently selected",
+  props: {
+    text: {
+      type: "string",
+      defaultValue: "Transfer",
+      helpText: "Text to display on button",
+    },
+    fractionId: "string",
+    disabled: "boolean",
+    className: "string",
+  },
+  importPath: "./components/transfer-fraction-button",
 });
 
 PLASMIC.registerComponent(MergeAllClaimFractionsButton, {

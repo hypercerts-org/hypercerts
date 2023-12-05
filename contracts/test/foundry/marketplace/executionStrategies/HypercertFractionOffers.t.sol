@@ -10,6 +10,7 @@ import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
 // Shared errors
 import {
     AmountInvalid,
+    LengthsInvalid,
     OrderInvalid,
     FunctionSelectorInvalid,
     MerkleProofInvalid,
@@ -136,7 +137,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         _assertOrderIsInvalid(makerAsk, false);
         _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
-        vm.expectRevert(OrderInvalid.selector);
+        vm.expectRevert(LengthsInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // // With proof
@@ -146,7 +147,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         _assertOrderIsInvalid(makerAsk, true);
         _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
-        vm.expectRevert(OrderInvalid.selector);
+        vm.expectRevert(LengthsInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
@@ -171,19 +172,177 @@ contract HypercertFractionOffersTest is ProtocolBase {
     }
 
     /**
+     * A collection offer without merkle tree criteria
+     */
+
+    function testTakerBidHypercertFractionOrderPartialFill() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
+    }
+
+    function testTakerBidHypercertFractionOrderFullFill() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, 10_000);
+        takerBid.additionalParameters = abi.encode(10_000, price);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        _assertSuccessfulTakerBidFullFraction(makerAsk, takerBid, (1 << 128) + 1);
+    }
+
+    function testTakerBidHypercertFractionOrderPartialAndFullFill() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        makerAsk.amounts[0] = 10_000;
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, 10_000);
+
+        takerBid.additionalParameters = abi.encode(3000, price);
+
+        uint256 fractionId = (1 << 128) + 1;
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction partial fill; buy 3000 units
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        _assertSuccessfulTakerBid(makerAsk, takerBid, fractionId);
+
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, 10_000);
+        takerBid.additionalParameters = abi.encode(7000, price);
+
+        // Execute taker ask transaction full fill; buy remaining 7000 units
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        //units, amount, currency, proof[]
+        (uint256 unitAmount, uint256 bidPrice) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
+
+        // Taker user has received the asset
+        assertEq(mockHypercertMinter.ownerOf(fractionId), takerUser);
+
+        // Units have been transfered
+        assertEq(mockHypercertMinter.unitsOf(fractionId), unitAmount);
+
+        // Verify the nonce is marked as executed
+        assertEq(looksRareProtocol.userOrderNonce(makerUser, makerAsk.orderNonce), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
+    }
+
+    function testTakerBidHypercertFractionOrderUnitsOutOfMaxRange() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, 100);
+        takerBid.additionalParameters = abi.encode(101, price);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    function testTakerBidHypercertFractionOrderUnitsOutOfMinRange() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        makerAsk.additionalParameters = abi.encode(5, 100);
+        takerBid.additionalParameters = abi.encode(2, price);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    function testTakerBidHypercertFractionOrderBidPriceTooLow() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount);
+        takerBid.additionalParameters = abi.encode(maxUnitAmount, price - 1);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    /**
      * A collection offer with merkle tree criteria
      */
     /**
      * TAKER ALLOWLIST
      */
-    function testTakerBidCollectionOrderWithMerkleTreeHypercertAccountAllowlist() public {
+    function testTakerBidHypercertFractionOrderWithMerkleTreeHypercertAccountAllowlist() public {
         _setUpUsers();
 
         (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
             _createMakerAskAndTakerBidHypercert(false);
 
         address accountInMerkleTree = takerUser;
-        uint256 tokenIdInMerkleTree = 2;
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
             owner: makerUser,
             numberOfAccountsInMerkleTree: 5,
@@ -218,7 +377,6 @@ contract HypercertFractionOffersTest is ProtocolBase {
             _createMakerAskAndTakerBidHypercert(false);
 
         address accountInMerkleTree = takerUser;
-        uint256 tokenIdInMerkleTree = 2;
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
             owner: makerUser,
             numberOfAccountsInMerkleTree: 5,
@@ -266,7 +424,6 @@ contract HypercertFractionOffersTest is ProtocolBase {
         // 2. Amount is 0 (with merkle proof)
         makerAsk.strategyId = 2;
         address accountInMerkleTree = takerUser;
-        uint256 tokenIdInMerkleTree = 2;
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
             owner: makerUser,
             numberOfAccountsInMerkleTree: 5,
@@ -397,7 +554,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
         uint256 fractionId
     ) private {
         //units, amount, currency, proof[]
-        (uint256 unitAmount, uint256 price) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
+        (uint256 unitAmount, uint256 bidPrice) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
 
         // Taker user has received the asset
         assertEq(mockHypercertMinter.ownerOf(fractionId), makerUser);
@@ -408,14 +565,40 @@ contract HypercertFractionOffersTest is ProtocolBase {
         assertEq(mockHypercertMinter.unitsOf(fractionId + 1), unitAmount);
 
         // Maker bid user pays the whole price
-        assertEq(weth.balanceOf(takerUser), _initialWETHBalanceUser - (unitAmount * price));
+        assertEq(weth.balanceOf(takerUser), _initialWETHBalanceUser - (unitAmount * bidPrice));
         // Taker ask user receives 99.5% of the whole price (0.5% protocol)
         assertEq(
             weth.balanceOf(makerUser),
             _initialWETHBalanceUser
-                + (unitAmount * price * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP
+                + (unitAmount * bidPrice * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP
         );
         // Verify the nonce is marked as executed
         assertEq(looksRareProtocol.userOrderNonce(makerUser, makerAsk.orderNonce), _computeOrderHash(makerAsk));
+    }
+
+    function _assertSuccessfulTakerBidFullFraction(
+        OrderStructs.Maker memory makerAsk,
+        OrderStructs.Taker memory takerBid,
+        uint256 fractionId
+    ) private {
+        //units, amount, currency, proof[]
+        (uint256 unitAmount, uint256 bidPrice) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
+
+        // Taker user has received the asset
+        assertEq(mockHypercertMinter.ownerOf(fractionId), takerUser);
+
+        // Units have been transfered
+        assertEq(mockHypercertMinter.unitsOf(fractionId), unitAmount);
+
+        // Maker bid user pays the whole price
+        assertEq(weth.balanceOf(takerUser), _initialWETHBalanceUser - (unitAmount * bidPrice));
+        // Taker ask user receives 99.5% of the whole price (0.5% protocol)
+        assertEq(
+            weth.balanceOf(makerUser),
+            _initialWETHBalanceUser
+                + (unitAmount * bidPrice * _sellerProceedBpWithStandardProtocolFeeBp) / ONE_HUNDRED_PERCENT_IN_BP
+        );
+        // Verify the nonce is marked as executed
+        assertEq(looksRareProtocol.userOrderNonce(makerUser, makerAsk.orderNonce), MAGIC_VALUE_ORDER_NONCE_EXECUTED);
     }
 }

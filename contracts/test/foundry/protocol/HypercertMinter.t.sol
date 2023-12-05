@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.16;
+pragma solidity 0.8.17;
 
 import {StdCheats} from "forge-std/StdCheats.sol";
 import {StdUtils} from "forge-std/StdUtils.sol";
@@ -66,6 +66,17 @@ contract HypercertMinterTest is PRBTest, StdCheats, StdUtils, MinterTestHelper {
         _uri = "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi";
         alice = address(1);
         startHoax(alice, 10 ether);
+    }
+
+    function testSupportsInterface() public {
+        // 721
+        assertEq(hypercertMinter.supportsInterface(0x80ac58cd), false);
+
+        // 1155
+        assertEq(hypercertMinter.supportsInterface(0xd9b67a26), true);
+
+        // IHypercertToken
+        assertEq(hypercertMinter.supportsInterface(0xda69bafa), true);
     }
 
     /// @dev Run Forge with `-vvvv` to see console logs.

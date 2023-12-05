@@ -1,6 +1,6 @@
 import { providers } from "ethers";
 import { PublicClient, HttpTransport, WalletClient } from "viem";
-import logger from "./logger";
+import { logger } from "./logger";
 import { Signer, TypedDataSigner } from "@ethersproject/abstract-signer";
 
 /**

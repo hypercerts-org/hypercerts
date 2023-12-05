@@ -8,8 +8,10 @@ import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/Trans
 import StrategyCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
 import StrategyHypercertFractionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
 import CreatorFeeManagerWithRoyaltiesAbi from "../abi/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
+import ExecutionManagerAbi from "../abi/src/marketplace/ExecutionManager.sol/ExecutionManager.json";
 
 import {
+  ExecutionManager,
   HypercertMinter,
   IHypercertToken,
   LooksRareProtocol as HypercertExchange,
@@ -37,7 +39,7 @@ export type DeploymentProtocol = {
 };
 
 export type DeploymentMarketplace = {
-  HypercertsExchange: `0x${string}`;
+  HypercertExchange: `0x${string}`;
   TransferManager: `0x${string}`;
   OrderValidatorV2A: `0x${string}`;
 };
@@ -49,7 +51,7 @@ export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 const deployments = {
   5: {
     ...DEPLOYMENTS.protocol["5"],
-    HypercertsExchange: DEPLOYMENTS.marketplace[5].HypercertsExchange.address,
+    HypercertExchange: DEPLOYMENTS.marketplace[5].HypercertExchange.address,
     TransferManager: DEPLOYMENTS.marketplace[5].TransferManager.address,
     OrderValidatorV2A: DEPLOYMENTS.marketplace[5].OrderValidator.address,
   },
@@ -74,6 +76,7 @@ export { deployments, asDeployedChain };
 // Abis
 export {
   CreatorFeeManagerWithRoyaltiesAbi,
+  ExecutionManagerAbi,
   HypercertMinterAbi,
   HypercertExchangeAbi,
   OrderValidatorV2AAbi,
@@ -86,6 +89,7 @@ export {
 // Interfaces
 export type {
   CreatorFeeManagerWithRoyalties,
+  ExecutionManager,
   IHypercertExchange,
   IHypercertToken,
   HypercertExchange,

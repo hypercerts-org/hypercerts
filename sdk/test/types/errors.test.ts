@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 import { expect } from "chai";
 
 import {
@@ -10,7 +12,7 @@ import {
   UnsupportedChainError,
 } from "../../src/types/errors";
 
-describe.only("Error types", () => {
+describe("Error types", () => {
   it("has ClientError", () => {
     const error = new ClientError("Client error", { foo: "bar" });
     error.message = "Client error";

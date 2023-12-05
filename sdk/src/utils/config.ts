@@ -9,7 +9,7 @@ import {
   SupportedChainIds,
   UnsupportedChainError,
 } from "../types";
-import logger from "./logger";
+import { logger } from "./logger";
 import { createPublicClient, http, isAddress } from "viem";
 import { deployments } from "../../src";
 
