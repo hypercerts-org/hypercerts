@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { HypercertClient } from "@hypercerts-org/sdk";
 
 export const formatScope = (scopeLabel: string) =>
   scopeLabel.toLowerCase().replaceAll(/\s+/g, "-").trim();
