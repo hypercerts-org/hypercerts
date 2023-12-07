@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { HypercertClient } from "@hypercerts-org/sdk";
 
 export const formatScope = (scopeLabel: string) =>
   scopeLabel.toLowerCase().replaceAll(/\s+/g, "-").trim();
@@ -74,10 +73,13 @@ export const formatAddress = (address: string) =>
 export const cidToIpfsUri = (cid: string) =>
   cid.startsWith("ipfs://") ? cid : `ipfs://${cid}`;
 
-export const formatExternalUrl = (
-  client: HypercertClient,
-  externalUrl?: string,
-) => {
+const getIpfsGatewayUri = (cidOrIpfsUri: string) => {
+  const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
+  const cid = cidOrIpfsUri.replace("ipfs://", "");
+  return NFT_STORAGE_IPFS_GATEWAY.replace("{cid}", cid);
+};
+
+export const formatExternalUrl = (externalUrl?: string) => {
   if (!externalUrl) {
     return "";
   }
@@ -85,7 +87,5 @@ export const formatExternalUrl = (
     return externalUrl;
   }
 
-  return client.storage.getNftStorageGatewayUri(
-    externalUrl.replace("ipfs://", ""),
-  );
+  return getIpfsGatewayUri(externalUrl);
 };

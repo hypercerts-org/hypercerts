@@ -29,18 +29,30 @@ export const useMergeFractionUnits = ({
     try {
       setTxPending(true);
 
-      const tx = await client.mergeClaimUnits(ids);
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
+      const hash = await client.mergeFractionUnits(ids);
+
+      const publicClient = client.config.publicClient;
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Merging failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
-        toast(mintInteractionLabels.toastSuccess, { type: "success" });
+      if (receipt?.status === "success") {
+        toast("Fractions successfully merged", { type: "success" });
 
         setStep("complete");
         onComplete?.();
@@ -61,6 +73,7 @@ export const useMergeFractionUnits = ({
       showModal({ stepDescriptions });
       setStep("preparing");
       await initializeWrite(ids);
+      window.location.reload();
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

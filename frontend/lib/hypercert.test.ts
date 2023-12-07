@@ -23,7 +23,7 @@ function genClaimTokens(
       id: id,
       tokenID: tokenID,
       owner: owner,
-      chainName: options?.chainName ?? "test",
+      graphName: options?.chainName ?? "test",
       units: options?.units ?? "100",
     });
   }
@@ -37,7 +37,7 @@ function genClaim(totalUnits: string): Claim {
     contract: randomAddress(),
     tokenID: randomTokenID(),
     totalUnits: totalUnits,
-    chainName: "test",
+    graphName: "test",
   };
 }
 

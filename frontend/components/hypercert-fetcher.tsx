@@ -28,6 +28,7 @@ export interface HypercertFetcherProps {
   useQueryString?: boolean; // Forces us to try the query string first
   byClaimId?: string; // Fetch by claimId
   byMetadataUri?: string; // Fetch by metadataUri; If both are specified, byMetadataUri will override the URI in the claim
+  overrideChainId?: number; // Override the chainId
 }
 
 export function HypercertFetcher(props: HypercertFetcherProps) {
@@ -40,11 +41,17 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
     useQueryString,
     byClaimId,
     byMetadataUri,
+    overrideChainId,
   } = props;
   const [data, setData] = React.useState<Hypercert | undefined>();
-  const { client } = useHypercertClient();
+  const { client } = useHypercertClient({
+    overrideChainId,
+  });
 
   React.useEffect(() => {
+    if (!client) {
+      return;
+    }
     spawn(
       (async () => {
         const hashQueryString = window.location.hash.slice(
@@ -70,16 +77,16 @@ export function HypercertFetcher(props: HypercertFetcherProps) {
           overrideMetadataUri: useQueryString && byMetadataUri !== undefined,
         });
         console.log(
-          `Hypercert name='${hypercert.name}' claimId=${claimId}, metadataUri=${hypercert.metadataUri}: `,
+          `Hypercert name='${hypercert.name}' claimId=${claimId}, qClaimId=${qClaimId} byClaimId=${byClaimId} metadataUri=${hypercert.metadataUri}: `,
           hypercert,
         );
         setData(hypercert);
       })(),
     );
-  }, [useQueryString, byClaimId, byMetadataUri]);
+  }, [useQueryString, byClaimId, byMetadataUri, client]);
 
   // Show when loading
-  if (!ignoreLoading && !!loading && !data) {
+  if (!client && !ignoreLoading && !!loading && !data) {
     return <div className={className}> {loading} </div>;
   }
 

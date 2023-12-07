@@ -4,24 +4,24 @@ sources:
       graphql:
         # Default value is hypercerts-testnet
         # This is needed for the initial introspection on buildtime
-        endpoint: "{context.graphUrl:https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet}"
+        endpoint: https://api.thegraph.com/subgraphs/name/hypercerts-admin/{context.graphName:hypercerts-testnet}
 
 additionalTypeDefs: |
   extend type Claim {
-    chainName: String!
+    graphName: String!
   }
    extend type ClaimToken {
-    chainName: String!
+    graphName: String!
   }
 
 additionalResolvers:
-  - ./src/utils/resolvers.ts
+  - src/utils/resolvers.ts
 
 documents:
-  - ./src/indexer/queries/*.graphql
+  - src/indexer/queries/*.graphql
 
 codegen:
-  contextType: "MeshContext & { graphUrl: string, chainName: string }"
+  contextType: "MeshContext & { graphName: string }"
 
 plugins:
   - pollingLive:

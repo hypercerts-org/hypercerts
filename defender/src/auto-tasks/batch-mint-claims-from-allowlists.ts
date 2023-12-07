@@ -13,14 +13,6 @@ import { BigNumber, ethers } from "ethers";
 import fetch from "node-fetch";
 
 export async function handler(event: AutotaskEvent) {
-  console.log(
-    "Event: ",
-    JSON.stringify(
-      { ...event, secrets: "HIDDEN", credentials: "HIDDEN" },
-      null,
-      2,
-    ),
-  );
   const network = getNetworkConfigFromName(event.autotaskName);
   const { SUPABASE_URL, SUPABASE_SECRET_API_KEY } = event.secrets;
   const ALCHEMY_KEY = event.secrets[network.alchemyKeyEnvName];

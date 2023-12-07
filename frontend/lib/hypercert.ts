@@ -27,6 +27,7 @@ export async function loadHypercert(
   client: HypercertClient,
   options: LoadOptions,
 ): Promise<Hypercert> {
+  console.log("Options: ", options);
   if (options.claimId) {
     const claimQueryResp = await client.indexer.claimById(options.claimId);
     const claimTokensQueryResp = await client.indexer.fractionsByClaim(
@@ -42,10 +43,7 @@ export async function loadHypercert(
       const metadata = await client.storage.getMetadata(metadataUri);
       hypercert.metadata = {
         ...metadata,
-        external_url_formatted: formatExternalUrl(
-          client,
-          metadata.external_url,
-        ),
+        external_url_formatted: formatExternalUrl(metadata.external_url),
       };
     }
     return hypercert;
@@ -54,10 +52,7 @@ export async function loadHypercert(
       const metadata = await client.storage.getMetadata(options.metadataUri);
       return new MetadataOnlyHypercert(options.metadataUri, {
         ...metadata,
-        external_url_formatted: formatExternalUrl(
-          client,
-          metadata.external_url,
-        ),
+        external_url_formatted: formatExternalUrl(metadata.external_url),
       });
     }
     throw new Error(

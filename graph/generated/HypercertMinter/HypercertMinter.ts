@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class AdminChanged extends ethereum.Event {
@@ -401,8 +401,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
-      ]
+        ethereum.Value.fromUnsignedBigInt(id),
+      ],
     );
 
     return result[0].toBigInt();
@@ -414,8 +414,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
-      ]
+        ethereum.Value.fromUnsignedBigInt(id),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -430,8 +430,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
-      ]
+        ethereum.Value.fromUnsignedBigIntArray(ids),
+      ],
     );
 
     return result[0].toBigIntArray();
@@ -439,15 +439,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_balanceOfBatch(
     accounts: Array<Address>,
-    ids: Array<BigInt>
+    ids: Array<BigInt>,
   ): ethereum.CallResult<Array<BigInt>> {
     let result = super.tryCall(
       "balanceOfBatch",
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
-      ]
+        ethereum.Value.fromUnsignedBigIntArray(ids),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -462,8 +462,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "hasBeenClaimed(uint256,bytes32):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromFixedBytes(param1)
-      ]
+        ethereum.Value.fromFixedBytes(param1),
+      ],
     );
 
     return result[0].toBoolean();
@@ -471,15 +471,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_hasBeenClaimed(
     param0: BigInt,
-    param1: Bytes
+    param1: Bytes,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "hasBeenClaimed",
       "hasBeenClaimed(uint256,bytes32):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromFixedBytes(param1)
-      ]
+        ethereum.Value.fromFixedBytes(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -495,8 +495,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(proof),
         ethereum.Value.fromUnsignedBigInt(claimID),
-        ethereum.Value.fromFixedBytes(leaf)
-      ]
+        ethereum.Value.fromFixedBytes(leaf),
+      ],
     );
 
     return result[0].toBoolean();
@@ -505,7 +505,7 @@ export class HypercertMinter extends ethereum.SmartContract {
   try_isAllowedToClaim(
     proof: Array<Bytes>,
     claimID: BigInt,
-    leaf: Bytes
+    leaf: Bytes,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isAllowedToClaim",
@@ -513,8 +513,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(proof),
         ethereum.Value.fromUnsignedBigInt(claimID),
-        ethereum.Value.fromFixedBytes(leaf)
-      ]
+        ethereum.Value.fromFixedBytes(leaf),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -529,8 +529,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
-      ]
+        ethereum.Value.fromAddress(operator),
+      ],
     );
 
     return result[0].toBoolean();
@@ -538,15 +538,15 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_isApprovedForAll(
     account: Address,
-    operator: Address
+    operator: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
-      ]
+        ethereum.Value.fromAddress(operator),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -587,7 +587,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   ownerOf(tokenID: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
 
     return result[0].toAddress();
@@ -595,7 +595,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_ownerOf(tokenID: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -629,7 +629,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.tryCall(
       "proxiableUUID",
       "proxiableUUID():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -638,11 +638,34 @@ export class HypercertMinter extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
+  readTransferRestriction(tokenID: BigInt): string {
+    let result = super.call(
+      "readTransferRestriction",
+      "readTransferRestriction(uint256):(string)",
+      [ethereum.Value.fromUnsignedBigInt(tokenID)],
+    );
+
+    return result[0].toString();
+  }
+
+  try_readTransferRestriction(tokenID: BigInt): ethereum.CallResult<string> {
+    let result = super.tryCall(
+      "readTransferRestriction",
+      "readTransferRestriction(uint256):(string)",
+      [ethereum.Value.fromUnsignedBigInt(tokenID)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
   supportsInterface(interfaceId: Bytes): boolean {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
 
     return result[0].toBoolean();
@@ -652,7 +675,7 @@ export class HypercertMinter extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -664,7 +687,7 @@ export class HypercertMinter extends ethereum.SmartContract {
   unitsOf(account: Address, tokenID: BigInt): BigInt {
     let result = super.call("unitsOf", "unitsOf(address,uint256):(uint256)", [
       ethereum.Value.fromAddress(account),
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
 
     return result[0].toBigInt();
@@ -676,8 +699,8 @@ export class HypercertMinter extends ethereum.SmartContract {
       "unitsOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(tokenID)
-      ]
+        ethereum.Value.fromUnsignedBigInt(tokenID),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -688,7 +711,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   unitsOf1(tokenID: BigInt): BigInt {
     let result = super.call("unitsOf", "unitsOf(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
 
     return result[0].toBigInt();
@@ -696,7 +719,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_unitsOf1(tokenID: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall("unitsOf", "unitsOf(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -707,7 +730,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   uri(tokenID: BigInt): string {
     let result = super.call("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
 
     return result[0].toString();
@@ -715,7 +738,7 @@ export class HypercertMinter extends ethereum.SmartContract {
 
   try_uri(tokenID: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenID)
+      ethereum.Value.fromUnsignedBigInt(tokenID),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -777,28 +800,36 @@ export class __SemiFungible1155_initCall__Outputs {
   }
 }
 
-export class __Upgradeable1155_initCall extends ethereum.Call {
-  get inputs(): __Upgradeable1155_initCall__Inputs {
-    return new __Upgradeable1155_initCall__Inputs(this);
+export class BatchBurnFractionCall extends ethereum.Call {
+  get inputs(): BatchBurnFractionCall__Inputs {
+    return new BatchBurnFractionCall__Inputs(this);
   }
 
-  get outputs(): __Upgradeable1155_initCall__Outputs {
-    return new __Upgradeable1155_initCall__Outputs(this);
+  get outputs(): BatchBurnFractionCall__Outputs {
+    return new BatchBurnFractionCall__Outputs(this);
   }
 }
 
-export class __Upgradeable1155_initCall__Inputs {
-  _call: __Upgradeable1155_initCall;
+export class BatchBurnFractionCall__Inputs {
+  _call: BatchBurnFractionCall;
 
-  constructor(call: __Upgradeable1155_initCall) {
+  constructor(call: BatchBurnFractionCall) {
     this._call = call;
   }
+
+  get _account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _tokenIDs(): Array<BigInt> {
+    return this._call.inputValues[1].value.toBigIntArray();
+  }
 }
 
-export class __Upgradeable1155_initCall__Outputs {
-  _call: __Upgradeable1155_initCall;
+export class BatchBurnFractionCall__Outputs {
+  _call: BatchBurnFractionCall;
 
-  constructor(call: __Upgradeable1155_initCall) {
+  constructor(call: BatchBurnFractionCall) {
     this._call = call;
   }
 }
@@ -820,16 +851,20 @@ export class BatchMintClaimsFromAllowlistsCall__Inputs {
     this._call = call;
   }
 
+  get account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get proofs(): Array<Array<Bytes>> {
-    return this._call.inputValues[0].value.toBytesMatrix();
+    return this._call.inputValues[1].value.toBytesMatrix();
   }
 
   get claimIDs(): Array<BigInt> {
-    return this._call.inputValues[1].value.toBigIntArray();
+    return this._call.inputValues[2].value.toBigIntArray();
   }
 
   get units(): Array<BigInt> {
-    return this._call.inputValues[2].value.toBigIntArray();
+    return this._call.inputValues[3].value.toBigIntArray();
   }
 }
 
@@ -917,20 +952,20 @@ export class BurnBatchCall__Outputs {
   }
 }
 
-export class BurnValueCall extends ethereum.Call {
-  get inputs(): BurnValueCall__Inputs {
-    return new BurnValueCall__Inputs(this);
+export class BurnFractionCall extends ethereum.Call {
+  get inputs(): BurnFractionCall__Inputs {
+    return new BurnFractionCall__Inputs(this);
   }
 
-  get outputs(): BurnValueCall__Outputs {
-    return new BurnValueCall__Outputs(this);
+  get outputs(): BurnFractionCall__Outputs {
+    return new BurnFractionCall__Outputs(this);
   }
 }
 
-export class BurnValueCall__Inputs {
-  _call: BurnValueCall;
+export class BurnFractionCall__Inputs {
+  _call: BurnFractionCall;
 
-  constructor(call: BurnValueCall) {
+  constructor(call: BurnFractionCall) {
     this._call = call;
   }
 
@@ -943,10 +978,10 @@ export class BurnValueCall__Inputs {
   }
 }
 
-export class BurnValueCall__Outputs {
-  _call: BurnValueCall;
+export class BurnFractionCall__Outputs {
+  _call: BurnFractionCall;
 
-  constructor(call: BurnValueCall) {
+  constructor(call: BurnFractionCall) {
     this._call = call;
   }
 }
@@ -968,20 +1003,24 @@ export class CreateAllowlistCall__Inputs {
     this._call = call;
   }
 
+  get account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get units(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+    return this._call.inputValues[1].value.toBigInt();
   }
 
   get merkleRoot(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
+    return this._call.inputValues[2].value.toBytes();
   }
 
   get _uri(): string {
-    return this._call.inputValues[2].value.toString();
+    return this._call.inputValues[3].value.toString();
   }
 
   get restrictions(): i32 {
-    return this._call.inputValues[3].value.toI32();
+    return this._call.inputValues[4].value.toI32();
   }
 }
 
@@ -1019,32 +1058,36 @@ export class InitializeCall__Outputs {
   }
 }
 
-export class MergeValueCall extends ethereum.Call {
-  get inputs(): MergeValueCall__Inputs {
-    return new MergeValueCall__Inputs(this);
+export class MergeFractionsCall extends ethereum.Call {
+  get inputs(): MergeFractionsCall__Inputs {
+    return new MergeFractionsCall__Inputs(this);
   }
 
-  get outputs(): MergeValueCall__Outputs {
-    return new MergeValueCall__Outputs(this);
+  get outputs(): MergeFractionsCall__Outputs {
+    return new MergeFractionsCall__Outputs(this);
   }
 }
 
-export class MergeValueCall__Inputs {
-  _call: MergeValueCall;
+export class MergeFractionsCall__Inputs {
+  _call: MergeFractionsCall;
 
-  constructor(call: MergeValueCall) {
+  constructor(call: MergeFractionsCall) {
     this._call = call;
   }
 
+  get _account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get _fractionIDs(): Array<BigInt> {
-    return this._call.inputValues[0].value.toBigIntArray();
+    return this._call.inputValues[1].value.toBigIntArray();
   }
 }
 
-export class MergeValueCall__Outputs {
-  _call: MergeValueCall;
+export class MergeFractionsCall__Outputs {
+  _call: MergeFractionsCall;
 
-  constructor(call: MergeValueCall) {
+  constructor(call: MergeFractionsCall) {
     this._call = call;
   }
 }
@@ -1066,16 +1109,20 @@ export class MintClaimCall__Inputs {
     this._call = call;
   }
 
+  get account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get units(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+    return this._call.inputValues[1].value.toBigInt();
   }
 
   get _uri(): string {
-    return this._call.inputValues[1].value.toString();
+    return this._call.inputValues[2].value.toString();
   }
 
   get restrictions(): i32 {
-    return this._call.inputValues[2].value.toI32();
+    return this._call.inputValues[3].value.toI32();
   }
 }
 
@@ -1104,16 +1151,20 @@ export class MintClaimFromAllowlistCall__Inputs {
     this._call = call;
   }
 
+  get account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get proof(): Array<Bytes> {
-    return this._call.inputValues[0].value.toBytesArray();
+    return this._call.inputValues[1].value.toBytesArray();
   }
 
   get claimID(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+    return this._call.inputValues[2].value.toBigInt();
   }
 
   get units(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+    return this._call.inputValues[3].value.toBigInt();
   }
 }
 
@@ -1142,20 +1193,24 @@ export class MintClaimWithFractionsCall__Inputs {
     this._call = call;
   }
 
+  get account(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
   get units(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+    return this._call.inputValues[1].value.toBigInt();
   }
 
   get fractions(): Array<BigInt> {
-    return this._call.inputValues[1].value.toBigIntArray();
+    return this._call.inputValues[2].value.toBigIntArray();
   }
 
   get _uri(): string {
-    return this._call.inputValues[2].value.toString();
+    return this._call.inputValues[3].value.toString();
   }
 
   get restrictions(): i32 {
-    return this._call.inputValues[3].value.toI32();
+    return this._call.inputValues[4].value.toI32();
   }
 }
 
@@ -1345,20 +1400,20 @@ export class SetApprovalForAllCall__Outputs {
   }
 }
 
-export class SplitValueCall extends ethereum.Call {
-  get inputs(): SplitValueCall__Inputs {
-    return new SplitValueCall__Inputs(this);
+export class SplitFractionCall extends ethereum.Call {
+  get inputs(): SplitFractionCall__Inputs {
+    return new SplitFractionCall__Inputs(this);
   }
 
-  get outputs(): SplitValueCall__Outputs {
-    return new SplitValueCall__Outputs(this);
+  get outputs(): SplitFractionCall__Outputs {
+    return new SplitFractionCall__Outputs(this);
   }
 }
 
-export class SplitValueCall__Inputs {
-  _call: SplitValueCall;
+export class SplitFractionCall__Inputs {
+  _call: SplitFractionCall;
 
-  constructor(call: SplitValueCall) {
+  constructor(call: SplitFractionCall) {
     this._call = call;
   }
 
@@ -1370,15 +1425,15 @@ export class SplitValueCall__Inputs {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get _values(): Array<BigInt> {
+  get _newFractions(): Array<BigInt> {
     return this._call.inputValues[2].value.toBigIntArray();
   }
 }
 
-export class SplitValueCall__Outputs {
-  _call: SplitValueCall;
+export class SplitFractionCall__Outputs {
+  _call: SplitFractionCall;
 
-  constructor(call: SplitValueCall) {
+  constructor(call: SplitFractionCall) {
     this._call = call;
   }
 }

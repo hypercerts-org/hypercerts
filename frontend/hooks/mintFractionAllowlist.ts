@@ -15,6 +15,7 @@ export const useMintFractionAllowlist = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+
   const { setStep, showModal, hideModal } = useContractModal();
 
   const stepDescriptions = {
@@ -29,27 +30,40 @@ export const useMintFractionAllowlist = ({
   const initializeWrite = async (
     claimID: bigint,
     units: bigint,
-    proof: string[],
+    proof: `0x${string}`[],
   ) => {
     setStep("minting");
     try {
       setTxPending(true);
 
-      const tx = await client.mintClaimFractionFromAllowlist(
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
+      const hash = await client.mintClaimFractionFromAllowlist(
         claimID,
         units,
         proof,
       );
+
+      const publicClient = client.config.publicClient;
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash: hash,
+      });
+
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Minting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");
@@ -67,7 +81,7 @@ export const useMintFractionAllowlist = ({
   };
 
   return {
-    write: async (proof: string[], claimId: bigint, units: bigint) => {
+    write: async (proof: `0x${string}`[], claimId: bigint, units: bigint) => {
       showModal({ stepDescriptions });
       setStep("initial");
       await initializeWrite(claimId, units, proof);

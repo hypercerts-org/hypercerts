@@ -1,10 +1,12 @@
-import { Resolvers } from "../../.graphclient/index.js";
+import { Resolvers } from "../../.graphclient";
 
-export const resolvers: Resolvers = {
+const resolvers: Resolvers = {
   Claim: {
-    chainName: (root, args, context) => context.chainName || "hypercerts-testnet", // The value we provide in the config
+    graphName: (root, args, context) => root.graphName || context.graphName || "hypercerts-testnet", // The value we provide in the config
   },
   ClaimToken: {
-    chainName: (root, args, context) => context.chainName || "hypercerts-testnet", // The value we provide in the config
+    graphName: (root, args, context) => root.graphName || context.graphName || "hypercerts-testnet", // The value we provide in the config
   },
 };
+
+export { resolvers };

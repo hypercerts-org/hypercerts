@@ -27,8 +27,9 @@ export const updateAutotask = async (networks: NetworkConfig[]) => {
 
       autotaskClient
         .updateCodeFromFolder(autoTask.autotaskId, `./build/relay/${name}`)
-        .then((_) => {
+        .then((res) => {
           console.log(`Updated ${autoTask.autotaskId}`);
+          console.log(res);
         })
         .catch((err) => {
           console.error(`Failed to update ${autoTask.autotaskId}`);
@@ -67,8 +68,9 @@ export const updateSentinel = async (networks: NetworkConfig[]) => {
           addresses: [network.contractAddress],
           abi,
         })
-        .then((_) => {
+        .then((res) => {
           console.log(`Updated: ", ${sentinel.subscriberId}`);
+          console.log(res);
         })
         .catch((err) => {
           console.error(`Failed to update ${sentinel.subscriberId}`);

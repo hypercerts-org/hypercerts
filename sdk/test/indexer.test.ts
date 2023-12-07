@@ -1,17 +1,22 @@
+import { describe, it } from "vitest";
+
 import { expect } from "chai";
 
-import HypercertsIndexer from "../src/indexer.js";
+import { HypercertIndexer } from "../src/indexer";
 
 describe("HypercertsIndexer", () => {
   it("should be able to create a new instance without valid graphName", () => {
-    const indexer = new HypercertsIndexer({});
+    const indexer = new HypercertIndexer({ graphName: "hypercerts-testnet" });
 
-    expect(indexer).to.be.an.instanceOf(HypercertsIndexer);
+    expect(indexer).to.be.an.instanceOf(HypercertIndexer);
   });
 
   it("should be able to create a new instance with valid graphName", () => {
-    const indexer = new HypercertsIndexer({ graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet" });
+    const indexer = new HypercertIndexer({
+      graphName: "hypercerts-testnet",
+      graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet",
+    });
 
-    expect(indexer).to.be.an.instanceOf(HypercertsIndexer);
+    expect(indexer).to.be.an.instanceOf(HypercertIndexer);
   });
 });

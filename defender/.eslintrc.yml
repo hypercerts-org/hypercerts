@@ -9,7 +9,7 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
 root: true
-ignorePatterns: ["rollup.config.js", "jest.config.ts", "build/"]
+ignorePatterns: ["build/"]
 rules:
   "@typescript-eslint/semi":
     - warn

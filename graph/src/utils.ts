@@ -1,6 +1,17 @@
-import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
-import { Allowlist, Claim, ClaimToken } from "../generated/schema";
 import { HypercertMinter } from "../generated/HypercertMinter/HypercertMinter";
+import {
+  AcceptedToken,
+  Allowlist,
+  Claim,
+  ClaimToken,
+  Offer,
+  Token,
+} from "../generated/schema";
+import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
+
+export const ZERO_ADDRESS = Address.fromString(
+  "0x0000000000000000000000000000000000000000",
+);
 
 export function getID(tokenID: BigInt, contract: Address): string {
   return contract.toHexString().concat("-".concat(tokenID.toString()));
@@ -9,9 +20,9 @@ export function getID(tokenID: BigInt, contract: Address): string {
 export function getOrCreateAllowlist(
   claimID: BigInt,
   root: Bytes,
-  contract: Address
+  contract: Address,
 ): Allowlist {
-  let id = getID(claimID, contract);
+  const id = getID(claimID, contract);
   let list = Allowlist.load(id);
 
   log.debug("Created allowlistID: {}", [id]);
@@ -29,17 +40,23 @@ export function getOrCreateAllowlist(
 export function getOrCreateClaim(
   claimID: BigInt,
   contract: Address,
-  timestamp: BigInt
+  timestamp: BigInt,
 ): Claim {
-  let id = getID(claimID, contract);
+  const id = getID(claimID, contract);
   let claim = Claim.load(id);
 
   log.debug("Created claimID: {}", [id]);
 
   if (claim == null) {
     claim = new Claim(id);
+    const list = Allowlist.load(id);
+
     if (timestamp) {
       claim.creation = timestamp;
+    }
+
+    if (list) {
+      claim.allowlist = list.id;
     }
     claim.tokenID = claimID;
     claim.contract = contract.toHexString();
@@ -52,17 +69,17 @@ export function getOrCreateClaim(
 export function getOrCreateClaimToken(
   claimID: BigInt,
   tokenID: BigInt,
-  contract: Address
+  contract: Address,
 ): ClaimToken {
-  let minterContract = HypercertMinter.bind(contract);
+  const minterContract = HypercertMinter.bind(contract);
 
-  let id = getID(tokenID, contract);
+  const id = getID(tokenID, contract);
   let fraction = ClaimToken.load(id);
 
   if (fraction == null) {
     log.debug("Creating claimToken: {}", [id]);
 
-    let owner = minterContract.ownerOf(tokenID);
+    const owner = minterContract.ownerOf(tokenID);
 
     fraction = new ClaimToken(id);
     fraction.owner = owner;
@@ -73,4 +90,109 @@ export function getOrCreateClaimToken(
   }
 
   return fraction;
+}
+
+export function getOrCreateToken(token: Address): Token {
+  const _tokenID = token.toHexString();
+  let _token = Token.load(_tokenID);
+
+  if (_token == null) {
+    _token = new Token(_tokenID);
+    log.debug("Created Token: {}", [_tokenID]);
+    _token.name = "Native";
+    _token.save();
+  }
+
+  log.debug("Returning Token: {}", [_tokenID]);
+
+  return _token;
+}
+
+export function getOrCreateAcceptedToken(
+  offerID: BigInt,
+  token: Address,
+  minimumAmountPerUnit: BigInt,
+): AcceptedToken {
+  const _acceptedTokenID = offerID
+    .toHexString()
+    .concat("-".concat(token.toHexString()));
+  let acceptedToken = AcceptedToken.load(_acceptedTokenID);
+
+  if (acceptedToken == null) {
+    acceptedToken = new AcceptedToken(_acceptedTokenID);
+    log.debug("Created acceptedToken: {}", [_acceptedTokenID]);
+
+    acceptedToken.token = getOrCreateToken(token).id;
+    acceptedToken.minimumAmountPerUnit = minimumAmountPerUnit;
+    acceptedToken.accepted = true;
+    acceptedToken.save();
+  }
+
+  log.debug("Returning acceptedToken: {}", [_acceptedTokenID]);
+  return acceptedToken;
+}
+
+export function getOrCreateOffer(
+  hypercertContract: Address,
+  traderContract: Address,
+  fractionID: BigInt,
+  offerID: BigInt,
+): Offer {
+  const _traderContract = HypercertTrader.bind(traderContract);
+
+  const _fractionID = getID(fractionID, hypercertContract);
+  const _offerID = fractionID
+    .toHexString()
+    .concat("-".concat(offerID.toString()));
+  let offer = Offer.load(_offerID);
+
+  if (offer == null) {
+    const offerOnChain = _traderContract.getOffer(offerID);
+    offer = new Offer(_offerID);
+    log.debug("Created offer: {}", [_offerID]);
+
+    offer.fractionID = _fractionID;
+    offer.unitsAvailable = offerOnChain.unitsAvailable;
+    offer.minUnitsPerTrade = offerOnChain.minUnitsPerTrade;
+    offer.maxUnitsPerTrade = offerOnChain.maxUnitsPerTrade;
+    offer.acceptedTokens = [];
+    offer.status = "Open";
+
+    for (let i = 0; i < offerOnChain.acceptedTokens.length; i++) {
+      const _acceptedToken = offerOnChain.acceptedTokens[i];
+      const parsedToken = getOrCreateAcceptedToken(
+        offerID,
+        _acceptedToken.token,
+        _acceptedToken.minimumAmountPerUnit,
+      );
+      offer.acceptedTokens.push(parsedToken.id.toString());
+      log.debug("Added accepted token to offer {} at place {}", [
+        _offerID,
+        _acceptedToken.length.toString(),
+      ]);
+    }
+
+    log.debug("Created offerID: {}", [_offerID]);
+    offer.save();
+  }
+
+  log.debug("Returning offer: {}", [_offerID]);
+
+  return offer;
+}
+
+export function getOrCreateOfferByID(
+  hypercertContract: Address,
+  fractionID: BigInt,
+  offerID: BigInt,
+): Offer | null {
+  const _fractionID = getID(fractionID, hypercertContract);
+  const _offerID = _fractionID.concat("-".concat(offerID.toString()));
+  const offer = Offer.load(_offerID);
+
+  if (offer == null) {
+    log.error("Offer with ID {} does not exist", [_offerID]);
+  }
+
+  return offer;
 }
