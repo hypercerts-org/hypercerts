@@ -23,12 +23,6 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
     graphName: "hypercerts-celo",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
   },
-  42220: {
-    chainId: 42220,
-    chainName: "celo-mainnet",
-    contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
-  },
   11155111: {
     contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
     graphName: "hypercerts-sepolia",
