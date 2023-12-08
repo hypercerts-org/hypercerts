@@ -1,12 +1,11 @@
 import {
-  ClaimByIdQuery,
-  ClaimTokensByClaimQuery,
   HypercertMetadata,
   HypercertClient,
+  ClaimByIdQuery,
+  ClaimTokensByClaimQuery,
 } from "@hypercerts-org/sdk";
 import BN from "bn.js";
 import { formatExternalUrl } from "./formatting";
-
 export interface Hypercert {
   getTokensFor(owner: string): HypercertTokens;
   metadata?: HypercertMetadata & { external_uri_formatted?: string };

@@ -34,3 +34,18 @@ export * from "./validator";
  * Utils
  */
 export * from "./utils";
+
+/**
+ * Graph
+ */
+export * from "./indexer/gql";
+export type {
+  ClaimByIdQuery,
+  ClaimTokenByIdQuery,
+  ClaimToken,
+  Claim,
+  ClaimTokensByClaimQuery,
+  ClaimTokensByOwnerQuery,
+  ClaimsByOwnerQuery,
+  RecentClaimsQuery,
+} from "./indexer/gql/graphql";

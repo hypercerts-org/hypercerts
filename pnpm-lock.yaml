@@ -339,8 +339,8 @@ importers:
         specifier: 'workspace: *'
         version: link:../vendor/observabletreemap
       '@hypercerts-org/sdk':
-        specifier: 1.0.0
-        version: 1.0.0(node-fetch@3.3.2)(react@18.2.0)(typescript@5.1.6)(zod@3.22.4)
+        specifier: 1.0.3
+        version: 1.0.3(node-fetch@3.3.2)(react@18.2.0)(typescript@5.1.6)(zod@3.22.4)
       '@mui/icons-material':
         specifier: ^5.11.9
         version: 5.14.15(@mui/material@5.14.15)(@types/react@18.2.33)(react@18.2.0)
@@ -7210,25 +7210,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/contracts@1.0.0-alpha.6(typescript@5.1.6):
-    resolution: {integrity: sha512-8XV9jlj5P+WL+hFX56OP+cYpLDwicZoGteN3ZAPHc1Y07fy7I2tpx1/MU7Sg2GX2nVO46Xix1MblQxVzx0Xy8Q==}
-    dependencies:
-      hardhat: 2.19.1(typescript@5.1.6)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - ts-node
-      - typescript
-      - utf-8-validate
-    dev: false
-
-  /@hypercerts-org/sdk@1.0.0(node-fetch@3.3.2)(react@18.2.0)(typescript@5.1.6)(zod@3.22.4):
-    resolution: {integrity: sha512-CjY/EcJMhRTks9uvtoc5KhR0UQkvbOAqDlE3572vvWMBfwM2rl85chFenCvBcFinf5jcOgDntfWBfcf+fQflkQ==}
+  /@hypercerts-org/sdk@1.0.3(node-fetch@3.3.2)(react@18.2.0)(typescript@5.1.6)(zod@3.22.4):
+    resolution: {integrity: sha512-drZy1kVFuSbelIBgM51ScJNOyahDKTrNIALO9ApIA7ZnoBC5hr3zsMwzpUCmq3AvPQTu6PssPoeJY28Hru40+A==}
     dependencies:
       '@ethereum-attestation-service/eas-sdk': 1.3.7(typescript@5.1.6)
       '@ethersproject/abstract-signer': 5.7.0
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
-      '@hypercerts-org/contracts': 1.0.0-alpha.6(typescript@5.1.6)
+      '@hypercerts-org/contracts': 1.0.0(typescript@5.1.6)
       '@openzeppelin/merkle-tree': 1.0.5
       '@urql/core': 4.2.0(graphql@16.8.1)
       '@whatwg-node/fetch': 0.9.14
