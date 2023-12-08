@@ -6,7 +6,8 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build:contracts": "cd ../contracts && pnpm hardhat dodoc",
+    "build": "pnpm build:contracts && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
