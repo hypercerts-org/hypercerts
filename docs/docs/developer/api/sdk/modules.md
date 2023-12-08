@@ -97,7 +97,7 @@ sdk/src/indexer/gql/graphql.ts:116
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:580
+sdk/src/indexer/gql/graphql.ts:587
 
 ---
 
@@ -135,7 +135,7 @@ sdk/src/indexer/gql/graphql.ts:129
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:607
+sdk/src/indexer/gql/graphql.ts:636
 
 ---
 
@@ -152,7 +152,7 @@ sdk/src/indexer/gql/graphql.ts:607
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:600
+sdk/src/indexer/gql/graphql.ts:627
 
 ---
 
@@ -169,7 +169,7 @@ sdk/src/indexer/gql/graphql.ts:600
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:590
+sdk/src/indexer/gql/graphql.ts:608
 
 ---
 
@@ -186,7 +186,7 @@ sdk/src/indexer/gql/graphql.ts:590
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:564
+sdk/src/indexer/gql/graphql.ts:549
 
 ---
 
@@ -223,7 +223,7 @@ sdk/src/types/client.ts:23
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:47
+sdk/src/indexer/gql/gql.ts:53
 
 ---
 
@@ -263,7 +263,7 @@ sdk/src/types/evaluation.d.ts:9
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:6
+sdk/src/indexer/gql/fragment-masking.ts:5
 
 ---
 
@@ -381,7 +381,7 @@ sdk/src/types/indexer.ts:10
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:573
+sdk/src/indexer/gql/graphql.ts:569
 
 ---
 
@@ -639,7 +639,7 @@ Please regenerate the types.
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:32
+sdk/src/indexer/gql/gql.ts:34
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery ClaimById($id: ID!) {\n claim(id: $id) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}"``]
 
@@ -657,7 +657,7 @@ typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection:
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:37
+sdk/src/indexer/gql/gql.ts:39
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {claim: $claimId}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n claimToken(id: $claimTokenId) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}"``]
 
@@ -675,7 +675,7 @@ typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirec
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:41
+sdk/src/indexer/gql/gql.ts:45
 
 ---
 
@@ -891,7 +891,7 @@ sdk/src/utils/adapters.ts:19
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:18
+sdk/src/indexer/gql/fragment-masking.ts:15
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `TType` \| `null` \| `undefined`
 
@@ -914,7 +914,7 @@ sdk/src/indexer/gql/fragment-masking.ts:18
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:23
+sdk/src/indexer/gql/fragment-masking.ts:20
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\>
 
@@ -937,7 +937,7 @@ sdk/src/indexer/gql/fragment-masking.ts:23
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:28
+sdk/src/indexer/gql/fragment-masking.ts:25
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\> \| `null` \| `undefined`
 
@@ -960,7 +960,7 @@ sdk/src/indexer/gql/fragment-masking.ts:28
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:33
+sdk/src/indexer/gql/fragment-masking.ts:30
 
 ---
 
