@@ -22,5 +22,4 @@ type ClaimToken @entity {
   claim: Claim!
   owner: Bytes!
   units: BigInt!
-  offers: [Offer!] @derivedFrom(field: "fractionID")
 }
