@@ -97,7 +97,9 @@ sdk/src/indexer/gql/graphql.ts:116
 
 #### Defined in
 
+
 sdk/src/indexer/gql/graphql.ts:587
+
 
 ---
 
@@ -171,6 +173,7 @@ sdk/src/indexer/gql/graphql.ts:627
 
 sdk/src/indexer/gql/graphql.ts:608
 
+
 ---
 
 ### ClaimsByOwnerQuery
@@ -187,7 +190,6 @@ sdk/src/indexer/gql/graphql.ts:608
 #### Defined in
 
 sdk/src/indexer/gql/graphql.ts:549
-
 ---
 
 ### Deployment
@@ -224,6 +226,7 @@ sdk/src/types/client.ts:23
 #### Defined in
 
 sdk/src/indexer/gql/gql.ts:53
+
 
 ---
 
@@ -264,6 +267,7 @@ sdk/src/types/evaluation.d.ts:9
 #### Defined in
 
 sdk/src/indexer/gql/fragment-masking.ts:5
+
 
 ---
 
@@ -916,6 +920,7 @@ sdk/src/indexer/gql/fragment-masking.ts:15
 
 sdk/src/indexer/gql/fragment-masking.ts:20
 
+
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\>
 
 #### Type parameters
@@ -939,6 +944,7 @@ sdk/src/indexer/gql/fragment-masking.ts:20
 
 sdk/src/indexer/gql/fragment-masking.ts:25
 
+
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\> \| `null` \| `undefined`
 
 #### Type parameters
@@ -961,6 +967,7 @@ sdk/src/indexer/gql/fragment-masking.ts:25
 #### Defined in
 
 sdk/src/indexer/gql/fragment-masking.ts:30
+
 
 ---
 
