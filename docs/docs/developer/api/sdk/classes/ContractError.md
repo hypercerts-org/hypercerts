@@ -1,18 +1,18 @@
 ---
-id: "UnknownSchemaError"
-title: "Class: UnknownSchemaError"
-sidebar_label: "UnknownSchemaError"
+id: "ContractError"
+title: "Class: ContractError"
+sidebar_label: "ContractError"
 sidebar_position: 0
 custom_edit_url: null
 ---
 
-Schema could not be loaded
+An error that is returned by the contract
 
 ## Hierarchy
 
 - `Error`
 
-  ↳ **`UnknownSchemaError`**
+  ↳ **`ContractError`**
 
 ## Implements
 
@@ -22,21 +22,19 @@ Schema could not be loaded
 
 ### constructor
 
-• **new UnknownSchemaError**(`message`, `payload?`): [`UnknownSchemaError`](UnknownSchemaError.md)
-
-Creates a new instance of the UnknownSchemaError class.
+• **new ContractError**(`errorName?`, `payload?`): [`ContractError`](ContractError.md)
 
 #### Parameters
 
-| Name                 | Type     | Description               |
-| :------------------- | :------- | :------------------------ |
-| `message`            | `string` | The error message.        |
-| `payload?`           | `Object` | Additional error payload. |
-| `payload.schemaName` | `string` | -                         |
+| Name           | Type                            |
+| :------------- | :------------------------------ |
+| `errorName?`   | `string`                        |
+| `payload?`     | `Object`                        |
+| `payload.data` | \`0x$\{string}\` \| `BaseError` |
 
 #### Returns
 
-[`UnknownSchemaError`](UnknownSchemaError.md)
+[`ContractError`](ContractError.md)
 
 #### Overrides
 
@@ -44,7 +42,7 @@ Error.constructor
 
 #### Defined in
 
-sdk/src/types/errors.ts:137
+sdk/src/types/errors.ts:43
 
 ## Properties
 
@@ -96,11 +94,9 @@ node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:107
 
 Additional error payload.
 
-#### Type declaration
+#### Index signature
 
-| Name         | Type     |
-| :----------- | :------- |
-| `schemaName` | `string` |
+▪ [key: `string`]: `unknown`
 
 #### Implementation of
 
@@ -108,7 +104,7 @@ Additional error payload.
 
 #### Defined in
 
-sdk/src/types/errors.ts:130
+sdk/src/types/errors.ts:41
 
 ---
 

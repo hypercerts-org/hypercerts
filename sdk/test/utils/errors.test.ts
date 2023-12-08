@@ -2,7 +2,6 @@ import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
 import chai from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 
 import { ContractError, FetchError, MalformedDataError, UnsupportedChainError } from "../../src/types/errors";
 import { handleSdkError } from "../../src/utils/errors";
@@ -18,7 +17,6 @@ import { parseEther, encodeErrorResult } from "viem";
 chai.use(assertionsCount);
 
 const expect = chai.expect;
-chai.use(sinonChai);
 
 describe("SDK Error handler", () => {
   it("handles SDK errors", () => {

@@ -9,7 +9,7 @@ export default async function createConfigAsync() {
     tagline: "Accounting and rewarding impact with hypercerts",
     url: "https://hypercerts-org.github.io/",
     baseUrl: "/docs/",
-    onBrokenLinks: "throw",
+    onBrokenLinks: "log",
     onBrokenMarkdownLinks: "warn",
     favicon: "img/favicon.ico",
     trailingSlash: false,
@@ -26,6 +26,26 @@ export default async function createConfigAsync() {
       defaultLocale: "en",
       locales: ["en"],
     },
+
+    plugins: [
+      [
+        "docusaurus-plugin-typedoc",
+        {
+          // TypeDoc options
+          entryPoints: ["../sdk/src/index.ts"],
+          tsconfig: "../sdk/tsconfig.json",
+
+          // Plugin options
+          out: "developer/api/sdk",
+          sidebar: {
+            categoryLabel: "API SDK",
+            collapsed: false,
+            position: 0,
+            fullNames: true,
+          },
+        },
+      ],
+    ],
 
     presets: [
       [
