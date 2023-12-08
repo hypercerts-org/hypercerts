@@ -5,7 +5,6 @@ import { ClaimToken, Claim } from "@hypercerts-org/sdk";
 type GenClaimTokenOptions = {
   contract?: string;
   owner?: string;
-  chainName?: string;
   units?: string;
 };
 
@@ -23,7 +22,6 @@ function genClaimTokens(
       id: id,
       tokenID: tokenID,
       owner: owner,
-      graphName: options?.chainName ?? "test",
       units: options?.units ?? "100",
     });
   }
@@ -37,7 +35,6 @@ function genClaim(totalUnits: string): Claim {
     contract: randomAddress(),
     tokenID: randomTokenID(),
     totalUnits: totalUnits,
-    graphName: "test",
   };
 }
 
