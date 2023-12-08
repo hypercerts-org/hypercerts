@@ -126,7 +126,7 @@ const config: HardhatUserConfig = {
     apiSecret: OPENZEPPELIN_SECRET_KEY!,
   },
   dodoc: {
-    runOnCompile: false,
+    runOnCompile: true,
     include: ["src/marketplace", "src/protocol"],
     freshOutput: true,
     outputDir: "../docs/docs/developer/api/contracts",
