@@ -97,7 +97,7 @@
     "deploy:marketplace:sepolia": "forge script scripts/deployment/Deployment.s.sol:Deployment --broadcast --verify --fork-url sepolia",
     "deploy:marketplace:test": "pnpm deploy:marketplace:goerli && pnpm deploy:marketplace:sepolia",
     "deploy:marketplace:dryrun": "forge script scripts/deployment/Deployment.s.sol:Deployment --fork-url",
-    "docs": "hardhat dodoc",
+    "docs": "pnpm hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "forge fmt --check && solhint \"./{src,test/foundry/protocol,test/foundry/marketplace}/**/*.sol\"",
     "prepublish": "pnpm build",
