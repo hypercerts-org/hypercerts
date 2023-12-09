@@ -1,6 +1,5 @@
 import { HypercertMinterAbi, HypercertExchangeAbi } from "@hypercerts-org/contracts";
 
-import { execute } from "../.graphclient";
 import { HypercertClient } from "./client";
 import { HypercertsStorage } from "./storage";
 import { DEPLOYMENTS } from "./constants";
@@ -39,4 +38,14 @@ export * from "./utils";
 /**
  * Graph
  */
-export { execute };
+export * from "./indexer/gql";
+export type {
+  ClaimByIdQuery,
+  ClaimTokenByIdQuery,
+  ClaimToken,
+  Claim,
+  ClaimTokensByClaimQuery,
+  ClaimTokensByOwnerQuery,
+  ClaimsByOwnerQuery,
+  RecentClaimsQuery,
+} from "./indexer/gql/graphql";
