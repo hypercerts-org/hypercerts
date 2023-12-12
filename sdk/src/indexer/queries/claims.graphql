@@ -1,6 +1,5 @@
 query ClaimsByOwner($owner: Bytes = "", $orderDirection: OrderDirection, $first: Int, $skip: Int) {
   claims(where: { owner: $owner }, skip: $skip, first: $first, orderDirection: $orderDirection) {
-    graphName
     contract
     tokenID
     creator
@@ -13,7 +12,6 @@ query ClaimsByOwner($owner: Bytes = "", $orderDirection: OrderDirection, $first:
 
 query RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {
   claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {
-    graphName
     contract
     tokenID
     creator
@@ -26,7 +24,6 @@ query RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {
 
 query ClaimById($id: ID!) {
   claim(id: $id) {
-    graphName
     contract
     tokenID
     creator

@@ -1,6 +1,10 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertClientState
-
-# Interface: HypercertClientState
+---
+id: "HypercertClientState"
+title: "Interface: HypercertClientState"
+sidebar_label: "HypercertClientState"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 The state of the Hypercert client.
 
@@ -10,38 +14,27 @@ The state of the Hypercert client.
 
   ↳ [`HypercertClientInterface`](HypercertClientInterface.md)
 
-## Table of contents
-
-### Properties
-
-- [contract](HypercertClientState.md#contract)
-- [indexer](HypercertClientState.md#indexer)
-- [readonly](HypercertClientState.md#readonly)
-- [storage](HypercertClientState.md#storage)
-
 ## Properties
 
 ### contract
 
-• **contract**: [`HypercertMinter`](internal.HypercertMinter.md)
-
-The contract used by the client.
+• **contract**: `GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]\>
 
 #### Defined in
 
-[sdk/src/types/client.ts:120](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L120)
+[sdk/src/types/client.ts:124](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L124)
 
 ---
 
 ### indexer
 
-• **indexer**: [`default`](../classes/internal.default-1.md)
+• **indexer**: `HypercertIndexer`
 
 The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:118](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L118)
+[sdk/src/types/client.ts:123](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L123)
 
 ---
 
@@ -53,7 +46,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:114](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L114)
+[sdk/src/types/client.ts:119](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L119)
 
 ---
 
@@ -65,4 +58,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:116](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L116)
+[sdk/src/types/client.ts:121](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L121)

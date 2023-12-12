@@ -43,10 +43,17 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
         transferRestrictions,
       );
 
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
       const receipt =
         await client.config.publicClient?.waitForTransactionReceipt({
           confirmations: 3,
-          hash: hash,
+          hash,
         });
 
       setStep("waiting");
