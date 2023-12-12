@@ -55,7 +55,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:24
+[sdk/src/types/hypercerts.ts:24](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/hypercerts.ts#L24)
 
 ---
 
@@ -80,7 +80,7 @@ sdk/src/types/hypercerts.ts:24
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:116
+[sdk/src/indexer/gql/graphql.ts:116](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L116)
 
 ---
 
@@ -97,9 +97,7 @@ sdk/src/indexer/gql/graphql.ts:116
 
 #### Defined in
 
-
-sdk/src/indexer/gql/graphql.ts:587
-
+[sdk/src/indexer/gql/graphql.ts:587](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L587)
 
 ---
 
@@ -120,7 +118,7 @@ sdk/src/indexer/gql/graphql.ts:587
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:129
+[sdk/src/indexer/gql/graphql.ts:129](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L129)
 
 ---
 
@@ -137,7 +135,7 @@ sdk/src/indexer/gql/graphql.ts:129
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:636
+[sdk/src/indexer/gql/graphql.ts:636](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L636)
 
 ---
 
@@ -154,7 +152,7 @@ sdk/src/indexer/gql/graphql.ts:636
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:627
+[sdk/src/indexer/gql/graphql.ts:627](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L627)
 
 ---
 
@@ -171,8 +169,7 @@ sdk/src/indexer/gql/graphql.ts:627
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:608
-
+[sdk/src/indexer/gql/graphql.ts:608](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L608)
 
 ---
 
@@ -189,7 +186,8 @@ sdk/src/indexer/gql/graphql.ts:608
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:549
+[sdk/src/indexer/gql/graphql.ts:549](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L549)
+
 ---
 
 ### Deployment
@@ -209,7 +207,7 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-sdk/src/types/client.ts:23
+[sdk/src/types/client.ts:23](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L23)
 
 ---
 
@@ -225,8 +223,7 @@ sdk/src/types/client.ts:23
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:53
-
+[sdk/src/indexer/gql/gql.ts:53](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/gql.ts#L53)
 
 ---
 
@@ -240,7 +237,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-sdk/src/types/evaluation.d.ts:8
+[sdk/src/types/evaluation.d.ts:8](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/evaluation.d.ts#L8)
 
 ---
 
@@ -250,7 +247,7 @@ sdk/src/types/evaluation.d.ts:8
 
 #### Defined in
 
-sdk/src/types/evaluation.d.ts:9
+[sdk/src/types/evaluation.d.ts:9](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/evaluation.d.ts#L9)
 
 ---
 
@@ -266,8 +263,7 @@ sdk/src/types/evaluation.d.ts:9
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:5
-
+[sdk/src/indexer/gql/fragment-masking.ts:5](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L5)
 
 ---
 
@@ -279,7 +275,7 @@ Configuration options for the Hypercert client.
 
 #### Defined in
 
-sdk/src/types/client.ts:35
+[sdk/src/types/client.ts:35](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L35)
 
 ---
 
@@ -297,7 +293,7 @@ The props for the Hypercert client.
 
 #### Defined in
 
-sdk/src/types/client.ts:104
+[sdk/src/types/client.ts:104](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L104)
 
 ---
 
@@ -313,7 +309,7 @@ The signer is required for submitting evaluations.
 
 #### Defined in
 
-sdk/src/types/client.ts:64
+[sdk/src/types/client.ts:64](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L64)
 
 ---
 
@@ -336,7 +332,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-sdk/src/types/client.ts:53
+[sdk/src/types/client.ts:53](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L53)
 
 ---
 
@@ -346,7 +342,7 @@ sdk/src/types/client.ts:53
 
 #### Defined in
 
-sdk/src/types/errors.ts:195
+[sdk/src/types/errors.ts:195](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/errors.ts#L195)
 
 ---
 
@@ -368,7 +364,7 @@ sdk/src/types/errors.ts:195
 
 #### Defined in
 
-sdk/src/types/indexer.ts:10
+[sdk/src/types/indexer.ts:10](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/indexer.ts#L10)
 
 ---
 
@@ -385,7 +381,7 @@ sdk/src/types/indexer.ts:10
 
 #### Defined in
 
-sdk/src/indexer/gql/graphql.ts:569
+[sdk/src/indexer/gql/graphql.ts:569](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/graphql.ts#L569)
 
 ---
 
@@ -395,7 +391,7 @@ sdk/src/indexer/gql/graphql.ts:569
 
 #### Defined in
 
-sdk/src/types/client.ts:13
+[sdk/src/types/client.ts:13](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L13)
 
 ---
 
@@ -413,7 +409,7 @@ sdk/src/types/client.ts:13
 
 #### Defined in
 
-sdk/src/types/client.ts:14
+[sdk/src/types/client.ts:14](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L14)
 
 ---
 
@@ -423,9 +419,9 @@ sdk/src/types/client.ts:14
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:9
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/hypercerts.ts#L9)
 
-sdk/src/types/hypercerts.ts:15
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/hypercerts.ts#L15)
 
 ## Variables
 
@@ -465,9 +461,9 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:9
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/hypercerts.ts#L9)
 
-sdk/src/types/hypercerts.ts:15
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/hypercerts.ts#L15)
 
 ---
 
@@ -477,7 +473,7 @@ sdk/src/types/hypercerts.ts:15
 
 #### Defined in
 
-sdk/src/constants.ts:10
+[sdk/src/constants.ts:10](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/constants.ts#L10)
 
 ---
 
@@ -496,7 +492,7 @@ sdk/src/constants.ts:10
 
 #### Defined in
 
-sdk/src/utils/logger.ts:24
+[sdk/src/utils/logger.ts:24](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/logger.ts#L24)
 
 ## Functions
 
@@ -535,7 +531,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-sdk/src/utils/formatter.ts:27
+[sdk/src/utils/formatter.ts:27](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/formatter.ts#L27)
 
 ---
 
@@ -569,7 +565,7 @@ Will throw a `StoragjeError` if the data cannot be fetched from either gateway.
 
 #### Defined in
 
-sdk/src/utils/fetchers.ts:17
+[sdk/src/utils/fetchers.ts:17](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/fetchers.ts#L17)
 
 ---
 
@@ -604,7 +600,7 @@ Will throw an error if the Merkle tree cannot be fetched.
 
 #### Defined in
 
-sdk/src/utils/allowlist.ts:35
+[sdk/src/utils/allowlist.ts:35](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/allowlist.ts#L35)
 
 ---
 
@@ -643,7 +639,7 @@ Please regenerate the types.
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:34
+[sdk/src/indexer/gql/gql.ts:34](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/gql.ts#L34)
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery ClaimById($id: ID!) {\n claim(id: $id) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}"``]
 
@@ -661,7 +657,7 @@ typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection:
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:39
+[sdk/src/indexer/gql/gql.ts:39](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/gql.ts#L39)
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {claim: $claimId}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n claimToken(id: $claimTokenId) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}"``]
 
@@ -679,7 +675,7 @@ typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirec
 
 #### Defined in
 
-sdk/src/indexer/gql/gql.ts:45
+[sdk/src/indexer/gql/gql.ts:45](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/gql.ts#L45)
 
 ---
 
@@ -699,7 +695,7 @@ sdk/src/indexer/gql/gql.ts:45
 
 #### Defined in
 
-sdk/src/utils/errors.ts:39
+[sdk/src/utils/errors.ts:39](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/errors.ts#L39)
 
 ---
 
@@ -721,7 +717,7 @@ Method to catch errors and log them
 
 #### Defined in
 
-sdk/src/utils/errors.ts:22
+[sdk/src/utils/errors.ts:22](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/errors.ts#L22)
 
 ---
 
@@ -750,7 +746,7 @@ data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:51
+[sdk/src/indexer/gql/fragment-masking.ts:51](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L51)
 
 ---
 
@@ -778,7 +774,7 @@ sdk/src/indexer/gql/fragment-masking.ts:51
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:45
+[sdk/src/indexer/gql/fragment-masking.ts:45](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L45)
 
 ---
 
@@ -868,7 +864,7 @@ An ethers.js `Provider` instance, or `undefined` if no chain is found in the `Pu
 
 #### Defined in
 
-sdk/src/utils/adapters.ts:19
+[sdk/src/utils/adapters.ts:19](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/adapters.ts#L19)
 
 ---
 
@@ -895,7 +891,7 @@ sdk/src/utils/adapters.ts:19
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:15
+[sdk/src/indexer/gql/fragment-masking.ts:15](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L15)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `TType` \| `null` \| `undefined`
 
@@ -918,8 +914,7 @@ sdk/src/indexer/gql/fragment-masking.ts:15
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:20
-
+[sdk/src/indexer/gql/fragment-masking.ts:20](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L20)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\>
 
@@ -942,8 +937,7 @@ sdk/src/indexer/gql/fragment-masking.ts:20
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:25
-
+[sdk/src/indexer/gql/fragment-masking.ts:25](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L25)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\> \| `null` \| `undefined`
 
@@ -966,8 +960,7 @@ sdk/src/indexer/gql/fragment-masking.ts:25
 
 #### Defined in
 
-sdk/src/indexer/gql/fragment-masking.ts:30
-
+[sdk/src/indexer/gql/fragment-masking.ts:30](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/indexer/gql/fragment-masking.ts#L30)
 
 ---
 
@@ -995,7 +988,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:108
+[sdk/src/validator/index.ts:108](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L108)
 
 ---
 
@@ -1023,7 +1016,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:77
+[sdk/src/validator/index.ts:77](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L77)
 
 ---
 
@@ -1051,7 +1044,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:139
+[sdk/src/validator/index.ts:139](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L139)
 
 ---
 
@@ -1079,7 +1072,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:46
+[sdk/src/validator/index.ts:46](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L46)
 
 ---
 
@@ -1107,7 +1100,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:169
+[sdk/src/validator/index.ts:169](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L169)
 
 ---
 
@@ -1139,7 +1132,7 @@ Will throw a `MintingError` if the signer address is invalid or if the Merkle pr
 
 #### Defined in
 
-sdk/src/validator/index.ts:201
+[sdk/src/validator/index.ts:201](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L201)
 
 ---
 
@@ -1171,7 +1164,7 @@ Will throw a `MintingError` if the lengths of the input arrays are not equal or 
 
 #### Defined in
 
-sdk/src/validator/index.ts:224
+[sdk/src/validator/index.ts:224](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/validator/index.ts#L224)
 
 ---
 
@@ -1230,4 +1223,4 @@ An ethers.js `Signer` instance, or `undefined` if no chain is found in the `Wall
 
 #### Defined in
 
-sdk/src/utils/adapters.ts:51
+[sdk/src/utils/adapters.ts:51](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/utils/adapters.ts#L51)

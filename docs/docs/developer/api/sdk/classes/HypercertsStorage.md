@@ -46,7 +46,7 @@ This constructor takes an optional `overrides` parameter that can be used to ove
 
 #### Defined in
 
-sdk/src/storage.ts:47
+[sdk/src/storage.ts:47](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L47)
 
 ## Properties
 
@@ -58,7 +58,7 @@ The NFT Storage client used for storing and retrieving Hypercerts.
 
 #### Defined in
 
-sdk/src/storage.ts:36
+[sdk/src/storage.ts:36](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L36)
 
 ---
 
@@ -70,7 +70,7 @@ Whether the storage is read-only. If true, the storage methods will not perform 
 
 #### Defined in
 
-sdk/src/storage.ts:34
+[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L34)
 
 ---
 
@@ -82,7 +82,7 @@ The Web3 Storage client used for storing and retrieving Hypercerts.
 
 #### Defined in
 
-sdk/src/storage.ts:38
+[sdk/src/storage.ts:38](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L38)
 
 ## Methods
 
@@ -124,7 +124,7 @@ Note: The original implementation using the Web3 Storage client is currently com
 
 #### Defined in
 
-sdk/src/storage.ts:167
+[sdk/src/storage.ts:167](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L167)
 
 ---
 
@@ -159,7 +159,7 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Defined in
 
-sdk/src/storage.ts:114
+[sdk/src/storage.ts:114](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L114)
 
 ---
 
@@ -200,7 +200,7 @@ If you are using our default keys, we may delete older data if we hit our storag
 
 #### Defined in
 
-sdk/src/storage.ts:139
+[sdk/src/storage.ts:139](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L139)
 
 ---
 
@@ -240,4 +240,4 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-sdk/src/storage.ts:81
+[sdk/src/storage.ts:81](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/storage.ts#L81)
