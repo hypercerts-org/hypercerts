@@ -52,7 +52,7 @@ The order of the arrays must be equal.
 
 #### Defined in
 
-[sdk/src/types/client.ts:237](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L237)
+[sdk/src/types/client.ts:237](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L237)
 
 ---
 
@@ -82,7 +82,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:171](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L171)
+[sdk/src/types/client.ts:171](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L171)
 
 ---
 
@@ -110,7 +110,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:212](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L212)
+[sdk/src/types/client.ts:212](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L212)
 
 ---
 
@@ -141,7 +141,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:185](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L185)
+[sdk/src/types/client.ts:185](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L185)
 
 ---
 
@@ -169,7 +169,7 @@ A Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/types/client.ts:149](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L149)
+[sdk/src/types/client.ts:149](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L149)
 
 ---
 
@@ -197,7 +197,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:205](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L205)
+[sdk/src/types/client.ts:205](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L205)
 
 ---
 
@@ -227,7 +227,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:138](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L138)
+[sdk/src/types/client.ts:138](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L138)
 
 ---
 
@@ -257,7 +257,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:221](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L221)
+[sdk/src/types/client.ts:221](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L221)
 
 ---
 
@@ -286,7 +286,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:198](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L198)
+[sdk/src/types/client.ts:198](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L198)
 
 ---
 
@@ -316,4 +316,4 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:158](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/client.ts#L158)
+[sdk/src/types/client.ts:158](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L158)

@@ -43,7 +43,7 @@ Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:119](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/errors.ts#L119)
+[sdk/src/types/errors.ts:119](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/errors.ts#L119)
 
 ## Properties
 
@@ -105,7 +105,7 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:112](https://github.com/hypercerts-org/hypercerts/blob/210c167/sdk/src/types/errors.ts#L112)
+[sdk/src/types/errors.ts:112](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/errors.ts#L112)
 
 ---
 
