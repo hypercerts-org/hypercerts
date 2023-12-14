@@ -45,24 +45,27 @@ query ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $fi
 `;
 
 const fetchClaimTokenForClaimId = async (claimId: string) => {
-  return fetch(
-    "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-optimism-mainnet",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        variables: {
-          claimId,
-          first: 1000,
+  return (
+    fetch(
+      "https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-optimism-mainnet",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        query,
-      }),
-    },
-  )
-    .then((res) => res.json())
-    .then((res) => res.data?.claimTokens);
+        body: JSON.stringify({
+          variables: {
+            claimId,
+            first: 1000,
+          },
+          query,
+        }),
+      },
+    )
+      .then((res) => res.json())
+      // @ts-ignore
+      .then((res) => res.data?.claimTokens)
+  );
 };
 
 const main = async () => {

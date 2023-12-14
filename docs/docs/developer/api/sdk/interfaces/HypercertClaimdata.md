@@ -26,21 +26,21 @@ Contributors
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `name?`          | `string`   |
-| `value?`         | `string`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `name?` | `string` |
+| `value?` | `string`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:53](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L53)
+[sdk/src/types/claimdata.d.ts:53](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L53)
 
----
+___
 
-### impact_scope
+### impact\_scope
 
-• **impact_scope**: `Object`
+• **impact\_scope**: `Object`
 
 Scopes of impact
 
@@ -50,22 +50,22 @@ Scopes of impact
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `excludes?`      | `string`[] |
-| `name?`          | `string`   |
-| `value?`         | `string`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `excludes?` | `string`[] |
+| `name?` | `string` |
+| `value?` | `string`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L15)
+[sdk/src/types/claimdata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L15)
 
----
+___
 
-### impact_timeframe
+### impact\_timeframe
 
-• **impact_timeframe**: `Object`
+• **impact\_timeframe**: `Object`
 
 Impact time period. The value is UNIX time in seconds from epoch.
 
@@ -75,17 +75,17 @@ Impact time period. The value is UNIX time in seconds from epoch.
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `name?`          | `string`   |
-| `value?`         | `number`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `name?` | `string` |
+| `value?` | `number`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:44](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L44)
+[sdk/src/types/claimdata.d.ts:44](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L44)
 
----
+___
 
 ### rights
 
@@ -99,22 +99,22 @@ Rights
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `excludes?`      | `string`[] |
-| `name?`          | `string`   |
-| `value?`         | `string`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `excludes?` | `string`[] |
+| `name?` | `string` |
+| `value?` | `string`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:62](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L62)
+[sdk/src/types/claimdata.d.ts:62](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L62)
 
----
+___
 
-### work_scope
+### work\_scope
 
-• **work_scope**: `Object`
+• **work\_scope**: `Object`
 
 Scopes of work
 
@@ -124,22 +124,22 @@ Scopes of work
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `excludes?`      | `string`[] |
-| `name?`          | `string`   |
-| `value?`         | `string`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `excludes?` | `string`[] |
+| `name?` | `string` |
+| `value?` | `string`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:25](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L25)
+[sdk/src/types/claimdata.d.ts:25](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L25)
 
----
+___
 
-### work_timeframe
+### work\_timeframe
 
-• **work_timeframe**: `Object`
+• **work\_timeframe**: `Object`
 
 Work time period. The value is UNIX time in seconds from epoch.
 
@@ -149,12 +149,12 @@ Work time period. The value is UNIX time in seconds from epoch.
 
 #### Type declaration
 
-| Name             | Type       |
-| :--------------- | :--------- |
-| `display_value?` | `string`   |
-| `name?`          | `string`   |
-| `value?`         | `number`[] |
+| Name | Type |
+| :------ | :------ |
+| `display_value?` | `string` |
+| `name?` | `string` |
+| `value?` | `number`[] |
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/claimdata.d.ts#L35)
+[sdk/src/types/claimdata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/claimdata.d.ts#L35)

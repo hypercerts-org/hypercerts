@@ -34,11 +34,11 @@ Batch mints a claim fraction from an allowlist
 
 ##### Parameters
 
-| Name       | Type                                   | Description                                           |
-| :--------- | :------------------------------------- | :---------------------------------------------------- |
-| `claimIds` | `bigint`[]                             | Array of the IDs of the claims to mint fractions for. |
-| `units`    | `bigint`[]                             | Array of the number of units for each fraction.       |
-| `proofs`   | (\`0x$\{string}\` \| `Uint8Array`)[][] | Array of Merkle proofs for the allowlists.            |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `claimIds` | `bigint`[] | Array of the IDs of the claims to mint fractions for. |
+| `units` | `bigint`[] | Array of the number of units for each fraction. |
+| `proofs` | (\`0x$\{string}\` \| `Uint8Array`)[][] | Array of Merkle proofs for the allowlists. |
 
 ##### Returns
 
@@ -62,9 +62,9 @@ The order of the arrays must be equal.
 
 #### Defined in
 
-[sdk/src/types/client.ts:237](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L237)
+[sdk/src/types/client.ts:237](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L237)
 
----
+___
 
 ### batchTransferFractions
 
@@ -78,11 +78,11 @@ Transfers multiple claim fractions to a new owner.
 
 ##### Parameters
 
-| Name          | Type                                                     |
-| :------------ | :------------------------------------------------------- |
-| `fractionIds` | `bigint`[]                                               |
-| `to`          | \`0x$\{string}\`                                         |
-| `overrides?`  | [`SupportedOverrides`](../modules.md#supportedoverrides) |
+| Name | Type |
+| :------ | :------ |
+| `fractionIds` | `bigint`[] |
+| `to` | \`0x$\{string}\` |
+| `overrides?` | [`SupportedOverrides`](../modules.md#supportedoverrides) |
 
 ##### Returns
 
@@ -96,9 +96,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:171](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L171)
+[sdk/src/types/client.ts:171](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L171)
 
----
+___
 
 ### burnClaimFraction
 
@@ -112,8 +112,8 @@ Burns a claim fraction.
 
 ##### Parameters
 
-| Name         | Type     | Description                           |
-| :----------- | :------- | :------------------------------------ |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `fractionId` | `bigint` | The ID of the claim fraction to burn. |
 
 ##### Returns
@@ -128,9 +128,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:212](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L212)
+[sdk/src/types/client.ts:212](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L212)
 
----
+___
 
 ### contract
 
@@ -142,9 +142,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:124](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L124)
+[sdk/src/types/client.ts:124](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L124)
 
----
+___
 
 ### createAllowlist
 
@@ -158,12 +158,12 @@ Creates a new allowlist and mints a new claim with the allowlist.
 
 ##### Parameters
 
-| Name                  | Type                                                           | Description                              |
-| :-------------------- | :------------------------------------------------------------- | :--------------------------------------- |
-| `allowList`           | [`AllowlistEntry`](../modules.md#allowlistentry)[]             | The allowlist for the claim.             |
-| `metaData`            | [`HypercertMetadata`](HypercertMetadata.md)                    | The metadata for the claim.              |
-| `totalUnits`          | `bigint`                                                       | The total number of units for the claim. |
-| `transferRestriction` | [`TransferRestrictions`](../modules.md#transferrestrictions-1) | The transfer restriction for the claim.  |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `allowList` | [`AllowlistEntry`](../modules.md#allowlistentry)[] | The allowlist for the claim. |
+| `metaData` | [`HypercertMetadata`](HypercertMetadata.md) | The metadata for the claim. |
+| `totalUnits` | `bigint` | The total number of units for the claim. |
+| `transferRestriction` | [`TransferRestrictions`](../modules.md#transferrestrictions-1) | The transfer restriction for the claim. |
 
 ##### Returns
 
@@ -177,9 +177,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:185](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L185)
+[sdk/src/types/client.ts:185](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L185)
 
----
+___
 
 ### getTransferRestrictions
 
@@ -193,8 +193,8 @@ Retrieves the TransferRestrictions for a claim.
 
 ##### Parameters
 
-| Name         | Type     | Description                      |
-| :----------- | :------- | :------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `fractionId` | `bigint` | The ID of the claim to retrieve. |
 
 ##### Returns
@@ -209,9 +209,9 @@ A Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/types/client.ts:149](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L149)
+[sdk/src/types/client.ts:149](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L149)
 
----
+___
 
 ### indexer
 
@@ -225,9 +225,9 @@ The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:123](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L123)
+[sdk/src/types/client.ts:123](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L123)
 
----
+___
 
 ### mergeFractionUnits
 
@@ -241,8 +241,8 @@ Merges multiple claim fractions into a single claim.
 
 ##### Parameters
 
-| Name          | Type       | Description                              |
-| :------------ | :--------- | :--------------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `fractionIds` | `bigint`[] | The IDs of the claim fractions to merge. |
 
 ##### Returns
@@ -257,9 +257,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:205](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L205)
+[sdk/src/types/client.ts:205](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L205)
 
----
+___
 
 ### mintClaim
 
@@ -273,11 +273,11 @@ Mints a new claim.
 
 ##### Parameters
 
-| Name                  | Type                                                           | Description                              |
-| :-------------------- | :------------------------------------------------------------- | :--------------------------------------- |
-| `metaData`            | [`HypercertMetadata`](HypercertMetadata.md)                    | The metadata for the claim.              |
-| `totalUnits`          | `bigint`                                                       | The total number of units for the claim. |
-| `transferRestriction` | [`TransferRestrictions`](../modules.md#transferrestrictions-1) | The transfer restriction for the claim.  |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `metaData` | [`HypercertMetadata`](HypercertMetadata.md) | The metadata for the claim. |
+| `totalUnits` | `bigint` | The total number of units for the claim. |
+| `transferRestriction` | [`TransferRestrictions`](../modules.md#transferrestrictions-1) | The transfer restriction for the claim. |
 
 ##### Returns
 
@@ -291,9 +291,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:138](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L138)
+[sdk/src/types/client.ts:138](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L138)
 
----
+___
 
 ### mintClaimFractionFromAllowlist
 
@@ -307,11 +307,11 @@ Mints a claim fraction from an allowlist.
 
 ##### Parameters
 
-| Name      | Type                                 | Description                                 |
-| :-------- | :----------------------------------- | :------------------------------------------ |
-| `claimId` | `bigint`                             | The ID of the claim to mint a fraction for. |
-| `units`   | `bigint`                             | The number of units for the fraction.       |
-| `proof`   | (\`0x$\{string}\` \| `Uint8Array`)[] | The Merkle proof for the allowlist.         |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `claimId` | `bigint` | The ID of the claim to mint a fraction for. |
+| `units` | `bigint` | The number of units for the fraction. |
+| `proof` | (\`0x$\{string}\` \| `Uint8Array`)[] | The Merkle proof for the allowlist. |
 
 ##### Returns
 
@@ -325,9 +325,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:221](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L221)
+[sdk/src/types/client.ts:221](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L221)
 
----
+___
 
 ### readonly
 
@@ -341,9 +341,9 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:119](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L119)
+[sdk/src/types/client.ts:119](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L119)
 
----
+___
 
 ### splitFractionUnits
 
@@ -357,10 +357,10 @@ Splits a claim into multiple fractions.
 
 ##### Parameters
 
-| Name         | Type       | Description                   |
-| :----------- | :--------- | :---------------------------- |
-| `fractionId` | `bigint`   | The ID of the claim to split. |
-| `fractions`  | `bigint`[] | -                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `fractionId` | `bigint` | The ID of the claim to split. |
+| `fractions` | `bigint`[] | - |
 
 ##### Returns
 
@@ -374,9 +374,9 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:198](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L198)
+[sdk/src/types/client.ts:198](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L198)
 
----
+___
 
 ### storage
 
@@ -390,9 +390,9 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:121](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L121)
+[sdk/src/types/client.ts:121](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L121)
 
----
+___
 
 ### transferFraction
 
@@ -406,10 +406,10 @@ Transfers a claim fraction to a new owner.
 
 ##### Parameters
 
-| Name         | Type                                                     |
-| :----------- | :------------------------------------------------------- |
-| `fractionId` | `bigint`                                                 |
-| `to`         | \`0x$\{string}\`                                         |
+| Name | Type |
+| :------ | :------ |
+| `fractionId` | `bigint` |
+| `to` | \`0x$\{string}\` |
 | `overrides?` | [`SupportedOverrides`](../modules.md#supportedoverrides) |
 
 ##### Returns
@@ -424,4 +424,4 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:158](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L158)
+[sdk/src/types/client.ts:158](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L158)
