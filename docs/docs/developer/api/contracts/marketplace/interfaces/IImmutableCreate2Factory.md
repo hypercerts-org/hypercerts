@@ -1,5 +1,13 @@
 # IImmutableCreate2Factory
 
+
+
+
+
+
+
+
+
 ## Methods
 
 ### findCreate2Address
@@ -8,18 +16,22 @@
 function findCreate2Address(bytes32 salt, bytes initializationCode) external view returns (address deploymentAddress)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| salt               | bytes32 | undefined   |
-| initializationCode | bytes   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| salt | bytes32 | undefined |
+| initializationCode | bytes | undefined |
 
 #### Returns
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| deploymentAddress | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| deploymentAddress | address | undefined |
 
 ### safeCreate2
 
@@ -27,15 +39,23 @@ function findCreate2Address(bytes32 salt, bytes initializationCode) external vie
 function safeCreate2(bytes32 salt, bytes initializationCode) external payable returns (address deploymentAddress)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| salt               | bytes32 | undefined   |
-| initializationCode | bytes   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| salt | bytes32 | undefined |
+| initializationCode | bytes | undefined |
 
 #### Returns
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| deploymentAddress | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| deploymentAddress | address | undefined |
+
+
+
+

@@ -18,14 +18,14 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:48](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L48)
+[sdk/src/types/evaluation.d.ts:48](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/evaluation.d.ts#L48)
 
----
+___
 
 ### type
 
-• **type**: `"IPFS"`
+• **type**: ``"IPFS"``
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:47](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L47)
+[sdk/src/types/evaluation.d.ts:47](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/evaluation.d.ts#L47)

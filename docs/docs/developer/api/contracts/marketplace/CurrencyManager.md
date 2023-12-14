@@ -1,10 +1,12 @@
 # CurrencyManager
 
-_LooksRare protocol team (👀,💎)_
+*LooksRare protocol team (👀,💎)*
 
 > CurrencyManager
 
 This contract manages the list of valid fungible currencies.
+
+
 
 ## Methods
 
@@ -16,7 +18,8 @@ function cancelOwnershipTransfer() external nonpayable
 
 This function is used to cancel the ownership transfer.
 
-_This function can be used for both cancelling a transfer to a new owner and cancelling the renouncement of the ownership._
+*This function can be used for both cancelling a transfer to a new owner and      cancelling the renouncement of the ownership.*
+
 
 ### confirmOwnershipRenouncement
 
@@ -26,6 +29,9 @@ function confirmOwnershipRenouncement() external nonpayable
 
 This function is used to confirm the ownership renouncement.
 
+
+
+
 ### confirmOwnershipTransfer
 
 ```solidity
@@ -34,7 +40,8 @@ function confirmOwnershipTransfer() external nonpayable
 
 This function is used to confirm the ownership transfer.
 
-_This function can only be called by the current potential owner._
+*This function can only be called by the current potential owner.*
+
 
 ### initiateOwnershipRenouncement
 
@@ -44,6 +51,9 @@ function initiateOwnershipRenouncement() external nonpayable
 
 This function is used to initiate the ownership renouncement.
 
+
+
+
 ### initiateOwnershipTransfer
 
 ```solidity
@@ -52,10 +62,12 @@ function initiateOwnershipTransfer(address newPotentialOwner) external nonpayabl
 
 This function is used to initiate the transfer of ownership to a new owner.
 
+
+
 #### Parameters
 
-| Name              | Type    | Description                 |
-| ----------------- | ------- | --------------------------- |
+| Name | Type | Description |
+|---|---|---|
 | newPotentialOwner | address | New potential owner address |
 
 ### isCurrencyAllowed
@@ -66,17 +78,19 @@ function isCurrencyAllowed(address) external view returns (bool)
 
 It checks whether the currency is allowed for transacting.
 
+
+
 #### Parameters
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### owner
 
@@ -86,11 +100,14 @@ function owner() external view returns (address)
 
 Address of the current owner.
 
+
+
+
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
 
 ### ownershipStatus
 
@@ -100,11 +117,14 @@ function ownershipStatus() external view returns (enum IOwnableTwoSteps.Status)
 
 Ownership status.
 
+
+
+
 #### Returns
 
-| Name | Type                         | Description |
-| ---- | ---------------------------- | ----------- |
-| \_0  | enum IOwnableTwoSteps.Status | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | enum IOwnableTwoSteps.Status | undefined |
 
 ### potentialOwner
 
@@ -114,11 +134,14 @@ function potentialOwner() external view returns (address)
 
 Address of the potential owner.
 
+
+
+
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
 
 ### updateCurrencyStatus
 
@@ -128,14 +151,16 @@ function updateCurrencyStatus(address currency, bool isAllowed) external nonpaya
 
 This function allows the owner to update the status of a currency.
 
-_Only callable by owner._
+*Only callable by owner.*
 
 #### Parameters
 
-| Name      | Type    | Description                                        |
-| --------- | ------- | -------------------------------------------------- |
-| currency  | address | Currency address (address(0) for ETH)              |
-| isAllowed | bool    | Whether the currency should be allowed for trading |
+| Name | Type | Description |
+|---|---|---|
+| currency | address | Currency address (address(0) for ETH) |
+| isAllowed | bool | Whether the currency should be allowed for trading |
+
+
 
 ## Events
 
@@ -147,6 +172,9 @@ event CancelOwnershipTransfer()
 
 This is emitted if the ownership transfer is cancelled.
 
+
+
+
 ### CurrencyStatusUpdated
 
 ```solidity
@@ -155,12 +183,14 @@ event CurrencyStatusUpdated(address currency, bool isAllowed)
 
 It is emitted if the currency status in the allowlist is updated.
 
+
+
 #### Parameters
 
-| Name      | Type    | Description |
-| --------- | ------- | ----------- |
-| currency  | address | undefined   |
-| isAllowed | bool    | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| currency  | address | undefined |
+| isAllowed  | bool | undefined |
 
 ### InitiateOwnershipRenouncement
 
@@ -170,6 +200,9 @@ event InitiateOwnershipRenouncement()
 
 This is emitted if the ownership renouncement is initiated.
 
+
+
+
 ### InitiateOwnershipTransfer
 
 ```solidity
@@ -178,12 +211,14 @@ event InitiateOwnershipTransfer(address previousOwner, address potentialOwner)
 
 This is emitted if the ownership transfer is initiated.
 
+
+
 #### Parameters
 
-| Name           | Type    | Description |
-| -------------- | ------- | ----------- |
-| previousOwner  | address | undefined   |
-| potentialOwner | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| previousOwner  | address | undefined |
+| potentialOwner  | address | undefined |
 
 ### NewOwner
 
@@ -193,11 +228,15 @@ event NewOwner(address newOwner)
 
 This is emitted when there is a new owner.
 
+
+
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| newOwner | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| newOwner  | address | undefined |
+
+
 
 ## Errors
 
@@ -209,6 +248,9 @@ error NoOngoingTransferInProgress()
 
 This is returned when there is no transfer of ownership in progress.
 
+
+
+
 ### NotOwner
 
 ```solidity
@@ -217,13 +259,19 @@ error NotOwner()
 
 This is returned when the caller is not the owner.
 
+
+
+
 ### RenouncementNotInProgress
 
 ```solidity
 error RenouncementNotInProgress()
 ```
 
-This is returned when there is no renouncement in progress but the owner tries to validate the ownership renouncement.
+This is returned when there is no renouncement in progress but         the owner tries to validate the ownership renouncement.
+
+
+
 
 ### TransferAlreadyInProgress
 
@@ -231,7 +279,10 @@ This is returned when there is no renouncement in progress but the owner tries t
 error TransferAlreadyInProgress()
 ```
 
-This is returned when the transfer is already in progress but the owner tries initiate a new ownership transfer.
+This is returned when the transfer is already in progress but the owner tries         initiate a new ownership transfer.
+
+
+
 
 ### TransferNotInProgress
 
@@ -239,7 +290,10 @@ This is returned when the transfer is already in progress but the owner tries in
 error TransferNotInProgress()
 ```
 
-This is returned when there is no ownership transfer in progress but the ownership change tries to be approved.
+This is returned when there is no ownership transfer in progress but the         ownership change tries to be approved.
+
+
+
 
 ### WrongPotentialOwner
 
@@ -247,4 +301,9 @@ This is returned when there is no ownership transfer in progress but the ownersh
 error WrongPotentialOwner()
 ```
 
-This is returned when the ownership transfer is attempted to be validated by the a caller that is not the potential owner.
+This is returned when the ownership transfer is attempted to be validated by the         a caller that is not the potential owner.
+
+
+
+
+

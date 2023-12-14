@@ -1,22 +1,25 @@
 # HypercertMinter
 
-_bitbeckers_
+*bitbeckers*
 
 > Contract for managing hypercert claims and whitelists
 
 Implementation of the HypercertTokenInterface using { SemiFungible1155 } as underlying token.This contract supports whitelisted minting via { AllowlistMinter }.
 
-_Wrapper contract to expose and chain functions._
+*Wrapper contract to expose and chain functions.*
 
 ## Methods
 
-### \_\_SemiFungible1155_init
+### __SemiFungible1155_init
 
 ```solidity
 function __SemiFungible1155_init() external nonpayable
 ```
 
-_see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }_
+
+
+*see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }*
+
 
 ### balanceOf
 
@@ -24,20 +27,22 @@ _see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.so
 function balanceOf(address account, uint256 id) external view returns (uint256)
 ```
 
-_See {IERC1155-balanceOf}. Requirements: - `account` cannot be the zero address._
+
+
+*See {IERC1155-balanceOf}. Requirements: - `account` cannot be the zero address.*
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| account | address | undefined   |
-| id      | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| id | uint256 | undefined |
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
 
 ### balanceOfBatch
 
@@ -45,20 +50,22 @@ _See {IERC1155-balanceOf}. Requirements: - `account` cannot be the zero address.
 function balanceOfBatch(address[] accounts, uint256[] ids) external view returns (uint256[])
 ```
 
-_See {IERC1155-balanceOfBatch}. Requirements: - `accounts` and `ids` must have the same length._
+
+
+*See {IERC1155-balanceOfBatch}. Requirements: - `accounts` and `ids` must have the same length.*
 
 #### Parameters
 
-| Name     | Type      | Description |
-| -------- | --------- | ----------- |
-| accounts | address[] | undefined   |
-| ids      | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| accounts | address[] | undefined |
+| ids | uint256[] | undefined |
 
 #### Returns
 
-| Name | Type      | Description |
-| ---- | --------- | ----------- |
-| \_0  | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256[] | undefined |
 
 ### batchBurnFraction
 
@@ -68,14 +75,14 @@ function batchBurnFraction(address _account, uint256[] _tokenIDs) external nonpa
 
 Burn a claimtoken
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name       | Type      | Description |
-| ---------- | --------- | ----------- |
-| \_account  | address   | undefined   |
-| \_tokenIDs | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _account | address | undefined |
+| _tokenIDs | uint256[] | undefined |
 
 ### batchMintClaimsFromAllowlists
 
@@ -85,16 +92,16 @@ function batchMintClaimsFromAllowlists(address account, bytes32[][] proofs, uint
 
 Mint semi-fungible tokens representing a fraction of the claims in `claimIDs`
 
-_Calls AllowlistMinter to verify `proofs`.Mints the `amount` of units for the hypercert stored under `claimIDs`_
+*Calls AllowlistMinter to verify `proofs`.Mints the `amount` of units for the hypercert stored under `claimIDs`*
 
 #### Parameters
 
-| Name     | Type        | Description |
-| -------- | ----------- | ----------- |
-| account  | address     | undefined   |
-| proofs   | bytes32[][] | undefined   |
-| claimIDs | uint256[]   | undefined   |
-| units    | uint256[]   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| proofs | bytes32[][] | undefined |
+| claimIDs | uint256[] | undefined |
+| units | uint256[] | undefined |
 
 ### burn
 
@@ -104,15 +111,15 @@ function burn(address account, uint256 id, uint256) external nonpayable
 
 Burn a claimtoken; override is needed to update units/values
 
-_see {ERC1155Burnable}_
+*see {ERC1155Burnable}*
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| account | address | undefined   |
-| id      | uint256 | undefined   |
-| \_2     | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| id | uint256 | undefined |
+| _2 | uint256 | undefined |
 
 ### burnBatch
 
@@ -122,15 +129,15 @@ function burnBatch(address account, uint256[] ids, uint256[]) external nonpayabl
 
 Batch burn claimtokens; override is needed to update units/values
 
-_see {ERC1155Burnable}_
+*see {ERC1155Burnable}*
 
 #### Parameters
 
-| Name    | Type      | Description |
-| ------- | --------- | ----------- |
-| account | address   | undefined   |
-| ids     | uint256[] | undefined   |
-| \_2     | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| ids | uint256[] | undefined |
+| _2 | uint256[] | undefined |
 
 ### burnFraction
 
@@ -140,14 +147,14 @@ function burnFraction(address _account, uint256 _tokenID) external nonpayable
 
 Burn a claimtoken
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name      | Type    | Description |
-| --------- | ------- | ----------- |
-| \_account | address | undefined   |
-| \_tokenID | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _account | address | undefined |
+| _tokenID | uint256 | undefined |
 
 ### createAllowlist
 
@@ -157,17 +164,17 @@ function createAllowlist(address account, uint256 units, bytes32 merkleRoot, str
 
 Register a claim and the whitelist for minting token(s) belonging to that claim
 
-_Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`Calls AllowlistMinter to store the `merkleRoot` as proof to authorize claims_
+*Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `units`Calls AllowlistMinter to store the `merkleRoot` as proof to authorize claims*
 
 #### Parameters
 
-| Name         | Type                                      | Description |
-| ------------ | ----------------------------------------- | ----------- |
-| account      | address                                   | undefined   |
-| units        | uint256                                   | undefined   |
-| merkleRoot   | bytes32                                   | undefined   |
-| \_uri        | string                                    | undefined   |
-| restrictions | enum IHypercertToken.TransferRestrictions | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| units | uint256 | undefined |
+| merkleRoot | bytes32 | undefined |
+| _uri | string | undefined |
+| restrictions | enum IHypercertToken.TransferRestrictions | undefined |
 
 ### hasBeenClaimed
 
@@ -175,18 +182,22 @@ _Calls SemiFungible1155 to store the claim referenced in `uri` with amount of `u
 function hasBeenClaimed(uint256, bytes32) external view returns (bool)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
-| \_1  | bytes32 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+| _1 | bytes32 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### initialize
 
@@ -194,7 +205,10 @@ function hasBeenClaimed(uint256, bytes32) external view returns (bool)
 function initialize() external nonpayable
 ```
 
-_see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }_
+
+
+*see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol }*
+
 
 ### isAllowedToClaim
 
@@ -202,19 +216,23 @@ _see { openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.so
 function isAllowedToClaim(bytes32[] proof, uint256 claimID, bytes32 leaf) external view returns (bool isAllowed)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type      | Description |
-| ------- | --------- | ----------- |
-| proof   | bytes32[] | undefined   |
-| claimID | uint256   | undefined   |
-| leaf    | bytes32   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| proof | bytes32[] | undefined |
+| claimID | uint256 | undefined |
+| leaf | bytes32 | undefined |
 
 #### Returns
 
-| Name      | Type | Description |
-| --------- | ---- | ----------- |
-| isAllowed | bool | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| isAllowed | bool | undefined |
 
 ### isApprovedForAll
 
@@ -222,20 +240,22 @@ function isAllowedToClaim(bytes32[] proof, uint256 claimID, bytes32 leaf) extern
 function isApprovedForAll(address account, address operator) external view returns (bool)
 ```
 
-_See {IERC1155-isApprovedForAll}._
+
+
+*See {IERC1155-isApprovedForAll}.*
 
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| account  | address | undefined   |
-| operator | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| operator | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### mergeFractions
 
@@ -245,14 +265,14 @@ function mergeFractions(address _account, uint256[] _fractionIDs) external nonpa
 
 Merge the value of tokens belonging to the same claim
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name          | Type      | Description |
-| ------------- | --------- | ----------- |
-| \_account     | address   | undefined   |
-| \_fractionIDs | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _account | address | undefined |
+| _fractionIDs | uint256[] | undefined |
 
 ### mintClaim
 
@@ -262,16 +282,16 @@ function mintClaim(address account, uint256 units, string _uri, enum IHypercertT
 
 Mint a semi-fungible token for the impact claim referenced via `uri`
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name         | Type                                      | Description |
-| ------------ | ----------------------------------------- | ----------- |
-| account      | address                                   | undefined   |
-| units        | uint256                                   | undefined   |
-| \_uri        | string                                    | undefined   |
-| restrictions | enum IHypercertToken.TransferRestrictions | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| units | uint256 | undefined |
+| _uri | string | undefined |
+| restrictions | enum IHypercertToken.TransferRestrictions | undefined |
 
 ### mintClaimFromAllowlist
 
@@ -281,16 +301,16 @@ function mintClaimFromAllowlist(address account, bytes32[] proof, uint256 claimI
 
 Mint a semi-fungible token representing a fraction of the claim
 
-_Calls AllowlistMinter to verify `proof`.Mints the `amount` of units for the hypercert stored under `claimID`_
+*Calls AllowlistMinter to verify `proof`.Mints the `amount` of units for the hypercert stored under `claimID`*
 
 #### Parameters
 
-| Name    | Type      | Description |
-| ------- | --------- | ----------- |
-| account | address   | undefined   |
-| proof   | bytes32[] | undefined   |
-| claimID | uint256   | undefined   |
-| units   | uint256   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| proof | bytes32[] | undefined |
+| claimID | uint256 | undefined |
+| units | uint256 | undefined |
 
 ### mintClaimWithFractions
 
@@ -300,17 +320,17 @@ function mintClaimWithFractions(address account, uint256 units, uint256[] fracti
 
 Mint semi-fungible tokens for the impact claim referenced via `uri`
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name         | Type                                      | Description |
-| ------------ | ----------------------------------------- | ----------- |
-| account      | address                                   | undefined   |
-| units        | uint256                                   | undefined   |
-| fractions    | uint256[]                                 | undefined   |
-| \_uri        | string                                    | undefined   |
-| restrictions | enum IHypercertToken.TransferRestrictions | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| units | uint256 | undefined |
+| fractions | uint256[] | undefined |
+| _uri | string | undefined |
+| restrictions | enum IHypercertToken.TransferRestrictions | undefined |
 
 ### name
 
@@ -318,11 +338,16 @@ _see {IHypercertToken}_
 function name() external view returns (string)
 ```
 
+
+
+
+
+
 #### Returns
 
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| \_0  | string | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | string | undefined |
 
 ### owner
 
@@ -330,13 +355,16 @@ function name() external view returns (string)
 function owner() external view returns (address)
 ```
 
-_Returns the address of the current owner._
+
+
+*Returns the address of the current owner.*
+
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
 
 ### ownerOf
 
@@ -344,19 +372,21 @@ _Returns the address of the current owner._
 function ownerOf(uint256 tokenID) external view returns (address _owner)
 ```
 
-_Returns the owner of a given token ID._
+
+
+*Returns the owner of a given token ID.*
 
 #### Parameters
 
-| Name    | Type    | Description                   |
-| ------- | ------- | ----------------------------- |
+| Name | Type | Description |
+|---|---|---|
 | tokenID | uint256 | The ID of the token to query. |
 
 #### Returns
 
-| Name    | Type    | Description                            |
-| ------- | ------- | -------------------------------------- |
-| \_owner | address | The address of the owner of the token. |
+| Name | Type | Description |
+|---|---|---|
+| _owner | address | The address of the owner of the token. |
 
 ### pause
 
@@ -366,19 +396,25 @@ function pause() external nonpayable
 
 PAUSABLE
 
+
+
+
 ### paused
 
 ```solidity
 function paused() external view returns (bool)
 ```
 
-_Returns true if the contract is paused, and false otherwise._
+
+
+*Returns true if the contract is paused, and false otherwise.*
+
 
 #### Returns
 
 | Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### proxiableUUID
 
@@ -386,13 +422,16 @@ _Returns true if the contract is paused, and false otherwise._
 function proxiableUUID() external view returns (bytes32)
 ```
 
-_Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate the implementation&#39;s compatibility when performing an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier._
+
+
+*Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate the implementation&#39;s compatibility when performing an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier.*
+
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | bytes32 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | bytes32 | undefined |
 
 ### readTransferRestriction
 
@@ -402,17 +441,19 @@ function readTransferRestriction(uint256 tokenID) external view returns (string)
 
 TRANSFER RESTRICTIONS
 
+
+
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| tokenID | uint256 | undefined |
 
 #### Returns
 
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| \_0  | string | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _0 | string | undefined |
 
 ### renounceOwnership
 
@@ -420,7 +461,10 @@ TRANSFER RESTRICTIONS
 function renounceOwnership() external nonpayable
 ```
 
-_Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner._
+
+
+*Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
+
 
 ### safeBatchTransferFrom
 
@@ -428,17 +472,19 @@ _Leaves the contract without owner. It will not be possible to call `onlyOwner` 
 function safeBatchTransferFrom(address from, address to, uint256[] ids, uint256[] amounts, bytes data) external nonpayable
 ```
 
-_See {IERC1155-safeBatchTransferFrom}._
+
+
+*See {IERC1155-safeBatchTransferFrom}.*
 
 #### Parameters
 
-| Name    | Type      | Description |
-| ------- | --------- | ----------- |
-| from    | address   | undefined   |
-| to      | address   | undefined   |
-| ids     | uint256[] | undefined   |
-| amounts | uint256[] | undefined   |
-| data    | bytes     | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| from | address | undefined |
+| to | address | undefined |
+| ids | uint256[] | undefined |
+| amounts | uint256[] | undefined |
+| data | bytes | undefined |
 
 ### safeTransferFrom
 
@@ -446,17 +492,19 @@ _See {IERC1155-safeBatchTransferFrom}._
 function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes data) external nonpayable
 ```
 
-_See {IERC1155-safeTransferFrom}._
+
+
+*See {IERC1155-safeTransferFrom}.*
 
 #### Parameters
 
-| Name   | Type    | Description |
-| ------ | ------- | ----------- |
-| from   | address | undefined   |
-| to     | address | undefined   |
-| id     | uint256 | undefined   |
-| amount | uint256 | undefined   |
-| data   | bytes   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| from | address | undefined |
+| to | address | undefined |
+| id | uint256 | undefined |
+| amount | uint256 | undefined |
+| data | bytes | undefined |
 
 ### setApprovalForAll
 
@@ -464,14 +512,16 @@ _See {IERC1155-safeTransferFrom}._
 function setApprovalForAll(address operator, bool approved) external nonpayable
 ```
 
-_See {IERC1155-setApprovalForAll}._
+
+
+*See {IERC1155-setApprovalForAll}.*
 
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| operator | address | undefined   |
-| approved | bool    | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| operator | address | undefined |
+| approved | bool | undefined |
 
 ### splitFraction
 
@@ -481,15 +531,15 @@ function splitFraction(address _account, uint256 _tokenID, uint256[] _newFractio
 
 Split a claimtokens value into parts with summed value equal to the original
 
-_see {IHypercertToken}_
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name           | Type      | Description |
-| -------------- | --------- | ----------- |
-| \_account      | address   | undefined   |
-| \_tokenID      | uint256   | undefined   |
-| \_newFractions | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _account | address | undefined |
+| _tokenID | uint256 | undefined |
+| _newFractions | uint256[] | undefined |
 
 ### supportsInterface
 
@@ -497,19 +547,21 @@ _see {IHypercertToken}_
 function supportsInterface(bytes4 interfaceId) external view returns (bool)
 ```
 
-_See {IERC165-supportsInterface}._
+
+
+*See {IERC165-supportsInterface}.*
 
 #### Parameters
 
-| Name        | Type   | Description |
-| ----------- | ------ | ----------- |
-| interfaceId | bytes4 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| interfaceId | bytes4 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### transferOwnership
 
@@ -517,13 +569,15 @@ _See {IERC165-supportsInterface}._
 function transferOwnership(address newOwner) external nonpayable
 ```
 
-_Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner._
+
+
+*Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.*
 
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| newOwner | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| newOwner | address | undefined |
 
 ### unitsOf
 
@@ -531,20 +585,22 @@ _Transfers ownership of the contract to a new account (`newOwner`). Can only be 
 function unitsOf(address account, uint256 tokenID) external view returns (uint256 units)
 ```
 
-_see {IHypercertToken}_
+
+
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| account | address | undefined   |
-| tokenID | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account | address | undefined |
+| tokenID | uint256 | undefined |
 
 #### Returns
 
-| Name  | Type    | Description |
-| ----- | ------- | ----------- |
-| units | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| units | uint256 | undefined |
 
 ### unitsOf
 
@@ -552,19 +608,21 @@ _see {IHypercertToken}_
 function unitsOf(uint256 tokenID) external view returns (uint256 units)
 ```
 
-_see {IHypercertToken}_
+
+
+*see {IHypercertToken}*
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| tokenID | uint256 | undefined |
 
 #### Returns
 
-| Name  | Type    | Description |
-| ----- | ------- | ----------- |
-| units | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| units | uint256 | undefined |
 
 ### unpause
 
@@ -572,19 +630,26 @@ _see {IHypercertToken}_
 function unpause() external nonpayable
 ```
 
+
+
+
+
+
 ### upgradeTo
 
 ```solidity
 function upgradeTo(address newImplementation) external nonpayable
 ```
 
-_Upgrade the implementation of the proxy to `newImplementation`. Calls {\_authorizeUpgrade}. Emits an {Upgraded} event._
+
+
+*Upgrade the implementation of the proxy to `newImplementation`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event.*
 
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| newImplementation | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| newImplementation | address | undefined |
 
 ### upgradeToAndCall
 
@@ -592,14 +657,16 @@ _Upgrade the implementation of the proxy to `newImplementation`. Calls {\_author
 function upgradeToAndCall(address newImplementation, bytes data) external payable
 ```
 
-_Upgrade the implementation of the proxy to `newImplementation`, and subsequently execute the function call encoded in `data`. Calls {\_authorizeUpgrade}. Emits an {Upgraded} event._
+
+
+*Upgrade the implementation of the proxy to `newImplementation`, and subsequently execute the function call encoded in `data`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event.*
 
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| newImplementation | address | undefined   |
-| data              | bytes   | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| newImplementation | address | undefined |
+| data | bytes | undefined |
 
 ### uri
 
@@ -607,19 +674,23 @@ _Upgrade the implementation of the proxy to `newImplementation`, and subsequentl
 function uri(uint256 tokenID) external view returns (string _uri)
 ```
 
-_see { IHypercertMetadata}_
+
+
+*see { IHypercertMetadata}*
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| tokenID | uint256 | undefined |
 
 #### Returns
 
-| Name  | Type   | Description |
-| ----- | ------ | ----------- |
-| \_uri | string | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| _uri | string | undefined |
+
+
 
 ## Events
 
@@ -629,12 +700,16 @@ _see { IHypercertMetadata}_
 event AdminChanged(address previousAdmin, address newAdmin)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name          | Type    | Description |
-| ------------- | ------- | ----------- |
-| previousAdmin | address | undefined   |
-| newAdmin      | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| previousAdmin  | address | undefined |
+| newAdmin  | address | undefined |
 
 ### AllowlistCreated
 
@@ -642,12 +717,16 @@ event AdminChanged(address previousAdmin, address newAdmin)
 event AllowlistCreated(uint256 tokenID, bytes32 root)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
-| root    | bytes32 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| tokenID  | uint256 | undefined |
+| root  | bytes32 | undefined |
 
 ### ApprovalForAll
 
@@ -655,13 +734,17 @@ event AllowlistCreated(uint256 tokenID, bytes32 root)
 event ApprovalForAll(address indexed account, address indexed operator, bool approved)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| account `indexed`  | address | undefined   |
-| operator `indexed` | address | undefined   |
-| approved           | bool    | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account `indexed` | address | undefined |
+| operator `indexed` | address | undefined |
+| approved  | bool | undefined |
 
 ### BatchValueTransfer
 
@@ -669,14 +752,18 @@ event ApprovalForAll(address indexed account, address indexed operator, bool app
 event BatchValueTransfer(uint256[] claimIDs, uint256[] fromTokenIDs, uint256[] toTokenIDs, uint256[] values)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name         | Type      | Description |
-| ------------ | --------- | ----------- |
-| claimIDs     | uint256[] | undefined   |
-| fromTokenIDs | uint256[] | undefined   |
-| toTokenIDs   | uint256[] | undefined   |
-| values       | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| claimIDs  | uint256[] | undefined |
+| fromTokenIDs  | uint256[] | undefined |
+| toTokenIDs  | uint256[] | undefined |
+| values  | uint256[] | undefined |
 
 ### BeaconUpgraded
 
@@ -684,11 +771,15 @@ event BatchValueTransfer(uint256[] claimIDs, uint256[] fromTokenIDs, uint256[] t
 event BeaconUpgraded(address indexed beacon)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name             | Type    | Description |
-| ---------------- | ------- | ----------- |
-| beacon `indexed` | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| beacon `indexed` | address | undefined |
 
 ### ClaimStored
 
@@ -696,13 +787,17 @@ event BeaconUpgraded(address indexed beacon)
 event ClaimStored(uint256 indexed claimID, string uri, uint256 totalUnits)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| claimID `indexed` | uint256 | undefined   |
-| uri               | string  | undefined   |
-| totalUnits        | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| claimID `indexed` | uint256 | undefined |
+| uri  | string | undefined |
+| totalUnits  | uint256 | undefined |
 
 ### Initialized
 
@@ -710,11 +805,15 @@ event ClaimStored(uint256 indexed claimID, string uri, uint256 totalUnits)
 event Initialized(uint8 version)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type  | Description |
-| ------- | ----- | ----------- |
-| version | uint8 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
 
 ### LeafClaimed
 
@@ -722,12 +821,16 @@ event Initialized(uint8 version)
 event LeafClaimed(uint256 tokenID, bytes32 leaf)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenID | uint256 | undefined   |
-| leaf    | bytes32 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| tokenID  | uint256 | undefined |
+| leaf  | bytes32 | undefined |
 
 ### OwnershipTransferred
 
@@ -735,12 +838,16 @@ event LeafClaimed(uint256 tokenID, bytes32 leaf)
 event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name                    | Type    | Description |
-| ----------------------- | ------- | ----------- |
-| previousOwner `indexed` | address | undefined   |
-| newOwner `indexed`      | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| previousOwner `indexed` | address | undefined |
+| newOwner `indexed` | address | undefined |
 
 ### Paused
 
@@ -748,11 +855,15 @@ event OwnershipTransferred(address indexed previousOwner, address indexed newOwn
 event Paused(address account)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| account | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account  | address | undefined |
 
 ### TransferBatch
 
@@ -760,15 +871,19 @@ event Paused(address account)
 event TransferBatch(address indexed operator, address indexed from, address indexed to, uint256[] ids, uint256[] values)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name               | Type      | Description |
-| ------------------ | --------- | ----------- |
-| operator `indexed` | address   | undefined   |
-| from `indexed`     | address   | undefined   |
-| to `indexed`       | address   | undefined   |
-| ids                | uint256[] | undefined   |
-| values             | uint256[] | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| operator `indexed` | address | undefined |
+| from `indexed` | address | undefined |
+| to `indexed` | address | undefined |
+| ids  | uint256[] | undefined |
+| values  | uint256[] | undefined |
 
 ### TransferSingle
 
@@ -776,15 +891,19 @@ event TransferBatch(address indexed operator, address indexed from, address inde
 event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256 id, uint256 value)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| operator `indexed` | address | undefined   |
-| from `indexed`     | address | undefined   |
-| to `indexed`       | address | undefined   |
-| id                 | uint256 | undefined   |
-| value              | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| operator `indexed` | address | undefined |
+| from `indexed` | address | undefined |
+| to `indexed` | address | undefined |
+| id  | uint256 | undefined |
+| value  | uint256 | undefined |
 
 ### URI
 
@@ -792,12 +911,16 @@ event TransferSingle(address indexed operator, address indexed from, address ind
 event URI(string value, uint256 indexed id)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name         | Type    | Description |
-| ------------ | ------- | ----------- |
-| value        | string  | undefined   |
-| id `indexed` | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| value  | string | undefined |
+| id `indexed` | uint256 | undefined |
 
 ### Unpaused
 
@@ -805,11 +928,15 @@ event URI(string value, uint256 indexed id)
 event Unpaused(address account)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| account | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| account  | address | undefined |
 
 ### Upgraded
 
@@ -817,11 +944,15 @@ event Unpaused(address account)
 event Upgraded(address indexed implementation)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name                     | Type    | Description |
-| ------------------------ | ------- | ----------- |
-| implementation `indexed` | address | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| implementation `indexed` | address | undefined |
 
 ### ValueTransfer
 
@@ -829,14 +960,20 @@ event Upgraded(address indexed implementation)
 event ValueTransfer(uint256 claimID, uint256 fromTokenID, uint256 toTokenID, uint256 value)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name        | Type    | Description |
-| ----------- | ------- | ----------- |
-| claimID     | uint256 | undefined   |
-| fromTokenID | uint256 | undefined   |
-| toTokenID   | uint256 | undefined   |
-| value       | uint256 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| claimID  | uint256 | undefined |
+| fromTokenID  | uint256 | undefined |
+| toTokenID  | uint256 | undefined |
+| value  | uint256 | undefined |
+
+
 
 ## Errors
 
@@ -846,11 +983,21 @@ event ValueTransfer(uint256 claimID, uint256 fromTokenID, uint256 toTokenID, uin
 error AlreadyClaimed()
 ```
 
+
+
+
+
+
 ### ArraySize
 
 ```solidity
 error ArraySize()
 ```
+
+
+
+
+
 
 ### DoesNotExist
 
@@ -858,11 +1005,21 @@ error ArraySize()
 error DoesNotExist()
 ```
 
+
+
+
+
+
 ### DuplicateEntry
 
 ```solidity
 error DuplicateEntry()
 ```
+
+
+
+
+
 
 ### Invalid
 
@@ -870,11 +1027,21 @@ error DuplicateEntry()
 error Invalid()
 ```
 
+
+
+
+
+
 ### NotAllowed
 
 ```solidity
 error NotAllowed()
 ```
+
+
+
+
+
 
 ### NotApprovedOrOwner
 
@@ -882,14 +1049,31 @@ error NotAllowed()
 error NotApprovedOrOwner()
 ```
 
+
+
+
+
+
 ### TransfersNotAllowed
 
 ```solidity
 error TransfersNotAllowed()
 ```
 
+
+
+
+
+
 ### TypeMismatch
 
 ```solidity
 error TypeMismatch()
 ```
+
+
+
+
+
+
+

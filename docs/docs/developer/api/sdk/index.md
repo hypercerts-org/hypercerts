@@ -46,12 +46,7 @@ const client = new HypercertClient({
 For example, you can use the `client.mintClaim` method to create a new claim:
 
 ```js
-const tx = await client.mintClaim(
-  metaData,
-  totalUnits,
-  transferRestriction,
-  overrides,
-);
+const tx = await client.mintClaim(metaData, totalUnits, transferRestriction, overrides);
 ```
 
 This will validate the metadata, store it on IPFS, create a new hypercert on-chain and return a transaction receipt.

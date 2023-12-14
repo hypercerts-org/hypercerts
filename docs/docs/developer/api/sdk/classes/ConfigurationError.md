@@ -26,9 +26,9 @@ The configuration was invalid
 
 #### Parameters
 
-| Name       | Type     |
-| :--------- | :------- |
-| `message`  | `string` |
+| Name | Type |
+| :------ | :------ |
+| `message` | `string` |
 | `payload?` | `Object` |
 
 #### Returns
@@ -41,7 +41,7 @@ Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:188](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/errors.ts#L188)
+[sdk/src/types/errors.ts:188](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/errors.ts#L188)
 
 ## Properties
 
@@ -57,7 +57,7 @@ Error.cause
 
 node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es2022.error.d.ts:24
 
----
+___
 
 ### message
 
@@ -71,7 +71,7 @@ Error.message
 
 node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1076
 
----
+___
 
 ### name
 
@@ -85,7 +85,7 @@ Error.name
 
 node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1075
 
----
+___
 
 ### payload
 
@@ -103,9 +103,9 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:187](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/errors.ts#L187)
+[sdk/src/types/errors.ts:187](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/errors.ts#L187)
 
----
+___
 
 ### stack
 
@@ -119,7 +119,7 @@ Error.stack
 
 node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1077
 
----
+___
 
 ### prepareStackTrace
 
@@ -133,9 +133,9 @@ Optional override for formatting stack traces
 
 ##### Parameters
 
-| Name          | Type         |
-| :------------ | :----------- |
-| `err`         | `Error`      |
+| Name | Type |
+| :------ | :------ |
+| `err` | `Error` |
 | `stackTraces` | `CallSite`[] |
 
 ##### Returns
@@ -154,7 +154,7 @@ Error.prepareStackTrace
 
 node_modules/.pnpm/@types+node@18.18.7/node_modules/@types/node/globals.d.ts:11
 
----
+___
 
 ### stackTraceLimit
 
@@ -178,9 +178,9 @@ Create .stack property on a target object
 
 #### Parameters
 
-| Name              | Type       |
-| :---------------- | :--------- |
-| `targetObject`    | `object`   |
+| Name | Type |
+| :------ | :------ |
+| `targetObject` | `object` |
 | `constructorOpt?` | `Function` |
 
 #### Returns
