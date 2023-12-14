@@ -1,32 +1,20 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertIndexerInterface
-
-# Interface: HypercertIndexerInterface
-
-## Implemented by
-
-- [`default`](../classes/internal.default-1.md)
-
-## Table of contents
-
-### Properties
-
-- [claimById](HypercertIndexerInterface.md#claimbyid)
-- [claimsByOwner](HypercertIndexerInterface.md#claimsbyowner)
-- [firstClaims](HypercertIndexerInterface.md#firstclaims)
-- [fractionById](HypercertIndexerInterface.md#fractionbyid)
-- [fractionsByClaim](HypercertIndexerInterface.md#fractionsbyclaim)
-- [fractionsByOwner](HypercertIndexerInterface.md#fractionsbyowner)
-- [graphClient](HypercertIndexerInterface.md#graphclient)
+---
+id: "HypercertIndexerInterface"
+title: "Interface: HypercertIndexerInterface"
+sidebar_label: "HypercertIndexerInterface"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 ## Properties
 
 ### claimById
 
-• **claimById**: (`id`: `string`) => `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+• **claimById**: (`id`: `string`) => `Promise`<`undefined` \| [`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 #### Type declaration
 
-▸ (`id`): `Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+▸ (`id`): `Promise`<`undefined` \| [`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 ##### Parameters
 
@@ -36,21 +24,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimByIdQuery`](../modules/internal.md#claimbyidquery)\>
+`Promise`<`undefined` \| [`ClaimByIdQuery`](../modules.md#claimbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L20)
+[sdk/src/types/indexer.ts:20](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L20)
 
 ---
 
 ### claimsByOwner
 
-• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+• **claimsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`undefined` \| [`ClaimsByOwnerQuery`](../modules.md#claimsbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+▸ (`owner`, `params?`): `Promise`<`undefined` \| [`ClaimsByOwnerQuery`](../modules.md#claimsbyownerquery)\>
 
 ##### Parameters
 
@@ -61,21 +49,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimsByOwnerQuery`](../modules/internal.md#claimsbyownerquery)\>
+`Promise`<`undefined` \| [`ClaimsByOwnerQuery`](../modules.md#claimsbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L19)
+[sdk/src/types/indexer.ts:19](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L19)
 
 ---
 
 ### firstClaims
 
-• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+• **firstClaims**: (`params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`undefined` \| [`RecentClaimsQuery`](../modules.md#recentclaimsquery)\>
 
 #### Type declaration
 
-▸ (`params?`): `Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+▸ (`params?`): `Promise`<`undefined` \| [`RecentClaimsQuery`](../modules.md#recentclaimsquery)\>
 
 ##### Parameters
 
@@ -85,21 +73,21 @@
 
 ##### Returns
 
-`Promise`<[`RecentClaimsQuery`](../modules/internal.md#recentclaimsquery)\>
+`Promise`<`undefined` \| [`RecentClaimsQuery`](../modules.md#recentclaimsquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L21)
+[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L21)
 
 ---
 
 ### fractionById
 
-• **fractionById**: (`fractionId`: `string`) => `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+• **fractionById**: (`fractionId`: `string`) => `Promise`<`undefined` \| [`ClaimTokenByIdQuery`](../modules.md#claimtokenbyidquery)\>
 
 #### Type declaration
 
-▸ (`fractionId`): `Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+▸ (`fractionId`): `Promise`<`undefined` \| [`ClaimTokenByIdQuery`](../modules.md#claimtokenbyidquery)\>
 
 ##### Parameters
 
@@ -109,21 +97,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokenByIdQuery`](../modules/internal.md#claimtokenbyidquery)\>
+`Promise`<`undefined` \| [`ClaimTokenByIdQuery`](../modules.md#claimtokenbyidquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L24)
+[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L24)
 
 ---
 
 ### fractionsByClaim
 
-• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+• **fractionsByClaim**: (`claimId`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`undefined` \| [`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 #### Type declaration
 
-▸ (`claimId`, `params?`): `Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+▸ (`claimId`, `params?`): `Promise`<`undefined` \| [`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 ##### Parameters
 
@@ -134,21 +122,21 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokensByClaimQuery`](../modules/internal.md#claimtokensbyclaimquery)\>
+`Promise`<`undefined` \| [`ClaimTokensByClaimQuery`](../modules.md#claimtokensbyclaimquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L23)
+[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L23)
 
 ---
 
 ### fractionsByOwner
 
-• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+• **fractionsByOwner**: (`owner`: `string`, `params?`: [`QueryParams`](../modules.md#queryparams)) => `Promise`<`undefined` \| [`ClaimTokensByOwnerQuery`](../modules.md#claimtokensbyownerquery)\>
 
 #### Type declaration
 
-▸ (`owner`, `params?`): `Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+▸ (`owner`, `params?`): `Promise`<`undefined` \| [`ClaimTokensByOwnerQuery`](../modules.md#claimtokensbyownerquery)\>
 
 ##### Parameters
 
@@ -159,18 +147,18 @@
 
 ##### Returns
 
-`Promise`<[`ClaimTokensByOwnerQuery`](../modules/internal.md#claimtokensbyownerquery)\>
+`Promise`<`undefined` \| [`ClaimTokensByOwnerQuery`](../modules.md#claimtokensbyownerquery)\>
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L22)
+[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L22)
 
 ---
 
 ### graphClient
 
-• **graphClient**: `any`
+• **graphClient**: `Client`
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/indexer.ts#L18)
+[sdk/src/types/indexer.ts:18](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/indexer.ts#L18)

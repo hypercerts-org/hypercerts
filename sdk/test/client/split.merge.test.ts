@@ -1,252 +1,232 @@
-import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, Wallet } from "ethers";
+import { describe, it, beforeEach, afterAll } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
+
 import sinon from "sinon";
 
-import HypercertClient from "../../src/client.js";
-import { ClientError } from "../../src/types/errors.js";
+import { HypercertClient } from "../../src/client";
 
-import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { publicClient, walletClient } from "../helpers";
+import { isHex, toHex } from "viem";
+import { ClientError, ContractError } from "src";
+import { faker } from "@faker-js/faker";
 
-describe("splitClaimUnits in HypercertClient", () => {
-  let stub: sinon.SinonStub;
-  let provider: MockProvider;
-  let wallet: Wallet;
-  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
+chai.use(assertionsCount);
 
-  beforeAll(() => {
-    provider = new MockProvider();
-    wallet = provider.getWallets()[0];
+describe("split and merge", () => {
+  const wallet = walletClient;
+  const userAddress = wallet.account?.address;
 
-    stub = sinon.stub(provider, "on");
+  let readSpy = sinon.stub(publicClient, "readContract");
+  let writeSpy = sinon.stub(walletClient, "writeContract");
+
+  const client = new HypercertClient({
+    chain: { id: 5 },
+    walletClient,
+    publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
-  beforeEach(() => {
-    provider.clearCallHistory();
-  });
+
+  const fractionId = 9868188640707215440437863615521278132232n;
 
   afterAll(() => {
-    stub.restore();
+    sinon.restore();
   });
 
-  it("allows for a hypercert fractions to be splitted over value", async () => {
-    const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(300);
-    await mockMinter.mock["splitFraction(address,uint256,uint256[])"]
-      .withArgs(userAddress, fractionId, [100, 200])
-      .returns();
+  describe("splitFractionUnits in HypercertClient", () => {
+    beforeEach(async () => {
+      chai.Assertion.resetAssertsCheck();
+      readSpy.resetBehavior();
+      readSpy.resetHistory();
 
-    const signer = wallet.connect(provider);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      writeSpy.resetBehavior();
+      writeSpy.resetHistory();
     });
 
-    expect(client.readonly).toBe(false);
+    it("allows for a hypercert fractions to be splitted over value", async () => {
+      chai.Assertion.expectExpects(4);
+      readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(300n);
+      writeSpy = writeSpy.resolves(toHex(420));
 
-    await client.splitClaimUnits(fractionId, [100, 200]);
+      expect(client.readonly).to.be.false;
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(7);
-  }, 10000);
+      const hash = await client.splitFractionUnits(fractionId, [100n, 200n]);
 
-  it("allows for a hypercert fractions to be splitted over value with override params", async () => {
-    const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(300);
-    await mockMinter.mock["splitFraction(address,uint256,uint256[])"]
-      .withArgs(userAddress, fractionId, [100, 200])
-      .returns();
-
-    const signer = wallet.connect(provider);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      expect(isHex(hash)).to.be.true;
+      expect(readSpy.callCount).to.eq(2);
+      expect(writeSpy.callCount).to.eq(1);
     });
-    expect(client.readonly).toBe(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await client.splitClaimUnits(fractionId, [100, 200], { gasLimit: "FALSE_VALUE" });
-    } catch (e) {
-      expect((e as Error).message).toMatch(/invalid BigNumber string/);
-    }
+    it("allows for a hypercert fractions to be splitted over value with override params", async () => {
+      chai.Assertion.expectExpects(5);
+      readSpy = readSpy
+        .onFirstCall()
+        .resolves(userAddress)
+        .onSecondCall()
+        .resolves(300n)
+        .onThirdCall()
+        .resolves(userAddress)
+        .onCall(3)
+        .resolves(300n);
 
-    await client.splitClaimUnits(fractionId, [100, 200], { gasLimit: "12300000" });
+      writeSpy = writeSpy.resolves(toHex(420));
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(9);
-  }, 10000);
+      expect(client.readonly).to.be.false;
 
-  it("throws on splitting with incorrect new total value", async () => {
-    const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock["unitsOf(uint256)"].withArgs(fractionId).returns(42);
+      try {
+        await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
+      } catch (e) {
+        expect(e instanceof ContractError).to.be.true;
+      }
 
-    const signer = wallet.connect(provider);
+      const hash = await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: 12300000n });
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      expect(isHex(hash)).to.be.true;
+      expect(readSpy.callCount).to.eq(4);
+      expect(writeSpy.callCount).to.eq(1);
     });
-    expect(client.readonly).toBe(false);
 
-    try {
-      await client.splitClaimUnits(fractionId, [100, 200]);
-    } catch (e) {
-      expect(e instanceof ClientError).toBeTruthy();
+    it("throws on splitting with incorrect new total value", async () => {
+      chai.Assertion.expectExpects(4);
+      readSpy = readSpy
+        .onFirstCall()
+        .resolves(userAddress) // ownerOf
+        .onSecondCall()
+        .resolves(300n) // unitsOf
+        .onThirdCall()
+        .resolves(userAddress)
+        .onCall(3)
+        .resolves(300n);
 
-      const error = e as ClientError;
-      expect(error.message).toBe("Sum of fractions is not equal to the total units");
-    }
+      expect(client.readonly).to.be.false;
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    // Owner
-    // UnitsOf
-    expect(provider.callHistory.length).toBe(5);
-    expect.assertions(4);
+      try {
+        await client.splitFractionUnits(fractionId, [100n, 777n]);
+      } catch (e) {
+        expect(e instanceof ClientError).to.be.true;
+
+        const error = e as ClientError;
+        expect(error.message).to.be.eq("Sum of fractions is not equal to the total units");
+      }
+
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      // Owner
+      // UnitsOf
+      expect(readSpy.callCount).to.eq(2);
+      expect(writeSpy.callCount).to.eq(0);
+    });
+
+    it("throws on splitting fractions not owned by signer", async () => {
+      chai.Assertion.expectExpects(4);
+      readSpy = readSpy.onFirstCall().resolves(faker.finance.ethereumAddress()).onSecondCall().resolves(300n); // unitsOf; // ownerOf
+
+      expect(client.readonly).to.be.false;
+
+      try {
+        await client.splitFractionUnits(fractionId, [100n, 200n]);
+      } catch (e) {
+        expect(e instanceof ClientError).to.be.true;
+
+        const error = e as ClientError;
+        expect(error.message).to.be.eq("Claim is not owned by the signer");
+      }
+
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      // Owner
+      expect(readSpy.callCount).to.eq(2);
+      expect(writeSpy.callCount).to.eq(0);
+    });
   });
 
-  it("throws on splitting fractions not owned by signer", async () => {
-    const otherUser = await provider.getWallets()[1].getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
+  describe("mergeFractionUnits in HypercertClient", () => {
+    beforeEach(async () => {
+      chai.Assertion.resetAssertsCheck();
+      readSpy.resetBehavior();
+      readSpy.resetHistory();
 
-    const signer = wallet.connect(provider);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      writeSpy.resetBehavior();
+      writeSpy.resetHistory();
     });
-    expect(client.readonly).toBe(false);
 
-    try {
-      await client.splitClaimUnits(fractionId, [100, 200]);
-    } catch (e) {
-      expect(e instanceof ClientError).toBeTruthy();
+    it("allows for hypercert fractions to merge value", async () => {
+      chai.Assertion.expectExpects(3);
+      readSpy = readSpy
+        .onFirstCall()
+        .resolves(userAddress) // ownerOf
+        .onSecondCall()
+        .resolves(userAddress) // unitsOf
+        .onThirdCall()
+        .resolves(userAddress);
 
-      const error = e as ClientError;
-      expect(error.message).toBe("Claim is not owned by the signer");
-    }
+      writeSpy = writeSpy.resolves(toHex(420));
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    // Owner
-    expect(provider.callHistory.length).toBe(3);
-    expect.assertions(4);
-  });
-});
+      expect(client.readonly).to.be.false;
 
-describe("mergeClaimUnits in HypercertClient", () => {
-  let stub: sinon.SinonStub;
-  let provider: MockProvider;
-  let wallet: Wallet;
-  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
+      const hash = await client.mergeFractionUnits([fractionId, fractionId + 1n]);
 
-  beforeAll(() => {
-    provider = new MockProvider();
-    wallet = provider.getWallets()[0];
-    stub = sinon.stub(provider, "on");
-  });
-  beforeEach(() => {
-    provider.clearCallHistory();
-  });
-
-  afterAll(() => {
-    stub.restore();
-  });
-
-  it("allows for hypercert fractions to merge value", async () => {
-    const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(userAddress);
-    await mockMinter.mock["mergeFractions(address,uint256[])"]
-      .withArgs(userAddress, [fractionId, fractionId.add(1)])
-      .returns();
-
-    const signer = wallet.connect(provider);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      expect(isHex(hash)).to.be.true;
+      expect(readSpy.callCount).to.eq(2);
+      expect(writeSpy.callCount).to.eq(1);
     });
-    expect(client.readonly).toBe(false);
 
-    await client.mergeClaimUnits([fractionId, fractionId.add(1)]);
+    it("allows for hypercert fractions to merge value with override params", async () => {
+      chai.Assertion.expectExpects(7);
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(7);
-  }, 10000);
+      readSpy = readSpy.resolves(userAddress); // ownerOf
 
-  it("allows for hypercert fractions to merge value with override params", async () => {
-    const userAddress = await wallet.getAddress();
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(userAddress);
-    await mockMinter.mock["mergeFractions(address,uint256[])"]
-      .withArgs(userAddress, [fractionId, fractionId.add(1)])
-      .returns();
+      writeSpy = writeSpy.resolves(toHex(420));
 
-    const signer = wallet.connect(provider);
+      expect(client.readonly).to.be.false;
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      let hash;
+
+      try {
+        hash = await client.mergeFractionUnits([fractionId, fractionId + 1n], {
+          gasLimit: "FALSE_VALUE" as unknown as bigint,
+        });
+      } catch (e) {
+        console.log(e);
+        // https://github.com/wevm/viem/issues/1275
+        expect(e instanceof Error).to.be.true;
+
+        // const error = e as ClientError;
+        // expect(error.message).to.be.eq(/invalid BigNumber string/);
+        expect(isHex(hash)).to.be.false;
+      }
+
+      hash = await client.mergeFractionUnits([fractionId, fractionId + 1n], { gasLimit: 12300000n });
+
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+
+      expect(isHex(hash)).to.be.true;
+      expect(readSpy.callCount).to.eq(4);
+      expect(writeSpy.callCount).to.eq(1);
     });
-    expect(client.readonly).toBe(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await client.mergeClaimUnits([fractionId, fractionId.add(1)], { gasLimit: "FALSE_VALUE" });
-    } catch (e) {
-      expect((e as Error).message).toMatch(/invalid BigNumber string/);
-    }
+    it("throws on splitting fractions not owned by signer", async () => {
+      chai.Assertion.expectExpects(3);
+      readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(faker.finance.ethereumAddress()); // ownerOf
 
-    await client.mergeClaimUnits([fractionId, fractionId.add(1)], { gasLimit: "12300000" });
+      expect(client.readonly).to.be.false;
 
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(9);
-  }, 10000);
+      let hash;
+      try {
+        hash = await client.mergeFractionUnits([fractionId, fractionId + 1n]);
+      } catch (e) {
+        expect(e instanceof ClientError).to.be.true;
 
-  it("throws on splitting fractions not owned by signer", async () => {
-    const userAddress = await wallet.getAddress();
-    const otherUser = await provider.getWallets()[1].getAddress();
+        const error = e as ClientError;
+        expect(error.message).to.be.eq("One or more fractions are not owned by the signer");
+      }
 
-    const mockMinter = await deployMockContract(wallet, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock.ownerOf.withArgs(fractionId.add(1)).returns(otherUser);
-
-    const signer = wallet.connect(provider);
-
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: signer,
-      contractAddress: mockMinter.address,
+      //TODO determine underlying calls and mock those out. Some are provider simulation calls
+      expect(isHex(hash)).to.be.false;
+      expect(readSpy.callCount).to.eq(2);
+      expect(writeSpy.callCount).to.eq(0);
     });
-    expect(client.readonly).toBe(false);
-
-    try {
-      await client.mergeClaimUnits([fractionId, fractionId.add(1)]);
-    } catch (e) {
-      expect(e instanceof ClientError).toBeTruthy();
-
-      const error = e as ClientError;
-      expect(error.message).toBe("One or more claims are not owned by the signer");
-    }
-
-    //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(5);
   });
 });

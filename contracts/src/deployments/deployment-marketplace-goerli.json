@@ -1,0 +1,49 @@
+{
+  "HypercertExchange": {
+    "address": "0x89524d8a0B1D7742579A7d8AE46D7679a4de1198",
+    "fullNamespace": "LooksRareProtocol",
+    "args": [
+      "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+      "0xfB4A7359d3767781dB5dF63789c478E2F007bD6A",
+      "0x61eDE0F0CaD4D51Df761DccDaB08B57e6Cb8f712",
+      "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
+    ],
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199afb4a7359d3767781db5df63789c478e2f007bd6a61ede0f0cad4d51df761dccdab08b57e6cb8f712b4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "tx": "0x97facbd3ee5637e05b2b49d6535d2cc8e5a6607d16e728922bc5890cf76d0a86"
+  },
+  "ProtocolFeeRecipient": {
+    "address": "0xfB4A7359d3767781dB5dF63789c478E2F007bD6A",
+    "fullNamespace": "ProtocolFeeRecipient",
+    "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a", "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"],
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199ab4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "tx": "0xbdfdcec3db949405f2531ed0d1ef1c3fcf43d127be8ff7bbb51c27a466349c50"
+  },
+  "TransferManager": {
+    "address": "0x61eDE0F0CaD4D51Df761DccDaB08B57e6Cb8f712",
+    "fullNamespace": "TransferManager",
+    "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
+    "tx": "0xa16188ed346db49d99d5d2005214084fc15a09843a20a20f6b8532ae65b50530"
+  },
+  "OrderValidator": {
+    "address": "0x51c9277d2b3e7ae460eb710053367bfe3872027b",
+    "fullNamespace": "OrderValidatorV2A",
+    "args": ["0x89524d8a0B1D7742579A7d8AE46D7679a4de1198"],
+    "encodedArgs": "0x89524d8a0b1d7742579a7d8ae46d7679a4de1198",
+    "tx": "0xa245695a4f6be256e68b83f1cd1f2503106126894053812ad6297f412a74359d"
+  },
+  "StrategyCollectionOffer": {
+    "address": "0x947bbd2e69e8d777171139c3fd242638e4e78bf0",
+    "fullNamespace": "StrategyCollectionOffer",
+    "args": [],
+    "encodedArgs": "0x",
+    "tx": "0x94aaa40fc99eb28853a34160143d5e856f57e323b029dfddd919e46534b8fb17"
+  },
+  "StrategyHypercertFractionOffer": {
+    "address": "0x9f233a07bd4ce69c0d7ed6553e796dba41892cf6",
+    "fullNamespace": "StrategyCollectionOffer",
+    "args": [],
+    "encodedArgs": "0x",
+    "tx": "0xf87db995c8c325a2d2663b51fadbfdc8ac8bb733ae5a0aae58566309a2aff674"
+  }
+}

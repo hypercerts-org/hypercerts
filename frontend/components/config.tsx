@@ -7,8 +7,8 @@ const PLASMIC_DATA_KEY = "Config";
 
 interface ConfigData {
   domain: string;
-  chainId: number;
-  graphUrl: string;
+  chainId?: number;
+  graphUrl?: string;
   supabaseTable: string;
 }
 
@@ -20,10 +20,14 @@ export interface ConfigProps {
 export function Config(props: ConfigProps) {
   const { className, children } = props;
   const { client: hypercertClient } = useHypercertClient();
+  const chainId = hypercertClient?.config.chain?.id
+    ? Number(hypercertClient.config.chain.id)
+    : undefined;
+
   const data: ConfigData = {
     domain: DOMAIN,
-    chainId: hypercertClient._config.chainId,
-    graphUrl: hypercertClient._config.graphUrl,
+    chainId: chainId,
+    graphUrl: hypercertClient?.config.graphUrl,
     supabaseTable: SUPABASE_TABLE,
   };
   return (

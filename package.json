@@ -1,12 +1,13 @@
 {
   "name": "hypercerts",
   "description": "Scalable retrospective reward systems for impact",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "author": "Hypercerts Foundation",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "build": "turbo run build --concurrency=100%",
+    "build:graph": "turbo run build --filter=@hypercerts-org/graph --",
     "copy": "pnpm copy:frontend && pnpm copy:docs && pnpm copy:html",
     "copy:docs": "mkdir -p ./build/docs/ && cp -r ./docs/build/* ./build/docs/",
     "copy:frontend": "mkdir -p ./build/ && cp -r ./frontend/out/* ./build/ && cp ./frontend/_redirects ./build/",
@@ -46,8 +47,13 @@
     "type": "git",
     "url": "git+https://github.com/hypercerts-org/hypercerts.git"
   },
-  "resolutions": {
-    "graphql": "^16.6.0",
-    "ethers": "^5.7.2"
+  "overrides": {
+    "graphql": "^16.8.1",
+    "@hypercerts/contracts": {
+      "ethers": "6.8.0"
+    },
+    "@hypercerts/frontend": {
+      "ethers": "5.7.2"
+    }
   }
 }

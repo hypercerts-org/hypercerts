@@ -1,82 +1,57 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
-import {
-  DEFAULT_CHAIN_ID,
-  NFT_STORAGE_TOKEN,
-  WEB3_STORAGE_TOKEN,
-  OVERRIDE_CHAIN_NAME,
-  OVERRIDE_GRAPH_URL,
-  CONTRACT_ADDRESS,
-  UNSAFE_FORCE_OVERRIDE_CONFIG,
-} from "../lib/config";
+import { NFT_STORAGE_TOKEN, WEB3_STORAGE_TOKEN } from "../lib/config";
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
-import { providers } from "ethers";
-import { type WalletClient, useWalletClient, useNetwork } from "wagmi";
+import { useWalletClient, useNetwork } from "wagmi";
 
-const clientConfig: Partial<HypercertClientConfig> = {
-  chainId: DEFAULT_CHAIN_ID,
-  nftStorageToken: NFT_STORAGE_TOKEN,
-  web3StorageToken: WEB3_STORAGE_TOKEN,
+const isSupportedChain = (chainId: number) => {
+  const supportedChainIds = [5, 10, 42220, 11155111]; // Replace with actual chain IDs
+
+  return supportedChainIds.includes(chainId);
 };
-
-function loadOverridingConfig(clientConfig: Partial<HypercertClientConfig>) {
-  if (OVERRIDE_CHAIN_NAME) {
-    clientConfig.chainName = OVERRIDE_CHAIN_NAME;
-  }
-
-  if (OVERRIDE_GRAPH_URL) {
-    clientConfig.graphUrl = OVERRIDE_GRAPH_URL;
-  }
-
-  if (CONTRACT_ADDRESS) {
-    clientConfig.contractAddress = CONTRACT_ADDRESS;
-  }
-
-  if (UNSAFE_FORCE_OVERRIDE_CONFIG) {
-    clientConfig.unsafeForceOverrideConfig = UNSAFE_FORCE_OVERRIDE_CONFIG;
-  }
-}
-loadOverridingConfig(clientConfig);
-
-const defaultClient = new HypercertClient(clientConfig);
-
-const walletClientToSigner = (walletClient: WalletClient) => {
-  const { account, chain, transport } = walletClient;
-  const network = {
-    chainId: chain.id,
-    name: chain.name,
-    ensAddress: chain.contracts?.ensRegistry?.address,
-  };
-  const provider = new providers.Web3Provider(transport, network);
-  const signer = provider.getSigner(account.address);
-  return signer;
-};
-
-const useEthersSigner = ({ chainId }: { chainId?: number } = {}) => {
-  const { data: walletClient } = useWalletClient({ chainId });
-  return useMemo(
-    () => (walletClient ? walletClientToSigner(walletClient) : undefined),
-    [walletClient],
-  );
-};
-
-export const useHypercertClient = () => {
+export const useHypercertClient = ({
+  overrideChainId,
+}: {
+  overrideChainId?: number;
+} = {}) => {
   const { chain } = useNetwork();
-  const signer = useEthersSigner({ chainId: chain?.id });
-
-  const [client, setClient] = React.useState<HypercertClient>(defaultClient);
+  const clientConfig = {
+    chain: overrideChainId ? { id: overrideChainId } : chain,
+    nftStorageToken: NFT_STORAGE_TOKEN,
+    web3StorageToken: WEB3_STORAGE_TOKEN,
+  };
+  const [client, setClient] = React.useState<HypercertClient | null>(() => {
+    if (clientConfig.chain?.id && isSupportedChain(clientConfig.chain.id)) {
+      return new HypercertClient(clientConfig);
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const {
+    data: walletClient,
+    isError,
+    isLoading: walletClientLoading,
+  } = useWalletClient();
+
   useEffect(() => {
-    if (chain?.id && signer) {
+    const chainId = overrideChainId || chain?.id;
+    if (
+      chainId &&
+      isSupportedChain(chainId) &&
+      !walletClientLoading &&
+      !isError &&
+      walletClient
+    ) {
       setIsLoading(true);
 
-      const config = {
-        chainId: chain.id,
-        operator: signer,
-      };
-      loadOverridingConfig(config);
       try {
+        const config: Partial<HypercertClientConfig> = {
+          ...clientConfig,
+          chain: { id: chainId },
+          walletClient,
+        };
+
         const client = new HypercertClient(config);
         setClient(client);
       } catch (e) {
@@ -85,7 +60,7 @@ export const useHypercertClient = () => {
     }
 
     setIsLoading(false);
-  }, [chain?.id, signer]);
+  }, [chain?.id, overrideChainId, walletClient, walletClientLoading]);
 
   return { client, isLoading };
 };

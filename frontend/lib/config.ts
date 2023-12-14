@@ -12,15 +12,6 @@ export const DOMAIN = requireEnv(
 
 export const isProduction = DOMAIN === "hypercerts.org";
 
-export const DEFAULT_CHAIN_ID = parseInt(
-  requireEnv(
-    process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID,
-    "NEXT_PUBLIC_DEFAULT_CHAIN_ID",
-  ),
-);
-
-export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-
 export const NFT_STORAGE_TOKEN = requireEnv(
   process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
   "NEXT_PUBLIC_NFT_STORAGE_TOKEN",
@@ -53,7 +44,3 @@ export const SUPABASE_TABLE = requireEnv(
 
 export const UNSAFE_FORCE_OVERRIDE_CONFIG =
   process.env.NEXT_PUBLIC_UNSAFE_FORCE_OVERRIDE_CONFIG == "1";
-
-export const OVERRIDE_CHAIN_NAME = process.env.NEXT_PUBLIC_CHAIN_NAME;
-
-export const OVERRIDE_GRAPH_URL = process.env.NEXT_PUBLIC_GRAPH_URL;

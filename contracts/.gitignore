@@ -18,7 +18,7 @@
 **/deployments/localhost
 **/out*
 **/typechain
-**/src/types
+**/types
 **/cache**
 **/abi
 **/rollup-cache
@@ -35,6 +35,7 @@ yarn-error.log*
 .DS_Store
 /.idea
 test*.svg
+lcov.info
 
 # broadcasts
 !/broadcast

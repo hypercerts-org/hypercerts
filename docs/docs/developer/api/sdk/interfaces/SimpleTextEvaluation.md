@@ -1,18 +1,14 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / SimpleTextEvaluation
-
-# Interface: SimpleTextEvaluation
+---
+id: "SimpleTextEvaluation"
+title: "Interface: SimpleTextEvaluation"
+sidebar_label: "SimpleTextEvaluation"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 ## Indexable
 
 ▪ [k: `string`]: `unknown`
-
-## Table of contents
-
-### Properties
-
-- [hypercert](SimpleTextEvaluation.md#hypercert)
-- [text](SimpleTextEvaluation.md#text)
-- [type](SimpleTextEvaluation.md#type)
 
 ## Properties
 
@@ -22,7 +18,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:35](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L35)
+[sdk/src/types/evaluation.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L35)
 
 ---
 
@@ -32,7 +28,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:36](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L36)
+[sdk/src/types/evaluation.d.ts:36](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L36)
 
 ---
 
@@ -42,4 +38,4 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:34](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L34)
+[sdk/src/types/evaluation.d.ts:34](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L34)

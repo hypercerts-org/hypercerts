@@ -1,19 +1,20 @@
 import { errorMessages } from "../content/readable-errors";
-import { useHypercertClient } from "../hooks/hypercerts-client";
+import { decodeErrorResult } from "viem";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 export const useParseBlockchainError = () => {
-  const {
-    client: { contract },
-  } = useHypercertClient();
   return (e: any, fallbackMessage: string) => {
     const unparsedErrorData = e?.error?.data?.originalError?.data;
 
     if (unparsedErrorData) {
-      const errorData = contract?.interface?.parseError(unparsedErrorData);
+      const errorData = decodeErrorResult({
+        abi: HypercertMinterAbi,
+        data: unparsedErrorData,
+      });
 
       if (errorData) {
         console.log("Blockchain error", errorData);
-        const errorName = errorData.errorFragment.name;
+        const errorName = errorData.errorName;
         return errorMessages[errorName] || errorName;
       }
     }

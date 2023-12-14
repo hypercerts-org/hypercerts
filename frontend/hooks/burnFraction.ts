@@ -31,19 +31,37 @@ export const useBurnFraction = ({
 
       setStep("burning");
 
-      const tx = await client.burnClaimFraction(claimId);
+      if (!client) {
+        toast("No client found", {
+          type: "error",
+        });
+        return;
+      }
+
+      const hash = await client.burnClaimFraction(claimId);
+
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
+      const publicClient = client.config.publicClient;
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash,
+      });
 
       setStep("waiting");
 
-      const receipt = await tx.wait(5);
-
-      if (receipt.status === 0) {
+      if (receipt?.status === "reverted") {
         toast("Burning failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(burnInteractionLabels.toastSuccess(receipt.transactionHash), {
           type: "success",
         });

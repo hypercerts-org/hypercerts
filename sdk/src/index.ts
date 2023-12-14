@@ -1,14 +1,13 @@
-import type { HypercertMinter, IHypercertToken } from "@hypercerts-org/contracts";
+import { HypercertMinterAbi, HypercertExchangeAbi } from "@hypercerts-org/contracts";
 
-import { execute } from "../.graphclient";
-import HypercertClient from "./client.js";
-import HypercertsStorage from "./storage.js";
-import { DEPLOYMENTS } from "./constants.js";
+import { HypercertClient } from "./client";
+import { HypercertsStorage } from "./storage";
+import { DEPLOYMENTS } from "./constants";
 
 /**
  * Protocol
  */
-export type { HypercertMinter, IHypercertToken };
+export { HypercertMinterAbi, HypercertExchangeAbi };
 export { DEPLOYMENTS as deployments };
 
 /**
@@ -24,19 +23,29 @@ export { HypercertsStorage };
 /**
  * Types
  */
-export * from "./types/index.js";
+export * from "./types";
 
 /**
  * Validators
  */
-export * from "./validator/index.js";
+export * from "./validator";
 
 /**
- * Formatters
+ * Utils
  */
-export * from "./utils/formatter.js";
+export * from "./utils";
 
 /**
  * Graph
  */
-export { execute };
+export * from "./indexer/gql";
+export type {
+  ClaimByIdQuery,
+  ClaimTokenByIdQuery,
+  ClaimToken,
+  Claim,
+  ClaimTokensByClaimQuery,
+  ClaimTokensByOwnerQuery,
+  ClaimsByOwnerQuery,
+  RecentClaimsQuery,
+} from "./indexer/gql/graphql";

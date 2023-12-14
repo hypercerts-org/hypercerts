@@ -1,18 +1,14 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertPointer
-
-# Interface: HypercertPointer
+---
+id: "HypercertPointer"
+title: "Interface: HypercertPointer"
+sidebar_label: "HypercertPointer"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 ## Indexable
 
 ▪ [k: `string`]: `unknown`
-
-## Table of contents
-
-### Properties
-
-- [chainId](HypercertPointer.md#chainid)
-- [claimId](HypercertPointer.md#claimid)
-- [contract](HypercertPointer.md#contract)
 
 ## Properties
 
@@ -22,7 +18,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:28](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L28)
+[sdk/src/types/evaluation.d.ts:28](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L28)
 
 ---
 
@@ -32,7 +28,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:30](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L30)
+[sdk/src/types/evaluation.d.ts:30](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L30)
 
 ---
 
@@ -42,4 +38,4 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:29](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L29)
+[sdk/src/types/evaluation.d.ts:29](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/evaluation.d.ts#L29)

@@ -1,8 +1,8 @@
-export type { HypercertClaimdata } from "./claimdata.js";
-export * from "./client.js";
-export * from "./errors.js";
-export * from "./hypercerts.js";
-export * from "./indexer.js";
+export type { HypercertClaimdata } from "./claimdata";
+export * from "./client";
+export * from "./errors";
+export * from "./hypercerts";
+export * from "./indexer";
 export type {
   EvaluationData,
   EvaluationSource,
@@ -12,6 +12,5 @@ export type {
   EASEvaluation,
   IPFSEvaluation,
   HypercertPointer,
-} from "./evaluation.js";
-export type { ClaimByIdQuery, ClaimTokensByClaimQuery, Claim, ClaimToken } from "./global.js";
-export type { HypercertMetadata } from "./metadata.js";
+} from "./evaluation";
+export type { HypercertMetadata } from "./metadata";

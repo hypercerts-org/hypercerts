@@ -1,103 +1,107 @@
-import { MockProvider, deployMockContract } from "ethereum-waffle";
-import { BigNumber, Wallet } from "ethers";
+import { describe, it, beforeEach, afterAll } from "vitest";
+import chai, { expect } from "chai";
+import assertionsCount from "chai-assertions-count";
+
+import { HypercertClient } from "../../src/client";
+import { walletClient, publicClient } from "../helpers";
+import { isHex, toHex } from "viem";
 import sinon from "sinon";
+import { faker } from "@faker-js/faker";
+import { ClientError, ContractError } from "../../src";
 
-import HypercertClient from "../../src/client.js";
-import { ClientError } from "../../src/types/errors.js";
-import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+chai.use(assertionsCount);
+
 describe("burn fraction tokens in HypercertClient", () => {
-  let stub: sinon.SinonStub;
-  let provider: MockProvider;
-  let user: Wallet;
-  let other: Wallet;
-  const fractionId = BigNumber.from("9868188640707215440437863615521278132232");
-
-  beforeAll(() => {
-    provider = new MockProvider();
-    [user, other] = provider.getWallets();
-
-    stub = sinon.stub(provider, "on");
+  const wallet = walletClient;
+  const userAddress = wallet.account?.address;
+  const client = new HypercertClient({
+    chain: { id: 5 },
+    walletClient,
+    publicClient,
+    nftStorageToken: "test",
+    web3StorageToken: "test",
   });
-  beforeEach(() => {
-    provider.clearCallHistory();
+
+  const fractionId = 9868188640707215440437863615521278132232n;
+
+  let readSpy = sinon.stub(publicClient, "readContract");
+  let writeSpy = sinon.stub(walletClient, "writeContract");
+
+  beforeEach(async () => {
+    chai.Assertion.resetAssertsCheck();
+
+    readSpy.resetBehavior();
+    readSpy.resetHistory();
+
+    writeSpy.resetBehavior();
+    writeSpy.resetHistory();
   });
 
   afterAll(() => {
-    stub.restore();
+    sinon.restore();
   });
 
   it("allows for a hypercert fraction to be burned", async () => {
-    const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
+    readSpy = readSpy.resolves(userAddress);
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
 
-    await client.burnClaimFraction(fractionId);
+    const hash = await client.burnClaimFraction(fractionId);
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(5);
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(1);
+    expect(writeSpy.callCount).to.eq(1);
   });
 
   it("throws on burning fraction not owned by signer", async () => {
-    const otherUser = await other.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(otherUser);
+    chai.Assertion.expectAssertions(6);
+    readSpy = readSpy.resolves(faker.finance.ethereumAddress());
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    expect(client.readonly).to.be.false;
 
-    expect(client.readonly).toBe(false);
-
+    let hash;
     try {
-      await client.burnClaimFraction(fractionId);
+      hash = await client.burnClaimFraction(fractionId);
     } catch (e) {
-      console.log(e);
-      expect(e instanceof ClientError).toBeTruthy();
+      expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).toBe("Claim is not owned by the signer");
+      expect(error.message).to.eq("Claim is not owned by the signer");
     }
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    // Owner
-    expect(provider.callHistory.length).toBe(3);
-    expect.assertions(4);
+    expect(hash).to.be.undefined;
+    expect(readSpy.callCount).to.eq(1);
+    expect(writeSpy.callCount).to.eq(0);
   });
 
   it("allows for a hypercert fraction to be burned with override params", async () => {
-    const userAddress = await user.getAddress();
-    const mockMinter = await deployMockContract(user, HypercertMinterAbi);
-    await mockMinter.mock.ownerOf.withArgs(fractionId).returns(userAddress);
-    await mockMinter.mock["burnFraction(address,uint256)"].withArgs(userAddress, fractionId).returns();
+    chai.Assertion.expectAssertions(6);
+    readSpy = readSpy.resolves(userAddress);
 
-    const client = new HypercertClient({
-      chainId: 5,
-      operator: user,
-      contractAddress: mockMinter.address,
-    });
+    writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).toBe(false);
+    expect(client.readonly).to.be.false;
+
+    let noHash;
 
     try {
-      await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" });
+      noHash = await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" as unknown as bigint });
+      expect.fail("should have thrown on incorrect gasLimit value");
     } catch (e) {
-      expect((e as Error).message).toMatch(/invalid BigNumber string/);
+      console.log(e);
+      expect(e).to.be.instanceOf(ContractError);
     }
 
-    await client.burnClaimFraction(fractionId, { gasLimit: "12300000" });
+    const hash = await client.burnClaimFraction(fractionId, { gasLimit: 12300000n });
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls
-    expect(provider.callHistory.length).toBe(6);
+    expect(noHash).to.be.undefined;
+    expect(isHex(hash)).to.be.true;
+    expect(readSpy.callCount).to.eq(2);
+    expect(writeSpy.callCount).to.eq(1);
   });
 });

@@ -1,21 +1,16 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertStorageInterface
-
-# Interface: HypercertStorageInterface
+---
+id: "HypercertStorageInterface"
+title: "Interface: HypercertStorageInterface"
+sidebar_label: "HypercertStorageInterface"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 The interface for the Hypercert storage layer.
 
 ## Implemented by
 
 - [`HypercertsStorage`](../classes/HypercertsStorage.md)
-
-## Table of contents
-
-### Properties
-
-- [getData](HypercertStorageInterface.md#getdata)
-- [getMetadata](HypercertStorageInterface.md#getmetadata)
-- [storeData](HypercertStorageInterface.md#storedata)
-- [storeMetadata](HypercertStorageInterface.md#storemetadata)
 
 ## Properties
 
@@ -43,7 +38,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:93](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L93)
+[sdk/src/types/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L98)
 
 ---
 
@@ -71,7 +66,7 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:79](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L79)
+[sdk/src/types/client.ts:84](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L84)
 
 ---
 
@@ -99,7 +94,7 @@ A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:86](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L86)
+[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L91)
 
 ---
 
@@ -127,4 +122,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:72](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/client.ts#L72)
+[sdk/src/types/client.ts:77](https://github.com/hypercerts-org/hypercerts/blob/fbe4d76/sdk/src/types/client.ts#L77)

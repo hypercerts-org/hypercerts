@@ -1,26 +1,32 @@
 import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
-import { HypercertMinter } from "@hypercerts-org/contracts";
-import { BigNumberish, BytesLike, ContractTransaction, ethers } from "ethers";
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { CIDString } from "nft.storage";
 
-import HypercertIndexer from "../indexer.js";
-import { AllowlistEntry, TransferRestrictions } from "./hypercerts.js";
-import { HypercertMetadata } from "./metadata.js";
+import { HypercertIndexer } from "../indexer";
+import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
+import { HypercertMetadata } from "./metadata";
+
+import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
 export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
+export type SupportedOverrides = {
+  value?: bigint;
+  gasPrice?: bigint;
+  gasLimit?: bigint;
+};
 
 /**
  * Represents a deployment of a contract on a specific network.
  */
 export type Deployment = {
-  /** The ID of the network on which the contract is deployed. */
-  chainId: number;
-  /** The name of the network on which the contract is deployed. */
-  chainName: string;
+  chain: Partial<Chain>;
   /** The address of the deployed contract. */
   contractAddress: string;
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
   graphUrl: string;
+  graphName: string;
 };
 
 /**
@@ -29,10 +35,15 @@ export type Deployment = {
 export type HypercertClientConfig = Deployment &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
-    /** The provider is inherently read-only */
-    operator: ethers.providers.Provider | ethers.Signer;
+    /** The PublicClient is inherently read-only */
+    publicClient: PublicClient;
+    walletClient: WalletClient;
     /** Force the use of overridden values */
     unsafeForceOverrideConfig?: boolean;
+    /** Boolean to assert if the client is in readOnly mode */
+    readOnly: boolean;
+    /** Reason for readOnly mode */
+    readOnlyReason?: string;
   };
 
 /**
@@ -110,8 +121,7 @@ export interface HypercertClientState {
   storage: HypercertStorageInterface;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
-  /** The contract used by the client. */
-  contract: HypercertMinter;
+  contract: GetContractReturnType<typeof HypercertMinterAbi>;
 }
 
 /**
@@ -123,13 +133,46 @@ export interface HypercertClientMethods {
    * @param metaData The metadata for the claim.
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   mintClaim: (
     metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
+    totalUnits: bigint,
     transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
+  ) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Retrieves the TransferRestrictions for a claim.
+   * @param fractionId The ID of the claim to retrieve.
+   * @returns A Promise that resolves to the applicable transfer restrictions.
+   */
+  getTransferRestrictions: (fractionId: bigint) => Promise<TransferRestrictions>;
+
+  /**
+   * Transfers a claim fraction to a new owner.
+   * @param fractionId
+   * @param to
+   * @param overrides
+   * @returns A Promise that resolves to the transaction hash
+   */
+  transferFraction: (
+    fractionId: bigint,
+    to: `0x${string}`,
+    overrides?: SupportedOverrides,
+  ) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Transfers multiple claim fractions to a new owner.
+   * @param fractionIds
+   * @param to
+   * @param overrides
+   * @returns A Promise that resolves to the transaction hash
+   */
+  batchTransferFractions: (
+    fractionIds: bigint[],
+    to: `0x${string}`,
+    overrides?: SupportedOverrides,
+  ) => Promise<`0x${string}` | undefined>;
 
   /**
    * Creates a new allowlist and mints a new claim with the allowlist.
@@ -137,49 +180,49 @@ export interface HypercertClientMethods {
    * @param metaData The metadata for the claim.
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   createAllowlist: (
     allowList: AllowlistEntry[],
     metaData: HypercertMetadata,
-    totalUnits: BigNumberish,
+    totalUnits: bigint,
     transferRestriction: TransferRestrictions,
-  ) => Promise<ContractTransaction>;
+  ) => Promise<`0x${string}` | undefined>;
 
   /**
    * Splits a claim into multiple fractions.
-   * @param claimId The ID of the claim to split.
-   * @param fractions The number of units for each fraction.
-   * @returns A Promise that resolves to the transaction receipt
+   * @param fractionId The ID of the claim to split.
+   * @param newFractions The number of units for each fraction.
+   * @returns A Promise that resolves to the transaction hash
    */
-  splitClaimUnits: (claimId: BigNumberish, fractions: BigNumberish[]) => Promise<ContractTransaction>;
+  splitFractionUnits: (fractionId: bigint, fractions: bigint[]) => Promise<`0x${string}` | undefined>;
 
   /**
    * Merges multiple claim fractions into a single claim.
-   * @param claimIds The IDs of the claim fractions to merge.
-   * @returns A Promise that resolves to the transaction receipt
+   * @param fractionIds The IDs of the claim fractions to merge.
+   * @returns A Promise that resolves to the transaction hash
    */
-  mergeClaimUnits: (claimIds: BigNumberish[]) => Promise<ContractTransaction>;
+  mergeFractionUnits: (fractionIds: bigint[]) => Promise<`0x${string}` | undefined>;
 
   /**
    * Burns a claim fraction.
-   * @param claimId The ID of the claim fraction to burn.
-   * @returns A Promise that resolves to the transaction receipt
+   * @param fractionId The ID of the claim fraction to burn.
+   * @returns A Promise that resolves to the transaction hash
    */
-  burnClaimFraction: (claimId: BigNumberish) => Promise<ContractTransaction>;
+  burnClaimFraction: (fractionId: bigint) => Promise<`0x${string}` | undefined>;
 
   /**
    * Mints a claim fraction from an allowlist.
    * @param claimId The ID of the claim to mint a fraction for.
    * @param units The number of units for the fraction.
    * @param proof The Merkle proof for the allowlist.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   mintClaimFractionFromAllowlist: (
-    claimId: BigNumberish,
-    units: BigNumberish,
-    proof: BytesLike[],
-  ) => Promise<ContractTransaction>;
+    claimId: bigint,
+    units: bigint,
+    proof: (Hex | ByteArray)[],
+  ) => Promise<`0x${string}` | undefined>;
 
   /**
    * Batch mints a claim fraction from an allowlist
@@ -189,11 +232,11 @@ export interface HypercertClientMethods {
    * @returns A Promise that resolves to the transaction receipt
    * @note The length of the arrays must be equal.
    * @note The order of the arrays must be equal.
-   * @returns A Promise that resolves to the transaction receipt
+   * @returns A Promise that resolves to the transaction hash
    */
   batchMintClaimFractionsFromAllowlists: (
-    claimIds: BigNumberish[],
-    units: BigNumberish[],
-    proofs: BytesLike[][],
-  ) => Promise<ContractTransaction>;
+    claimIds: bigint[],
+    units: bigint[],
+    proofs: (Hex | ByteArray)[][],
+  ) => Promise<`0x${string}` | undefined>;
 }

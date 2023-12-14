@@ -1,9 +1,7 @@
-import { BlueprintCreateForm } from "./components/blueprint-create";
 import { BurnFractionButton } from "./components/burn-fraction-button";
 import ClaimAllFractionsButton from "./components/claim-all-fractions-button";
 import { ClientGrid } from "./components/client-grid";
 import { Config } from "./components/config";
-import { ContributionBlueprintCreate } from "./components/contribution-blueprint-create";
 import { DEFAULT_TEST_DATA } from "./components/dapp-state";
 import {
   FormField,
@@ -34,6 +32,7 @@ import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { MergeAllClaimFractionsButton } from "./components/merge-all-claim-fractions-button";
 import { SplitFractionButton } from "./components/split-fraction-button";
+import { TransferFractionButton } from "./components/transfer-fraction-button";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -184,6 +183,12 @@ PLASMIC.registerComponent(HypercertFetcher, {
   name: "HypercertFetcher",
   description: "Client-side fetch metadata from IPFS",
   props: {
+    overrideChainId: {
+      type: "number",
+      helpText: "Override chainId",
+      editOnly: true,
+      defaultValue: 5,
+    },
     variableName: {
       type: "string",
       helpText: "Name to use in Plasmic data picker",
@@ -224,6 +229,11 @@ PLASMIC.registerComponent(HypercertFetcher, {
   importPath: "./components/hypercert-metadata-fetcher",
 });
 
+/**
+ * AllowAll: 0,
+ * DisallowAll: 1,
+ * FromCreatorOnly: 2,
+ */
 PLASMIC.registerComponent(HypercertCreateForm, {
   name: "HypercertCreateForm",
   description: "Create a hypercert",
@@ -235,32 +245,17 @@ PLASMIC.registerComponent(HypercertCreateForm, {
         value: "Placeholder",
       },
     },
-  },
-  providesData: true,
-  importPath: "./components/hypercert-create",
-});
-
-PLASMIC.registerComponent(BlueprintCreateForm, {
-  name: "BlueprintCreateForm",
-  description: "Create a blueprint",
-  props: {
-    children: {
-      type: "slot",
-      defaultValue: {
-        type: "text",
-        value: "Placeholder",
-      },
+    transferRestrictions: {
+      type: "number",
+      description: "0: AllowAll, 1: DisallowAll, 2: FromCreatorOnly",
+    },
+    applicationName: {
+      type: "string",
+      defaultValueHint: "hypercerts.org/create",
     },
   },
   providesData: true,
-  importPath: "./components/blueprint-create",
-});
-
-PLASMIC.registerComponent(ContributionBlueprintCreate, {
-  name: "ContributionBlueprintCreate",
-  description: "Create a contribution blueprint",
-  importPath: "./components/contribution-blueprint-create",
-  props: {},
+  importPath: "./components/hypercert-create",
 });
 
 PLASMIC.registerComponent(FormError, {
@@ -685,6 +680,22 @@ PLASMIC.registerComponent(ProjectsClientProvider, {
   },
 });
 
+PLASMIC.registerComponent(TransferFractionButton, {
+  name: "TransferFractionButton",
+  description: "Button that will transfer the fraction currently selected",
+  props: {
+    text: {
+      type: "string",
+      defaultValue: "Transfer",
+      helpText: "Text to display on button",
+    },
+    fractionId: "string",
+    disabled: "boolean",
+    className: "string",
+  },
+  importPath: "./components/transfer-fraction-button",
+});
+
 PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
   name: "MergeAllClaimFractionsButton",
   description:
@@ -695,7 +706,7 @@ PLASMIC.registerComponent(MergeAllClaimFractionsButton, {
     disabled: "boolean",
     text: {
       type: "string",
-      defaultValue: "Split",
+      defaultValue: "Merge",
       helpText: "Text to display on button",
     },
   },

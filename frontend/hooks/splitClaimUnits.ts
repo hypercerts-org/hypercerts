@@ -15,8 +15,7 @@ export const useSplitFractionUnits = ({
   const { client, isLoading } = useHypercertClient();
 
   const stepDescriptions = {
-    preparing: "Preparing to merge fraction values",
-    merging: "Splitting fraction units on-chain",
+    splitting: "Splitting fraction units on-chain",
     waiting: "Awaiting confirmation",
     complete: "Done splitting",
   };
@@ -24,22 +23,41 @@ export const useSplitFractionUnits = ({
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
 
-  const initializeWrite = async (id: bigint, fractions: bigint[]) => {
+  const initializeWrite = async (fractionId: bigint, fractions: bigint[]) => {
+    if (!client) {
+      toast("No client found", {
+        type: "error",
+      });
+      return;
+    }
+    showModal({ stepDescriptions });
     setStep("splitting");
     try {
       setTxPending(true);
 
-      const tx = await client.splitClaimUnits(id, fractions);
-      setStep("waiting");
+      const hash = await client.splitFractionUnits(fractionId, fractions);
 
-      const receipt = await tx.wait(5);
-      if (receipt.status === 0) {
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
+      setStep("waiting");
+      const publicClient = client.config.publicClient;
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash,
+      });
+
+      if (receipt?.status === "reverted") {
         toast("Splitting failed", {
           type: "error",
         });
         console.error(receipt);
       }
-      if (receipt.status === 1) {
+      if (receipt?.status === "success") {
         toast(mintInteractionLabels.toastSuccess, { type: "success" });
 
         setStep("complete");
@@ -58,9 +76,8 @@ export const useSplitFractionUnits = ({
 
   return {
     write: async (id: bigint, fractions: bigint[]) => {
-      showModal({ stepDescriptions });
-      setStep("preparing");
       await initializeWrite(id, fractions);
+      window.location.reload();
     },
     txPending,
     readOnly: isLoading || !client || client.readonly,

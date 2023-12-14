@@ -13,14 +13,6 @@ env:
 
 # Trigger the workflow when:
 on:
-  push:
-    branches:
-      - main
-  # Or when a pull request event occurs for a pull request against one of the
-  # matched branches.
-  pull_request:
-    branches:
-      - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

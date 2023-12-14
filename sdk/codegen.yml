@@ -1,0 +1,12 @@
+generates:
+  ./src/indexer/gql/:
+    documents:
+      - ./src/indexer/**/*.graphql
+    schema: https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet
+    preset: client
+    presetConfig:
+      typesPrefix: I
+      dedupeOperationSuffix: true
+      skipTypename: true
+      namingConvention: change-case#pascalCase
+      useTypeImports: true

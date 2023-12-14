@@ -1,58 +1,44 @@
-import { jest } from "@jest/globals";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
+import { describe, it, afterEach, afterAll } from "vitest";
+import { expect } from "chai";
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Web3Storage } from "web3.storage";
 
-import HypercertsStorage from "../../src/storage.js";
-import logger from "../../src/utils/logger.js";
-import mockData from "../res/mockData.js";
-import mockMetadata from "../res/mockMetadata.js";
+import { HypercertsStorage } from "../../src/storage";
+import { mockDataSets } from "../helpers";
+import axios from "axios";
+import sinon from "sinon";
 
 describe("Web3.Storage Client", () => {
-  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
-  const mockIncorrectMetadataCid = "errrCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
+  const { hypercertData, hypercertMetadata } = mockDataSets;
 
-  const storeBlobMock = jest.spyOn(Web3Storage.prototype, "put").mockImplementation((_: unknown, __?: unknown) => {
-    logger.debug("Hit mock storeBlob");
+  const storeBlobMock = sinon.stub(Web3Storage.prototype, "put").resolves(hypercertMetadata.cid);
 
-    return Promise.resolve(mockCorrectMetadataCid);
+  const storage = new HypercertsStorage({
+    nftStorageToken: process.env.NFT_STORAGE_TOKEN,
+    web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
   });
 
-  const server = setupServer(
-    rest.get(`https://nftstorage.link/ipfs/${mockCorrectMetadataCid}`, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockMetadata));
-    }),
-    rest.get(`https://nftstorage.link/ipfs/${mockIncorrectMetadataCid}`, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockData));
-    }),
-  );
-  const storage = new HypercertsStorage({});
-
-  beforeAll(() => server.listen());
-
   afterEach(() => {
-    server.resetHandlers();
-    jest.clearAllMocks();
+    sinon.restore();
   });
 
   afterAll(() => {
-    server.close();
-    jest.resetAllMocks();
+    sinon.resetBehavior();
   });
 
   /**
    * Currently just testing against the production NFT.Storage service.
    */
   it("Smoke test - add data", async () => {
-    await storage.storeData(mockData);
-    expect(storeBlobMock).toHaveBeenCalledTimes(1);
+    await storage.storeData(hypercertData.data);
+    expect(storeBlobMock.callCount).to.eq(1);
   });
 
   it("Smoke test - get data", async () => {
-    const res = await storage.getData(mockCorrectMetadataCid);
+    sinon.stub(axios, "get").resolves(Promise.resolve({ data: hypercertData.data }));
+    const res = await storage.getData(hypercertData.cid);
 
-    expect(res).toMatchObject(mockMetadata);
+    expect(res).to.deep.eq(hypercertData.data);
   });
 });

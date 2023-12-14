@@ -3,13 +3,13 @@
 // https://github.com/enjin/erc-1155/blob/master/contracts/ERC1155MixedFungibleMintable.sol
 pragma solidity 0.8.16;
 
-import { ERC1155Upgradeable } from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
-import { ERC1155BurnableUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
-import { ERC1155URIStorageUpgradeable } from "oz-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
-import { OwnableUpgradeable } from "oz-upgradeable/access/OwnableUpgradeable.sol";
-import { Initializable } from "oz-upgradeable/proxy/utils/Initializable.sol";
-import { UUPSUpgradeable } from "oz-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import { Errors } from "./libs/Errors.sol";
+import {ERC1155Upgradeable} from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import {ERC1155BurnableUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
+import {ERC1155URIStorageUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
+import {OwnableUpgradeable} from "oz-upgradeable/access/OwnableUpgradeable.sol";
+import {Initializable} from "oz-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "oz-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {Errors} from "./libs/Errors.sol";
 
 /// @title Contract for minting semi-fungible EIP1155 tokens
 /// @author bitbeckers
@@ -121,11 +121,10 @@ contract SemiFungible1155 is
     }
 
     /// @dev Mint a new token type and the initial units
-    function _mintNewTypeWithToken(
-        address _account,
-        uint256 _units,
-        string memory _uri
-    ) internal returns (uint256 typeID) {
+    function _mintNewTypeWithToken(address _account, uint256 _units, string memory _uri)
+        internal
+        returns (uint256 typeID)
+    {
         if (_units == 0) {
             revert Errors.NotAllowed();
         }
@@ -140,11 +139,10 @@ contract SemiFungible1155 is
     }
 
     /// @dev Mint a new token type and the initial fractions
-    function _mintNewTypeWithTokens(
-        address _account,
-        uint256[] calldata _fractions,
-        string memory _uri
-    ) internal returns (uint256 typeID) {
+    function _mintNewTypeWithTokens(address _account, uint256[] calldata _fractions, string memory _uri)
+        internal
+        returns (uint256 typeID)
+    {
         typeID = _mintNewTypeWithToken(_account, _getSum(_fractions), _uri);
         _splitTokenUnits(_account, typeID + maxIndex[typeID], _fractions);
     }
@@ -167,18 +165,17 @@ contract SemiFungible1155 is
 
     /// @dev Mint new tokens for existing types
     /// @notice Enables batch claiming from multiple allowlists
-    function _batchMintTokens(
-        address _account,
-        uint256[] calldata _typeIDs,
-        uint256[] calldata _units
-    ) internal returns (uint256[] memory tokenIDs) {
+    function _batchMintTokens(address _account, uint256[] calldata _typeIDs, uint256[] calldata _units)
+        internal
+        returns (uint256[] memory tokenIDs)
+    {
         uint256 len = _typeIDs.length;
 
         tokenIDs = new uint256[](len);
         uint256[] memory amounts = new uint256[](len);
         uint256[] memory zeroes = new uint256[](len);
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             uint256 _typeID = _typeIDs[i];
             if (!isBaseType(_typeID)) revert Errors.NotAllowed();
             _notMaxItem(maxIndex[_typeID]);
@@ -221,7 +218,7 @@ contract SemiFungible1155 is
             _valuesCache[len] = _valuesCache[0];
             _valuesCache[0] = swapValue;
 
-            for (uint256 i; i < len; ) {
+            for (uint256 i; i < len;) {
                 _notMaxItem(maxIndex[_typeID]);
 
                 typeIDs[i] = _typeID;
@@ -238,7 +235,7 @@ contract SemiFungible1155 is
 
         _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             valueLeft -= values[i];
 
             tokenValues[toIDs[i]] = values[i];
@@ -272,7 +269,7 @@ contract SemiFungible1155 is
         uint256[] memory amounts = new uint256[](len);
 
         {
-            for (uint256 i; i < len; ) {
+            for (uint256 i; i < len;) {
                 uint256 _fractionID = _fractionIDs[i];
                 fromIDs[i] = _fractionID;
                 toIDs[i] = target;
@@ -287,7 +284,7 @@ contract SemiFungible1155 is
 
         _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             _totalValue += values[i];
 
             delete tokenValues[fromIDs[i]];
@@ -330,7 +327,7 @@ contract SemiFungible1155 is
 
         uint256 len = ids.length;
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             owners[ids[i]] = to;
             unchecked {
                 ++i;
@@ -348,7 +345,7 @@ contract SemiFungible1155 is
     ) internal virtual {
         uint256 len = fromIDs.length;
 
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             uint256 _from = fromIDs[i];
             uint256 _to = toIDs[i];
 
@@ -365,9 +362,13 @@ contract SemiFungible1155 is
 
     /// @dev see { openzeppelin-contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol }
     /// @dev Always returns the URI for the basetype so that it's managed in one place.
-    function uri(
-        uint256 tokenID
-    ) public view virtual override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable) returns (string memory _uri) {
+    function uri(uint256 tokenID)
+        public
+        view
+        virtual
+        override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable)
+        returns (string memory _uri)
+    {
         // All tokens share the same metadata at the moment
         _uri = ERC1155URIStorageUpgradeable.uri(getBaseType(tokenID));
     }
@@ -395,7 +396,7 @@ contract SemiFungible1155 is
      */
     function _getSum(uint256[] memory array) internal pure returns (uint256 sum) {
         uint256 len = array.length;
-        for (uint256 i; i < len; ) {
+        for (uint256 i; i < len;) {
             if (array[i] == 0) revert Errors.NotAllowed();
             sum += array[i];
             unchecked {
