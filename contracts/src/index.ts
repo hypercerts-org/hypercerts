@@ -8,8 +8,10 @@ import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/Trans
 import StrategyCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
 import StrategyHypercertFractionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
 import CreatorFeeManagerWithRoyaltiesAbi from "../abi/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
+import ExecutionManagerAbi from "../abi/src/marketplace/ExecutionManager.sol/ExecutionManager.json";
 
 import {
+  ExecutionManager,
   HypercertMinter,
   IHypercertToken,
   LooksRareProtocol as HypercertExchange,
@@ -74,6 +76,7 @@ export { deployments, asDeployedChain };
 // Abis
 export {
   CreatorFeeManagerWithRoyaltiesAbi,
+  ExecutionManagerAbi,
   HypercertMinterAbi,
   HypercertExchangeAbi,
   OrderValidatorV2AAbi,
@@ -86,6 +89,7 @@ export {
 // Interfaces
 export type {
   CreatorFeeManagerWithRoyalties,
+  ExecutionManager,
   IHypercertExchange,
   IHypercertToken,
   HypercertExchange,

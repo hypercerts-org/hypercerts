@@ -57,7 +57,7 @@ export function MergeAllClaimFractionsButton({
     console.log("Fraction units", fractionUnits);
 
     const myFractions = fractionUnits.claimTokens.filter(
-      (fraction) => fraction.owner === address,
+      (fraction: { owner: string }) => fraction.owner === address,
     );
 
     console.log("address", address);
@@ -68,7 +68,9 @@ export function MergeAllClaimFractionsButton({
       return;
     }
 
-    await write(myFractions.map((fraction) => fraction.tokenID));
+    await write(
+      myFractions.map((fraction: { tokenID: any }) => fraction.tokenID),
+    );
   };
 
   const isDisabled = disabled || txPending || readOnly || isLoading;

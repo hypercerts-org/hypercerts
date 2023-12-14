@@ -39,3 +39,31 @@ export const useFractionById = (fractionId: string) => {
     { enabled: !!fractionId },
   );
 };
+
+export const useClaimById = (claimId?: string | null) => {
+  const { client } = useHypercertClient();
+
+  return useQuery(
+    ["graph", "claims", claimId],
+    () => {
+      if (!client) return null;
+      if (!claimId) return null;
+      return client.indexer.claimById(claimId);
+    },
+    { enabled: !!claimId && !!client },
+  );
+};
+
+export const useClaimMetadataByUri = (uri?: string | null) => {
+  const { client } = useHypercertClient();
+
+  return useQuery(
+    ["graph", "claim-metadata", uri],
+    () => {
+      if (!client) return null;
+      if (!uri) return null;
+      return client.storage.getMetadata(uri);
+    },
+    { enabled: !!uri && !!client },
+  );
+};

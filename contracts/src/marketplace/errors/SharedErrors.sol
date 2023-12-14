@@ -3,7 +3,7 @@ pragma solidity 0.8.17;
 
 /**
  * @notice It is returned if the amount is invalid.
- *         For ERC721, any number that is not 1. For ERC1155, if amount is 0.
+ *         For ERC721, any number that is not 1. For ERC1155 and Hypercert, if amount is 0.
  */
 error AmountInvalid();
 

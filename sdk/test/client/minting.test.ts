@@ -2,11 +2,11 @@ import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
 import chai, { expect } from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
-import { ContractFunctionExecutionError, encodeFunctionResult, isHex, parseEther } from "viem";
+import { encodeFunctionResult, isHex, parseEther } from "viem";
 
 import { HypercertClient } from "../../src/client";
 import { HypercertMetadata, formatHypercertData } from "../../src";
-import { MalformedDataError } from "../../src/types/errors";
+import { ContractError, MalformedDataError } from "../../src/types/errors";
 import { TransferRestrictions } from "../../src/types/hypercerts";
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
@@ -101,7 +101,9 @@ describe("mintClaim in HypercertClient", () => {
       });
       expect.fail("Should throw Error");
     } catch (e) {
-      expect(e).to.be.instanceOf(ContractFunctionExecutionError);
+      expect(e).to.be.instanceOf(ContractError);
+      const error = e as ContractError;
+      expect(error.message).to.equal("Contract returned unparsable error. Inspect payload for returned data.");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
