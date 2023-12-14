@@ -55,7 +55,138 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:24
+[sdk/src/types/hypercerts.ts:24](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/hypercerts.ts#L24)
+
+---
+
+### Claim
+
+Ƭ **Claim**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                          |
+| :------------ | :-------------------------------------------- |
+| `__typename?` | `"Claim"`                                     |
+| `allowlist?`  | `Maybe`<`Allowlist`\>                         |
+| `contract`    | `Scalars`[`"String"`][``"output"``]           |
+| `creation`    | `Scalars`[`"BigInt"`][``"output"``]           |
+| `creator?`    | `Maybe`<`Scalars`[`"Bytes"`][``"output"``]\>  |
+| `id`          | `Scalars`[`"String"`][``"output"``]           |
+| `owner?`      | `Maybe`<`Scalars`[`"Bytes"`][``"output"``]\>  |
+| `tokenID`     | `Scalars`[`"BigInt"`][``"output"``]           |
+| `totalUnits?` | `Maybe`<`Scalars`[`"BigInt"`][``"output"``]\> |
+| `uri?`        | `Maybe`<`Scalars`[`"String"`][``"output"``]\> |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:116](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L116)
+
+---
+
+### ClaimByIdQuery
+
+Ƭ **ClaimByIdQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                                                                                                                                       |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                                                                                                                                  |
+| `claim?`      | \{ `__typename?`: `"Claim"` ; `contract`: `string` ; `creator?`: `any` \| `null` ; `id`: `string` ; `owner?`: `any` \| `null` ; `tokenID`: `any` ; `totalUnits?`: `any` \| `null` ; `uri?`: `string` \| `null` } \| `null` |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:587](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L587)
+
+---
+
+### ClaimToken
+
+Ƭ **ClaimToken**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                |
+| :------------ | :---------------------------------- |
+| `__typename?` | `"ClaimToken"`                      |
+| `claim`       | [`Claim`](modules.md#claim)         |
+| `id`          | `Scalars`[`"String"`][``"output"``] |
+| `owner`       | `Scalars`[`"Bytes"`][``"output"``]  |
+| `tokenID`     | `Scalars`[`"BigInt"`][``"output"``] |
+| `units`       | `Scalars`[`"BigInt"`][``"output"``] |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:129](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L129)
+
+---
+
+### ClaimTokenByIdQuery
+
+Ƭ **ClaimTokenByIdQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                                                                                                                                                                           |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                                                                                                                                                                      |
+| `claimToken?` | \{ `__typename?`: `"ClaimToken"` ; `claim`: \{ `__typename?`: `"Claim"` ; `creation`: `any` ; `id`: `string` ; `totalUnits?`: `any` \| `null` ; `uri?`: `string` \| `null` } ; `id`: `string` ; `owner`: `any` ; `tokenID`: `any` ; `units`: `any` } \| `null` |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:636](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L636)
+
+---
+
+### ClaimTokensByClaimQuery
+
+Ƭ **ClaimTokensByClaimQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                       |
+| :------------ | :--------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                  |
+| `claimTokens` | \{ `__typename?`: `"ClaimToken"` ; `id`: `string` ; `owner`: `any` ; `tokenID`: `any` ; `units`: `any` }[] |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:627](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L627)
+
+---
+
+### ClaimTokensByOwnerQuery
+
+Ƭ **ClaimTokensByOwnerQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                                                                                                                                                                   |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                                                                                                                                                              |
+| `claimTokens` | \{ `__typename?`: `"ClaimToken"` ; `claim`: \{ `__typename?`: `"Claim"` ; `creation`: `any` ; `id`: `string` ; `totalUnits?`: `any` \| `null` ; `uri?`: `string` \| `null` } ; `id`: `string` ; `owner`: `any` ; `tokenID`: `any` ; `units`: `any` }[] |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:608](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L608)
+
+---
+
+### ClaimsByOwnerQuery
+
+Ƭ **ClaimsByOwnerQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                                                                                                                               |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                                                                                                                          |
+| `claims`      | \{ `__typename?`: `"Claim"` ; `contract`: `string` ; `creator?`: `any` \| `null` ; `id`: `string` ; `owner?`: `any` \| `null` ; `tokenID`: `any` ; `totalUnits?`: `any` \| `null` ; `uri?`: `string` \| `null` }[] |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:549](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L549)
 
 ---
 
@@ -76,7 +207,23 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-sdk/src/types/client.ts:23
+[sdk/src/types/client.ts:23](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L23)
+
+---
+
+### DocumentType
+
+Ƭ **DocumentType**<`TDocumentNode`\>: `TDocumentNode` extends `DocumentNode`<infer TType, `any`\> ? `TType` : `never`
+
+#### Type parameters
+
+| Name            | Type                                  |
+| :-------------- | :------------------------------------ |
+| `TDocumentNode` | extends `DocumentNode`<`any`, `any`\> |
+
+#### Defined in
+
+[sdk/src/indexer/gql/gql.ts:53](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/gql.ts#L53)
 
 ---
 
@@ -90,7 +237,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-sdk/src/types/evaluation.d.ts:8
+[sdk/src/types/evaluation.d.ts:8](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/evaluation.d.ts#L8)
 
 ---
 
@@ -100,7 +247,23 @@ sdk/src/types/evaluation.d.ts:8
 
 #### Defined in
 
-sdk/src/types/evaluation.d.ts:9
+[sdk/src/types/evaluation.d.ts:9](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/evaluation.d.ts#L9)
+
+---
+
+### FragmentType
+
+Ƭ **FragmentType**<`TDocumentType`\>: `TDocumentType` extends `DocumentTypeDecoration`<infer TType, `any`\> ? [`TType`] extends [\{ ` $fragmentName?`: infer TKey }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in TKey]: TType } } : `never` : `never` : `never`
+
+#### Type parameters
+
+| Name            | Type                                            |
+| :-------------- | :---------------------------------------------- |
+| `TDocumentType` | extends `DocumentTypeDecoration`<`any`, `any`\> |
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:5](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L5)
 
 ---
 
@@ -112,7 +275,7 @@ Configuration options for the Hypercert client.
 
 #### Defined in
 
-sdk/src/types/client.ts:35
+[sdk/src/types/client.ts:35](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L35)
 
 ---
 
@@ -130,7 +293,7 @@ The props for the Hypercert client.
 
 #### Defined in
 
-sdk/src/types/client.ts:104
+[sdk/src/types/client.ts:104](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L104)
 
 ---
 
@@ -146,7 +309,7 @@ The signer is required for submitting evaluations.
 
 #### Defined in
 
-sdk/src/types/client.ts:64
+[sdk/src/types/client.ts:64](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L64)
 
 ---
 
@@ -169,7 +332,7 @@ The API tokens are optional, but required for storing data on NFT.storage and We
 
 #### Defined in
 
-sdk/src/types/client.ts:53
+[sdk/src/types/client.ts:53](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L53)
 
 ---
 
@@ -179,7 +342,7 @@ sdk/src/types/client.ts:53
 
 #### Defined in
 
-sdk/src/types/errors.ts:195
+[sdk/src/types/errors.ts:195](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/errors.ts#L195)
 
 ---
 
@@ -201,7 +364,24 @@ sdk/src/types/errors.ts:195
 
 #### Defined in
 
-sdk/src/types/indexer.ts:10
+[sdk/src/types/indexer.ts:10](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L10)
+
+---
+
+### RecentClaimsQuery
+
+Ƭ **RecentClaimsQuery**: `Object`
+
+#### Type declaration
+
+| Name          | Type                                                                                                                                                                                                               |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `__typename?` | `"Query"`                                                                                                                                                                                                          |
+| `claims`      | \{ `__typename?`: `"Claim"` ; `contract`: `string` ; `creator?`: `any` \| `null` ; `id`: `string` ; `owner?`: `any` \| `null` ; `tokenID`: `any` ; `totalUnits?`: `any` \| `null` ; `uri?`: `string` \| `null` }[] |
+
+#### Defined in
+
+[sdk/src/indexer/gql/graphql.ts:569](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/graphql.ts#L569)
 
 ---
 
@@ -211,7 +391,7 @@ sdk/src/types/indexer.ts:10
 
 #### Defined in
 
-sdk/src/types/client.ts:13
+[sdk/src/types/client.ts:13](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L13)
 
 ---
 
@@ -229,7 +409,7 @@ sdk/src/types/client.ts:13
 
 #### Defined in
 
-sdk/src/types/client.ts:14
+[sdk/src/types/client.ts:14](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L14)
 
 ---
 
@@ -239,9 +419,9 @@ sdk/src/types/client.ts:14
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:9
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/hypercerts.ts#L9)
 
-sdk/src/types/hypercerts.ts:15
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/hypercerts.ts#L15)
 
 ## Variables
 
@@ -251,7 +431,7 @@ sdk/src/types/hypercerts.ts:15
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.0.0-alpha.6_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:1524
+node_modules/.pnpm/@hypercerts-org+contracts@1.0.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:1524
 
 ---
 
@@ -261,7 +441,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.0.0-alpha.6_ts-node@10.9.1_typesc
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.0.0-alpha.6_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:352
+node_modules/.pnpm/@hypercerts-org+contracts@1.0.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:352
 
 ---
 
@@ -281,9 +461,9 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-sdk/src/types/hypercerts.ts:9
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/hypercerts.ts#L9)
 
-sdk/src/types/hypercerts.ts:15
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/hypercerts.ts#L15)
 
 ---
 
@@ -293,7 +473,7 @@ sdk/src/types/hypercerts.ts:15
 
 #### Defined in
 
-sdk/src/constants.ts:10
+[sdk/src/constants.ts:10](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/constants.ts#L10)
 
 ---
 
@@ -312,7 +492,7 @@ sdk/src/constants.ts:10
 
 #### Defined in
 
-sdk/src/utils/logger.ts:24
+[sdk/src/utils/logger.ts:24](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/logger.ts#L24)
 
 ## Functions
 
@@ -351,7 +531,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-sdk/src/utils/formatter.ts:27
+[sdk/src/utils/formatter.ts:27](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/formatter.ts#L27)
 
 ---
 
@@ -385,7 +565,7 @@ Will throw a `StoragjeError` if the data cannot be fetched from either gateway.
 
 #### Defined in
 
-sdk/src/utils/fetchers.ts:17
+[sdk/src/utils/fetchers.ts:17](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/fetchers.ts#L17)
 
 ---
 
@@ -420,7 +600,82 @@ Will throw an error if the Merkle tree cannot be fetched.
 
 #### Defined in
 
-sdk/src/utils/allowlist.ts:35
+[sdk/src/utils/allowlist.ts:35](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/allowlist.ts#L35)
+
+---
+
+### graphql
+
+▸ **graphql**(`source`): `unknown`
+
+The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+
+#### Parameters
+
+| Name     | Type     |
+| :------- | :------- |
+| `source` | `string` |
+
+#### Returns
+
+`unknown`
+
+**`Example`**
+
+```ts
+const query = graphql(
+  `
+    query GetUser($id: ID!) {
+      user(id: $id) {
+        name
+      }
+    }
+  `,
+);
+```
+
+The query argument is unknown!
+Please regenerate the types.
+
+#### Defined in
+
+[sdk/src/indexer/gql/gql.ts:34](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/gql.ts#L34)
+
+▸ **graphql**(`source`): typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery ClaimById($id: ID!) {\n claim(id: $id) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}"``]
+
+The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+
+#### Parameters
+
+| Name     | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source` | `"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n  claims(\n    where: {owner: $owner}\n    skip: $skip\n    first: $first\n    orderDirection: $orderDirection\n  ) {\n    contract\n    tokenID\n    creator\n    id\n    owner\n    totalUnits\n    uri\n  }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n  claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n    contract\n    tokenID\n    creator\n    id\n    owner\n    totalUnits\n    uri\n  }\n}\n\nquery ClaimById($id: ID!) {\n  claim(id: $id) {\n    contract\n    tokenID\n    creator\n    id\n    owner\n    totalUnits\n    uri\n  }\n}"` |
+
+#### Returns
+
+typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery ClaimById($id: ID!) {\n claim(id: $id) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}"``]
+
+#### Defined in
+
+[sdk/src/indexer/gql/gql.ts:39](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/gql.ts#L39)
+
+▸ **graphql**(`source`): typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {claim: $claimId}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n claimToken(id: $claimTokenId) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}"``]
+
+The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+
+#### Parameters
+
+| Name     | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source` | `"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n  claimTokens(\n    where: {owner: $owner}\n    skip: $skip\n    first: $first\n    orderDirection: $orderDirection\n  ) {\n    id\n    owner\n    tokenID\n    units\n    claim {\n      id\n      creation\n      uri\n      totalUnits\n    }\n  }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n  claimTokens(\n    where: {claim: $claimId}\n    skip: $skip\n    first: $first\n    orderDirection: $orderDirection\n  ) {\n    id\n    owner\n    tokenID\n    units\n  }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n  claimToken(id: $claimTokenId) {\n    id\n    owner\n    tokenID\n    units\n    claim {\n      id\n      creation\n      uri\n      totalUnits\n    }\n  }\n}"` |
+
+#### Returns
+
+typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {claim: $claimId}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n claimToken(id: $claimTokenId) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}"``]
+
+#### Defined in
+
+[sdk/src/indexer/gql/gql.ts:45](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/gql.ts#L45)
 
 ---
 
@@ -440,7 +695,7 @@ sdk/src/utils/allowlist.ts:35
 
 #### Defined in
 
-sdk/src/utils/errors.ts:39
+[sdk/src/utils/errors.ts:39](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/errors.ts#L39)
 
 ---
 
@@ -462,7 +717,64 @@ Method to catch errors and log them
 
 #### Defined in
 
-sdk/src/utils/errors.ts:22
+[sdk/src/utils/errors.ts:22](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/errors.ts#L22)
+
+---
+
+### isFragmentReady
+
+▸ **isFragmentReady**<`TQuery`, `TFrag`\>(`queryNode`, `fragmentNode`, `data`): data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
+
+#### Type parameters
+
+| Name     |
+| :------- |
+| `TQuery` |
+| `TFrag`  |
+
+#### Parameters
+
+| Name           | Type                                                                                                                                                                                             |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryNode`    | `DocumentTypeDecoration`<`TQuery`, `any`\>                                                                                                                                                       |
+| `fragmentNode` | `TypedDocumentNode`<`TFrag`, \{ `[key: string]`: `any`; }\>                                                                                                                                      |
+| `data`         | `undefined` \| `null` \| [`Incremental`<`TFrag`\>] extends [\{ ` $fragmentName?`: `TKey` }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in string]: Object } } : `never` : `never` |
+
+#### Returns
+
+data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:51](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L51)
+
+---
+
+### makeFragmentData
+
+▸ **makeFragmentData**<`F`, `FT`\>(`data`, `_fragment`): [`FragmentType`](modules.md#fragmenttype)<`F`\>
+
+#### Type parameters
+
+| Name | Type                                            |
+| :--- | :---------------------------------------------- |
+| `F`  | extends `DocumentTypeDecoration`<`any`, `any`\> |
+| `FT` | extends `any`                                   |
+
+#### Parameters
+
+| Name        | Type |
+| :---------- | :--- |
+| `data`      | `FT` |
+| `_fragment` | `F`  |
+
+#### Returns
+
+[`FragmentType`](modules.md#fragmenttype)<`F`\>
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:45](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L45)
 
 ---
 
@@ -552,7 +864,103 @@ An ethers.js `Provider` instance, or `undefined` if no chain is found in the `Pu
 
 #### Defined in
 
-sdk/src/utils/adapters.ts:19
+[sdk/src/utils/adapters.ts:19](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/adapters.ts#L19)
+
+---
+
+### useFragment
+
+▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `TType`
+
+#### Type parameters
+
+| Name    |
+| :------ |
+| `TType` |
+
+#### Parameters
+
+| Name            | Type                                                                                                                                                   |
+| :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_documentNode` | `DocumentTypeDecoration`<`TType`, `any`\>                                                                                                              |
+| `fragmentType`  | [`TType`] extends [\{ ` $fragmentName?`: `TKey` }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in string]: TType } } : `never` : `never` |
+
+#### Returns
+
+`TType`
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:15](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L15)
+
+▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `TType` \| `null` \| `undefined`
+
+#### Type parameters
+
+| Name    |
+| :------ |
+| `TType` |
+
+#### Parameters
+
+| Name            | Type                                                                                                                                                                            |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `_documentNode` | `DocumentTypeDecoration`<`TType`, `any`\>                                                                                                                                       |
+| `fragmentType`  | `undefined` \| `null` \| [`TType`] extends [\{ ` $fragmentName?`: `TKey` }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in string]: TType } } : `never` : `never` |
+
+#### Returns
+
+`TType` \| `null` \| `undefined`
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:20](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L20)
+
+▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\>
+
+#### Type parameters
+
+| Name    |
+| :------ |
+| `TType` |
+
+#### Parameters
+
+| Name            | Type                                                                                                                                                              |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_documentNode` | `DocumentTypeDecoration`<`TType`, `any`\>                                                                                                                         |
+| `fragmentType`  | readonly [`TType`] extends [\{ ` $fragmentName?`: `TKey` }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in string]: TType } } : `never` : `never`[] |
+
+#### Returns
+
+`ReadonlyArray`<`TType`\>
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:25](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L25)
+
+▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\> \| `null` \| `undefined`
+
+#### Type parameters
+
+| Name    |
+| :------ |
+| `TType` |
+
+#### Parameters
+
+| Name            | Type                                                                                                                                                                                       |
+| :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_documentNode` | `DocumentTypeDecoration`<`TType`, `any`\>                                                                                                                                                  |
+| `fragmentType`  | `undefined` \| `null` \| readonly [`TType`] extends [\{ ` $fragmentName?`: `TKey` }] ? `TKey` extends `string` ? \{ ` $fragmentRefs?`: \{ [key in string]: TType } } : `never` : `never`[] |
+
+#### Returns
+
+`ReadonlyArray`<`TType`\> \| `null` \| `undefined`
+
+#### Defined in
+
+[sdk/src/indexer/gql/fragment-masking.ts:30](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/indexer/gql/fragment-masking.ts#L30)
 
 ---
 
@@ -580,7 +988,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:108
+[sdk/src/validator/index.ts:108](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L108)
 
 ---
 
@@ -608,7 +1016,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:77
+[sdk/src/validator/index.ts:77](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L77)
 
 ---
 
@@ -636,7 +1044,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:139
+[sdk/src/validator/index.ts:139](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L139)
 
 ---
 
@@ -664,7 +1072,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:46
+[sdk/src/validator/index.ts:46](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L46)
 
 ---
 
@@ -692,7 +1100,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-sdk/src/validator/index.ts:169
+[sdk/src/validator/index.ts:169](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L169)
 
 ---
 
@@ -724,7 +1132,7 @@ Will throw a `MintingError` if the signer address is invalid or if the Merkle pr
 
 #### Defined in
 
-sdk/src/validator/index.ts:201
+[sdk/src/validator/index.ts:201](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L201)
 
 ---
 
@@ -756,7 +1164,7 @@ Will throw a `MintingError` if the lengths of the input arrays are not equal or 
 
 #### Defined in
 
-sdk/src/validator/index.ts:224
+[sdk/src/validator/index.ts:224](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/validator/index.ts#L224)
 
 ---
 
@@ -815,4 +1223,4 @@ An ethers.js `Signer` instance, or `undefined` if no chain is found in the `Wall
 
 #### Defined in
 
-sdk/src/utils/adapters.ts:51
+[sdk/src/utils/adapters.ts:51](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/utils/adapters.ts#L51)

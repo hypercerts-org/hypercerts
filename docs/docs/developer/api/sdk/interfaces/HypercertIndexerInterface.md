@@ -28,7 +28,7 @@ custom_edit_url: null
 
 #### Defined in
 
-sdk/src/types/indexer.ts:20
+[sdk/src/types/indexer.ts:20](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L20)
 
 ---
 
@@ -53,7 +53,7 @@ sdk/src/types/indexer.ts:20
 
 #### Defined in
 
-sdk/src/types/indexer.ts:19
+[sdk/src/types/indexer.ts:19](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L19)
 
 ---
 
@@ -77,7 +77,7 @@ sdk/src/types/indexer.ts:19
 
 #### Defined in
 
-sdk/src/types/indexer.ts:21
+[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L21)
 
 ---
 
@@ -101,7 +101,7 @@ sdk/src/types/indexer.ts:21
 
 #### Defined in
 
-sdk/src/types/indexer.ts:24
+[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L24)
 
 ---
 
@@ -126,7 +126,7 @@ sdk/src/types/indexer.ts:24
 
 #### Defined in
 
-sdk/src/types/indexer.ts:23
+[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L23)
 
 ---
 
@@ -151,7 +151,7 @@ sdk/src/types/indexer.ts:23
 
 #### Defined in
 
-sdk/src/types/indexer.ts:22
+[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L22)
 
 ---
 
@@ -161,4 +161,4 @@ sdk/src/types/indexer.ts:22
 
 #### Defined in
 
-sdk/src/types/indexer.ts:18
+[sdk/src/types/indexer.ts:18](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L18)

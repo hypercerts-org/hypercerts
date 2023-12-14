@@ -38,7 +38,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-sdk/src/types/client.ts:98
+[sdk/src/types/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L98)
 
 ---
 
@@ -66,7 +66,7 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-sdk/src/types/client.ts:84
+[sdk/src/types/client.ts:84](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L84)
 
 ---
 
@@ -94,7 +94,7 @@ A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-sdk/src/types/client.ts:91
+[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L91)
 
 ---
 
@@ -122,4 +122,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-sdk/src/types/client.ts:77
+[sdk/src/types/client.ts:77](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L77)
