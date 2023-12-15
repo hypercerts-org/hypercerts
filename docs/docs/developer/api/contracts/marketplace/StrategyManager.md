@@ -1,12 +1,10 @@
 # StrategyManager
 
-*LooksRare protocol team (👀,💎)*
+_LooksRare protocol team (👀,💎)_
 
 > StrategyManager
 
 This contract handles the addition and the update of execution strategies.
-
-
 
 ## Methods
 
@@ -18,18 +16,18 @@ function addStrategy(uint16 standardProtocolFeeBp, uint16 minTotalFeeBp, uint16 
 
 This function allows the owner to add a new execution strategy to the protocol.
 
-*Strategies have an id that is incremental.      Only callable by owner.*
+_Strategies have an id that is incremental. Only callable by owner._
 
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| standardProtocolFeeBp | uint16 | Standard protocol fee (in basis point) |
-| minTotalFeeBp | uint16 | Minimum total fee (in basis point) |
-| maxProtocolFeeBp | uint16 | Maximum protocol fee (in basis point) |
-| selector | bytes4 | Function selector for the strategy |
-| isMakerBid | bool | Whether the function selector is for maker bid |
-| implementation | address | Implementation address |
+| Name                  | Type    | Description                                    |
+| --------------------- | ------- | ---------------------------------------------- |
+| standardProtocolFeeBp | uint16  | Standard protocol fee (in basis point)         |
+| minTotalFeeBp         | uint16  | Minimum total fee (in basis point)             |
+| maxProtocolFeeBp      | uint16  | Maximum protocol fee (in basis point)          |
+| selector              | bytes4  | Function selector for the strategy             |
+| isMakerBid            | bool    | Whether the function selector is for maker bid |
+| implementation        | address | Implementation address                         |
 
 ### cancelOwnershipTransfer
 
@@ -39,8 +37,7 @@ function cancelOwnershipTransfer() external nonpayable
 
 This function is used to cancel the ownership transfer.
 
-*This function can be used for both cancelling a transfer to a new owner and      cancelling the renouncement of the ownership.*
-
+_This function can be used for both cancelling a transfer to a new owner and cancelling the renouncement of the ownership._
 
 ### confirmOwnershipRenouncement
 
@@ -50,9 +47,6 @@ function confirmOwnershipRenouncement() external nonpayable
 
 This function is used to confirm the ownership renouncement.
 
-
-
-
 ### confirmOwnershipTransfer
 
 ```solidity
@@ -61,8 +55,7 @@ function confirmOwnershipTransfer() external nonpayable
 
 This function is used to confirm the ownership transfer.
 
-*This function can only be called by the current potential owner.*
-
+_This function can only be called by the current potential owner._
 
 ### initiateOwnershipRenouncement
 
@@ -72,9 +65,6 @@ function initiateOwnershipRenouncement() external nonpayable
 
 This function is used to initiate the ownership renouncement.
 
-
-
-
 ### initiateOwnershipTransfer
 
 ```solidity
@@ -83,12 +73,10 @@ function initiateOwnershipTransfer(address newPotentialOwner) external nonpayabl
 
 This function is used to initiate the transfer of ownership to a new owner.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
+| Name              | Type    | Description                 |
+| ----------------- | ------- | --------------------------- |
 | newPotentialOwner | address | New potential owner address |
 
 ### isCurrencyAllowed
@@ -99,19 +87,17 @@ function isCurrencyAllowed(address) external view returns (bool)
 
 It checks whether the currency is allowed for transacting.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| \_0  | address | undefined   |
 
 #### Returns
 
 | Name | Type | Description |
-|---|---|---|
-| _0 | bool | undefined |
+| ---- | ---- | ----------- |
+| \_0  | bool | undefined   |
 
 ### owner
 
@@ -121,14 +107,11 @@ function owner() external view returns (address)
 
 Address of the current owner.
 
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| \_0  | address | undefined   |
 
 ### ownershipStatus
 
@@ -138,14 +121,11 @@ function ownershipStatus() external view returns (enum IOwnableTwoSteps.Status)
 
 Ownership status.
 
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | enum IOwnableTwoSteps.Status | undefined |
+| Name | Type                         | Description |
+| ---- | ---------------------------- | ----------- |
+| \_0  | enum IOwnableTwoSteps.Status | undefined   |
 
 ### potentialOwner
 
@@ -155,14 +135,11 @@ function potentialOwner() external view returns (address)
 
 Address of the potential owner.
 
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| \_0  | address | undefined   |
 
 ### strategyInfo
 
@@ -172,25 +149,23 @@ function strategyInfo(uint256) external view returns (bool isActive, uint16 stan
 
 This returns the strategy information for a strategy id.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | uint256 | undefined |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| \_0  | uint256 | undefined   |
 
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| isActive | bool | undefined |
-| standardProtocolFeeBp | uint16 | undefined |
-| minTotalFeeBp | uint16 | undefined |
-| maxProtocolFeeBp | uint16 | undefined |
-| selector | bytes4 | undefined |
-| isMakerBid | bool | undefined |
-| implementation | address | undefined |
+| Name                  | Type    | Description |
+| --------------------- | ------- | ----------- |
+| isActive              | bool    | undefined   |
+| standardProtocolFeeBp | uint16  | undefined   |
+| minTotalFeeBp         | uint16  | undefined   |
+| maxProtocolFeeBp      | uint16  | undefined   |
+| selector              | bytes4  | undefined   |
+| isMakerBid            | bool    | undefined   |
+| implementation        | address | undefined   |
 
 ### updateCurrencyStatus
 
@@ -200,14 +175,14 @@ function updateCurrencyStatus(address currency, bool isAllowed) external nonpaya
 
 This function allows the owner to update the status of a currency.
 
-*Only callable by owner.*
+_Only callable by owner._
 
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| currency | address | Currency address (address(0) for ETH) |
-| isAllowed | bool | Whether the currency should be allowed for trading |
+| Name      | Type    | Description                                        |
+| --------- | ------- | -------------------------------------------------- |
+| currency  | address | Currency address (address(0) for ETH)              |
+| isAllowed | bool    | Whether the currency should be allowed for trading |
 
 ### updateStrategy
 
@@ -217,18 +192,16 @@ function updateStrategy(uint256 strategyId, bool isActive, uint16 newStandardPro
 
 This function allows the owner to update parameters for an existing execution strategy.
 
-*Only callable by owner.*
+_Only callable by owner._
 
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| strategyId | uint256 | Strategy id |
-| isActive | bool | Whether the strategy must be active |
-| newStandardProtocolFee | uint16 | New standard protocol fee (in basis point) |
-| newMinTotalFee | uint16 | New minimum total fee (in basis point) |
-
-
+| Name                   | Type    | Description                                |
+| ---------------------- | ------- | ------------------------------------------ |
+| strategyId             | uint256 | Strategy id                                |
+| isActive               | bool    | Whether the strategy must be active        |
+| newStandardProtocolFee | uint16  | New standard protocol fee (in basis point) |
+| newMinTotalFee         | uint16  | New minimum total fee (in basis point)     |
 
 ## Events
 
@@ -240,9 +213,6 @@ event CancelOwnershipTransfer()
 
 This is emitted if the ownership transfer is cancelled.
 
-
-
-
 ### CurrencyStatusUpdated
 
 ```solidity
@@ -251,14 +221,12 @@ event CurrencyStatusUpdated(address currency, bool isAllowed)
 
 It is emitted if the currency status in the allowlist is updated.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| currency  | address | undefined |
-| isAllowed  | bool | undefined |
+| Name      | Type    | Description |
+| --------- | ------- | ----------- |
+| currency  | address | undefined   |
+| isAllowed | bool    | undefined   |
 
 ### InitiateOwnershipRenouncement
 
@@ -268,9 +236,6 @@ event InitiateOwnershipRenouncement()
 
 This is emitted if the ownership renouncement is initiated.
 
-
-
-
 ### InitiateOwnershipTransfer
 
 ```solidity
@@ -279,14 +244,12 @@ event InitiateOwnershipTransfer(address previousOwner, address potentialOwner)
 
 This is emitted if the ownership transfer is initiated.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| previousOwner  | address | undefined |
-| potentialOwner  | address | undefined |
+| Name           | Type    | Description |
+| -------------- | ------- | ----------- |
+| previousOwner  | address | undefined   |
+| potentialOwner | address | undefined   |
 
 ### NewOwner
 
@@ -296,13 +259,11 @@ event NewOwner(address newOwner)
 
 This is emitted when there is a new owner.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| newOwner  | address | undefined |
+| Name     | Type    | Description |
+| -------- | ------- | ----------- |
+| newOwner | address | undefined   |
 
 ### NewStrategy
 
@@ -312,19 +273,17 @@ event NewStrategy(uint256 strategyId, uint16 standardProtocolFeeBp, uint16 minTo
 
 It is emitted when a new strategy is added.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| strategyId  | uint256 | undefined |
-| standardProtocolFeeBp  | uint16 | undefined |
-| minTotalFeeBp  | uint16 | undefined |
-| maxProtocolFeeBp  | uint16 | undefined |
-| selector  | bytes4 | undefined |
-| isMakerBid  | bool | undefined |
-| implementation  | address | undefined |
+| Name                  | Type    | Description |
+| --------------------- | ------- | ----------- |
+| strategyId            | uint256 | undefined   |
+| standardProtocolFeeBp | uint16  | undefined   |
+| minTotalFeeBp         | uint16  | undefined   |
+| maxProtocolFeeBp      | uint16  | undefined   |
+| selector              | bytes4  | undefined   |
+| isMakerBid            | bool    | undefined   |
+| implementation        | address | undefined   |
 
 ### StrategyUpdated
 
@@ -334,18 +293,14 @@ event StrategyUpdated(uint256 strategyId, bool isActive, uint16 standardProtocol
 
 It is emitted when an existing strategy is updated.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| strategyId  | uint256 | undefined |
-| isActive  | bool | undefined |
-| standardProtocolFeeBp  | uint16 | undefined |
-| minTotalFeeBp  | uint16 | undefined |
-
-
+| Name                  | Type    | Description |
+| --------------------- | ------- | ----------- |
+| strategyId            | uint256 | undefined   |
+| isActive              | bool    | undefined   |
+| standardProtocolFeeBp | uint16  | undefined   |
+| minTotalFeeBp         | uint16  | undefined   |
 
 ## Errors
 
@@ -357,9 +312,6 @@ error NoOngoingTransferInProgress()
 
 This is returned when there is no transfer of ownership in progress.
 
-
-
-
 ### NotOwner
 
 ```solidity
@@ -367,9 +319,6 @@ error NotOwner()
 ```
 
 This is returned when the caller is not the owner.
-
-
-
 
 ### NotV2Strategy
 
@@ -379,8 +328,7 @@ error NotV2Strategy()
 
 If the strategy has not set properly its implementation contract.
 
-*It can only be returned for owner operations.*
-
+_It can only be returned for owner operations._
 
 ### RenouncementNotInProgress
 
@@ -388,10 +336,7 @@ If the strategy has not set properly its implementation contract.
 error RenouncementNotInProgress()
 ```
 
-This is returned when there is no renouncement in progress but         the owner tries to validate the ownership renouncement.
-
-
-
+This is returned when there is no renouncement in progress but the owner tries to validate the ownership renouncement.
 
 ### StrategyHasNoSelector
 
@@ -401,8 +346,7 @@ error StrategyHasNoSelector()
 
 It is returned if the strategy has no selector.
 
-*It can only be returned for owner operations.*
-
+_It can only be returned for owner operations._
 
 ### StrategyNotUsed
 
@@ -412,9 +356,6 @@ error StrategyNotUsed()
 
 It is returned if the strategyId is invalid.
 
-
-
-
 ### StrategyProtocolFeeTooHigh
 
 ```solidity
@@ -423,8 +364,7 @@ error StrategyProtocolFeeTooHigh()
 
 It is returned if the strategy&#39;s protocol fee is too high.
 
-*It can only be returned for owner operations.*
-
+_It can only be returned for owner operations._
 
 ### TransferAlreadyInProgress
 
@@ -432,10 +372,7 @@ It is returned if the strategy&#39;s protocol fee is too high.
 error TransferAlreadyInProgress()
 ```
 
-This is returned when the transfer is already in progress but the owner tries         initiate a new ownership transfer.
-
-
-
+This is returned when the transfer is already in progress but the owner tries initiate a new ownership transfer.
 
 ### TransferNotInProgress
 
@@ -443,10 +380,7 @@ This is returned when the transfer is already in progress but the owner tries   
 error TransferNotInProgress()
 ```
 
-This is returned when there is no ownership transfer in progress but the         ownership change tries to be approved.
-
-
-
+This is returned when there is no ownership transfer in progress but the ownership change tries to be approved.
 
 ### WrongPotentialOwner
 
@@ -454,9 +388,4 @@ This is returned when there is no ownership transfer in progress but the        
 error WrongPotentialOwner()
 ```
 
-This is returned when the ownership transfer is attempted to be validated by the         a caller that is not the potential owner.
-
-
-
-
-
+This is returned when the ownership transfer is attempted to be validated by the a caller that is not the potential owner.

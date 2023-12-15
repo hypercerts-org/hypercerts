@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
-    "@celo/rainbowkit-celo": "^1.1.0",
+    "@celo/rainbowkit-celo": "^1.1.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@graphprotocol/client-cli": "^2.2.16",

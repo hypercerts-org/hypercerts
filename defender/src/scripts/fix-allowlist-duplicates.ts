@@ -63,6 +63,7 @@ const fetchClaimTokenForClaimId = async (claimId: string) => {
       },
     )
       .then((res) => res.json())
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       .then((res) => res.data?.claimTokens)
   );
@@ -78,6 +79,7 @@ const main = async () => {
   let lastId = 1;
 
   // Iterate over all pages
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const { data } = await fetchAllowlistPage(lastId);
     if (data.length === 0) {
@@ -97,6 +99,7 @@ const main = async () => {
       // console.log("tokensForClaim", tokensForClaim);
 
       const addressesForClaimTokens = tokensForClaim.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (token: any) => token.owner,
       );
       const addressesForEntry = entries.map((x) => x.address);
@@ -122,4 +125,5 @@ const main = async () => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 main();

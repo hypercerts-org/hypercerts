@@ -18,8 +18,8 @@ custom_edit_url: null
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name | Type     |
+| :--- | :------- |
 | `id` | `string` |
 
 ##### Returns
@@ -28,9 +28,9 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L20)
+[sdk/src/types/indexer.ts:20](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L20)
 
-___
+---
 
 ### claimsByOwner
 
@@ -42,9 +42,9 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `owner` | `string` |
+| Name      | Type                                       |
+| :-------- | :----------------------------------------- |
+| `owner`   | `string`                                   |
 | `params?` | [`QueryParams`](../modules.md#queryparams) |
 
 ##### Returns
@@ -53,9 +53,9 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L19)
+[sdk/src/types/indexer.ts:19](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L19)
 
-___
+---
 
 ### firstClaims
 
@@ -67,8 +67,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type                                       |
+| :-------- | :----------------------------------------- |
 | `params?` | [`QueryParams`](../modules.md#queryparams) |
 
 ##### Returns
@@ -77,9 +77,9 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L21)
+[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L21)
 
-___
+---
 
 ### fractionById
 
@@ -91,8 +91,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type     |
+| :----------- | :------- |
 | `fractionId` | `string` |
 
 ##### Returns
@@ -101,9 +101,9 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L24)
+[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L24)
 
-___
+---
 
 ### fractionsByClaim
 
@@ -115,9 +115,9 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `claimId` | `string` |
+| Name      | Type                                       |
+| :-------- | :----------------------------------------- |
+| `claimId` | `string`                                   |
 | `params?` | [`QueryParams`](../modules.md#queryparams) |
 
 ##### Returns
@@ -126,9 +126,9 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L23)
+[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L23)
 
-___
+---
 
 ### fractionsByOwner
 
@@ -140,9 +140,9 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `owner` | `string` |
+| Name      | Type                                       |
+| :-------- | :----------------------------------------- |
+| `owner`   | `string`                                   |
 | `params?` | [`QueryParams`](../modules.md#queryparams) |
 
 ##### Returns
@@ -151,9 +151,9 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L22)
+[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L22)
 
-___
+---
 
 ### graphClient
 
@@ -161,4 +161,4 @@ ___
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/indexer.ts#L18)
+[sdk/src/types/indexer.ts:18](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/indexer.ts#L18)

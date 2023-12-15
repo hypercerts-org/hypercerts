@@ -1,12 +1,10 @@
 # ProtocolHelpers
 
-*LooksRare protocol team (👀,💎)*
+_LooksRare protocol team (👀,💎)_
 
 > ProtocolHelpers
 
 This contract contains helper view functions for order creation.
-
-
 
 ## Methods
 
@@ -16,21 +14,17 @@ This contract contains helper view functions for order creation.
 function computeDigestMerkleTree(OrderStructs.MerkleTree merkleTree) external view returns (bytes32 digest)
 ```
 
-
-
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| merkleTree | OrderStructs.MerkleTree | undefined |
+| Name       | Type                    | Description |
+| ---------- | ----------------------- | ----------- |
+| merkleTree | OrderStructs.MerkleTree | undefined   |
 
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| digest | bytes32 | undefined |
+| Name   | Type    | Description |
+| ------ | ------- | ----------- |
+| digest | bytes32 | undefined   |
 
 ### computeMakerDigest
 
@@ -38,21 +32,17 @@ function computeDigestMerkleTree(OrderStructs.MerkleTree merkleTree) external vi
 function computeMakerDigest(OrderStructs.Maker maker) external view returns (bytes32 digest)
 ```
 
-
-
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| maker | OrderStructs.Maker | undefined |
+| Name  | Type               | Description |
+| ----- | ------------------ | ----------- |
+| maker | OrderStructs.Maker | undefined   |
 
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| digest | bytes32 | undefined |
+| Name   | Type    | Description |
+| ------ | ------- | ----------- |
+| digest | bytes32 | undefined   |
 
 ### looksRareProtocol
 
@@ -60,16 +50,11 @@ function computeMakerDigest(OrderStructs.Maker maker) external view returns (byt
 function looksRareProtocol() external view returns (contract LooksRareProtocol)
 ```
 
-
-
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | contract LooksRareProtocol | undefined |
+| Name | Type                       | Description |
+| ---- | -------------------------- | ----------- |
+| \_0  | contract LooksRareProtocol | undefined   |
 
 ### verifyMakerSignature
 
@@ -77,23 +62,19 @@ function looksRareProtocol() external view returns (contract LooksRareProtocol)
 function verifyMakerSignature(OrderStructs.Maker maker, bytes makerSignature, address signer) external view returns (bool)
 ```
 
-
-
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| maker | OrderStructs.Maker | undefined |
-| makerSignature | bytes | undefined |
-| signer | address | undefined |
+| Name           | Type               | Description |
+| -------------- | ------------------ | ----------- |
+| maker          | OrderStructs.Maker | undefined   |
+| makerSignature | bytes              | undefined   |
+| signer         | address            | undefined   |
 
 #### Returns
 
 | Name | Type | Description |
-|---|---|---|
-| _0 | bool | undefined |
+| ---- | ---- | ----------- |
+| \_0  | bool | undefined   |
 
 ### verifyMerkleTree
 
@@ -101,26 +82,19 @@ function verifyMakerSignature(OrderStructs.Maker maker, bytes makerSignature, ad
 function verifyMerkleTree(OrderStructs.MerkleTree merkleTree, bytes makerSignature, address signer) external view returns (bool)
 ```
 
-
-
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| merkleTree | OrderStructs.MerkleTree | undefined |
-| makerSignature | bytes | undefined |
-| signer | address | undefined |
+| Name           | Type                    | Description |
+| -------------- | ----------------------- | ----------- |
+| merkleTree     | OrderStructs.MerkleTree | undefined   |
+| makerSignature | bytes                   | undefined   |
+| signer         | address                 | undefined   |
 
 #### Returns
 
 | Name | Type | Description |
-|---|---|---|
-| _0 | bool | undefined |
-
-
-
+| ---- | ---- | ----------- |
+| \_0  | bool | undefined   |
 
 ## Errors
 
@@ -132,9 +106,6 @@ error NullSignerAddress()
 
 It is emitted if the signer is null.
 
-
-
-
 ### SignatureEOAInvalid
 
 ```solidity
@@ -142,9 +113,6 @@ error SignatureEOAInvalid()
 ```
 
 It is emitted if the signature is invalid for an EOA (the address recovered is not the expected one).
-
-
-
 
 ### SignatureERC1271Invalid
 
@@ -154,9 +122,6 @@ error SignatureERC1271Invalid()
 
 It is emitted if the signature is invalid for a ERC1271 contract signer.
 
-
-
-
 ### SignatureLengthInvalid
 
 ```solidity
@@ -165,13 +130,11 @@ error SignatureLengthInvalid(uint256 length)
 
 It is emitted if the signature&#39;s length is neither 64 nor 65 bytes.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| length | uint256 | undefined |
+| Name   | Type    | Description |
+| ------ | ------- | ----------- |
+| length | uint256 | undefined   |
 
 ### SignatureParameterSInvalid
 
@@ -181,9 +144,6 @@ error SignatureParameterSInvalid()
 
 It is emitted if the signature is invalid due to S parameter.
 
-
-
-
 ### SignatureParameterVInvalid
 
 ```solidity
@@ -192,12 +152,8 @@ error SignatureParameterVInvalid(uint8 v)
 
 It is emitted if the signature is invalid due to V parameter.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| v | uint8 | undefined |
-
-
+| Name | Type  | Description |
+| ---- | ----- | ----------- |
+| v    | uint8 | undefined   |

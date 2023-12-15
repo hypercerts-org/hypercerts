@@ -74,6 +74,17 @@ export default async function createConfigAsync() {
     },
     themes: ["@docusaurus/theme-mermaid"],
     themeConfig: {
+      algolia: {
+        // The application ID provided by Algolia
+        appId: "KEI1L137BU",
+
+        // Public API key: it is safe to commit it
+        apiKey: "3c28007b9532f79a8f326cc2a07f1721",
+
+        indexName: "hypercerts",
+
+        insights: true,
+      },
       docs: {
         sidebar: {
           hideable: true,

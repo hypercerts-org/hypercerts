@@ -1,12 +1,10 @@
 # CreatorFeeManagerWithRebates
 
-*LooksRare protocol team (👀,💎)*
+_LooksRare protocol team (👀,💎)_
 
 > CreatorFeeManagerWithRebates
 
 This contract returns the creator fee address and the creator rebate amount.
-
-
 
 ## Methods
 
@@ -18,14 +16,11 @@ function STANDARD_ROYALTY_FEE_BP() external view returns (uint256)
 
 Standard royalty fee (in basis point).
 
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | uint256 | undefined |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| \_0  | uint256 | undefined   |
 
 ### royaltyFeeRegistry
 
@@ -35,14 +30,11 @@ function royaltyFeeRegistry() external view returns (contract IRoyaltyFeeRegistr
 
 Royalty fee registry interface.
 
-
-
-
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| _0 | contract IRoyaltyFeeRegistry | undefined |
+| Name | Type                         | Description |
+| ---- | ---------------------------- | ----------- |
+| \_0  | contract IRoyaltyFeeRegistry | undefined   |
 
 ### viewCreatorFeeInfo
 
@@ -52,25 +44,20 @@ function viewCreatorFeeInfo(address collection, uint256 price, uint256[] itemIds
 
 This function returns the creator address and calculates the creator fee amount.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| collection | address | Collection address |
-| price | uint256 | Transaction price |
-| itemIds | uint256[] | Array of item ids |
+| Name       | Type      | Description        |
+| ---------- | --------- | ------------------ |
+| collection | address   | Collection address |
+| price      | uint256   | Transaction price  |
+| itemIds    | uint256[] | Array of item ids  |
 
 #### Returns
 
-| Name | Type | Description |
-|---|---|---|
-| creator | address | Creator address |
+| Name             | Type    | Description        |
+| ---------------- | ------- | ------------------ |
+| creator          | address | Creator address    |
 | creatorFeeAmount | uint256 | Creator fee amount |
-
-
-
 
 ## Errors
 
@@ -82,12 +69,8 @@ error BundleEIP2981NotAllowed(address collection)
 
 It is returned if the bundle contains multiple itemIds with different creator fee structure.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| collection | address | undefined |
-
-
+| Name       | Type    | Description |
+| ---------- | ------- | ----------- |
+| collection | address | undefined   |

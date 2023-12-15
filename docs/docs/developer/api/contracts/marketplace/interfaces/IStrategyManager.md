@@ -1,13 +1,8 @@
 # IStrategyManager
 
-*LooksRare protocol team (👀,💎)*
+_LooksRare protocol team (👀,💎)_
 
 > IStrategyManager
-
-
-
-
-
 
 ## Events
 
@@ -19,19 +14,17 @@ event NewStrategy(uint256 strategyId, uint16 standardProtocolFeeBp, uint16 minTo
 
 It is emitted when a new strategy is added.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| strategyId  | uint256 | Id of the new strategy |
-| standardProtocolFeeBp  | uint16 | Standard protocol fee (in basis point) |
-| minTotalFeeBp  | uint16 | Minimum total fee (in basis point) |
-| maxProtocolFeeBp  | uint16 | Maximum protocol fee (in basis point) |
-| selector  | bytes4 | Function selector for the transaction to be executed |
-| isMakerBid  | bool | Whether the strategyId is for maker bid |
-| implementation  | address | Address of the implementation of the strategy |
+| Name                  | Type    | Description                                          |
+| --------------------- | ------- | ---------------------------------------------------- |
+| strategyId            | uint256 | Id of the new strategy                               |
+| standardProtocolFeeBp | uint16  | Standard protocol fee (in basis point)               |
+| minTotalFeeBp         | uint16  | Minimum total fee (in basis point)                   |
+| maxProtocolFeeBp      | uint16  | Maximum protocol fee (in basis point)                |
+| selector              | bytes4  | Function selector for the transaction to be executed |
+| isMakerBid            | bool    | Whether the strategyId is for maker bid              |
+| implementation        | address | Address of the implementation of the strategy        |
 
 ### StrategyUpdated
 
@@ -41,18 +34,14 @@ event StrategyUpdated(uint256 strategyId, bool isActive, uint16 standardProtocol
 
 It is emitted when an existing strategy is updated.
 
-
-
 #### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| strategyId  | uint256 | Id of the strategy |
-| isActive  | bool | Whether the strategy is active (or not) after the update |
-| standardProtocolFeeBp  | uint16 | Standard protocol fee (in basis point) |
-| minTotalFeeBp  | uint16 | Minimum total fee (in basis point) |
-
-
+| Name                  | Type    | Description                                              |
+| --------------------- | ------- | -------------------------------------------------------- |
+| strategyId            | uint256 | Id of the strategy                                       |
+| isActive              | bool    | Whether the strategy is active (or not) after the update |
+| standardProtocolFeeBp | uint16  | Standard protocol fee (in basis point)                   |
+| minTotalFeeBp         | uint16  | Minimum total fee (in basis point)                       |
 
 ## Errors
 
@@ -64,8 +53,7 @@ error NotV2Strategy()
 
 If the strategy has not set properly its implementation contract.
 
-*It can only be returned for owner operations.*
-
+_It can only be returned for owner operations._
 
 ### StrategyHasNoSelector
 
@@ -75,8 +63,7 @@ error StrategyHasNoSelector()
 
 It is returned if the strategy has no selector.
 
-*It can only be returned for owner operations.*
-
+_It can only be returned for owner operations._
 
 ### StrategyNotUsed
 
@@ -86,9 +73,6 @@ error StrategyNotUsed()
 
 It is returned if the strategyId is invalid.
 
-
-
-
 ### StrategyProtocolFeeTooHigh
 
 ```solidity
@@ -97,7 +81,4 @@ error StrategyProtocolFeeTooHigh()
 
 It is returned if the strategy&#39;s protocol fee is too high.
 
-*It can only be returned for owner operations.*
-
-
-
+_It can only be returned for owner operations._

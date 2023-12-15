@@ -1,14 +1,6 @@
 # Errors
 
-*bitbeckers*
-
-
-
-
-
-
-
-
+_bitbeckers_
 
 ## Errors
 
@@ -18,21 +10,11 @@
 error AlreadyClaimed()
 ```
 
-
-
-
-
-
 ### ArraySize
 
 ```solidity
 error ArraySize()
 ```
-
-
-
-
-
 
 ### DoesNotExist
 
@@ -40,21 +22,11 @@ error ArraySize()
 error DoesNotExist()
 ```
 
-
-
-
-
-
 ### DuplicateEntry
 
 ```solidity
 error DuplicateEntry()
 ```
-
-
-
-
-
 
 ### Invalid
 
@@ -62,21 +34,11 @@ error DuplicateEntry()
 error Invalid()
 ```
 
-
-
-
-
-
 ### NotAllowed
 
 ```solidity
 error NotAllowed()
 ```
-
-
-
-
-
 
 ### NotApprovedOrOwner
 
@@ -84,31 +46,14 @@ error NotAllowed()
 error NotApprovedOrOwner()
 ```
 
-
-
-
-
-
 ### TransfersNotAllowed
 
 ```solidity
 error TransfersNotAllowed()
 ```
 
-
-
-
-
-
 ### TypeMismatch
 
 ```solidity
 error TypeMismatch()
 ```
-
-
-
-
-
-
-

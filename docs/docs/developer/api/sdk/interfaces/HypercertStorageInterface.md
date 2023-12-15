@@ -26,8 +26,8 @@ Retrieves arbitrary data from IPFS.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name           | Type     | Description                                  |
+| :------------- | :------- | :------------------------------------------- |
 | `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to retrieve. |
 
 ##### Returns
@@ -38,9 +38,9 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L98)
+[sdk/src/types/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L98)
 
-___
+---
 
 ### getMetadata
 
@@ -54,8 +54,8 @@ Retrieves the metadata for a Hypercert evaluation.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name           | Type     | Description                                      |
+| :------------- | :------- | :----------------------------------------------- |
 | `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to retrieve. |
 
 ##### Returns
@@ -66,9 +66,9 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:84](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L84)
+[sdk/src/types/client.ts:84](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L84)
 
-___
+---
 
 ### storeData
 
@@ -82,8 +82,8 @@ Stores arbitrary data on IPFS.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name   | Type      | Description        |
+| :----- | :-------- | :----------------- |
 | `data` | `unknown` | The data to store. |
 
 ##### Returns
@@ -94,9 +94,9 @@ A Promise that resolves to the CID of the stored data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L91)
+[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L91)
 
-___
+---
 
 ### storeMetadata
 
@@ -110,8 +110,8 @@ Stores the metadata for a Hypercert evaluation.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type                                        | Description            |
+| :--------- | :------------------------------------------ | :--------------------- |
 | `metadata` | [`HypercertMetadata`](HypercertMetadata.md) | The metadata to store. |
 
 ##### Returns
@@ -122,4 +122,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:77](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/types/client.ts#L77)
+[sdk/src/types/client.ts:77](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L77)

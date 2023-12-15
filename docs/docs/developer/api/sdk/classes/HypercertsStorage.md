@@ -13,8 +13,11 @@ This class implements the `HypercertStorageInterface` and provides methods for s
 **`Example`**
 
 ```ts
-const storage = new HypercertsStorage({ nftStorageToken: 'your-nft-storage-token', web3StorageToken: 'your-web3-storage-token' });
-const metadata = await storage.getMetadata('your-hypercert-id');
+const storage = new HypercertsStorage({
+  nftStorageToken: "your-nft-storage-token",
+  web3StorageToken: "your-web3-storage-token",
+});
+const metadata = await storage.getMetadata("your-hypercert-id");
 ```
 
 ## Implements
@@ -33,8 +36,8 @@ This constructor takes an optional `overrides` parameter that can be used to ove
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type                                                                         | Description                                  |
+| :---------- | :--------------------------------------------------------------------------- | :------------------------------------------- |
 | `overrides` | `Partial`<[`HypercertStorageConfig`](../modules.md#hypercertstorageconfig)\> | The configuration overrides for the storage. |
 
 #### Returns
@@ -43,7 +46,7 @@ This constructor takes an optional `overrides` parameter that can be used to ove
 
 #### Defined in
 
-[sdk/src/storage.ts:47](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L47)
+[sdk/src/storage.ts:47](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L47)
 
 ## Properties
 
@@ -55,9 +58,9 @@ The NFT Storage client used for storing and retrieving Hypercerts.
 
 #### Defined in
 
-[sdk/src/storage.ts:36](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L36)
+[sdk/src/storage.ts:36](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L36)
 
-___
+---
 
 ### readonly
 
@@ -67,9 +70,9 @@ Whether the storage is read-only. If true, the storage methods will not perform 
 
 #### Defined in
 
-[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L34)
+[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L34)
 
-___
+---
 
 ### web3StorageClient
 
@@ -79,7 +82,7 @@ The Web3 Storage client used for storing and retrieving Hypercerts.
 
 #### Defined in
 
-[sdk/src/storage.ts:38](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L38)
+[sdk/src/storage.ts:38](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L38)
 
 ## Methods
 
@@ -93,8 +96,8 @@ This method first retrieves the data from IPFS using the `getFromIPFS` function.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name           | Type     | Description                                  |
+| :------------- | :------- | :------------------------------------------- |
 | `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to retrieve. |
 
 #### Returns
@@ -121,9 +124,9 @@ Note: The original implementation using the Web3 Storage client is currently com
 
 #### Defined in
 
-[sdk/src/storage.ts:167](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L167)
+[sdk/src/storage.ts:167](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L167)
 
-___
+---
 
 ### getMetadata
 
@@ -136,8 +139,8 @@ If the data is valid, it returns the data as a `HypercertMetadata` object.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name           | Type     | Description                                      |
+| :------------- | :------- | :----------------------------------------------- |
 | `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to retrieve. |
 
 #### Returns
@@ -156,9 +159,9 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:114](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L114)
+[sdk/src/storage.ts:114](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L114)
 
-___
+---
 
 ### storeData
 
@@ -171,8 +174,8 @@ It then creates a new Blob from the provided data and stores it using the Web3 S
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name   | Type      | Description                                      |
+| :----- | :-------- | :----------------------------------------------- |
 | `data` | `unknown` | The data to store. This can be any type of data. |
 
 #### Returns
@@ -197,9 +200,9 @@ If you are using our default keys, we may delete older data if we hit our storag
 
 #### Defined in
 
-[sdk/src/storage.ts:139](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L139)
+[sdk/src/storage.ts:139](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L139)
 
-___
+---
 
 ### storeMetadata
 
@@ -213,8 +216,8 @@ If the metadata is valid, it creates a new Blob from the metadata and stores it 
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name   | Type                                                      | Description                                                                                            |
+| :----- | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | `data` | [`HypercertMetadata`](../interfaces/HypercertMetadata.md) | The Hypercert metadata to store. This should be an object that conforms to the HypercertMetadata type. |
 
 #### Returns
@@ -237,4 +240,4 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:81](https://github.com/hypercerts-org/hypercerts/blob/9478e99/sdk/src/storage.ts#L81)
+[sdk/src/storage.ts:81](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/storage.ts#L81)
