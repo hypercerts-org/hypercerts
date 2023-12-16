@@ -37,6 +37,7 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  *         - unitAmount: 10000 // Total amount for sale; in `amounts` array
  *         - minUnitAmount: 100 // Minimum amount to buy; in `additionalParameters`
  *         - maxUnitAmount: 1000 // Maximum amount to buy; in `additionalParameters`
+ *         - minUnitsToKeep: 5000 // Minimum amount to keep in the hypercert fraction; in `additionalParameters`
  *         - acceptedTokenAmount: 1000000000000000 (0.001 ETH in wei)
  *         - acceptedTokenAddress: 0x0000000000000000000000000000000000000000
  *         - proof: [0xsdadfa....s9fds,0xdasdas...asff8e]
@@ -49,7 +50,7 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  * @notice The bidder can only bid on 1 item id at a time.
  *         1. If ERC721, the amount must be 1.
  *         2. If ERC1155, the amount can be greater than 1.
- *         3. If Hypercert, the amount can be greater than 1 because they represent units held by the hypercert.
+ *         3. If Hypercert, the amount must be 1 because the fractions are NFTs.
  * @dev Use cases can include tiered pricing; think early bird tickets.
  * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
@@ -76,21 +77,23 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             revert LengthsInvalid();
         }
 
-        if (makerAsk.amounts[0] == 0) {
+        // The amount to fill must be 1 because fractions are NFTs
+        if (makerAsk.amounts[0] != 1) {
             revert AmountInvalid();
         }
 
         //units, pricePerUnit
         (uint256 unitAmount, uint256 pricePerUnit) = abi.decode(takerBid.additionalParameters, (uint256, uint256));
 
-        //minUnitAmount, maxUnitAmount, root
-        (uint256 minUnitAmount, uint256 maxUnitAmount) = abi.decode(makerAsk.additionalParameters, (uint256, uint256));
+        //minUnitAmount, maxUnitAmount, minUnitsToKeep, root
+        (uint256 minUnitAmount, uint256 maxUnitAmount, uint256 minUnitsToKeep) =
+            abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256));
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (
             minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount || unitAmount > maxUnitAmount
                 || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                || IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) < unitAmount
+                || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
         ) {
             revert OrderInvalid();
         }
@@ -102,7 +105,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         price = unitAmount * pricePerUnit;
         // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
         // Otherwise, we do not invalidate the nonce because it is a partial fill.
-        isNonceInvalidated = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) == unitAmount;
+        isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
     }
 
     /**
@@ -129,7 +132,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             revert LengthsInvalid();
         }
 
-        if (makerAsk.amounts[0] == 0) {
+        if (makerAsk.amounts[0] != 1) {
             revert AmountInvalid();
         }
 
@@ -137,15 +140,15 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         (uint256 unitAmount, uint256 pricePerUnit, bytes32[] memory proof) =
             abi.decode(takerBid.additionalParameters, (uint256, uint256, bytes32[]));
 
-        //minUnitAmount, maxUnitAmount, root
-        (uint256 minUnitAmount, uint256 maxUnitAmount, bytes32 root) =
-            abi.decode(makerAsk.additionalParameters, (uint256, uint256, bytes32));
+        //minUnitAmount, maxUnitAmount, minUnitsToKeep, root
+        (uint256 minUnitAmount, uint256 maxUnitAmount, uint256 minUnitsToKeep, bytes32 root) =
+            abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256, bytes32));
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (
             minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount || unitAmount > maxUnitAmount
                 || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                || IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) < unitAmount
+                || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
         ) {
             revert OrderInvalid();
         }
@@ -158,7 +161,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
         // Otherwise, we do not invalidate the nonce because it is a partial fill.
-        isNonceInvalidated = IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) == unitAmount;
+        isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
 
         bytes32 node = keccak256(abi.encodePacked(takerBid.recipient));
 
@@ -189,11 +192,12 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             return (isValid, QuoteTypeInvalid.selector);
         }
 
-        (uint256 minUnitAmount, uint256 maxUnitAmount) = abi.decode(makerAsk.additionalParameters, (uint256, uint256));
+        (uint256 minUnitAmount, uint256 maxUnitAmount, uint256 minUnitsToKeep) =
+            abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256));
 
         if (
-            makerAsk.amounts.length != 1 || makerAsk.amounts[0] == 0
-                || IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) < makerAsk.amounts[0]
+            makerAsk.amounts.length != 1 || makerAsk.amounts[0] != 1
+                || minUnitsToKeep > IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0])
                 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount || makerAsk.price == 0
                 || maxUnitAmount == 0
         ) {
@@ -202,12 +206,13 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
-        // @dev 96 is the length of the bytes32 array when the merkle root is provided together with two uint256 params
-        // declared in the additionalParameters.
+        // @dev 128 is the length of the bytes32 array when the merkle root is provided together with three uint256
+        // params
+        // declared in the additionalParameters (minUnits, maxUnits, minUnitsToKeep, root).
         if (
             functionSelector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
-                && makerAsk.additionalParameters.length != 96
+                && makerAsk.additionalParameters.length != 128
         ) {
             return (isValid, OrderInvalid.selector);
         }
