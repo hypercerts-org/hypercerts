@@ -197,7 +197,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         if (
             makerAsk.amounts.length != 1 || makerAsk.amounts[0] != 1
-                || minUnitsToKeep > IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0])
+                || IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) <= minUnitsToKeep
                 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount || makerAsk.price == 0
                 || maxUnitAmount == 0
         ) {

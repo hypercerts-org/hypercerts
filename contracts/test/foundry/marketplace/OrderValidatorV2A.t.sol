@@ -19,8 +19,8 @@ import {
     ERC1155_BALANCE_OF_ITEM_ID_INFERIOR_TO_AMOUNT,
     ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST,
     ERC1155_NO_APPROVAL_FOR_ALL,
-    HYPERCERT_UNITS_NOT_HELD_BY_USER,
-    HYPERCERT_UNITS_OF_DOES_NOT_EXIST,
+    HYPERCERT_FRACTION_NOT_HELD_BY_USER,
+    HYPERCERT_OWNER_OF_DOES_NOT_EXIST,
     MAKER_ORDER_INVALID_STANDARD_SALE,
     MISSING_IS_VALID_SIGNATURE_FUNCTION_EIP1271,
     POTENTIAL_INVALID_COLLECTION_TYPE_SHOULD_BE_ERC721,
@@ -46,6 +46,8 @@ import {MockHypercertMinter} from "../../mock/MockHypercertMinter.sol";
 import {MockHypercertMinterSupportsNoInterface} from "../../mock/MockHypercertMinterSupportsNoInterface.sol";
 import {MockHypercertMinterWithoutAnyBalanceOf} from "../../mock/MockHypercertMinterWithoutAnyBalanceOf.sol";
 import {MockHypercertMinterWithoutAnyUnitsOf} from "../../mock/MockHypercertMinterWithoutAnyUnitsOf.sol";
+import {MockHypercertMinterWithoutOwnerOf} from "../../mock/MockHypercertMinterWithoutAnyOwnerOf.sol";
+
 import {MockERC20} from "../../mock/MockERC20.sol";
 
 // Enums
@@ -401,15 +403,11 @@ contract OrderValidatorV2ATest is TestParameters {
 
     // HYPERCERTS
 
-    function _testMakerAskHypercertUnitsInferiorToAmount(bool revertBalanceOf) public {
+    function _testMakerAskHypercertFractionNotHeldByMaker() public {
         address collection;
-        if (revertBalanceOf) {
-            MockHypercertMinterWithoutAnyBalanceOf mockHypercert = new MockHypercertMinterWithoutAnyBalanceOf();
-            collection = address(mockHypercert);
-        } else {
-            MockHypercertMinter mockHypercert = new MockHypercertMinter();
-            collection = address(mockHypercert);
-        }
+
+        MockHypercertMinter mockHypercert = new MockHypercertMinter();
+        collection = address(mockHypercert);
 
         OrderStructs.Maker memory makerAsk;
         makerAsk.quoteType = QuoteType.Ask;
@@ -425,11 +423,11 @@ contract OrderValidatorV2ATest is TestParameters {
 
         uint256[9] memory validationCodes =
             orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
-        assertEq(validationCodes[5], HYPERCERT_UNITS_NOT_HELD_BY_USER);
+        assertEq(validationCodes[5], HYPERCERT_FRACTION_NOT_HELD_BY_USER);
     }
 
-    function testMakerAskHypercertUnitsOfDoesNotExist() public {
-        MockHypercertMinterWithoutAnyUnitsOf mockHypercert = new MockHypercertMinterWithoutAnyUnitsOf();
+    function testMakerAskHypercertOwnerOfDoesNotExist() public {
+        MockHypercertMinterWithoutOwnerOf mockHypercert = new MockHypercertMinterWithoutOwnerOf();
 
         OrderStructs.Maker memory makerAsk;
         makerAsk.quoteType = QuoteType.Ask;
@@ -445,6 +443,6 @@ contract OrderValidatorV2ATest is TestParameters {
 
         uint256[9] memory validationCodes =
             orderValidator.checkMakerOrderValidity(makerAsk, new bytes(65), _EMPTY_MERKLE_TREE);
-        assertEq(validationCodes[5], HYPERCERT_UNITS_OF_DOES_NOT_EXIST);
+        assertEq(validationCodes[5], HYPERCERT_OWNER_OF_DOES_NOT_EXIST);
     }
 }

@@ -55,9 +55,11 @@ contract HypercertFractionOffersTest is ProtocolBase {
         private
         returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid)
     {
-        vm.prank(makerUser);
         // Mint asset
-        if (mint == true) mockHypercertMinter.mintClaim(makerUser, 10_000, "https://examle.com", FROM_CREATOR_ONLY);
+        if (mint == true) {
+            vm.prank(makerUser);
+            mockHypercertMinter.mintClaim(makerUser, 10_000, "https://examle.com", FROM_CREATOR_ONLY);
+        }
 
         uint256[] memory itemIds = new uint256[](1);
         itemIds[0] = (1 << 128) + 1;
@@ -197,6 +199,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
 
         // Will fail because the total amount of units bought is 6000, leaving 4000 units in the hypercert (less than
         // minUnitsToKeep)
+        vm.prank(takerUser);
         vm.expectRevert(OrderInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
@@ -216,6 +219,87 @@ contract HypercertFractionOffersTest is ProtocolBase {
         assertEq(mockHypercertMinter.unitsOf((1 << 128) + 1), 5000);
         assertEq(mockHypercertMinter.unitsOf((1 << 128) + 2), 3000);
         assertEq(mockHypercertMinter.unitsOf((1 << 128) + 3), 2000);
+    }
+
+    function testMakerAskInvalidation() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(false);
+
+        uint256[] memory fractions = new uint256[](2);
+        fractions[0] = 5000;
+        fractions[1] = 5000;
+
+        vm.prank(makerUser);
+        mockHypercertMinter.mintClaimWithFractions(
+            makerUser, 10_000, fractions, "https://example.com", FROM_CREATOR_ONLY
+        );
+
+        // Selling 2500 units out of 5000 (5000 - 2500 = 2500 minUnitsToKeep) at maximum of 2500 units per sale
+        // (maxUnitAmount)
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, 2500, 2500);
+        takerBid.additionalParameters = abi.encode(2000, price);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Will pass because the taker bid is buying 2000 units out of 2500
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Will fail because the total amount of units bought will be 4000, leaving 1000 units in the hypercert (less
+        // than
+        // minUnitsToKeep)
+        vm.prank(takerUser);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Will pass on buying 500 (unitAmount) out of 2500 units (maxUnitAmount) while minUnitsToKeep is 2500
+        takerBid.additionalParameters = abi.encode(500, price);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Taker user has received the asset
+        assertEq(mockHypercertMinter.ownerOf((1 << 128) + 1), makerUser);
+        assertEq(mockHypercertMinter.ownerOf((1 << 128) + 2), makerUser);
+        assertEq(mockHypercertMinter.ownerOf((1 << 128) + 3), takerUser);
+        assertEq(mockHypercertMinter.ownerOf((1 << 128) + 4), takerUser);
+
+        // Units have been transfered
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 1), 2500);
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 2), 5000); // 2nd fraction
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 3), 2000);
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 4), 500);
+
+        // Will fail because the nonce has been invalidated
+        vm.prank(takerUser);
+        vm.expectRevert(NoncesInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+
+        // Merge to add more units to 'sold out' fraction
+        uint256[] memory fractionIdsToMerge = new uint256[](2);
+        fractionIdsToMerge[0] = ((1 << 128) + 2);
+        fractionIdsToMerge[1] = ((1 << 128) + 1);
+
+        vm.prank(makerUser);
+        mockHypercertMinter.mergeFractions(makerUser, fractionIdsToMerge);
+
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 1), 7500);
+        assertEq(mockHypercertMinter.unitsOf((1 << 128) + 2), 0); // 2nd fraction
+
+        // Will fail because nonce is still invalid, even though the fraction has more units now
+        vm.prank(takerUser);
+        vm.expectRevert(NoncesInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     /**

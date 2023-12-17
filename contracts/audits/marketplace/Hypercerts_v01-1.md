@@ -25,3 +25,17 @@ To resolve the issue we changed the design of the strategy. Since a hypercert fr
 the `MakerAsk` struct is required to be an array of size 1 with value 1. The `additionalParameters` field was expanded
 with `minUnitsToKeep` to declare the amount of units that should remain in the hypercert fraction. This has been tested
 in `StrategyHypercertFractionOffer.sol`.
+
+### TRST-H-2 | The fraction offer maker order is not invalidated correctly, leading to orders being replayed
+
+We've updated the logic to invalidate the order to test agains the change in balance when the strategu would execute:
+
+` isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;`
+
+This has been tested in `StrategyHypercertFractionOffer.sol` under `testMakerAskInvalidation` where we execute multiple
+sales to invalidated the order, add additional units to the original hypercert fraction and execute a sale to validate
+that the order still cannnot be executed because the nonce of the order has been invalidated.
+
+Additionally, to underline the paradigm of 'fractions are NFTs` we've updated the ordervalidator to not check on the
+units held by the fraction, but whether the fraction is owned by the maker. Check on the units held by the fraction is
+still done in the strategy.
