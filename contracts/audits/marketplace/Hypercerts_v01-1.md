@@ -2,10 +2,10 @@
 
 | Severity Level  | Finding ID | Description                                                                                                                      | Status |
 | --------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| High            | TRST-H-1   | A buyer can purchase more token units than the seller intended                                                                   |        |
-| High            | TRST-H-2   | The fraction offer maker order is not invalidated correctly, leading to orders being replayed                                    |        |
-| High            | TRST-H-3   | When Hypercerts are traded in Collection or Dutch auction offers, one of the sides can provide a lower unit amount than expected |        |
-| Medium          | TRST-M-1   | An attacker could grief buyer into getting a lower-value item than intended                                                      |        |
+| High            | TRST-H-1   | A buyer can purchase more token units than the seller intended                                                                   | Review |
+| High            | TRST-H-2   | The fraction offer maker order is not invalidated correctly, leading to orders being replayed                                    | Review |
+| High            | TRST-H-3   | When Hypercerts are traded in Collection or Dutch auction offers, one of the sides can provide a lower unit amount than expected | Review |
+| Medium          | TRST-M-1   | An attacker could grief buyer into getting a lower-value item than intended                                                      | Review |
 | Medium          | TRST-M-2   | Fraction offers can be blocked from being fully fulfilled                                                                        |        |
 | Low             | TRST-L-1   | The strategy validation function for fraction sales could revert                                                                 |        |
 | Low             | TRST-L-2   | Hypercert orders with invalid amount will pass validations                                                                       |        |
@@ -53,3 +53,19 @@ validators and executors in the strategies.
 To add checks on the units held by the fraction the units held by a fraction are stored in the order at create time, in
 some cases will be provided by the taker at execution time, with additional calls to the `HypercertMinter` contract to
 validate the units held by the fraction.
+
+### TRST-M-1 | An attacker could grief buyer into getting a lower-value item than intended
+
+Following the recommendation, we've added signed messages to the `StrategyHypercertFractionOffer.sol` strategy. This
+entailed adding signed message parsing and updating the corresponding tests cases as well.
+
+To prevent replay attacks, the signed message consists of the following fields:
+
+```solidity
+    bytes32 orderHash,
+    uint256 offeredItemId,
+    bytes32[] memory proof
+```
+
+The signature is used to extract the signer, compare that account to the recipient declared in the Taker Bid.
+Effectively, the signature can only be used to execute the order for the intended recipient on the provided Maker Ask.

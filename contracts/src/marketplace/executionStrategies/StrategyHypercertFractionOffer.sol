@@ -196,10 +196,9 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256));
 
         if (
-            makerAsk.amounts.length != 1 || makerAsk.amounts[0] != 1
+            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || makerAsk.amounts[0] != 1
+                || minUnitAmount > maxUnitAmount || makerAsk.price == 0 || maxUnitAmount == 0
                 || IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) <= minUnitsToKeep
-                || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount || makerAsk.price == 0
-                || maxUnitAmount == 0
         ) {
             return (isValid, OrderInvalid.selector);
         }
