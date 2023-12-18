@@ -30,12 +30,26 @@ in `StrategyHypercertFractionOffer.sol`.
 
 We've updated the logic to invalidate the order to test agains the change in balance when the strategu would execute:
 
-` isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;`
+```solidity
+isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
+```
 
 This has been tested in `StrategyHypercertFractionOffer.sol` under `testMakerAskInvalidation` where we execute multiple
 sales to invalidated the order, add additional units to the original hypercert fraction and execute a sale to validate
 that the order still cannnot be executed because the nonce of the order has been invalidated.
 
-Additionally, to underline the paradigm of 'fractions are NFTs` we've updated the ordervalidator to not check on the
+Additionally, to underline the paradigm of 'fractions are NFTs` we've updated the OrderValidatorV2A to not check on the
 units held by the fraction, but whether the fraction is owned by the maker. Check on the units held by the fraction is
 still done in the strategy.
+
+### TRST-H-3 | When Hypercerts are traded in Collection or Dutch auction offers, one of the sides can provide a lower unit amount than expected
+
+Following the recommendation, we've split the `CollectionOffer` and `DutchAuctionOffer` strategies into two separate
+strategies for ERC721/ERC1155 and hypercerts. The hypercert specific strategies can be found under
+`StrategyHypercertCollectionOffer.sol` and `StrategyHypercertDutchAuctionOffer.sol` and tests have been added to the
+foundry folder. To ensure the correct strategy is used checks on `CollectionType` have been added to both the order
+validators and executors in the strategies.
+
+To add checks on the units held by the fraction the units held by a fraction are stored in the order at create time, in
+some cases will be provided by the taker at execution time, with additional calls to the `HypercertMinter` contract to
+validate the units held by the fraction.

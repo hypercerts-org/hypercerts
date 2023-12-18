@@ -207,8 +207,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
         // @dev 128 is the length of the bytes32 array when the merkle root is provided together with three uint256
-        // params
-        // declared in the additionalParameters (minUnits, maxUnits, minUnitsToKeep, root).
+        // params declared in the additionalParameters (minUnits, maxUnits, minUnitsToKeep, root).
         if (
             functionSelector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector

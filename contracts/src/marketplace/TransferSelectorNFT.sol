@@ -9,6 +9,7 @@ import {StrategyHypercertFractionOffer} from "./executionStrategies/StrategyHype
 
 // Libraries
 import {OrderStructs} from "./libraries/OrderStructs.sol";
+import {CollectionTypeInvalid} from "./errors/SharedErrors.sol";
 
 // Enums
 import {CollectionType} from "./enums/CollectionType.sol";
@@ -22,7 +23,6 @@ import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
  * @author LooksRare protocol team (👀,💎); bitbeckers;
  */
 contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
-    error UnsupportedCollectionType();
     /**
      * @notice Transfer manager for ERC721, ERC1155 and Hypercerts.
      */
@@ -63,7 +63,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
         } else if (collectionType == CollectionType.ERC1155) {
             transferManager.transferItemsERC1155(collection, sender, recipient, itemIds, amounts);
         } else {
-            revert UnsupportedCollectionType();
+            revert CollectionTypeInvalid();
         }
     }
 
@@ -86,7 +86,7 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
         uint256[] memory amounts
     ) internal {
         if (collectionType != CollectionType.Hypercert) {
-            revert UnsupportedCollectionType();
+            revert CollectionTypeInvalid();
         }
 
         // Check if split strategies

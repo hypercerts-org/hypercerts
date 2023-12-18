@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+// Interface
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
 
@@ -17,14 +20,15 @@ import {
     FunctionSelectorInvalid,
     MerkleProofInvalid,
     QuoteTypeInvalid,
-    CollectionTypeInvalid
+    CollectionTypeInvalid,
+    AmountInvalid
 } from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
 /**
- * @title StrategyCollectionOffer
+ * @title StrategyHypercertCollectionOffer
  * @notice This contract offers execution strategies for users to create maker bid offers for items in a collection.
  *         There are two available functions:
  *         1. executeCollectionStrategyWithTakerAsk --> it applies to all itemIds in a collection
@@ -32,11 +36,12 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  *         2. executeCollectionStrategyWithTakerAskWithAllowlist --> it allows adding merkle proof criteria for
  * accounts.
  * @notice The bidder can only bid on 1 item id at a time.
- *         1. If ERC721, the amount must be 1.
- *         2. If ERC1155, the amount can be greater than 1.
+ *         1. The amount must be 1.
+ *         2. The units held at bid creation and ask execution time must be the same.
+ *         3. The units held by the item sold must be the same as the units held by the item bid.
  * @author LooksRare protocol team (👀,💎); bitbeckers
  */
-contract StrategyCollectionOffer is BaseStrategy {
+contract StrategyHypercertCollectionOffer is BaseStrategy {
     /**
      * @notice This function validates the order under the context of the chosen strategy and
      *         returns the fulfillable items/amounts/price/nonce invalidation status.
@@ -44,27 +49,32 @@ contract StrategyCollectionOffer is BaseStrategy {
      * @param takerAsk Taker ask struct (taker ask-specific parameters for the execution)
      * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
      */
-    function executeCollectionStrategyWithTakerAsk(
+    function executeHypercertCollectionStrategyWithTakerAsk(
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid
     )
         external
-        pure
+        view
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
-        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+        if (makerBid.collectionType != CollectionType.Hypercert) {
             revert CollectionTypeInvalid();
         }
 
         price = makerBid.price;
         amounts = makerBid.amounts;
 
-        // A collection order can only be executable for 1 itemId but quantity to fill can vary
-        if (amounts.length != 1) {
+        (uint256 offeredItemId, uint256 itemUnitsTaker) = abi.decode(takerAsk.additionalParameters, (uint256, uint256));
+        (uint256 itemUnitsMaker) = abi.decode(makerBid.additionalParameters, (uint256));
+
+        // A collection order can only be executable for 1 fraction
+        if (
+            amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
+                || IHypercertToken(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
+        ) {
             revert OrderInvalid();
         }
 
-        uint256 offeredItemId = abi.decode(takerAsk.additionalParameters, (uint256));
         itemIds = new uint256[](1);
         itemIds[0] = offeredItemId;
         isNonceInvalidated = true;
@@ -78,33 +88,38 @@ contract StrategyCollectionOffer is BaseStrategy {
      * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
      * @dev The transaction reverts if the maker does not include a merkle root in the additionalParameters.
      */
-    function executeCollectionStrategyWithTakerAskWithProof(
+    function executeHypercertCollectionStrategyWithTakerAskWithProof(
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid
     )
         external
-        pure
+        view
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
-        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+        if (makerBid.collectionType != CollectionType.Hypercert) {
             revert CollectionTypeInvalid();
         }
 
         price = makerBid.price;
         amounts = makerBid.amounts;
 
-        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1) {
+        (uint256 offeredItemId, uint256 itemUnitsTaker, bytes32[] memory proof) =
+            abi.decode(takerAsk.additionalParameters, (uint256, uint256, bytes32[]));
+
+        (uint256 itemUnitsMaker, bytes32 root) = abi.decode(makerBid.additionalParameters, (uint256, bytes32));
+
+        // A collection order can only be executable for 1 fraction
+        if (
+            amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
+                || IHypercertToken(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
+        ) {
             revert OrderInvalid();
         }
 
-        (uint256 offeredItemId, bytes32[] memory proof) =
-            abi.decode(takerAsk.additionalParameters, (uint256, bytes32[]));
         itemIds = new uint256[](1);
         itemIds[0] = offeredItemId;
         isNonceInvalidated = true;
 
-        bytes32 root = abi.decode(makerBid.additionalParameters, (bytes32));
         bytes32 node = keccak256(abi.encodePacked(offeredItemId));
 
         // Verify the merkle root for the given merkle proof
@@ -122,33 +137,38 @@ contract StrategyCollectionOffer is BaseStrategy {
      * @param makerBid Maker bid struct (maker bid-specific parameters for the execution)
      * @dev The transaction reverts if the maker does not include a merkle root in the additionalParameters.
      */
-    function executeCollectionStrategyWithTakerAskWithAllowlist(
+    function executeHypercertCollectionStrategyWithTakerAskWithAllowlist(
         OrderStructs.Taker calldata takerAsk,
         OrderStructs.Maker calldata makerBid
     )
         external
-        pure
+        view
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
-        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+        if (makerBid.collectionType != CollectionType.Hypercert) {
             revert CollectionTypeInvalid();
         }
 
         price = makerBid.price;
         amounts = makerBid.amounts;
 
-        // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
-        if (amounts.length != 1) {
+        (uint256 offeredItemId, uint256 itemUnitsTaker, bytes32[] memory proof) =
+            abi.decode(takerAsk.additionalParameters, (uint256, uint256, bytes32[]));
+
+        (uint256 itemUnitsMaker, bytes32 root) = abi.decode(makerBid.additionalParameters, (uint256, bytes32));
+
+        // A collection order can only be executable for 1 fraction
+        if (
+            amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
+                || IHypercertToken(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
+        ) {
             revert OrderInvalid();
         }
 
-        (uint256 offeredItemId, bytes32[] memory proof) =
-            abi.decode(takerAsk.additionalParameters, (uint256, bytes32[]));
         itemIds = new uint256[](1);
         itemIds[0] = offeredItemId;
         isNonceInvalidated = true;
 
-        bytes32 root = abi.decode(makerBid.additionalParameters, (bytes32));
         bytes32 node = keccak256(abi.encodePacked(takerAsk.recipient));
 
         // Verify the merkle root for the given merkle proof
@@ -166,14 +186,16 @@ contract StrategyCollectionOffer is BaseStrategy {
         override
         returns (bool isValid, bytes4 errorSelector)
     {
-        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+        if (makerBid.collectionType != CollectionType.Hypercert) {
             return (isValid, CollectionTypeInvalid.selector);
         }
 
         if (
-            functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
-                && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector
-                && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithAllowlist.selector
+            functionSelector != StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAsk.selector
+                && functionSelector
+                    != StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithProof.selector
+                && functionSelector
+                    != StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithAllowlist.selector
         ) {
             return (isValid, FunctionSelectorInvalid.selector);
         }
@@ -182,17 +204,20 @@ contract StrategyCollectionOffer is BaseStrategy {
             return (isValid, QuoteTypeInvalid.selector);
         }
 
-        if (makerBid.amounts.length != 1) {
+        // Check if amounts is length 1 with value 1 and additionalParameters is length 32 to check on expected units
+        // received
+        if (makerBid.amounts.length != 1 || makerBid.amounts[0] != 1 || makerBid.additionalParameters.length < 32) {
             return (isValid, OrderInvalid.selector);
         }
 
-        _validateAmountNoRevert(makerBid.amounts[0], makerBid.collectionType);
-
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
+        // @dev 64 is the length of the bytes32 array when the merkle root is provided together with three uint256
+        // params declared in the additionalParameters (unitsInItem, root).
         if (
-            functionSelector == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
-                && makerBid.additionalParameters.length != 32
+            functionSelector
+                == StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithProof.selector
+                && makerBid.additionalParameters.length != 64
         ) {
             return (isValid, OrderInvalid.selector);
         }

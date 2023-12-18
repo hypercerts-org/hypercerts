@@ -22,7 +22,8 @@ import {
 } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
 
 // Strategies
-import {StrategyDutchAuction} from "@hypercerts/marketplace/executionStrategies/StrategyDutchAuction.sol";
+import {StrategyHypercertDutchAuction} from
+    "@hypercerts/marketplace/executionStrategies/StrategyHypercertDutchAuction.sol";
 
 // Other tests
 import {ProtocolBase} from "../ProtocolBase.t.sol";
@@ -34,17 +35,17 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/Numer
 import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
-contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
-    StrategyDutchAuction public strategyDutchAuction;
-    bytes4 public selector = StrategyDutchAuction.executeStrategyWithTakerBid.selector;
+contract HypercertDutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
+    StrategyHypercertDutchAuction public strategyHypercertDutchAuction;
+    bytes4 public selector = StrategyHypercertDutchAuction.executeStrategyWithTakerBid.selector;
 
     function setUp() public {
         _setUp();
     }
 
     function _setUpNewStrategy() private asPrankedUser(_owner) {
-        strategyDutchAuction = new StrategyDutchAuction();
-        _addStrategy(address(strategyDutchAuction), selector, false);
+        strategyHypercertDutchAuction = new StrategyHypercertDutchAuction();
+        _addStrategy(address(strategyHypercertDutchAuction), selector, false);
     }
 
     function _createMakerAskAndTakerBid(
@@ -55,41 +56,44 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         uint256 endTime
     ) private returns (OrderStructs.Maker memory newMakerAsk, OrderStructs.Taker memory newTakerBid) {
         uint256[] memory itemIds = new uint256[](numberOfItems);
+        vm.startPrank(makerUser);
         for (uint256 i; i < numberOfItems;) {
-            mockERC721.mint(makerUser, i + 1);
-            itemIds[i] = i + 1;
+            mockHypercertMinter.mintClaim(makerUser, 10_000, "https://example.com", FROM_CREATOR_ONLY);
+
+            itemIds[i] = ((i + 1) << 128) + 1;
             unchecked {
                 ++i;
             }
         }
+        vm.stopPrank();
 
         uint256[] memory amounts = new uint256[](numberOfAmounts);
+        uint256[] memory unitsPerItem = new uint256[](numberOfAmounts);
         for (uint256 i; i < numberOfAmounts;) {
             amounts[i] = 1;
+            unitsPerItem[i] = 10_000;
             unchecked {
                 ++i;
             }
         }
 
-        newMakerAsk = _createSingleItemMakerOrder({
+        newMakerAsk = OrderStructs.Maker({
             quoteType: QuoteType.Ask,
             globalNonce: 0,
             subsetNonce: 0,
-            strategyId: 1,
-            collectionType: CollectionType.ERC721,
             orderNonce: 0,
-            collection: address(mockERC721),
+            strategyId: 1,
+            collectionType: CollectionType.Hypercert,
+            collection: address(mockHypercertMinter),
             currency: address(weth),
             signer: makerUser,
+            startTime: block.timestamp,
+            endTime: endTime,
             price: endPrice,
-            itemId: 1
+            itemIds: itemIds,
+            amounts: amounts,
+            additionalParameters: abi.encode(startPrice, unitsPerItem)
         });
-
-        newMakerAsk.itemIds = itemIds;
-        newMakerAsk.amounts = amounts;
-
-        newMakerAsk.endTime = endTime;
-        newMakerAsk.additionalParameters = abi.encode(startPrice);
 
         // Using startPrice as the maxPrice
         newTakerBid = OrderStructs.Taker(takerUser, abi.encode(startPrice));
@@ -97,7 +101,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
 
     function testNewStrategy() public {
         _setUpNewStrategy();
-        _assertStrategyAttributes(address(strategyDutchAuction), selector, false);
+        _assertStrategyAttributes(address(strategyHypercertDutchAuction), selector, false);
     }
 
     function _fuzzAssumptions(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
@@ -130,9 +134,12 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         executionPrice = startPrice - discount;
     }
 
-    function testDutchAuction(uint256 _startPrice, uint256 _duration, uint256 _decayPerSecond, uint256 _elapsedTime)
-        public
-    {
+    function testHypercertDutchAuction(
+        uint256 _startPrice,
+        uint256 _duration,
+        uint256 _decayPerSecond,
+        uint256 _elapsedTime
+    ) public {
         (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) =
             _fuzzAssumptions(_startPrice, _duration, _decayPerSecond, _elapsedTime);
         _setUpUsers();
@@ -163,7 +170,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
         // Taker user has received the asset
-        assertEq(mockERC721.ownerOf(1), takerUser);
+        assertEq(mockHypercertMinter.ownerOf((1 << 128) + 1), takerUser);
 
         // Taker bid user pays the whole price
         assertEq(weth.balanceOf(takerUser), 0, "taker balance incorrect");
@@ -288,6 +295,59 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
+    function testEmptyUnitsPerItem() public {
+        _setUpUsers();
+        _setUpNewStrategy();
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMakerAskAndTakerBid({
+            numberOfItems: 1,
+            numberOfAmounts: 1,
+            startPrice: 10 ether,
+            endPrice: 1 ether,
+            endTime: block.timestamp + 1 hours
+        });
+
+        // Only encode the startprice
+        uint256[] memory unitsPerItem = new uint256[](0);
+        makerAsk.additionalParameters = abi.encode(10 ether, unitsPerItem);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        bytes4 errorSelector = _assertOrderIsInvalid(makerAsk);
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+
+        vm.expectRevert(errorSelector);
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    function testIncorrectUnitsPerItem() public {
+        _setUpUsers();
+        _setUpNewStrategy();
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMakerAskAndTakerBid({
+            numberOfItems: 1,
+            numberOfAmounts: 1,
+            startPrice: 10 ether,
+            endPrice: 1 ether,
+            endTime: block.timestamp + 1 hours
+        });
+
+        // Only encode the startprice
+        uint256[] memory unitsPerItem = new uint256[](1);
+        unitsPerItem[0] = 1; //default is 10_000
+        makerAsk.additionalParameters = abi.encode(10 ether, unitsPerItem);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        bytes4 errorSelector = _assertOrderIsInvalid(makerAsk);
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+
+        vm.expectRevert(errorSelector);
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
     function testItemIdsAndAmountsLengthMismatch() public {
         _setUpUsers();
         _setUpNewStrategy();
@@ -335,7 +395,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         vm.prank(takerUser);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
 
-        // 2. ERC721 amount > 1
+        // 2. Hypercert amount > 1; only sell single fracion
         makerAsk.amounts[0] = 2;
         signature = _signMakerOrder(makerAsk, makerUserPK);
 
@@ -355,16 +415,16 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
             globalNonce: 0,
             subsetNonce: 0,
             strategyId: 1,
-            collectionType: CollectionType.ERC721,
+            collectionType: CollectionType.Hypercert,
             orderNonce: 0,
-            collection: address(mockERC721),
+            collection: address(mockHypercertMinter),
             currency: address(weth),
             signer: makerUser,
             price: 1 ether,
             itemId: 420
         });
 
-        (bool orderIsValid, bytes4 errorSelector) = strategyDutchAuction.isMakerOrderValid(makerBid, selector);
+        (bool orderIsValid, bytes4 errorSelector) = strategyHypercertDutchAuction.isMakerOrderValid(makerBid, selector);
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, QuoteTypeInvalid.selector);
@@ -378,16 +438,16 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
             globalNonce: 0,
             subsetNonce: 0,
             strategyId: 2,
-            collectionType: CollectionType.ERC721,
+            collectionType: CollectionType.Hypercert,
             orderNonce: 0,
-            collection: address(mockERC721),
+            collection: address(mockHypercertMinter),
             currency: address(weth),
             signer: makerUser,
             price: 1 ether,
             itemId: 420
         });
 
-        (bool orderIsValid, bytes4 errorSelector) = strategyDutchAuction.isMakerOrderValid(makerAsk, bytes4(0));
+        (bool orderIsValid, bytes4 errorSelector) = strategyHypercertDutchAuction.isMakerOrderValid(makerAsk, bytes4(0));
         assertFalse(orderIsValid);
         assertEq(errorSelector, FunctionSelectorInvalid.selector);
     }
@@ -415,11 +475,7 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
             endTime: block.timestamp + duration
         });
 
-        uint256[] memory amounts = new uint256[](1);
-        amounts[0] = 1;
-        makerAsk.amounts = amounts;
-        makerAsk.collectionType = CollectionType.Hypercert;
-        makerAsk.additionalParameters = abi.encode(block.timestamp + 1000);
+        makerAsk.collectionType = CollectionType.ERC721;
 
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
 
@@ -431,13 +487,13 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
     }
 
     function _assertOrderIsValid(OrderStructs.Maker memory makerAsk) private {
-        (bool isValid, bytes4 errorSelector) = strategyDutchAuction.isMakerOrderValid(makerAsk, selector);
+        (bool isValid, bytes4 errorSelector) = strategyHypercertDutchAuction.isMakerOrderValid(makerAsk, selector);
         assertTrue(isValid);
         assertEq(errorSelector, _EMPTY_BYTES4);
     }
 
     function _assertOrderIsInvalid(OrderStructs.Maker memory makerAsk) private returns (bytes4) {
-        (bool isValid, bytes4 errorSelector) = strategyDutchAuction.isMakerOrderValid(makerAsk, selector);
+        (bool isValid, bytes4 errorSelector) = strategyHypercertDutchAuction.isMakerOrderValid(makerAsk, selector);
         assertFalse(isValid);
         assertEq(errorSelector, OrderInvalid.selector);
 

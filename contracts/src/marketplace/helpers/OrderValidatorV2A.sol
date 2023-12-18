@@ -19,7 +19,7 @@ import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
 import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
-import {OrderInvalid} from "../errors/SharedErrors.sol";
+import {OrderInvalid, CollectionTypeInvalid} from "../errors/SharedErrors.sol";
 
 // Other dependencies
 import {LooksRareProtocol} from "../LooksRareProtocol.sol";
@@ -896,6 +896,8 @@ contract OrderValidatorV2A {
             validationCode = ORDER_EXPECTED_TO_BE_VALID;
         } else {
             if (errorSelector == OrderInvalid.selector) {
+                validationCode = MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE;
+            } else if (errorSelector == CollectionTypeInvalid.selector) {
                 validationCode = MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE;
             } else {
                 validationCode = MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE;
