@@ -49,10 +49,17 @@ export const useMintFractionAllowlist = ({
         proof,
       );
 
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
       const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
-        hash: hash,
+        hash,
       });
 
       setStep("waiting");

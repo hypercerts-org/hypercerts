@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Used components of Enjin example implementation for mixed fungibility
 // https://github.com/enjin/erc-1155/blob/master/contracts/ERC1155MixedFungibleMintable.sol
-pragma solidity ^0.8.16;
+pragma solidity 0.8.17;
 
 import {ERC1155Upgradeable} from "oz-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 import {ERC1155BurnableUpgradeable} from "oz-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
@@ -373,9 +373,11 @@ contract SemiFungible1155 is
         }
         uint256 len = _fractionIDs.length - 1;
 
+        uint256 _typeID = getBaseType(_fractionIDs[0]);
         uint256 target = _fractionIDs[len];
 
         uint256 _totalValue;
+        uint256[] memory typeIDs = new uint256[](len);
         uint256[] memory fromIDs = new uint256[](len);
         uint256[] memory toIDs = new uint256[](len);
         uint256[] memory values = new uint256[](len);
@@ -384,6 +386,7 @@ contract SemiFungible1155 is
         {
             for (uint256 i; i < len;) {
                 uint256 _fractionID = _fractionIDs[i];
+                typeIDs[i] = _typeID;
                 fromIDs[i] = _fractionID;
                 toIDs[i] = target;
                 amounts[i] = 1;
@@ -409,6 +412,7 @@ contract SemiFungible1155 is
         tokenValues[target] += _totalValue;
 
         _burnBatch(_account, fromIDs, amounts);
+        emit BatchValueTransfer(typeIDs, fromIDs, toIDs, values);
     }
 
     /**

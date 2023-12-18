@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.16;
+pragma solidity 0.8.17;
 
 import {PRBTest} from "prb-test/PRBTest.sol";
 import {stdError} from "forge-std/StdError.sol";

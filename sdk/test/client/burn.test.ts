@@ -4,10 +4,10 @@ import assertionsCount from "chai-assertions-count";
 
 import { HypercertClient } from "../../src/client";
 import { walletClient, publicClient } from "../helpers";
-import { ContractFunctionExecutionError, isHex, toHex } from "viem";
+import { isHex, toHex } from "viem";
 import sinon from "sinon";
 import { faker } from "@faker-js/faker";
-import { ClientError } from "../../src";
+import { ClientError, ContractError } from "../../src";
 
 chai.use(assertionsCount);
 
@@ -92,7 +92,8 @@ describe("burn fraction tokens in HypercertClient", () => {
       noHash = await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" as unknown as bigint });
       expect.fail("should have thrown on incorrect gasLimit value");
     } catch (e) {
-      expect(e).to.be.instanceOf(ContractFunctionExecutionError);
+      console.log(e);
+      expect(e).to.be.instanceOf(ContractError);
     }
 
     const hash = await client.burnClaimFraction(fractionId, { gasLimit: 12300000n });

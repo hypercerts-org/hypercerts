@@ -37,11 +37,18 @@ export const useSplitFractionUnits = ({
 
       const hash = await client.splitFractionUnits(fractionId, fractions);
 
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
       setStep("waiting");
       const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
-        hash: hash,
+        hash,
       });
 
       if (receipt?.status === "reverted") {

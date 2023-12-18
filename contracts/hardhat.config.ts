@@ -127,8 +127,8 @@ const config: HardhatUserConfig = {
   },
   dodoc: {
     runOnCompile: true,
-    include: ["src"],
-    freshOutput: false,
+    include: ["src/marketplace", "src/protocol"],
+    freshOutput: true,
     outputDir: "../docs/docs/developer/api/contracts",
   },
   etherscan: {

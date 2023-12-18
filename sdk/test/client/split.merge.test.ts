@@ -7,8 +7,8 @@ import sinon from "sinon";
 import { HypercertClient } from "../../src/client";
 
 import { publicClient, walletClient } from "../helpers";
-import { ContractFunctionExecutionError, isHex, toHex } from "viem";
-import { ClientError } from "src";
+import { isHex, toHex } from "viem";
+import { ClientError, ContractError } from "src";
 import { faker } from "@faker-js/faker";
 
 chai.use(assertionsCount);
@@ -78,7 +78,7 @@ describe("split and merge", () => {
       try {
         await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
       } catch (e) {
-        expect(e instanceof ContractFunctionExecutionError).to.be.true;
+        expect(e instanceof ContractError).to.be.true;
       }
 
       const hash = await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: 12300000n });

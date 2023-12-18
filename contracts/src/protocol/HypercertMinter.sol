@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity 0.8.17;
 
 import {IHypercertToken} from "./interfaces/IHypercertToken.sol";
 import {SemiFungible1155} from "./SemiFungible1155.sol";
@@ -239,6 +239,13 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
                 ++i;
             }
         }
+    }
+
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == type(IHypercertToken).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /**
