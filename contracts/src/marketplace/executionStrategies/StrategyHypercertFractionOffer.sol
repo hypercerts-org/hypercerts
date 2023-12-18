@@ -196,12 +196,14 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256));
 
         if (
-            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || makerAsk.amounts[0] != 1
-                || minUnitAmount > maxUnitAmount || makerAsk.price == 0 || maxUnitAmount == 0
+            makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount
+                || makerAsk.price == 0 || maxUnitAmount == 0
                 || IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) <= minUnitsToKeep
         ) {
             return (isValid, OrderInvalid.selector);
         }
+
+        _validateAmountNoRevert(makerAsk.amounts[0], makerAsk.collectionType);
 
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
@@ -211,6 +213,14 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             functionSelector
                 == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
                 && makerAsk.additionalParameters.length != 128
+        ) {
+            return (isValid, OrderInvalid.selector);
+        }
+
+        // without root
+        if (
+            functionSelector == StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                && makerAsk.additionalParameters.length != 96
         ) {
             return (isValid, OrderInvalid.selector);
         }

@@ -121,10 +121,8 @@ contract StrategyHypercertDutchAuction is BaseStrategy {
         }
 
         for (uint256 i; i < itemIdsLength;) {
-            if (
-                makerAsk.amounts[i] != 1
-                    || (IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i])
-            ) {
+            _validateAmountNoRevert(makerAsk.amounts[i], makerAsk.collectionType);
+            if ((IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i])) {
                 return (isValid, OrderInvalid.selector);
             }
             unchecked {
@@ -136,6 +134,13 @@ contract StrategyHypercertDutchAuction is BaseStrategy {
             return (isValid, OrderInvalid.selector);
         }
 
+        // If no root is provided or invalid length, it should be invalid.
+        // @dev 32 is the length of the bytes32 array when the startprice is provided together with an array of
+        // unitsPerItem.
+        // params declared in the additionalParameters (uint256 startPrice, uint256[] memory unitsPerItem).
+        if (makerAsk.additionalParameters.length != 64) {
+            return (isValid, OrderInvalid.selector);
+        }
         isValid = true;
     }
 }

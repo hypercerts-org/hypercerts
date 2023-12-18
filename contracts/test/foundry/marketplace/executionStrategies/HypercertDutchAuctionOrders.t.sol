@@ -234,7 +234,7 @@ contract HypercertDutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
             endTime: block.timestamp + duration
         });
 
-        takerBid.additionalParameters = abi.encode(executionPrice - 1 wei);
+        takerBid.additionalParameters = abi.encode(executionPrice - 1 wei, 10_000);
 
         // Sign order
         bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);

@@ -36,7 +36,10 @@ abstract contract BaseStrategy is IStrategy {
      */
     function _validateAmountNoRevert(uint256 amount, CollectionType collectionType) internal pure {
         assembly {
-            if or(iszero(amount), and(xor(amount, 1), iszero(collectionType))) {
+            if or(
+                iszero(amount),
+                or(and(xor(amount, 1), iszero(collectionType)), and(xor(amount, 1), eq(collectionType, 2)))
+            ) {
                 mstore(0x00, 0x00)
                 mstore(0x20, shl(224, OrderInvalid_error_selector))
                 return(0, 0x40)

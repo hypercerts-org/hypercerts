@@ -6,10 +6,12 @@
 | High            | TRST-H-2   | The fraction offer maker order is not invalidated correctly, leading to orders being replayed                                    | Review |
 | High            | TRST-H-3   | When Hypercerts are traded in Collection or Dutch auction offers, one of the sides can provide a lower unit amount than expected | Review |
 | Medium          | TRST-M-1   | An attacker could grief buyer into getting a lower-value item than intended                                                      | Review |
-| Medium          | TRST-M-2   | Fraction offers can be blocked from being fully fulfilled                                                                        |        |
-| Low             | TRST-L-1   | The strategy validation function for fraction sales could revert                                                                 |        |
-| Low             | TRST-L-2   | Hypercert orders with invalid amount will pass validations                                                                       |        |
-| Recommendations | TRST-R-1   | Improve validation of orders in fraction offers                                                                                  |        |
+| Medium          | TRST-M-2   | Fraction offers can be blocked from being fully fulfilled                                                                        | tbd    |
+| Low             | TRST-L-1   | The strategy validation function for fraction sales could revert                                                                 | Review |
+| Low             | TRST-L-2   | Hypercert orders with invalid amount will pass validations                                                                       | Review |
+| Recommendations | TRST-R-1   | Improve validation of orders in fraction offers                                                                                  | WIP    |
+| Systemic Risk   | TRST-SR-1  | Risks associated with hypercerts                                                                                                 | OK     |
+|                 | TRST-OOS   | Allowlist tracking                                                                                                               | WIP    |
 
 ### TRST-H-1 | A buyer can purchase more token units than the seller
 
@@ -69,3 +71,25 @@ To prevent replay attacks, the signed message consists of the following fields:
 
 The signature is used to extract the signer, compare that account to the recipient declared in the Taker Bid.
 Effectively, the signature can only be used to execute the order for the intended recipient on the provided Maker Ask.
+
+### TRST-L-1 | The strategy validation function for fraction sales could revert
+
+Fixed.
+
+### TRST-L-2 | Hypercert orders with invalid amount will pass validations
+
+Added additional logic check in assembly to `_validateAmountNoRevert` and implemented the method in the hypercert
+strategies.
+
+### TRST-R-1 | Improve validation of orders in fraction offers
+
+Added additional checks on the length of the additional parameters for all hypercert strategies.
+
+### TRST-SR-1 | Risks associated with hypercerts
+
+Acknowledged.
+
+### TRST-OOS | Allowlist tracking
+
+Credits to Trust for quickly reporting an issue on the allowlist tracking. While we checked on allowlist limits, the
+counter for minted units per claim was not updated. This has been fixed in `AllowlistMinter.sol`.

@@ -36,7 +36,7 @@ import {ONE_HUNDRED_PERCENT_IN_BP} from "@hypercerts/marketplace/constants/Numer
 import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
-contract HypercertFractionOffersTest is ProtocolBase {
+contract HypercertFractionOrdersTest is ProtocolBase {
     using OrderStructs for OrderStructs.Maker;
 
     StrategyHypercertFractionOffer public strategyHypercertFractionOffer;
@@ -83,7 +83,7 @@ contract HypercertFractionOffersTest is ProtocolBase {
 
         newMakerAsk.itemIds = itemIds;
         newMakerAsk.amounts = amounts;
-        newMakerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, minUnitsToKeep, mockMerkleRoot);
+        newMakerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, minUnitsToKeep);
 
         // Using startPrice as the maxPrice
         bytes32[] memory proofs = new bytes32[](0);

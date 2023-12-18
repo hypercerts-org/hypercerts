@@ -221,18 +221,31 @@ contract StrategyHypercertCollectionOffer is BaseStrategy {
 
         // Check if amounts is length 1 with value 1 and additionalParameters is length 32 to check on expected units
         // received
-        if (makerBid.amounts.length != 1 || makerBid.amounts[0] != 1 || makerBid.additionalParameters.length < 32) {
+        if (makerBid.amounts.length != 1) {
             return (isValid, OrderInvalid.selector);
         }
 
+        _validateAmountNoRevert(makerBid.amounts[0], makerBid.collectionType);
+
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
-        // @dev 64 is the length of the bytes32 array when the merkle root is provided together with three uint256
-        // params declared in the additionalParameters (unitsInItem, root).
+        // @dev 64 is the length of the bytes32 array when the merkle root is provided together with 1 uint256
+        // param declared in the additionalParameters (unitsInItem, root).
         if (
-            functionSelector
-                == StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithProof.selector
-                && makerBid.additionalParameters.length != 64
+            (
+                functionSelector
+                    == StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithProof.selector
+                    || functionSelector
+                        == StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAskWithAllowlist.selector
+            ) && makerBid.additionalParameters.length != 64
+        ) {
+            return (isValid, OrderInvalid.selector);
+        }
+
+        // Without root
+        if (
+            functionSelector == StrategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAsk.selector
+                && makerBid.additionalParameters.length != 32
         ) {
             return (isValid, OrderInvalid.selector);
         }

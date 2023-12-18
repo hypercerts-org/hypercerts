@@ -220,7 +220,7 @@ contract HypercertCollectionOffersTest is ProtocolBase {
         makerBid.collectionType = CollectionType.Hypercert;
 
         // Units held by maker don't match current token balance
-        makerBid.additionalParameters = abi.encode(5000, mockMerkleRoot);
+        makerBid.additionalParameters = abi.encode(5000);
 
         takerAsk.additionalParameters = abi.encode(firstHypercertFractionId, 10_000, 1);
         bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
@@ -233,7 +233,7 @@ contract HypercertCollectionOffersTest is ProtocolBase {
         looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Units offered by taker doesn't match maker bid
-        makerBid.additionalParameters = abi.encode(10_000, mockMerkleRoot);
+        makerBid.additionalParameters = abi.encode(10_000);
 
         takerAsk.additionalParameters = abi.encode(firstHypercertFractionId, 5000, 1);
         signature = _signMakerOrder(makerBid, makerUserPK);
@@ -246,7 +246,7 @@ contract HypercertCollectionOffersTest is ProtocolBase {
         looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
 
         // Unit balance of item has changed since bid creation
-        makerBid.additionalParameters = abi.encode(10_000, mockMerkleRoot);
+        makerBid.additionalParameters = abi.encode(10_000);
 
         takerAsk.additionalParameters = abi.encode(firstHypercertFractionId, 10_000, 1);
         signature = _signMakerOrder(makerBid, makerUserPK);
@@ -614,7 +614,7 @@ contract HypercertCollectionOffersTest is ProtocolBase {
         makerBid.additionalParameters = abi.encode(10_000, merkleRoot);
 
         signature = _signMakerOrder(makerBid, makerUserPK);
-        _assertOrderIsInvalid(makerBid, selectorNoProof);
+        _assertOrderIsInvalid(makerBid, selectorWithProof);
         _assertMakerOrderReturnValidationCode(makerBid, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
 
         vm.prank(takerUser);
