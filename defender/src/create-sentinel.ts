@@ -1,4 +1,3 @@
-import { abi } from "./HypercertMinterABI.js";
 import config from "./config.js";
 import { NetworkConfig } from "./networks";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
@@ -13,19 +12,18 @@ export const createSentinel = async ({
   autotaskID,
   functionConditions = [],
   eventConditions = [],
-  overrideContractAddress,
-  overrideABI,
+  contractAddress,
+  abi,
 }: {
   name: string;
   network: NetworkConfig;
   autotaskID: string;
   eventConditions?: EventCondition[];
   functionConditions?: FunctionCondition[];
-  overrideContractAddress?: string;
-  overrideABI?: any;
+  contractAddress: string;
+  abi: any;
 }) => {
   const client = new SentinelClient(config.credentials);
-  const contractAddress = overrideContractAddress || network.contractAddress;
   await client
     .create({
       type: "BLOCK",
@@ -33,7 +31,7 @@ export const createSentinel = async ({
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
       addresses: [contractAddress],
-      abi: overrideABI || abi,
+      abi,
       paused: false,
       eventConditions,
       functionConditions,

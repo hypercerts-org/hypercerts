@@ -6,6 +6,7 @@ import {
   HypercertExchangeAbi,
   deployments,
   asDeployedChain,
+  HypercertMinterAbi,
 } from "@hypercerts-org/contracts";
 
 export const rollOut = async (networks: NetworkConfig[]) => {
@@ -36,6 +37,8 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "AllowlistCreated"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         eventConditions: [
           { eventSignature: "AllowlistCreated(uint256,bytes32)" },
         ],
@@ -59,6 +62,8 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "batchMintClaimsFromAllowlists"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
         functionConditions: [
           {
@@ -85,6 +90,8 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "mintClaimFromAllowlist"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
         functionConditions: [
           {
@@ -112,10 +119,10 @@ export const rollOut = async (networks: NetworkConfig[]) => {
         name: encodeName(network, "exchange", "executeTakerBid"),
         network: network,
         autotaskID: autoTaskExecuteTakerBid.autotaskId,
-        overrideContractAddress:
+        contractAddress:
           deployments[asDeployedChain(network.chainId.toString())]
             .HypercertExchange,
-        overrideABI: HypercertExchangeAbi,
+        abi: HypercertExchangeAbi,
         functionConditions: [
           {
             functionSignature:
