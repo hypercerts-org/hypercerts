@@ -13,22 +13,27 @@ export const createSentinel = async ({
   autotaskID,
   functionConditions = [],
   eventConditions = [],
+  overrideContractAddress,
+  overrideABI,
 }: {
   name: string;
   network: NetworkConfig;
   autotaskID: string;
   eventConditions?: EventCondition[];
   functionConditions?: FunctionCondition[];
+  overrideContractAddress?: string;
+  overrideABI?: any;
 }) => {
   const client = new SentinelClient(config.credentials);
+  const contractAddress = overrideContractAddress || network.contractAddress;
   await client
     .create({
       type: "BLOCK",
       network: network.networkKey,
       confirmLevel: 1, // if not set, we pick the blockwatcher for the chosen network with the lowest offset
       name,
-      addresses: [network.contractAddress],
-      abi: abi,
+      addresses: [contractAddress],
+      abi: overrideABI || abi,
       paused: false,
       eventConditions,
       functionConditions,
@@ -41,7 +46,7 @@ export const createSentinel = async ({
         `Created sentinel`,
         res.name,
         "- monitoring address",
-        network.contractAddress,
+        contractAddress,
         "- linked to autotask",
         autotaskID,
       );
