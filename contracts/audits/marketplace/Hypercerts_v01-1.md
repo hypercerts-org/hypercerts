@@ -72,6 +72,15 @@ To prevent replay attacks, the signed message consists of the following fields:
 The signature is used to extract the signer, compare that account to the recipient declared in the Taker Bid.
 Effectively, the signature can only be used to execute the order for the intended recipient on the provided Maker Ask.
 
+### TRST-M-2 | Fraction offers can be blocked from being fully fulfilled
+
+The `StrategyHypercertFractionOffer.sol` strategy has been updated to allow the maker to set whether they want to sell
+the leftover units.
+
+We find that it's expected behaviour that you can be left over with a bit of the fraction, but can understand that this
+can be confusing for users. The parameter `sellLeftover` has been added to the `additionalParameters` field of the
+`MakerAsk` struct. If set to `true` the strategy will sell the leftover units to the taker.
+
 ### TRST-L-1 | The strategy validation function for fraction sales could revert
 
 Fixed.
