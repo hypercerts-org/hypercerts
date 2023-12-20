@@ -140,7 +140,7 @@ contract StrategyHypercertDutchAuction is BaseStrategy {
         // @dev 32 is the length of the bytes32 array when the startprice is provided together with an array of
         // unitsPerItem.
         // params declared in the additionalParameters (uint256 startPrice, uint256[] memory unitsPerItem).
-        if (makerAsk.additionalParameters.length != 64) {
+        if (makerAsk.additionalParameters.length <= 64) {
             return (isValid, OrderInvalid.selector);
         }
         isValid = true;
