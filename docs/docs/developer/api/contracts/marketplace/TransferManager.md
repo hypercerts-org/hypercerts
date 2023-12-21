@@ -412,7 +412,7 @@ It is emitted if an operator is removed from the global allowlist.
 error AmountInvalid()
 ```
 
-It is returned if the amount is invalid. For ERC721, any number that is not 1. For ERC1155 and Hypercert, if amount is 0.
+It is returned if the amount is invalid. For ERC721 and Hypercert, any number that is not 1. For ERC1155, if amount is 0.
 
 ### ERC1155SafeBatchTransferFromFail
 

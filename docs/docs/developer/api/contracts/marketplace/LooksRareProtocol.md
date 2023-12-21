@@ -862,6 +862,14 @@ error ChainIdInvalid()
 
 It is returned if the domain separator should change.
 
+### CollectionTypeInvalid
+
+```solidity
+error CollectionTypeInvalid()
+```
+
+It is returned is the collection type is not supported. For instance if the strategy is specific to hypercerts.
+
 ### CreatorFeeBpTooHigh
 
 ```solidity
@@ -1141,12 +1149,6 @@ error TransferNotInProgress()
 ```
 
 This is returned when there is no ownership transfer in progress but the ownership change tries to be approved.
-
-### UnsupportedCollectionType
-
-```solidity
-error UnsupportedCollectionType()
-```
 
 ### WrongPotentialOwner
 

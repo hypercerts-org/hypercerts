@@ -15,7 +15,7 @@ import {CollectionType} from "../enums/CollectionType.sol";
 
 /**
  * @title BaseStrategy
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 abstract contract BaseStrategy is IStrategy {
     /**

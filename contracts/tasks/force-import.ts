@@ -7,6 +7,5 @@ task("force-import", "Deploy contracts and verify")
     const hypercertMinter = await upgrades.forceImport(proxy, HypercertMinter, {
       kind: "uups",
     });
-    await hypercertMinter.deployed();
     console.log(`HypercertMinter imported: ${hypercertMinter.address}`);
   });
