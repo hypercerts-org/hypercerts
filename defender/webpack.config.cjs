@@ -9,6 +9,8 @@ module.exports = {
     "on-allowlist-created": "./src/auto-tasks/on-allowlist-created.ts",
     "mint-claim-from-allowlist":
       "./src/auto-tasks/mint-claim-from-allowlist.ts",
+    "execute-taker-bid":
+        "./src/auto-tasks/execute-taker-bid.ts",
   },
   target: "node",
   mode: "development",

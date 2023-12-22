@@ -1,8 +1,13 @@
-import { abi } from "./HypercertMinterABI";
+import { abi as HypercertMinterAbi } from "./HypercertMinterABI";
 import config from "./config";
 import { NetworkConfig, decodeName } from "./networks";
 import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
+import {
+  asDeployedChain,
+  deployments,
+  HypercertExchangeAbi,
+} from "@hypercerts-org/contracts";
 
 export const updateAutotask = async (networks: NetworkConfig[]) => {
   const autotaskClient = new AutotaskClient(config.credentials);
@@ -44,18 +49,44 @@ export const updateSentinel = async (networks: NetworkConfig[]) => {
   const targetNetworks = networks.map((network) => network.networkKey);
 
   const oldSentinels = await sentinelClient.list();
+
   return await Promise.all([
     ...oldSentinels.items.map((sentinel) => {
       // Get name and network
-      const { name, networkKey } = decodeName(sentinel.name);
+      const { name, networkKey, contract } = decodeName(sentinel.name);
 
       // Validate if in target networks
+
+      let address: string | undefined;
+      let abi: any;
+
       if (!targetNetworks.includes(networkKey as NetworkConfig["networkKey"])) {
         return;
       }
       const network = networks.find(
         (network) => network.networkKey === networkKey,
       );
+
+      if (contract === "minter") {
+        address = network?.contractAddress;
+        abi = HypercertMinterAbi;
+      }
+
+      if (contract === "exchange") {
+        const deployment =
+          deployments[asDeployedChain(network.chainId.toString())];
+        address = deployment.HypercertExchange;
+        abi = HypercertExchangeAbi;
+      }
+
+      if (!address) {
+        console.error(`No address found for ${sentinel.subscriberId}`);
+        return;
+      }
+      if (!abi) {
+        console.error(`No abi found for ${sentinel.subscriberId}`);
+        return;
+      }
 
       // Update sentinel
       console.log(
@@ -65,7 +96,7 @@ export const updateSentinel = async (networks: NetworkConfig[]) => {
       sentinelClient
         .update(sentinel.subscriberId, {
           ...sentinel,
-          addresses: [network.contractAddress],
+          addresses: [address],
           abi,
         })
         .then((res) => {

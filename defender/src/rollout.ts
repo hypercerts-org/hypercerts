@@ -2,26 +2,43 @@ import { createTask } from "./create-autotask";
 import { createSentinel } from "./create-sentinel";
 import { ApiError } from "./errors";
 import { NetworkConfig, encodeName } from "./networks";
+import {
+  HypercertExchangeAbi,
+  deployments,
+  asDeployedChain,
+  HypercertMinterAbi,
+} from "@hypercerts-org/contracts";
 
 export const rollOut = async (networks: NetworkConfig[]) => {
   return await Promise.all(
     networks.map(async (network) => {
+      console.log(
+        "Contract address",
+        network.chainId.toString(),
+        asDeployedChain(network.chainId.toString()),
+        deployments[asDeployedChain(network.chainId.toString())],
+        deployments[asDeployedChain(network.chainId.toString())]
+          .HypercertExchange,
+      );
       // On allowlist created
       const autoTaskOnAllowlistCreated = await createTask(
-        encodeName(network, "on-allowlist-created"),
+        encodeName(network, "minter", "on-allowlist-created"),
         "on-allowlist-created",
       );
       if (!autoTaskOnAllowlistCreated) {
         throw new ApiError(
           encodeName(
             network,
+            "minter",
             "Could not create autoTask for on-allowlist-created",
           ),
         );
       }
       await createSentinel({
-        name: encodeName(network, "AllowlistCreated"),
+        name: encodeName(network, "minter", "AllowlistCreated"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         eventConditions: [
           { eventSignature: "AllowlistCreated(uint256,bytes32)" },
         ],
@@ -30,20 +47,23 @@ export const rollOut = async (networks: NetworkConfig[]) => {
 
       // On batch minted
       const autoTaskOnBatchMintClaimsFromAllowlists = await createTask(
-        encodeName(network, "batch-mint-claims-from-allowlists"),
+        encodeName(network, "minter", "batch-mint-claims-from-allowlists"),
         "batch-mint-claims-from-allowlists",
       );
       if (!autoTaskOnBatchMintClaimsFromAllowlists) {
         throw new ApiError(
           encodeName(
             network,
+            "minter",
             "Could not create autoTask for batch-mint-claims-from-allowlists",
           ),
         );
       }
       await createSentinel({
-        name: encodeName(network, "batchMintClaimsFromAllowlists"),
+        name: encodeName(network, "minter", "batchMintClaimsFromAllowlists"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
         functionConditions: [
           {
@@ -55,25 +75,58 @@ export const rollOut = async (networks: NetworkConfig[]) => {
 
       // On single minted from allowlist
       const autoTaskOnMintClaimFromAllowlist = await createTask(
-        encodeName(network, "mint-claim-from-allowlist"),
+        encodeName(network, "minter", "mint-claim-from-allowlist"),
         "mint-claim-from-allowlist",
       );
       if (!autoTaskOnMintClaimFromAllowlist) {
         throw new ApiError(
           encodeName(
             network,
+            "minter",
             "Could not create autoTask for mint-claim-from-allowlist",
           ),
         );
       }
       await createSentinel({
-        name: encodeName(network, "mintClaimFromAllowlist"),
+        name: encodeName(network, "minter", "mintClaimFromAllowlist"),
         network: network,
+        contractAddress: network.contractAddress,
+        abi: HypercertMinterAbi,
         autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
         functionConditions: [
           {
             functionSignature:
               "mintClaimFromAllowlist(address,bytes32[],uint256,uint256)",
+          },
+        ],
+      });
+
+      // On execute taker bid
+      const autoTaskExecuteTakerBid = await createTask(
+        encodeName(network, "exchange", "execute-taker-bid"),
+        "execute-taker-bid",
+      );
+      if (!autoTaskExecuteTakerBid) {
+        throw new ApiError(
+          encodeName(
+            network,
+            "exchange",
+            "Could not create autoTask for execute-taker-bid",
+          ),
+        );
+      }
+      await createSentinel({
+        name: encodeName(network, "exchange", "executeTakerBid"),
+        network: network,
+        autotaskID: autoTaskExecuteTakerBid.autotaskId,
+        contractAddress:
+          deployments[asDeployedChain(network.chainId.toString())]
+            .HypercertExchange,
+        abi: HypercertExchangeAbi,
+        functionConditions: [
+          {
+            functionSignature:
+              "executeTakerBid((address,bytes),(uint8,uint256,uint256,uint256,uint256,uint8,address,address,address,uint256,uint256,uint256,uint256[],uint256[],bytes),bytes,(bytes32,(bytes32,uint8)[]))",
           },
         ],
       });
