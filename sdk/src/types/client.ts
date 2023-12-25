@@ -10,7 +10,7 @@ import { HypercertMetadata } from "./metadata";
 import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
-export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
+export type SupportedChainIds = 10 | 42220 | 11155111;
 export type SupportedOverrides = {
   value?: bigint;
   gasPrice?: bigint;

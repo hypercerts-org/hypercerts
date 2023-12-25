@@ -14,7 +14,7 @@ describe("HypercertClient setup tests", () => {
 
   it("should be able to create a new read only instance when missing storage keys", () => {
     const readOnlyClient = new HypercertClient({
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       publicClient,
     });
 
@@ -24,7 +24,7 @@ describe("HypercertClient setup tests", () => {
 
   it("should be able to create a new instance", () => {
     const client = new HypercertClient({
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       publicClient,
       walletClient,
       nftStorageToken: "test",
@@ -51,7 +51,7 @@ describe("HypercertClient setup tests", () => {
   });
 
   it("should throw an error when executing write method in readonly mode", async () => {
-    const client = new HypercertClient({ chain: { id: 5 } });
+    const client = new HypercertClient({ chain: { id: 11155111 } });
 
     // mintClaim
     try {

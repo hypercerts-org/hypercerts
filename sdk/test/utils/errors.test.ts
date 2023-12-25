@@ -34,7 +34,7 @@ describe("Contract Error handler", () => {
   const storeBlobMock = sinon.stub(NFTStorage, "storeBlob").resolves(mockCorrectMetadataCid);
 
   const client = new HypercertClient({
-    chain: { id: 5 },
+    chain: { id: 11155111 },
     walletClient,
     publicClient,
     nftStorageToken: "test",

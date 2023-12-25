@@ -21,7 +21,7 @@ describe("split and merge", () => {
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const client = new HypercertClient({
-    chain: { id: 5 },
+    chain: { id: 11155111 },
     walletClient,
     publicClient,
     nftStorageToken: "test",

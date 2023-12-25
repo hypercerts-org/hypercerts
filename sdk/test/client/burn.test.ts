@@ -15,7 +15,7 @@ describe("burn fraction tokens in HypercertClient", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    chain: { id: 5 },
+    chain: { id: 11155111 },
     walletClient,
     publicClient,
     nftStorageToken: "test",

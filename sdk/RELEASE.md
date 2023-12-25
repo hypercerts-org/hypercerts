@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.0.4
+
+- Deprecate goerli chain
+
 ## 0.3.1 Update dependencies
 
 - Updated graph package dependencies
