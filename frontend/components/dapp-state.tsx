@@ -5,12 +5,12 @@ import { PlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import "@rainbow-me/rainbowkit/styles.css";
 import React, { ReactNode } from "react";
-import { goerli, optimism, hardhat, Chain, sepolia } from "viem/chains";
+import { optimism, hardhat, Chain, sepolia } from "viem/chains";
 import { useNetwork } from "wagmi";
 
 const DAPP_STATE_NAME = "DappState";
 
-const ALL_CHAINS = [optimism, goerli, hardhat, sepolia];
+const ALL_CHAINS = [optimism, hardhat, sepolia];
 
 export interface DappStateData {
   myAddress?: string;
