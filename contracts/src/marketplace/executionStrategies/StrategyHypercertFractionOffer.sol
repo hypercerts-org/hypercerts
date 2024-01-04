@@ -69,7 +69,6 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
     {
         itemIds = makerAsk.itemIds;
-
         // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
         if (makerAsk.amounts.length != 1 || itemIds.length != 1) {
             revert LengthsInvalid();
@@ -87,20 +86,38 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         (uint256 minUnitAmount, uint256 maxUnitAmount, uint256 minUnitsToKeep, bool sellLeftover) =
             abi.decode(makerAsk.additionalParameters, (uint256, uint256, uint256, bool));
 
+        // Check on prices
+        if (pricePerUnit < makerAsk.price || makerAsk.price == 0) {
+            revert OrderInvalid();
+        }
+
+        // Check on unitAmount except for selling leftover units
+        if (minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount > maxUnitAmount) {
+            revert OrderInvalid();
+        }
+
+        // Handle the case where the user wants to sell the leftover units (to prevent dusting)
         if (sellLeftover) {
-            if (
-                minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount > maxUnitAmount
-                    || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                    || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
-            ) {
-                revert OrderInvalid();
+            // If the unitAmount is lower than the specified minUnitAmount to sell
+            if (unitAmount < minUnitAmount) {
+                // We expect to sale to be executed only if the units held are equal to the minUnitsToKeep
+                if (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount != minUnitsToKeep) {
+                    revert OrderInvalid();
+                }
+            } else {
+                // Don't allow the sale to let the units held get below the minUnitsToKeep
+                if ((IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
+                    revert OrderInvalid();
+                }
             }
         } else {
-            if (
-                minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount
-                    || unitAmount > maxUnitAmount || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                    || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
-            ) {
+            // If selling the leftover is not allowed, the unitAmount must not be smaller than the minUnitAmount
+            if (unitAmount < minUnitAmount) {
+                revert OrderInvalid();
+            }
+
+            // Don't allow the sale to let the units held get below the minUnitsToKeep
+            if ((IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
                 revert OrderInvalid();
             }
         }
@@ -158,6 +175,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         // A collection order can only be executable for 1 itemId but quantity to fill can vary
         if (sellLeftover) {
+            // Allow for selling a fraction holding units lower
             if (
                 minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount > maxUnitAmount
                     || pricePerUnit < makerAsk.price || makerAsk.price == 0
