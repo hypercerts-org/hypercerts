@@ -122,6 +122,7 @@ const config: HardhatUserConfig = {
       "StrategyHypercertFractionOffer",
       "StrategyItemIdsRange",
       "CreatorFeeManagerWithRoyalties",
+      "RoyaltyFeeRegistry",
     ],
     except: ["@openzeppelin"],
   },

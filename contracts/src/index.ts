@@ -49,12 +49,6 @@ export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 
 // Deployments
 const deployments = {
-  5: {
-    ...DEPLOYMENTS.protocol["5"],
-    HypercertExchange: DEPLOYMENTS.marketplace[5].HypercertExchange.address,
-    TransferManager: DEPLOYMENTS.marketplace[5].TransferManager.address,
-    OrderValidatorV2A: DEPLOYMENTS.marketplace[5].OrderValidator.address,
-  },
   10: {
     ...DEPLOYMENTS.protocol["10"],
   },

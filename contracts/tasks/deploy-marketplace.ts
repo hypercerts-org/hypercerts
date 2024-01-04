@@ -10,53 +10,14 @@ import {
   PublicClient,
 } from "viem";
 import { writeFile } from "node:fs/promises";
-import creatorFeeManagerContract from "../artifacts/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
-import exchangeContract from "../artifacts/src/marketplace/LooksRareProtocol.sol/LooksRareProtocol.json";
-import transferManagerContract from "../artifacts/src/marketplace/TransferManager.sol/TransferManager.json";
-import orderValidatorContract from "../artifacts/src/marketplace/helpers/OrderValidatorV2A.sol/OrderValidatorV2A.json";
-import strategyCollectionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
-import strategyDutchAuctionContract from "../artifacts/src/marketplace/executionStrategies/StrategyDutchAuction.sol/StrategyDutchAuction.json";
-import strategyItemIdsRangeContract from "../artifacts/src/marketplace/executionStrategies/StrategyItemIdsRange.sol/StrategyItemIdsRange.json";
-import strategyHypercertCollectionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertCollectionOffer.sol/StrategyHypercertCollectionOffer.json";
-import strategyHypercertDutchAuctionContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertDutchAuction.sol/StrategyHypercertDutchAuction.json";
-import strategyHypercertFractionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
-import protocolFeeRecipientContract from "../artifacts/src/marketplace/ProtocolFeeRecipient.sol/ProtocolFeeRecipient.json";
 
-const strategies = [
-  {
-    contract: strategyCollectionOfferContract,
-    name: "StrategyCollectionOffer",
-    strategies: [
-      "executeCollectionStrategyWithTakerAsk",
-      "executeCollectionStrategyWithTakerAskWithProof",
-      "executeCollectionStrategyWithTakerAskWithAllowlist",
-    ],
-  },
-  { contract: strategyDutchAuctionContract, name: "StrategyDutchAuction", strategies: ["executeStrategyWithTakerBid"] },
-  { contract: strategyItemIdsRangeContract, name: "StrategyItemIdsRange", strategies: ["executeStrategyWithTakerAsk"] },
-  {
-    contract: strategyHypercertCollectionOfferContract,
-    name: "StrategyHypercertCollectionOffer",
-    strategies: [
-      "executeHypercertCollectionStrategyWithTakerAsk",
-      "executeHypercertCollectionStrategyWithTakerAskWithProof",
-      "executeHypercertCollectionStrategyWithTakerAskWithAllowlist",
-    ],
-  },
-  {
-    contract: strategyHypercertDutchAuctionContract,
-    name: "StrategyHypercertDutchAuction",
-    strategies: ["executeStrategyWithTakerBid"],
-  },
-  {
-    contract: strategyHypercertFractionOfferContract,
-    name: "StrategyHypercertFractionOffer",
-    strategies: [
-      "executeHypercertFractionStrategyWithTakerBid",
-      "executeHypercertFractionStrategyWithTakerBidWithAllowlist",
-    ],
-  },
-];
+type WETHType = { sepolia: string; [key: string]: string };
+
+const WETH: WETHType = {
+  localhost: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
+  hardhat: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
+  sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+};
 
 const getCreate2Address = async (
   deployer: WalletClient,
@@ -120,7 +81,11 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const { ethers, network, run, viem } = hre;
     const owner = "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A";
     const create2Address = "0x0000000000ffe8b47b3e2130213b802212439497";
-    const wethAddress = "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6";
+    const wethAddress = WETH[network.name];
+
+    if (!wethAddress) {
+      throw new Error("WETH address not found for network");
+    }
 
     const publicClient = await viem.getPublicClient();
     const [deployer] = await viem.getWalletClients();
@@ -134,7 +99,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const _minTotalFeeBp = 50;
     const _maxProtocolFeeBp = 200;
 
-    const releaseCounter = "v0.3";
+    const releaseCounter = "v0.4";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -144,6 +109,65 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     console.log("Calculated salt: ", salt);
 
     const contracts: ContractDeployments = {};
+
+    const creatorFeeManagerContract = await hre.artifacts.readArtifact("CreatorFeeManagerWithRoyalties");
+    const exchangeContract = await hre.artifacts.readArtifact("LooksRareProtocol");
+    const transferManagerContract = await hre.artifacts.readArtifact("TransferManager");
+    const orderValidatorContract = await hre.artifacts.readArtifact("OrderValidatorV2A");
+    const strategyCollectionOfferContract = await hre.artifacts.readArtifact("StrategyCollectionOffer");
+    const strategyDutchAuctionContract = await hre.artifacts.readArtifact("StrategyDutchAuction");
+    const strategyItemIdsRangeContract = await hre.artifacts.readArtifact("StrategyItemIdsRange");
+    const strategyHypercertCollectionOfferContract = await hre.artifacts.readArtifact(
+      "StrategyHypercertCollectionOffer",
+    );
+    const strategyHypercertDutchAuctionContract = await hre.artifacts.readArtifact("StrategyHypercertDutchAuction");
+    const strategyHypercertFractionOfferContract = await hre.artifacts.readArtifact("StrategyHypercertFractionOffer");
+    const protocolFeeRecipientContract = await hre.artifacts.readArtifact("ProtocolFeeRecipient");
+    const royaltyFeeRegistryContract = await hre.artifacts.readArtifact("RoyaltyFeeRegistry");
+
+    const strategies = [
+      {
+        contract: strategyCollectionOfferContract,
+        name: "StrategyCollectionOffer",
+        strategies: [
+          "executeCollectionStrategyWithTakerAsk",
+          "executeCollectionStrategyWithTakerAskWithProof",
+          "executeCollectionStrategyWithTakerAskWithAllowlist",
+        ],
+      },
+      {
+        contract: strategyDutchAuctionContract,
+        name: "StrategyDutchAuction",
+        strategies: ["executeStrategyWithTakerBid"],
+      },
+      {
+        contract: strategyItemIdsRangeContract,
+        name: "StrategyItemIdsRange",
+        strategies: ["executeStrategyWithTakerAsk"],
+      },
+      {
+        contract: strategyHypercertCollectionOfferContract,
+        name: "StrategyHypercertCollectionOffer",
+        strategies: [
+          "executeHypercertCollectionStrategyWithTakerAsk",
+          "executeHypercertCollectionStrategyWithTakerAskWithProof",
+          "executeHypercertCollectionStrategyWithTakerAskWithAllowlist",
+        ],
+      },
+      {
+        contract: strategyHypercertDutchAuctionContract,
+        name: "StrategyHypercertDutchAuction",
+        strategies: ["executeStrategyWithTakerBid"],
+      },
+      {
+        contract: strategyHypercertFractionOfferContract,
+        name: "StrategyHypercertFractionOffer",
+        strategies: [
+          "executeHypercertFractionStrategyWithTakerBid",
+          "executeHypercertFractionStrategyWithTakerBidWithAllowlist",
+        ],
+      },
+    ];
 
     // Create2 Transfermanager
     const transferManagerArgs = [deployer.account.address];
@@ -190,11 +214,24 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       salt,
     );
 
-    const orderValidatorArgs = [hypercertsExchangeCreate2.address];
+    // Create2 RoyaltyFeeManager
+    const royaltyFeeRegistryArgs = ["1000"];
+
+    const royaltyFeeRegistryCreate2 = await getCreate2Address(
+      deployer,
+      create2Address,
+      encodeDeployData({
+        abi: royaltyFeeRegistryContract.abi,
+        bytecode: royaltyFeeRegistryContract.bytecode as `0x${string}`,
+        args: royaltyFeeRegistryArgs,
+      }),
+      salt,
+    );
 
     console.log("Calculated exchange address using CREATE2: ", hypercertsExchangeCreate2.address);
     console.log("Calculated transferManager address using CREATE2: ", transferManagerCreate2.address);
     console.log("Calculated protocolFeeRecipient address using CREATE2: ", protocolFeeRecipientCreate2.address);
+    console.log("Calculated royaltyFeeRegistry address using CREATE2: ", royaltyFeeRegistryCreate2.address);
 
     // Deploy transferManager
     const transferManagerTx = await runCreate2Deployment(
@@ -253,6 +290,23 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       tx: hypercertsExchangeTx,
     };
 
+    // Deploy RoyaltyFeeRegistry
+    const royaltyFeeRegistryTx = await runCreate2Deployment(
+      publicClient,
+      create2Instance,
+      "RoyaltyFeeRegistry",
+      royaltyFeeRegistryCreate2,
+      royaltyFeeRegistryArgs,
+    );
+
+    contracts.RoyaltyFeeRegistry = {
+      address: royaltyFeeRegistryCreate2.address,
+      fullNamespace: "RoyaltyFeeRegistry",
+      args: royaltyFeeRegistryArgs,
+      encodedArgs: solidityPacked(["uint256"], royaltyFeeRegistryArgs),
+      tx: royaltyFeeRegistryTx,
+    };
+
     // Allow Exchange as operator on transferManager
     const transferManagerInstance = getContract({
       address: transferManagerCreate2.address,
@@ -262,6 +316,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     });
 
     // Deploy OrderValidator
+
+    const orderValidatorArgs = [hypercertsExchangeCreate2.address];
 
     const deployOrderValidator = await deployer.deployContract({
       abi: orderValidatorContract.abi,
@@ -289,10 +345,12 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     };
 
     // Deploy CreatorFeeManager
+
+    const creatorFeeManagerArgs = [royaltyFeeRegistryCreate2.address];
     const deployCreatorFeeManager = await deployer.deployContract({
       abi: creatorFeeManagerContract.abi,
       account: deployer.account,
-      args: ["0x12405dB79325D06a973aD913D6e9BdA1343cD526"],
+      args: creatorFeeManagerArgs,
       bytecode: creatorFeeManagerContract.bytecode as `0x${string}`,
     });
 
@@ -309,8 +367,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     contracts.CreatorFeeManager = {
       address: creatorFeeManagerTx.contractAddress,
       fullNamespace: "CreatorFeeManagerWithRoyalties",
-      args: ["0x12405dB79325D06a973aD913D6e9BdA1343cD526"],
-      encodedArgs: solidityPacked(["address"], ["0x12405dB79325D06a973aD913D6e9BdA1343cD526"]),
+      args: creatorFeeManagerArgs,
+      encodedArgs: solidityPacked(["address"], creatorFeeManagerArgs),
       tx: creatorFeeManagerTx.transactionHash,
     };
 
