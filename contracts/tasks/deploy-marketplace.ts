@@ -10,17 +10,17 @@ import {
   PublicClient,
 } from "viem";
 import { writeFile } from "node:fs/promises";
-import creatorFeeManagerContract from "../out/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
-import exchangeContract from "../out/LooksRareProtocol.sol/LooksRareProtocol.json";
-import transferManagerContract from "../out/TransferManager.sol/TransferManager.json";
-import orderValidatorContract from "../out/OrderValidatorV2A.sol/OrderValidatorV2A.json";
-import strategyCollectionOfferContract from "../out/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
-import strategyDutchAuctionContract from "../out/StrategyDutchAuction.sol/StrategyDutchAuction.json";
-import strategyItemIdsRangeContract from "../out/StrategyItemIdsRange.sol/StrategyItemIdsRange.json";
-import strategyHypercertCollectionOfferContract from "../out/StrategyHypercertCollectionOffer.sol/StrategyHypercertCollectionOffer.json";
-import strategyHypercertDutchAuctionContract from "../out/StrategyHypercertDutchAuction.sol/StrategyHypercertDutchAuction.json";
-import strategyHypercertFractionOfferContract from "../out/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
-import protocolFeeRecipientContract from "../out/ProtocolFeeRecipient.sol/ProtocolFeeRecipient.json";
+import creatorFeeManagerContract from "../artifacts/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
+import exchangeContract from "../artifacts/src/marketplace/LooksRareProtocol.sol/LooksRareProtocol.json";
+import transferManagerContract from "../artifacts/src/marketplace/TransferManager.sol/TransferManager.json";
+import orderValidatorContract from "../artifacts/src/marketplace/helpers/OrderValidatorV2A.sol/OrderValidatorV2A.json";
+import strategyCollectionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
+import strategyDutchAuctionContract from "../artifacts/src/marketplace/executionStrategies/StrategyDutchAuction.sol/StrategyDutchAuction.json";
+import strategyItemIdsRangeContract from "../artifacts/src/marketplace/executionStrategies/StrategyItemIdsRange.sol/StrategyItemIdsRange.json";
+import strategyHypercertCollectionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertCollectionOffer.sol/StrategyHypercertCollectionOffer.json";
+import strategyHypercertDutchAuctionContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertDutchAuction.sol/StrategyHypercertDutchAuction.json";
+import strategyHypercertFractionOfferContract from "../artifacts/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
+import protocolFeeRecipientContract from "../artifacts/src/marketplace/ProtocolFeeRecipient.sol/ProtocolFeeRecipient.json";
 
 const strategies = [
   {
@@ -134,7 +134,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const _minTotalFeeBp = 50;
     const _maxProtocolFeeBp = 200;
 
-    const releaseCounter = "i";
+    const releaseCounter = "v0.3";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -152,23 +152,11 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       create2Address,
       encodeDeployData({
         abi: transferManagerContract.abi,
-        bytecode: transferManagerContract.bytecode.object as `0x${string}`,
+        bytecode: transferManagerContract.bytecode as `0x${string}`,
         args: transferManagerArgs,
       }),
       salt,
     );
-
-    // read findCreate2Address from IImmutableCreate2Factory
-    const findCreate2Address = await create2Instance.read.findCreate2Address([
-      salt,
-      encodeDeployData({
-        abi: transferManagerContract.abi,
-        bytecode: transferManagerContract.bytecode.object as `0x${string}`,
-        args: transferManagerArgs,
-      }),
-    ]);
-
-    console.log(`Comparing calculated address: ${transferManagerCreate2.address} with ${findCreate2Address}`);
 
     // Create2 ProtocolFeeRecipient
     const protocolFeeRecipientArgs = [deployer.account.address, wethAddress];
@@ -177,7 +165,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       create2Address,
       encodeDeployData({
         abi: protocolFeeRecipientContract.abi,
-        bytecode: protocolFeeRecipientContract.bytecode.object as `0x${string}`,
+        bytecode: protocolFeeRecipientContract.bytecode as `0x${string}`,
         args: protocolFeeRecipientArgs,
       }),
       salt,
@@ -196,7 +184,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       create2Address,
       encodeDeployData({
         abi: exchangeContract.abi,
-        bytecode: exchangeContract.bytecode.object as `0x${string}`,
+        bytecode: exchangeContract.bytecode as `0x${string}`,
         args: hypercertsExchangeArgs,
       }),
       salt,
@@ -279,7 +267,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       abi: orderValidatorContract.abi,
       account: deployer.account,
       args: orderValidatorArgs,
-      bytecode: orderValidatorContract.bytecode.object as `0x${string}`,
+      bytecode: orderValidatorContract.bytecode as `0x${string}`,
     });
 
     const orderValidatorTx = await publicClient.waitForTransactionReceipt({
@@ -305,7 +293,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       abi: creatorFeeManagerContract.abi,
       account: deployer.account,
       args: ["0x12405dB79325D06a973aD913D6e9BdA1343cD526"],
-      bytecode: creatorFeeManagerContract.bytecode.object as `0x${string}`,
+      bytecode: creatorFeeManagerContract.bytecode as `0x${string}`,
     });
 
     const creatorFeeManagerTx = await publicClient.waitForTransactionReceipt({
@@ -401,7 +389,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
         abi: strategy.contract.abi,
         account: deployer.account,
         args: [],
-        bytecode: strategy.contract.bytecode.object as `0x${string}`,
+        bytecode: strategy.contract.bytecode as `0x${string}`,
       });
 
       const strategyTx = await publicClient.waitForTransactionReceipt({
@@ -451,22 +439,35 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log("🚀 Done!");
 
-    await writeFile(`src/deployments/deployment-marketplace-${network.name}.json`, JSON.stringify(contracts), "utf-8");
     if (network.name !== "hardhat" && network.name !== "localhost") {
+      await writeFile(
+        `src/deployments/deployment-marketplace-${network.name}.json`,
+        JSON.stringify(contracts),
+        "utf-8",
+      );
+
       // Verify contracts
-      for (const [name, { address, tx }] of Object.entries(contracts)) {
+      for (const [name, { address, tx, args }] of Object.entries(contracts)) {
         try {
+          console.log(`Verifying ${name}...`);
+
           const code = await publicClient.getBytecode({ address: address as `0x${string}` });
           if (code === "0x") {
             console.log(`${name} contract deployment has not completed. waiting to verify...`);
-            await publicClient.waitForTransactionReceipt({
+            const receipt = await publicClient.waitForTransactionReceipt({
               hash: tx,
             });
+
+            await run("verify:verify", {
+              address: receipt.contractAddress,
+              constructorArguments: args,
+            });
+          } else {
+            await run("verify:verify", {
+              address,
+              constructorArguments: args,
+            });
           }
-          await run("verify:verify", {
-            address,
-            constructorArguments: contracts[name].args,
-          });
         } catch (error) {
           const errorMessage = (error as Error).message;
 

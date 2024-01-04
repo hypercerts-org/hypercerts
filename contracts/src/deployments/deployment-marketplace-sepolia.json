@@ -1,84 +1,84 @@
 {
   "TransferManager": {
-    "address": "0x02BFF2Aa8C9a733cFc41BcC02773bf8D1E1425f8",
+    "address": "0x2aDc7d015701e347C75415477dEb0203C36E082e",
     "fullNamespace": "TransferManager",
     "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],
     "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-    "tx": "0xd45d3bfe9929031f96053b014242209446ab6d27112f2d3e9b84315a730a5406"
+    "tx": "0x0c0e82c9548a8f7ccda38f9bb1727a1ff28bf2c52404017bf021ccae694defa8"
   },
   "ProtocolFeeRecipient": {
-    "address": "0x58737b0281A094550f6048E84E332dF3ba8Ea609",
+    "address": "0xE2eDDB38CA8660Aee27F5a268D572cC160Cc8214",
     "fullNamespace": "ProtocolFeeRecipient",
     "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a", "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"],
     "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199ab4fbf271143f4fbf7b91a5ded31805e42b2208d6",
-    "tx": "0x648fa64938c43a2550961cbe775816e27c9362a7683a7641fa7766b249d568f1"
+    "tx": "0x539e0ddfc830afe54c8ad7afbf54cb20b58590cdd2f720426ff2981146926b53"
   },
   "HypercertExchange": {
-    "address": "0x2d7C5512bC3BBE1A12FB9EC1F8CD7Ab0C99E6de5",
+    "address": "0x7d7b6011c7BaB5A850Bd44f7A5B29C3502fd6491",
     "fullNamespace": "LooksRareProtocol",
     "args": [
       "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-      "0x58737b0281A094550f6048E84E332dF3ba8Ea609",
-      "0x02BFF2Aa8C9a733cFc41BcC02773bf8D1E1425f8",
+      "0xE2eDDB38CA8660Aee27F5a268D572cC160Cc8214",
+      "0x2aDc7d015701e347C75415477dEb0203C36E082e",
       "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
     ],
-    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a58737b0281a094550f6048e84e332df3ba8ea60902bff2aa8c9a733cfc41bcc02773bf8d1e1425f8b4fbf271143f4fbf7b91a5ded31805e42b2208d6",
-    "tx": "0xaacd3ea603a117e7ceb25e9b9501d795b696f6568e7b6b968d28f10dd247c98a"
+    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199ae2eddb38ca8660aee27f5a268d572cc160cc82142adc7d015701e347c75415477deb0203c36e082eb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "tx": "0xc98391c8ac0f7fcb61c74656fdd2f51d948fe509961b41dbd07a7f1c1a489204"
   },
   "OrderValidator": {
-    "address": "0xf689c1f8475102efdee73ed359fc039e385f3786",
+    "address": "0xff9ef4786bf31158ba152638746c2a678d2c4ade",
     "fullNamespace": "OrderValidatorV2A",
-    "args": ["0x2d7C5512bC3BBE1A12FB9EC1F8CD7Ab0C99E6de5"],
-    "encodedArgs": "0x2d7c5512bc3bbe1a12fb9ec1f8cd7ab0c99e6de5",
-    "tx": "0xd997ae4c388cd2f62e6cf51cd5f38fe6d7401ecefe1cf7dfbd06b43993579c2a"
+    "args": ["0x7d7b6011c7BaB5A850Bd44f7A5B29C3502fd6491"],
+    "encodedArgs": "0x7d7b6011c7bab5a850bd44f7a5b29c3502fd6491",
+    "tx": "0x06b247d48d9d3bfbc88216606815dbbb541b8c0e0a37992ba44de328fea0986f"
   },
   "CreatorFeeManager": {
-    "address": "0x27dcab314d7145a7a93addcab4e006c28071454c",
+    "address": "0x37a6fd35b38419258b3c30e523d39b73084beb4e",
     "fullNamespace": "CreatorFeeManagerWithRoyalties",
     "args": ["0x12405dB79325D06a973aD913D6e9BdA1343cD526"],
     "encodedArgs": "0x12405db79325d06a973ad913d6e9bda1343cd526",
-    "tx": "0x2ecf9a12a2cfaa50fade45aa99878e797b865bcdacd652d6e130d9b435634cc7"
+    "tx": "0x308a623f8fca6501b8ead30b645e7235752a3784d676b90803b4eb09414e5877"
   },
   "StrategyCollectionOffer": {
-    "address": "0x1b64fc6b1d7ec3533fd8085a50fa8c30748650ff",
+    "address": "0x4113412bc98cb0b85b556c3ba041429a8699fb7f",
     "fullNamespace": "StrategyCollectionOffer",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0x18b8e6af7063b825113c14ef9577dd87f0533609873512e91d07272628e176de"
+    "tx": "0x3069ce4356ec284fe0897f7a0617ce9f5b8246dac361403e1e957deac30bab11"
   },
   "StrategyDutchAuction": {
-    "address": "0xff15b1de4921e8832f688f9660c97454ea448a16",
+    "address": "0x8b6619c3641f8eb8a8ae0560a7f4e549e59f73ea",
     "fullNamespace": "StrategyDutchAuction",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0xd7339188d8368e1e6d90311b68448b106d0958985e86d9983c265556605cda69"
+    "tx": "0x4ff7a0bdf19b5bdb0cd585bddcbe685c3e41eb8ed3125888d9f6201d32584bfe"
   },
   "StrategyItemIdsRange": {
-    "address": "0xf55a35d866e7e05e9f115dbd91e1e80d744713f0",
+    "address": "0x9874463e1821d8f8de3eb84fc91e7c10e14bfa83",
     "fullNamespace": "StrategyItemIdsRange",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0x67eeb224a84918f029ecc486c1f4d47d73755d855f8cb12cfad819c9e01faf68"
+    "tx": "0xeaafc39b109fb79f618904572d2f92c1fbde52cdf70fbd9fc16c09d7b4f2ddfd"
   },
   "StrategyHypercertCollectionOffer": {
-    "address": "0xe2d5d9e473cc1e39e5139feb80fbdd8ee4a73ae2",
+    "address": "0xe551b176fdcb2ede7a01b21986f75072e98c4eff",
     "fullNamespace": "StrategyHypercertCollectionOffer",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0xac17c63ffc2061fca3b1fbd31de6aafa9bbbac96566ef2875bcad3db4e89f0af"
+    "tx": "0x8cd8164195472bfe2a84fcbe6452ce5ac0ff9bbab5a972d72be2198b6192933a"
   },
   "StrategyHypercertDutchAuction": {
-    "address": "0x9f0223dfea44f03727f399b5c08c49c269b7e8d3",
+    "address": "0x1404f57e11b98b08501c32aa163b4d18681708bf",
     "fullNamespace": "StrategyHypercertDutchAuction",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0x51196676e32878214d5c85c306d8c0a62ecd5bf7fe369a2b9b5a716a6a24d652"
+    "tx": "0xb62474f026fe9969a8869bed55564c5fa4320dca51835cd1de019e3cc57e6d70"
   },
   "StrategyHypercertFractionOffer": {
-    "address": "0xe6638876f4bf911d1ae52ec0770d070286712861",
+    "address": "0x9ec492f34707b591c4b6dc1c76acad722df4a9ad",
     "fullNamespace": "StrategyHypercertFractionOffer",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0x14702738cfe788270e38e404f9b046e7b5c4a9705852a30b9c25020462810437"
+    "tx": "0x7e48f304ec8dd9532541288429afeef786bc7ae3d9194354fdbc72442c58e9bd"
   }
 }

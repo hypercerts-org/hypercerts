@@ -45,6 +45,7 @@
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@tenderly/hardhat-tenderly": "^2.1.0",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "@types/node": "^18.11.11",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
