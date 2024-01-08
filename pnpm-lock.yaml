@@ -566,7 +566,7 @@ importers:
         version: 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts':
         specifier: 1.0.0
-        version: 1.0.0(ts-node@10.9.1)(typescript@5.3.2)
+        version: link:../contracts
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.5
         version: 1.0.5
@@ -581,7 +581,7 @@ importers:
         version: 8.12.0
       axios:
         specifier: ^1.6.2
-        version: 1.6.2(debug@4.3.4)
+        version: 1.6.2
       dotenv:
         specifier: ^16.0.3
         version: 16.3.1
@@ -594,18 +594,12 @@ importers:
       loglevel:
         specifier: ^1.8.1
         version: 1.8.1
-      nft.storage:
-        specifier: ^7.1.1
-        version: 7.1.1(node-fetch@3.3.2)
       urql:
         specifier: ^4.0.6
         version: 4.0.6(graphql@16.8.1)(react@18.2.0)
       viem:
         specifier: ^1.19.9
         version: 1.19.9(typescript@5.3.2)
-      web3.storage:
-        specifier: ^4.5.5
-        version: 4.5.5(node-fetch@3.3.2)
     devDependencies:
       '@babel/core':
         specifier: ^7.23.5
@@ -6687,7 +6681,7 @@ packages:
       graphql-ws: 5.14.2(graphql@16.8.1)
       isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.6.2
-      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -6756,7 +6750,7 @@ packages:
       graphql: 16.8.1
       isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.6.2
-      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7172,7 +7166,7 @@ packages:
       isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.6.2
       value-or-promise: 1.0.12
-      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -7322,18 +7316,6 @@ packages:
     resolution: {integrity: sha512-pGdG3BGDz93IZXAAHcvwzRQOMgi9dOzy2ZLdRFKIdWMBoVz8uCQL03HCYutT5DOtVm2g+j2dcor+zSV5yUM5Dg==}
     dependencies:
       hardhat: 2.19.1(ts-node@10.9.1)(typescript@4.9.5)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - ts-node
-      - typescript
-      - utf-8-validate
-    dev: false
-
-  /@hypercerts-org/contracts@1.0.0(ts-node@10.9.1)(typescript@5.3.2):
-    resolution: {integrity: sha512-pGdG3BGDz93IZXAAHcvwzRQOMgi9dOzy2ZLdRFKIdWMBoVz8uCQL03HCYutT5DOtVm2g+j2dcor+zSV5yUM5Dg==}
-    dependencies:
-      hardhat: 2.19.1(ts-node@10.9.1)(typescript@5.3.2)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -12357,8 +12339,8 @@ packages:
     dependencies:
       execa: 7.2.0
       get-port: 6.1.2
-      http-proxy: 1.18.1(debug@4.3.4)
-      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      http-proxy: 1.18.1
+      ws: 8.14.2
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14207,6 +14189,16 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+
+  /axios@1.6.2:
+    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
+    dependencies:
+      follow-redirects: 1.15.3(debug@4.3.4)
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /axios@1.6.2(debug@4.3.4):
     resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
@@ -21156,6 +21148,17 @@ packages:
     transitivePeerDependencies:
       - debug
 
+  /http-proxy@1.18.1:
+    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      eventemitter3: 4.0.7
+      follow-redirects: 1.15.3(debug@4.3.4)
+      requires-port: 1.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: true
+
   /http-proxy@1.18.1(debug@4.3.4):
     resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
     engines: {node: '>=8.0.0'}
@@ -22338,7 +22341,7 @@ packages:
     peerDependencies:
       ws: '*'
     dependencies:
-      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2
 
   /isows@1.0.3(ws@8.13.0):
     resolution: {integrity: sha512-2cKei4vlmg2cxEjm3wVSqn8pcoRF/LX/wpifuuNquFO4SQmPwarClT+SUCA2lt+l581tTeZIPIZuIDo2jWN1fg==}
@@ -33831,6 +33834,18 @@ packages:
 
   /ws@8.13.0:
     resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  /ws@8.14.2:
+    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1

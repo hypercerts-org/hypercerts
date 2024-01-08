@@ -8,10 +8,7 @@ import { handleSdkError } from "../../src/utils/errors";
 
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { CIDString, NFTStorage } from "nft.storage";
-import { HypercertClient, HypercertMinterAbi, TransferRestrictions, formatHypercertData } from "src";
+import { HypercertClient, HypercertMinterAbi, HypercertsStorage, TransferRestrictions, formatHypercertData } from "src";
 import { parseEther, encodeErrorResult } from "viem";
 
 chai.use(assertionsCount);
@@ -29,16 +26,15 @@ describe("SDK Error handler", () => {
 });
 
 describe("Contract Error handler", () => {
-  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
+  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-  const storeBlobMock = sinon.stub(NFTStorage, "storeBlob").resolves(mockCorrectMetadataCid);
+  const storeMetadataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
 
   const client = new HypercertClient({
     chain: { id: 5 },
     walletClient,
     publicClient,
     nftStorageToken: "test",
-    web3StorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");
@@ -54,7 +50,7 @@ describe("Contract Error handler", () => {
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
 
-    storeBlobMock.resetHistory();
+    storeMetadataStub.resetHistory();
   });
 
   afterAll(() => {
@@ -73,6 +69,8 @@ describe("Contract Error handler", () => {
       errorName: "NotAllowed",
     });
     writeSpy.resolves(value);
+
+    storeMetadataStub.resolves(mockCorrectMetadataCid);
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

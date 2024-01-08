@@ -1,5 +1,15 @@
 # Release notes
 
+## 1.1.0
+
+- Refactored `HypercertStorage` to use hypercert APIs instead if web3.storage and nft.storage for uploading metadata and
+  allowlist data
+- Added `uploadMetaData` and `uploadAllowList` methods to `HypercertStorage` and as exports from the SDK.
+- Removed `storeData` methods from `HypercertStorage` and as exports from the SDK.
+- Added `apis` as export from the SDK.
+
+....
+
 ## 0.3.1 Update dependencies
 
 - Updated graph package dependencies
