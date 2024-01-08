@@ -5,12 +5,6 @@
       "startBlock": 22079542
     }
   },
-  "goerli": {
-    "HypercertMinter": {
-      "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-      "startBlock": 8537999
-    }
-  },
   "optimism": {
     "HypercertMinter": {
       "address": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",

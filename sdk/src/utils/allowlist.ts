@@ -1,6 +1,14 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { getFromIPFS } from "./fetchers";
 import { logger } from "./logger";
+import { AllowlistEntry } from "src/types";
+
+const parseAllowListEntriesToMerkleTree = (allowList: AllowlistEntry[]) => {
+  const tuples = allowList.map((p) => [p.address, p.units.toString()]);
+  const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
+
+  return tree;
+};
 
 const getMerkleTreeFromIPFS = async (cidOrIpfsUri: string) => {
   const data = await getFromIPFS(cidOrIpfsUri);
@@ -43,4 +51,4 @@ const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x${string
   }
 };
 
-export { getProofsFromAllowlist };
+export { getProofsFromAllowlist, parseAllowListEntriesToMerkleTree };

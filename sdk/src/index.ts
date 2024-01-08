@@ -2,13 +2,14 @@ import { HypercertMinterAbi, HypercertExchangeAbi } from "@hypercerts-org/contra
 
 import { HypercertClient } from "./client";
 import { HypercertsStorage } from "./storage";
-import { DEPLOYMENTS } from "./constants";
+import { APIS, DEPLOYMENTS } from "./constants";
 
 /**
  * Protocol
  */
 export { HypercertMinterAbi, HypercertExchangeAbi };
 export { DEPLOYMENTS as deployments };
+export { APIS as apis };
 
 /**
  * Client

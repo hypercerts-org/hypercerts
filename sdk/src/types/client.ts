@@ -1,7 +1,4 @@
 import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { CIDString } from "nft.storage";
 
 import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
@@ -10,7 +7,7 @@ import { HypercertMetadata } from "./metadata";
 import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
-export type SupportedChainIds = 5 | 10 | 42220 | 11155111;
+export type SupportedChainIds = 10 | 42220 | 11155111;
 export type SupportedOverrides = {
   value?: bigint;
   gasPrice?: bigint;
@@ -53,8 +50,6 @@ export type HypercertClientConfig = Deployment &
 export type HypercertStorageConfig = {
   /** The API token for NFT.storage. */
   nftStorageToken?: string;
-  /** The API token for Web3.storage. */
-  web3StorageToken?: string;
 };
 
 /**
@@ -70,25 +65,25 @@ export type HypercertEvaluatorConfig = Omit<PartialTypedDataConfig, "address"> &
  */
 export interface HypercertStorageInterface {
   /**
-   * Stores the metadata for a Hypercert evaluation.
+   * Stores the allowlost for a hypercert.
+   * @param allowList The metadata to store.
+   * @returns A Promise that resolves to the CID of the stored metadata.
+   */
+  storeAllowList: (allowList: AllowlistEntry[], totalUnits: bigint) => Promise<string>;
+
+  /**
+   * Stores the metadata for a hypercert.
    * @param metadata The metadata to store.
    * @returns A Promise that resolves to the CID of the stored metadata.
    */
-  storeMetadata: (metadata: HypercertMetadata) => Promise<CIDString>;
+  storeMetadata: (metadata: HypercertMetadata) => Promise<string>;
 
   /**
-   * Retrieves the metadata for a Hypercert evaluation.
+   * Retrieves the metadata for a hypercerts.
    * @param cidOrIpfsUri The CID or IPFS URI of the metadata to retrieve.
    * @returns A Promise that resolves to the retrieved metadata.
    */
   getMetadata: (cidOrIpfsUri: string) => Promise<HypercertMetadata>;
-
-  /**
-   * Stores arbitrary data on IPFS.
-   * @param data The data to store.
-   * @returns A Promise that resolves to the CID of the stored data.
-   */
-  storeData: (data: unknown) => Promise<CIDString>;
 
   /**
    * Retrieves arbitrary data from IPFS.

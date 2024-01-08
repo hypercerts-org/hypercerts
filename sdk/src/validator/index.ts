@@ -58,7 +58,7 @@ const validateMetaData = (data: unknown): ValidationResult => {
         errors[key] = e.message;
       }
     }
-    return { data, valid: false, errors };
+    return { data: data as unknown, valid: false, errors };
   }
 
   return { data: data as HypercertMetadata, valid: true, errors: {} };
@@ -89,7 +89,7 @@ const validateClaimData = (data: unknown): ValidationResult => {
         errors[key] = e.message;
       }
     }
-    return { data, valid: false, errors };
+    return { data: data as unknown, valid: false, errors };
   }
 
   return { data: data as HypercertClaimdata, valid: true, errors: {} };
@@ -123,7 +123,11 @@ const validateAllowlist = (data: AllowlistEntry[], units: bigint): ValidationRes
     errors["address"] = filteredAddresses.map((entry) => entry.address);
   }
 
-  return { data, valid: Object.keys(errors).length === 0, errors };
+  if (Object.keys(errors).length > 0) {
+    return { data: data as unknown, valid: Object.keys(errors).length === 0, errors };
+  }
+
+  return { data: data as AllowlistEntry[], valid: Object.keys(errors).length === 0, errors };
 };
 
 /**
