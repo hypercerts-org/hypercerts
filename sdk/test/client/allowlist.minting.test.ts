@@ -19,7 +19,7 @@ describe("Allows for minting claims from an allowlist", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    chain: { id: 5 },
+    chain: { id: 11155111 },
     walletClient,
     publicClient,
     nftStorageToken: "test",
