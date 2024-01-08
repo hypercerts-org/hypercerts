@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.0.4
+## 1.1.1
 
 - Deprecate goerli chain
 
