@@ -389,6 +389,10 @@ contract SemiFungible1155 is
                 amounts[i] = 1;
                 values[i] = tokenValues[_fractionID];
 
+                if (_account == address(0) || owners[_fractionID] != _account || owners[target] != _account) {
+                    revert Errors.NotAllowed();
+                }
+
                 unchecked {
                     ++i;
                 }
@@ -523,6 +527,7 @@ contract SemiFungible1155 is
         bytes memory /*data*/
     ) internal virtual {
         uint256 len = fromIDs.length;
+        if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors.NotApprovedOrOwner();
 
         for (uint256 i; i < len;) {
             uint256 _from = fromIDs[i];
@@ -530,7 +535,6 @@ contract SemiFungible1155 is
 
             if (isBaseType(_from)) revert Errors.NotAllowed();
             if (getBaseType(_from) != getBaseType(_to)) revert Errors.TypeMismatch();
-            if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors.NotApprovedOrOwner();
             unchecked {
                 ++i;
             }
