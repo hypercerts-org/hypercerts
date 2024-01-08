@@ -6,7 +6,7 @@ This frontend application is currently configured to use Next.js as a static sit
 
 All configurations are currently stored in environment variables.
 See `.env.local.example` to see which variables need to be set.
-We have pre-populated the file with the current testnet deployment on Goerli.
+We have pre-populated the file with the current testnet deployment on Sepolia.
 
 The easiest way to get started is to copy this into `.env.local` and modify the file directly, which `next` will automatically load when running the dev server below.
 

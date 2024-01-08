@@ -15,11 +15,6 @@ const APIS: { [key: string]: string } = {
 
 // These are the deployments we manage
 const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
-  5: {
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    graphName: "hypercerts-testnet",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-testnet`,
-  } as const,
   10: {
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     graphName: "hypercerts-optimism-mainnet",

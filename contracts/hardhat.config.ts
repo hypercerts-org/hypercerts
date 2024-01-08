@@ -59,7 +59,6 @@ const OPENZEPPELIN_SECRET_KEY = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, 
 const chainIds = {
   hardhat: 31337,
   // Ethereum: https://docs.infura.io/infura/networks/ethereum/how-to/choose-a-network
-  goerli: 5,
   sepolia: 11155111,
   mainnet: 1,
   // Optimism: https://docs.infura.io/infura/networks/optimism/how-to/choose-a-network

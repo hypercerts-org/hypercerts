@@ -31,7 +31,7 @@ describe("Contract Error handler", () => {
   const storeMetadataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
 
   const client = new HypercertClient({
-    chain: { id: 5 },
+    chain: { id: 11155111 },
     walletClient,
     publicClient,
     nftStorageToken: "test",

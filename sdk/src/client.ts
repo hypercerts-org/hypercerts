@@ -27,7 +27,7 @@ import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
  *
  * @example
  * const config: Partial<HypercertClientConfig> = {
- *  chain: {id: 5},
+ *  chain: {id: 11155111 },
  * };
  * const client = new HypercertClient(config);
  *
