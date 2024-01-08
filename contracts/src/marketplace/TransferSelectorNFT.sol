@@ -26,7 +26,6 @@ contract TransferSelectorNFT is ExecutionManager, PackableReentrancyGuard {
     /**
      * @notice Transfer manager for ERC721, ERC1155 and Hypercerts.
      */
-
     TransferManager public immutable transferManager;
 
     /**

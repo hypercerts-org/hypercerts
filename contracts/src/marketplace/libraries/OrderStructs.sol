@@ -69,7 +69,6 @@ library OrderStructs {
     /**
      * 3. Merkle tree struct
      */
-
     enum MerkleTreeNodePosition {
         Left,
         Right

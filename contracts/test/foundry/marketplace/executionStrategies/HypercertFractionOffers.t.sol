@@ -306,7 +306,6 @@ contract HypercertFractionOrdersTest is ProtocolBase {
     /**
      * A collection offer without merkle tree criteria
      */
-
     function testTakerBidHypercertFractionOrderPartialFill() public {
         _setUpUsers();
 
