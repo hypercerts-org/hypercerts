@@ -20,7 +20,6 @@ contract LowLevelHypercertCaller {
      * @param tokenId tokenId to transfer
      * @param amounts split distribution
      */
-
     function _executeHypercertSplitFraction(address collection, address to, uint256 tokenId, uint256[] memory amounts)
         internal
     {
