@@ -20,7 +20,7 @@ describe("Config: contractAddress", () => {
 
   it("should return the contract address specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       contractAddress: "0x1234567890123456789012345678901234567890",
     };
     const config = getConfig(overrides);
@@ -28,7 +28,7 @@ describe("Config: contractAddress", () => {
   });
 
   it("should throw an error when the contract address specified by overrides is invalid", () => {
-    const overrides: Partial<HypercertClientConfig> = { chain: { id: 5 }, contractAddress: "invalid-address" };
+    const overrides: Partial<HypercertClientConfig> = { chain: { id: 11155111 }, contractAddress: "invalid-address" };
     try {
       getConfig(overrides);
     } catch (e) {
@@ -45,13 +45,13 @@ describe("Config: graphUrl", () => {
   });
 
   it("should return the default graphUrl when no overrides are specified", () => {
-    const result = getConfig({ chain: { id: 5 } });
-    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-testnet");
+    const result = getConfig({ chain: { id: 11155111 } });
+    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-sepolia");
   });
 
   it("should return the config specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       graphUrl: "https://api.example.com",
       contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
@@ -62,7 +62,7 @@ describe("Config: graphUrl", () => {
 
   it("should throw an error when the graph URL specified by overrides is invalid", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       graphUrl: "incorrect-url",
       contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
@@ -79,7 +79,7 @@ describe("Config: graphUrl", () => {
 
   it("should throw an error when the graph URL specified by overrides is missing", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
     };
@@ -90,7 +90,7 @@ describe("Config: graphUrl", () => {
       expect(e instanceof InvalidOrMissingError).to.be.true;
       const error = e as InvalidOrMissingError;
       expect(error.message).to.eq(
-        "attempted to override with chainId=5, but requires chainName, graphUrl, and contractAddress to be set",
+        "attempted to override with chainId=11155111, but requires chainName, graphUrl, and contractAddress to be set",
       );
     }
   });
@@ -105,7 +105,7 @@ describe("Config: getPublicClient", () => {
 
   it("should return the operator specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       publicClient,
     };
     const result = getConfig(overrides);
@@ -122,7 +122,7 @@ describe("Config: getWalletClient", () => {
 
   it("should return the operator specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 5 },
+      chain: { id: 11155111 },
       walletClient,
     };
     const result = getConfig(overrides);

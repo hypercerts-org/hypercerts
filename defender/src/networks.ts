@@ -22,12 +22,6 @@ export interface SupportedNetworks {
 export const NETWORKS: SupportedNetworks = {
   TEST: [
     {
-      networkKey: "goerli",
-      contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-      alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
-      chainId: 5,
-    },
-    {
       networkKey: "sepolia",
       contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
       chainId: 11155111,

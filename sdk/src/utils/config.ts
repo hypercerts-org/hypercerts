@@ -1,4 +1,4 @@
-import { sepolia, goerli, optimism, celo, Chain } from "viem/chains";
+import { sepolia, optimism, celo, Chain } from "viem/chains";
 
 import { DEPLOYMENTS } from "../constants";
 import {
@@ -22,7 +22,6 @@ import { deployments } from "../../src";
  * environment variables to create the final configuration object. If any required properties are missing, it logs a warning.
  *
  * Current supported chain IDs are:
- * - 5: Goerli
  * - 10: Optimism
  * - 42220: Celo
  * - 11155111: Sepolia
@@ -194,7 +193,7 @@ const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
 };
 
 const getDefaultChain = (chainId: number) => {
-  const _chains = [sepolia, goerli, optimism, celo];
+  const _chains = [sepolia, optimism, celo];
 
   for (const chain of Object.values(_chains)) {
     if ("id" in chain) {

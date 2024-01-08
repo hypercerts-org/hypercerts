@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.1
+
+- Deprecate goerli chain
+
 ## 1.1.0
 
 - Refactored `HypercertStorage` to use hypercert APIs instead if web3.storage and nft.storage for uploading metadata and
