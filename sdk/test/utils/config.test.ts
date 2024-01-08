@@ -96,40 +96,6 @@ describe("Config: graphUrl", () => {
   });
 });
 
-describe("Config: nftStorageToken & web3storageToken", () => {
-  afterEach(() => {
-    sinon.restore();
-
-    reloadEnv();
-  });
-  it("should return an empty object when no overrides or environment variables are specified", () => {
-    const result = getConfig({ chain: { id: 11155111 } });
-    expect(result.nftStorageToken).to.be.undefined;
-  });
-
-  it("should return the nftStorageToken specified by overrides", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      nftStorageToken: "NFTSTOR",
-      web3StorageToken: "WEB3STOR",
-    };
-    const result = getConfig(overrides);
-    expect(result).to.deep.include({
-      nftStorageToken: overrides.nftStorageToken,
-      web3StorageToken: overrides.web3StorageToken,
-    });
-  });
-
-  it("should return the nftStorageToken specified by the NFT_STORAGE_TOKEN environment variable", () => {
-    const result = getConfig({ chain: { id: 11155111 }, nftStorageToken: "NFTSTOR" });
-    expect(result.nftStorageToken).to.be.eq("NFTSTOR");
-  });
-  it("should not throw an error when the nftStorageToken specified by overrides is invalid", () => {
-    const overrides: Partial<HypercertClientConfig> = { chain: { id: 11155111 }, nftStorageToken: undefined };
-    expect(() => getConfig(overrides)).to.not.throw();
-  });
-});
-
 describe("Config: getPublicClient", () => {
   afterEach(() => {
     sinon.restore();
@@ -161,35 +127,5 @@ describe("Config: getWalletClient", () => {
     };
     const result = getConfig(overrides);
     expect(result.walletClient).to.equal(overrides.walletClient);
-  });
-});
-
-describe("Config: web3StorageToken", () => {
-  afterEach(() => {
-    sinon.restore();
-
-    reloadEnv();
-  });
-
-  it("should return an empty object when no overrides or environment variables are specified", () => {
-    const result = getConfig({ chain: { id: 11155111 } });
-    expect(result.web3StorageToken).to.be.undefined;
-  });
-
-  it("should return the web3StorageToken specified by overrides", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      web3StorageToken: "WEB3STOR",
-    };
-
-    const result = getConfig(overrides);
-    expect(result).to.deep.include({
-      web3StorageToken: overrides.web3StorageToken,
-    });
-  });
-
-  it("should not throw an error when the web3StorageToken specified by overrides is invalid", () => {
-    const overrides: Partial<HypercertClientConfig> = { chain: { id: 11155111 }, web3StorageToken: undefined };
-    expect(() => getConfig(overrides)).to.not.throw();
   });
 });

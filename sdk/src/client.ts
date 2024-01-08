@@ -1,5 +1,4 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { Account, ByteArray, GetContractReturnType, Hex, PublicClient, WalletClient, getContract } from "viem";
 import { HypercertEvaluator } from "./evaluations";
 import { HypercertIndexer } from "./indexer";
@@ -11,20 +10,20 @@ import {
   HypercertClientInterface,
   HypercertMetadata,
   InvalidOrMissingError,
-  MalformedDataError,
   SupportedOverrides,
   TransferRestrictions,
 } from "./types";
 import { getConfig } from "./utils/config";
-import { validateAllowlist, validateMetaData, verifyMerkleProof, verifyMerkleProofs } from "./validator";
+import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
+import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
  *
  * It encapsulates the logic for storage, evaluation, indexing, and wallet interactions, abstracting the complexity and providing a simple API for users.
- * The client is read-only if the storage is read-only (no nft.storage/web3.storage keys) or if no walletClient was found.
+ * The client is read-only if no walletClient was found.
  *
  * @example
  * const config: Partial<HypercertClientConfig> = {
@@ -61,11 +60,11 @@ export class HypercertClient implements HypercertClientInterface {
     this._publicClient = this._config.publicClient;
     this._walletClient = this._config?.walletClient;
 
-    this._storage = new HypercertsStorage(this._config);
+    this._storage = new HypercertsStorage();
 
     this._indexer = new HypercertIndexer(this._config);
 
-    this.readonly = this._config.readOnly || this._storage.readonly || !this._walletClient;
+    this.readonly = this._config.readOnly || !this._walletClient;
 
     if (this.readonly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
@@ -132,19 +131,13 @@ export class HypercertClient implements HypercertClientInterface {
   ): Promise<`0x${string}` | undefined> => {
     const { account } = this.getWallet();
 
-    // validate metadata
-    const { valid, errors } = validateMetaData(metaData);
-    if (!valid && Object.keys(errors).length > 0) {
-      throw new MalformedDataError("Metadata validation failed", errors);
-    }
-
-    // store metadata on IPFS
-    const cid = await this.storage.storeMetadata(metaData);
+    // validate and store metadata
+    const metadataCID = await this.storage.storeMetadata(metaData);
 
     const request = await this.simulateRequest(
       account,
       "mintClaim",
-      [account?.address, totalUnits, cid, transferRestriction],
+      [account?.address, totalUnits, metadataCID, transferRestriction],
       overrides,
     );
 
@@ -249,30 +242,19 @@ export class HypercertClient implements HypercertClientInterface {
   ): Promise<`0x${string}` | undefined> => {
     const { account } = this.getWallet();
 
-    // validate allowlist
-    const { valid: validAllowlist, errors: allowlistErrors } = validateAllowlist(allowList, totalUnits);
-    if (!validAllowlist && Object.keys(allowlistErrors).length > 0) {
-      throw new MalformedDataError("Allowlist validation failed", allowlistErrors);
-    }
-
-    // validate metadata
-    const { valid: validMetaData, errors: metaDataErrors } = validateMetaData(metaData);
-    if (!validMetaData && Object.keys(metaDataErrors).length > 0) {
-      throw new MalformedDataError("Metadata validation failed", metaDataErrors);
-    }
-
     // create allowlist
-    const tuples = allowList.map((p) => [p.address, p.units.toString()]);
-    const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
-    const cidMerkle = await this.storage.storeData(JSON.stringify(tree.dump()));
+    const tree = parseAllowListEntriesToMerkleTree(allowList);
+
+    // store allowlist on IPFS
+    const allowListCID = await this.storage.storeAllowList(allowList, totalUnits);
 
     // store metadata on IPFS
-    const cid = await this.storage.storeMetadata({ ...metaData, allowList: cidMerkle });
+    const metadataCID = await this.storage.storeMetadata({ ...metaData, allowList: allowListCID });
 
     const request = await this.simulateRequest(
       account,
       "createAllowlist",
-      [account?.address, totalUnits, tree.root, cid, transferRestriction],
+      [account?.address, totalUnits, tree.root, metadataCID, transferRestriction],
       overrides,
     );
 

@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -34,10 +34,8 @@
     "ethers": "5.7.2",
     "graphql": "^16.8.1",
     "loglevel": "^1.8.1",
-    "nft.storage": "^7.1.1",
     "urql": "^4.0.6",
-    "viem": "^1.19.9",
-    "web3.storage": "^4.5.5"
+    "viem": "^1.19.15"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",

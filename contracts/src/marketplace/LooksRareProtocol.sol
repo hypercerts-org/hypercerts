@@ -83,7 +83,6 @@ import {CollectionType} from "./enums/CollectionType.sol";
  *                                                ~~~~~~
  * @author LooksRare protocol team (👀,💎); bitbeckers
  */
-
 contract LooksRareProtocol is
     ILooksRareProtocol,
     TransferSelectorNFT,

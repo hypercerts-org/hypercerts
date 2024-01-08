@@ -13,9 +13,9 @@ import { encodeFunctionResult, isHex, stringToHex } from "viem";
 chai.use(assertionsCount);
 
 describe("Allows for minting claims from an allowlist", () => {
-  const { hypercertData, hypercertMetadata } = mockDataSets;
-  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata").resolves(hypercertMetadata.cid);
-  const dataStub = sinon.stub(HypercertsStorage.prototype, "storeData").resolves(hypercertData.cid);
+  const { someData } = mockDataSets;
+  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
+  const allowListStub = sinon.stub(HypercertsStorage.prototype, "storeAllowList");
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
@@ -23,7 +23,6 @@ describe("Allows for minting claims from an allowlist", () => {
     walletClient,
     publicClient,
     nftStorageToken: "test",
-    web3StorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");
@@ -57,7 +56,7 @@ describe("Allows for minting claims from an allowlist", () => {
     writeSpy.resetHistory();
 
     metaDataStub.resetHistory();
-    dataStub.resetHistory();
+    allowListStub.resetHistory();
   });
 
   afterAll(() => {
@@ -69,13 +68,14 @@ describe("Allows for minting claims from an allowlist", () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
+      allowListStub.resolves(someData.cid);
       writeSpy = writeSpy.resolves(mintClaimResult);
 
       const hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
 
       expect(isHex(hash)).to.be.true;
       expect(metaDataStub.callCount).to.eq(1);
-      expect(dataStub.callCount).to.eq(1);
+      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -84,6 +84,12 @@ describe("Allows for minting claims from an allowlist", () => {
       chai.Assertion.expectAssertions(8);
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
+
+      allowListStub.throws(
+        new MalformedDataError("Allowlist validation failed", {
+          units: "Total units in allowlist must match total units [expected: 11, got: 10]",
+        }),
+      );
 
       let hash;
       try {
@@ -100,7 +106,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(hash).to.be.undefined;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -113,6 +119,12 @@ describe("Allows for minting claims from an allowlist", () => {
       let hash;
 
       allowlist[0].units = 0n;
+
+      allowListStub.throws(
+        new MalformedDataError("Allowlist validation failed", {
+          units: "Total units in allowlist must match total units [expected: 10, got: 9]",
+        }),
+      );
 
       try {
         hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
@@ -128,7 +140,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(hash).to.be.undefined;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -149,7 +161,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(isHex(hash)).to.be.true;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -169,7 +181,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(isHex(hash)).to.be.true;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -201,7 +213,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(hash).to.be.undefined;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -231,7 +243,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(isHex(hash)).to.be.true;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -260,7 +272,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(isHex(hash)).to.be.true;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -303,7 +315,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       expect(hash).to.be.undefined;
       expect(metaDataStub.callCount).to.eq(0);
-      expect(dataStub.callCount).to.eq(0);
+      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });

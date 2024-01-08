@@ -83,8 +83,6 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
     ...getPublicClient(overrides),
     ...getContractAddress(overrides),
     ...getGraphUrl(overrides),
-    ...getNftStorageToken(overrides),
-    ...getWeb3StorageToken(overrides),
     ...getEasContractAddress(overrides),
   };
 
@@ -188,18 +186,6 @@ const getPublicClient = (overrides: Partial<HypercertClientConfig>) => {
   }
 
   return { publicClient };
-};
-
-export const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.nftStorageToken) {
-    return { nftStorageToken: overrides.nftStorageToken };
-  }
-};
-
-export const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.web3StorageToken) {
-    return { web3StorageToken: overrides.web3StorageToken };
-  }
 };
 
 const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
