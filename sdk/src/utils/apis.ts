@@ -21,9 +21,7 @@ type ResponseData = {
 /**
  * Axios instance configured with the base URL for the hypercert API.
  */
-const api = axios.create({
-  baseURL: "https://hypercerts-api.vercel.app/api/v1/web3up/",
-});
+const api = axios.create({ timeout: 10000, headers: { "Content-Type": "application/json" } });
 
 /**
  * Uploads metadata to the API.
@@ -32,7 +30,10 @@ const api = axios.create({
  * @returns The response data from the API.
  */
 const uploadMetadata = async (metadata: HypercertMetadata) => {
-  const response = await api.post<ResponseData>("metadata", metadata);
+  const response = await api.post<ResponseData>(
+    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/metadata",
+    metadata,
+  );
 
   return response.data;
 };
@@ -45,7 +46,10 @@ const uploadMetadata = async (metadata: HypercertMetadata) => {
  *
  */
 const uploadAllowlist = async (req: AllowListPostRequest) => {
-  const response = await api.post<ResponseData>("allowlist", req);
+  const response = await api.post<ResponseData>(
+    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/allowlist",
+    req,
+  );
 
   return response.data;
 };
