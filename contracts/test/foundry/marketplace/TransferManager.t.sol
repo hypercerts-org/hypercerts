@@ -56,7 +56,6 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     /**
      * 0. Internal helper functions
      */
-
     function _grantApprovals(address user) private asPrankedUser(user) {
         mockERC721.setApprovalForAll(address(transferManager), true);
         mockERC1155.setApprovalForAll(address(transferManager), true);
@@ -93,7 +92,6 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     /**
      * 1. Happy cases
      */
-
     function testTransferSingleItemERC721() public {
         _allowOperator(_transferrer);
         _grantApprovals(_sender);

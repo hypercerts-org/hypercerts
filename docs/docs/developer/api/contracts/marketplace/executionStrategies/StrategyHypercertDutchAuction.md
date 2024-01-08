@@ -1,10 +1,10 @@
-# StrategyDutchAuction
+# StrategyHypercertDutchAuction
 
 _LooksRare protocol team (👀,💎); bitbeckers_
 
-> StrategyDutchAuction
+> StrategyHypercertDutchAuction
 
-This contract offers a single execution strategy for users to create Dutch auctions.
+This contract offers a single execution strategy for users to create Dutch auctions for hypercerts.
 
 ## Methods
 
@@ -47,7 +47,7 @@ This function acts as a safety check for the protocol&#39;s owner when adding ne
 ### isMakerOrderValid
 
 ```solidity
-function isMakerOrderValid(OrderStructs.Maker makerAsk, bytes4 functionSelector) external pure returns (bool isValid, bytes4 errorSelector)
+function isMakerOrderValid(OrderStructs.Maker makerAsk, bytes4 functionSelector) external view returns (bool isValid, bytes4 errorSelector)
 ```
 
 #### Parameters

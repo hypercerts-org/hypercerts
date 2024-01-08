@@ -19,7 +19,7 @@ import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
 import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
-import {OrderInvalid} from "../errors/SharedErrors.sol";
+import {OrderInvalid, CollectionTypeInvalid} from "../errors/SharedErrors.sol";
 
 // Other dependencies
 import {LooksRareProtocol} from "../LooksRareProtocol.sol";
@@ -428,7 +428,7 @@ contract OrderValidatorV2A {
         } else if (collectionType == CollectionType.ERC1155) {
             validationCode = _checkValidityERC1155(collection, user, itemIds, amounts);
         } else if (collectionType == CollectionType.Hypercert) {
-            validationCode = _checkValidityHypercert(collection, user, itemIds, amounts);
+            validationCode = _checkValidityHypercert(collection, user, itemIds);
         }
     }
 
@@ -570,16 +570,14 @@ contract OrderValidatorV2A {
      * @param collection Collection address
      * @param user User address
      * @param itemIds Array of fraction ids
-     * @param amounts Array of units held by each fraction
      * @return validationCode Validation code
      */
-    function _checkValidityHypercert(
-        address collection,
-        address user,
-        uint256[] memory itemIds,
-        uint256[] memory amounts
-    ) private view returns (uint256 validationCode) {
-        // 1. Verify each itemId is owned by user and catch revertion if ERC1155 ownerOf fails
+    function _checkValidityHypercert(address collection, address user, uint256[] memory itemIds)
+        private
+        view
+        returns (uint256 validationCode)
+    {
+        // 1. Verify each itemId is owned by user and catch revertion if ownerOf fails
         address[] memory users = new address[](1);
         users[0] = user;
 
@@ -588,24 +586,21 @@ contract OrderValidatorV2A {
         bool success;
         bytes memory data;
 
-        bytes4 selector = bytes4(keccak256(bytes("unitsOf(address,uint256)")));
         for (uint256 i; i < length;) {
-            (success, data) = collection.staticcall(abi.encodeWithSelector(selector, user, itemIds[i]));
+            (success, data) = collection.staticcall(abi.encodeCall(IERC721.ownerOf, (itemIds[i])));
 
             if (!success) {
-                return HYPERCERT_UNITS_OF_DOES_NOT_EXIST;
+                return HYPERCERT_OWNER_OF_DOES_NOT_EXIST;
             }
 
-            if (abi.decode(data, (uint256)) < amounts[i]) {
-                return HYPERCERT_UNITS_NOT_HELD_BY_USER;
-            }
+            if (abi.decode(data, (address)) != user) return HYPERCERT_FRACTION_NOT_HELD_BY_USER;
 
             unchecked {
                 ++i;
             }
         }
 
-        // 3. Verify if collection is approved by transfer manager
+        // 2. Verify if collection is approved by transfer manager
         (success, data) =
             collection.staticcall(abi.encodeCall(IERC1155.isApprovedForAll, (user, address(transferManager))));
 
@@ -901,6 +896,8 @@ contract OrderValidatorV2A {
             validationCode = ORDER_EXPECTED_TO_BE_VALID;
         } else {
             if (errorSelector == OrderInvalid.selector) {
+                validationCode = MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE;
+            } else if (errorSelector == CollectionTypeInvalid.selector) {
                 validationCode = MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE;
             } else {
                 validationCode = MAKER_ORDER_TEMPORARILY_INVALID_NON_STANDARD_SALE;

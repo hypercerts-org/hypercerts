@@ -5,6 +5,7 @@ import {PRBTest} from "prb-test/PRBTest.sol";
 import {StdCheats} from "forge-std/StdCheats.sol";
 import {StdUtils} from "forge-std/StdUtils.sol";
 import {SemiFungible1155Helper} from "./SemiFungibleHelper.sol";
+import {Errors} from "@hypercerts/protocol/libs/Errors.sol";
 
 /// @dev See the "Writing Tests" section in the Foundry Book if this is your first time with Forge.
 /// https://book.getfoundry.sh/forge/writing-tests
@@ -130,5 +131,80 @@ contract SemiFungible1155DefaultTest is PRBTest, StdCheats, StdUtils, SemiFungib
 
         assertEq(semiFungible.balanceOf(alice, tokenIDs[tokenIDs.length - 1]), 1);
         assertEq(semiFungible.unitsOf(alice, tokenIDs[tokenIDs.length - 1]), totalValue);
+    }
+
+    function testCannotMergeValueToZeroOrOther() public {
+        uint256 baseID = 1 << 128;
+        uint256 size = 10;
+        uint256 value = 2000;
+        uint256 totalValue = size * value;
+
+        uint256[] memory values = semiFungible.buildValues(size, value);
+        uint256[] memory tokenIDs = semiFungible.buildIDs(baseID, size);
+
+        startHoax(alice, 100 ether);
+
+        semiFungible.mintValue(alice, values, _uri);
+        assertEq(semiFungible.unitsOf(baseID), totalValue);
+
+        for (uint256 i = 0; i < (tokenIDs.length - 1); i++) {
+            semiFungible.validateOwnerBalanceUnits(tokenIDs[i], alice, 1, value);
+
+            semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[i], bob);
+        }
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(address(0), tokenIDs);
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(bob, tokenIDs);
+
+        semiFungible.mergeValue(alice, tokenIDs);
+
+        for (uint256 i = 0; i < (tokenIDs.length - 1); i++) {
+            assertEq(semiFungible.ownerOf(tokenIDs[i]), address(0));
+
+            semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[i], alice);
+        }
+
+        assertEq(semiFungible.balanceOf(alice, tokenIDs[tokenIDs.length - 1]), 1);
+        assertEq(semiFungible.unitsOf(alice, tokenIDs[tokenIDs.length - 1]), totalValue);
+    }
+
+    function testAllFractionsOwnedByAccount() public {
+        uint256 baseID = 1 << 128;
+        uint256 size = 10;
+        uint256 value = 2000;
+        uint256 totalValue = size * value;
+
+        uint256[] memory values = semiFungible.buildValues(size, value);
+        uint256[] memory tokenIDs = semiFungible.buildIDs(baseID, size);
+
+        startHoax(alice, 100 ether);
+
+        semiFungible.mintValue(alice, values, _uri);
+        assertEq(semiFungible.unitsOf(baseID), totalValue);
+
+        semiFungible.safeTransferFrom(alice, bob, tokenIDs[tokenIDs.length - 1], 1, "");
+
+        for (uint256 i = 0; i < (tokenIDs.length - 1); i++) {
+            semiFungible.validateOwnerBalanceUnits(tokenIDs[i], alice, 1, value);
+
+            semiFungible.validateNotOwnerNoBalanceNoUnits(tokenIDs[i], bob);
+        }
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(alice, tokenIDs);
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(bob, tokenIDs);
+
+        semiFungible.setApprovalForAll(bob, true);
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(alice, tokenIDs);
+
+        vm.expectRevert(Errors.NotAllowed.selector);
+        semiFungible.mergeValue(bob, tokenIDs);
     }
 }

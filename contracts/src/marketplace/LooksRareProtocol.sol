@@ -27,6 +27,7 @@ import {
     MerkleProofTooLarge,
     QuoteTypeInvalid
 } from "./errors/SharedErrors.sol";
+import {UnitAmountInvalid} from "./errors/HypercertErrors.sol";
 
 // Direct dependencies
 import {TransferSelectorNFT} from "./TransferSelectorNFT.sol";
@@ -38,6 +39,9 @@ import {MAX_CALLDATA_PROOF_LENGTH, ONE_HUNDRED_PERCENT_IN_BP} from "./constants/
 // Enums
 import {QuoteType} from "./enums/QuoteType.sol";
 import {CollectionType} from "./enums/CollectionType.sol";
+
+// Strategies
+import {StrategyHypercertFractionOffer} from "./executionStrategies/StrategyHypercertFractionOffer.sol";
 
 /**
  * @title LooksRareProtocol
@@ -83,7 +87,6 @@ import {CollectionType} from "./enums/CollectionType.sol";
  *                                                ~~~~~~
  * @author LooksRare protocol team (👀,💎); bitbeckers
  */
-
 contract LooksRareProtocol is
     ILooksRareProtocol,
     TransferSelectorNFT,
@@ -367,11 +370,30 @@ contract LooksRareProtocol is
             bool isNonceInvalidated
         ) = _executeStrategyForTakerOrder(takerAsk, makerBid, msg.sender);
 
+        uint256 unitsHeldByItems;
+        if (makerBid.collectionType == CollectionType.Hypercert) {
+            unitsHeldByItems += _getUnitsHeldByHypercertFractions(makerBid.collection, itemIds);
+        }
+
         // Order nonce status is updated
         _updateUserOrderNonce(isNonceInvalidated, signer, makerBid.orderNonce, orderHash);
 
         // Taker action goes first
         _executeTakerAskTakerAction(makerBid, takerAsk, msg.sender, signer, itemIds, amounts);
+
+        if (makerBid.collectionType == CollectionType.Hypercert) {
+            // If not a fractional sale
+            if (
+                strategyInfo[makerBid.strategyId].selector
+                    != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                    && strategyInfo[makerBid.strategyId].selector
+                        != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            ) {
+                if (_getUnitsHeldByHypercertFractions(makerBid.collection, itemIds) != unitsHeldByItems) {
+                    revert UnitAmountInvalid();
+                }
+            }
+        }
 
         // Maker action goes second
         _transferToAskRecipientAndCreatorIfAny(recipients, feeAmounts, makerBid.currency, signer);
@@ -415,14 +437,13 @@ contract LooksRareProtocol is
             revert QuoteTypeInvalid();
         }
 
-        address signer = makerAsk.signer;
         {
             // Verify nonces
-            bytes32 userOrderNonceStatus = userOrderNonce[signer][makerAsk.orderNonce];
+            bytes32 userOrderNonceStatus = userOrderNonce[makerAsk.signer][makerAsk.orderNonce];
 
             if (
-                userBidAskNonces[signer].askNonce != makerAsk.globalNonce
-                    || userSubsetNonce[signer][makerAsk.subsetNonce]
+                userBidAskNonces[makerAsk.signer].askNonce != makerAsk.globalNonce
+                    || userSubsetNonce[makerAsk.signer][makerAsk.subsetNonce]
                     || (userOrderNonceStatus != bytes32(0) && userOrderNonceStatus != orderHash)
             ) {
                 revert NoncesInvalid();
@@ -437,14 +458,33 @@ contract LooksRareProtocol is
             bool isNonceInvalidated
         ) = _executeStrategyForTakerOrder(takerBid, makerAsk, msg.sender);
 
+        uint256 unitsHeldByItems;
+        if (makerAsk.collectionType == CollectionType.Hypercert) {
+            unitsHeldByItems += _getUnitsHeldByHypercertFractions(makerAsk.collection, itemIds);
+        }
+
         // Order nonce status is updated
-        _updateUserOrderNonce(isNonceInvalidated, signer, makerAsk.orderNonce, orderHash);
+        _updateUserOrderNonce(isNonceInvalidated, makerAsk.signer, makerAsk.orderNonce, orderHash);
 
         // Taker action goes first
         _transferToAskRecipientAndCreatorIfAny(recipients, feeAmounts, makerAsk.currency, sender);
 
+        if (makerAsk.collectionType == CollectionType.Hypercert) {
+            // If not a fractional sale
+            if (
+                strategyInfo[makerAsk.strategyId].selector
+                    != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector
+                    && strategyInfo[makerAsk.strategyId].selector
+                        != StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector
+            ) {
+                if (_getUnitsHeldByHypercertFractions(makerAsk.collection, itemIds) != unitsHeldByItems) {
+                    revert UnitAmountInvalid();
+                }
+            }
+        }
+
         // Maker action goes second
-        _executeTakerBidMakerAction(makerAsk, takerBid, signer, sender, itemIds, amounts);
+        _executeTakerBidMakerAction(makerAsk, takerBid, makerAsk.signer, sender, itemIds, amounts);
 
         emit TakerBid(
             NonceInvalidationParameters({
@@ -469,7 +509,7 @@ contract LooksRareProtocol is
 
     function _executeTakerAskTakerAction(
         OrderStructs.Maker calldata makerBid,
-        OrderStructs.Taker calldata takerAsk,
+        OrderStructs.Taker calldata, /* takerAsk */
         address sender,
         address recipient,
         uint256[] memory itemIds,
@@ -661,5 +701,19 @@ contract LooksRareProtocol is
         }
 
         _computeDigestAndVerify(orderHash, signature, signer);
+    }
+
+    function _getUnitsHeldByHypercertFractions(address collection, uint256[] memory itemIds)
+        public
+        view
+        returns (uint256 unitsHeldByItems)
+    {
+        for (uint256 i; i < itemIds.length;) {
+            unitsHeldByItems += IHypercertToken(collection).unitsOf(itemIds[i]);
+
+            unchecked {
+                ++i;
+            }
+        }
     }
 }

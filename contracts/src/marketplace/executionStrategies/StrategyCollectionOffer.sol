@@ -9,9 +9,16 @@ import {MerkleProofMemory} from "../libraries/OpenZeppelin/MerkleProofMemory.sol
 
 // Enums
 import {QuoteType} from "../enums/QuoteType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
 
 // Shared errors
-import {OrderInvalid, FunctionSelectorInvalid, MerkleProofInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
+import {
+    OrderInvalid,
+    FunctionSelectorInvalid,
+    MerkleProofInvalid,
+    QuoteTypeInvalid,
+    CollectionTypeInvalid
+} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
@@ -27,7 +34,6 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
  * @notice The bidder can only bid on 1 item id at a time.
  *         1. If ERC721, the amount must be 1.
  *         2. If ERC1155, the amount can be greater than 1.
- *         3. If Hypercert, the amount must be 1 (fractions are NFTs)
  * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 contract StrategyCollectionOffer is BaseStrategy {
@@ -46,6 +52,10 @@ contract StrategyCollectionOffer is BaseStrategy {
         pure
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
+        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+            revert CollectionTypeInvalid();
+        }
+
         price = makerBid.price;
         amounts = makerBid.amounts;
 
@@ -76,6 +86,10 @@ contract StrategyCollectionOffer is BaseStrategy {
         pure
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
+        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+            revert CollectionTypeInvalid();
+        }
+
         price = makerBid.price;
         amounts = makerBid.amounts;
 
@@ -116,6 +130,10 @@ contract StrategyCollectionOffer is BaseStrategy {
         pure
         returns (uint256 price, uint256[] memory itemIds, uint256[] calldata amounts, bool isNonceInvalidated)
     {
+        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+            revert CollectionTypeInvalid();
+        }
+
         price = makerBid.price;
         amounts = makerBid.amounts;
 
@@ -148,6 +166,10 @@ contract StrategyCollectionOffer is BaseStrategy {
         override
         returns (bool isValid, bytes4 errorSelector)
     {
+        if (makerBid.collectionType != CollectionType.ERC721 && makerBid.collectionType != CollectionType.ERC1155) {
+            return (isValid, CollectionTypeInvalid.selector);
+        }
+
         if (
             functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
                 && functionSelector != StrategyCollectionOffer.executeCollectionStrategyWithTakerAsk.selector
@@ -169,8 +191,11 @@ contract StrategyCollectionOffer is BaseStrategy {
         // If no root is provided or invalid length, it should be invalid.
         // @dev It does not mean the merkle root is valid against a specific itemId that exists in the collection.
         if (
-            functionSelector == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
-                && makerBid.additionalParameters.length != 32
+            (
+                functionSelector == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithProof.selector
+                    || functionSelector
+                        == StrategyCollectionOffer.executeCollectionStrategyWithTakerAskWithAllowlist.selector
+            ) && makerBid.additionalParameters.length != 32
         ) {
             return (isValid, OrderInvalid.selector);
         }

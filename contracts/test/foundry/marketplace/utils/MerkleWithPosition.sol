@@ -13,7 +13,6 @@ contract MerkleWithPosition {
      * PROOF GENERATION *
      *
      */
-
     function getRoot(OrderStructs.MerkleTreeNode[] memory data) public pure returns (bytes32) {
         require(data.length > 1, "won't generate root for single leaf");
         while (data.length > 1) {
