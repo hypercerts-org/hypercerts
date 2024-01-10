@@ -35,8 +35,8 @@ First we get the total of the units to be transfered based on the `itemIds` retu
 
 After the transfer of funds, we validate the amount of units still held by the provided `itemIds`:
 
-````solidity
-if (makerBid.collectionType == CollectionType.Hypercert) {
+```solidity
+    if (makerBid.collectionType == CollectionType.Hypercert) {
             // If not a fractional sale
             if (
                 strategyInfo[makerBid.strategyId].selector
@@ -129,4 +129,7 @@ if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors
 
 Since the answer to this check is the same for all items in the batch, we moved the check outside of the loop. Credit to
 Trust for reporting this optimisation.
-````
+
+```
+
+```
