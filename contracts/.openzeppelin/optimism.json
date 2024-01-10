@@ -736,11 +736,19 @@
         }
       }
     },
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
     "030e0101c01e933929a2efcd3396e960802166732a863419a7ab502c6da71509": {
       "address": "0xc695a9f30131C3566f5E7A577Cf39Ad7F305eD55",
       "txHash": "0x11b92b34289c6926fd9673c234cb75c9cea9ee1b1c8462ab60745f0061c19ef5",
       "layout": {
         "solcVersion": "0.8.17",
+========
+    "ba3b8c36d1292bdec3593f0e2b8f6d2e38d080b76cb70de7876aba5db39b7d86": {
+      "address": "0xDb77A1fDC905685B4052a512522D502638DdA5E3",
+      "txHash": "0xeb77995d2103baee6ba64beff908b9ed6653f1b1c9c1373321b8e8770a89a651",
+      "layout": {
+        "solcVersion": "0.8.16",
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
         "storage": [
           {
             "label": "_initialized",
@@ -877,7 +885,11 @@
             "slot": "401",
             "type": "t_uint256",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:27"
+========
+            "src": "src/SemiFungible1155.sol:27"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "owners",
@@ -885,7 +897,11 @@
             "slot": "402",
             "type": "t_mapping(t_uint256,t_address)",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:38"
+========
+            "src": "src/SemiFungible1155.sol:38"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "creators",
@@ -893,7 +909,11 @@
             "slot": "403",
             "type": "t_mapping(t_uint256,t_address)",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:41"
+========
+            "src": "src/SemiFungible1155.sol:41"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "tokenValues",
@@ -901,7 +921,11 @@
             "slot": "404",
             "type": "t_mapping(t_uint256,t_uint256)",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:44"
+========
+            "src": "src/SemiFungible1155.sol:44"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "maxIndex",
@@ -909,7 +933,11 @@
             "slot": "405",
             "type": "t_mapping(t_uint256,t_uint256)",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:47"
+========
+            "src": "src/SemiFungible1155.sol:47"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "__gap",
@@ -917,7 +945,11 @@
             "slot": "406",
             "type": "t_array(t_uint256)25_storage",
             "contract": "SemiFungible1155",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/SemiFungible1155.sol:640"
+========
+            "src": "src/SemiFungible1155.sol:436"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "merkleRoots",
@@ -925,7 +957,11 @@
             "slot": "431",
             "type": "t_mapping(t_uint256,t_bytes32)",
             "contract": "AllowlistMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/AllowlistMinter.sol:17"
+========
+            "src": "src/AllowlistMinter.sol:17"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "hasBeenClaimed",
@@ -933,7 +969,11 @@
             "slot": "432",
             "type": "t_mapping(t_uint256,t_mapping(t_bytes32,t_bool))",
             "contract": "AllowlistMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/AllowlistMinter.sol:18"
+========
+            "src": "src/AllowlistMinter.sol:18"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "maxUnits",
@@ -941,7 +981,11 @@
             "slot": "433",
             "type": "t_mapping(t_uint256,t_uint256)",
             "contract": "AllowlistMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/AllowlistMinter.sol:19"
+========
+            "src": "src/AllowlistMinter.sol:19"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "minted",
@@ -949,7 +993,11 @@
             "slot": "434",
             "type": "t_mapping(t_uint256,t_uint256)",
             "contract": "AllowlistMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/AllowlistMinter.sol:20"
+========
+            "src": "src/AllowlistMinter.sol:20"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "__gap",
@@ -957,7 +1005,11 @@
             "slot": "435",
             "type": "t_array(t_uint256)26_storage",
             "contract": "AllowlistMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/AllowlistMinter.sol:75"
+========
+            "src": "src/AllowlistMinter.sol:69"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "_paused",
@@ -979,9 +1031,15 @@
             "label": "typeRestrictions",
             "offset": 0,
             "slot": "511",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "type": "t_mapping(t_uint256,t_enum(TransferRestrictions)18919)",
             "contract": "HypercertMinter",
             "src": "src/protocol/HypercertMinter.sol:20"
+========
+            "type": "t_mapping(t_uint256,t_enum(TransferRestrictions)6793)",
+            "contract": "HypercertMinter",
+            "src": "src/HypercertMinter.sol:20"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           },
           {
             "label": "__gap",
@@ -989,7 +1047,11 @@
             "slot": "512",
             "type": "t_array(t_uint256)29_storage",
             "contract": "HypercertMinter",
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
             "src": "src/protocol/HypercertMinter.sol:258"
+========
+            "src": "src/HypercertMinter.sol:228"
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
           }
         ],
         "types": {
@@ -1033,7 +1095,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
           "t_enum(TransferRestrictions)18919": {
+========
+          "t_enum(TransferRestrictions)6793": {
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
             "label": "enum IHypercertToken.TransferRestrictions",
             "members": [
               "AllowAll",
@@ -1066,7 +1132,11 @@
             "label": "mapping(uint256 => bytes32)",
             "numberOfBytes": "32"
           },
+<<<<<<<< HEAD:contracts/.openzeppelin/optimism.json
           "t_mapping(t_uint256,t_enum(TransferRestrictions)18919)": {
+========
+          "t_mapping(t_uint256,t_enum(TransferRestrictions)6793)": {
+>>>>>>>> develop:contracts/.openzeppelin/sepolia.json
             "label": "mapping(uint256 => enum IHypercertToken.TransferRestrictions)",
             "numberOfBytes": "32"
           },

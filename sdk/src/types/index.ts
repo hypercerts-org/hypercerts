@@ -13,5 +13,4 @@ export type {
   IPFSEvaluation,
   HypercertPointer,
 } from "./evaluation";
-export type { ClaimByIdQuery, ClaimTokensByClaimQuery, Claim, ClaimToken } from "./global";
 export type { HypercertMetadata } from "./metadata";

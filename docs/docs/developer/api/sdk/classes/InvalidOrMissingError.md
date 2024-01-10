@@ -1,6 +1,10 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / InvalidOrMissingError
-
-# Class: InvalidOrMissingError
+---
+id: "InvalidOrMissingError"
+title: "Class: InvalidOrMissingError"
+sidebar_label: "InvalidOrMissingError"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 The provided value was undefined or empty
 
@@ -14,21 +18,11 @@ The provided value was undefined or empty
 
 - [`CustomError`](../interfaces/CustomError.md)
 
-## Table of contents
-
-### Constructors
-
-- [constructor](InvalidOrMissingError.md#constructor)
-
-### Properties
-
-- [payload](InvalidOrMissingError.md#payload)
-
 ## Constructors
 
 ### constructor
 
-• **new InvalidOrMissingError**(`message`, `payload?`)
+• **new InvalidOrMissingError**(`message`, `payload?`): [`InvalidOrMissingError`](InvalidOrMissingError.md)
 
 Creates a new instance of the InvalidOrMissingError class.
 
@@ -39,15 +33,61 @@ Creates a new instance of the InvalidOrMissingError class.
 | `message`  | `string` | The error message.        |
 | `payload?` | `Object` | Additional error payload. |
 
+#### Returns
+
+[`InvalidOrMissingError`](InvalidOrMissingError.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[sdk/src/types/errors.ts:61](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L61)
+[sdk/src/types/errors.ts:83](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/errors.ts#L83)
 
 ## Properties
+
+### cause
+
+• `Optional` **cause**: `unknown`
+
+#### Inherited from
+
+Error.cause
+
+#### Defined in
+
+node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es2022.error.d.ts:24
+
+---
+
+### message
+
+• **message**: `string`
+
+#### Inherited from
+
+Error.message
+
+#### Defined in
+
+node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1076
+
+---
+
+### name
+
+• **name**: `string`
+
+#### Inherited from
+
+Error.name
+
+#### Defined in
+
+node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1075
+
+---
 
 ### payload
 
@@ -65,4 +105,94 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:54](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L54)
+[sdk/src/types/errors.ts:76](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/errors.ts#L76)
+
+---
+
+### stack
+
+• `Optional` **stack**: `string`
+
+#### Inherited from
+
+Error.stack
+
+#### Defined in
+
+node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib/lib.es5.d.ts:1077
+
+---
+
+### prepareStackTrace
+
+▪ `Static` `Optional` **prepareStackTrace**: (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any`
+
+#### Type declaration
+
+▸ (`err`, `stackTraces`): `any`
+
+Optional override for formatting stack traces
+
+##### Parameters
+
+| Name          | Type         |
+| :------------ | :----------- |
+| `err`         | `Error`      |
+| `stackTraces` | `CallSite`[] |
+
+##### Returns
+
+`any`
+
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+
+#### Inherited from
+
+Error.prepareStackTrace
+
+#### Defined in
+
+node_modules/.pnpm/@types+node@18.18.7/node_modules/@types/node/globals.d.ts:11
+
+---
+
+### stackTraceLimit
+
+▪ `Static` **stackTraceLimit**: `number`
+
+#### Inherited from
+
+Error.stackTraceLimit
+
+#### Defined in
+
+node_modules/.pnpm/@types+node@18.18.7/node_modules/@types/node/globals.d.ts:13
+
+## Methods
+
+### captureStackTrace
+
+▸ **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
+
+Create .stack property on a target object
+
+#### Parameters
+
+| Name              | Type       |
+| :---------------- | :--------- |
+| `targetObject`    | `object`   |
+| `constructorOpt?` | `Function` |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+Error.captureStackTrace
+
+#### Defined in
+
+node_modules/.pnpm/@types+node@18.18.7/node_modules/@types/node/globals.d.ts:4

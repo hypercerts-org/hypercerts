@@ -1,6 +1,10 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / CustomError
-
-# Interface: CustomError
+---
+id: "CustomError"
+title: "Interface: CustomError"
+sidebar_label: "CustomError"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 An interface for errors that have a specific type.
 
@@ -8,6 +12,7 @@ An interface for errors that have a specific type.
 
 - [`ClientError`](../classes/ClientError.md)
 - [`ConfigurationError`](../classes/ConfigurationError.md)
+- [`ContractError`](../classes/ContractError.md)
 - [`FetchError`](../classes/FetchError.md)
 - [`InvalidOrMissingError`](../classes/InvalidOrMissingError.md)
 - [`MalformedDataError`](../classes/MalformedDataError.md)
@@ -15,12 +20,6 @@ An interface for errors that have a specific type.
 - [`StorageError`](../classes/StorageError.md)
 - [`UnknownSchemaError`](../classes/UnknownSchemaError.md)
 - [`UnsupportedChainError`](../classes/UnsupportedChainError.md)
-
-## Table of contents
-
-### Properties
-
-- [payload](CustomError.md#payload)
 
 ## Properties
 
@@ -36,4 +35,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:8](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/errors.ts#L8)
+[sdk/src/types/errors.ts:10](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/errors.ts#L10)

@@ -1,30 +1,21 @@
 import { logger } from "./utils";
+import { defaultQueryParams } from "./indexer/utils";
+import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from "./types";
+import { Client, cacheExchange, fetchExchange } from "@urql/core";
 import {
-  getBuiltGraphSDK,
-  Sdk as GraphClient,
-  execute,
   ClaimsByOwnerDocument,
-  ClaimsByOwnerQuery,
-  ClaimByIdDocument,
-  ClaimByIdQuery,
-  RecentClaimsDocument,
-  RecentClaimsQuery,
   ClaimsByOwnerQueryVariables,
+  ClaimByIdDocument,
   ClaimByIdQueryVariables,
+  RecentClaimsDocument,
   RecentClaimsQueryVariables,
   ClaimTokensByOwnerDocument,
-  ClaimTokensByOwnerQuery,
   ClaimTokensByOwnerQueryVariables,
   ClaimTokensByClaimDocument,
   ClaimTokensByClaimQueryVariables,
-  ClaimTokensByClaimQuery,
   ClaimTokenByIdDocument,
   ClaimTokenByIdQueryVariables,
-  ClaimTokenByIdQuery,
-} from "../.graphclient";
-import { defaultQueryParams } from "./indexer/utils";
-import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from "./types";
-
+} from "./indexer/gql/graphql";
 /**
  * A class that provides indexing functionality for Hypercerts.
  *
@@ -39,7 +30,8 @@ import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from ".
  */
 export class HypercertIndexer implements HypercertIndexerInterface {
   /** The Graph client used by the indexer. */
-  private _graphName: string;
+  private _graphName?: string;
+  private _graphUrl: string;
 
   /**
    * Creates a new instance of the `HypercertIndexer` class.
@@ -47,17 +39,19 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   constructor(options: Partial<HypercertClientConfig>) {
     logger.info("Creating HypercertIndexer", "constructor", { name: options.graphName, url: options.graphUrl });
-    if (!options.graphName) throw new Error("Missing graphName");
+    if (!options.graphUrl) throw new Error("Missing graphUrl");
     this._graphName = options.graphName;
+    this._graphUrl = options.graphUrl;
   }
 
   /**
    * Gets the Graph client used by the indexer.
    * @returns The Graph client.
    */
-  get graphClient(): GraphClient {
-    return getBuiltGraphSDK({
-      graphName: this._graphName,
+  get graphClient(): Client {
+    return new Client({
+      url: this._graphUrl,
+      exchanges: [cacheExchange, fetchExchange],
     });
   }
 
@@ -73,7 +67,14 @@ export class HypercertIndexer implements HypercertIndexerInterface {
       owner,
       ...params,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as ClaimsByOwnerQuery;
+
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
 
   /**
@@ -86,7 +87,13 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     const variables: ClaimByIdQueryVariables = {
       id,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as ClaimByIdQuery;
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
   /**
    * Gets the most recent claims.
@@ -98,7 +105,13 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     const variables: RecentClaimsQueryVariables = {
       ...params,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as RecentClaimsQuery;
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
 
   /**
@@ -113,7 +126,13 @@ export class HypercertIndexer implements HypercertIndexerInterface {
       owner,
       ...params,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as ClaimTokensByOwnerQuery;
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
 
   /**
@@ -128,7 +147,13 @@ export class HypercertIndexer implements HypercertIndexerInterface {
       claimId,
       ...params,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as ClaimTokensByClaimQuery;
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
 
   /**
@@ -141,6 +166,12 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     const variables: ClaimTokenByIdQueryVariables = {
       claimTokenId: fractionId,
     };
-    return (await execute(query, variables, { graphName: this._graphName })) as ClaimTokenByIdQuery;
+    const result = await this.graphClient.query(query, variables);
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result.data;
   };
 }

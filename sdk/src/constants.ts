@@ -6,13 +6,15 @@ import { Deployment, SupportedChainIds } from "./types";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-admin";
 
+// The APIs we expose
+
+const APIS: { [key: string]: string } = {
+  metadata: "https://hypercerts-api.vercel.app/api/v1/web3up/metadata",
+  allowlist: "https://hypercerts-api.vercel.app/api/v1/web3up/allowlist",
+};
+
 // These are the deployments we manage
 const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
-  5: {
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    graphName: "hypercerts-testnet",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-testnet`,
-  } as const,
   10: {
     contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     graphName: "hypercerts-optimism-mainnet",
@@ -45,4 +47,4 @@ const EAS_SCHEMAS = {
   },
 } as const;
 
-export { DEPLOYMENTS, EAS_SCHEMAS };
+export { APIS, DEPLOYMENTS, EAS_SCHEMAS };

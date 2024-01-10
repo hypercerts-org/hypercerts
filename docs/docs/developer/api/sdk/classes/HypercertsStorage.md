@@ -1,118 +1,77 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertsStorage
-
-# Class: HypercertsStorage
+---
+id: "HypercertsStorage"
+title: "Class: HypercertsStorage"
+sidebar_label: "HypercertsStorage"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 A class that provides storage functionality for Hypercerts.
+
+This class implements the `HypercertStorageInterface` and provides methods for storing and retrieving Hypercerts. It uses the NFT Storage and Web3 Storage APIs for storage, and can be configured to be read-only.
+
+**`Example`**
+
+```ts
+const storage = new HypercertsStorage();
+const metadata = await storage.getMetadata("your-hypercert-id");
+```
 
 ## Implements
 
 - [`HypercertStorageInterface`](../interfaces/HypercertStorageInterface.md)
 
-## Table of contents
-
-### Constructors
-
-- [constructor](HypercertsStorage.md#constructor)
-
-### Properties
-
-- [nftStorageClient](HypercertsStorage.md#nftstorageclient)
-- [readonly](HypercertsStorage.md#readonly)
-- [web3StorageClient](HypercertsStorage.md#web3storageclient)
-
-### Methods
-
-- [getData](HypercertsStorage.md#getdata)
-- [getMetadata](HypercertsStorage.md#getmetadata)
-- [getNftStorageGatewayUri](HypercertsStorage.md#getnftstoragegatewayuri)
-- [storeData](HypercertsStorage.md#storedata)
-- [storeMetadata](HypercertsStorage.md#storemetadata)
-
 ## Constructors
 
 ### constructor
 
-• **new HypercertsStorage**(`overrides`)
+• **new HypercertsStorage**(): [`HypercertsStorage`](HypercertsStorage.md)
 
-Creates a new instance of the `HypercertsStorage` class.
+#### Returns
 
-#### Parameters
-
-| Name        | Type                                                                         | Description                                  |
-| :---------- | :--------------------------------------------------------------------------- | :------------------------------------------- |
-| `overrides` | `Partial`<[`HypercertStorageConfig`](../modules.md#hypercertstorageconfig)\> | The configuration overrides for the storage. |
-
-#### Defined in
-
-[sdk/src/storage.ts:37](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L37)
-
-## Properties
-
-### nftStorageClient
-
-• `Optional` **nftStorageClient**: `NFTStorage`
-
-The NFT storage client.
-
-#### Defined in
-
-[sdk/src/storage.ts:29](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L29)
-
----
-
-### readonly
-
-• **readonly**: `boolean` = `true`
-
-Whether the storage is read-only.
-
-#### Defined in
-
-[sdk/src/storage.ts:27](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L27)
-
----
-
-### web3StorageClient
-
-• `Optional` **web3StorageClient**: `any`
-
-The Web3 storage client.
-
-#### Defined in
-
-[sdk/src/storage.ts:31](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L31)
+[`HypercertsStorage`](HypercertsStorage.md)
 
 ## Methods
 
 ### getData
 
-▸ **getData**(`cidOrIpfsUri`): `Promise`<`any`\>
+▸ **getData**(`cidOrIpfsUri`): `Promise`<`unknown`\>
 
-Gets arbitrary data from Web3 storage.
+Retrieves data from IPFS using the provided CID or IPFS URI.
 
-**`Throws`**
-
-A `StorageError` if the storage client is not configured or the data cannot be retrieved.
+This method first retrieves the data from IPFS using the `getFromIPFS` function. It then parses the retrieved data as JSON and returns it.
 
 #### Parameters
 
-| Name           | Type     | Description                             |
-| :------------- | :------- | :-------------------------------------- |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to get. |
+| Name           | Type     | Description                                  |
+| :------------- | :------- | :------------------------------------------- |
+| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to retrieve. |
 
 #### Returns
 
-`Promise`<`any`\>
+`Promise`<`unknown`\>
 
-A Promise that resolves to the data.
+A promise that resolves to the retrieved data.
+
+**`Throws`**
+
+Will throw a `FetchError` if the retrieval operation fails.
+
+**`Throws`**
+
+Will throw a `MalformedDataError` if the retrieved data is not a single file.
+
+**`Remarkts`**
+
+Note: The original implementation using the Web3 Storage client is currently commented out due to issues with upstream repos. This will be replaced once those issues are resolved.
 
 #### Implementation of
 
-HypercertStorageInterface.getData
+[HypercertStorageInterface](../interfaces/HypercertStorageInterface.md).[getData](../interfaces/HypercertStorageInterface.md#getdata)
 
 #### Defined in
 
-[sdk/src/storage.ts:147](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L147)
+[sdk/src/storage.ts:122](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/storage.ts#L122)
 
 ---
 
@@ -120,131 +79,112 @@ HypercertStorageInterface.getData
 
 ▸ **getMetadata**(`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](../interfaces/HypercertMetadata.md)\>
 
-Gets metadata for a Hypercert.
+Retrieves Hypercert metadata from IPFS using the provided CID or IPFS URI.
 
-**`Throws`**
-
-A `StorageError` if the storage client is not configured or the metadata cannot be retrieved.
-
-**`Throws`**
-
-A `MalformedDataError` if the metadata is invalid. E.g. unknown schema
+This method first retrieves the data from IPFS using the `getFromIPFS` function. It then validates the retrieved data using the `validateMetaData` function. If the data is invalid, it throws a `MalformedDataError`.
+If the data is valid, it returns the data as a `HypercertMetadata` object.
 
 #### Parameters
 
-| Name           | Type     | Description                                 |
-| :------------- | :------- | :------------------------------------------ |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to get. |
+| Name           | Type     | Description                                      |
+| :------------- | :------- | :----------------------------------------------- |
+| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to retrieve. |
 
 #### Returns
 
 `Promise`<[`HypercertMetadata`](../interfaces/HypercertMetadata.md)\>
 
-A Promise that resolves to the metadata.
-
-#### Implementation of
-
-HypercertStorageInterface.getMetadata
-
-#### Defined in
-
-[sdk/src/storage.ts:97](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L97)
-
----
-
-### getNftStorageGatewayUri
-
-▸ **getNftStorageGatewayUri**(`cidOrIpfsUri`): `string`
-
-#### Parameters
-
-| Name           | Type     |
-| :------------- | :------- |
-| `cidOrIpfsUri` | `string` |
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-[sdk/src/storage.ts:181](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L181)
-
----
-
-### storeData
-
-▸ **storeData**(`data`): `Promise`<`CIDString`\>
-
-Stores arbitrary data in Web3 storage.
+A promise that resolves to the retrieved metadata.
 
 **`Throws`**
 
-A `StorageError` if the storage client is not configured.
-
-**`Notice`**
-
-Even though web3.storage takes a list of files, we'll assume we're only storing 1 JSON blob.
-Because we pay for storage quotas, this data is stored best effort.
-If you are using our default keys, we may delete older data if we hit our storage quota.
-
-#### Parameters
-
-| Name   | Type      | Description        |
-| :----- | :-------- | :----------------- |
-| `data` | `unknown` | The data to store. |
-
-#### Returns
-
-`Promise`<`CIDString`\>
-
-A Promise that resolves to the CID of the stored data.
+Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Implementation of
 
-HypercertStorageInterface.storeData
+[HypercertStorageInterface](../interfaces/HypercertStorageInterface.md).[getMetadata](../interfaces/HypercertStorageInterface.md#getmetadata)
 
 #### Defined in
 
-[sdk/src/storage.ts:125](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L125)
+[sdk/src/storage.ts:99](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/storage.ts#L99)
+
+---
+
+### storeAllowList
+
+▸ **storeAllowList**(`allowList`, `totalUnits`): `Promise`<`string`\>
+
+Stores hypercerts allowlist on IPFS.
+
+This method first checks if the storage is read-only or if the NFT Storage client is not configured. If either of these conditions is true, it throws a `StorageError`.
+It then validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
+If the metadata is valid, it creates a new Blob from the metadata and stores it using the NFT Storage client. If the storage operation fails, it throws a `StorageError`.
+
+#### Parameters
+
+| Name         | Type                                               | Description             |
+| :----------- | :------------------------------------------------- | :---------------------- |
+| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[] | The allowList to store. |
+| `totalUnits` | `bigint`                                           | -                       |
+
+#### Returns
+
+`Promise`<`string`\>
+
+A promise that resolves to the CID of the stored metadata.
+
+**`Throws`**
+
+Will throw a `StorageError` if the storage is read-only, if the NFT Storage client is not configured, or if the storage operation fails.
+
+**`Throws`**
+
+Will throw a `MalformedDataError` if the provided metadata is invalid.
+
+#### Implementation of
+
+[HypercertStorageInterface](../interfaces/HypercertStorageInterface.md).[storeAllowList](../interfaces/HypercertStorageInterface.md#storeallowlist)
+
+#### Defined in
+
+[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/storage.ts#L34)
 
 ---
 
 ### storeMetadata
 
-▸ **storeMetadata**(`data`): `Promise`<`CIDString`\>
+▸ **storeMetadata**(`metadata`): `Promise`<`string`\>
 
-Stores metadata for a Hypercert.
+Stores Hypercert metadata using the NFT Storage client.
 
-**`Throws`**
-
-A `StorageError` if the storage client is not configured.
-
-**`Throws`**
-
-A `MalformedDataError` if the metadata is invalid.
-
-**`Notice`**
-
-Because we pay for storage quotas, this data is stored best effort.
-If you are using our default keys, we may delete older data if we hit our storage quota.
+This method first checks if the storage is read-only or if the NFT Storage client is not configured. If either of these conditions is true, it throws a `StorageError`.
+It then validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
+If the metadata is valid, it creates a new Blob from the metadata and stores it using the NFT Storage client. If the storage operation fails, it throws a `StorageError`.
 
 #### Parameters
 
-| Name   | Type                                                      | Description            |
-| :----- | :-------------------------------------------------------- | :--------------------- |
-| `data` | [`HypercertMetadata`](../interfaces/HypercertMetadata.md) | The metadata to store. |
+| Name       | Type                                                      |
+| :--------- | :-------------------------------------------------------- |
+| `metadata` | [`HypercertMetadata`](../interfaces/HypercertMetadata.md) |
 
 #### Returns
 
-`Promise`<`CIDString`\>
+`Promise`<`string`\>
 
-A Promise that resolves to the CID of the stored metadata.
+A promise that resolves to the CID of the stored metadata.
+
+**`Throws`**
+
+Will throw a `StorageError` if the storage is read-only, if the NFT Storage client is not configured, or if the storage operation fails.
+
+**`Throws`**
+
+Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Implementation of
 
-HypercertStorageInterface.storeMetadata
+[HypercertStorageInterface](../interfaces/HypercertStorageInterface.md).[storeMetadata](../interfaces/HypercertStorageInterface.md#storemetadata)
 
 #### Defined in
 
-[sdk/src/storage.ts:67](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/storage.ts#L67)
+[sdk/src/storage.ts:70](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/storage.ts#L70)

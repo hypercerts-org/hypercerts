@@ -1,19 +1,14 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / EASEvaluation
-
-# Interface: EASEvaluation
+---
+id: "EASEvaluation"
+title: "Interface: EASEvaluation"
+sidebar_label: "EASEvaluation"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 ## Indexable
 
 ▪ [k: `string`]: `unknown`
-
-## Table of contents
-
-### Properties
-
-- [chainId](EASEvaluation.md#chainid)
-- [contract](EASEvaluation.md#contract)
-- [type](EASEvaluation.md#type)
-- [uid](EASEvaluation.md#uid)
 
 ## Properties
 
@@ -23,7 +18,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:41](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L41)
+[sdk/src/types/evaluation.d.ts:41](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L41)
 
 ---
 
@@ -33,7 +28,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:42](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L42)
+[sdk/src/types/evaluation.d.ts:42](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L42)
 
 ---
 
@@ -43,7 +38,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:40](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L40)
+[sdk/src/types/evaluation.d.ts:40](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L40)
 
 ---
 
@@ -53,4 +48,4 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:43](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L43)
+[sdk/src/types/evaluation.d.ts:43](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L43)

@@ -303,29 +303,6 @@ contract HypercertFractionOrdersTest is ProtocolBase {
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
-    /**
-     * A collection offer without merkle tree criteria
-     */
-    function testTakerBidHypercertFractionOrderPartialFill() public {
-        _setUpUsers();
-
-        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
-            _createMakerAskAndTakerBidHypercert(true);
-
-        // Sign order
-        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
-
-        // Verify validity of maker bid order
-        _assertOrderIsValid(makerAsk, false);
-        _assertValidMakerOrder(makerAsk, signature);
-
-        // Execute taker ask transaction
-        vm.prank(takerUser);
-        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
-
-        _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
-    }
-
     function testTakerBidHypercertFractionOrderFullFill() public {
         _setUpUsers();
 
@@ -537,6 +514,29 @@ contract HypercertFractionOrdersTest is ProtocolBase {
         vm.prank(takerUser);
         vm.expectRevert(OrderInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    /**
+     * A collection offer without merkle tree criteria
+     */
+    function testTakerBidHypercertFractionOrderPartialFill() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) =
+            _createMakerAskAndTakerBidHypercert(true);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        // Verify validity of maker bid order
+        _assertOrderIsValid(makerAsk, false);
+        _assertValidMakerOrder(makerAsk, signature);
+
+        // Execute taker ask transaction
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        _assertSuccessfulTakerBid(makerAsk, takerBid, (1 << 128) + 1);
     }
 
     /**

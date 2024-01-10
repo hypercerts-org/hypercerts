@@ -22,12 +22,6 @@ export interface SupportedNetworks {
 export const NETWORKS: SupportedNetworks = {
   TEST: [
     {
-      networkKey: "goerli",
-      contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-      alchemyKeyEnvName: "ALCHEMY_GOERLI_KEY",
-      chainId: 5,
-    },
-    {
       networkKey: "sepolia",
       contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
       chainId: 11155111,
@@ -55,23 +49,28 @@ export const NETWORKS: SupportedNetworks = {
  * We'll then subsequently use `getNetworkConfigFromName`
  * to extract the network name from within the Autotask
  * @param network
+ * @param contract
  * @param name - name pre-encoding
  * @returns
  */
-export const encodeName = (network: NetworkConfig, name: string) =>
-  `[${network.networkKey}] ${name}`;
+export const encodeName = (
+  network: NetworkConfig,
+  contract: "minter" | "exchange",
+  name: string,
+) => `[${network.networkKey}][${contract}] ${name}`;
 
 export const decodeName = (
   encodedName: string,
-): { networkKey: string; name: string } => {
-  const regex = /^\[(.+)\]\s(.+)$/;
+): { networkKey: string; contract: string; name: string } => {
+  const regex = /^\[(.+)\]\[(.+)\]\s(.+)$/;
   const match = encodedName.match(regex);
   if (!match) {
     throw new Error(`Invalid encoded name: ${encodedName}`);
   }
   const networkKey = match[1];
-  const name = match[2];
-  return { networkKey, name };
+  const contract = match[2];
+  const name = match[3];
+  return { networkKey, contract, name };
 };
 
 /**

@@ -1,17 +1,14 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / IPFSEvaluation
-
-# Interface: IPFSEvaluation
+---
+id: "IPFSEvaluation"
+title: "Interface: IPFSEvaluation"
+sidebar_label: "IPFSEvaluation"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 ## Indexable
 
 ▪ [k: `string`]: `unknown`
-
-## Table of contents
-
-### Properties
-
-- [cid](IPFSEvaluation.md#cid)
-- [type](IPFSEvaluation.md#type)
 
 ## Properties
 
@@ -21,7 +18,7 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:48](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L48)
+[sdk/src/types/evaluation.d.ts:48](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L48)
 
 ---
 
@@ -31,4 +28,4 @@
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:47](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L47)
+[sdk/src/types/evaluation.d.ts:47](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L47)

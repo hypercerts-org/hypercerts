@@ -1,4 +1,4 @@
-import { sepolia, goerli, optimism, celo, Chain } from "viem/chains";
+import { sepolia, optimism, celo, Chain } from "viem/chains";
 
 import { DEPLOYMENTS } from "../constants";
 import {
@@ -22,7 +22,6 @@ import { deployments } from "../../src";
  * environment variables to create the final configuration object. If any required properties are missing, it logs a warning.
  *
  * Current supported chain IDs are:
- * - 5: Goerli
  * - 10: Optimism
  * - 42220: Celo
  * - 11155111: Sepolia
@@ -84,8 +83,6 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
     ...getPublicClient(overrides),
     ...getContractAddress(overrides),
     ...getGraphUrl(overrides),
-    ...getNftStorageToken(overrides),
-    ...getWeb3StorageToken(overrides),
     ...getEasContractAddress(overrides),
   };
 
@@ -191,24 +188,12 @@ const getPublicClient = (overrides: Partial<HypercertClientConfig>) => {
   return { publicClient };
 };
 
-export const getNftStorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.nftStorageToken) {
-    return { nftStorageToken: overrides.nftStorageToken };
-  }
-};
-
-export const getWeb3StorageToken = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.web3StorageToken) {
-    return { web3StorageToken: overrides.web3StorageToken };
-  }
-};
-
 const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
   return { easContractAddress: overrides.easContractAddress };
 };
 
 const getDefaultChain = (chainId: number) => {
-  const _chains = [sepolia, goerli, optimism, celo];
+  const _chains = [sepolia, optimism, celo];
 
   for (const chain of Object.values(_chains)) {
     if ("id" in chain) {

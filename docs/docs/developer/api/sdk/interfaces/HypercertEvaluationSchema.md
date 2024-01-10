@@ -1,20 +1,16 @@
-[Hypercerts SDK Documentation](../README.md) / [Exports](../modules.md) / HypercertEvaluationSchema
-
-# Interface: HypercertEvaluationSchema
+---
+id: "HypercertEvaluationSchema"
+title: "Interface: HypercertEvaluationSchema"
+sidebar_label: "HypercertEvaluationSchema"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 Schema for evaluating Hypercerts across different sources and evaluation types
 
 ## Indexable
 
 ▪ [k: `string`]: `unknown`
-
-## Table of contents
-
-### Properties
-
-- [creator](HypercertEvaluationSchema.md#creator)
-- [evaluationData](HypercertEvaluationSchema.md#evaluationdata)
-- [evaluationSource](HypercertEvaluationSchema.md#evaluationsource)
 
 ## Properties
 
@@ -24,7 +20,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:15](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L15)
+[sdk/src/types/evaluation.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L15)
 
 ---
 
@@ -34,7 +30,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:16](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L16)
+[sdk/src/types/evaluation.d.ts:16](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L16)
 
 ---
 
@@ -44,4 +40,4 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:17](https://github.com/Network-Goods/hypercerts/blob/9677274/sdk/src/types/evaluation.d.ts#L17)
+[sdk/src/types/evaluation.d.ts:17](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/evaluation.d.ts#L17)

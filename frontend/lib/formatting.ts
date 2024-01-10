@@ -59,7 +59,7 @@ export const getOpenSeaFractionUrl = (
     _tokenId = _tokenId.slice(0, -1);
   }
 
-  return `https://testnets.opensea.io/assets/goerli/${contractAddress}/${_tokenId}`;
+  return `https://testnets.opensea.io/assets/sepolia/${contractAddress}/${_tokenId}`;
 };
 
 export const formatAddress = (address: string) =>
