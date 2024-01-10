@@ -1,6 +1,6 @@
 # StrategyDutchAuction
 
-_LooksRare protocol team (👀,💎)_
+_LooksRare protocol team (👀,💎); bitbeckers_
 
 > StrategyDutchAuction
 
@@ -73,6 +73,14 @@ error BidTooLow()
 ```
 
 It is returned if the bid price is too low for the ask user.
+
+### CollectionTypeInvalid
+
+```solidity
+error CollectionTypeInvalid()
+```
+
+It is returned is the collection type is not supported. For instance if the strategy is specific to hypercerts.
 
 ### OrderInvalid
 

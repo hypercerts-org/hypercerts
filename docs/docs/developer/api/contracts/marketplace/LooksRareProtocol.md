@@ -36,6 +36,25 @@ Wrapped ETH.
 | ---- | ------- | ----------- |
 | \_0  | address | undefined   |
 
+### \_getUnitsHeldByHypercertFractions
+
+```solidity
+function _getUnitsHeldByHypercertFractions(address collection, uint256[] itemIds) external view returns (uint256 unitsHeldByItems)
+```
+
+#### Parameters
+
+| Name       | Type      | Description |
+| ---------- | --------- | ----------- |
+| collection | address   | undefined   |
+| itemIds    | uint256[] | undefined   |
+
+#### Returns
+
+| Name             | Type    | Description |
+| ---------------- | ------- | ----------- |
+| unitsHeldByItems | uint256 | undefined   |
+
 ### addStrategy
 
 ```solidity
@@ -862,6 +881,14 @@ error ChainIdInvalid()
 
 It is returned if the domain separator should change.
 
+### CollectionTypeInvalid
+
+```solidity
+error CollectionTypeInvalid()
+```
+
+It is returned is the collection type is not supported. For instance if the strategy is specific to hypercerts.
+
 ### CreatorFeeBpTooHigh
 
 ```solidity
@@ -1142,11 +1169,13 @@ error TransferNotInProgress()
 
 This is returned when there is no ownership transfer in progress but the ownership change tries to be approved.
 
-### UnsupportedCollectionType
+### UnitAmountInvalid
 
 ```solidity
-error UnsupportedCollectionType()
+error UnitAmountInvalid()
 ```
+
+It is returned if the available amount of fraction units is not available for the selected type of transaction. For instance, a split transaction cannot be executed if the amount of fraction units is not higher than the amount of fraction units available.
 
 ### WrongPotentialOwner
 

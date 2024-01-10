@@ -22,7 +22,7 @@ The state of the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:124](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L124)
+[sdk/src/types/client.ts:119](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L119)
 
 ---
 
@@ -34,7 +34,7 @@ The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:123](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L123)
+[sdk/src/types/client.ts:118](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L118)
 
 ---
 
@@ -46,7 +46,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:119](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L119)
+[sdk/src/types/client.ts:114](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L114)
 
 ---
 
@@ -58,4 +58,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:121](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L121)
+[sdk/src/types/client.ts:116](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L116)

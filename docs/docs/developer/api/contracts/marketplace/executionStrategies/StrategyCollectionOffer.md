@@ -4,7 +4,7 @@ _LooksRare protocol team (👀,💎); bitbeckers_
 
 > StrategyCollectionOffer
 
-This contract offers execution strategies for users to create maker bid offers for items in a collection. There are two available functions: 1. executeCollectionStrategyWithTakerAsk --&gt; it applies to all itemIds in a collection 2. executeCollectionStrategyWithTakerAskWithProof --&gt; it allows adding merkle proof criteria for tokenIds. 2. executeCollectionStrategyWithTakerAskWithAllowlist --&gt; it allows adding merkle proof criteria for accounts.The bidder can only bid on 1 item id at a time. 1. If ERC721, the amount must be 1. 2. If ERC1155, the amount can be greater than 1. 3. If Hypercert, the amount must be 1 (fractions are NFTs)
+This contract offers execution strategies for users to create maker bid offers for items in a collection. There are two available functions: 1. executeCollectionStrategyWithTakerAsk --&gt; it applies to all itemIds in a collection 2. executeCollectionStrategyWithTakerAskWithProof --&gt; it allows adding merkle proof criteria for tokenIds. 2. executeCollectionStrategyWithTakerAskWithAllowlist --&gt; it allows adding merkle proof criteria for accounts.The bidder can only bid on 1 item id at a time. 1. If ERC721, the amount must be 1. 2. If ERC1155, the amount can be greater than 1.
 
 ## Methods
 
@@ -109,6 +109,14 @@ function isMakerOrderValid(OrderStructs.Maker makerBid, bytes4 functionSelector)
 | errorSelector | bytes4 | undefined   |
 
 ## Errors
+
+### CollectionTypeInvalid
+
+```solidity
+error CollectionTypeInvalid()
+```
+
+It is returned is the collection type is not supported. For instance if the strategy is specific to hypercerts.
 
 ### MerkleProofInvalid
 

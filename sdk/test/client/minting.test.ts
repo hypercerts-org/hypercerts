@@ -6,7 +6,7 @@ import { encodeFunctionResult, isHex, parseEther } from "viem";
 
 import { HypercertClient } from "../../src/client";
 import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src";
-import { ContractError, MalformedDataError } from "../../src/types/errors";
+import { MalformedDataError, ContractError } from "../../src/types/errors";
 import { TransferRestrictions } from "../../src/types/hypercerts";
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
@@ -14,6 +14,8 @@ import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CIDString } from "nft.storage";
+
+chai.use(assertionsCount);
 
 chai.use(assertionsCount);
 

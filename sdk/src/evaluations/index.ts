@@ -26,7 +26,7 @@ export class HypercertEvaluator implements EvaluatorInterface {
       this.readonly = false;
     }
 
-    this.storage = new HypercertsStorage(config);
+    this.storage = new HypercertsStorage();
   }
 
   submitEvaluation = async (evaluation: HypercertEvaluationSchema): Promise<CIDString> => {

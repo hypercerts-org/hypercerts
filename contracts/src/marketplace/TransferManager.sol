@@ -157,13 +157,13 @@ contract TransferManager is
         _isOperatorValidForTransfer(from, msg.sender);
 
         if (length == 1) {
-            if (amounts[0] == 0) {
+            if (amounts[0] != 1) {
                 revert AmountInvalid();
             }
             _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], amounts[0]);
         } else {
             for (uint256 i; i < length;) {
-                if (amounts[i] == 0) {
+                if (amounts[i] != 1) {
                     revert AmountInvalid();
                 }
 

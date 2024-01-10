@@ -101,6 +101,21 @@ contract ProtocolHelpers is TestHelpers, TestParameters {
         return abi.encodePacked(r, s, v);
     }
 
+    function _signTakerDataCollectionStrategy(
+        OrderStructs.Maker memory maker,
+        uint256 offeredItemId,
+        bytes32[] memory proof,
+        uint256 signerKey
+    ) internal view returns (bytes memory) {
+        bytes32 orderHash = _computeOrderHash(maker);
+        bytes32 dataHash = keccak256(abi.encodePacked(orderHash, offeredItemId, proof));
+
+        (uint8 v, bytes32 r, bytes32 s) =
+            vm.sign(signerKey, keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", dataHash)));
+
+        return abi.encodePacked(r, s, v);
+    }
+
     function _computeOrderHash(OrderStructs.Maker memory maker) internal pure returns (bytes32) {
         return maker.hash();
     }

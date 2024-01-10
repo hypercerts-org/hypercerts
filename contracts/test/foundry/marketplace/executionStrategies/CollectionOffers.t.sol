@@ -13,7 +13,8 @@ import {
     OrderInvalid,
     FunctionSelectorInvalid,
     MerkleProofInvalid,
-    QuoteTypeInvalid
+    QuoteTypeInvalid,
+    CollectionTypeInvalid
 } from "@hypercerts/marketplace/errors/SharedErrors.sol";
 import {MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE} from
     "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
@@ -127,6 +128,30 @@ contract CollectionOrdersTest is ProtocolBase {
 
         vm.prank(takerUser);
         vm.expectRevert(AmountInvalid.selector);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    function testCollectionTypeInvalid() public {
+        _setUpUsers();
+
+        (OrderStructs.Maker memory makerBid, OrderStructs.Taker memory takerAsk) =
+            _createMockMakerBidAndTakerAsk(address(mockERC721), address(weth));
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+        makerBid.amounts = amounts;
+        makerBid.strategyId = 1;
+        makerBid.collectionType = CollectionType.Hypercert;
+        makerBid.additionalParameters = abi.encode(mockMerkleRoot);
+
+        takerAsk.additionalParameters = abi.encode(1, 1);
+        bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+
+        _assertOrderIsInvalidCollection(makerBid, false);
+        _assertMakerOrderReturnValidationCode(makerBid, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+
+        vm.prank(takerUser);
+        vm.expectRevert(CollectionTypeInvalid.selector);
         looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
     }
 
@@ -504,6 +529,14 @@ contract CollectionOrdersTest is ProtocolBase {
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, OrderInvalid.selector);
+    }
+
+    function _assertOrderIsInvalidCollection(OrderStructs.Maker memory makerBid, bool withProof) private {
+        (bool orderIsValid, bytes4 errorSelector) =
+            strategyCollectionOffer.isMakerOrderValid(makerBid, withProof ? selectorWithProof : selectorNoProof);
+
+        assertFalse(orderIsValid);
+        assertEq(errorSelector, CollectionTypeInvalid.selector);
     }
 
     function _mintNFTsToOwnerAndGetMerkleRootAndProof(

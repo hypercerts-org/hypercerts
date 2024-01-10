@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import { startProxy } from "@viem/anvil";
-
 dotenv.config({ path: "./.env" });
 
 const reloadEnv = () => {

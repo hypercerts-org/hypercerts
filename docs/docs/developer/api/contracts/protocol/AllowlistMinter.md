@@ -8,6 +8,24 @@ This interface declares the required functionality for a hypercert tokenThis int
 
 ## Methods
 
+### getMinted
+
+```solidity
+function getMinted(uint256 claimID) external view returns (uint256 mintedUnits)
+```
+
+#### Parameters
+
+| Name    | Type    | Description |
+| ------- | ------- | ----------- |
+| claimID | uint256 | undefined   |
+
+#### Returns
+
+| Name        | Type    | Description |
+| ----------- | ------- | ----------- |
+| mintedUnits | uint256 | undefined   |
+
 ### hasBeenClaimed
 
 ```solidity

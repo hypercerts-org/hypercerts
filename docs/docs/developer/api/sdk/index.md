@@ -32,7 +32,7 @@ import { HypercertClient } from "@hypercerts-org/sdk";
 
 ```js
 const client = new HypercertClient({
-  chain: { id: 5 } // required
+  chain: { id: 11155111 }, // required
   nftStorageToken,
   web3StorageToken,
 });
@@ -59,7 +59,7 @@ This will validate the metadata, store it on IPFS, create a new hypercert on-cha
 You can also use the client to query the subgraph and retrieve which claims an address owns:
 
 ```js
-const claims = await client.indexer.fractionsByOwner(owner),
+const claims = await client.indexer.fractionsByOwner(owner);
 ```
 
 For more information on how to use the SDK, check out the
@@ -116,7 +116,7 @@ HypercertIndexer, and HypercertMinter classes, respectively.
 ```js
 const {
   client: { storage },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata on IPFS and
@@ -125,7 +125,7 @@ NFT.storage. It is used by the HypercertClient to store metadata when creating n
 ```js
 const {
   client: { indexer },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 The `indexer` is a utility class that provides methods for indexing and searching Hypercerts based on various criteria.
@@ -134,7 +134,7 @@ It is used by the HypercertClient to retrieve event-based data via the subgraph
 ```js
 const {
   client: { contract },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 Finally we have a `contract` that provides methods for interacting with the HypercertMinter smart contract. It is used

@@ -6,9 +6,16 @@ import {OrderStructs} from "../libraries/OrderStructs.sol";
 
 // Enums
 import {QuoteType} from "../enums/QuoteType.sol";
+import {CollectionType} from "../enums/CollectionType.sol";
 
 // Shared errors
-import {BidTooLow, OrderInvalid, FunctionSelectorInvalid, QuoteTypeInvalid} from "../errors/SharedErrors.sol";
+import {
+    BidTooLow,
+    OrderInvalid,
+    FunctionSelectorInvalid,
+    QuoteTypeInvalid,
+    CollectionTypeInvalid
+} from "../errors/SharedErrors.sol";
 
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
@@ -16,7 +23,7 @@ import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 /**
  * @title StrategyDutchAuction
  * @notice This contract offers a single execution strategy for users to create Dutch auctions.
- * @author LooksRare protocol team (👀,💎)
+ * @author LooksRare protocol team (👀,💎); bitbeckers
  */
 contract StrategyDutchAuction is BaseStrategy {
     /**
@@ -32,6 +39,10 @@ contract StrategyDutchAuction is BaseStrategy {
         view
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
     {
+        if (makerAsk.collectionType != CollectionType.ERC721 && makerAsk.collectionType != CollectionType.ERC1155) {
+            revert CollectionTypeInvalid();
+        }
+
         uint256 itemIdsLength = makerAsk.itemIds.length;
 
         if (itemIdsLength == 0 || itemIdsLength != makerAsk.amounts.length) {
@@ -70,6 +81,10 @@ contract StrategyDutchAuction is BaseStrategy {
         override
         returns (bool isValid, bytes4 errorSelector)
     {
+        if (makerAsk.collectionType != CollectionType.ERC721 && makerAsk.collectionType != CollectionType.ERC1155) {
+            return (isValid, CollectionTypeInvalid.selector);
+        }
+
         if (functionSelector != StrategyDutchAuction.executeStrategyWithTakerBid.selector) {
             return (isValid, FunctionSelectorInvalid.selector);
         }

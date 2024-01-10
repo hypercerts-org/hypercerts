@@ -764,12 +764,6 @@ error TransferNotInProgress()
 
 This is returned when there is no ownership transfer in progress but the ownership change tries to be approved.
 
-### UnsupportedCollectionType
-
-```solidity
-error UnsupportedCollectionType()
-```
-
 ### WrongPotentialOwner
 
 ```solidity

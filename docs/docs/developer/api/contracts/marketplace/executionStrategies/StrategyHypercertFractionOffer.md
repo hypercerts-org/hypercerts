@@ -4,7 +4,7 @@ _LooksRare protocol team (👀,💎); bitbeckers;_
 
 > StrategyHypercertFractionOffer
 
-This contract offers a single execution strategy for users to bid on a specific amount of units in an hypercerts that&#39;s for sale. Example: Alice has 100 units of a hypercert (id: 42) for sale at a minimum price of 0.001 ETH/unit. Bob wants to buy 10 units. Bob can create a taker bid order with the following parameters: - unitAmount: 10000 // Total amount for sale; in `amounts` array - minUnitAmount: 100 // Minimum amount to buy; in `additionalParameters` - maxUnitAmount: 1000 // Maximum amount to buy; in `additionalParameters` - acceptedTokenAmount: 1000000000000000 (0.001 ETH in wei) - acceptedTokenAddress: 0x0000000000000000000000000000000000000000 - proof: [0xsdadfa....s9fds,0xdasdas...asff8e] This strategy will validate the available units and the price.This contract offers execution strategies for users to create maker bid offers for items in a collection. There are three available functions: 1. executeCollectionStrategyWithTakerAsk --&gt; it applies to all itemIds in a collection 2. executeCollectionStrategyWithTakerAskWithAllowlist --&gt; it allows adding merkle proof criteria for accounts.The bidder can only bid on 1 item id at a time. 1. If ERC721, the amount must be 1. 2. If ERC1155, the amount can be greater than 1. 3. If Hypercert, the amount can be greater than 1 because they represent units held by the hypercert.
+This contract offers a single execution strategy for users to bid on a specific amount of units in an hypercerts that&#39;s for sale. Example: Alice has 100 units of a hypercert (id: 42) for sale at a minimum price of 0.001 ETH/unit. Bob wants to buy 10 units. Bob can create a taker bid order with the following parameters: - unitAmount: 10000 // in `additionalParameters` - pricePerUnit: 10 // amount of accepted token paid; in `additionalParameters` - proof: [0xsdadfa....s9fds,0xdasdas...asff8e] // proof to the root defined in the maker ask; in `additionalParameters` This strategy will validate the available units and the price.This contract offers execution strategies for users to create maker bid offers for items in a collection. There are three available functions: 1. executeHypercertFractionStrategyWithTakerBid --&gt; it applies to all itemIds in a collection 2. executeHypercertFractionStrategyWithTakerBidWithAllowlist --&gt; it allows adding merkle proof criteria for accounts.The bidder can only bid on 1 item id at a time. 1. If Hypercert, the amount must be 1 because the fractions are NFTs.
 
 _Use cases can include tiered pricing; think early bird tickets._
 
@@ -96,7 +96,7 @@ function isMakerOrderValid(OrderStructs.Maker makerAsk, bytes4 functionSelector)
 error AmountInvalid()
 ```
 
-It is returned if the amount is invalid. For ERC721, any number that is not 1. For ERC1155 and Hypercert, if amount is 0.
+It is returned if the amount is invalid. For ERC721 and Hypercert, any number that is not 1. For ERC1155, if amount is 0.
 
 ### LengthsInvalid
 

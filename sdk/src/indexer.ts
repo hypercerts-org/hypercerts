@@ -1,5 +1,4 @@
 import { logger } from "./utils";
-
 import { defaultQueryParams } from "./indexer/utils";
 import { HypercertClientConfig, HypercertIndexerInterface, QueryParams } from "./types";
 import { Client, cacheExchange, fetchExchange } from "@urql/core";

@@ -346,6 +346,8 @@ export class HypercertClient implements HypercertClientInterface {
 
     const request = await this.simulateRequest(account, "mergeFractions", [account?.address, fractionIds], overrides);
 
+    console.log(request);
+
     return this.submitRequest(request);
   };
 

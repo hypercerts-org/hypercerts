@@ -38,7 +38,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L98)
+[sdk/src/types/client.ts:93](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L93)
 
 ---
 
@@ -50,7 +50,7 @@ A Promise that resolves to the retrieved data.
 
 ▸ (`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
 
-Retrieves the metadata for a Hypercert evaluation.
+Retrieves the metadata for a hypercerts.
 
 ##### Parameters
 
@@ -66,47 +66,48 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:84](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L84)
+[sdk/src/types/client.ts:86](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L86)
 
 ---
 
-### storeData
+### storeAllowList
 
-• **storeData**: (`data`: `unknown`) => `Promise`<`CIDString`\>
+• **storeAllowList**: (`allowList`: [`AllowlistEntry`](../modules.md#allowlistentry)[], `totalUnits`: `bigint`) => `Promise`<`string`\>
 
 #### Type declaration
 
-▸ (`data`): `Promise`<`CIDString`\>
+▸ (`allowList`, `totalUnits`): `Promise`<`string`\>
 
-Stores arbitrary data on IPFS.
+Stores the allowlost for a hypercert.
 
 ##### Parameters
 
-| Name   | Type      | Description        |
-| :----- | :-------- | :----------------- |
-| `data` | `unknown` | The data to store. |
+| Name         | Type                                               | Description            |
+| :----------- | :------------------------------------------------- | :--------------------- |
+| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[] | The metadata to store. |
+| `totalUnits` | `bigint`                                           | -                      |
 
 ##### Returns
 
-`Promise`<`CIDString`\>
+`Promise`<`string`\>
 
-A Promise that resolves to the CID of the stored data.
+A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L91)
+[sdk/src/types/client.ts:72](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L72)
 
 ---
 
 ### storeMetadata
 
-• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md)) => `Promise`<`CIDString`\>
+• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md)) => `Promise`<`string`\>
 
 #### Type declaration
 
-▸ (`metadata`): `Promise`<`CIDString`\>
+▸ (`metadata`): `Promise`<`string`\>
 
-Stores the metadata for a Hypercert evaluation.
+Stores the metadata for a hypercert.
 
 ##### Parameters
 
@@ -116,10 +117,10 @@ Stores the metadata for a Hypercert evaluation.
 
 ##### Returns
 
-`Promise`<`CIDString`\>
+`Promise`<`string`\>
 
 A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:77](https://github.com/hypercerts-org/hypercerts/blob/0793659/sdk/src/types/client.ts#L77)
+[sdk/src/types/client.ts:79](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L79)
