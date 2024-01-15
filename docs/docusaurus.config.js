@@ -96,6 +96,12 @@ export default async function createConfigAsync() {
         items: [
           {
             type: "doc",
+            docId: "announcements",
+            position: "left",
+            label: "Announcements",
+          },
+          {
+            type: "doc",
             docId: "intro",
             position: "left",
             label: "Docs",
