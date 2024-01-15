@@ -18,6 +18,8 @@ import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
+import { getClaimStoredDataFromTxHash } from "./utils";
+import { ParserReturnType } from "./utils/txParser";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -103,10 +105,7 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: this._config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
-      client: {
-        public: this._publicClient,
-        wallet: this._walletClient,
-      },
+      publicClient: this._publicClient,
     });
   }
 
@@ -157,9 +156,7 @@ export class HypercertClient implements HypercertClientInterface {
   getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: {
-        public: this._publicClient,
-      },
+      publicClient: this._publicClient,
     });
 
     return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
@@ -288,9 +285,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: {
-        public: this._publicClient,
-      },
+      publicClient: this._publicClient,
     });
 
     const fractionOwner = (await readContract.read.ownerOf([fractionId])) as `0x${string}`;
@@ -334,9 +329,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: {
-        public: this._publicClient,
-      },
+      publicClient: this._publicClient,
     });
 
     const fractions = await Promise.all(
@@ -376,9 +369,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: {
-        public: this._publicClient,
-      },
+      publicClient: this._publicClient,
     });
 
     const claimOwner = (await readContract.read.ownerOf([claimId])) as `0x${string}`;
@@ -481,15 +472,19 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
+    const { data, errors, success } = await getClaimStoredDataFromTxHash(this._publicClient, hash);
+
+    return { data, errors, success };
+  };
+
   private getContractConfig = () => {
     if (!this.config?.contractAddress) throw new ClientError("No contract address found", { config: this.config });
 
     return getContract({
       address: this.config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
-      client: {
-        public: this._publicClient,
-      },
+      publicClient: this._publicClient,
     });
   };
 
