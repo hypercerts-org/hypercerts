@@ -103,8 +103,10 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: this._config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
-      publicClient: this._publicClient,
-      walletClient: this._walletClient,
+      client: {
+        public: this._publicClient,
+        wallet: this._walletClient,
+      },
     });
   }
 
@@ -155,7 +157,9 @@ export class HypercertClient implements HypercertClientInterface {
   getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: {
+        public: this._publicClient,
+      },
     });
 
     return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
@@ -284,7 +288,9 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: {
+        public: this._publicClient,
+      },
     });
 
     const fractionOwner = (await readContract.read.ownerOf([fractionId])) as `0x${string}`;
@@ -328,7 +334,9 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: {
+        public: this._publicClient,
+      },
     });
 
     const fractions = await Promise.all(
@@ -368,7 +376,9 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: {
+        public: this._publicClient,
+      },
     });
 
     const claimOwner = (await readContract.read.ownerOf([claimId])) as `0x${string}`;
@@ -477,6 +487,9 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: this.config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
+      client: {
+        public: this._publicClient,
+      },
     });
   };
 
