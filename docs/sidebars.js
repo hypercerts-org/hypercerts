@@ -18,6 +18,10 @@ const sidebars = {
       type: "doc",
       id: "intro",
     },
+   {
+      type: "doc",
+      id: "announcements",
+    },
     {
       type: "category",
       label: "Vision & Whitepaper",
