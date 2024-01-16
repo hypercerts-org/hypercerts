@@ -119,10 +119,7 @@ export async function handler(event: AutotaskEvent) {
   if (!treeResponse) {
     throw new Error("Could not fetch json tree dump for allowlist");
   }
-  const tree =
-    typeof treeResponse === "string"
-      ? StandardMerkleTree.load(JSON.parse(treeResponse))
-      : StandardMerkleTree.load(treeResponse);
+  const tree = StandardMerkleTree.load(JSON.parse(treeResponse));
 
   // Find the proof
   const addresses: string[] = [];
