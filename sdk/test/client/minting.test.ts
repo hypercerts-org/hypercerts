@@ -17,8 +17,6 @@ import { CIDString } from "nft.storage";
 
 chai.use(assertionsCount);
 
-chai.use(assertionsCount);
-
 describe("mintClaim in HypercertClient", () => {
   const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
 
