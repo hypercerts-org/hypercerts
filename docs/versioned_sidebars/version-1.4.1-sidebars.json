@@ -38,10 +38,6 @@
         },
         {
           "type": "doc",
-          "id": "whitepaper/evaluation"
-        },
-        {
-          "type": "doc",
           "id": "whitepaper/retrospective-funding"
         }
       ]
@@ -74,10 +70,6 @@
         {
           "type": "doc",
           "id": "developer/split-merge"
-        },
-        {
-          "type": "doc",
-          "id": "developer/evaluations"
         },
         {
           "type": "doc",

@@ -71,7 +71,7 @@ Note: The original implementation using the Web3 Storage client is currently com
 
 #### Defined in
 
-[sdk/src/storage.ts:128](https://github.com/hypercerts-org/hypercerts/blob/15d38fc/sdk/src/storage.ts#L128)
+[sdk/src/storage.ts:128](https://github.com/hypercerts-org/hypercerts/blob/b145e86/sdk/src/storage.ts#L128)
 
 ---
 
@@ -106,7 +106,7 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:105](https://github.com/hypercerts-org/hypercerts/blob/15d38fc/sdk/src/storage.ts#L105)
+[sdk/src/storage.ts:105](https://github.com/hypercerts-org/hypercerts/blob/b145e86/sdk/src/storage.ts#L105)
 
 ---
 
@@ -147,7 +147,7 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/15d38fc/sdk/src/storage.ts#L34)
+[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/b145e86/sdk/src/storage.ts#L34)
 
 ---
 
@@ -187,4 +187,4 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:74](https://github.com/hypercerts-org/hypercerts/blob/15d38fc/sdk/src/storage.ts#L74)
+[sdk/src/storage.ts:74](https://github.com/hypercerts-org/hypercerts/blob/b145e86/sdk/src/storage.ts#L74)
