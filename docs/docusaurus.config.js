@@ -54,6 +54,13 @@ export default async function createConfigAsync() {
         {
           blog: false, // Optional: disable the blog plugin
           docs: {
+            lastVersion: "current", //https://docusaurus.io/docs/versioning
+            versions: {
+              current: {
+                label: "1.4.1",
+                path: "1.4.1",
+              },
+            },
             routeBasePath: "/", // Serve the docs at the site's root
             sidebarPath: "./sidebars.js",
             // Please change this to your repo.
