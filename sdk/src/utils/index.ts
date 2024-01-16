@@ -6,6 +6,7 @@ import { formatHypercertData } from "./formatter";
 import { logger } from "./logger";
 import { handleSdkError, handleContractError } from "./errors";
 import { uploadMetadata, uploadAllowlist } from "./apis";
+import { getClaimStoredDataFromTxHash } from "./txParser";
 
 export {
   walletClientToSigner,
@@ -19,4 +20,5 @@ export {
   uploadMetadata,
   uploadAllowlist,
   parseAllowListEntriesToMerkleTree,
+  getClaimStoredDataFromTxHash,
 };

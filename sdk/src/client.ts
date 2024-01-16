@@ -20,6 +20,8 @@ import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
 import { DEPLOYMENTS } from "./constants";
+import { getClaimStoredDataFromTxHash } from "./utils";
+import { ParserReturnType } from "./utils/txParser";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -104,10 +106,9 @@ export class HypercertClient implements HypercertClientInterface {
    */
   get contract(): GetContractReturnType<typeof HypercertMinterAbi> {
     return getContract({
-      address: this._config.addresses?.HypercertMinter as `0x${string}`,
+      address: this._config.addresses?.HypercertMinterUUPS as `0x${string}`,
       abi: HypercertMinterAbi,
       publicClient: this._publicClient,
-      walletClient: this._walletClient,
     });
   }
 
@@ -483,6 +484,12 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
+    const { data, errors, success } = await getClaimStoredDataFromTxHash(this._publicClient, hash);
+
+    return { data, errors, success };
+  };
+
   private getContractConfig = () => {
     console.log(this.config);
     if (!this.config?.addresses?.HypercertMinterUUPS)
@@ -491,6 +498,7 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: this.config.addresses.HypercertMinterUUPS as `0x${string}`,
       abi: HypercertMinterAbi,
+      publicClient: this._publicClient,
     });
   };
 
