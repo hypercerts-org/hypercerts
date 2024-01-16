@@ -1,5 +1,16 @@
 # Release notes
 
+## 1.4.0
+
+- Added all deployments from `@hypercerts-org/contracts` to the SDK under deploments.
+- Deprecated `getContract` because we no longer have one contract address per network.
+- Added `getDeployments` to retrieve all deployments for a network.
+
+## 1.3.0
+
+- Added `txParser` util to parse transaction hashes and return the required data
+- Added `getClaimStoredDataFromTxHash` to retrieve the claim data from a transaction hash
+
 ## 1.1.1
 
 - Deprecate goerli chain
