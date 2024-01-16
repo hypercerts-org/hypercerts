@@ -12,9 +12,10 @@ type AllowListPostRequest = {
 /**
  * Type for the response data from the API.
  */
-type ResponseData = {
+type ResponseData<T> = {
+  success: boolean;
   message: string;
-  cid?: string;
+  data?: T;
   errors?: Record<string, string | string[]>;
 };
 
@@ -30,7 +31,7 @@ const api = axios.create({ timeout: 10000, headers: { "Content-Type": "applicati
  * @returns The response data from the API.
  */
 const uploadMetadata = async (metadata: HypercertMetadata) => {
-  const response = await api.post<ResponseData>(
+  const response = await api.post<ResponseData<{ cid: string }>>(
     "https://hypercerts-api-production.up.railway.app/api/v1/web3up/metadata",
     metadata,
   );
@@ -46,7 +47,7 @@ const uploadMetadata = async (metadata: HypercertMetadata) => {
  *
  */
 const uploadAllowlist = async (req: AllowListPostRequest) => {
-  const response = await api.post<ResponseData>(
+  const response = await api.post<ResponseData<{ cid: string }>>(
     "https://hypercerts-api-production.up.railway.app/api/v1/web3up/allowlist",
     req,
   );

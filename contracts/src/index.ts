@@ -6,8 +6,12 @@ import OrderValidatorV2AAbi from "../abi/src/marketplace/helpers/OrderValidatorV
 import StrategyManagerAbi from "../abi/src/marketplace/StrategyManager.sol/StrategyManager.json";
 import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/TransferManager.json";
 import StrategyCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
+import StrategyDutchAuctionAbi from "../abi/src/marketplace/executionStrategies/StrategyDutchAuction.sol/StrategyDutchAuction.json";
 import StrategyHypercertFractionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
 import CreatorFeeManagerWithRoyaltiesAbi from "../abi/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
+import StrategyHypercertCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertCollectionOffer.sol/StrategyHypercertCollectionOffer.json";
+import StrategyHypercertDutchAuctionAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertDutchAuction.sol/StrategyHypercertDutchAuction.json";
+import StrategyItemIdsRangeAbi from "../abi/src/marketplace/executionStrategies/StrategyItemIdsRange.sol/StrategyItemIdsRange.json";
 import ExecutionManagerAbi from "../abi/src/marketplace/ExecutionManager.sol/ExecutionManager.json";
 
 import {
@@ -16,11 +20,15 @@ import {
   IHypercertToken,
   LooksRareProtocol as HypercertExchange,
   ILooksRareProtocol as IHypercertExchange,
-  TransferManager,
-  StrategyCollectionOffer,
-  StrategyHypercertFractionOffer,
   CreatorFeeManagerWithRoyalties,
   OrderValidatorV2A,
+  TransferManager,
+  StrategyCollectionOffer,
+  StrategyDutchAuction,
+  StrategyItemIdsRange,
+  StrategyHypercertFractionOffer,
+  StrategyHypercertCollectionOffer,
+  StrategyHypercertDutchAuction,
 } from "types";
 
 /*
@@ -34,14 +42,19 @@ import {
 export type DeploymentProtocol = {
   HypercertMinterUUPS: `0x${string}`;
   HypercertMinterImplementation: `0x${string}`;
-  TransferManager?: `0x${string}`;
-  HypercertExchange?: `0x${string}`;
 };
 
 export type DeploymentMarketplace = {
-  HypercertExchange: `0x${string}`;
   TransferManager: `0x${string}`;
+  HypercertExchange: `0x${string}`;
   OrderValidatorV2A: `0x${string}`;
+  RoyaltyFeeRegistry: `0x${string}`;
+  StrategyCollectionOffer: `0x${string}`;
+  StrategyDutchAuction: `0x${string}`;
+  StrategyItemIdsRange: `0x${string}`;
+  StrategyHypercertCollectionOffer: `0x${string}`;
+  StrategyHypercertDutchAuction: `0x${string}`;
+  StrategyHypercertFractionOffer: `0x${string}`;
 };
 
 export type Deployment = DeploymentProtocol & Partial<DeploymentMarketplace>;
@@ -57,6 +70,7 @@ const deployments = {
   },
   11155111: {
     ...DEPLOYMENTS.protocol["11155111"],
+    ...DEPLOYMENTS.marketplace["11155111"],
   },
 } as Record<DeployedChains, Deployment>;
 
@@ -74,10 +88,14 @@ export {
   HypercertMinterAbi,
   HypercertExchangeAbi,
   OrderValidatorV2AAbi,
+  TransferManagerAbi,
   StrategyManagerAbi,
   StrategyCollectionOfferAbi,
+  StrategyDutchAuctionAbi,
+  StrategyItemIdsRangeAbi,
   StrategyHypercertFractionOfferAbi,
-  TransferManagerAbi,
+  StrategyHypercertCollectionOfferAbi,
+  StrategyHypercertDutchAuctionAbi,
 };
 
 // Interfaces
@@ -91,5 +109,9 @@ export type {
   OrderValidatorV2A,
   TransferManager,
   StrategyCollectionOffer,
+  StrategyDutchAuction,
+  StrategyItemIdsRange,
   StrategyHypercertFractionOffer,
+  StrategyHypercertCollectionOffer,
+  StrategyHypercertDutchAuction,
 };

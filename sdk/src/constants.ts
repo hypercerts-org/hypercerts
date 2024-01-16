@@ -3,6 +3,7 @@
  */
 
 import { Deployment, SupportedChainIds } from "./types";
+import { deployments } from "@hypercerts-org/contracts";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-admin";
 
@@ -16,17 +17,17 @@ const APIS: { [key: string]: string } = {
 // These are the deployments we manage
 const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
   10: {
-    contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    addresses: deployments[10],
     graphName: "hypercerts-optimism-mainnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-optimism-mainnet`,
   } as const,
   42220: {
-    contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+    addresses: deployments[42220],
     graphName: "hypercerts-celo",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
   },
   11155111: {
-    contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+    addresses: deployments[11155111],
     graphName: "hypercerts-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
   } as const,

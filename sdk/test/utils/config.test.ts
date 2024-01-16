@@ -11,34 +11,6 @@ import { walletClient, publicClient } from "../helpers";
 
 chai.use(chaiSubset);
 
-describe("Config: contractAddress", () => {
-  afterEach(() => {
-    sinon.restore();
-
-    reloadEnv();
-  });
-
-  it("should return the contract address specified by overrides", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      contractAddress: "0x1234567890123456789012345678901234567890",
-    };
-    const config = getConfig(overrides);
-    expect(config.contractAddress).to.equal(overrides.contractAddress);
-  });
-
-  it("should throw an error when the contract address specified by overrides is invalid", () => {
-    const overrides: Partial<HypercertClientConfig> = { chain: { id: 11155111 }, contractAddress: "invalid-address" };
-    try {
-      getConfig(overrides);
-    } catch (e) {
-      expect(e instanceof InvalidOrMissingError).to.be.true;
-      const error = e as InvalidOrMissingError;
-      expect(error.message).to.eq("Invalid contract address.");
-    }
-  });
-});
-
 describe("Config: graphUrl", () => {
   afterEach(() => {
     reloadEnv();
@@ -53,7 +25,6 @@ describe("Config: graphUrl", () => {
     const overrides: Partial<HypercertClientConfig> = {
       chain: { id: 11155111 },
       graphUrl: "https://api.example.com",
-      contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
     };
     const result = getConfig(overrides);
@@ -64,7 +35,6 @@ describe("Config: graphUrl", () => {
     const overrides: Partial<HypercertClientConfig> = {
       chain: { id: 11155111 },
       graphUrl: "incorrect-url",
-      contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
     };
 
@@ -80,7 +50,6 @@ describe("Config: graphUrl", () => {
   it("should throw an error when the graph URL specified by overrides is missing", () => {
     const overrides: Partial<HypercertClientConfig> = {
       chain: { id: 11155111 },
-      contractAddress: "0x1234567890123456789012345678901234567890",
       unsafeForceOverrideConfig: true,
     };
 
