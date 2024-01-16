@@ -18,6 +18,8 @@ import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
+import { getClaimStoredDataFromTxHash } from "./utils";
+import { ParserReturnType } from "./utils/txParser";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -104,7 +106,6 @@ export class HypercertClient implements HypercertClientInterface {
       address: this._config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
       publicClient: this._publicClient,
-      walletClient: this._walletClient,
     });
   }
 
@@ -471,12 +472,19 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
+    const { data, errors, success } = await getClaimStoredDataFromTxHash(this._publicClient, hash);
+
+    return { data, errors, success };
+  };
+
   private getContractConfig = () => {
     if (!this.config?.contractAddress) throw new ClientError("No contract address found", { config: this.config });
 
     return getContract({
       address: this.config.contractAddress as `0x${string}`,
       abi: HypercertMinterAbi,
+      publicClient: this._publicClient,
     });
   };
 

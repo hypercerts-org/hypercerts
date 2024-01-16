@@ -41,6 +41,8 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     const tree = parseAllowListEntriesToMerkleTree(allowList);
 
+    logger.debug("Allowlist tree: ", "storage", [tree]);
+
     const { cid: allowlistCID, errors: uploadAllowlistErrors } = await uploadAllowlist({
       allowList: JSON.stringify(tree.dump()),
       totalUnits: totalUnits.toString(),
