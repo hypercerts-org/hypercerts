@@ -34,7 +34,7 @@ Contributors
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:53](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L53)
+[sdk/src/types/claimdata.d.ts:53](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L53)
 
 ---
 
@@ -59,7 +59,7 @@ Scopes of impact
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L15)
+[sdk/src/types/claimdata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L15)
 
 ---
 
@@ -83,7 +83,7 @@ Impact time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:44](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L44)
+[sdk/src/types/claimdata.d.ts:44](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L44)
 
 ---
 
@@ -108,7 +108,7 @@ Rights
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:62](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L62)
+[sdk/src/types/claimdata.d.ts:62](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L62)
 
 ---
 
@@ -133,7 +133,7 @@ Scopes of work
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:25](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L25)
+[sdk/src/types/claimdata.d.ts:25](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L25)
 
 ---
 
@@ -157,4 +157,4 @@ Work time period. The value is UNIX time in seconds from epoch.
 
 #### Defined in
 
-[sdk/src/types/claimdata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/claimdata.d.ts#L35)
+[sdk/src/types/claimdata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/claimdata.d.ts#L35)
