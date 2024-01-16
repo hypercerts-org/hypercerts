@@ -3,11 +3,7 @@ import config from "./config";
 import { NetworkConfig, decodeName } from "./networks";
 import { AutotaskClient } from "@openzeppelin/defender-autotask-client";
 import { SentinelClient } from "@openzeppelin/defender-sentinel-client";
-import {
-  asDeployedChain,
-  deployments,
-  HypercertExchangeAbi,
-} from "@hypercerts-org/contracts";
+import { HypercertExchangeAbi } from "@hypercerts-org/contracts";
 
 export const updateAutotask = async (networks: NetworkConfig[]) => {
   const autotaskClient = new AutotaskClient(config.credentials);
@@ -68,14 +64,12 @@ export const updateSentinel = async (networks: NetworkConfig[]) => {
       );
 
       if (contract === "minter") {
-        address = network?.contractAddress;
+        address = network?.hypercertMinterContractAddress;
         abi = HypercertMinterAbi;
       }
 
       if (contract === "exchange") {
-        const deployment =
-          deployments[asDeployedChain(network.chainId.toString())];
-        address = deployment.HypercertExchange;
+        address = network?.hypercertExchangeContractAddress;
         abi = HypercertExchangeAbi;
       }
 

@@ -4,22 +4,12 @@ import { ApiError } from "./errors";
 import { NetworkConfig, encodeName } from "./networks";
 import {
   HypercertExchangeAbi,
-  deployments,
-  asDeployedChain,
   HypercertMinterAbi,
 } from "@hypercerts-org/contracts";
 
 export const rollOut = async (networks: NetworkConfig[]) => {
   return await Promise.all(
     networks.map(async (network) => {
-      console.log(
-        "Contract address",
-        network.chainId.toString(),
-        asDeployedChain(network.chainId.toString()),
-        deployments[asDeployedChain(network.chainId.toString())],
-        deployments[asDeployedChain(network.chainId.toString())]
-          .HypercertExchange,
-      );
       // On allowlist created
       const autoTaskOnAllowlistCreated = await createTask(
         encodeName(network, "minter", "on-allowlist-created"),
@@ -37,7 +27,7 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "AllowlistCreated"),
         network: network,
-        contractAddress: network.contractAddress,
+        contractAddress: network.hypercertMinterContractAddress,
         abi: HypercertMinterAbi,
         eventConditions: [
           { eventSignature: "AllowlistCreated(uint256,bytes32)" },
@@ -62,7 +52,7 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "batchMintClaimsFromAllowlists"),
         network: network,
-        contractAddress: network.contractAddress,
+        contractAddress: network.hypercertMinterContractAddress,
         abi: HypercertMinterAbi,
         autotaskID: autoTaskOnBatchMintClaimsFromAllowlists.autotaskId,
         functionConditions: [
@@ -90,7 +80,7 @@ export const rollOut = async (networks: NetworkConfig[]) => {
       await createSentinel({
         name: encodeName(network, "minter", "mintClaimFromAllowlist"),
         network: network,
-        contractAddress: network.contractAddress,
+        contractAddress: network.hypercertMinterContractAddress,
         abi: HypercertMinterAbi,
         autotaskID: autoTaskOnMintClaimFromAllowlist.autotaskId,
         functionConditions: [
@@ -101,35 +91,35 @@ export const rollOut = async (networks: NetworkConfig[]) => {
         ],
       });
 
-      // On execute taker bid
-      const autoTaskExecuteTakerBid = await createTask(
-        encodeName(network, "exchange", "execute-taker-bid"),
-        "execute-taker-bid",
-      );
-      if (!autoTaskExecuteTakerBid) {
-        throw new ApiError(
-          encodeName(
-            network,
-            "exchange",
-            "Could not create autoTask for execute-taker-bid",
-          ),
+      if (network.hypercertExchangeContractAddress) {
+        // On execute taker bid
+        const autoTaskExecuteTakerBid = await createTask(
+          encodeName(network, "exchange", "execute-taker-bid"),
+          "execute-taker-bid",
         );
+        if (!autoTaskExecuteTakerBid) {
+          throw new ApiError(
+            encodeName(
+              network,
+              "exchange",
+              "Could not create autoTask for execute-taker-bid",
+            ),
+          );
+        }
+        await createSentinel({
+          name: encodeName(network, "exchange", "executeTakerBid"),
+          network: network,
+          autotaskID: autoTaskExecuteTakerBid.autotaskId,
+          contractAddress: network.hypercertExchangeContractAddress,
+          abi: HypercertExchangeAbi,
+          functionConditions: [
+            {
+              functionSignature:
+                "executeTakerBid((address,bytes),(uint8,uint256,uint256,uint256,uint256,uint8,address,address,address,uint256,uint256,uint256,uint256[],uint256[],bytes),bytes,(bytes32,(bytes32,uint8)[]))",
+            },
+          ],
+        });
       }
-      await createSentinel({
-        name: encodeName(network, "exchange", "executeTakerBid"),
-        network: network,
-        autotaskID: autoTaskExecuteTakerBid.autotaskId,
-        contractAddress:
-          deployments[asDeployedChain(network.chainId.toString())]
-            .HypercertExchange,
-        abi: HypercertExchangeAbi,
-        functionConditions: [
-          {
-            functionSignature:
-              "executeTakerBid((address,bytes),(uint8,uint256,uint256,uint256,uint256,uint8,address,address,address,uint256,uint256,uint256,uint256[],uint256[],bytes),bytes,(bytes32,(bytes32,uint8)[]))",
-          },
-        ],
-      });
     }),
   );
 };

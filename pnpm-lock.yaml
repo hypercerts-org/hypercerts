@@ -205,8 +205,8 @@ importers:
         specifier: ^0.95.7
         version: 0.95.8(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(graphql@16.8.1)(tslib@2.6.2)
       '@hypercerts-org/contracts':
-        specifier: 1.0.0
-        version: 1.0.0(ts-node@10.9.1)(typescript@4.9.5)
+        specifier: 1.1.0
+        version: 1.1.0(ts-node@10.9.1)(typescript@4.9.5)
       '@openzeppelin/defender-autotask-client':
         specifier: 1.50.0
         version: 1.50.0
@@ -7311,8 +7311,8 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
 
-  /@hypercerts-org/contracts@1.0.0(ts-node@10.9.1)(typescript@4.9.5):
-    resolution: {integrity: sha512-pGdG3BGDz93IZXAAHcvwzRQOMgi9dOzy2ZLdRFKIdWMBoVz8uCQL03HCYutT5DOtVm2g+j2dcor+zSV5yUM5Dg==}
+  /@hypercerts-org/contracts@1.1.0(ts-node@10.9.1)(typescript@4.9.5):
+    resolution: {integrity: sha512-iEEJP9LQTfgcFjnJj82AwkAob3kfFcTmxm6AGrCXFzt7CU3Xo2odCFKZ81UPFV9C4PyI8tPTSGd12NmUzjLlqA==}
     dependencies:
       hardhat: 2.19.1(ts-node@10.9.1)(typescript@4.9.5)
     transitivePeerDependencies:
@@ -20933,6 +20933,7 @@ packages:
   /html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-YXxSlJBZTP7RS3tWnQw74ooKa6L9b9i9QYXY21eUEvhZ3u9XLfv6OnFsQq6RxkhHygsaUMvYsZRV5rU/OVNZxw==}
     engines: {node: '>=12'}
+    hasBin: true
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.3.2
