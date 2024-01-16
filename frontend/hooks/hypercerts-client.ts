@@ -4,7 +4,7 @@ import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
 import { useWalletClient, useNetwork } from "wagmi";
 
 const isSupportedChain = (chainId: number) => {
-  const supportedChainIds = [5, 10, 42220, 11155111]; // Replace with actual chain IDs
+  const supportedChainIds = [10, 42220, 11155111]; // Replace with actual chain IDs
 
   return supportedChainIds.includes(chainId);
 };

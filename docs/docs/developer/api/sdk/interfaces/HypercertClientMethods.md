@@ -52,7 +52,7 @@ The order of the arrays must be equal.
 
 #### Defined in
 
-[sdk/src/types/client.ts:232](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L232)
+[sdk/src/types/client.ts:253](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L253)
 
 ---
 
@@ -82,7 +82,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:166](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L166)
+[sdk/src/types/client.ts:187](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L187)
 
 ---
 
@@ -110,7 +110,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:207](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L207)
+[sdk/src/types/client.ts:228](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L228)
 
 ---
 
@@ -141,7 +141,35 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:180](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L180)
+[sdk/src/types/client.ts:201](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L201)
+
+---
+
+### getDeployment
+
+• **getDeployment**: (`chainId`: [`SupportedChainIds`](../modules.md#supportedchainids)) => `Partial`<[`Deployment`](../modules.md#deployment)\>
+
+#### Type declaration
+
+▸ (`chainId`): `Partial`<[`Deployment`](../modules.md#deployment)\>
+
+Gets the contract addresses and graph urls for the provided `chainId`
+
+##### Parameters
+
+| Name      | Type                                                   |
+| :-------- | :----------------------------------------------------- |
+| `chainId` | [`SupportedChainIds`](../modules.md#supportedchainids) |
+
+##### Returns
+
+`Partial`<[`Deployment`](../modules.md#deployment)\>
+
+The addresses, graph name and graph url.
+
+#### Defined in
+
+[sdk/src/types/client.ts:145](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L145)
 
 ---
 
@@ -169,7 +197,7 @@ A Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/types/client.ts:144](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L144)
+[sdk/src/types/client.ts:165](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L165)
 
 ---
 
@@ -197,7 +225,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:200](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L200)
+[sdk/src/types/client.ts:221](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L221)
 
 ---
 
@@ -227,7 +255,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:133](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L133)
+[sdk/src/types/client.ts:154](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L154)
 
 ---
 
@@ -257,7 +285,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L216)
+[sdk/src/types/client.ts:237](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L237)
 
 ---
 
@@ -286,7 +314,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:193](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L193)
+[sdk/src/types/client.ts:214](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L214)
 
 ---
 
@@ -316,4 +344,4 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:153](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L153)
+[sdk/src/types/client.ts:174](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L174)

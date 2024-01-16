@@ -38,7 +38,7 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:93](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L93)
+[sdk/src/types/client.ts:108](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L108)
 
 ---
 
@@ -66,7 +66,7 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:86](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L86)
+[sdk/src/types/client.ts:101](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L101)
 
 ---
 
@@ -95,7 +95,7 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:72](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L72)
+[sdk/src/types/client.ts:87](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L87)
 
 ---
 
@@ -123,4 +123,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:79](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/types/client.ts#L79)
+[sdk/src/types/client.ts:94](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/types/client.ts#L94)

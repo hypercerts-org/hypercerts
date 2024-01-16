@@ -54,7 +54,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:54](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L54)
+[sdk/src/client.ts:58](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L58)
 
 ## Properties
 
@@ -64,7 +64,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:37](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L37)
+[sdk/src/client.ts:41](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L41)
 
 ---
 
@@ -74,7 +74,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:40](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L40)
+[sdk/src/client.ts:44](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L44)
 
 ---
 
@@ -84,7 +84,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:41](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L41)
+[sdk/src/client.ts:45](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L45)
 
 ---
 
@@ -158,7 +158,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:42](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L42)
+[sdk/src/client.ts:46](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L46)
 
 ---
 
@@ -168,7 +168,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:38](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L38)
+[sdk/src/client.ts:42](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L42)
 
 ---
 
@@ -212,7 +212,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:43](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L43)
+[sdk/src/client.ts:47](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L47)
 
 ---
 
@@ -228,7 +228,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/client.ts:44](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L44)
+[sdk/src/client.ts:48](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L48)
 
 ## Accessors
 
@@ -246,7 +246,7 @@ The client config.
 
 #### Defined in
 
-[sdk/src/client.ts:78](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L78)
+[sdk/src/client.ts:82](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L82)
 
 ---
 
@@ -262,13 +262,17 @@ Gets the HypercertMinter contract used by the client.
 
 The contract.
 
+**`Deprecated`**
+
+Use getDeployments instead.
+
 #### Implementation of
 
 [HypercertClientInterface](../interfaces/HypercertClientInterface.md).[contract](../interfaces/HypercertClientInterface.md#contract)
 
 #### Defined in
 
-[sdk/src/client.ts:102](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L102)
+[sdk/src/client.ts:107](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L107)
 
 ---
 
@@ -290,7 +294,7 @@ The indexer.
 
 #### Defined in
 
-[sdk/src/client.ts:94](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L94)
+[sdk/src/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L98)
 
 ---
 
@@ -312,7 +316,7 @@ The storage layer.
 
 #### Defined in
 
-[sdk/src/client.ts:86](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L86)
+[sdk/src/client.ts:90](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L90)
 
 ## Methods
 
@@ -351,7 +355,7 @@ Will throw an `InvalidOrMissingError` if any of the proofs are invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:443](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L443)
+[sdk/src/client.ts:454](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L454)
 
 ---
 
@@ -384,7 +388,7 @@ A promise that resolves to the transaction hash.
 
 #### Defined in
 
-[sdk/src/client.ts:203](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L203)
+[sdk/src/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L216)
 
 ---
 
@@ -421,7 +425,7 @@ Will throw a `ClientError` if the claim is not owned by the account.
 
 #### Defined in
 
-[sdk/src/client.ts:366](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L366)
+[sdk/src/client.ts:377](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L377)
 
 ---
 
@@ -462,7 +466,27 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:236](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L236)
+[sdk/src/client.ts:249](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L249)
+
+---
+
+### getClaimStoredDataFromTxHash
+
+▸ **getClaimStoredDataFromTxHash**(`hash`): `Promise`<`ParserReturnType`\>
+
+#### Parameters
+
+| Name   | Type             |
+| :----- | :--------------- |
+| `hash` | \`0x$\{string}\` |
+
+#### Returns
+
+`Promise`<`ParserReturnType`\>
+
+#### Defined in
+
+[sdk/src/client.ts:485](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L485)
 
 ---
 
@@ -482,21 +506,53 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:483](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L483)
+[sdk/src/client.ts:502](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L502)
 
 ---
 
 ### getContractConfig
 
-▸ **getContractConfig**(): `GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[], `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`\>, `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`, `undefined` \| `Account`\>, \`0x$\{string}\`, `string`, `string`, `string`, `false`\>
+▸ **getContractConfig**(): `GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[], \{ `account`: `undefined` ; `batch?`: \{ `multicall?`: `boolean` \| \{ batchSize?: number \| undefined; wait?: number \| undefined; } } ; `cacheTime`: `number` ; `call`: (`parameters`: `CallParameters`<`undefined` \| `Chain`\>) => `Promise`<`CallReturnType`\> ; `chain`: `undefined` \| `Chain` ; `createBlockFilter`: () => `Promise`<\{ `id`: \`0x$\{string}\` ; `request`: `EIP1193RequestFn`<readonly [\{ `Method`: ``"eth_getFilterChanges"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: \`0x$\{string}\`[] \| `RpcLog`[]  }, \{ `Method`: ``"eth_getFilterLogs"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `RpcLog`[] }, \{ `Method`: `"eth_uninstallFilter"` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `boolean` }]\> ; `type`: `"block"` }\> ; `createContractEventFilter`: <TAbi, TEventName, TArgs, TStrict, TFromBlock, TToBlock\>(`args`: `CreateContractEventFilterParameters`<`TAbi`, `TEventName`, `TArgs`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`CreateContractEventFilterReturnType`<`TAbi`, `TEventName`, `TArgs`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `createEventFilter`: <TAbiEvent, TAbiEvents, TStrict, TFromBlock, TToBlock, \_EventName, \_Args\>(`args?`: `CreateEventFilterParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`, `_EventName`, `_Args`\>) => `Promise`<\{ [K in keyof Filter<"event", TAbiEvents, \_EventName, \_Args, TStrict, TFromBlock, TToBlock\>]: Filter<"event", TAbiEvents, ... 4 more ..., TToBlock\>[K]; }\> ; `createPendingTransactionFilter`: () => `Promise`<\{ `id`: \`0x$\{string}\` ; `request`: `EIP1193RequestFn`<readonly [\{ `Method`: ``"eth_getFilterChanges"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: \`0x$\{string}\`[] \| `RpcLog`[]  }, \{ `Method`: ``"eth_getFilterLogs"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `RpcLog`[] }, \{ `Method`: `"eth_uninstallFilter"` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `boolean` }]\> ; `type`: `"transaction"` }\> ; `estimateContractGas`: <TChain, TAbi, TFunctionName\>(`args`: `EstimateContractGasParameters`<`TAbi`, `TFunctionName`, `TChain`, `undefined` \| `Account`\>) => `Promise`<`bigint`\> ; `estimateFeesPerGas`: <TChainOverride, TType\>(`args?`: `EstimateFeesPerGasParameters`<`undefined` \| `Chain`, `TChainOverride`, `TType`\>) => `Promise`<`EstimateFeesPerGasReturnType`\> ; `estimateGas`: (`args`: `EstimateGasParameters`<`undefined` \| `Chain`, `undefined` \| `Account`\>) => `Promise`<`bigint`\> ; `estimateMaxPriorityFeePerGas`: <TChainOverride\>(`args?`: \{ `chain`: `null` \| `TChainOverride` }) => `Promise`<`bigint`\> ; `extend`: <client\>(`fn`: (`client`: `Client`<`Transport`, `undefined` \| `Chain`, `undefined`, `PublicRpcSchema`, `PublicActions`<`Transport`, `undefined` \| `Chain`\>\>) => `client`) => `Client`<`Transport`, `undefined` \| `Chain`, `undefined`, `PublicRpcSchema`, \{ [K in keyof client]: client[K]; } & `PublicActions`<`Transport`, `undefined` \| `Chain`\>\> ; `getBalance`: (`args`: `GetBalanceParameters`) => `Promise`<`bigint`\> ; `getBlock`: <TIncludeTransactions, TBlockTag\>(`args?`: `GetBlockParameters`<`TIncludeTransactions`, `TBlockTag`\>) => `Promise`<`GetBlockReturnType`<`undefined` \| `Chain`, `TIncludeTransactions`, `TBlockTag`\>\> ; `getBlockNumber`: (`args?`: `GetBlockNumberParameters`) => `Promise`<`bigint`\> ; `getBlockTransactionCount`: (`args?`: `GetBlockTransactionCountParameters`) => `Promise`<`number`\> ; `getBytecode`: (`args`: `GetBytecodeParameters`) => `Promise`<`GetBytecodeReturnType`\> ; `getChainId`: () => `Promise`<`number`\> ; `getContractEvents`: <TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetContractEventsParameters`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetContractEventsReturnType`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getEnsAddress`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; coinType?: number \| undefined; name: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsAddressReturnType`\> ; `getEnsAvatar`: (`args`: \{ name: string; blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; universalResolverAddress?: \`0x$\{string}\` \| undefined; gatewayUrls?: AssetGatewayUrls \| undefined; }) => `Promise`<`GetEnsAvatarReturnType`\> ; `getEnsName`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; address: \`0x$\{string}\`; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsNameReturnType`\> ; `getEnsResolver`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; name: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<\`0x$\{string}\`\> ; `getEnsText`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; name: string; key: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsTextReturnType`\> ; `getFeeHistory`: (`args`: `GetFeeHistoryParameters`) => `Promise`<`GetFeeHistoryReturnType`\> ; `getFilterChanges`: <TFilterType, TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetFilterChangesParameters`<`TFilterType`, `TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetFilterChangesReturnType`<`TFilterType`, `TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getFilterLogs`: <TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetFilterLogsParameters`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetFilterLogsReturnType`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getGasPrice`: () => `Promise`<`bigint`\> ; `getLogs`: <TAbiEvent, TAbiEvents, TStrict, TFromBlock, TToBlock\>(`args?`: `GetLogsParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetLogsReturnType`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getProof`: (`args`: `GetProofParameters`) => `Promise`<`GetProofReturnType`\> ; `getStorageAt`: (`args`: `GetStorageAtParameters`) => `Promise`<`GetStorageAtReturnType`\> ; `getTransaction`: <TBlockTag\>(`args`: `GetTransactionParameters`<`TBlockTag`\>) => `Promise`<`GetTransactionReturnType`<`undefined` \| `Chain`, `TBlockTag`\>\> ; `getTransactionConfirmations`: (`args`: `GetTransactionConfirmationsParameters`<`undefined` \| `Chain`\>) => `Promise`<`bigint`\> ; `getTransactionCount`: (`args`: `GetTransactionCountParameters`) => `Promise`<`number`\> ; `getTransactionReceipt`: (`args`: `GetTransactionReceiptParameters`) => `Promise`<`TransactionReceipt`\> ; `key`: `string` ; `multicall`: <TContracts, TAllowFailure\>(`args`: `MulticallParameters`<`TContracts`, `TAllowFailure`\>) => `Promise`<`MulticallReturnType`<`TContracts`, `TAllowFailure`\>\> ; `name`: `string` ; `pollingInterval`: `number` ; `prepareTransactionRequest`: <TChainOverride\>(`args`: `PrepareTransactionRequestParameters`<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`\>) => `Promise`<`PrepareTransactionRequestReturnType`\> ; `readContract`: <TAbi, TFunctionName\>(`args`: `ReadContractParameters`<`TAbi`, `TFunctionName`\>) => `Promise`<`ReadContractReturnType`<`TAbi`, `TFunctionName`\>\> ; `request`: `EIP1193RequestFn`<`PublicRpcSchema`\> ; `sendRawTransaction`: (`args`: `SendRawTransactionParameters`) => `Promise`<\`0x$\{string}\`\> ; `simulateContract`: <TAbi, TFunctionName, TChainOverride\>(`args`: `SimulateContractParameters`<`TAbi`, `TFunctionName`, `undefined` \| `Chain`, `TChainOverride`\>) => `Promise`<`SimulateContractReturnType`<`TAbi`, `TFunctionName`, `undefined` \| `Chain`, `TChainOverride`\>\> ; `transport`: `TransportConfig`<`string`, `EIP1193RequestFn`\> & `Record`<`string`, `any`\> ; `type`: `string` ; `uid`: `string` ; `uninstallFilter`: (`args`: `UninstallFilterParameters`) => `Promise`<`boolean`\> ; `verifyMessage`: (`args`: `VerifyMessageParameters`) => `Promise`<`boolean`\> ; `verifyTypedData`: (`args`: `VerifyTypedDataParameters`) => `Promise`<`boolean`\> ; `waitForTransactionReceipt`: (`args`: `WaitForTransactionReceiptParameters`<`undefined` \| `Chain`\>) => `Promise`<`TransactionReceipt`\> ; `watchBlockNumber`: (`args`: `WatchBlockNumberParameters`) => `WatchBlockNumberReturnType` ; `watchBlocks`: <TIncludeTransactions, TBlockTag\>(`args`: `WatchBlocksParameters`<`Transport`, `undefined` \| `Chain`, `TIncludeTransactions`, `TBlockTag`\>) => `WatchBlocksReturnType` ; `watchContractEvent`: <TAbi, TEventName, TStrict\>(`args`: `WatchContractEventParameters`<`TAbi`, `TEventName`, `TStrict`\>) => `WatchContractEventReturnType` ; `watchEvent`: <TAbiEvent, TAbiEvents, TStrict\>(`args`: `WatchEventParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`\>) => `WatchEventReturnType` ; `watchPendingTransactions`: (`args`: `WatchPendingTransactionsParameters`<`Transport`\>) => `WatchPendingTransactionsReturnType` }, `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`, `undefined` \| `Account`\>, \`0x$\{string}\`, `string`, `string`, `string`, `false`\>
 
 #### Returns
 
-`GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[], `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`\>, `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`, `undefined` \| `Account`\>, \`0x$\{string}\`, `string`, `string`, `string`, `false`\>
+`GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[], \{ `account`: `undefined` ; `batch?`: \{ `multicall?`: `boolean` \| \{ batchSize?: number \| undefined; wait?: number \| undefined; } } ; `cacheTime`: `number` ; `call`: (`parameters`: `CallParameters`<`undefined` \| `Chain`\>) => `Promise`<`CallReturnType`\> ; `chain`: `undefined` \| `Chain` ; `createBlockFilter`: () => `Promise`<\{ `id`: \`0x$\{string}\` ; `request`: `EIP1193RequestFn`<readonly [\{ `Method`: ``"eth_getFilterChanges"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: \`0x$\{string}\`[] \| `RpcLog`[]  }, \{ `Method`: ``"eth_getFilterLogs"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `RpcLog`[] }, \{ `Method`: `"eth_uninstallFilter"` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `boolean` }]\> ; `type`: `"block"` }\> ; `createContractEventFilter`: <TAbi, TEventName, TArgs, TStrict, TFromBlock, TToBlock\>(`args`: `CreateContractEventFilterParameters`<`TAbi`, `TEventName`, `TArgs`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`CreateContractEventFilterReturnType`<`TAbi`, `TEventName`, `TArgs`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `createEventFilter`: <TAbiEvent, TAbiEvents, TStrict, TFromBlock, TToBlock, \_EventName, \_Args\>(`args?`: `CreateEventFilterParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`, `_EventName`, `_Args`\>) => `Promise`<\{ [K in keyof Filter<"event", TAbiEvents, \_EventName, \_Args, TStrict, TFromBlock, TToBlock\>]: Filter<"event", TAbiEvents, ... 4 more ..., TToBlock\>[K]; }\> ; `createPendingTransactionFilter`: () => `Promise`<\{ `id`: \`0x$\{string}\` ; `request`: `EIP1193RequestFn`<readonly [\{ `Method`: ``"eth_getFilterChanges"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: \`0x$\{string}\`[] \| `RpcLog`[]  }, \{ `Method`: ``"eth_getFilterLogs"`` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `RpcLog`[] }, \{ `Method`: `"eth_uninstallFilter"` ; `Parameters`: [filterId: \`0x$\{string}\`] ; `ReturnType`: `boolean` }]\> ; `type`: `"transaction"` }\> ; `estimateContractGas`: <TChain, TAbi, TFunctionName\>(`args`: `EstimateContractGasParameters`<`TAbi`, `TFunctionName`, `TChain`, `undefined` \| `Account`\>) => `Promise`<`bigint`\> ; `estimateFeesPerGas`: <TChainOverride, TType\>(`args?`: `EstimateFeesPerGasParameters`<`undefined` \| `Chain`, `TChainOverride`, `TType`\>) => `Promise`<`EstimateFeesPerGasReturnType`\> ; `estimateGas`: (`args`: `EstimateGasParameters`<`undefined` \| `Chain`, `undefined` \| `Account`\>) => `Promise`<`bigint`\> ; `estimateMaxPriorityFeePerGas`: <TChainOverride\>(`args?`: \{ `chain`: `null` \| `TChainOverride` }) => `Promise`<`bigint`\> ; `extend`: <client\>(`fn`: (`client`: `Client`<`Transport`, `undefined` \| `Chain`, `undefined`, `PublicRpcSchema`, `PublicActions`<`Transport`, `undefined` \| `Chain`\>\>) => `client`) => `Client`<`Transport`, `undefined` \| `Chain`, `undefined`, `PublicRpcSchema`, \{ [K in keyof client]: client[K]; } & `PublicActions`<`Transport`, `undefined` \| `Chain`\>\> ; `getBalance`: (`args`: `GetBalanceParameters`) => `Promise`<`bigint`\> ; `getBlock`: <TIncludeTransactions, TBlockTag\>(`args?`: `GetBlockParameters`<`TIncludeTransactions`, `TBlockTag`\>) => `Promise`<`GetBlockReturnType`<`undefined` \| `Chain`, `TIncludeTransactions`, `TBlockTag`\>\> ; `getBlockNumber`: (`args?`: `GetBlockNumberParameters`) => `Promise`<`bigint`\> ; `getBlockTransactionCount`: (`args?`: `GetBlockTransactionCountParameters`) => `Promise`<`number`\> ; `getBytecode`: (`args`: `GetBytecodeParameters`) => `Promise`<`GetBytecodeReturnType`\> ; `getChainId`: () => `Promise`<`number`\> ; `getContractEvents`: <TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetContractEventsParameters`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetContractEventsReturnType`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getEnsAddress`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; coinType?: number \| undefined; name: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsAddressReturnType`\> ; `getEnsAvatar`: (`args`: \{ name: string; blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; universalResolverAddress?: \`0x$\{string}\` \| undefined; gatewayUrls?: AssetGatewayUrls \| undefined; }) => `Promise`<`GetEnsAvatarReturnType`\> ; `getEnsName`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; address: \`0x$\{string}\`; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsNameReturnType`\> ; `getEnsResolver`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; name: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<\`0x$\{string}\`\> ; `getEnsText`: (`args`: \{ blockNumber?: bigint \| undefined; blockTag?: BlockTag \| undefined; name: string; key: string; universalResolverAddress?: \`0x$\{string}\` \| undefined; }) => `Promise`<`GetEnsTextReturnType`\> ; `getFeeHistory`: (`args`: `GetFeeHistoryParameters`) => `Promise`<`GetFeeHistoryReturnType`\> ; `getFilterChanges`: <TFilterType, TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetFilterChangesParameters`<`TFilterType`, `TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetFilterChangesReturnType`<`TFilterType`, `TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getFilterLogs`: <TAbi, TEventName, TStrict, TFromBlock, TToBlock\>(`args`: `GetFilterLogsParameters`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetFilterLogsReturnType`<`TAbi`, `TEventName`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getGasPrice`: () => `Promise`<`bigint`\> ; `getLogs`: <TAbiEvent, TAbiEvents, TStrict, TFromBlock, TToBlock\>(`args?`: `GetLogsParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`\>) => `Promise`<`GetLogsReturnType`<`TAbiEvent`, `TAbiEvents`, `TStrict`, `TFromBlock`, `TToBlock`\>\> ; `getProof`: (`args`: `GetProofParameters`) => `Promise`<`GetProofReturnType`\> ; `getStorageAt`: (`args`: `GetStorageAtParameters`) => `Promise`<`GetStorageAtReturnType`\> ; `getTransaction`: <TBlockTag\>(`args`: `GetTransactionParameters`<`TBlockTag`\>) => `Promise`<`GetTransactionReturnType`<`undefined` \| `Chain`, `TBlockTag`\>\> ; `getTransactionConfirmations`: (`args`: `GetTransactionConfirmationsParameters`<`undefined` \| `Chain`\>) => `Promise`<`bigint`\> ; `getTransactionCount`: (`args`: `GetTransactionCountParameters`) => `Promise`<`number`\> ; `getTransactionReceipt`: (`args`: `GetTransactionReceiptParameters`) => `Promise`<`TransactionReceipt`\> ; `key`: `string` ; `multicall`: <TContracts, TAllowFailure\>(`args`: `MulticallParameters`<`TContracts`, `TAllowFailure`\>) => `Promise`<`MulticallReturnType`<`TContracts`, `TAllowFailure`\>\> ; `name`: `string` ; `pollingInterval`: `number` ; `prepareTransactionRequest`: <TChainOverride\>(`args`: `PrepareTransactionRequestParameters`<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`\>) => `Promise`<`PrepareTransactionRequestReturnType`\> ; `readContract`: <TAbi, TFunctionName\>(`args`: `ReadContractParameters`<`TAbi`, `TFunctionName`\>) => `Promise`<`ReadContractReturnType`<`TAbi`, `TFunctionName`\>\> ; `request`: `EIP1193RequestFn`<`PublicRpcSchema`\> ; `sendRawTransaction`: (`args`: `SendRawTransactionParameters`) => `Promise`<\`0x$\{string}\`\> ; `simulateContract`: <TAbi, TFunctionName, TChainOverride\>(`args`: `SimulateContractParameters`<`TAbi`, `TFunctionName`, `undefined` \| `Chain`, `TChainOverride`\>) => `Promise`<`SimulateContractReturnType`<`TAbi`, `TFunctionName`, `undefined` \| `Chain`, `TChainOverride`\>\> ; `transport`: `TransportConfig`<`string`, `EIP1193RequestFn`\> & `Record`<`string`, `any`\> ; `type`: `string` ; `uid`: `string` ; `uninstallFilter`: (`args`: `UninstallFilterParameters`) => `Promise`<`boolean`\> ; `verifyMessage`: (`args`: `VerifyMessageParameters`) => `Promise`<`boolean`\> ; `verifyTypedData`: (`args`: `VerifyTypedDataParameters`) => `Promise`<`boolean`\> ; `waitForTransactionReceipt`: (`args`: `WaitForTransactionReceiptParameters`<`undefined` \| `Chain`\>) => `Promise`<`TransactionReceipt`\> ; `watchBlockNumber`: (`args`: `WatchBlockNumberParameters`) => `WatchBlockNumberReturnType` ; `watchBlocks`: <TIncludeTransactions, TBlockTag\>(`args`: `WatchBlocksParameters`<`Transport`, `undefined` \| `Chain`, `TIncludeTransactions`, `TBlockTag`\>) => `WatchBlocksReturnType` ; `watchContractEvent`: <TAbi, TEventName, TStrict\>(`args`: `WatchContractEventParameters`<`TAbi`, `TEventName`, `TStrict`\>) => `WatchContractEventReturnType` ; `watchEvent`: <TAbiEvent, TAbiEvents, TStrict\>(`args`: `WatchEventParameters`<`TAbiEvent`, `TAbiEvents`, `TStrict`\>) => `WatchEventReturnType` ; `watchPendingTransactions`: (`args`: `WatchPendingTransactionsParameters`<`Transport`\>) => `WatchPendingTransactionsReturnType` }, `undefined` \| `Client`<`Transport`, `undefined` \| `Chain`, `undefined` \| `Account`\>, \`0x$\{string}\`, `string`, `string`, `string`, `false`\>
 
 #### Defined in
 
-[sdk/src/client.ts:474](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L474)
+[sdk/src/client.ts:491](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L491)
+
+---
+
+### getDeployment
+
+▸ **getDeployment**(`chainId`): `Partial`<[`Deployment`](../modules.md#deployment)\>
+
+Gets the contract addresses and graph urls for the provided `chainId`
+
+#### Parameters
+
+| Name      | Type                                                   |
+| :-------- | :----------------------------------------------------- |
+| `chainId` | [`SupportedChainIds`](../modules.md#supportedchainids) |
+
+#### Returns
+
+`Partial`<[`Deployment`](../modules.md#deployment)\>
+
+The addresses, graph name and graph url.
+
+**`Deprecated`**
+
+Use getDeployments instead.
+
+#### Implementation of
+
+[HypercertClientInterface](../interfaces/HypercertClientInterface.md).[getDeployment](../interfaces/HypercertClientInterface.md#getdeployment)
+
+#### Defined in
+
+[sdk/src/client.ts:120](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L120)
 
 ---
 
@@ -526,7 +582,7 @@ a Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/client.ts:155](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L155)
+[sdk/src/client.ts:168](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L168)
 
 ---
 
@@ -574,7 +630,7 @@ a Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/client.ts:493](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L493)
+[sdk/src/client.ts:512](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L512)
 
 ---
 
@@ -611,7 +667,7 @@ Will throw a `ClientError` if any of the fractions are not owned by the account.
 
 #### Defined in
 
-[sdk/src/client.ts:323](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L323)
+[sdk/src/client.ts:336](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L336)
 
 ---
 
@@ -651,7 +707,7 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:126](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L126)
+[sdk/src/client.ts:139](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L139)
 
 ---
 
@@ -690,7 +746,7 @@ Will throw an `InvalidOrMissingError` if the proof is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:399](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L399)
+[sdk/src/client.ts:410](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L410)
 
 ---
 
@@ -713,7 +769,7 @@ Will throw an `InvalidOrMissingError` if the proof is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:503](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L503)
+[sdk/src/client.ts:522](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L522)
 
 ---
 
@@ -752,7 +808,7 @@ Will throw a `ClientError` if the fraction is not owned by the account or if the
 
 #### Defined in
 
-[sdk/src/client.ts:278](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L278)
+[sdk/src/client.ts:291](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L291)
 
 ---
 
@@ -782,7 +838,7 @@ Will throw a `ClientError` if the request fails.
 
 #### Defined in
 
-[sdk/src/client.ts:534](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L534)
+[sdk/src/client.ts:553](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L553)
 
 ---
 
@@ -815,4 +871,4 @@ A promise that resolves to the transaction hash.
 
 #### Defined in
 
-[sdk/src/client.ts:175](https://github.com/hypercerts-org/hypercerts/blob/ceaeca8/sdk/src/client.ts#L175)
+[sdk/src/client.ts:188](https://github.com/hypercerts-org/hypercerts/blob/d4ff8ba/sdk/src/client.ts#L188)
