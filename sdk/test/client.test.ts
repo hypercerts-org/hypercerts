@@ -28,7 +28,6 @@ describe("HypercertClient setup tests", () => {
       publicClient,
       walletClient,
       nftStorageToken: "test",
-      web3StorageToken: "test",
     });
     expect(client).to.be.an.instanceOf(HypercertClient);
 

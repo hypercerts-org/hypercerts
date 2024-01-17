@@ -10,6 +10,7 @@ import {
   HypercertClientInterface,
   HypercertMetadata,
   InvalidOrMissingError,
+  SupportedChainIds,
   SupportedOverrides,
   TransferRestrictions,
 } from "./types";
@@ -18,6 +19,9 @@ import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
+import { DEPLOYMENTS } from "./constants";
+import { getClaimStoredDataFromTxHash } from "./utils";
+import { ParserReturnType } from "./utils/txParser";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -98,15 +102,24 @@ export class HypercertClient implements HypercertClientInterface {
   /**
    * Gets the HypercertMinter contract used by the client.
    * @returns The contract.
+   * @deprecated Use getDeployments instead.
    */
   get contract(): GetContractReturnType<typeof HypercertMinterAbi> {
     return getContract({
-      address: this._config.contractAddress as `0x${string}`,
+      address: this._config.addresses?.HypercertMinterUUPS as `0x${string}`,
       abi: HypercertMinterAbi,
       publicClient: this._publicClient,
-      walletClient: this._walletClient,
     });
   }
+
+  /**
+   * Gets the contract addresses and graph urls for the provided `chainId`
+   * @returns The addresses, graph name and graph url.
+   * @deprecated Use getDeployments instead.
+   */
+  getDeployment = (chainId: SupportedChainIds) => {
+    return DEPLOYMENTS[chainId];
+  };
 
   /**
    * Mints a new claim.
@@ -469,12 +482,20 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
+    const { data, errors, success } = await getClaimStoredDataFromTxHash(this._publicClient, hash);
+
+    return { data, errors, success };
+  };
+
   private getContractConfig = () => {
-    if (!this.config?.contractAddress) throw new ClientError("No contract address found", { config: this.config });
+    if (!this.config?.addresses?.HypercertMinterUUPS)
+      throw new ClientError("No contract address found", { config: this.config });
 
     return getContract({
-      address: this.config.contractAddress as `0x${string}`,
+      address: this.config.addresses.HypercertMinterUUPS as `0x${string}`,
       abi: HypercertMinterAbi,
+      publicClient: this._publicClient,
     });
   };
 

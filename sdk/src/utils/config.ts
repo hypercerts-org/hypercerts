@@ -10,7 +10,7 @@ import {
   UnsupportedChainError,
 } from "../types";
 import { logger } from "./logger";
-import { createPublicClient, http, isAddress } from "viem";
+import { createPublicClient, http } from "viem";
 import { deployments } from "../../src";
 
 /**
@@ -41,19 +41,17 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
   let baseDeployment: (Partial<Deployment> & { unsafeForceOverrideConfig?: boolean }) | undefined;
 
   if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.chain?.id || !overrides.contractAddress || !overrides.graphUrl) {
+    if (!overrides.chain?.id || !overrides.graphUrl) {
       throw new InvalidOrMissingError(
         `attempted to override with chainId=${overrides.chain?.id}, but requires chainName, graphUrl, and contractAddress to be set`,
         {
           chainID: overrides.chain?.id?.toString(),
           graphUrl: overrides.graphUrl,
-          contractAddress: overrides.contractAddress,
         },
       );
     }
     baseDeployment = {
       chain: { ...chain, id: overrides.chain?.id },
-      contractAddress: overrides.contractAddress,
       graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
@@ -81,7 +79,6 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
     // Let the user override from environment variables
     ...getWalletClient(overrides),
     ...getPublicClient(overrides),
-    ...getContractAddress(overrides),
     ...getGraphUrl(overrides),
     ...getEasContractAddress(overrides),
   };
@@ -119,15 +116,6 @@ const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
   }
 
   return chain;
-};
-
-const getContractAddress = (overrides: Partial<HypercertClientConfig>) => {
-  if (overrides.contractAddress) {
-    if (!isAddress(overrides.contractAddress)) {
-      throw new InvalidOrMissingError("Invalid contract address.", { contractAddress: overrides.contractAddress });
-    }
-    return { contractAddress: overrides.contractAddress };
-  }
 };
 
 const getGraphUrl = (overrides: Partial<HypercertClientConfig>) => {

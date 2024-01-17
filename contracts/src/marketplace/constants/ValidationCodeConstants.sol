@@ -259,16 +259,16 @@ uint256 constant ERC1155_IS_APPROVED_FOR_ALL_DOES_NOT_EXIST = 633;
 uint256 constant ERC1155_NO_APPROVAL_FOR_ALL = 634;
 
 /*
- * @dev The Hypercert collaction does not support balanceOf.
+ * @dev The Hypercert collaction does not support ownerOf.
  *      This maker order can become valid without any user's action.
  */
-uint256 constant HYPERCERT_UNITS_OF_DOES_NOT_EXIST = 641;
+uint256 constant HYPERCERT_OWNER_OF_DOES_NOT_EXIST = 641;
 
 /*
  * @dev The Hypercert fractionId is not owned by the signer (maker ask user).
  *      This maker order can become valid without any user's action.
  */
-uint256 constant HYPERCERT_UNITS_NOT_HELD_BY_USER = 642;
+uint256 constant HYPERCERT_FRACTION_NOT_HELD_BY_USER = 642;
 
 /**
  * 7. Asset-type codes

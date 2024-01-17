@@ -12,7 +12,8 @@ import {
     BidTooLow,
     OrderInvalid,
     FunctionSelectorInvalid,
-    QuoteTypeInvalid
+    QuoteTypeInvalid,
+    CollectionTypeInvalid
 } from "@hypercerts/marketplace/errors/SharedErrors.sol";
 import {
     STRATEGY_NOT_ACTIVE,
@@ -389,6 +390,44 @@ contract DutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         (bool orderIsValid, bytes4 errorSelector) = strategyDutchAuction.isMakerOrderValid(makerAsk, bytes4(0));
         assertFalse(orderIsValid);
         assertEq(errorSelector, FunctionSelectorInvalid.selector);
+    }
+
+    function testCollectionTypeInvalid(
+        uint256 _startPrice,
+        uint256 _duration,
+        uint256 _decayPerSecond,
+        uint256 _elapsedTime
+    ) public {
+        (uint256 startPrice, uint256 duration, uint256 decayPerSecond, uint256 elapsedTime) =
+            _fuzzAssumptions(_startPrice, _duration, _decayPerSecond, _elapsedTime);
+        _setUpUsers();
+        _setUpNewStrategy();
+
+        (uint256 endPrice, uint256 executionPrice) = _calculatePrices(startPrice, duration, decayPerSecond, elapsedTime);
+
+        deal(address(weth), takerUser, executionPrice);
+
+        (OrderStructs.Maker memory makerAsk, OrderStructs.Taker memory takerBid) = _createMakerAskAndTakerBid({
+            numberOfItems: 1,
+            numberOfAmounts: 1,
+            startPrice: startPrice,
+            endPrice: endPrice,
+            endTime: block.timestamp + duration
+        });
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+        makerAsk.amounts = amounts;
+        makerAsk.collectionType = CollectionType.Hypercert;
+        makerAsk.additionalParameters = abi.encode(block.timestamp + 1000);
+
+        bytes memory signature = _signMakerOrder(makerAsk, makerUserPK);
+
+        _assertMakerOrderReturnValidationCode(makerAsk, signature, MAKER_ORDER_PERMANENTLY_INVALID_NON_STANDARD_SALE);
+
+        vm.prank(takerUser);
+        vm.expectRevert(CollectionTypeInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
     }
 
     function _assertOrderIsValid(OrderStructs.Maker memory makerAsk) private {

@@ -86,7 +86,7 @@ task("propose-upgrade-minter", "Propose an upgrade to OpenZeppelin Defender")
   .addOptionalParam("description", "Description of upgrade")
   .setAction(async ({ proxy, multisig, description = "Upgrade Minter contract" }, { ethers, defender }) => {
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
-    console.log(`Proposing upgrade to multisig ${multisig} as address ${proxy}`);
+    console.log(`Proposing upgrade to multisig ${multisig} to address ${proxy}`);
     const proposal = await defender.proposeUpgrade(proxy, HypercertMinter, {
       description,
       multisig,

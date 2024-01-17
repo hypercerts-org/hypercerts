@@ -10,6 +10,9 @@ import {OrderStructs} from "../libraries/OrderStructs.sol";
 // Other dependencies
 import {LooksRareProtocol} from "../LooksRareProtocol.sol";
 
+// Interfaces
+import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+
 /**
  * @title ProtocolHelpers
  * @notice This contract contains helper view functions for order creation.

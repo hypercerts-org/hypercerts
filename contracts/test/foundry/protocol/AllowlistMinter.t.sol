@@ -115,6 +115,8 @@ contract AllowlistTest is PRBTest, StdCheats, StdUtils {
         startHoax(0x23314160c752D6Bb544661DcE13d01C21c64331E, 10 ether);
         merkle.processClaim(proofZero, claimID, units[0]);
         merkle.processClaim(proofTwo, claimID, units[2]);
+
+        assertEq(merkle.getMinted(claimID), units[0] + units[2]);
     }
 
     function testBasicAllowlist() public {

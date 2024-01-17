@@ -1,10 +1,13 @@
 import { Network } from "@openzeppelin/defender-base-client";
+import { deployments } from "@hypercerts-org/contracts";
 
 export interface NetworkConfig {
   // Used to identify the network for both Alchemy and OpenZeppelin Sentinel
   networkKey: Network;
-  // Contract address on the network
-  contractAddress: string;
+  // Minter contract address on the network
+  hypercertMinterContractAddress: string;
+  // Exchange contract address on the network
+  hypercertExchangeContractAddress?: string;
   // the selector to retrieve the key from event.secrets in OpenZeppelin
   alchemyKeyEnvName?: string;
   // Chain ID for the network
@@ -23,7 +26,10 @@ export const NETWORKS: SupportedNetworks = {
   TEST: [
     {
       networkKey: "sepolia",
-      contractAddress: "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
+      hypercertMinterContractAddress:
+        deployments["11155111"].HypercertMinterUUPS,
+      hypercertExchangeContractAddress:
+        deployments["11155111"].HypercertExchange,
       chainId: 11155111,
       rpc: "https://rpc.sepolia.org",
     },
@@ -31,13 +37,13 @@ export const NETWORKS: SupportedNetworks = {
   PROD: [
     {
       networkKey: "optimism",
-      contractAddress: "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+      hypercertMinterContractAddress: deployments["10"].HypercertMinterUUPS,
       alchemyKeyEnvName: "ALCHEMY_OPTIMISM_KEY",
       chainId: 10,
     },
     {
       networkKey: "celo",
-      contractAddress: "0x16ba53b74c234c870c61efc04cd418b8f2865959",
+      hypercertMinterContractAddress: deployments["42220"].HypercertMinterUUPS,
       chainId: 42220,
       rpc: "https://forno.celo.org",
     },

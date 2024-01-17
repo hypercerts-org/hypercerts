@@ -7,7 +7,9 @@ contract MockHypercertMinter is IHypercertToken {
     constructor() IHypercertToken() {}
 
     /// @dev Function called to store a claim referenced via `uri` with a maximum number of fractions `units`.
-    function mintClaim(address account, uint256 units, string memory uri, TransferRestrictions restrictions) external {
+    function mintClaim(address account, uint256 units, string memory _uri, TransferRestrictions restrictions)
+        external
+    {
         return;
     }
 
@@ -17,7 +19,7 @@ contract MockHypercertMinter is IHypercertToken {
         address account,
         uint256 units,
         uint256[] memory fractions,
-        string memory uri,
+        string memory _uri,
         TransferRestrictions restrictions
     ) external {
         return;

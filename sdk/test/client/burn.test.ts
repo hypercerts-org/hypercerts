@@ -11,6 +11,8 @@ import { ClientError, ContractError } from "../../src";
 
 chai.use(assertionsCount);
 
+chai.use(assertionsCount);
+
 describe("burn fraction tokens in HypercertClient", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
@@ -19,7 +21,6 @@ describe("burn fraction tokens in HypercertClient", () => {
     walletClient,
     publicClient,
     nftStorageToken: "test",
-    web3StorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;
@@ -92,7 +93,6 @@ describe("burn fraction tokens in HypercertClient", () => {
       noHash = await client.burnClaimFraction(fractionId, { gasLimit: "FALSE_VALUE" as unknown as bigint });
       expect.fail("should have thrown on incorrect gasLimit value");
     } catch (e) {
-      console.log(e);
       expect(e).to.be.instanceOf(ContractError);
     }
 

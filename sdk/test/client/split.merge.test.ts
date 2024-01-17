@@ -25,7 +25,6 @@ describe("split and merge", () => {
     walletClient,
     publicClient,
     nftStorageToken: "test",
-    web3StorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;

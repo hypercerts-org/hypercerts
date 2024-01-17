@@ -19,6 +19,10 @@ contract AllowlistMinter is IAllowlist {
     mapping(uint256 => uint256) internal maxUnits;
     mapping(uint256 => uint256) internal minted;
 
+    function getMinted(uint256 claimID) external view returns (uint256 mintedUnits) {
+        mintedUnits = minted[claimID];
+    }
+
     function isAllowedToClaim(bytes32[] calldata proof, uint256 claimID, bytes32 leaf)
         external
         view
@@ -48,6 +52,8 @@ contract AllowlistMinter is IAllowlist {
                 || (minted[claimID] + amount) > maxUnits[claimID]
         ) revert Errors.Invalid();
         hasBeenClaimed[claimID][leaf] = true;
+
+        minted[claimID] += amount;
 
         emit LeafClaimed(claimID, leaf);
     }

@@ -14,13 +14,28 @@ export type SupportedOverrides = {
   gasLimit?: bigint;
 };
 
+export type Contracts =
+  | "HypercertMinterUUPS"
+  | "TransferManager"
+  | "ProtocolFeeRecipient"
+  | "HypercertExchange"
+  | "RoyaltyFeeRegistry"
+  | "OrderValidator"
+  | "CreatorFeeManager"
+  | "StrategyCollectionOffer"
+  | "StrategyDutchAuction"
+  | "StrategyItemIdsRange"
+  | "StrategyHypercertCollectionOffer"
+  | "StrategyHypercertDutchAuction"
+  | "StrategyHypercertFractionOffer";
+
 /**
  * Represents a deployment of a contract on a specific network.
  */
 export type Deployment = {
   chain: Partial<Chain>;
   /** The address of the deployed contract. */
-  contractAddress: string;
+  addresses: Partial<Record<Contracts, `0x${string}`>>;
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
   graphUrl: string;
   graphName: string;
@@ -123,6 +138,12 @@ export interface HypercertClientState {
  * The methods for the Hypercert client.
  */
 export interface HypercertClientMethods {
+  /**
+   * Gets the contract addresses and graph urls for the provided `chainId`
+   * @returns The addresses, graph name and graph url.
+   */
+  getDeployment: (chainId: SupportedChainIds) => Partial<Deployment>;
+
   /**
    * Mints a new claim.
    * @param metaData The metadata for the claim.

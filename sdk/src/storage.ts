@@ -41,10 +41,14 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     const tree = parseAllowListEntriesToMerkleTree(allowList);
 
-    const { cid: allowlistCID, errors: uploadAllowlistErrors } = await uploadAllowlist({
+    logger.debug("Allowlist tree: ", "storage", [tree]);
+
+    const { data: resData, errors: uploadAllowlistErrors } = await uploadAllowlist({
       allowList: JSON.stringify(tree.dump()),
       totalUnits: totalUnits.toString(),
     });
+
+    const allowlistCID = resData?.cid;
 
     if ((uploadAllowlistErrors && Object.keys(uploadAllowlistErrors).length > 0) || !allowlistCID) {
       throw new StorageError(`Allowlist upload failed.`, { errors: uploadAllowlistErrors, allowlistCID });
@@ -75,7 +79,9 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     logger.debug("Storing HypercertMetaData: ", "storage", [data]);
 
-    const { errors, cid } = await uploadMetadata(metadata);
+    const { errors, data: resData } = await uploadMetadata(metadata);
+
+    const cid = resData?.cid;
 
     if (!cid || (errors && Object.keys(errors).length > 0)) {
       throw new StorageError("Failed to store metadata", { errors, cid });
