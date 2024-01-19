@@ -26,7 +26,7 @@ const txHash = await hypercerts.mintClaim({
 });
 ```
 
-> **Note** If you did not initialize your HypercertsClient with an `operator`, `nftStorageToken` and `web3StorageToken`, the client will run in [read-only mode](#read-only-mode) and this will fail.
+> **Note** If you did not initialize your HypercertsClient with an `walletClient`, the client will run in [read-only mode](#read-only-mode) and this will fail.
 
 Let's see what happens under the hood:
 
