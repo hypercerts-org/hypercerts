@@ -33,13 +33,10 @@ import { HypercertClient } from "@hypercerts-org/sdk";
 ```js
 const client = new HypercertClient({
   chain: { id: 11155111 }, // required
-  nftStorageToken,
-  web3StorageToken,
 });
 ```
 
-> **Note** If there's no `walletClient`, `nftStorageToken` or `web3StorageToken` provided, the client will run in
-> [read-only mode](#read-only-mode)
+> **Note** If there's no `walletClient` provided the client will run in [read-only mode](#read-only-mode)
 
 4. Use the client object to interact with the Hypercert network.
 
@@ -66,8 +63,7 @@ For more information on how to use the SDK, check out the
 [developer documentation](https://hypercerts.org/docs/developer/) and the
 [Graph playground](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet).
 
-That's it! With these simple steps, you can start using the Hypercert SDK in your own projects. Don't forget to set your
-environment variables for your NFT.storage and web3.storage API keys in your .env file.
+That's it! With these simple steps, you can start using the Hypercert SDK in your own projects.
 
 ## Config
 
@@ -81,8 +77,6 @@ you to customize the client by setting your own providers or deployments. At it'
 | `contractAddress`           | String  | The address of the deployed contract.                                                          |
 | `graphUrl`                  | String  | The URL to the subgraph that indexes the contract events. Override for localized testing.      |
 | `graphName`                 | String  | The name of the subgraph.                                                                      |
-| `nftStorageToken`           | String  | The API token for NFT.storage.                                                                 |
-| `web3StorageToken`          | String  | The API token for Web3.storage.                                                                |
 | `easContractAddress`        | String  | The address of the EAS contract.                                                               |
 | `publicClient`              | Object  | The PublicClient is inherently read-only and is used for reading data from the blockchain.     |
 | `walletClient`              | Object  | The WalletClient is used for signing and sending transactions.                                 |
@@ -119,8 +113,7 @@ const {
 } = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
-The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata on IPFS and
-NFT.storage. It is used by the HypercertClient to store metadata when creating new Hypercerts.
+The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata from IPFS. It is used by the HypercertClient to store metadata when creating new Hypercerts.
 
 ```js
 const {

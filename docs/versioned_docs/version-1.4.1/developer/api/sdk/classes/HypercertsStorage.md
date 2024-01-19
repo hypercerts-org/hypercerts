@@ -8,7 +8,7 @@ custom_edit_url: null
 
 A class that provides storage functionality for Hypercerts.
 
-This class implements the `HypercertStorageInterface` and provides methods for storing and retrieving Hypercerts. It uses the NFT Storage and Web3 Storage APIs for storage, and can be configured to be read-only.
+This class implements the `HypercertStorageInterface` and provides methods for storing and retrieving Hypercerts.
 
 **`Example`**
 
@@ -71,7 +71,7 @@ Note: The original implementation using the Web3 Storage client is currently com
 
 #### Defined in
 
-[sdk/src/storage.ts:128](https://github.com/hypercerts-org/hypercerts/blob/c0c7b0d/sdk/src/storage.ts#L128)
+[sdk/src/storage.ts:126](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L126)
 
 ---
 
@@ -106,7 +106,7 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:105](https://github.com/hypercerts-org/hypercerts/blob/c0c7b0d/sdk/src/storage.ts#L105)
+[sdk/src/storage.ts:103](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L103)
 
 ---
 
@@ -116,9 +116,8 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 Stores hypercerts allowlist on IPFS.
 
-This method first checks if the storage is read-only or if the NFT Storage client is not configured. If either of these conditions is true, it throws a `StorageError`.
-It then validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
-If the metadata is valid, it creates a new Blob from the metadata and stores it using the NFT Storage client. If the storage operation fails, it throws a `StorageError`.
+First it validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
+If the metadata is valid, it creates a new Blob from the metadata and stores it using the hypercerts API. If the storage operation fails, it throws a `StorageError`.
 
 #### Parameters
 
@@ -135,7 +134,7 @@ A promise that resolves to the CID of the stored metadata.
 
 **`Throws`**
 
-Will throw a `StorageError` if the storage is read-only, if the NFT Storage client is not configured, or if the storage operation fails.
+Will throw a `StorageError` if the storage operation fails.
 
 **`Throws`**
 
@@ -147,7 +146,7 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:34](https://github.com/hypercerts-org/hypercerts/blob/c0c7b0d/sdk/src/storage.ts#L34)
+[sdk/src/storage.ts:33](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L33)
 
 ---
 
@@ -155,11 +154,10 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 ▸ **storeMetadata**(`metadata`): `Promise`<`string`\>
 
-Stores Hypercert metadata using the NFT Storage client.
+Stores Hypercert metadata using the hypercerts API.
 
-This method first checks if the storage is read-only or if the NFT Storage client is not configured. If either of these conditions is true, it throws a `StorageError`.
 It then validates the provided metadata using the `validateMetaData` function. If the metadata is invalid, it throws a `MalformedDataError`.
-If the metadata is valid, it creates a new Blob from the metadata and stores it using the NFT Storage client. If the storage operation fails, it throws a `StorageError`.
+If the metadata is valid, it creates a new Blob from the metadata and stores it using the hypercerts API. If the storage operation fails, it throws a `StorageError`.
 
 #### Parameters
 
@@ -175,7 +173,7 @@ A promise that resolves to the CID of the stored metadata.
 
 **`Throws`**
 
-Will throw a `StorageError` if the storage is read-only, if the NFT Storage client is not configured, or if the storage operation fails.
+Will throw a `StorageError` if the storage operation fails.
 
 **`Throws`**
 
@@ -187,4 +185,4 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:74](https://github.com/hypercerts-org/hypercerts/blob/c0c7b0d/sdk/src/storage.ts#L74)
+[sdk/src/storage.ts:72](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L72)
