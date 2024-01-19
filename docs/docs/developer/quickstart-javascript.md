@@ -11,17 +11,6 @@ npm install @hypercerts-org/sdk
 # OR yarn add @hypercerts-org/sdk
 ```
 
-## Get storage credentials (only required for minting)
-
-For now, we store all metadata (e.g. Hypercert claim data) on IPFS using [NFT.Storage](https://nft.storage/) and [web3.storage](https://web3.storage/).
-
-In order to mint a Hypercert, you will need to create API tokens for both services, which you can learn more about from their respective guides:
-
-- [Get an NFT.Storage API token](https://nft.storage/docs/#get-an-api-token)
-- [Get a web3.storage API token](https://web3.storage/docs/how-tos/generate-api-token/)
-
-_Note: In the future, we want to also support other mechanisms for storing off-chain data._
-
 ## Initialize
 
 Import the SDK into your project and create a new instance of `HypercertClient` with your configuration options:
@@ -40,17 +29,15 @@ const walletClient = createWalletClient({
 // This should have signing abilities and match the `chainId` passed into HypercertClient
 
 const client = new HypercertClient({
-  chainId: 5, // goerli testnet
+  chainId: 11155111, // Sepolia testnet
   walletClient,
-  nftStorageToken,
-  web3StorageToken,
 });
 ```
 
 Hypercerts is a multi-chain protocol.
 See [here](./supported-networks.md) for a list of currently supported networks.
 
-> **Note** If there's no `walletClient`, `nftStorageToken` or `web3StorageToken` provided, the client will run in [read-only mode](#read-only-mode).
+> **Note** If there's no `walletClient` provided, the client will run in [read-only mode](#read-only-mode).
 
 ## Make a Hypercert
 

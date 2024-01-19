@@ -9,7 +9,7 @@ HypercertIndexer, and HypercertMinter classes, respectively.
 ```js
 const {
   client: { storage },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata off-chain on IPFS. It is used by the HypercertClient to store metadata when creating new Hypercerts.
@@ -17,7 +17,7 @@ The `storage` is a utility class that provides methods for storing and retrievin
 ```js
 const {
   client: { indexer },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 The `indexer` is a utility class that provides methods for indexing and searching Hypercerts based on various criteria.
@@ -26,7 +26,7 @@ It is used by the HypercertClient to retrieve event-based data via the subgraph.
 ```js
 const {
   client: { contract },
-} = new HypercertClient({ chain: { id: 5 } });
+} = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
 Finally we have a `contract` that provides methods for interacting with the HypercertMinter smart contract. It is used

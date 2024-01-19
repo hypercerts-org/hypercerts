@@ -35,4 +35,4 @@ Additional error payload.
 
 #### Defined in
 
-[sdk/src/types/errors.ts:10](https://github.com/hypercerts-org/hypercerts/blob/b145e86/sdk/src/types/errors.ts#L10)
+[sdk/src/types/errors.ts:10](https://github.com/hypercerts-org/hypercerts/blob/c0c7b0d/sdk/src/types/errors.ts#L10)
