@@ -52,7 +52,7 @@ export function handleClaimStored(event: ClaimStoredEvent): void {
     event.params.uri,
   ]);
 
-  const metadataUri = `${event.params.uri}/data.json`;
+  const metadataUri = event.params.uri;
   claim.metaData = metadataUri;
   HypercertMetadataTemplate.create(metadataUri);
 
