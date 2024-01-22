@@ -61,6 +61,8 @@ export type HypercertClientConfig = Deployment &
 /**
  * Configuration options for the Hypercert storage layer.
  * @note The API tokens are optional, but required for storing data on NFT.storage and Web3.storage.
+ *
+ * @deprecated nft.storage and web3.storage are no longer used
  */
 export type HypercertStorageConfig = {
   /** The API token for NFT.storage. */

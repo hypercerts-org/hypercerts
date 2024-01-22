@@ -23,6 +23,7 @@ export default [
         dir: "dist/esm",
         sourcemap: true,
         exports: "named",
+        entryFileNames: "index.mjs",
       },
       {
         format: "cjs",
