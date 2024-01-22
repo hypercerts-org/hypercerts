@@ -1,6 +1,9 @@
 specVersion: 0.0.5
 schema:
   file: ./schema.graphql
+features:
+  - fullTextSearch
+  - ipfsOnEthereumContracts
 dataSources:
   - kind: ethereum/contract
     name: HypercertMinter
@@ -44,3 +47,16 @@ dataSources:
         - event: BatchValueTransfer(uint256[],uint256[],uint256[],uint256[])
           handler: handleBatchValueTransfer
       file: ./src/hypercert-minter.ts
+templates:
+  - name: HypercertMetadata
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/handleHypercertMetadata.ts
+      handler: handleHypercertMetadata
+      entities:
+        - HypercertMetadata
+      abis:
+        - name: HypercertMinter
+          file: ./abis/HypercertMinter.json

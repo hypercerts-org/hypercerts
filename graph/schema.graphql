@@ -13,7 +13,36 @@ type Claim @entity {
   creator: Bytes
   owner: Bytes
   totalUnits: BigInt
+  metaData: HypercertMetadata
   allowlist: Allowlist
+}
+
+type HypercertMetadata @entity {
+  id: ID!
+  name: String
+  description: String
+  image: String
+  external_url: String
+  version: String
+  ref: String
+  properties: [Attribute!]
+  claimData: [ClaimData!]
+}
+
+type ClaimData @entity {
+  id: String!
+  impactScope: [String!]!
+  workScope: [String!]!
+  workTimeframe: [BigInt!]!
+  impactTimeframe: [BigInt!]!
+  contributors: [String!]!
+  rights: [String!]!
+}
+
+type Attribute @entity {
+  id: String!
+  traitType: String!
+  value: String!
 }
 
 type ClaimToken @entity {

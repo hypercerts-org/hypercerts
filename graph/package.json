@@ -13,7 +13,7 @@
     "deploy:prod": "pnpm auth && pnpm deploy:optimism && pnpm deploy:celo",
     "deploy:celo": "graph deploy --node https://api.thegraph.com/deploy/ --network celo hypercerts-admin/hypercerts-celo",
     "deploy:optimism": "graph deploy --node https://api.thegraph.com/deploy/ --network optimism hypercerts-admin/hypercerts-optimism-mainnet",
-    "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia hypercerts-admin/hypercerts-sepolia",
+    "deploy:sepolia": "graph deploy --node https://api.thegraph.com/deploy/ --network sepolia hypercerts-org/hypercerts-sepolia",
     "create-local": "graph create --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "remove-local": "graph remove --node http://localhost:8020/ hypercerts-admin/hypercerts-testnet",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hypercerts-admin/hypercerts-testnet",

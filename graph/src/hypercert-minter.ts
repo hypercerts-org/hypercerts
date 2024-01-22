@@ -11,6 +11,7 @@ import {
   URI as URIEvent,
   ValueTransfer as ValueTransferEvent,
 } from "../generated/HypercertMinter/HypercertMinter";
+import { HypercertMetadata as HypercertMetadataTemplate } from "../generated/templates";
 import { ClaimToken } from "../generated/schema";
 import {
   ZERO_ADDRESS,
@@ -35,6 +36,10 @@ export function handleAllowlistCreated(event: AllowlistCreatedEvent): void {
 export function handleApprovalForAll(_event: ApprovalForAllEvent): void {}
 
 export function handleClaimStored(event: ClaimStoredEvent): void {
+  log.debug("Creating Claim for claimID: {}", [
+    event.params.claimID.toString(),
+  ]);
+
   const claim = getOrCreateClaim(
     event.params.claimID,
     event.address,
@@ -42,9 +47,20 @@ export function handleClaimStored(event: ClaimStoredEvent): void {
   );
 
   claim.uri = event.params.uri;
+
+  log.debug("Creating HypercertMetadataTemplate for uri: {}", [
+    event.params.uri,
+  ]);
+
+  const metadataUri = `${event.params.uri}/data.json`;
+  claim.metaData = metadataUri;
+  HypercertMetadataTemplate.create(metadataUri);
+
   claim.creator = event.transaction.from;
   claim.owner = event.transaction.from;
   claim.totalUnits = event.params.totalUnits;
+
+  claim.metaData = event.params.uri;
 
   claim.save();
 }
