@@ -568,8 +568,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts':
-        specifier: 1.1.0
-        version: 1.1.0(ts-node@10.9.1)(typescript@5.3.2)
+        specifier: 1.1.1-alpha.0
+        version: 1.1.1-alpha.0(ts-node@10.9.1)(typescript@5.3.2)
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.5
         version: 1.0.5
@@ -7323,10 +7323,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/contracts@1.1.0(ts-node@10.9.1)(typescript@5.3.2):
+  /@hypercerts-org/contracts@1.1.0(typescript@5.1.6):
     resolution: {integrity: sha512-iEEJP9LQTfgcFjnJj82AwkAob3kfFcTmxm6AGrCXFzt7CU3Xo2odCFKZ81UPFV9C4PyI8tPTSGd12NmUzjLlqA==}
     dependencies:
-      hardhat: 2.19.1(ts-node@10.9.1)(typescript@5.3.2)
+      hardhat: 2.19.1(typescript@5.1.6)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7335,10 +7335,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/contracts@1.1.0(typescript@5.1.6):
-    resolution: {integrity: sha512-iEEJP9LQTfgcFjnJj82AwkAob3kfFcTmxm6AGrCXFzt7CU3Xo2odCFKZ81UPFV9C4PyI8tPTSGd12NmUzjLlqA==}
+  /@hypercerts-org/contracts@1.1.1-alpha.0(ts-node@10.9.1)(typescript@5.3.2):
+    resolution: {integrity: sha512-3bypIOuTMLM/5KXopzOCOxcR+nUImFf/phPtZ/PoHceAx4CZZe1ygnK8l+GHaBxOX7/HcAp/9D7NBbcnJjHYcw==}
     dependencies:
-      hardhat: 2.19.1(typescript@5.1.6)
+      hardhat: 2.19.1(ts-node@10.9.1)(typescript@5.3.2)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -18539,6 +18539,7 @@ packages:
     dependencies:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
+    bundledDependencies: false
 
   /eval@0.1.8:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}

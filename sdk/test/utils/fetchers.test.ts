@@ -20,20 +20,22 @@ describe("Fetchers", () => {
 
     const res = await getFromIPFS("test");
     expect(res).to.equal(validResponse.data);
-    expect(axiosStub.calledOnce).to.be.true;
+    expect(axiosStub.calledThrice).to.be.true;
   });
 
-  it("IPFS: should try another endpoint after the first fails", async () => {
+  it("IPFS: should try multiple endpoint and resolves when a valid response is returned from any", async () => {
     const validResponse = { data: "TEST_PASSED" };
     const axiosStub = sinon
       .stub(axios, "get")
       .onFirstCall()
       .rejects()
       .onSecondCall()
-      .resolves(Promise.resolve(validResponse));
+      .resolves(Promise.resolve(validResponse))
+      .onThirdCall()
+      .rejects();
 
     const res = await getFromIPFS("test");
     expect(res).to.equal(validResponse.data);
-    expect(axiosStub.calledTwice).to.be.true;
+    expect(axiosStub.calledThrice).to.be.true;
   });
 });

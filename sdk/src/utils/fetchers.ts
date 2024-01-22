@@ -3,10 +3,10 @@ import { logger } from "./logger";
 import axios from "axios";
 
 /**
- * Fetches data from IPFS using either the NFT Storage gateway or the Web3Up gateway.
+ * Fetches data from IPFS using either the DWeb IPFS, NFT Storage, or the Web3Up gateway.
  *
- * This function attempts to fetch data from the NFT Storage gateway first. If the request times out, it then tries to fetch the data from the Web3Up  gateway.
- * If the data cannot be fetched from either gateway, it throws a `StorageError`.
+ * This function attempts to fetch data from all gateways at the same time and returns on the first on to resolve.
+ * If the data cannot be fetched from any gateway, it throws a `StorageError`.
  *
  * @param {string} cidOrIpfsUri - The CID or IPFS URI of the data to fetch.
  * @param {number} [timeout=10000] - The timeout for the fetch request in milliseconds. Defaults to 10000ms.
@@ -15,15 +15,20 @@ import axios from "axios";
  * @async
  */
 const getFromIPFS = async (cidOrIpfsUri: string, timeout: number = 10000): Promise<unknown> => {
-  const nftStorageGatewayLink = getNftStorageGatewayUri(cidOrIpfsUri);
-  const web3upGatewayLink = getWeb3UpGatewayUri(cidOrIpfsUri);
-  logger.debug(`Getting metadata ${cidOrIpfsUri} at ${nftStorageGatewayLink}`);
+  const requests = [
+    axios.get(getDwebLinkGatewayUri(cidOrIpfsUri), { timeout }),
+    axios.get(getNftStorageGatewayUri(cidOrIpfsUri), { timeout }),
+    axios.get(getWeb3UpGatewayUri(cidOrIpfsUri), { timeout }),
+  ];
 
-  const res = await axios.get(nftStorageGatewayLink, { timeout }).catch(() => {
-    logger.debug(`${nftStorageGatewayLink} timed out.`);
-    logger.debug(`Getting metadata ${cidOrIpfsUri} at ${web3upGatewayLink}`);
-    return axios.get(web3upGatewayLink, { timeout });
-  });
+  logger.debug(`Getting metadata for ${cidOrIpfsUri}`);
+
+  const res = await Promise.any(requests)
+    .then()
+    .catch((err) => {
+      logger.error(err);
+      throw new StorageError(`Failed to get ${cidOrIpfsUri}`, { error: err });
+    });
 
   if (!res || !res.data) {
     throw new StorageError(`Failed to get ${cidOrIpfsUri}`);
@@ -33,6 +38,11 @@ const getFromIPFS = async (cidOrIpfsUri: string, timeout: number = 10000): Promi
 };
 
 const getCid = (cidOrIpfsUri: string) => cidOrIpfsUri.replace("ipfs://", "");
+
+const getDwebLinkGatewayUri = (cidOrIpfsUri: string) => {
+  const DWEB_LINK_IPFS_GATEWAY = "https://{cid}.ipfs.dweb.link/";
+  return DWEB_LINK_IPFS_GATEWAY.replace("{cid}", getCid(cidOrIpfsUri));
+};
 
 const getNftStorageGatewayUri = (cidOrIpfsUri: string) => {
   const NFT_STORAGE_IPFS_GATEWAY = "https://nftstorage.link/ipfs/{cid}";
