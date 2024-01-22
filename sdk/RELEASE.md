@@ -1,5 +1,14 @@
 # Release notes
 
+## 1.4.2
+
+- Improve ESM support by exporting `index.mjs` instead of `index.js`. @baumstern
+- Added dweb IPFS gateway links and use `Promise.any` call to try and fetch data from multiple gateways.
+
+## New contributors
+
+Welcoming @baumstern as a new contributor to the hypercerts codebase!
+
 ## 1.4.0
 
 - Added all deployments from `@hypercerts-org/contracts` to the SDK under deploments.

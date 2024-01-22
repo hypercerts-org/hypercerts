@@ -21,6 +21,7 @@ export default [
       {
         format: "esm",
         dir: "dist/esm",
+        entryFileNames: "index.mjs",
       },
       {
         format: "cjs",

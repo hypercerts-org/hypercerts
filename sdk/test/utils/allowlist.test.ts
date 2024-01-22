@@ -47,6 +47,6 @@ describe("Fetchers", () => {
 
     expect(res?.proof).to.deep.equal(tree.getProof(0));
     expect(res?.root).to.deep.equal(tree.root);
-    expect(stub.calledOnce).to.be.true;
+    expect(stub.calledThrice).to.be.true;
   });
 });
