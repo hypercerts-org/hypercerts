@@ -1,3 +1,4 @@
+import { StorageConfigOverrides } from "src/types";
 import { StorageError } from "../types/errors";
 import { logger } from "./logger";
 import axios from "axios";
@@ -9,16 +10,16 @@ import axios from "axios";
  * If the data cannot be fetched from any gateway, it throws a `StorageError`.
  *
  * @param {string} cidOrIpfsUri - The CID or IPFS URI of the data to fetch.
- * @param {number} [timeout=10000] - The timeout for the fetch request in milliseconds. Defaults to 10000ms.
+ * @param {StorageConfigOverrides} [config] - An optional configuration object.
  * @returns {Promise<unknown>} The data fetched from IPFS.
  * @throws {StorageError} Will throw a `StoragjeError` if the data cannot be fetched from either gateway.
  * @async
  */
-const getFromIPFS = async (cidOrIpfsUri: string, timeout: number = 10000): Promise<unknown> => {
+const getFromIPFS = async (cidOrIpfsUri: string, config: StorageConfigOverrides = { timeout: 0 }): Promise<unknown> => {
   const requests = [
-    axios.get(getDwebLinkGatewayUri(cidOrIpfsUri), { timeout }),
-    axios.get(getNftStorageGatewayUri(cidOrIpfsUri), { timeout }),
-    axios.get(getWeb3UpGatewayUri(cidOrIpfsUri), { timeout }),
+    axios.get(getDwebLinkGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
+    axios.get(getNftStorageGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
+    axios.get(getWeb3UpGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
   ];
 
   logger.debug(`Getting metadata for ${cidOrIpfsUri}`);
