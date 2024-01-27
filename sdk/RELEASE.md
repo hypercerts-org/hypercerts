@@ -4,6 +4,8 @@
 
 - Improve ESM support by exporting `index.mjs` instead of `index.js`. @baumstern
 - Added dweb IPFS gateway links and use `Promise.any` call to try and fetch data from multiple gateways.
+- Expose timeout on HTTP requests from storage layer up to client wrapper methods as optional config.
+- Default timeout on calls of 0 ms (no timeout) to avoid issues with large files or multiple IPFS calls.
 
 ## New contributors
 
