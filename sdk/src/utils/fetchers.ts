@@ -1,4 +1,3 @@
-import { StorageConfigOverrides } from "src/types";
 import { StorageError } from "../types/errors";
 import { logger } from "./logger";
 import axios from "axios";
@@ -15,11 +14,11 @@ import axios from "axios";
  * @throws {StorageError} Will throw a `StoragjeError` if the data cannot be fetched from either gateway.
  * @async
  */
-const getFromIPFS = async (cidOrIpfsUri: string, config: StorageConfigOverrides = { timeout: 0 }): Promise<unknown> => {
+const getFromIPFS = async (cidOrIpfsUri: string, timeout: number = 10000): Promise<unknown> => {
   const requests = [
-    axios.get(getDwebLinkGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
-    axios.get(getNftStorageGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
-    axios.get(getWeb3UpGatewayUri(cidOrIpfsUri), { timeout: config.timeout }),
+    axios.get(getDwebLinkGatewayUri(cidOrIpfsUri), { timeout }),
+    axios.get(getNftStorageGatewayUri(cidOrIpfsUri), { timeout }),
+    axios.get(getWeb3UpGatewayUri(cidOrIpfsUri), { timeout }),
   ];
 
   logger.debug(`Getting metadata for ${cidOrIpfsUri}`);

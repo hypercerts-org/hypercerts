@@ -55,7 +55,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:24](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/hypercerts.ts#L24)
+[sdk/src/types/hypercerts.ts:24](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/hypercerts.ts#L24)
 
 ---
 
@@ -80,7 +80,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:195](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L195)
+[sdk/src/indexer/gql/graphql.ts:195](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L195)
 
 ---
 
@@ -97,7 +97,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1167](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1167)
+[sdk/src/indexer/gql/graphql.ts:1156](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1156)
 
 ---
 
@@ -119,7 +119,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:208](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L208)
+[sdk/src/indexer/gql/graphql.ts:208](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L208)
 
 ---
 
@@ -136,7 +136,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1194](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1194)
+[sdk/src/indexer/gql/graphql.ts:1205](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1205)
 
 ---
 
@@ -153,7 +153,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1187](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1187)
+[sdk/src/indexer/gql/graphql.ts:1196](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1196)
 
 ---
 
@@ -170,7 +170,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1177](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1177)
+[sdk/src/indexer/gql/graphql.ts:1177](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1177)
 
 ---
 
@@ -187,7 +187,39 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1151](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1151)
+[sdk/src/indexer/gql/graphql.ts:1118](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1118)
+
+---
+
+### ContractOverrides
+
+Ƭ **ContractOverrides**: `Object`
+
+Configuration options for the contract interactions.
+
+**`Param`**
+
+The value to send with the transaction (in wei).
+
+**`Param`**
+
+The gas price to use for the transaction (in wei).
+
+**`Param`**
+
+The gas limit to use for the transaction (in wei).
+
+#### Type declaration
+
+| Name        | Type     |
+| :---------- | :------- |
+| `gasLimit?` | `bigint` |
+| `gasPrice?` | `bigint` |
+| `value?`    | `bigint` |
+
+#### Defined in
+
+[sdk/src/types/client.ts:26](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L26)
 
 ---
 
@@ -197,7 +229,7 @@ Represents an entry in an allowlist.
 
 #### Defined in
 
-[sdk/src/types/client.ts:17](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L17)
+[sdk/src/types/client.ts:41](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L41)
 
 ---
 
@@ -218,7 +250,7 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-[sdk/src/types/client.ts:35](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L35)
+[sdk/src/types/client.ts:59](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L59)
 
 ---
 
@@ -234,7 +266,7 @@ Represents a deployment of a contract on a specific network.
 
 #### Defined in
 
-[sdk/src/indexer/gql/gql.ts:47](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/gql.ts#L47)
+[sdk/src/indexer/gql/gql.ts:53](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/gql.ts#L53)
 
 ---
 
@@ -248,7 +280,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:8](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/evaluation.d.ts#L8)
+[sdk/src/types/evaluation.d.ts:8](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/evaluation.d.ts#L8)
 
 ---
 
@@ -258,7 +290,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:9](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/evaluation.d.ts#L9)
+[sdk/src/types/evaluation.d.ts:9](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/evaluation.d.ts#L9)
 
 ---
 
@@ -274,7 +306,7 @@ and run json-schema-to-typescript to regenerate this file.
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:6](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L6)
+[sdk/src/indexer/gql/fragment-masking.ts:5](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L5)
 
 ---
 
@@ -286,7 +318,7 @@ Configuration options for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:47](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L47)
+[sdk/src/types/client.ts:71](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L71)
 
 ---
 
@@ -304,7 +336,7 @@ The props for the Hypercert client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:116](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L116)
+[sdk/src/types/client.ts:144](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L144)
 
 ---
 
@@ -320,7 +352,7 @@ The signer is required for submitting evaluations.
 
 #### Defined in
 
-[sdk/src/types/client.ts:76](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L76)
+[sdk/src/types/client.ts:100](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L100)
 
 ---
 
@@ -346,7 +378,7 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-[sdk/src/types/client.ts:67](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L67)
+[sdk/src/types/client.ts:91](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L91)
 
 ---
 
@@ -356,7 +388,7 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-[sdk/src/types/errors.ts:195](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/errors.ts#L195)
+[sdk/src/types/errors.ts:195](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/errors.ts#L195)
 
 ---
 
@@ -378,7 +410,7 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:10](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/indexer.ts#L10)
+[sdk/src/types/indexer.ts:10](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/indexer.ts#L10)
 
 ---
 
@@ -395,7 +427,29 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-[sdk/src/indexer/gql/graphql.ts:1160](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/graphql.ts#L1160)
+[sdk/src/indexer/gql/graphql.ts:1138](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/graphql.ts#L1138)
+
+---
+
+### StorageConfigOverrides
+
+Ƭ **StorageConfigOverrides**: `Object`
+
+Configuration options for the Hypercert storage layer.
+
+**`Param`**
+
+The timeout (im ms) for the HTTP request; for example for uploading metadata or fetching allowlists.
+
+#### Type declaration
+
+| Name       | Type     |
+| :--------- | :------- |
+| `timeout?` | `number` |
+
+#### Defined in
+
+[sdk/src/types/client.ts:36](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L36)
 
 ---
 
@@ -403,27 +457,25 @@ nft.storage and web3.storage are no longer used
 
 Ƭ **SupportedChainIds**: `10` \| `42220` \| `11155111`
 
+Enum to verify the supported chainIds
+
+**`Note`**
+
+10 = Optimism, 42220 = Celo, 11155111 = Sepolia
+
 #### Defined in
 
-[sdk/src/types/client.ts:10](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L10)
+[sdk/src/types/client.ts:15](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L15)
 
 ---
 
 ### SupportedOverrides
 
-Ƭ **SupportedOverrides**: `Object`
-
-#### Type declaration
-
-| Name        | Type     |
-| :---------- | :------- |
-| `gasLimit?` | `bigint` |
-| `gasPrice?` | `bigint` |
-| `value?`    | `bigint` |
+Ƭ **SupportedOverrides**: [`ContractOverrides`](modules.md#contractoverrides) & [`StorageConfigOverrides`](modules.md#storageconfigoverrides)
 
 #### Defined in
 
-[sdk/src/types/client.ts:11](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L11)
+[sdk/src/types/client.ts:17](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L17)
 
 ---
 
@@ -433,9 +485,9 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/hypercerts.ts#L15)
 
 ## Variables
 
@@ -445,7 +497,7 @@ nft.storage and web3.storage are no longer used
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5782
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5782
 
 ---
 
@@ -455,7 +507,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6906
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6906
 
 ---
 
@@ -465,7 +517,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:1226
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:1226
 
 ---
 
@@ -475,7 +527,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:35
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:35
 
 ---
 
@@ -485,7 +537,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3071
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3071
 
 ---
 
@@ -495,7 +547,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:4585
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:4585
 
 ---
 
@@ -505,7 +557,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5110
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5110
 
 ---
 
@@ -515,7 +567,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5855
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5855
 
 ---
 
@@ -525,7 +577,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6380
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6380
 
 ---
 
@@ -535,7 +587,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5379
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:5379
 
 ---
 
@@ -545,7 +597,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6649
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:6649
 
 ---
 
@@ -555,7 +607,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3508
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3508
 
 ---
 
@@ -565,7 +617,7 @@ node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3
 
 #### Defined in
 
-node_modules/.pnpm/@hypercerts-org+contracts@1.1.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3974
+node_modules/.pnpm/@hypercerts-org+contracts@1.1.1-alpha.0_ts-node@10.9.1_typescript@5.3.2/node_modules/@hypercerts-org/contracts/dist/index.d.ts:3974
 
 ---
 
@@ -585,9 +637,9 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/hypercerts.ts#L9)
+[sdk/src/types/hypercerts.ts:9](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/hypercerts.ts#L9)
 
-[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/hypercerts.ts#L15)
+[sdk/src/types/hypercerts.ts:15](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/hypercerts.ts#L15)
 
 ---
 
@@ -601,7 +653,7 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-[sdk/src/constants.ts:12](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/constants.ts#L12)
+[sdk/src/constants.ts:12](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/constants.ts#L12)
 
 ---
 
@@ -611,7 +663,7 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-[sdk/src/constants.ts:18](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/constants.ts#L18)
+[sdk/src/constants.ts:18](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/constants.ts#L18)
 
 ---
 
@@ -630,7 +682,7 @@ Represents the possible transfer restrictions of a claim matching the hypercerts
 
 #### Defined in
 
-[sdk/src/utils/logger.ts:24](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/logger.ts#L24)
+[sdk/src/utils/logger.ts:24](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/logger.ts#L24)
 
 ## Functions
 
@@ -669,7 +721,7 @@ Formats input data to an object containing HypercertMetadata including appropria
 
 #### Defined in
 
-[sdk/src/utils/formatter.ts:27](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/formatter.ts#L27)
+[sdk/src/utils/formatter.ts:27](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/formatter.ts#L27)
 
 ---
 
@@ -757,7 +809,7 @@ This method is a wrapper around basic viem utilties to parse ClaimStored(uint256
 
 #### Defined in
 
-[sdk/src/utils/txParser.ts:26](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/txParser.ts#L26)
+[sdk/src/utils/txParser.ts:26](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/txParser.ts#L26)
 
 ---
 
@@ -765,17 +817,17 @@ This method is a wrapper around basic viem utilties to parse ClaimStored(uint256
 
 ▸ **getFromIPFS**(`cidOrIpfsUri`, `timeout?`): `Promise`<`unknown`\>
 
-Fetches data from IPFS using either the NFT Storage gateway or the Web3Up gateway.
+Fetches data from IPFS using either the DWeb IPFS, NFT Storage, or the Web3Up gateway.
 
-This function attempts to fetch data from the NFT Storage gateway first. If the request times out, it then tries to fetch the data from the Web3Up gateway.
-If the data cannot be fetched from either gateway, it throws a `StorageError`.
+This function attempts to fetch data from all gateways at the same time and returns on the first on to resolve.
+If the data cannot be fetched from any gateway, it throws a `StorageError`.
 
 #### Parameters
 
-| Name           | Type     | Default value | Description                                                             |
-| :------------- | :------- | :------------ | :---------------------------------------------------------------------- |
-| `cidOrIpfsUri` | `string` | `undefined`   | The CID or IPFS URI of the data to fetch.                               |
-| `timeout?`     | `number` | `10000`       | The timeout for the fetch request in milliseconds. Defaults to 10000ms. |
+| Name           | Type     | Default value | Description                               |
+| :------------- | :------- | :------------ | :---------------------------------------- |
+| `cidOrIpfsUri` | `string` | `undefined`   | The CID or IPFS URI of the data to fetch. |
+| `timeout`      | `number` | `10000`       | -                                         |
 
 #### Returns
 
@@ -791,7 +843,7 @@ Will throw a `StoragjeError` if the data cannot be fetched from either gateway.
 
 #### Defined in
 
-[sdk/src/utils/fetchers.ts:17](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/fetchers.ts#L17)
+[sdk/src/utils/fetchers.ts:17](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/fetchers.ts#L17)
 
 ---
 
@@ -826,7 +878,7 @@ Will throw an error if the Merkle tree cannot be fetched.
 
 #### Defined in
 
-[sdk/src/utils/allowlist.ts:43](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/allowlist.ts#L43)
+[sdk/src/utils/allowlist.ts:43](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/allowlist.ts#L43)
 
 ---
 
@@ -865,7 +917,7 @@ Please regenerate the types.
 
 #### Defined in
 
-[sdk/src/indexer/gql/gql.ts:32](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/gql.ts#L32)
+[sdk/src/indexer/gql/gql.ts:34](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/gql.ts#L34)
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery RecentClaims($orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claims(orderDirection: $orderDirection, orderBy: creation, first: $first) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}\n\nquery ClaimById($id: ID!) {\n claim(id: $id) {\n contract\n tokenID\n creator\n id\n owner\n totalUnits\n uri\n }\n}"``]
 
@@ -883,7 +935,7 @@ typeof `documents`[``"query ClaimsByOwner($owner: Bytes = \"\", $orderDirection:
 
 #### Defined in
 
-[sdk/src/indexer/gql/gql.ts:37](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/gql.ts#L37)
+[sdk/src/indexer/gql/gql.ts:39](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/gql.ts#L39)
 
 ▸ **graphql**(`source`): typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {owner: $owner}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}\n\nquery ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {\n claimTokens(\n where: {claim: $claimId}\n skip: $skip\n first: $first\n orderDirection: $orderDirection\n ) {\n id\n owner\n tokenID\n units\n }\n}\n\nquery ClaimTokenById($claimTokenId: ID!) {\n claimToken(id: $claimTokenId) {\n id\n owner\n tokenID\n units\n claim {\n id\n creation\n uri\n totalUnits\n }\n }\n}"``]
 
@@ -901,7 +953,7 @@ typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirec
 
 #### Defined in
 
-[sdk/src/indexer/gql/gql.ts:41](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/gql.ts#L41)
+[sdk/src/indexer/gql/gql.ts:45](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/gql.ts#L45)
 
 ---
 
@@ -921,7 +973,7 @@ typeof `documents`[``"query ClaimTokensByOwner($owner: Bytes = \"\", $orderDirec
 
 #### Defined in
 
-[sdk/src/utils/errors.ts:39](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/errors.ts#L39)
+[sdk/src/utils/errors.ts:39](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/errors.ts#L39)
 
 ---
 
@@ -943,7 +995,7 @@ Method to catch errors and log them
 
 #### Defined in
 
-[sdk/src/utils/errors.ts:22](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/errors.ts#L22)
+[sdk/src/utils/errors.ts:22](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/errors.ts#L22)
 
 ---
 
@@ -972,7 +1024,7 @@ data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:51](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L51)
+[sdk/src/indexer/gql/fragment-masking.ts:51](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L51)
 
 ---
 
@@ -1000,7 +1052,7 @@ data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:45](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L45)
+[sdk/src/indexer/gql/fragment-masking.ts:45](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L45)
 
 ---
 
@@ -1020,7 +1072,7 @@ data is [TFrag] extends [Object] ? TKey extends string ? Object : never : never
 
 #### Defined in
 
-[sdk/src/utils/allowlist.ts:6](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/allowlist.ts#L6)
+[sdk/src/utils/allowlist.ts:6](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/allowlist.ts#L6)
 
 ---
 
@@ -1110,21 +1162,22 @@ An ethers.js `Provider` instance, or `undefined` if no chain is found in the `Pu
 
 #### Defined in
 
-[sdk/src/utils/adapters.ts:19](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/adapters.ts#L19)
+[sdk/src/utils/adapters.ts:19](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/adapters.ts#L19)
 
 ---
 
 ### uploadAllowlist
 
-▸ **uploadAllowlist**(`req`): `Promise`<`ResponseData`<\{ `cid`: `string` }\>\>
+▸ **uploadAllowlist**(`req`, `config?`): `Promise`<`ResponseData`<\{ `cid`: `string` }\>\>
 
 Uploads an allowlist to the API.
 
 #### Parameters
 
-| Name  | Type                   | Description                                                                                                        |
-| :---- | :--------------------- | :----------------------------------------------------------------------------------------------------------------- |
-| `req` | `AllowListPostRequest` | The request body containing the allowlist and total units. The allowList should be a stringified Merkle tree dump. |
+| Name      | Type                                                          | Description                                                                                                        |
+| :-------- | :------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- |
+| `req`     | `AllowListPostRequest`                                        | The request body containing the allowlist and total units. The allowList should be a stringified Merkle tree dump. |
+| `config?` | [`StorageConfigOverrides`](modules.md#storageconfigoverrides) | An optional configuration object.                                                                                  |
 
 #### Returns
 
@@ -1134,21 +1187,22 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/utils/apis.ts:49](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/apis.ts#L49)
+[sdk/src/utils/apis.ts:52](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/apis.ts#L52)
 
 ---
 
 ### uploadMetadata
 
-▸ **uploadMetadata**(`metadata`): `Promise`<`ResponseData`<\{ `cid`: `string` }\>\>
+▸ **uploadMetadata**(`metadata`, `config?`): `Promise`<`ResponseData`<\{ `cid`: `string` }\>\>
 
 Uploads metadata to the API.
 
 #### Parameters
 
-| Name       | Type                                                   | Description                                                                              |
-| :--------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `metadata` | [`HypercertMetadata`](interfaces/HypercertMetadata.md) | The metadata to upload. Should be an object that conforms to the HypercertMetadata type. |
+| Name       | Type                                                          | Description                                                                              |
+| :--------- | :------------------------------------------------------------ | :--------------------------------------------------------------------------------------- |
+| `metadata` | [`HypercertMetadata`](interfaces/HypercertMetadata.md)        | The metadata to upload. Should be an object that conforms to the HypercertMetadata type. |
+| `config?`  | [`StorageConfigOverrides`](modules.md#storageconfigoverrides) | An optional configuration object.                                                        |
 
 #### Returns
 
@@ -1158,7 +1212,7 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/utils/apis.ts:33](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/apis.ts#L33)
+[sdk/src/utils/apis.ts:34](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/apis.ts#L34)
 
 ---
 
@@ -1185,7 +1239,7 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:18](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L18)
+[sdk/src/indexer/gql/fragment-masking.ts:15](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L15)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `TType` \| `null` \| `undefined`
 
@@ -1208,7 +1262,7 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:23](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L23)
+[sdk/src/indexer/gql/fragment-masking.ts:20](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L20)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\>
 
@@ -1231,7 +1285,7 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:28](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L28)
+[sdk/src/indexer/gql/fragment-masking.ts:25](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L25)
 
 ▸ **useFragment**<`TType`\>(`_documentNode`, `fragmentType`): `ReadonlyArray`<`TType`\> \| `null` \| `undefined`
 
@@ -1254,7 +1308,7 @@ The response data from the API.
 
 #### Defined in
 
-[sdk/src/indexer/gql/fragment-masking.ts:33](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/indexer/gql/fragment-masking.ts#L33)
+[sdk/src/indexer/gql/fragment-masking.ts:30](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/indexer/gql/fragment-masking.ts#L30)
 
 ---
 
@@ -1282,7 +1336,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-[sdk/src/validator/index.ts:108](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L108)
+[sdk/src/validator/index.ts:108](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L108)
 
 ---
 
@@ -1310,7 +1364,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-[sdk/src/validator/index.ts:77](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L77)
+[sdk/src/validator/index.ts:77](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L77)
 
 ---
 
@@ -1338,7 +1392,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-[sdk/src/validator/index.ts:143](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L143)
+[sdk/src/validator/index.ts:143](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L143)
 
 ---
 
@@ -1366,7 +1420,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-[sdk/src/validator/index.ts:46](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L46)
+[sdk/src/validator/index.ts:46](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L46)
 
 ---
 
@@ -1394,7 +1448,7 @@ An object that includes a validity flag and any errors that occurred during vali
 
 #### Defined in
 
-[sdk/src/validator/index.ts:173](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L173)
+[sdk/src/validator/index.ts:173](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L173)
 
 ---
 
@@ -1426,7 +1480,7 @@ Will throw a `MintingError` if the signer address is invalid or if the Merkle pr
 
 #### Defined in
 
-[sdk/src/validator/index.ts:205](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L205)
+[sdk/src/validator/index.ts:205](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L205)
 
 ---
 
@@ -1458,7 +1512,7 @@ Will throw a `MintingError` if the lengths of the input arrays are not equal or 
 
 #### Defined in
 
-[sdk/src/validator/index.ts:228](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/validator/index.ts#L228)
+[sdk/src/validator/index.ts:228](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/validator/index.ts#L228)
 
 ---
 
@@ -1517,4 +1571,4 @@ An ethers.js `Signer` instance, or `undefined` if no chain is found in the `Wall
 
 #### Defined in
 
-[sdk/src/utils/adapters.ts:51](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/utils/adapters.ts#L51)
+[sdk/src/utils/adapters.ts:51](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/utils/adapters.ts#L51)

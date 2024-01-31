@@ -16,19 +16,20 @@ The interface for the Hypercert storage layer.
 
 ### getData
 
-• **getData**: (`cidOrIpfsUri`: `string`) => `Promise`<`unknown`\>
+• **getData**: (`cidOrIpfsUri`: `string`, `config?`: [`StorageConfigOverrides`](../modules.md#storageconfigoverrides)) => `Promise`<`unknown`\>
 
 #### Type declaration
 
-▸ (`cidOrIpfsUri`): `Promise`<`unknown`\>
+▸ (`cidOrIpfsUri`, `config?`): `Promise`<`unknown`\>
 
 Retrieves arbitrary data from IPFS.
 
 ##### Parameters
 
-| Name           | Type     | Description                                  |
-| :------------- | :------- | :------------------------------------------- |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to retrieve. |
+| Name           | Type                                                             | Description                                  |
+| :------------- | :--------------------------------------------------------------- | :------------------------------------------- |
+| `cidOrIpfsUri` | `string`                                                         | The CID or IPFS URI of the data to retrieve. |
+| `config?`      | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object.            |
 
 ##### Returns
 
@@ -38,25 +39,26 @@ A Promise that resolves to the retrieved data.
 
 #### Defined in
 
-[sdk/src/types/client.ts:110](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L110)
+[sdk/src/types/client.ts:138](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L138)
 
 ---
 
 ### getMetadata
 
-• **getMetadata**: (`cidOrIpfsUri`: `string`) => `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
+• **getMetadata**: (`cidOrIpfsUri`: `string`, `config?`: [`StorageConfigOverrides`](../modules.md#storageconfigoverrides)) => `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
 
 #### Type declaration
 
-▸ (`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
+▸ (`cidOrIpfsUri`, `config?`): `Promise`<[`HypercertMetadata`](HypercertMetadata.md)\>
 
 Retrieves the metadata for a hypercerts.
 
 ##### Parameters
 
-| Name           | Type     | Description                                      |
-| :------------- | :------- | :----------------------------------------------- |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to retrieve. |
+| Name           | Type                                                             | Description                                      |
+| :------------- | :--------------------------------------------------------------- | :----------------------------------------------- |
+| `cidOrIpfsUri` | `string`                                                         | The CID or IPFS URI of the metadata to retrieve. |
+| `config?`      | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object.                |
 
 ##### Returns
 
@@ -66,26 +68,27 @@ A Promise that resolves to the retrieved metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:103](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L103)
+[sdk/src/types/client.ts:130](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L130)
 
 ---
 
 ### storeAllowList
 
-• **storeAllowList**: (`allowList`: [`AllowlistEntry`](../modules.md#allowlistentry)[], `totalUnits`: `bigint`) => `Promise`<`string`\>
+• **storeAllowList**: (`allowList`: [`AllowlistEntry`](../modules.md#allowlistentry)[], `totalUnits`: `bigint`, `config?`: [`StorageConfigOverrides`](../modules.md#storageconfigoverrides)) => `Promise`<`string`\>
 
 #### Type declaration
 
-▸ (`allowList`, `totalUnits`): `Promise`<`string`\>
+▸ (`allowList`, `totalUnits`, `config?`): `Promise`<`string`\>
 
 Stores the allowlost for a hypercert.
 
 ##### Parameters
 
-| Name         | Type                                               | Description            |
-| :----------- | :------------------------------------------------- | :--------------------- |
-| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[] | The metadata to store. |
-| `totalUnits` | `bigint`                                           | -                      |
+| Name         | Type                                                             | Description                       |
+| :----------- | :--------------------------------------------------------------- | :-------------------------------- |
+| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[]               | The metadata to store.            |
+| `totalUnits` | `bigint`                                                         | -                                 |
+| `config?`    | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object. |
 
 ##### Returns
 
@@ -95,25 +98,26 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:89](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L89)
+[sdk/src/types/client.ts:114](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L114)
 
 ---
 
 ### storeMetadata
 
-• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md)) => `Promise`<`string`\>
+• **storeMetadata**: (`metadata`: [`HypercertMetadata`](HypercertMetadata.md), `config?`: [`StorageConfigOverrides`](../modules.md#storageconfigoverrides)) => `Promise`<`string`\>
 
 #### Type declaration
 
-▸ (`metadata`): `Promise`<`string`\>
+▸ (`metadata`, `config?`): `Promise`<`string`\>
 
 Stores the metadata for a hypercert.
 
 ##### Parameters
 
-| Name       | Type                                        | Description            |
-| :--------- | :------------------------------------------ | :--------------------- |
-| `metadata` | [`HypercertMetadata`](HypercertMetadata.md) | The metadata to store. |
+| Name       | Type                                                             | Description                       |
+| :--------- | :--------------------------------------------------------------- | :-------------------------------- |
+| `metadata` | [`HypercertMetadata`](HypercertMetadata.md)                      | The metadata to store.            |
+| `config?`  | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object. |
 
 ##### Returns
 
@@ -123,4 +127,4 @@ A Promise that resolves to the CID of the stored metadata.
 
 #### Defined in
 
-[sdk/src/types/client.ts:96](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/types/client.ts#L96)
+[sdk/src/types/client.ts:122](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L122)

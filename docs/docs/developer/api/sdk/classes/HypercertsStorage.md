@@ -35,7 +35,7 @@ const metadata = await storage.getMetadata("your-hypercert-id");
 
 ### getData
 
-▸ **getData**(`cidOrIpfsUri`): `Promise`<`unknown`\>
+▸ **getData**(`cidOrIpfsUri`, `config?`): `Promise`<`unknown`\>
 
 Retrieves data from IPFS using the provided CID or IPFS URI.
 
@@ -43,9 +43,10 @@ This method first retrieves the data from IPFS using the `getFromIPFS` function.
 
 #### Parameters
 
-| Name           | Type     | Description                                  |
-| :------------- | :------- | :------------------------------------------- |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the data to retrieve. |
+| Name           | Type                                                             | Description                                  |
+| :------------- | :--------------------------------------------------------------- | :------------------------------------------- |
+| `cidOrIpfsUri` | `string`                                                         | The CID or IPFS URI of the data to retrieve. |
+| `config?`      | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object.            |
 
 #### Returns
 
@@ -71,13 +72,13 @@ Note: The original implementation using the Web3 Storage client is currently com
 
 #### Defined in
 
-[sdk/src/storage.ts:126](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L126)
+[sdk/src/storage.ts:145](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/storage.ts#L145)
 
 ---
 
 ### getMetadata
 
-▸ **getMetadata**(`cidOrIpfsUri`): `Promise`<[`HypercertMetadata`](../interfaces/HypercertMetadata.md)\>
+▸ **getMetadata**(`cidOrIpfsUri`, `config?`): `Promise`<[`HypercertMetadata`](../interfaces/HypercertMetadata.md)\>
 
 Retrieves Hypercert metadata from IPFS using the provided CID or IPFS URI.
 
@@ -86,9 +87,10 @@ If the data is valid, it returns the data as a `HypercertMetadata` object.
 
 #### Parameters
 
-| Name           | Type     | Description                                      |
-| :------------- | :------- | :----------------------------------------------- |
-| `cidOrIpfsUri` | `string` | The CID or IPFS URI of the metadata to retrieve. |
+| Name           | Type                                                             | Description                                      |
+| :------------- | :--------------------------------------------------------------- | :----------------------------------------------- |
+| `cidOrIpfsUri` | `string`                                                         | The CID or IPFS URI of the metadata to retrieve. |
+| `config?`      | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object.                |
 
 #### Returns
 
@@ -106,13 +108,13 @@ Will throw a `MalformedDataError` if the retrieved data is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:103](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L103)
+[sdk/src/storage.ts:118](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/storage.ts#L118)
 
 ---
 
 ### storeAllowList
 
-▸ **storeAllowList**(`allowList`, `totalUnits`): `Promise`<`string`\>
+▸ **storeAllowList**(`allowList`, `totalUnits`, `config?`): `Promise`<`string`\>
 
 Stores hypercerts allowlist on IPFS.
 
@@ -121,10 +123,11 @@ If the metadata is valid, it creates a new Blob from the metadata and stores it 
 
 #### Parameters
 
-| Name         | Type                                               | Description             |
-| :----------- | :------------------------------------------------- | :---------------------- |
-| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[] | The allowList to store. |
-| `totalUnits` | `bigint`                                           | -                       |
+| Name         | Type                                                             | Description                                 |
+| :----------- | :--------------------------------------------------------------- | :------------------------------------------ |
+| `allowList`  | [`AllowlistEntry`](../modules.md#allowlistentry)[]               | The allowList to store.                     |
+| `totalUnits` | `bigint`                                                         | The total number of units in the allowlist. |
+| `config?`    | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object.           |
 
 #### Returns
 
@@ -146,13 +149,13 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:33](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L33)
+[sdk/src/storage.ts:36](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/storage.ts#L36)
 
 ---
 
 ### storeMetadata
 
-▸ **storeMetadata**(`metadata`): `Promise`<`string`\>
+▸ **storeMetadata**(`metadata`, `config?`): `Promise`<`string`\>
 
 Stores Hypercert metadata using the hypercerts API.
 
@@ -161,9 +164,10 @@ If the metadata is valid, it creates a new Blob from the metadata and stores it 
 
 #### Parameters
 
-| Name       | Type                                                      |
-| :--------- | :-------------------------------------------------------- |
-| `metadata` | [`HypercertMetadata`](../interfaces/HypercertMetadata.md) |
+| Name       | Type                                                             | Description                       |
+| :--------- | :--------------------------------------------------------------- | :-------------------------------- |
+| `metadata` | [`HypercertMetadata`](../interfaces/HypercertMetadata.md)        | -                                 |
+| `config?`  | [`StorageConfigOverrides`](../modules.md#storageconfigoverrides) | An optional configuration object. |
 
 #### Returns
 
@@ -185,4 +189,4 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/storage.ts:72](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/storage.ts#L72)
+[sdk/src/storage.ts:83](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/storage.ts#L83)

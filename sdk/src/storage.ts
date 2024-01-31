@@ -119,7 +119,7 @@ export class HypercertsStorage implements HypercertStorageInterface {
     cidOrIpfsUri: string,
     config: StorageConfigOverrides = { timeout: 0 },
   ): Promise<HypercertMetadata> {
-    const res = await getFromIPFS(cidOrIpfsUri, config);
+    const res = await getFromIPFS(cidOrIpfsUri, config.timeout);
 
     const validation = validateMetaData(res);
     if (!validation.valid) {
@@ -143,6 +143,6 @@ export class HypercertsStorage implements HypercertStorageInterface {
    * @remarkts Note: The original implementation using the Web3 Storage client is currently commented out due to issues with upstream repos. This will be replaced once those issues are resolved.
    */
   public async getData(cidOrIpfsUri: string, config: StorageConfigOverrides = { timeout: 0 }): Promise<unknown> {
-    return await getFromIPFS(cidOrIpfsUri, config);
+    return await getFromIPFS(cidOrIpfsUri, config.timeout);
   }
 }
