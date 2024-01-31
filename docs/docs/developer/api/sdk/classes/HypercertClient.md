@@ -54,7 +54,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:58](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L58)
+[sdk/src/client.ts:58](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L58)
 
 ## Properties
 
@@ -64,7 +64,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:41](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L41)
+[sdk/src/client.ts:41](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L41)
 
 ---
 
@@ -74,7 +74,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:44](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L44)
+[sdk/src/client.ts:44](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L44)
 
 ---
 
@@ -84,7 +84,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:45](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L45)
+[sdk/src/client.ts:45](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L45)
 
 ---
 
@@ -158,7 +158,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:46](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L46)
+[sdk/src/client.ts:46](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L46)
 
 ---
 
@@ -168,7 +168,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:42](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L42)
+[sdk/src/client.ts:42](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L42)
 
 ---
 
@@ -212,7 +212,7 @@ Will throw a `ClientError` if the public client cannot be connected.
 
 #### Defined in
 
-[sdk/src/client.ts:47](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L47)
+[sdk/src/client.ts:47](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L47)
 
 ---
 
@@ -228,7 +228,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/client.ts:48](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L48)
+[sdk/src/client.ts:48](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L48)
 
 ## Accessors
 
@@ -246,7 +246,7 @@ The client config.
 
 #### Defined in
 
-[sdk/src/client.ts:82](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L82)
+[sdk/src/client.ts:82](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L82)
 
 ---
 
@@ -272,7 +272,7 @@ Use getDeployments instead.
 
 #### Defined in
 
-[sdk/src/client.ts:107](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L107)
+[sdk/src/client.ts:107](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L107)
 
 ---
 
@@ -294,7 +294,7 @@ The indexer.
 
 #### Defined in
 
-[sdk/src/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L98)
+[sdk/src/client.ts:98](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L98)
 
 ---
 
@@ -316,7 +316,7 @@ The storage layer.
 
 #### Defined in
 
-[sdk/src/client.ts:90](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L90)
+[sdk/src/client.ts:90](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L90)
 
 ## Methods
 
@@ -355,7 +355,7 @@ Will throw an `InvalidOrMissingError` if any of the proofs are invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:454](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L454)
+[sdk/src/client.ts:454](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L454)
 
 ---
 
@@ -388,7 +388,7 @@ A promise that resolves to the transaction hash.
 
 #### Defined in
 
-[sdk/src/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L216)
+[sdk/src/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L216)
 
 ---
 
@@ -425,7 +425,7 @@ Will throw a `ClientError` if the claim is not owned by the account.
 
 #### Defined in
 
-[sdk/src/client.ts:377](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L377)
+[sdk/src/client.ts:377](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L377)
 
 ---
 
@@ -466,7 +466,7 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:249](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L249)
+[sdk/src/client.ts:249](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L249)
 
 ---
 
@@ -486,7 +486,7 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:485](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L485)
+[sdk/src/client.ts:485](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L485)
 
 ---
 
@@ -506,7 +506,7 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:502](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L502)
+[sdk/src/client.ts:502](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L502)
 
 ---
 
@@ -520,7 +520,7 @@ Will throw a `MalformedDataError` if the provided allowlist or metadata is inval
 
 #### Defined in
 
-[sdk/src/client.ts:491](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L491)
+[sdk/src/client.ts:491](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L491)
 
 ---
 
@@ -552,7 +552,7 @@ Use getDeployments instead.
 
 #### Defined in
 
-[sdk/src/client.ts:120](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L120)
+[sdk/src/client.ts:120](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L120)
 
 ---
 
@@ -582,7 +582,7 @@ a Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/client.ts:168](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L168)
+[sdk/src/client.ts:168](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L168)
 
 ---
 
@@ -630,7 +630,7 @@ a Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/client.ts:512](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L512)
+[sdk/src/client.ts:512](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L512)
 
 ---
 
@@ -667,7 +667,7 @@ Will throw a `ClientError` if any of the fractions are not owned by the account.
 
 #### Defined in
 
-[sdk/src/client.ts:336](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L336)
+[sdk/src/client.ts:336](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L336)
 
 ---
 
@@ -707,7 +707,7 @@ Will throw a `MalformedDataError` if the provided metadata is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:139](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L139)
+[sdk/src/client.ts:139](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L139)
 
 ---
 
@@ -746,7 +746,7 @@ Will throw an `InvalidOrMissingError` if the proof is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:410](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L410)
+[sdk/src/client.ts:410](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L410)
 
 ---
 
@@ -769,7 +769,7 @@ Will throw an `InvalidOrMissingError` if the proof is invalid.
 
 #### Defined in
 
-[sdk/src/client.ts:522](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L522)
+[sdk/src/client.ts:522](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L522)
 
 ---
 
@@ -808,7 +808,7 @@ Will throw a `ClientError` if the fraction is not owned by the account or if the
 
 #### Defined in
 
-[sdk/src/client.ts:291](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L291)
+[sdk/src/client.ts:291](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L291)
 
 ---
 
@@ -838,7 +838,7 @@ Will throw a `ClientError` if the request fails.
 
 #### Defined in
 
-[sdk/src/client.ts:553](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L553)
+[sdk/src/client.ts:553](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L553)
 
 ---
 
@@ -871,4 +871,4 @@ A promise that resolves to the transaction hash.
 
 #### Defined in
 
-[sdk/src/client.ts:188](https://github.com/hypercerts-org/hypercerts/blob/e194fdd/sdk/src/client.ts#L188)
+[sdk/src/client.ts:188](https://github.com/hypercerts-org/hypercerts/blob/d7cb556/sdk/src/client.ts#L188)

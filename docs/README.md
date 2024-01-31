@@ -23,26 +23,6 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Versioning
-
-We leverage Docusaurus's built-in support for versioning.
-For more details, see the [documentation](https://docusaurus.io/docs/versioning).
-
-NOTE: Please keep the version number consistent with our SDK version numbers.
-
-To create a new version:
-
-```
-yarn docusaurus docs:version VERSION_NUMBER
-
-```
-
-For your convenience, this script will create a new version based on `../sdk/package.json`
-
-```
-yarn version:new
-```
-
 ### Deployment
 
 Using SSH:
