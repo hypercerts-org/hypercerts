@@ -113,7 +113,8 @@ const {
 } = new HypercertClient({ chain: { id: 11155111 } });
 ```
 
-The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata from IPFS. It is used by the HypercertClient to store metadata when creating new Hypercerts.
+The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata from IPFS. It is
+used by the HypercertClient to store metadata when creating new Hypercerts.
 
 ```js
 const {

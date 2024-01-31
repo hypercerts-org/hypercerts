@@ -7,11 +7,35 @@ import { HypercertMetadata } from "./metadata";
 import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
+/**
+ * Enum to verify the supported chainIds
+ *
+ * @note 10 = Optimism, 42220 = Celo, 11155111 = Sepolia
+ */
 export type SupportedChainIds = 10 | 42220 | 11155111;
-export type SupportedOverrides = {
+
+export type SupportedOverrides = ContractOverrides & StorageConfigOverrides;
+
+/**
+ * Configuration options for the contract interactions.
+ *
+ * @param value The value to send with the transaction (in wei).
+ * @param gasPrice The gas price to use for the transaction (in wei).
+ * @param gasLimit The gas limit to use for the transaction (in wei).
+ */
+export type ContractOverrides = {
   value?: bigint;
   gasPrice?: bigint;
   gasLimit?: bigint;
+};
+
+/**
+ * Configuration options for the Hypercert storage layer.
+ * @param timeout The timeout (im ms) for the HTTP request; for example for uploading metadata or fetching allowlists.
+ */
+export type StorageConfigOverrides = {
+  // Axios timout in ms
+  timeout?: number;
 };
 
 export type Contracts =
@@ -84,30 +108,34 @@ export interface HypercertStorageInterface {
   /**
    * Stores the allowlost for a hypercert.
    * @param allowList The metadata to store.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns A Promise that resolves to the CID of the stored metadata.
    */
-  storeAllowList: (allowList: AllowlistEntry[], totalUnits: bigint) => Promise<string>;
+  storeAllowList: (allowList: AllowlistEntry[], totalUnits: bigint, config?: StorageConfigOverrides) => Promise<string>;
 
   /**
    * Stores the metadata for a hypercert.
    * @param metadata The metadata to store.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns A Promise that resolves to the CID of the stored metadata.
    */
-  storeMetadata: (metadata: HypercertMetadata) => Promise<string>;
+  storeMetadata: (metadata: HypercertMetadata, config?: StorageConfigOverrides) => Promise<string>;
 
   /**
    * Retrieves the metadata for a hypercerts.
    * @param cidOrIpfsUri The CID or IPFS URI of the metadata to retrieve.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns A Promise that resolves to the retrieved metadata.
    */
-  getMetadata: (cidOrIpfsUri: string) => Promise<HypercertMetadata>;
+  getMetadata: (cidOrIpfsUri: string, config?: StorageConfigOverrides) => Promise<HypercertMetadata>;
 
   /**
    * Retrieves arbitrary data from IPFS.
    * @param cidOrIpfsUri The CID or IPFS URI of the data to retrieve.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns A Promise that resolves to the retrieved data.
    */
-  getData: (cidOrIpfsUri: string) => Promise<unknown>;
+  getData: (cidOrIpfsUri: string, config?: StorageConfigOverrides) => Promise<unknown>;
 }
 
 /**

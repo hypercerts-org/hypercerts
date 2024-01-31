@@ -145,7 +145,7 @@ export class HypercertClient implements HypercertClientInterface {
     const { account } = this.getWallet();
 
     // validate and store metadata
-    const metadataCID = await this.storage.storeMetadata(metaData);
+    const metadataCID = await this.storage.storeMetadata(metaData, { timeout: overrides?.timeout });
 
     const request = await this.simulateRequest(
       account,
@@ -259,11 +259,13 @@ export class HypercertClient implements HypercertClientInterface {
     const tree = parseAllowListEntriesToMerkleTree(allowList);
 
     // store allowlist on IPFS
-    const allowListCID = await this.storage.storeAllowList(allowList, totalUnits);
+    const allowListCID = await this.storage.storeAllowList(allowList, totalUnits, { timeout: overrides?.timeout });
 
     // store metadata on IPFS
-    const metadataCID = await this.storage.storeMetadata({ ...metaData, allowList: allowListCID });
-
+    const metadataCID = await this.storage.storeMetadata(
+      { ...metaData, allowList: allowListCID },
+      { timeout: overrides?.timeout },
+    );
     const request = await this.simulateRequest(
       account,
       "createAllowlist",

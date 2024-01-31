@@ -5,6 +5,7 @@ import {
   MalformedDataError,
   StorageError,
   AllowlistEntry,
+  StorageConfigOverrides,
 } from "./types";
 import { logger, getFromIPFS, parseAllowListEntriesToMerkleTree } from "./utils";
 import { uploadAllowlist, uploadMetadata } from "./utils/apis";
@@ -26,11 +27,17 @@ export class HypercertsStorage implements HypercertStorageInterface {
    * If the metadata is valid, it creates a new Blob from the metadata and stores it using the hypercerts API. If the storage operation fails, it throws a `StorageError`.
    *
    * @param {AllowlistEntry[]} allowList - The allowList to store.
+   * @param {bigin} totalUnits - The total number of units in the allowlist.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns {Promise<string>} A promise that resolves to the CID of the stored metadata.
    * @throws {StorageError} Will throw a `StorageError` if the storage operation fails.
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the provided metadata is invalid.
    */
-  public async storeAllowList(allowList: AllowlistEntry[], totalUnits: bigint): Promise<string> {
+  public async storeAllowList(
+    allowList: AllowlistEntry[],
+    totalUnits: bigint,
+    config: StorageConfigOverrides = { timeout: 0 },
+  ): Promise<string> {
     const { valid, data, errors: allowlistErrors } = validateAllowlist(allowList, totalUnits);
     if (!valid) {
       throw new MalformedDataError(`Invalid allowList.`, { errors: allowlistErrors });
@@ -42,10 +49,13 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     logger.debug("Allowlist tree: ", "storage", [tree]);
 
-    const { data: resData, errors: uploadAllowlistErrors } = await uploadAllowlist({
-      allowList: JSON.stringify(tree.dump()),
-      totalUnits: totalUnits.toString(),
-    });
+    const { data: resData, errors: uploadAllowlistErrors } = await uploadAllowlist(
+      {
+        allowList: JSON.stringify(tree.dump()),
+        totalUnits: totalUnits.toString(),
+      },
+      config,
+    );
 
     const allowlistCID = resData?.cid;
 
@@ -65,11 +75,15 @@ export class HypercertsStorage implements HypercertStorageInterface {
    * If the metadata is valid, it creates a new Blob from the metadata and stores it using the hypercerts API. If the storage operation fails, it throws a `StorageError`.
    *
    * @param {HypercertMetadata} data - The Hypercert metadata to store. This should be an object that conforms to the HypercertMetadata type.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns {Promise<string>} A promise that resolves to the CID of the stored metadata.
    * @throws {StorageError} Will throw a `StorageError` if the storage operation fails.
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the provided metadata is invalid.
    */
-  public async storeMetadata(metadata: HypercertMetadata): Promise<string> {
+  public async storeMetadata(
+    metadata: HypercertMetadata,
+    config: StorageConfigOverrides = { timeout: 0 },
+  ): Promise<string> {
     const { data, valid, errors: validationErrors } = validateMetaData(metadata);
     if (!valid) {
       throw new MalformedDataError(`Invalid metadata.`, { errors: validationErrors });
@@ -77,7 +91,7 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     logger.debug("Storing HypercertMetaData: ", "storage", [data]);
 
-    const { errors, data: resData } = await uploadMetadata(metadata);
+    const { errors, data: resData } = await uploadMetadata(metadata, config);
 
     const cid = resData?.cid;
 
@@ -97,11 +111,15 @@ export class HypercertsStorage implements HypercertStorageInterface {
    * If the data is valid, it returns the data as a `HypercertMetadata` object.
    *
    * @param {string} cidOrIpfsUri - The CID or IPFS URI of the metadata to retrieve.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns {Promise<HypercertMetadata>} A promise that resolves to the retrieved metadata.
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the retrieved data is invalid.
    */
-  public async getMetadata(cidOrIpfsUri: string): Promise<HypercertMetadata> {
-    const res = await getFromIPFS(cidOrIpfsUri);
+  public async getMetadata(
+    cidOrIpfsUri: string,
+    config: StorageConfigOverrides = { timeout: 0 },
+  ): Promise<HypercertMetadata> {
+    const res = await getFromIPFS(cidOrIpfsUri, config.timeout);
 
     const validation = validateMetaData(res);
     if (!validation.valid) {
@@ -117,14 +135,14 @@ export class HypercertsStorage implements HypercertStorageInterface {
    * This method first retrieves the data from IPFS using the `getFromIPFS` function. It then parses the retrieved data as JSON and returns it.
    *
    * @param {string} cidOrIpfsUri - The CID or IPFS URI of the data to retrieve.
+   * @param {StorageConfigOverrides} [config] - An optional configuration object.
    * @returns {Promise<any>} A promise that resolves to the retrieved data.
    * @throws {FetchError} Will throw a `FetchError` if the retrieval operation fails.
    * @throws {MalformedDataError} Will throw a `MalformedDataError` if the retrieved data is not a single file.
    *
    * @remarkts Note: The original implementation using the Web3 Storage client is currently commented out due to issues with upstream repos. This will be replaced once those issues are resolved.
    */
-  public async getData(cidOrIpfsUri: string): Promise<unknown> {
-    // TODO: replace current temporary fix or just using NFT.Storage IPFS gateway
-    return await getFromIPFS(cidOrIpfsUri);
+  public async getData(cidOrIpfsUri: string, config: StorageConfigOverrides = { timeout: 0 }): Promise<unknown> {
+    return await getFromIPFS(cidOrIpfsUri, config.timeout);
   }
 }
