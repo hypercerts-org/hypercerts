@@ -34,9 +34,9 @@ interface IHypercertToken {
         TransferRestrictions restrictions
     ) external;
 
-    /// @dev Function called to split `tokenID` owned by `account` into units declared in `values`.
+    /// @dev Function called to split `tokenID` and transfer `to` into units declared in `values`.
     /// @notice The sum of `values` must equal the current value of `_tokenID`.
-    function splitFraction(address account, uint256 tokenID, uint256[] memory _values) external;
+    function splitFraction(address to, uint256 tokenID, uint256[] memory _values) external;
 
     /// @dev Function called to merge tokens within `tokenIDs`.
     /// @notice Tokens that have been merged are burned.

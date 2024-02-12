@@ -99,7 +99,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const _minTotalFeeBp = 50;
     const _maxProtocolFeeBp = 200;
 
-    const releaseCounter = "v0.4";
+    const releaseCounter = "v0.7";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -129,6 +129,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       {
         contract: strategyCollectionOfferContract,
         name: "StrategyCollectionOffer",
+        isMakerBid: true,
         strategies: [
           "executeCollectionStrategyWithTakerAsk",
           "executeCollectionStrategyWithTakerAskWithProof",
@@ -138,16 +139,19 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       {
         contract: strategyDutchAuctionContract,
         name: "StrategyDutchAuction",
+        isMakerBid: false,
         strategies: ["executeStrategyWithTakerBid"],
       },
       {
         contract: strategyItemIdsRangeContract,
         name: "StrategyItemIdsRange",
+        isMakerBid: true,
         strategies: ["executeStrategyWithTakerAsk"],
       },
       {
         contract: strategyHypercertCollectionOfferContract,
         name: "StrategyHypercertCollectionOffer",
+        isMakerBid: true,
         strategies: [
           "executeHypercertCollectionStrategyWithTakerAsk",
           "executeHypercertCollectionStrategyWithTakerAskWithProof",
@@ -157,11 +161,13 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       {
         contract: strategyHypercertDutchAuctionContract,
         name: "StrategyHypercertDutchAuction",
+        isMakerBid: false,
         strategies: ["executeStrategyWithTakerBid"],
       },
       {
         contract: strategyHypercertFractionOfferContract,
         name: "StrategyHypercertFractionOffer",
+        isMakerBid: false,
         strategies: [
           "executeHypercertFractionStrategyWithTakerBid",
           "executeHypercertFractionStrategyWithTakerBidWithAllowlist",
@@ -470,7 +476,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
           _minTotalFeeBp,
           _maxProtocolFeeBp,
           strategyFactory.interface.getFunction(strat)?.selector,
-          true,
+          strategy.isMakerBid,
           strategyTx.contractAddress,
         ]);
 
