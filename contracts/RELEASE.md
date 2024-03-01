@@ -1,3 +1,7 @@
+# 1.1.2
+
+- Add Base and Base Sepolia to types
+
 # 1.1.1
 
 - Improve ESM support by exporting `index.mjs` instead of `index.js`. @baumstern

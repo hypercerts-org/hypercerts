@@ -1,4 +1,4 @@
-import { sepolia, optimism, celo, Chain } from "viem/chains";
+import { sepolia, optimism, celo, Chain, baseSepolia, base } from "viem/chains";
 
 import { DEPLOYMENTS } from "../constants";
 import {
@@ -25,6 +25,8 @@ import { deployments } from "../../src";
  * - 10: Optimism
  * - 42220: Celo
  * - 11155111: Sepolia
+ * - 84532: Base Sepolia
+ * - 8453: Base Mainnet
  *
  * @param {Partial<HypercertClientConfig>} overrides - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
  * @returns {Partial<HypercertClientConfig>} The final configuration object for the Hypercert client.
@@ -181,7 +183,7 @@ const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
 };
 
 const getDefaultChain = (chainId: number) => {
-  const _chains = [sepolia, optimism, celo];
+  const _chains = [sepolia, optimism, celo, base, baseSepolia];
 
   for (const chain of Object.values(_chains)) {
     if ("id" in chain) {

@@ -103,6 +103,11 @@ export enum AcceptedToken_OrderBy {
   TokenSymbol = "token__symbol",
 }
 
+export enum Aggregation_Interval {
+  Day = "day",
+  Hour = "hour",
+}
+
 export type Allowlist = {
   __typename?: "Allowlist";
   claim: Claim;

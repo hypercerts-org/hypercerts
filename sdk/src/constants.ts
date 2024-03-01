@@ -31,6 +31,16 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
     graphName: "hypercerts-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
   } as const,
+  84532: {
+    addresses: deployments[84532],
+    graphName: "hypercerts-base-sepolia",
+    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-base-sepolia`,
+  } as const,
+  8453: {
+    addresses: deployments[8453],
+    graphName: "hypercerts-base-mainnet",
+    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-base-mainnet`,
+  } as const,
 };
 
 // Example schema on Sepolia
