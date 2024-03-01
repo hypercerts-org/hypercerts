@@ -1,6 +1,7 @@
 # 1.1.1
 
 - Improve ESM support by exporting `index.mjs` instead of `index.js`. @baumstern
+- Deployed to Base and Base Sepolia networks
 
 ## New contributors
 

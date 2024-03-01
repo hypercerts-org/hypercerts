@@ -69,7 +69,7 @@ const chainIds = {
   "celo-mainnet": 42220,
   // Base
   "base-sepolia": 84532,
-  base: 8453,
+  "base-mainnet": 8453,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -95,6 +95,13 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
+  if (chain === "base-mainnet") {
+    config = {
+      ...config,
+      url: `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
 
@@ -169,7 +176,7 @@ const config: HardhatUserConfig = {
         chainId: 84532,
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
-          browserURL: "https://sepolia.basescan.io",
+          browserURL: "https://sepolia.basescan.org",
         },
       },
     ],
@@ -203,6 +210,7 @@ const config: HardhatUserConfig = {
     "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": getChainConfig("optimism-mainnet"),
     "base-sepolia": getChainConfig("base-sepolia"),
+    "base-mainnet": getChainConfig("base-mainnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
