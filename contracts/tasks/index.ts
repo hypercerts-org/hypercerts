@@ -1,4 +1,4 @@
-export * from "./deploy";
+export * from "./deploy-minter";
 export * from "./deploy-implementation";
 export * from "./force-import";
 export * from "./generate-address";

@@ -48,6 +48,7 @@ const OPTIMISTIC_ETHERSCAN_API_KEY = requireEnv(
   "OPTIMISTIC_ETHERSCAN_API_KEY",
 );
 const CELOSCAN_API_KEY = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
+const BASESCAN_API_KEY = requireEnv(process.env.BASESCAN_API_KEY, "BASESCAN_API_KEY");
 
 const OPENZEPPELIN_API_KEY = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
 const OPENZEPPELIN_SECRET_KEY = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
@@ -66,6 +67,9 @@ const chainIds = {
   "optimism-goerli": 420,
   // Celo
   "celo-mainnet": 42220,
+  // Base
+  "base-sepolia": 84532,
+  "base-mainnet": 8453,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -84,6 +88,20 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
+  if (chain === "base-sepolia") {
+    config = {
+      ...config,
+      url: `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
+  if (chain === "base-mainnet") {
+    config = {
+      ...config,
+      url: `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
 
@@ -141,6 +159,8 @@ const config: HardhatUserConfig = {
       sepolia: ETHERSCAN_API_KEY!,
       optimisticEthereum: OPTIMISTIC_ETHERSCAN_API_KEY!,
       celo: CELOSCAN_API_KEY!,
+      base: BASESCAN_API_KEY!,
+      "base-sepolia": BASESCAN_API_KEY!,
     },
     customChains: [
       {
@@ -149,6 +169,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api.celoscan.io/api",
           browserURL: "https://celoscan.io/",
+        },
+      },
+      {
+        network: "base-sepolia",
+        chainId: 84532,
+        urls: {
+          apiURL: "https://api-sepolia.basescan.org/api",
+          browserURL: "https://sepolia.basescan.org",
         },
       },
     ],
@@ -165,7 +193,7 @@ const config: HardhatUserConfig = {
       },
       chainId: chainIds.hardhat,
       forking: {
-        url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+        url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       },
     },
     localhost: {
@@ -181,6 +209,8 @@ const config: HardhatUserConfig = {
     mainnet: getChainConfig("mainnet"),
     "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": getChainConfig("optimism-mainnet"),
+    "base-sepolia": getChainConfig("base-sepolia"),
+    "base-mainnet": getChainConfig("base-mainnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry

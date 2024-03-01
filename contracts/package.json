@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "1.1.1-alpha.1",
+  "version": "1.1.2",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -95,6 +95,8 @@
     "build:forge": "pnpm clean && forge build",
     "clean": "rimraf abi artifacts build cache cache_hardhat dist out types",
     "deploy:marketplace:dryrun": "pnpm hardhat deploy-marketplace",
+    "deploy:protocol:dryrun": "pnpm hardhat deploy-minter",
+    "deploy:protocol": "pnpm hardhat deploy-minter",
     "docs": "hardhat dodoc",
     "lint": "pnpm lint:sol && pnpm prettier:check",
     "lint:sol": "forge fmt && solhint \"./{src,test/foundry/protocol,test/foundry/marketplace}/**/*.sol\"",
