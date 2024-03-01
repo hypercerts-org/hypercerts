@@ -16,5 +16,17 @@
       "address": "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941",
       "startBlock": 4421942
     }
+  },
+  "base": {
+    "HypercertMinter": {
+      "address": "0xC2d179166bc9dbB00A03686a5b17eCe2224c2704",
+      "startBlock": 11261815
+    }
+  },
+  "base-sepolia": {
+    "HypercertMinter": {
+      "address": "0xC2d179166bc9dbB00A03686a5b17eCe2224c2704",
+      "startBlock": 6771210
+    }
   }
 }
