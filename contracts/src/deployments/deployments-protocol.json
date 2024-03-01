@@ -10,5 +10,9 @@
   "42220": {
     "HypercertMinterUUPS": "0x16bA53B74c234C870c61EFC04cD418B8f2865959",
     "HypercertMinterImplementation": "0x620257e9301a813be7cc5b75aae8dda3f6a926d2"
+  },
+  "84532": {
+    "HypercertMinterUUPS": "0xC2d179166bc9dbB00A03686a5b17eCe2224c2704",
+    "HypercertMinterImplementation": "0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941"
   }
 }
