@@ -205,20 +205,20 @@ importers:
         specifier: ^0.95.7
         version: 0.95.8(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(graphql@16.8.1)(tslib@2.6.2)
       '@hypercerts-org/contracts':
-        specifier: 1.1.0
-        version: 1.1.0(ts-node@10.9.1)(typescript@4.9.5)
+        specifier: 1.1.1
+        version: 1.1.1(ts-node@10.9.1)(typescript@4.9.5)
       '@openzeppelin/defender-autotask-client':
-        specifier: 1.50.0
-        version: 1.50.0
+        specifier: 1.54.1
+        version: 1.54.1
       '@openzeppelin/defender-autotask-utils':
-        specifier: 1.50.0
-        version: 1.50.0
+        specifier: 1.54.1
+        version: 1.54.1
       '@openzeppelin/defender-base-client':
-        specifier: 1.49.0
-        version: 1.49.0(debug@4.3.4)
+        specifier: 1.54.1
+        version: 1.54.1
       '@openzeppelin/defender-sentinel-client':
-        specifier: 1.49.0
-        version: 1.49.0
+        specifier: 1.54.1
+        version: 1.54.1
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.2
         version: 1.0.5
@@ -7311,8 +7311,8 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
 
-  /@hypercerts-org/contracts@1.1.0(ts-node@10.9.1)(typescript@4.9.5):
-    resolution: {integrity: sha512-iEEJP9LQTfgcFjnJj82AwkAob3kfFcTmxm6AGrCXFzt7CU3Xo2odCFKZ81UPFV9C4PyI8tPTSGd12NmUzjLlqA==}
+  /@hypercerts-org/contracts@1.1.1(ts-node@10.9.1)(typescript@4.9.5):
+    resolution: {integrity: sha512-TxzArJFWMzBh6EsBj9WQCO4CHjzWZFSMpltzFheUMCYp8TIBXBKC0zNViX68hbI7gEJQoA4xvPDVEqAkY1E8ig==}
     dependencies:
       hardhat: 2.19.1(ts-node@10.9.1)(typescript@4.9.5)
     transitivePeerDependencies:
@@ -8956,11 +8956,12 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@openzeppelin/defender-autotask-client@1.50.0:
-    resolution: {integrity: sha512-QWob3F6xuOu8r8oPy0Y2XLfAL1PTuKE2F4nC4wGeu3JJT8/pJz3xnHX5DgUYwiGIMqnkitUNUoBcmi4CPI31yw==}
+  /@openzeppelin/defender-autotask-client@1.54.1:
+    resolution: {integrity: sha512-Qn16qaP8djTB/1OGpd3red4H0srlu4mfnAyoLE+xeZ4R3iIvCGMq0mJB9KzDAdmB183EzdtVAxB5QvQe3X8elA==}
+    hasBin: true
     dependencies:
-      '@openzeppelin/defender-base-client': 1.50.0(debug@4.3.4)
-      axios: 1.5.1(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.54.1
+      axios: 1.6.2(debug@4.3.4)
       dotenv: 10.0.0
       glob: 7.2.3
       jszip: 3.10.1
@@ -8971,8 +8972,8 @@ packages:
       - encoding
     dev: false
 
-  /@openzeppelin/defender-autotask-utils@1.50.0:
-    resolution: {integrity: sha512-wuhm5idjsIiC7hdLj+z5ewDmyKx5q0tRXKHp05K9X8uo1CyLdHV2kKZjBrWzGE9qxVhJ79f9PzHZrLcyPHNDOg==}
+  /@openzeppelin/defender-autotask-utils@1.54.1:
+    resolution: {integrity: sha512-VWE6YrMy0mi4wkrigoR0oulJv3t5lWtNlT7831fRa8lIeKJTFScMqBVN515CKZfPfCn4YFXBAh8FZoe4q9e4rQ==}
     dev: false
 
   /@openzeppelin/defender-base-client@1.49.0(debug@4.3.4):
@@ -8986,6 +8987,7 @@ packages:
     transitivePeerDependencies:
       - debug
       - encoding
+    dev: true
 
   /@openzeppelin/defender-base-client@1.50.0(debug@4.3.4):
     resolution: {integrity: sha512-V5uJ4t3kr9ex1RrqGH2DwsHuyW7/hl3VK0sSkq3VVbAewtcsW3cdg/UkXd5ITu6mtz76RoYkvUBHtkYUm0nb+w==}
@@ -8998,6 +9000,20 @@ packages:
     transitivePeerDependencies:
       - debug
       - encoding
+    dev: true
+
+  /@openzeppelin/defender-base-client@1.54.1:
+    resolution: {integrity: sha512-DRGz/7KN3ZQwu28YWMOaojrC7jjPkz/uCwkC8/C8B11qwZhA5qIVvyhYHhhFOCl0J84+E3TNdvkPD2q3p2WaJw==}
+    dependencies:
+      amazon-cognito-identity-js: 6.3.6
+      async-retry: 1.3.3
+      axios: 1.6.2(debug@4.3.4)
+      lodash: 4.17.21
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - debug
+      - encoding
+    dev: false
 
   /@openzeppelin/defender-sdk-account-client@1.4.0:
     resolution: {integrity: sha512-R3jJOh/Wirp+UtD/YYHzC1LYqdXsIPl77z7ZlJLdQDdWHZbIHpHCUlTrj1zZ/0+XovJ23ItiZqivnkVLqV62LQ==}
@@ -9173,12 +9189,12 @@ packages:
       - web3-utils
     dev: true
 
-  /@openzeppelin/defender-sentinel-client@1.49.0:
-    resolution: {integrity: sha512-fr39U1GRWvJP1fWgwqjTYCz7uhfVfXJReWcivwxMeaoyMl+jYFxj8NkMhqkkbmI6O4TUyNMsmAQ34qFf0IS0/A==}
+  /@openzeppelin/defender-sentinel-client@1.54.1:
+    resolution: {integrity: sha512-Zy4GswU2+giAKL649CEpQXGk8AH2l7fvHWcdLHdKp88T96d4XhemZ5P7C1kWv2kdoHdRzLhIy2WKFKAigCOJdQ==}
     dependencies:
       '@ethersproject/abi': 5.7.0
-      '@openzeppelin/defender-base-client': 1.49.0(debug@4.3.4)
-      axios: 1.5.1(debug@4.3.4)
+      '@openzeppelin/defender-base-client': 1.54.1
+      axios: 1.6.2(debug@4.3.4)
       lodash: 4.17.21
       node-fetch: 2.7.0
     transitivePeerDependencies:
