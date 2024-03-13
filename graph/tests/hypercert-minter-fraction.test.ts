@@ -37,7 +37,7 @@ describe("Describe entity assertions", () => {
     let from = Address.fromString("0x0000000000000000000000000000000000000001");
     let to = Address.fromString("0x0000000000000000000000000000000000000002");
     let operator = Address.fromString(
-      "0x0000000000000000000000000000000000000003"
+      "0x0000000000000000000000000000000000000003",
     );
 
     let transferSingleEvent = createTransferSingleEvent(
@@ -45,7 +45,7 @@ describe("Describe entity assertions", () => {
       from,
       to,
       BigInt.fromI64(1),
-      BigInt.fromI64(1)
+      BigInt.fromI64(1),
     );
 
     handleTransferSingle(transferSingleEvent);
@@ -68,13 +68,13 @@ describe("Describe entity assertions", () => {
       claimID,
       fromID,
       toID,
-      units
+      units,
     );
 
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(toID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -82,16 +82,16 @@ describe("Describe entity assertions", () => {
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(fromID)])
       .returns([ethereum.Value.fromAddress(from)]);
 
     handleValueTransfer(valueTransferEvent);
 
-    let fractionId = getDefaultContractAddress()
-      .toHexString()
-      .concat("-1");
+    let fractionId = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-1"),
+    );
 
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
 
@@ -100,7 +100,7 @@ describe("Describe entity assertions", () => {
       from,
       to,
       BigInt.fromI64(1),
-      BigInt.fromI64(1)
+      BigInt.fromI64(1),
     );
 
     handleTransferSingle(transferSingleEvent);
@@ -122,13 +122,13 @@ describe("Describe entity assertions", () => {
       claimID,
       fromID,
       toID,
-      units
+      units,
     );
 
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(toID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -136,7 +136,7 @@ describe("Describe entity assertions", () => {
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(fromID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -148,18 +148,16 @@ describe("Describe entity assertions", () => {
     //TODO also generates claim base token, should this only mint 1 fraction?
     assert.entityCount("ClaimToken", 2);
 
-    let fractionId = getDefaultContractAddress()
-      .toHexString()
-      .concat("-1");
+    let fractionId = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-1"),
+    );
 
     assert.fieldEquals("ClaimToken", fractionId, "tokenID", "1");
     assert.fieldEquals(
       "ClaimToken",
       fractionId,
       "claim",
-      getDefaultContractAddress()
-        .toHexString()
-        .concat("-1")
+      getDefaultContractAddress().toHexString().concat("-1"),
     );
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "10000");
@@ -178,13 +176,13 @@ describe("Describe entity assertions", () => {
       claimID,
       fromID,
       toID,
-      units
+      units,
     );
 
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(toID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -192,7 +190,7 @@ describe("Describe entity assertions", () => {
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(fromID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -201,13 +199,13 @@ describe("Describe entity assertions", () => {
 
     assert.entityCount("ClaimToken", 2);
 
-    let fractionIdZero = getDefaultContractAddress()
-      .toHexString()
-      .concat("-0");
+    let fractionIdZero = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-0"),
+    );
 
-    let fractionIdOne = getDefaultContractAddress()
-      .toHexString()
-      .concat("-1");
+    let fractionIdOne = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-1"),
+    );
 
     assert.fieldEquals("ClaimToken", fractionIdZero, "tokenID", "0");
     assert.fieldEquals("ClaimToken", fractionIdZero, "units", "0");
@@ -220,17 +218,15 @@ describe("Describe entity assertions", () => {
       claimID,
       toID,
       newTokenID,
-      units
+      units,
     );
 
-    let fractionIdTwo = getDefaultContractAddress()
-      .toHexString()
-      .concat("-2");
+    let fractionIdTwo = getDefaultContractAddress().toHexString().concat("-2");
 
     createMockedFunction(
       getDefaultContractAddress(),
       "ownerOf",
-      "ownerOf(uint256):(address)"
+      "ownerOf(uint256):(address)",
     )
       .withArgs([ethereum.Value.fromUnsignedBigInt(newTokenID)])
       .returns([ethereum.Value.fromAddress(from)]);
@@ -261,14 +257,14 @@ describe("Describe entity assertions", () => {
       claimIDs,
       fromIDs,
       toIDs,
-      values
+      values,
     );
 
     for (let i = 0; i < size.toI64(); i++) {
       createMockedFunction(
         getDefaultContractAddress(),
         "ownerOf",
-        "ownerOf(uint256):(address)"
+        "ownerOf(uint256):(address)",
       )
         .withArgs([ethereum.Value.fromUnsignedBigInt(toIDs[i])])
         .returns([ethereum.Value.fromAddress(from)]);
@@ -276,7 +272,7 @@ describe("Describe entity assertions", () => {
       createMockedFunction(
         getDefaultContractAddress(),
         "ownerOf",
-        "ownerOf(uint256):(address)"
+        "ownerOf(uint256):(address)",
       )
         .withArgs([ethereum.Value.fromUnsignedBigInt(fromIDs[i])])
         .returns([ethereum.Value.fromAddress(from)]);
@@ -289,18 +285,15 @@ describe("Describe entity assertions", () => {
     //TODO also build 0 token..
     assert.entityCount("ClaimToken", 6);
 
-    let fractionId = getDefaultContractAddress()
-      .toHexString()
-      .concat("-1");
-
+    let fractionId = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-0"),
+    );
     assert.fieldEquals("ClaimToken", fractionId, "tokenID", "1");
     assert.fieldEquals(
       "ClaimToken",
       fractionId,
       "claim",
-      getDefaultContractAddress()
-        .toHexString()
-        .concat("-1")
+      getDefaultContractAddress().toHexString().concat("-1"),
     );
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "200"); //function of buildValues (100 + i * 100)
