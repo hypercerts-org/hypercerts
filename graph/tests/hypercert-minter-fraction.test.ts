@@ -221,7 +221,9 @@ describe("Describe entity assertions", () => {
       units,
     );
 
-    let fractionIdTwo = getDefaultContractAddress().toHexString().concat("-2");
+    let fractionIdTwo = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-2"),
+    );
 
     createMockedFunction(
       getDefaultContractAddress(),
@@ -293,7 +295,7 @@ describe("Describe entity assertions", () => {
       "ClaimToken",
       fractionId,
       "claim",
-      getDefaultContractAddress().toHexString().concat("-1"),
+      "1-".concat(getDefaultContractAddress().toHexString().concat("-1")),
     );
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "200"); //function of buildValues (100 + i * 100)
