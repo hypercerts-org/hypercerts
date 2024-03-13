@@ -288,7 +288,7 @@ describe("Describe entity assertions", () => {
     assert.entityCount("ClaimToken", 6);
 
     let fractionId = "1-".concat(
-      getDefaultContractAddress().toHexString().concat("-0"),
+      getDefaultContractAddress().toHexString().concat("-1"),
     );
     assert.fieldEquals("ClaimToken", fractionId, "tokenID", "1");
     assert.fieldEquals(
