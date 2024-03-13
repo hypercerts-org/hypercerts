@@ -21,7 +21,7 @@ describe("Describe entity assertions", () => {
 
     let allowlistCreatedEvent = createAllowlistCreatedEvent(
       tokenID,
-      Bytes.fromUTF8("MerkleRoot")
+      Bytes.fromUTF8("MerkleRoot"),
     );
 
     handleAllowlistCreated(allowlistCreatedEvent);
@@ -33,9 +33,11 @@ describe("Describe entity assertions", () => {
 
   test("AllowlistCreated generates one allowlist entity", () => {
     let merkleRoot = Bytes.fromUTF8("MerkleRoot");
-    let allowlistID = getDefaultContractAddress()
-      .toHexString()
-      .concat("-".concat(BigInt.fromI64(1).toString()));
+    let allowlistID = "1-".concat(
+      getDefaultContractAddress()
+        .toHexString()
+        .concat("-".concat(BigInt.fromI64(1).toString())),
+    );
 
     assert.entityCount("Allowlist", 1);
     assert.entityCount("Claim", 0);
@@ -46,7 +48,7 @@ describe("Describe entity assertions", () => {
       "Allowlist",
       allowlistID,
       "root",
-      merkleRoot.toHexString()
+      merkleRoot.toHexString(),
     );
     assert.fieldEquals("Allowlist", allowlistID, "claim", allowlistID);
   });

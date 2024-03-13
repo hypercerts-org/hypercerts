@@ -157,7 +157,7 @@ describe("Describe entity assertions", () => {
       "ClaimToken",
       fractionId,
       "claim",
-      getDefaultContractAddress().toHexString().concat("-1"),
+      "1-".concat(getDefaultContractAddress().toHexString().concat("-1")),
     );
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "10000");
