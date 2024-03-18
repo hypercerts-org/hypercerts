@@ -34,9 +34,11 @@ describe("Describe entity assertions", () => {
     assert.entityCount("Claim", 1);
     assert.entityCount("ClaimFraction", 0);
 
-    let claimId = getDefaultContractAddress()
-      .toHexString()
-      .concat("-".concat(BigInt.fromI64(1).toString()));
+    let claimId = "1-".concat(
+      getDefaultContractAddress()
+        .toHexString()
+        .concat("-".concat(BigInt.fromI64(1).toString())),
+    );
 
     assert.fieldEquals("Claim", claimId, "uri", "ipfs://exampleshash");
     assert.fieldEquals(
