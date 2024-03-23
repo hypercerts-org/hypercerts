@@ -53,7 +53,8 @@ def create_url(idx):
     
     # TODO: confirm all projects have valid images
     base = CONFIG['hostedCidBaseUrl']
-    logo_uri = f"https://ipfs-grants-stack.gitcoin.co/ipfs/{project.get('logoImg')}"
+    #logo_uri = f"https://ipfs-grants-stack.gitcoin.co/ipfs/{project.get('logoImg')}"
+    logo_uri = f"https://gitcoin.mypinata.cloud/ipfs/{project.get('logoImg')}"
     banner_uri = f"{base}{CIDS['img']}/img/{str(idx)}.png"
     allowlist_uri = f"{base}{CIDS['allowlists']}/allowlists/{project_id}.csv"
 

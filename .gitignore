@@ -34,6 +34,7 @@ dist/
 .env*.local
 *.log
 coverage.json
+utils/gitcoin/projects.csv
 
 # typescript
 *.tsbuildinfo
