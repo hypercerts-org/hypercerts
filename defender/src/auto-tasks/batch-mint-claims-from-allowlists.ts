@@ -93,7 +93,10 @@ export async function handler(event: AutotaskEvent) {
   console.log("ClaimIDs: ", claimIds.toString());
 
   const formattedClaimIds = claimIds.map(
-    (claimId) => `${contractAddress}-${claimId.toString().toLowerCase()}`,
+    (claimId) =>
+      `${network.chainId}-${contractAddress}-${claimId
+        .toString()
+        .toLowerCase()}`,
   );
   console.log("Formatted claim ids", formattedClaimIds);
 
