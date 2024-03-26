@@ -63,6 +63,7 @@ export type Deployment = {
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
   graphUrl: string;
   graphName: string;
+  isTestnet: boolean;
 };
 
 /**
@@ -80,7 +81,15 @@ export type HypercertClientConfig = Deployment &
     readOnly: boolean;
     /** Reason for readOnly mode */
     readOnlyReason?: string;
+    /** The environment to run the indexer in. This can be either production or test. */
+    indexerEnvironment: IndexerEnvironment;
   };
+
+/**
+ * The environment to run the indexer in.
+ * Production will run against all mainnet chains, while test will run against testnet chains.
+ */
+export type IndexerEnvironment = "production" | "test";
 
 /**
  * Configuration options for the Hypercert storage layer.

@@ -26,7 +26,7 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hypercerts-org/contracts": "1.1.2",
     "@openzeppelin/merkle-tree": "^1.0.5",
-    "@urql/core": "^4.2.0",
+    "@urql/core": "^4.3.0",
     "@whatwg-node/fetch": "^0.9.13",
     "ajv": "^8.11.2",
     "axios": "^1.6.2",
@@ -35,7 +35,8 @@
     "graphql": "^16.8.1",
     "loglevel": "^1.8.1",
     "urql": "^4.0.6",
-    "viem": "^1.21.4"
+    "viem": "^1.21.4",
+    "wonka": "^6.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",

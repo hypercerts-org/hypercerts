@@ -18,7 +18,7 @@ describe("Config: graphUrl", () => {
 
   it("should return the default graphUrl when no overrides are specified", () => {
     const result = getConfig({ chain: { id: 11155111 } });
-    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-sepolia");
+    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-org/hypercerts-sepolia");
   });
 
   it("should return the config specified by overrides", () => {

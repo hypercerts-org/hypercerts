@@ -5,7 +5,7 @@
 import { Deployment, SupportedChainIds } from "./types";
 import { deployments } from "@hypercerts-org/contracts";
 
-const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-admin";
+const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-org";
 
 // The APIs we expose
 
@@ -20,26 +20,31 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
     addresses: deployments[10],
     graphName: "hypercerts-optimism-mainnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-optimism-mainnet`,
+    isTestnet: false,
   } as const,
   42220: {
     addresses: deployments[42220],
     graphName: "hypercerts-celo",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-celo`,
+    isTestnet: false,
   },
   11155111: {
     addresses: deployments[11155111],
     graphName: "hypercerts-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
+    isTestnet: true,
   } as const,
   84532: {
     addresses: deployments[84532],
     graphName: "hypercerts-base-sepolia",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-base-sepolia`,
+    isTestnet: true,
   } as const,
   8453: {
     addresses: deployments[8453],
     graphName: "hypercerts-base-mainnet",
     graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-base-mainnet`,
+    isTestnet: false,
   } as const,
 };
 
