@@ -25,6 +25,7 @@ import {
 } from "./indexer/gql/graphql";
 import { DEPLOYMENTS } from "./constants";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { parseClaimOrFractionId } from "./utils/parsing";
 
 /**
  * A class that provides indexing functionality for Hypercerts.
@@ -149,7 +150,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   claimById = async (claimId: string) => {
     const query = ClaimByIdDocument;
-    const { chainId } = this.parseClaimId(claimId);
+    const { chainId } = parseClaimOrFractionId(claimId);
     const variables: ClaimByIdQueryVariables = {
       id: claimId,
     };
@@ -203,7 +204,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   fractionsByClaim = async (claimId: string, params: QueryParams = defaultQueryParams) => {
     const query = ClaimTokensByClaimDocument;
-    const { chainId } = this.parseClaimId(claimId);
+    const { chainId } = parseClaimOrFractionId(claimId);
     const variables: ClaimTokensByClaimQueryVariables = {
       claimId,
       ...params,
@@ -220,7 +221,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   fractionById = async (fractionId: string) => {
     const query = ClaimTokenByIdDocument;
-    const { chainId } = this.parseClaimId(fractionId);
+    const { chainId } = parseClaimOrFractionId(fractionId);
 
     const variables: ClaimTokenByIdQueryVariables = {
       claimTokenId: fractionId,
@@ -229,21 +230,4 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     const results = await this.performQuery(query, variables, chainId);
     return results[0];
   };
-
-  private parseClaimId(claimId: string) {
-    const [chainId, contractAddress, tokenId] = claimId.split("-");
-
-    if (!chainId || !contractAddress || !tokenId) {
-      console.log("Invalid claimId format. Expected 'chainId-contractAddress-tokenId'");
-      throw new Error(`Invalid claimId format (claimId given: ${claimId}}. Expected "chainId-contractAddress-tokenId"`);
-    }
-
-    const chainIdInt = parseInt(chainId, 10);
-    const tokenIdBigInt = BigInt(tokenId);
-    return {
-      chainId: chainIdInt,
-      contractAddress,
-      tokenId: tokenIdBigInt,
-    };
-  }
 }
