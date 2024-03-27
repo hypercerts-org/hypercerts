@@ -44,7 +44,7 @@ export const useVerifyFractionClaim = () => {
 
       // Find the proof
       for (const [leaf, value] of tree.entries()) {
-        if (value[0] === address) {
+        if ((value[0] as string).toLowerCase() === address.toLowerCase()) {
           results.push({
             proof: tree.getProof(leaf),
             units: Number(value[1]),
