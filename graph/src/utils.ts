@@ -1,13 +1,46 @@
 import { HypercertMinter } from "../generated/HypercertMinter/HypercertMinter";
 import { Allowlist, Claim, ClaimToken } from "../generated/schema";
 import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
+import { dataSource } from "@graphprotocol/graph-ts";
+
+// const chainIds = {
+//   base: "84531",
+//   "base-sepolia": "84532",
+//   celo: "42220",
+//   mainnet: "1",
+//   optimism: "10",
+//   sepolia: "11155111",
+// } as const;
 
 export const ZERO_ADDRESS = Address.fromString(
   "0x0000000000000000000000000000000000000000",
 );
 
 export function getID(tokenID: BigInt, contract: Address): string {
-  return contract.toHexString().concat("-".concat(tokenID.toString()));
+  const network = dataSource.network();
+
+  let chainId: string;
+
+  // TODO fix this ugly hack because of the stupid type compile errors
+  if (network == "mainnet") {
+    chainId = "1";
+  } else if (network == "celo") {
+    chainId = "42220";
+  } else if (network == "optimism") {
+    chainId = "10";
+  } else if (network == "sepolia") {
+    chainId = "11155111";
+  } else if (network == "base") {
+    chainId = "84531";
+  } else if (network == "base-sepolia") {
+    chainId = "84532";
+  } else {
+    chainId = "";
+  }
+
+  return chainId.concat(
+    "-".concat(contract.toHexString().concat("-".concat(tokenID.toString()))),
+  );
 }
 
 export function getOrCreateAllowlist(

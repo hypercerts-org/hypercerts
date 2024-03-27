@@ -67,7 +67,9 @@ describe("Describe entity assertions", () => {
 
     handleValueTransfer(valueTransferEvent);
 
-    let fractionId = getDefaultContractAddress().toHexString().concat("-1");
+    let fractionId = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-1"),
+    );
 
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "10000");
@@ -144,7 +146,9 @@ describe("Describe entity assertions", () => {
 
     handleBatchValueTransfer(valueTransferEvent);
 
-    let fractionId = getDefaultContractAddress().toHexString().concat("-1");
+    let fractionId = "1-".concat(
+      getDefaultContractAddress().toHexString().concat("-1"),
+    );
 
     assert.fieldEquals("ClaimToken", fractionId, "owner", from.toHexString());
     assert.fieldEquals("ClaimToken", fractionId, "units", "10000");

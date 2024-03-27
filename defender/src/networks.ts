@@ -33,6 +33,13 @@ export const NETWORKS: SupportedNetworks = {
       chainId: 11155111,
       rpc: "https://rpc.sepolia.org",
     },
+    {
+      networkKey: "base-sepolia",
+      hypercertMinterContractAddress: deployments["84532"].HypercertMinterUUPS,
+      hypercertExchangeContractAddress: deployments["84532"].HypercertExchange,
+      chainId: 84532,
+      rpc: "https://base-sepolia-rpc.publicnode.com",
+    },
   ],
   PROD: [
     {
@@ -46,6 +53,12 @@ export const NETWORKS: SupportedNetworks = {
       hypercertMinterContractAddress: deployments["42220"].HypercertMinterUUPS,
       chainId: 42220,
       rpc: "https://forno.celo.org",
+    },
+    {
+      networkKey: "base",
+      hypercertMinterContractAddress: deployments["8453"].HypercertMinterUUPS,
+      chainId: 8453,
+      rpc: "https://mainnet.base.org",
     },
   ],
 };

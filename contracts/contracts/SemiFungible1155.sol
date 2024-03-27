@@ -193,11 +193,13 @@ contract SemiFungible1155 is
         emit BatchValueTransfer(_typeIDs, zeroes, tokenIDs, _units);
     }
 
-    /// @dev Split the units of `_tokenID` owned by `account` across `_values`
+    /// @dev Split the units of `_tokenID` across `_values` to `_to`
     /// @dev `_values` must sum to total `units` held at `_tokenID`
-    function _splitTokenUnits(address _account, uint256 _tokenID, uint256[] calldata _values) internal {
+    /// @dev `_to` must not be zero address, that's a burn
+    function _splitTokenUnits(address _to, uint256 _tokenID, uint256[] calldata _values) internal {
         if (_values.length > FRACTION_LIMIT || _values.length < 2) revert Errors.ArraySize();
         if (tokenValues[_tokenID] != _getSum(_values)) revert Errors.NotAllowed();
+        if (_to == address(0)) revert Errors.NotAllowed();
 
         // Current token
         uint256 _typeID = getBaseType(_tokenID);
@@ -233,7 +235,7 @@ contract SemiFungible1155 is
             }
         }
 
-        _beforeUnitTransfer(_msgSender(), _account, fromIDs, toIDs, values, "");
+        _beforeUnitTransfer(_msgSender(), owners(_tokenID), fromIDs, toIDs, values, "");
 
         for (uint256 i; i < len;) {
             valueLeft -= values[i];
@@ -247,7 +249,7 @@ contract SemiFungible1155 is
 
         tokenValues[_tokenID] = valueLeft;
 
-        _mintBatch(_account, toIDs, amounts, "");
+        _mintBatch(_to, toIDs, amounts, "");
 
         emit BatchValueTransfer(typeIDs, fromIDs, toIDs, values);
     }
@@ -258,9 +260,12 @@ contract SemiFungible1155 is
         if (_fractionIDs.length > FRACTION_LIMIT || _fractionIDs.length < 2) {
             revert Errors.ArraySize();
         }
+
         uint256 len = _fractionIDs.length - 1;
 
         uint256 target = _fractionIDs[len];
+
+        if (_to == address(0) || owners[target] != _account) revert Errors.NotAllowed();
 
         uint256 _totalValue;
         uint256[] memory fromIDs = new uint256[](len);
@@ -275,6 +280,10 @@ contract SemiFungible1155 is
                 toIDs[i] = target;
                 amounts[i] = 1;
                 values[i] = tokenValues[_fractionID];
+
+                if (owners[_fractionID] != _account) {
+                    revert Errors.NotAllowed();
+                }
 
                 unchecked {
                     ++i;
@@ -344,6 +353,7 @@ contract SemiFungible1155 is
         bytes memory data
     ) internal virtual {
         uint256 len = fromIDs.length;
+        if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors.NotApprovedOrOwner();
 
         for (uint256 i; i < len;) {
             uint256 _from = fromIDs[i];
@@ -351,7 +361,6 @@ contract SemiFungible1155 is
 
             if (isBaseType(_from)) revert Errors.NotAllowed();
             if (getBaseType(_from) != getBaseType(_to)) revert Errors.TypeMismatch();
-            if (from != _msgSender() && !isApprovedForAll(from, _msgSender())) revert Errors.NotApprovedOrOwner();
             unchecked {
                 ++i;
             }

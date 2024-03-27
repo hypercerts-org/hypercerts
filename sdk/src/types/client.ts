@@ -10,9 +10,9 @@ import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 /**
  * Enum to verify the supported chainIds
  *
- * @note 10 = Optimism, 42220 = Celo, 11155111 = Sepolia
+ * @note 10 = Optimism, 42220 = Celo, 11155111 = Sepolia, 84532 = Base Sepolia, 8453 = Base Mainnet
  */
-export type SupportedChainIds = 10 | 42220 | 11155111;
+export type SupportedChainIds = 10 | 42220 | 11155111 | 84532 | 8453;
 
 export type SupportedOverrides = ContractOverrides & StorageConfigOverrides;
 

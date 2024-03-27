@@ -97,18 +97,18 @@ _Function called to store a claim referenced via `uri` with a set of `fractions`
 ### splitFraction
 
 ```solidity
-function splitFraction(address account, uint256 tokenID, uint256[] _values) external nonpayable
+function splitFraction(address to, uint256 tokenID, uint256[] _values) external nonpayable
 ```
 
 The sum of `values` must equal the current value of `_tokenID`.
 
-_Function called to split `tokenID` owned by `account` into units declared in `values`._
+_Function called to split `tokenID` and transfer `to` into units declared in `values`._
 
 #### Parameters
 
 | Name     | Type      | Description |
 | -------- | --------- | ----------- |
-| account  | address   | undefined   |
+| to       | address   | undefined   |
 | tokenID  | uint256   | undefined   |
 | \_values | uint256[] | undefined   |
 

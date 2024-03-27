@@ -1,11 +1,16 @@
 # Release notes
 
+## 1.4.3
+
+- Add Base and Base Sepolia to supported chains in config
+
 ## 1.4.2
 
 - Improve ESM support by exporting `index.mjs` instead of `index.js`. @baumstern
 - Added dweb IPFS gateway links and use `Promise.any` call to try and fetch data from multiple gateways.
 - Expose timeout on HTTP requests from storage layer up to client wrapper methods as optional config.
 - Default timeout on calls of 0 ms (no timeout) to avoid issues with large files or multiple IPFS calls.
+- Updated contracts package to support Base and Base Sepolia
 
 ## New contributors
 

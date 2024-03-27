@@ -116,11 +116,8 @@ contract HypercertMinter is IHypercertToken, SemiFungible1155, AllowlistMinter, 
 
     /// @notice Split a claimtokens value into parts with summed value equal to the original
     /// @dev see {IHypercertToken}
-    function splitFraction(address _account, uint256 _tokenID, uint256[] calldata _newFractions)
-        external
-        whenNotPaused
-    {
-        _splitTokenUnits(_account, _tokenID, _newFractions);
+    function splitFraction(address _to, uint256 _tokenID, uint256[] calldata _newFractions) external whenNotPaused {
+        _splitTokenUnits(_to, _tokenID, _newFractions);
     }
 
     /// @notice Merge the value of tokens belonging to the same claim
