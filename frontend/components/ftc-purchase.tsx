@@ -1,5 +1,4 @@
 import { useAccountLowerCase } from "../hooks/account";
-import { supabase } from "../lib/supabase-client";
 import { useConfetti } from "./confetti";
 import { FormContext } from "./forms";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
@@ -8,13 +7,8 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect } from "react";
 import { toast } from "react-toastify";
-import { isAddress, parseEther } from "viem";
-import {
-  useBalance,
-  useNetwork,
-  usePrepareSendTransaction,
-  useSendTransaction,
-} from "wagmi";
+import { isAddress } from "viem";
+import { useAccount, useBalance } from "wagmi";
 import * as Yup from "yup";
 
 /**
@@ -177,26 +171,12 @@ export function FtcPurchaseForm(props: FtcPurchaseFormProps) {
   const { className, children } = props;
   const { address, isConnected } = useAccountLowerCase();
   const { data: balance } = useBalance({ address: address as `0x${string}` });
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   const { push } = useRouter();
   const confetti = useConfetti();
 
   const [ethValue, setEthValue] = React.useState<number>(0);
   const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
-  const { config } = usePrepareSendTransaction({
-    to: DESTINATION_ADDRESS,
-    value: parseEther(`${ethValue}`),
-    enabled: writeable,
-    onError(error) {
-      setWagmiErr(error);
-    },
-  });
-  const { sendTransaction } = useSendTransaction({
-    ...config,
-    onError(error) {
-      setWagmiErr(error);
-    },
-  });
 
   const checkWriteable = async () => {
     setWriteable(false);
@@ -311,41 +291,10 @@ export function FtcPurchaseForm(props: FtcPurchaseFormProps) {
         initialValues={{ ...DEFAULT_FORM_DATA }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (ethValue <= 0) {
-            console.warn("No values selected");
-            toast(`Please select some hypercerts`, { type: "error" });
-            return;
-          }
-
-          // Write to supabase
-          const { error: supabaseError } = await supabase
-            .from("ftc-purchase")
-            .insert({
-              address,
-              ethValue,
-              values,
-              textForSponsor: values.textForSponsor,
-            });
-          if (supabaseError) {
-            console.error("Supabase error", supabaseError);
-            toast(`Error writing to database`, { type: "error" });
-            return;
-          } else if (!sendTransaction) {
-            console.error("Unable to send transaction: ", wagmiErr?.message);
-            toast(wagmiErr?.message ?? "Unable to send transaction", {
-              type: "error",
-            });
-            return;
-          }
-
-          await sendTransaction();
-
-          confetti &&
-            (await confetti.addConfetti({
-              emojis: ["🌈", "⚡️", "💥", "✨", "💫", "🌸"],
-            }));
-          setSubmitting(false);
-          push("/app/ftc/confirm");
+          console.error("FTC purchases are disabled");
+          toast("FTC purchases are disabled", {
+            type: "error",
+          });
         }}
       >
         {(formikProps: FormikProps<FtcPurchaseFormData>) => (

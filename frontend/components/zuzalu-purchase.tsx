@@ -1,20 +1,9 @@
-import { useAccountLowerCase } from "../hooks/account";
-import { supabase } from "../lib/supabase-client";
-import { useConfetti } from "./confetti";
 import { FormContext } from "./forms";
 import { DataProvider } from "@plasmicapp/loader-nextjs";
 import { Formik, FormikErrors, FormikProps } from "formik";
 import _ from "lodash";
-import { useRouter } from "next/router";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import { toast } from "react-toastify";
-import { isAddress, parseEther } from "viem";
-import {
-  useBalance,
-  useNetwork,
-  usePrepareSendTransaction,
-  useSendTransaction,
-} from "wagmi";
 import * as Yup from "yup";
 
 /**
@@ -171,108 +160,17 @@ export interface ZuzaluPurchaseFormProps {
 }
 
 export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
-  const [writeable, setWriteable] = React.useState<boolean>(false);
-  const [errors, setErrors] = React.useState<{ [key: string]: string }>();
-
   const { className, children } = props;
-  const { address, isConnected } = useAccountLowerCase();
-  const { data: balance } = useBalance({ address: address as `0x${string}` });
-  const { chain } = useNetwork();
-  const { push } = useRouter();
-  const confetti = useConfetti();
-
-  const [ethValue, setEthValue] = React.useState<number>(0);
-  const [wagmiErr, setWagmiErr] = React.useState<Error | undefined>();
-  const { config } = usePrepareSendTransaction({
-    to: DESTINATION_ADDRESS,
-    value: parseEther(`${ethValue}`),
-    enabled: writeable,
-    onError(error) {
-      setWagmiErr(error);
-    },
-  });
-  const { sendTransaction } = useSendTransaction({
-    ...config,
-    onError(error) {
-      setWagmiErr(error);
-    },
-  });
-
-  const checkWriteable = async () => {
-    setWriteable(false);
-    const currentErrors: { [key: string]: string } = {};
-
-    if (!isConnected) {
-      console.log("User not connected");
-      currentErrors["connection"] =
-        "You appear to not be connected. Please connect your wallet";
-    }
-
-    if (!address || !isAddress(address)) {
-      console.log("No address found");
-      currentErrors[
-        "address"
-      ] = `No -valid- address found [${address}]. Please connect your wallet`;
-    }
-
-    if (!balance || balance.value == 0n) {
-      console.log("No balance");
-      currentErrors["balance"] = "Please add funds to your wallet";
-    }
-
-    if (!chain) {
-      console.log("No chain found");
-      currentErrors["chain"] =
-        "No connected chain found. Please connect your wallet";
-    }
-
-    if (chain && chain.id !== CHAIN_ID) {
-      console.log(`On wrong network HERE. Expect ${CHAIN_ID} Saw ${chain?.id}`);
-
-      currentErrors["chain"] = `Wrong network. Please connect to ${CHAIN_ID}`;
-    }
-
-    if (Object.keys(currentErrors).length == 0) {
-      console.log("no errors");
-      setWriteable(true);
-    } else {
-      console.log("errors detected");
-      setWriteable(false);
-    }
-    setErrors(currentErrors);
-  };
-
-  useEffect(() => {
-    checkWriteable();
-  }, [address, balance, chain]);
 
   const checkCanSubmit = (
     formValues: ZuzaluPurchaseFormData,
     formErrors: FormikErrors<ZuzaluPurchaseFormData>,
     onSubmit: () => void,
   ) => {
-    if (errors && Object.keys(errors).length > 0) {
-      console.error(errors);
-      for (const error in errors) {
-        toast(errors[error], {
-          type: "error",
-        });
-      }
-
-      return;
-    }
-
-    if (!writeable) {
-      toast("Cannot execute transaction. Check logs for errors", {
-        type: "error",
-      });
-      return;
-    }
-
-    console.log("Submitting form...");
-    console.log("Form values: ", formValues);
-    console.log("Form errors: ", formErrors);
-    onSubmit();
+    console.error("FTC purchases are disabled");
+    toast("FTC purchases are disabled", {
+      type: "error",
+    });
   };
 
   return (
@@ -306,46 +204,14 @@ export function ZuzaluPurchaseForm(props: ZuzaluPurchaseFormProps) {
           // Calculate equivalent total ETH
           const totalUSD = _.sum(dollarArray);
           const totalETH = totalUSD / ETH_PRICE;
-          setEthValue(totalETH);
         }}
         initialValues={{ ...DEFAULT_FORM_DATA }}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          if (ethValue <= 0) {
-            console.warn("No values selected");
-            toast(`Please select some hypercerts`, { type: "error" });
-            return;
-          }
-
-          // Write to supabase
-          const { error: supabaseError } = await supabase
-            .from("zuzalu-purchase")
-            .insert({
-              address,
-              ethValue,
-              values,
-              textForSponsor: values.textForSponsor,
-            });
-          if (supabaseError) {
-            console.error("Supabase error", supabaseError);
-            toast(`Error writing to database`, { type: "error" });
-            return;
-          } else if (!sendTransaction) {
-            console.error("Unable to send transaction: ", wagmiErr?.message);
-            toast(wagmiErr?.message ?? "Unable to send transaction", {
-              type: "error",
-            });
-            return;
-          }
-
-          await sendTransaction();
-
-          confetti &&
-            (await confetti.addConfetti({
-              emojis: ["🌈", "⚡️", "💥", "✨", "💫", "🌸"],
-            }));
-          setSubmitting(false);
-          push("/app/zuzalu/confirm");
+          console.error("FTC purchases are disabled");
+          toast("FTC purchases are disabled", {
+            type: "error",
+          });
         }}
       >
         {(formikProps: FormikProps<ZuzaluPurchaseFormData>) => (

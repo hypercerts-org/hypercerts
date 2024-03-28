@@ -6,7 +6,7 @@ import { DataProvider } from "@plasmicapp/loader-nextjs";
 import "@rainbow-me/rainbowkit/styles.css";
 import React, { ReactNode } from "react";
 import { optimism, hardhat, Chain, sepolia } from "viem/chains";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
 const DAPP_STATE_NAME = "DappState";
 
@@ -51,7 +51,7 @@ export function DappState(props: DappStateProps) {
 
   const inEditor = React.useContext(PlasmicCanvasContext);
   const { address } = useAccountLowerCase();
-  const { chain, chains } = useNetwork();
+  const { chain } = useAccount();
   const { writeable } = useCheckWriteable();
   const data: DappStateData =
     useTestData && testData && inEditor
@@ -59,7 +59,6 @@ export function DappState(props: DappStateProps) {
       : {
           myAddress: address,
           chain,
-          chains,
           waitToClaim,
           writeable,
         };
