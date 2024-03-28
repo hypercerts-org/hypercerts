@@ -4,8 +4,7 @@ import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
 import { HypercertMetadata } from "./metadata";
 
-import { ByteArray, Chain, Hex, PublicClient, WalletClient, GetContractReturnType } from "viem";
-import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { ByteArray, Chain, Hex, PublicClient, WalletClient } from "viem";
 
 /**
  * Enum to verify the supported chainIds
@@ -161,7 +160,6 @@ export interface HypercertClientState {
   storage: HypercertStorageInterface;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
-  contract: GetContractReturnType<typeof HypercertMinterAbi>;
 }
 
 /**
@@ -172,7 +170,7 @@ export interface HypercertClientMethods {
    * Gets the contract addresses and graph urls for the provided `chainId`
    * @returns The addresses, graph name and graph url.
    */
-  getDeployment: (chainId: SupportedChainIds) => Partial<Deployment>;
+  getDeployments: (chainId: SupportedChainIds) => Partial<Deployment>;
 
   /**
    * Mints a new claim.

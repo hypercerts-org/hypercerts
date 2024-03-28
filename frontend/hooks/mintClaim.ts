@@ -5,11 +5,13 @@ import { HypercertMetadata, TransferRestrictions } from "@hypercerts-org/sdk";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
+import { usePublicClient } from "wagmi";
 
 export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+  const publicClient = usePublicClient();
 
   const stepDescriptions = {
     preparing: "Preparing to mint hypercert",
@@ -50,11 +52,10 @@ export const useMintClaim = ({ onComplete }: { onComplete?: () => void }) => {
         return;
       }
 
-      const receipt =
-        await client.config.publicClient?.waitForTransactionReceipt({
-          confirmations: 3,
-          hash,
-        });
+      const receipt = await publicClient?.waitForTransactionReceipt({
+        confirmations: 3,
+        hash,
+      });
 
       setStep("waiting");
 

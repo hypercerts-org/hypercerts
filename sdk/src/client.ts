@@ -1,5 +1,5 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
-import { Account, ByteArray, GetContractReturnType, Hex, PublicClient, WalletClient, getContract } from "viem";
+import { Account, ByteArray, Hex, PublicClient, WalletClient, getContract } from "viem";
 import { HypercertEvaluator } from "./evaluations";
 import { HypercertIndexer } from "./indexer";
 import { HypercertsStorage } from "./storage";
@@ -100,24 +100,10 @@ export class HypercertClient implements HypercertClientInterface {
   }
 
   /**
-   * Gets the HypercertMinter contract used by the client.
-   * @returns The contract.
-   * @deprecated Use getDeployments instead.
-   */
-  get contract(): GetContractReturnType<typeof HypercertMinterAbi> {
-    return getContract({
-      address: this._config.addresses?.HypercertMinterUUPS as `0x${string}`,
-      abi: HypercertMinterAbi,
-      publicClient: this._publicClient,
-    });
-  }
-
-  /**
    * Gets the contract addresses and graph urls for the provided `chainId`
    * @returns The addresses, graph name and graph url.
-   * @deprecated Use getDeployments instead.
    */
-  getDeployment = (chainId: SupportedChainIds) => {
+  getDeployments = (chainId: SupportedChainIds) => {
     return DEPLOYMENTS[chainId];
   };
 
@@ -168,7 +154,7 @@ export class HypercertClient implements HypercertClientInterface {
   getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: { public: this._publicClient },
     });
 
     return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
@@ -299,7 +285,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: { public: this._publicClient },
     });
 
     const fractionOwner = (await readContract.read.ownerOf([fractionId])) as `0x${string}`;
@@ -343,7 +329,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: { public: this._publicClient },
     });
 
     const fractions = await Promise.all(
@@ -381,7 +367,7 @@ export class HypercertClient implements HypercertClientInterface {
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      publicClient: this._publicClient,
+      client: { public: this._publicClient },
     });
 
     const claimOwner = (await readContract.read.ownerOf([claimId])) as `0x${string}`;
@@ -497,7 +483,7 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: this.config.addresses.HypercertMinterUUPS as `0x${string}`,
       abi: HypercertMinterAbi,
-      publicClient: this._publicClient,
+      client: { public: this._publicClient },
     });
   };
 
@@ -528,11 +514,15 @@ export class HypercertClient implements HypercertClientInterface {
     overrides?: SupportedOverrides,
   ) => {
     try {
+      // Need to get the contract config before passing it to the simulateContract method
+      const config = this.getContractConfig();
+
       const { request } = await this._publicClient.simulateContract({
         functionName,
         account,
         args,
-        ...this.getContractConfig(),
+        abi: HypercertMinterAbi,
+        address: config.address,
         ...this.getCleanedOverrides(overrides),
       });
 
