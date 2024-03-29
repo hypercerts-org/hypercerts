@@ -12,6 +12,7 @@ import {
   AllowlistEntry,
 } from "@hypercerts-org/sdk";
 import { toast } from "react-toastify";
+import { usePublicClient } from "wagmi";
 
 export const DEFAULT_ALLOWLIST_PERCENTAGE = 50;
 
@@ -35,6 +36,7 @@ export const useMintClaimAllowlist = ({
   const { address } = useAccountLowerCase();
   const { setStep, showModal, hideModal } = useContractModal();
   const parseError = useParseBlockchainError();
+  const publicClient = usePublicClient();
 
   const getAndUpdateAllowlist = async (
     allowlistUrl: string,
@@ -143,7 +145,6 @@ export const useMintClaimAllowlist = ({
         return;
       }
 
-      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash,

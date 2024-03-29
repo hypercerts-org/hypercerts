@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { HypercertClient, HypercertClientConfig } from "@hypercerts-org/sdk";
-import { useWalletClient, useNetwork } from "wagmi";
+import { useWalletClient, useAccount } from "wagmi";
 
 const isSupportedChain = (chainId: number) => {
   const supportedChainIds = [10, 42220, 11155111, 84532, 8453]; // Replace with actual chain IDs
@@ -13,7 +13,7 @@ export const useHypercertClient = ({
 }: {
   overrideChainId?: number;
 } = {}) => {
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   const clientConfig = {
     chain: overrideChainId ? { id: overrideChainId } : chain,
   };
@@ -58,6 +58,8 @@ export const useHypercertClient = ({
 
     setIsLoading(false);
   }, [chain?.id, overrideChainId, walletClient, walletClientLoading]);
+
+  console.log({ client });
 
   return { client, isLoading };
 };

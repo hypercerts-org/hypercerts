@@ -1,3 +1,3 @@
-import { Address } from "wagmi";
+import { Address } from "viem";
 
 export type HexString = Address;

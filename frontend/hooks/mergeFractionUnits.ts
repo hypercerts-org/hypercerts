@@ -4,6 +4,7 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
+import { usePublicClient } from "wagmi";
 
 export const useMergeFractionUnits = ({
   onComplete,
@@ -13,6 +14,7 @@ export const useMergeFractionUnits = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
+  const publicClient = usePublicClient();
 
   const stepDescriptions = {
     preparing: "Preparing to merge fraction values",
@@ -45,7 +47,6 @@ export const useMergeFractionUnits = ({
         return;
       }
 
-      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash,
