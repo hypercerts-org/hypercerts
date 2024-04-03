@@ -59,7 +59,5 @@ export const useHypercertClient = ({
     setIsLoading(false);
   }, [chain?.id, overrideChainId, walletClient, walletClientLoading]);
 
-  console.log({ client });
-
   return { client, isLoading };
 };
