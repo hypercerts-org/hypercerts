@@ -65,6 +65,7 @@ export const useTransferFraction = ({
       address: contractAddress,
       functionName: "safeTransferFrom",
       args: [address, to, fractionId, 1, ""],
+      account: address,
     });
 
     showModal({ stepDescriptions });
