@@ -27,7 +27,7 @@ import useCheckWriteable from "../hooks/checkWriteable";
 const FORM_SELECTOR = "currentForm";
 const IMAGE_SELECTOR = "hypercertimage";
 export const NAME_MIN_LENGTH = 2;
-export const NAME_MAX_LENGTH = 50;
+export const NAME_MAX_LENGTH = 70;
 
 export const DESCRIPTION_MIN_LENGTH = 20;
 export const DESCRIPTION_MAX_LENGTH = 1500;
