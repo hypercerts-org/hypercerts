@@ -3,8 +3,10 @@ import { useParseBlockchainError } from "../lib/parse-blockchain-error";
 import { toast } from "react-toastify";
 import { useHypercertClient } from "./hypercerts-client";
 import { useState } from "react";
-import { waitForTransactionReceipt, writeContract } from "viem/actions";
-import { useAccount, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { SupportedChainIds } from "@hypercerts-org/sdk";
+import { isAddress } from "viem";
 
 export const useTransferFraction = ({
   onComplete,
@@ -14,9 +16,10 @@ export const useTransferFraction = ({
   const [txPending, setTxPending] = useState(false);
 
   const { client, isLoading } = useHypercertClient();
-  const { data: walletClient } = useWalletClient();
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
+  const publicClient = usePublicClient();
 
+  const { data: walletClient } = useWalletClient();
   const stepDescriptions = {
     transferring: "Transferring",
     waiting: "Awaiting confirmation",
@@ -28,14 +31,14 @@ export const useTransferFraction = ({
 
   const initializeWrite = async (fractionId: bigint, to: string) => {
     if (!client) {
-      toast("No client found", {
+      toast("No hypercerts SDK client found", {
         type: "error",
       });
       return;
     }
 
-    if (!walletClient) {
-      toast("No wallet client found", {
+    if (!publicClient) {
+      toast("No evm client found", {
         type: "error",
       });
       return;
@@ -48,20 +51,40 @@ export const useTransferFraction = ({
       return;
     }
 
-    const hypercertMinterContract = client.contract;
+    const chainId = chain?.id;
+
+    if (!chainId) return null;
+    const deployments = client.getDeployments(chainId as SupportedChainIds);
+    const contractAddress = deployments?.addresses?.HypercertMinterUUPS;
+
+    if (!contractAddress || !isAddress(contractAddress.toLowerCase()))
+      return null;
+
+    const { request } = await publicClient.simulateContract({
+      abi: HypercertMinterAbi,
+      address: contractAddress,
+      functionName: "safeTransferFrom",
+      args: [address, to, fractionId, 1, ""],
+      account: address,
+    });
 
     showModal({ stepDescriptions });
     setStep("transferring");
     try {
       setTxPending(true);
-      const tx = await writeContract(walletClient, {
-        ...hypercertMinterContract,
-        functionName: "safeTransferFrom",
-        args: [address, to, fractionId, 1, ""],
-      });
+      const hash = await walletClient?.writeContract(request);
+
       setStep("waiting");
-      const receipt = await waitForTransactionReceipt(walletClient, {
-        hash: tx,
+
+      if (!hash) {
+        toast("No tx hash returned", {
+          type: "error",
+        });
+        return;
+      }
+
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash,
       });
 
       if (receipt?.status === "reverted") {

@@ -1,4 +1,4 @@
-import { useNetwork } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { useContractModal } from "../components/contract-interaction-dialog-context";
 import { mintInteractionLabels } from "../content/chainInteractions";
 import { SUPABASE_TABLE } from "../lib/config";
@@ -23,9 +23,10 @@ export const useMintFractionAllowlistBatch = ({
   const { address } = useAccountLowerCase();
   const { verifyFractionClaim } = useVerifyFractionClaim();
   const { client, isLoading } = useHypercertClient();
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   const { data: claimIds } = useGetAllEligibility(address ?? "", chain?.id);
   const parseError = useParseBlockchainError();
+  const publicClient = usePublicClient();
 
   const stepDescriptions = {
     initial: "Initializing interaction",
@@ -87,7 +88,6 @@ export const useMintFractionAllowlistBatch = ({
         return;
       }
 
-      const publicClient = client.config.publicClient;
       const receipt = await publicClient?.waitForTransactionReceipt({
         confirmations: 3,
         hash,

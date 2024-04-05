@@ -62,7 +62,7 @@ The order of the arrays must be equal.
 
 #### Defined in
 
-[sdk/src/types/client.ts:283](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L283)
+[sdk/src/types/client.ts:282](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L282)
 
 ---
 
@@ -96,7 +96,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:217](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L217)
+[sdk/src/types/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L216)
 
 ---
 
@@ -128,21 +128,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:258](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L258)
-
----
-
-### contract
-
-• **contract**: `GetContractReturnType`<(\{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name?`: `undefined` = "balanceOf"; `outputs?`: `undefined` ; `stateMutability`: `string` = "nonpayable"; `type`: `string` = "constructor" } \| \{ `anonymous?`: `undefined` = false; `inputs`: `never`[] = []; `name`: `string` = "AlreadyClaimed"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "error" } \| \{ `anonymous`: `boolean` = false; `inputs`: \{ `indexed`: `boolean` = false; `internalType`: `string` = "address"; `name`: `string` = "previousAdmin"; `type`: `string` = "address" }[] ; `name`: `string` = "AdminChanged"; `outputs?`: `undefined` ; `stateMutability?`: `undefined` = "view"; `type`: `string` = "event" } \| \{ `anonymous?`: `undefined` = false; `inputs`: \{ `internalType`: `string` = "address"; `name`: `string` = "account"; `type`: `string` = "address" }[] ; `name`: `string` = "balanceOf"; `outputs`: \{ `internalType`: `string` = "uint256"; `name`: `string` = ""; `type`: `string` = "uint256" }[] ; `stateMutability`: `string` = "view"; `type`: `string` = "function" })[]\>
-
-#### Inherited from
-
-[HypercertClientState](HypercertClientState.md).[contract](HypercertClientState.md#contract)
-
-#### Defined in
-
-[sdk/src/types/client.ts:164](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L164)
+[sdk/src/types/client.ts:257](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L257)
 
 ---
 
@@ -177,13 +163,13 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:231](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L231)
+[sdk/src/types/client.ts:230](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L230)
 
 ---
 
-### getDeployment
+### getDeployments
 
-• **getDeployment**: (`chainId`: [`SupportedChainIds`](../modules.md#supportedchainids)) => `Partial`<[`Deployment`](../modules.md#deployment)\>
+• **getDeployments**: (`chainId`: [`SupportedChainIds`](../modules.md#supportedchainids)) => `Partial`<[`Deployment`](../modules.md#deployment)\>
 
 #### Type declaration
 
@@ -205,11 +191,11 @@ The addresses, graph name and graph url.
 
 #### Inherited from
 
-[HypercertClientMethods](HypercertClientMethods.md).[getDeployment](HypercertClientMethods.md#getdeployment)
+[HypercertClientMethods](HypercertClientMethods.md).[getDeployments](HypercertClientMethods.md#getdeployments)
 
 #### Defined in
 
-[sdk/src/types/client.ts:175](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L175)
+[sdk/src/types/client.ts:174](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L174)
 
 ---
 
@@ -241,7 +227,7 @@ A Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/types/client.ts:195](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L195)
+[sdk/src/types/client.ts:194](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L194)
 
 ---
 
@@ -257,7 +243,7 @@ The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:163](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L163)
+[sdk/src/types/client.ts:163](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L163)
 
 ---
 
@@ -289,7 +275,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:251](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L251)
+[sdk/src/types/client.ts:250](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L250)
 
 ---
 
@@ -323,7 +309,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:184](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L184)
+[sdk/src/types/client.ts:183](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L183)
 
 ---
 
@@ -357,7 +343,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:267](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L267)
+[sdk/src/types/client.ts:266](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L266)
 
 ---
 
@@ -373,7 +359,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:159](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L159)
+[sdk/src/types/client.ts:159](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L159)
 
 ---
 
@@ -406,7 +392,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:244](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L244)
+[sdk/src/types/client.ts:243](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L243)
 
 ---
 
@@ -422,7 +408,7 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:161](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L161)
+[sdk/src/types/client.ts:161](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L161)
 
 ---
 
@@ -456,4 +442,4 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:204](https://github.com/hypercerts-org/hypercerts/blob/efdb2e8/sdk/src/types/client.ts#L204)
+[sdk/src/types/client.ts:203](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L203)

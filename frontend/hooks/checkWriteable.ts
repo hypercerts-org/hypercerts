@@ -1,16 +1,15 @@
 import { isAddress } from "viem";
-import { CHAINS } from "../components/dapp-context";
+import { chains } from "../components/dapp-context";
 import { useHypercertClient } from "./hypercerts-client";
 import { useEffect, useState } from "react";
-import { useAccount, useBalance, useNetwork } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 
 const useCheckWriteable = () => {
-  const { address, isConnected } = useAccount();
-  const { chain } = useNetwork();
+  const { address, isConnected, chain } = useAccount();
   const { client } = useHypercertClient();
   const { data: balance } = useBalance({
     address,
-    enabled: !!address,
+    query: { enabled: !!address },
   });
   const [checking, setChecking] = useState(false);
   const [writeable, setWriteable] = useState(false);
@@ -57,17 +56,17 @@ const useCheckWriteable = () => {
       console.log(chain);
     }
 
-    if (chain && !CHAINS.map((c) => c.id).includes(chain.id)) {
+    if (chain && !chains.map((c) => c.id).includes(chain.id)) {
       console.log(
-        `On wrong network. Expected one of "${CHAINS.map((c) => c.id).join(
-          ", ",
-        )}". Saw ${chain?.id}`,
+        `On wrong network. Expected one of "${chains
+          .map((c) => c.id)
+          .join(", ")}". Saw ${chain?.id}`,
       );
       currentErrors[
         "chain"
-      ] = `Wrong network. Please connect to one of "${CHAINS.map(
-        (c) => c.id,
-      ).join(", ")}"`;
+      ] = `Wrong network. Please connect to one of "${chains
+        .map((c) => c.id)
+        .join(", ")}"`;
     }
 
     if (!client || client.readonly) {

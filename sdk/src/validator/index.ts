@@ -118,7 +118,7 @@ const validateAllowlist = (data: AllowlistEntry[], units: bigint): ValidationRes
     errors["units"] = "Total units in allowlist must be greater than 0";
   }
 
-  const filteredAddresses = data.filter((entry) => !isAddress(entry.address));
+  const filteredAddresses = data.filter((entry) => !isAddress(entry.address.toLowerCase()));
   if (filteredAddresses.length > 0) {
     errors["address"] = filteredAddresses.map((entry) => entry.address);
   }
@@ -203,7 +203,7 @@ const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): Validatio
  * @throws {MintingError} Will throw a `MintingError` if the signer address is invalid or if the Merkle proof verification fails.
  */
 function verifyMerkleProof(root: string, signerAddress: string, units: bigint, proof: string[]): void {
-  if (!isAddress(signerAddress)) {
+  if (!isAddress(signerAddress.toLowerCase())) {
     throw new MintingError("Invalid address", { signerAddress });
   }
 

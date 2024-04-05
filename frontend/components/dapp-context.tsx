@@ -1,9 +1,5 @@
 import { isProduction, WALLETCONNECT_ID } from "../lib/config";
 import { ContractInteractionDialogProvider } from "./contract-interaction-dialog-context";
-import {
-  RainbowKitProvider,
-  connectorsForWallets,
-} from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   argentWallet,
@@ -30,75 +26,87 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React, { ReactNode, useEffect } from "react";
-import { celo, Chain, optimism, sepolia, baseSepolia, base } from "viem/chains";
-import { configureChains, WagmiConfig, createConfig } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-
+import React, { ReactNode } from "react";
+import { createConfig, http, WagmiProvider } from "wagmi";
+import { base, baseSepolia, celo, optimism, sepolia } from "wagmi/chains";
 import {
-  Valora,
-  CeloWallet,
-  CeloTerminal,
-  MetaMask as CeloMetaMask,
-} from "@celo/rainbowkit-celo/wallets";
+  Chain,
+  connectorsForWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+
+import { Transport } from "viem";
 
 const queryClient = new QueryClient();
 
-const TEST_CHAINS = [sepolia, baseSepolia];
-const PROD_CHAINS = [optimism, celo, base];
+const TEST_CHAINS = [sepolia, baseSepolia] as const;
+const PROD_CHAINS = [optimism, celo, base] as const;
 
-export const CHAINS = (isProduction ? PROD_CHAINS : TEST_CHAINS) as Chain[];
+export const chains: readonly [Chain, ...Chain[]] = isProduction
+  ? PROD_CHAINS
+  : TEST_CHAINS;
 
-const { publicClient, chains } = configureChains(CHAINS, [publicProvider()]);
+const transports: Record<number, Transport> = isProduction
+  ? ({
+      [celo.id]: http(),
+      [optimism.id]: http(),
+      [base.id]: http(),
+    } as const)
+  : ({
+      [sepolia.id]: http(),
+      [baseSepolia.id]: http(),
+    } as const);
 
 const projectId = WALLETCONNECT_ID;
 
-const connectors = connectorsForWallets([
+// For current state of Celo wallets see https://github.com/celo-org/rainbowkit-celo/issues/86
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Recommended",
+      wallets: [
+        argentWallet,
+        bitskiWallet,
+        braveWallet,
+        coinbaseWallet,
+        dawnWallet,
+        imTokenWallet,
+        ledgerWallet,
+        metaMaskWallet,
+        mewWallet,
+        okxWallet,
+        omniWallet,
+        phantomWallet,
+        rabbyWallet,
+        rainbowWallet,
+        walletConnectWallet,
+        safeWallet,
+        tahoWallet,
+        trustWallet,
+        xdefiWallet,
+        zerionWallet,
+      ],
+    },
+    {
+      groupName: "Recommended with CELO",
+      wallets: [metaMaskWallet, walletConnectWallet],
+    },
+    {
+      groupName: "Injected",
+      wallets: [injectedWallet],
+    },
+  ],
   {
-    groupName: "Recommended",
-    wallets: [
-      argentWallet({ chains, projectId }),
-      bitskiWallet({ chains }),
-      braveWallet({ chains }),
-      coinbaseWallet({ chains, appName: "Hypercerts" }),
-      dawnWallet({ chains }),
-      imTokenWallet({ chains, projectId }),
-      ledgerWallet({ chains, projectId }),
-      metaMaskWallet({ chains, projectId }),
-      mewWallet({ chains }),
-      okxWallet({ chains, projectId }),
-      omniWallet({ chains, projectId }),
-      phantomWallet({ chains }),
-      rabbyWallet({ chains }),
-      rainbowWallet({ projectId, chains }),
-      walletConnectWallet({ projectId, chains }),
-      safeWallet({ chains }),
-      tahoWallet({ chains }),
-      trustWallet({ chains, projectId }),
-      xdefiWallet({ chains }),
-      zerionWallet({ chains, projectId }),
-    ],
+    appName: "Hypercerts",
+    projectId,
   },
-  {
-    groupName: "Recommended with CELO",
-    wallets: [
-      Valora({ chains, projectId }),
-      CeloWallet({ chains, projectId }),
-      CeloTerminal({ chains, projectId }),
-      CeloMetaMask({ chains, projectId }),
-      walletConnectWallet({ projectId, chains }),
-    ],
-  },
-  {
-    groupName: "Injected",
-    wallets: [injectedWallet({ chains })],
-  },
-]);
+);
 
 const wagmiConfig = createConfig({
-  autoConnect: false,
-  publicClient,
   connectors,
+  chains,
+  transports,
+  ssr: true,
 });
 
 export interface DappContextProps {
@@ -106,21 +114,17 @@ export interface DappContextProps {
 }
 
 export function DappContext({ children }: DappContextProps) {
-  useEffect(() => {
-    wagmiConfig.autoConnect();
-  }, []);
-
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <QueryClientProvider client={queryClient}>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
           <ContractInteractionDialogProvider>
             {children}
             <ReactQueryDevtools initialIsOpen={false} />
           </ContractInteractionDialogProvider>
-        </QueryClientProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 
