@@ -22,6 +22,7 @@ import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
 import { DEPLOYMENTS } from "./constants";
 import { getClaimStoredDataFromTxHash } from "./utils";
 import { ParserReturnType } from "./utils/txParser";
+import { isClaimOnChain } from "./utils/chains";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -74,6 +75,11 @@ export class HypercertClient implements HypercertClientInterface {
       logger.warn("HypercertsClient is in readonly mode", "client");
     }
   }
+
+  isClaimOrFractionOnConnectedChain = (claimOrFractionId: string) => {
+    const connectedChain = this._walletClient?.chain?.id;
+    return isClaimOnChain(claimOrFractionId, connectedChain);
+  };
 
   /**
    * Gets the config for the client.

@@ -80,15 +80,16 @@ export type HypercertClientConfig = Deployment &
     readOnly: boolean;
     /** Reason for readOnly mode */
     readOnlyReason?: string;
-    /** The environment to run the indexer in. This can be either production or test. */
+    /** The environment to run the indexer in. This can be either production, test or all. Defaults to test */
     indexerEnvironment: IndexerEnvironment;
   };
 
 /**
  * The environment to run the indexer in.
  * Production will run against all mainnet chains, while test will run against testnet chains.
+ * All will run against both
  */
-export type IndexerEnvironment = "production" | "test";
+export type IndexerEnvironment = "production" | "test" | "all";
 
 /**
  * Configuration options for the Hypercert storage layer.
@@ -292,4 +293,11 @@ export interface HypercertClientMethods {
     units: bigint[],
     proofs: (Hex | ByteArray)[][],
   ) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Check if a claim or fraction is on the chain that the Hypercertclient
+   * is currently connected to
+   * @param claimOrFractionId The ID of the claim or fraction to check.
+   */
+  isClaimOrFractionOnConnectedChain: (claimOrFractionId: string) => boolean;
 }

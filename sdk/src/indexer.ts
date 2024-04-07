@@ -72,6 +72,10 @@ export class HypercertIndexer implements HypercertIndexerInterface {
 
   static getDeploymentsForEnvironment(environment: IndexerEnvironment) {
     return Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
+      if (environment === "all") {
+        return true;
+      }
+
       if (environment === "test") {
         return deployment.isTestnet;
       }
@@ -80,7 +84,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
         return !deployment.isTestnet;
       }
 
-      return true;
+      return false;
     });
   }
 
