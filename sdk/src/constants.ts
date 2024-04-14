@@ -2,11 +2,11 @@
  * Constants
  */
 
-import { Deployment, SupportedChainIds } from "./types";
+import { Deployment, IndexerEnvironment, SupportedChainIds } from "./types";
 import { deployments } from "@hypercerts-org/contracts";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-org";
-export const DEFAULT_INDEXER_ENVIRONMENT = "production";
+export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 
 // The APIs we expose
 
