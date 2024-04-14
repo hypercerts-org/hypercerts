@@ -7,10 +7,7 @@ describe("HypercertIndexer", () => {
   let indexer: HypercertIndexer;
 
   beforeEach(() => {
-    indexer = new HypercertIndexer({
-      graphName: "hypercerts-testnet",
-      graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet",
-    });
+    indexer = new HypercertIndexer({ indexerEnvironment: "test" });
   });
 
   afterEach(() => {

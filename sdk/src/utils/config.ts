@@ -1,6 +1,6 @@
 import { sepolia, optimism, celo, Chain, baseSepolia, base } from "viem/chains";
 
-import { DEPLOYMENTS } from "../constants";
+import { DEFAULT_INDEXER_ENVIRONMENT } from "../constants";
 import {
   ConfigurationError,
   Deployment,
@@ -34,7 +34,7 @@ import { deployments } from "../../src";
  * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
 export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<HypercertClientConfig> => {
-  // Get the chainId, first from overrides, then environment variables, then the constant
+  // Get the chainId of the writing chain, first from overrides, then environment variables, then the constant
   const chain = getChainConfig(overrides);
   if (!chain) {
     logger.warn("[getConfig]: No default config for chain found");
@@ -43,22 +43,20 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
   let baseDeployment: (Partial<Deployment> & { unsafeForceOverrideConfig?: boolean }) | undefined;
 
   if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.chain?.id || !overrides.graphUrl) {
+    if (!overrides.chain?.id) {
       throw new InvalidOrMissingError(
         `attempted to override with chainId=${overrides.chain?.id}, but requires chainName, graphUrl, and contractAddress to be set`,
         {
           chainID: overrides.chain?.id?.toString(),
-          graphUrl: overrides.graphUrl,
         },
       );
     }
     baseDeployment = {
       chain: { ...chain, id: overrides.chain?.id },
-      graphUrl: overrides.graphUrl,
       unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
     };
   } else {
-    //TODO doo many casts
+    //TODO do many casts
     baseDeployment = overrides.chain?.id
       ? (getDeployment(overrides.chain?.id as SupportedChainIds) as Partial<Deployment> & {
           unsafeForceOverrideConfig?: boolean;
@@ -81,8 +79,8 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
     // Let the user override from environment variables
     ...getWalletClient(overrides),
     ...getPublicClient(overrides),
-    ...getGraphUrl(overrides),
     ...getEasContractAddress(overrides),
+    ...getIndexerEnvironment(overrides),
   };
 
   const missingKeys = [];
@@ -102,6 +100,10 @@ const getDeployment = (chainId: SupportedChainIds) => {
   return deployments[chainId];
 };
 
+const getIndexerEnvironment = (overrides: Partial<HypercertClientConfig>) => {
+  return { indexerEnvironment: overrides.indexerEnvironment || DEFAULT_INDEXER_ENVIRONMENT };
+};
+
 const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
   const chainId = overrides?.chain?.id ? overrides.chain?.id : undefined;
 
@@ -118,38 +120,6 @@ const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
   }
 
   return chain;
-};
-
-const getGraphUrl = (overrides: Partial<HypercertClientConfig>) => {
-  let graphUrl;
-  if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.graphUrl) {
-      throw new ConfigurationError("A graphUrl must be specified when overriding configuration");
-    }
-    try {
-      new URL(overrides.graphUrl);
-    } catch (error) {
-      throw new ConfigurationError("Invalid graph URL", { graphUrl: overrides.graphUrl });
-    }
-    graphUrl = overrides.graphUrl;
-    return { graphUrl };
-  }
-
-  const chain = getChainConfig(overrides);
-
-  graphUrl = DEPLOYMENTS[chain?.id as keyof typeof DEPLOYMENTS].graphUrl ?? process.env.GRAPH_URL;
-  if (!graphUrl) {
-    throw new UnsupportedChainError(`No Graph URL found in deployments or env vars`, {
-      chainID: chain?.toString(),
-    });
-  }
-  try {
-    new URL(graphUrl);
-  } catch (error) {
-    throw new ConfigurationError("Invalid graph URL", { graphUrl });
-  }
-
-  return { graphUrl };
 };
 
 const getWalletClient = (overrides: Partial<HypercertClientConfig>) => {

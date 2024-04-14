@@ -6,6 +6,7 @@ import { Deployment, SupportedChainIds } from "./types";
 import { deployments } from "@hypercerts-org/contracts";
 
 const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-org";
+export const DEFAULT_INDEXER_ENVIRONMENT = "production";
 
 // The APIs we expose
 

@@ -68,7 +68,7 @@ export type Deployment = {
 /**
  * Configuration options for the Hypercert client.
  */
-export type HypercertClientConfig = Deployment &
+export type HypercertClientConfig = Pick<Deployment, "addresses" | "chain"> &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
     /** The PublicClient is inherently read-only */

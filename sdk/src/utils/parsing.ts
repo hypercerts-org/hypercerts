@@ -4,7 +4,7 @@ export const parseClaimOrFractionId = (claimId: string) => {
   const [chainId, contractAddress, id] = claimId.split("-");
 
   if (!chainId || !contractAddress || !id || !isAddress(contractAddress)) {
-    console.log("Invalid claimId format. Expected 'chainId-contractAddress-tokenId'");
+    console.log(`Invalid claimId format (claimId given: ${claimId}}. Expected "chainId-contractAddress-tokenId`);
     throw new Error(`Invalid claimId format (claimId given: ${claimId}}. Expected "chainId-contractAddress-tokenId"`);
   }
 
@@ -16,7 +16,7 @@ export const parseClaimOrFractionId = (claimId: string) => {
     throw new Error(`Invalid chainId while parsing: ${chainId}`);
   }
 
-  let idParsed: BigInt | undefined;
+  let idParsed: bigint | undefined;
   try {
     idParsed = BigInt(id);
   } catch (error) {

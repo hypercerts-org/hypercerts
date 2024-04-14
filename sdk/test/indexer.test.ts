@@ -1,22 +1,21 @@
-import { describe, it } from "vitest";
-
-import { expect } from "chai";
+import { describe, it, expect } from "vitest";
 
 import { HypercertIndexer } from "../src/indexer";
+import { DEPLOYMENTS } from "../src/constants";
 
 describe("HypercertsIndexer", () => {
-  it("should be able to create a new instance without valid graphName", () => {
-    const indexer = new HypercertIndexer({ graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet" });
-
-    expect(indexer).to.be.an.instanceOf(HypercertIndexer);
+  it("should only initialize with test environments", async () => {
+    const environments = HypercertIndexer.getDeploymentsForEnvironment("test");
+    expect(environments.every(([_, deployment]) => deployment.isTestnet)).toBe(true);
   });
 
-  it("should be able to create a new instance with valid graphName and url", () => {
-    const indexer = new HypercertIndexer({
-      graphName: "hypercerts-testnet",
-      graphUrl: "https://api.thegraph.com/subgraphs/name/hypercerts-testnet",
-    });
+  it("should only initialize with production environments", async () => {
+    const environments = HypercertIndexer.getDeploymentsForEnvironment("production");
+    expect(environments.every(([_, deployment]) => !deployment.isTestnet)).toBe(true);
+  });
 
-    expect(indexer).to.be.an.instanceOf(HypercertIndexer);
+  it("should only initialize with all environments", async () => {
+    const environments = HypercertIndexer.getDeploymentsForEnvironment("all");
+    expect(environments.length).toEqual(Object.keys(DEPLOYMENTS).length);
   });
 });
