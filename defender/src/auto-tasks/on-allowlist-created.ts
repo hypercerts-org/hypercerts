@@ -129,7 +129,7 @@ export async function handler(event: AutotaskEvent) {
   console.log("addresses", addresses);
   const data = addresses.map((address, index) => ({
     address: address.toLowerCase(),
-    claimId: `${network.chainId}-${contractAddress}-${tokenId}`,
+    claimId: `${contractAddress}-${tokenId}`,
     fractionCounter: index,
     chainId: network.chainId,
   }));

@@ -103,7 +103,7 @@ export async function handler(event: AutotaskEvent) {
     batchTransferEvents[0].args["claimIDs"][0].toString(),
   );
 
-  const formattedClaimId = `${network.chainId}-${contractAddress}-${claimId
+  const formattedClaimId = `${contractAddress}-${claimId
     .toString()
     .toLowerCase()}`;
   console.log("Formatted claim id", formattedClaimId);
