@@ -8,6 +8,7 @@ import { ConfigurationError, HypercertClientConfig, InvalidOrMissingError } from
 import { getConfig } from "../../src/utils/config";
 import { reloadEnv } from "../../test/setup-env";
 import { walletClient, publicClient } from "../helpers";
+import { DEFAULT_INDEXER_ENVIRONMENT } from "../../src/constants";
 
 chai.use(chaiSubset);
 
@@ -16,25 +17,23 @@ describe("Config: graphUrl", () => {
     reloadEnv();
   });
 
-  it("should return the default graphUrl when no overrides are specified", () => {
+  it("should return the default indexer environment when no overrides are specified", () => {
     const result = getConfig({ chain: { id: 11155111 } });
-    expect(result.graphUrl).to.equal("https://api.thegraph.com/subgraphs/name/hypercerts-admin/hypercerts-sepolia");
+    expect(result.indexerEnvironment).to.equal(DEFAULT_INDEXER_ENVIRONMENT);
   });
 
   it("should return the config specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
       chain: { id: 11155111 },
-      graphUrl: "https://api.example.com",
       unsafeForceOverrideConfig: true,
     };
     const result = getConfig(overrides);
-    expect(result.graphUrl).to.equal(overrides.graphUrl);
+    expect(result.chain?.id).to.equal(overrides.chain?.id);
   });
 
   it("should throw an error when the graph URL specified by overrides is invalid", () => {
     const overrides: Partial<HypercertClientConfig> = {
       chain: { id: 11155111 },
-      graphUrl: "incorrect-url",
       unsafeForceOverrideConfig: true,
     };
 

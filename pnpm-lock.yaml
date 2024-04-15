@@ -574,8 +574,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
       '@urql/core':
-        specifier: ^4.2.0
-        version: 4.2.0(graphql@16.8.1)
+        specifier: ^4.3.0
+        version: 4.3.0(graphql@16.8.1)
       '@whatwg-node/fetch':
         specifier: ^0.9.13
         version: 0.9.14
@@ -591,6 +591,9 @@ importers:
       ethers:
         specifier: 5.7.2
         version: 5.7.2
+      fast-deep-equal:
+        specifier: ^3.1.3
+        version: 3.1.3
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
@@ -602,7 +605,10 @@ importers:
         version: 4.0.6(graphql@16.8.1)(react@18.2.0)
       viem:
         specifier: ^2.9.4
-        version: 2.9.4(typescript@5.3.2)
+        version: 2.9.8(typescript@5.3.2)
+      wonka:
+        specifier: ^6.3.4
+        version: 6.3.4
     devDependencies:
       '@babel/core':
         specifier: ^7.23.5
@@ -7382,7 +7388,7 @@ packages:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts': 1.1.2(typescript@5.1.6)
       '@openzeppelin/merkle-tree': 1.0.5
-      '@urql/core': 4.2.0(graphql@16.8.1)
+      '@urql/core': 4.3.0(graphql@16.8.1)
       '@whatwg-node/fetch': 0.9.14
       ajv: 8.12.0
       axios: 1.6.2(debug@4.3.4)
@@ -7963,7 +7969,7 @@ packages:
       eventemitter2: 6.4.7
       extension-port-stream: 2.1.1
       i18next: 22.5.1
-      i18next-browser-languagedetector: 7.2.0
+      i18next-browser-languagedetector: 7.2.1
       obj-multiplex: 1.0.0
       pump: 3.0.0
       qrcode-terminal-nooctal: 0.12.1
@@ -12530,8 +12536,8 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  /@urql/core@4.2.0(graphql@16.8.1):
-    resolution: {integrity: sha512-GRkZ4kECR9UohWAjiSk2UYUetco6/PqSrvyC4AH6g16tyqEShA63M232cfbE1J9XJPaGNjia14Gi+oOqzp144w==}
+  /@urql/core@4.3.0(graphql@16.8.1):
+    resolution: {integrity: sha512-wT+FeL8DG4x5o6RfHEnONNFVDM3616ouzATMYUClB6CB+iIu2mwfBKd7xSUxYOZmwtxna5/hDRQdMl3nbQZlnw==}
     dependencies:
       '@0no-co/graphql.web': 1.0.4(graphql@16.8.1)
       wonka: 6.3.4
@@ -16562,7 +16568,6 @@ packages:
   /cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
-    hasBin: true
     dev: false
 
   /cssnano-preset-advanced@5.3.10(postcss@8.4.32):
@@ -21704,8 +21709,8 @@ packages:
     resolution: {integrity: sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==}
     dev: false
 
-  /i18next-browser-languagedetector@7.2.0:
-    resolution: {integrity: sha512-U00DbDtFIYD3wkWsr2aVGfXGAj2TgnELzOX9qv8bT0aJtvPV9CRO77h+vgmHFBMe7LAxdwvT/7VkCWGya6L3tA==}
+  /i18next-browser-languagedetector@7.2.1:
+    resolution: {integrity: sha512-h/pM34bcH6tbz8WgGXcmWauNpQupCGr25XPp9cZwZInR9XHSjIFDYp1SIok7zSPsTOMxdvuLyu86V+g2Kycnfw==}
     dependencies:
       '@babel/runtime': 7.23.2
     dev: false
@@ -23559,6 +23564,7 @@ packages:
 
   /json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
+    hasBin: true
     dependencies:
       minimist: 1.2.8
     dev: true
@@ -23814,7 +23820,7 @@ packages:
       node-forge: 1.3.1
       pathe: 1.1.1
       std-env: 3.6.0
-      ufo: 1.3.1
+      ufo: 1.3.2
       untun: 0.1.2
       uqr: 0.1.2
     dev: false
@@ -26859,7 +26865,7 @@ packages:
     dependencies:
       destr: 2.0.2
       node-fetch-native: 1.4.1
-      ufo: 1.3.1
+      ufo: 1.3.2
     dev: false
 
   /on-exit-leak-free@0.2.0:
@@ -30183,7 +30189,6 @@ packages:
 
   /sha.js@2.4.11:
     resolution: {integrity: sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==}
-    hasBin: true
     dependencies:
       inherits: 2.0.4
       safe-buffer: 5.2.1
@@ -32472,7 +32477,7 @@ packages:
       mri: 1.2.0
       node-fetch-native: 1.4.1
       ofetch: 1.3.3
-      ufo: 1.3.1
+      ufo: 1.3.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -32602,7 +32607,7 @@ packages:
     peerDependencies:
       react: '>= 16.8.0'
     dependencies:
-      '@urql/core': 4.2.0(graphql@16.8.1)
+      '@urql/core': 4.3.0(graphql@16.8.1)
       react: 18.2.0
       wonka: 6.3.4
     transitivePeerDependencies:
@@ -32920,29 +32925,6 @@ packages:
       - zod
     dev: false
 
-  /viem@2.9.4(typescript@5.3.2):
-    resolution: {integrity: sha512-j239PwRYc9WU7GOogfJ5Iu/5jwYaidpR85gLxKCwQmuXkNILKiRHntEM15EAtC9bcgaa9oklYwQ+/MlLU593/A==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.10.0
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@scure/bip32': 1.3.2
-      '@scure/bip39': 1.2.1
-      abitype: 1.0.0(typescript@5.3.2)
-      isows: 1.0.3(ws@8.13.0)
-      typescript: 5.3.2
-      ws: 8.13.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
-
   /viem@2.9.8(typescript@5.1.6)(zod@3.22.4):
     resolution: {integrity: sha512-vetoTZ6UF2okS/1I0+1p/QYdC4yA6uf4PeWwTBp3kD5wC6eQcmeh7zP+unNdnYHGGC63x7BTGldK1ep2IFVKcQ==}
     peerDependencies:
@@ -32959,6 +32941,29 @@ packages:
       abitype: 1.0.0(typescript@5.1.6)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
       typescript: 5.1.6
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /viem@2.9.8(typescript@5.3.2):
+    resolution: {integrity: sha512-vetoTZ6UF2okS/1I0+1p/QYdC4yA6uf4PeWwTBp3kD5wC6eQcmeh7zP+unNdnYHGGC63x7BTGldK1ep2IFVKcQ==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@adraffy/ens-normalize': 1.10.0
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/bip32': 1.3.2
+      '@scure/bip39': 1.2.1
+      abitype: 1.0.0(typescript@5.3.2)
+      isows: 1.0.3(ws@8.13.0)
+      typescript: 5.3.2
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil

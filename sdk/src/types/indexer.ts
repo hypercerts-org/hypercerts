@@ -7,6 +7,7 @@ import {
   ClaimTokensByClaimQuery,
   ClaimTokenByIdQuery,
 } from "../indexer/gql/graphql";
+
 export type QueryParams = {
   orderDirections: "asc" | "desc";
   skip: number;
@@ -14,8 +15,10 @@ export type QueryParams = {
   [key: string]: string | number | undefined;
 };
 
+export type QueryParamsWithChainId = QueryParams & { chainId?: number };
+
 export interface HypercertIndexerInterface {
-  graphClient: Client;
+  getGraphClient(chainId: number): Client;
   claimsByOwner: (owner: string, params?: QueryParams) => Promise<ClaimsByOwnerQuery | undefined>;
   claimById: (id: string) => Promise<ClaimByIdQuery | undefined>;
   firstClaims: (params?: QueryParams) => Promise<RecentClaimsQuery | undefined>;

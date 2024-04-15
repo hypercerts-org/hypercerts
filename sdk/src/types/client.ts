@@ -62,12 +62,13 @@ export type Deployment = {
   /** The url to the subgraph that indexes the contract events. Override for localized testing */
   graphUrl: string;
   graphName: string;
+  isTestnet: boolean;
 };
 
 /**
  * Configuration options for the Hypercert client.
  */
-export type HypercertClientConfig = Deployment &
+export type HypercertClientConfig = Pick<Deployment, "addresses" | "chain"> &
   HypercertStorageConfig &
   HypercertEvaluatorConfig & {
     /** The PublicClient is inherently read-only */
@@ -79,7 +80,16 @@ export type HypercertClientConfig = Deployment &
     readOnly: boolean;
     /** Reason for readOnly mode */
     readOnlyReason?: string;
+    /** The environment to run the indexer in. This can be either production, test or all. Defaults to test */
+    indexerEnvironment: IndexerEnvironment;
   };
+
+/**
+ * The environment to run the indexer in.
+ * Production will run against all mainnet chains, while test will run against testnet chains.
+ * All will run against both
+ */
+export type IndexerEnvironment = "production" | "test" | "all";
 
 /**
  * Configuration options for the Hypercert storage layer.
@@ -283,4 +293,11 @@ export interface HypercertClientMethods {
     units: bigint[],
     proofs: (Hex | ByteArray)[][],
   ) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Check if a claim or fraction is on the chain that the Hypercertclient
+   * is currently connected to
+   * @param claimOrFractionId The ID of the claim or fraction to check.
+   */
+  isClaimOrFractionOnConnectedChain: (claimOrFractionId: string) => boolean;
 }
