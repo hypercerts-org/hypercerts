@@ -59,7 +59,7 @@ export default async function createConfigAsync() {
             // Please change this to your repo.
             // Remove this to remove the "edit this page" links.
             remarkPlugins: [mdx_mermaid],
-            editUrl: "https://github.com/hypercerts-org/hypercerts",
+            editUrl: "https://github.com/hypercerts-org/hypercerts/edit/main/docs/",
           },
           theme: {
             customCss: "./src/css/custom.css",
