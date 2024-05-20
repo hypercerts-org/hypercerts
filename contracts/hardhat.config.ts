@@ -70,6 +70,8 @@ const chainIds = {
   // Base
   "base-sepolia": 84532,
   "base-mainnet": 8453,
+  // Filecoin
+  calibrationnet: 314159,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -113,6 +115,13 @@ function getChainConfig(chain: keyof typeof chainIds) {
         mnemonic: MNEMONIC_CELO,
         path: "m/44'/52752'/0'/0",
       },
+    };
+  }
+
+  if (chain === "calibrationnet") {
+    config = {
+      ...config,
+      url: "https://api.calibration.node.glif.io/rpc/v1",
     };
   }
 
@@ -161,22 +170,31 @@ const config: HardhatUserConfig = {
       celo: CELOSCAN_API_KEY!,
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
+      calibrationnet: "lol",
     },
     customChains: [
-      {
-        network: "celo",
-        chainId: 42220,
-        urls: {
-          apiURL: "https://api.celoscan.io/api",
-          browserURL: "https://celoscan.io/",
-        },
-      },
       {
         network: "base-sepolia",
         chainId: 84532,
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
           browserURL: "https://sepolia.basescan.org",
+        },
+      },
+      {
+        network: "calibrationnet",
+        chainId: 314159,
+        urls: {
+          apiURL: "https://calibration.filfox.info/api/v1/tools/verifyContract",
+          browserURL: "https://filfox.info/",
+        },
+      },
+      {
+        network: "celo",
+        chainId: 42220,
+        urls: {
+          apiURL: "https://api.celoscan.io/api",
+          browserURL: "https://celoscan.io/",
         },
       },
     ],
@@ -211,6 +229,7 @@ const config: HardhatUserConfig = {
     "optimism-mainnet": getChainConfig("optimism-mainnet"),
     "base-sepolia": getChainConfig("base-sepolia"),
     "base-mainnet": getChainConfig("base-mainnet"),
+    calibrationnet: getChainConfig("calibrationnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry

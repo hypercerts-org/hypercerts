@@ -1,9 +1,10 @@
-import { task } from "hardhat/config";
+import { task, types } from "hardhat/config";
 import { writeFile } from "node:fs/promises";
 
 task("deploy-minter", "Deploy contracts and verify")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
-  .setAction(async ({ output }, { ethers, upgrades, network, run }) => {
+  .addOptionalParam("verify", "verify the contract on etherscan", "true", types.boolean)
+  .setAction(async ({ output, verify }, { ethers, upgrades, network, run }) => {
     console.log("Using address: ", await ethers.getSigners().then((res) => res[0].address));
     const HypercertMinter = await ethers.getContractFactory("HypercertMinter");
     const hypercertMinter = await upgrades.deployProxy(HypercertMinter, {
@@ -31,7 +32,7 @@ task("deploy-minter", "Deploy contracts and verify")
       );
     }
 
-    if (network.name !== "hardhat" && network.name !== "localhost") {
+    if (verify && network.name !== "hardhat" && network.name !== "localhost") {
       try {
         const code = await hypercertMinter.instance?.provider.getCode(address);
         if (code === "0x") {
