@@ -118,7 +118,7 @@ const validateAllowlist = (data: AllowlistEntry[], units: bigint): ValidationRes
     errors["units"] = "Total units in allowlist must be greater than 0";
   }
 
-  const filteredAddresses = data.filter((entry) => !isAddress(entry.address.toLowerCase()));
+  const filteredAddresses = data.filter((entry) => !isAddress(entry.address, { strict: false }));
   if (filteredAddresses.length > 0) {
     errors["address"] = filteredAddresses.map((entry) => entry.address);
   }

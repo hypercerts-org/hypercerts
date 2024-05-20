@@ -1,9 +1,12 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { getFromIPFS } from "./fetchers";
 import { logger } from "./logger";
-import { AllowlistEntry } from "src/types";
+import { AllowlistEntry, MalformedDataError } from "src/types";
 
 const parseAllowListEntriesToMerkleTree = (allowList: AllowlistEntry[]) => {
+  if (!allowList || allowList.length == 0) {
+    throw new MalformedDataError(`Invalid allowList.`, { errors: { allowlist: "Length is  0" } });
+  }
   const tuples = allowList.map((p) => [p.address, p.units.toString()]);
   const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
 

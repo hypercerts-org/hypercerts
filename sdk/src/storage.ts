@@ -46,6 +46,9 @@ export class HypercertsStorage implements HypercertStorageInterface {
     logger.debug("Storing allowlist: ", "storage", [data]);
 
     const tree = parseAllowListEntriesToMerkleTree(allowList);
+    if (!tree) {
+      throw new MalformedDataError(`Invalid allowList.`, { errors: { tree: "Parsing to tree returned undefined" } });
+    }
 
     logger.debug("Allowlist tree: ", "storage", [tree]);
 
