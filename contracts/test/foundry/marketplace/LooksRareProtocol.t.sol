@@ -22,6 +22,9 @@ import {
     CURRENCY_NOT_ALLOWED,
     MAKER_ORDER_INVALID_STANDARD_SALE
 } from "@hypercerts/marketplace/constants/ValidationCodeConstants.sol";
+// Strategies
+import {StrategyHypercertFractionOffer} from
+    "@hypercerts/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol";
 
 // Other mocks and utils
 import {MockERC20} from "../../mock/MockERC20.sol";
@@ -36,11 +39,27 @@ contract LooksRareProtocolTest is ProtocolBase {
 
     // Mock files
     MockERC20 private mockERC20;
+    StrategyHypercertFractionOffer public strategyHypercertFractionOffer;
+    bytes4 public selectorNoProof = StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBid.selector;
+    bytes4 public selectorWithProofAllowlist =
+        StrategyHypercertFractionOffer.executeHypercertFractionStrategyWithTakerBidWithAllowlist.selector;
+
+    uint256 private constant minUnitAmount = 1;
+    uint256 private constant maxUnitAmount = 100;
+    uint256 private constant minUnitsToKeep = 5000;
+    bool private constant sellLeftover = false;
 
     function setUp() public {
         _setUp();
+        _setUpNewStrategies();
         vm.prank(_owner);
         mockERC20 = new MockERC20();
+    }
+
+    function _setUpNewStrategies() private asPrankedUser(_owner) {
+        strategyHypercertFractionOffer = new StrategyHypercertFractionOffer();
+        _addStrategy(address(strategyHypercertFractionOffer), selectorNoProof, false);
+        _addStrategy(address(strategyHypercertFractionOffer), selectorWithProofAllowlist, false);
     }
 
     function testCannotTradeIfInvalidAmounts() public {
@@ -274,5 +293,61 @@ contract LooksRareProtocolTest is ProtocolBase {
         looksRareProtocol.executeMultipleTakerBids{value: price}(
             takerBids, makerAsks, signatures, merkleTrees, isAtomic
         );
+    }
+
+    function testCannotExecuteOnERC721TokensNotOwnedByMsgSender() public {
+        (address anon, uint256 anonPK) = makeAddrAndKey("anon");
+
+        _setUpUser(anon);
+        _setUpUsers();
+        vm.prank(_owner);
+        looksRareProtocol.updateCurrencyStatus(address(mockERC20), true);
+
+        uint256 itemId = 420;
+        mockERC721.mint(makerUser, itemId);
+
+        OrderStructs.Maker memory makerAsk = _createSingleItemMakerOrder({
+            quoteType: QuoteType.Ask,
+            globalNonce: 0,
+            subsetNonce: 0,
+            strategyId: STANDARD_SALE_FOR_FIXED_PRICE_STRATEGY,
+            collectionType: CollectionType.ERC721,
+            orderNonce: 0,
+            collection: address(mockERC721),
+            currency: ETH,
+            signer: anon,
+            price: 1 ether,
+            itemId: itemId
+        });
+
+        OrderStructs.Taker memory takerBid = OrderStructs.Taker(takerUser, abi.encode());
+
+        makerAsk.currency = address(mockERC20);
+
+        mockERC20.mint(takerUser, 10 ether);
+        vm.prank(takerUser);
+        mockERC20.approve(address(looksRareProtocol), 10 ether);
+
+        mockERC20.mint(anon, 10 ether);
+        vm.prank(anon);
+        mockERC20.approve(address(looksRareProtocol), 10 ether);
+
+        // Sign order
+        bytes memory signature = _signMakerOrder(makerAsk, anonPK);
+
+        uint256 makerNftBalance = mockERC721.balanceOf(makerUser);
+        uint256 makerErc20Balance = mockERC20.balanceOf(makerUser);
+
+        vm.prank(anon);
+        vm.expectRevert();
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        assertEq(makerNftBalance, 1);
+
+        assertEq(mockERC721.balanceOf(anon), 0);
+        assertEq(mockERC721.balanceOf(makerUser), 1);
+        assertEq(mockERC721.balanceOf(takerUser), 0);
+
+        assertEq(mockERC20.balanceOf(makerUser), makerErc20Balance);
     }
 }

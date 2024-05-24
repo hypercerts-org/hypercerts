@@ -38,8 +38,16 @@ contract ProtocolBase is MockOrderGenerator, ILooksRareProtocol {
     MockHypercertMinterUUPS public mockHypercertMinterUUPS;
     HypercertMinter public mockHypercertMinter;
 
+    // enum TransferRestrictions {
+    //     AllowAll,
+    //     DisallowAll,
+    //     FromCreatorOnly
+    // }
+
     IHypercertToken.TransferRestrictions public constant FROM_CREATOR_ONLY =
         IHypercertToken.TransferRestrictions.FromCreatorOnly;
+
+    IHypercertToken.TransferRestrictions public constant ALLOW_ALL = IHypercertToken.TransferRestrictions.AllowAll;
 
     ProtocolFeeRecipient public protocolFeeRecipient;
     LooksRareProtocol public looksRareProtocol;

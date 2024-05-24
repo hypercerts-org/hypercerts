@@ -765,6 +765,71 @@ contract HypercertFractionOrdersTest is ProtocolBase {
         assertEq(errorSelector, QuoteTypeInvalid.selector);
     }
 
+    function testCannotExecuteOnHypercertFractionOfferNotOwnedBySigner() public {
+        (address anon, uint256 anonPK) = makeAddrAndKey("anon");
+
+        // All users and anon have given approval to the marketplace on hypercerts protocol
+        _setUpUsers();
+        _setUpUser(anon);
+        vm.prank(_owner);
+        looksRareProtocol.updateCurrencyStatus(address(weth), true);
+
+        // Mint asset
+        vm.prank(makerUser);
+        mockHypercertMinter.mintClaim(makerUser, 10_000, "https://example.com", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = (1 << 128) + 1;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+
+        // Anon creates a maker ask order for a fraction owner by makerUser
+        OrderStructs.Maker memory makerAsk = _createSingleItemMakerOrder({
+            quoteType: QuoteType.Ask,
+            globalNonce: 0,
+            subsetNonce: 0,
+            strategyId: 1,
+            collectionType: CollectionType.Hypercert,
+            orderNonce: 0,
+            collection: address(mockHypercertMinter),
+            currency: address(weth),
+            signer: anon,
+            price: 1,
+            itemId: itemIds[0]
+        });
+
+        makerAsk.itemIds = itemIds;
+        makerAsk.amounts = amounts;
+        makerAsk.additionalParameters = abi.encode(minUnitAmount, maxUnitAmount, minUnitsToKeep, sellLeftover);
+
+        // The strategy will interpret the order as invalid
+        (bool isValid,) = strategyHypercertFractionOffer.isMakerOrderValid(makerAsk, selectorNoProof);
+        assertFalse(isValid);
+
+        OrderStructs.Taker memory takerBid = OrderStructs.Taker(takerUser, abi.encode(10, 10));
+
+        // Anon signs order, but the order is invalid because anon does not own the hypercert
+        bytes memory signature = _signMakerOrder(makerAsk, anonPK);
+
+        uint256 makerBeforeUnits = mockHypercertMinter.unitsOf(itemIds[0]);
+        address fractionOwner = mockHypercertMinter.ownerOf(itemIds[0]);
+
+        // Anon will get rejected
+        vm.prank(anon);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Pranking makerUser to approve the transaction will also fail
+        vm.prank(makerUser);
+        vm.expectRevert(OrderInvalid.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Nothing changed
+        assertEq(mockHypercertMinter.unitsOf(itemIds[0]), makerBeforeUnits);
+        assertEq(mockHypercertMinter.ownerOf(itemIds[0]), fractionOwner);
+    }
+
     function _assertOrderIsValid(OrderStructs.Maker memory makerAsk, bool withProof) private {
         (bool orderIsValid, bytes4 errorSelector) = strategyHypercertFractionOffer.isMakerOrderValid(
             makerAsk, withProof ? selectorWithProofAllowlist : selectorNoProof

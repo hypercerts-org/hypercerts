@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-// Interface
-import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
-
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
 
@@ -25,6 +22,14 @@ import {
 
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
+
+interface IHypercert1155Token {
+    function unitsOf(uint256 tokenId) external view returns (uint256);
+
+    function ownerOf(uint256 tokenId) external view returns (address);
+
+    function isApprovedForAll(address account, address operator) external view returns (bool);
+}
 
 /**
  * @title StrategyHypercertFractionOffer
@@ -69,9 +74,20 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         returns (uint256 price, uint256[] memory itemIds, uint256[] memory amounts, bool isNonceInvalidated)
     {
         itemIds = makerAsk.itemIds;
+
         // A collection order can only be executable for 1 itemId but the actual quantity to fill can vary
         if (makerAsk.amounts.length != 1 || itemIds.length != 1) {
             revert LengthsInvalid();
+        }
+
+        //TODO Apply to other HC strats
+        if (
+            makerAsk.signer != IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0])
+                && !IHypercert1155Token(makerAsk.collection).isApprovedForAll(
+                    IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0]), makerAsk.signer
+                )
+        ) {
+            revert OrderInvalid();
         }
 
         // The amount to fill must be 1 because fractions are NFTs
@@ -101,12 +117,12 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             // If the unitAmount is lower than the specified minUnitAmount to sell
             if (unitAmount < minUnitAmount) {
                 // We expect to sale to be executed only if the units held are equal to the minUnitsToKeep
-                if (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount != minUnitsToKeep) {
+                if (IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount != minUnitsToKeep) {
                     revert OrderInvalid();
                 }
             } else {
                 // Don't allow the sale to let the units held get below the minUnitsToKeep
-                if ((IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
+                if ((IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
                     revert OrderInvalid();
                 }
             }
@@ -117,7 +133,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             }
 
             // Don't allow the sale to let the units held get below the minUnitsToKeep
-            if ((IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
+            if ((IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep) {
                 revert OrderInvalid();
             }
         }
@@ -130,7 +146,8 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         price = unitAmount * pricePerUnit;
         // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
         // Otherwise, we do not invalidate the nonce because it is a partial fill.
-        isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
+        isNonceInvalidated =
+            (IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
     }
 
     /**
@@ -165,6 +182,16 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             revert AmountInvalid();
         }
 
+        //TODO Apply to other HC strats
+        if (
+            makerAsk.signer != IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0])
+                && !IHypercert1155Token(makerAsk.collection).isApprovedForAll(
+                    IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0]), makerAsk.signer
+                )
+        ) {
+            revert OrderInvalid();
+        }
+
         //units, pricePerUnit, proof[]
         (uint256 unitAmount, uint256 pricePerUnit, bytes32[] memory proof) =
             abi.decode(takerBid.additionalParameters, (uint256, uint256, bytes32[]));
@@ -179,7 +206,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             if (
                 minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount > maxUnitAmount
                     || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                    || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
+                    || (IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
             ) {
                 revert OrderInvalid();
             }
@@ -187,7 +214,7 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
             if (
                 minUnitAmount > maxUnitAmount || unitAmount == 0 || unitAmount < minUnitAmount
                     || unitAmount > maxUnitAmount || pricePerUnit < makerAsk.price || makerAsk.price == 0
-                    || (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
+                    || (IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) < minUnitsToKeep
             ) {
                 revert OrderInvalid();
             }
@@ -201,7 +228,8 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         // If the amount to fill is equal to the amount of units in the hypercert, we transfer the fraction.
         // Otherwise, we do not invalidate the nonce because it is a partial fill.
-        isNonceInvalidated = (IHypercertToken(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
+        isNonceInvalidated =
+            (IHypercert1155Token(makerAsk.collection).unitsOf(itemIds[0]) - unitAmount) == minUnitsToKeep;
 
         bytes32 node = keccak256(abi.encodePacked(takerBid.recipient));
 
@@ -238,7 +266,19 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
         if (
             makerAsk.amounts.length != 1 || makerAsk.itemIds.length != 1 || minUnitAmount > maxUnitAmount
                 || makerAsk.price == 0 || maxUnitAmount == 0
-                || IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) <= minUnitsToKeep
+                || IHypercert1155Token(makerAsk.collection).unitsOf(makerAsk.itemIds[0]) <= minUnitsToKeep
+        ) {
+            return (isValid, OrderInvalid.selector);
+        }
+
+        // Because the split call is made by the marketplace which has the makers approval, we need to check whether the
+        // signer is the owner of the hypercert
+        // This is a side-effect of the procotol design as theres no `operator` declared in the split function
+        if (
+            makerAsk.signer != IHypercert1155Token(makerAsk.collection).ownerOf(makerAsk.itemIds[0])
+                && !IHypercert1155Token(makerAsk.collection).isApprovedForAll(
+                    IHypercert1155Token(makerAsk.collection).ownerOf(makerAsk.itemIds[0]), makerAsk.signer
+                )
         ) {
             return (isValid, OrderInvalid.selector);
         }
