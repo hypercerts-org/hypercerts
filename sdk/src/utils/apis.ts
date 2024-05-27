@@ -1,4 +1,5 @@
 import axios from "axios";
+import { APIS } from "src/constants";
 import { HypercertMetadata, StorageConfigOverrides } from "src/types";
 
 /**
@@ -32,11 +33,7 @@ const api = axios.create({ headers: { "Content-Type": "application/json" } });
  * @returns The response data from the API.
  */
 const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(
-    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/metadata",
-    metadata,
-    config,
-  );
+  const response = await api.post<ResponseData<{ cid: string }>>(APIS.metadata, metadata, config);
 
   return response.data;
 };
@@ -50,11 +47,7 @@ const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfig
  *
  */
 const uploadAllowlist = async (req: AllowListPostRequest, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(
-    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/allowlist",
-    req,
-    config,
-  );
+  const response = await api.post<ResponseData<{ cid: string }>>(APIS.allowlist, req, config);
 
   return response.data;
 };

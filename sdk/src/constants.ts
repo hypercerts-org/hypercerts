@@ -10,9 +10,10 @@ export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 
 // The APIs we expose
 
+// TODO when rolled out to production, enable both testing and prod environments
 const APIS: { [key: string]: string } = {
-  metadata: "https://hypercerts-api.vercel.app/api/v1/web3up/metadata",
-  allowlist: "https://hypercerts-api.vercel.app/api/v1/web3up/allowlist",
+  metadata: "https://staging-api.hypercerts.org/v1/metadata",
+  allowlist: "https://staging-api.hypercerts.org/v1/allowlists",
 };
 
 // These are the deployments we manage
