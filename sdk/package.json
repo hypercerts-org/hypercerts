@@ -81,5 +81,6 @@
     "prepack": "pnpm build",
     "test": "vitest",
     "types:json": "pnpm json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
-  }
+  },
+  "packageManager": "pnpm@9.1.1"
 }

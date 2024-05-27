@@ -1,31 +1,22 @@
 import { logger } from "./utils";
-import { defaultQueryParams } from "./indexer/utils";
-import {
-  HypercertClientConfig,
-  HypercertIndexerInterface,
-  IndexerEnvironment,
-  QueryParams,
-  QueryParamsWithChainId,
-} from "./types";
+import { HypercertClientConfig, HypercertIndexerInterface, IndexerEnvironment } from "./types";
 
 import { AnyVariables, cacheExchange, Client, fetchExchange } from "@urql/core";
 import {
-  ClaimByIdDocument,
-  ClaimByIdQueryVariables,
-  ClaimsByOwnerDocument,
-  ClaimsByOwnerQueryVariables,
-  ClaimTokenByIdDocument,
-  ClaimTokenByIdQueryVariables,
-  ClaimTokensByClaimDocument,
-  ClaimTokensByClaimQueryVariables,
-  ClaimTokensByOwnerDocument,
-  ClaimTokensByOwnerQueryVariables,
-  RecentClaimsDocument,
-  RecentClaimsQueryVariables,
+  HypercertByIdDocument,
+  HypercertByIdQueryVariables,
+  HypercertsByOwnerDocument,
+  HypercertsByOwnerQueryVariables,
+  FractionsByHypercertDocument,
+  FractionsByHypercertQueryVariables,
+  FractionsByOwnerDocument,
+  FractionsByOwnerQueryVariables,
+  RecentHypercertsDocument,
+  RecentHypercertsQueryVariables,
 } from "./indexer/gql/graphql";
-import { DEPLOYMENTS } from "./constants";
+import { DEPLOYMENTS, GRAPHS } from "./constants";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { parseClaimOrFractionId } from "./utils/parsing";
+import { DocumentNode } from "graphql";
 
 /**
  * A class that provides indexing functionality for Hypercerts.
@@ -41,7 +32,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
   /** The Graph client used by the indexer. */
   private environment: IndexerEnvironment;
 
-  private graphClients: Map<number, Client>;
+  private graphClient: Client;
 
   /**
    * Creates a new instance of the `HypercertIndexer` class.
@@ -60,20 +51,10 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     const environments = HypercertIndexer.getDeploymentsForEnvironment(this.environment);
     logger.info("Creating Graph clients", "constructor (read)", { environments });
 
-    this.graphClients = new Map<number, Client>();
-    for (const [chainId, deployment] of environments) {
-      if (!deployment.graphUrl) {
-        logger.info("Missing graphUrl for chain", "constructor (read)", { chainId });
-        continue;
-      }
-      this.graphClients.set(
-        parseInt(chainId),
-        new Client({
-          url: deployment.graphUrl,
-          exchanges: [cacheExchange, fetchExchange],
-        }),
-      );
-    }
+    this.graphClient = new Client({
+      url: GRAPHS[options.indexerEnvironment],
+      exchanges: [cacheExchange, fetchExchange],
+    });
   }
 
   static getDeploymentsForEnvironment(environment: IndexerEnvironment) {
@@ -95,43 +76,29 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     });
   }
 
-  performQuery = async <Data = any, Variables extends AnyVariables = any>(
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  performQuery = async <Data = DocumentNode, Variables extends AnyVariables = any>(
     query: TypedDocumentNode<Data, Variables>,
     variables: Variables,
-    chainId?: number,
   ) => {
-    const chains = chainId ? [chainId] : Array.from(this.graphClients.keys());
-    return await Promise.all(
-      chains.map(async (c) => {
-        const client = this.graphClients.get(c);
-        if (!client) {
-          throw new Error(`No client found for chain ${chainId}`);
+    return this.graphClient
+      .query<Data, Variables>(query, variables)
+      .toPromise()
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
         }
 
-        return client
-          .query<Data, Variables>(query, variables)
-          .toPromise()
-          .then((res) => {
-            if (res.error) {
-              throw res.error;
-            }
-
-            return res.data;
-          });
-      }),
-    );
+        return res.data;
+      });
   };
 
   /**
    * Gets the Graph client used by the indexer.
    * @returns The Graph client.
    */
-  getGraphClient(chainId: number): Client {
-    const client = this.graphClients.get(chainId);
-    if (!client) {
-      throw new Error(`No client found for chain ${chainId}`);
-    }
-    return client;
+  getGraphClient(): Client {
+    return this.graphClient;
   }
 
   /**
@@ -140,51 +107,17 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    * @param params The query parameters.
    * @returns A Promise that resolves to the claims.
    */
-  claimsByOwner = async (owner: string, { chainId, ...params }: QueryParamsWithChainId = defaultQueryParams) => {
-    const query = ClaimsByOwnerDocument;
-    const variables: ClaimsByOwnerQueryVariables = {
-      owner,
-      ...params,
-    };
-
-    const results = await this.performQuery(query, variables, chainId);
-    const claims = results.flatMap((result) => result?.claims || []);
-    return {
-      claims,
-    };
+  hypercertsByOwner = async (variables: HypercertsByOwnerQueryVariables) => {
+    return await this.performQuery(HypercertsByOwnerDocument, variables);
   };
 
   /**
    * Gets a claim by its ID.
-   * @param claimId The ID of the claim.
+   * @param hypercertId The ID of the claim.
    * @returns A Promise that resolves to the claim.
    */
-  claimById = async (claimId: string) => {
-    const query = ClaimByIdDocument;
-    const { chainId } = parseClaimOrFractionId(claimId);
-    const variables: ClaimByIdQueryVariables = {
-      id: claimId,
-    };
-    const results = await this.performQuery(query, variables, chainId);
-
-    return results[0];
-  };
-  /**
-   * Gets the most recent claims.
-   * @param params The query parameters.
-   * @returns A Promise that resolves to the claims.
-   */
-  firstClaims = async ({ chainId, ...params }: QueryParamsWithChainId = defaultQueryParams) => {
-    const query = RecentClaimsDocument;
-    const variables: RecentClaimsQueryVariables = {
-      ...params,
-    };
-
-    const results = await this.performQuery(query, variables, chainId);
-    const claims = results.flatMap((result) => result?.claims || []);
-    return {
-      claims,
-    };
+  hypercertById = async (variables: HypercertByIdQueryVariables) => {
+    return await this.performQuery(HypercertByIdDocument, variables);
   };
 
   /**
@@ -193,52 +126,26 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    * @param params The query parameters.
    * @returns A Promise that resolves to the claim tokens.
    */
-  fractionsByOwner = async (owner: string, { chainId, ...params }: QueryParamsWithChainId = defaultQueryParams) => {
-    const query = ClaimTokensByOwnerDocument;
-    const variables: ClaimTokensByOwnerQueryVariables = {
-      owner,
-      ...params,
-    };
-
-    const results = await this.performQuery(query, variables, chainId);
-    const claimTokens = results.flatMap((result) => result?.claimTokens || []);
-    return {
-      claimTokens,
-    };
+  fractionsByOwner = async (variables: FractionsByOwnerQueryVariables) => {
+    return await this.performQuery(FractionsByOwnerDocument, variables);
   };
 
   /**
    * Gets the claim tokens for a given claim.
-   * @param claimId The ID of the claim.
+   * @param hypercertId The ID of the claim.
    * @param params The query parameters.
    * @returns A Promise that resolves to the claim tokens.
    */
-  fractionsByClaim = async (claimId: string, params: QueryParams = defaultQueryParams) => {
-    const query = ClaimTokensByClaimDocument;
-    const { chainId } = parseClaimOrFractionId(claimId);
-    const variables: ClaimTokensByClaimQueryVariables = {
-      claimId,
-      ...params,
-    };
-
-    const results = await this.performQuery(query, variables, chainId);
-    return results[0];
+  fractionsByHypercert = async (variables: FractionsByHypercertQueryVariables) => {
+    return await this.performQuery(FractionsByHypercertDocument, variables);
   };
 
   /**
-   * Gets a claim token by its ID.
-   * @param fractionId The ID of the claim token.
-   * @returns A Promise that resolves to the claim token.
+   * Gets the most recent claims.
+   * @param params The query parameters.
+   * @returns A Promise that resolves to the most recent claims.
    */
-  fractionById = async (fractionId: string) => {
-    const query = ClaimTokenByIdDocument;
-    const { chainId } = parseClaimOrFractionId(fractionId);
-
-    const variables: ClaimTokenByIdQueryVariables = {
-      claimTokenId: fractionId,
-    };
-
-    const results = await this.performQuery(query, variables, chainId);
-    return results[0];
+  recentHypercerts = async (variables: RecentHypercertsQueryVariables) => {
+    return await this.performQuery(RecentHypercertsDocument, variables);
   };
 }

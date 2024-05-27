@@ -1,38 +1,45 @@
-query ClaimTokensByOwner($owner: Bytes = "", $orderDirection: OrderDirection, $first: Int, $skip: Int) {
-  claimTokens(where: { owner: $owner }, skip: $skip, first: $first, orderDirection: $orderDirection) {
-    id
-    owner
-    tokenID
-    units
-    claim {
-      id
-      creation
-      uri
-      totalUnits
+query FractionsByOwner($owner: String = "", $first: Int = 100, $offset: Int = 0) {
+   fractions(
+    where: {owner_address: {eq: $owner}}
+    count: COUNT
+    first: $first
+    offset: $offset
+  ) {
+    count
+    data {
+      creation_block_timestamp
+      hypercert_id
+      last_block_update_timestamp
+      owner_address
+      units
     }
   }
 }
 
-query ClaimTokensByClaim($claimId: String!, $orderDirection: OrderDirection, $first: Int, $skip: Int) {
-  claimTokens(where: { claim: $claimId }, skip: $skip, first: $first, orderDirection: $orderDirection) {
-    id
-    owner
-    tokenID
-    units
-  }
-}
-
-query ClaimTokenById($claimTokenId: ID!) {
-  claimToken(id: $claimTokenId) {
-    id
-    owner
-    tokenID
-    units
-    claim {
-      id
-      creation
+query FractionsByHypercert($hypercertId: String!, $orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
+   hypercerts(
+    count: COUNT
+    where: {owner_address: {eq: $hypercertId}}
+    first: $first
+    offset: $offset
+    sort: {by: {hypercert_id: $orderDirection}}
+  ) {
+    count
+    data {
+      hypercert_id
+      units
       uri
-      totalUnits
+      fractions {
+        count
+        data {
+          creation_block_timestamp
+          hypercert_id
+          last_block_update_timestamp
+          owner_address
+          units
+        }
+      }
     }
   }
 }
+

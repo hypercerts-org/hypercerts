@@ -16,7 +16,7 @@ import {
 
 import { HypercertClient } from "./client";
 import { HypercertsStorage } from "./storage";
-import { APIS, DEPLOYMENTS } from "./constants";
+import { APIS, GRAPHS, DEPLOYMENTS } from "./constants";
 
 /**
  * Protocol
@@ -38,6 +38,7 @@ export {
 };
 export { DEPLOYMENTS as deployments };
 export { APIS as apis };
+export { GRAPHS as graphs };
 
 /**
  * Client
@@ -68,13 +69,4 @@ export * from "./utils";
  * Graph
  */
 export * from "./indexer/gql";
-export type {
-  ClaimByIdQuery,
-  ClaimTokenByIdQuery,
-  ClaimToken,
-  Claim,
-  ClaimTokensByClaimQuery,
-  ClaimTokensByOwnerQuery,
-  ClaimsByOwnerQuery,
-  RecentClaimsQuery,
-} from "./indexer/gql/graphql";
+export * as graphql from "./indexer/gql/graphql";

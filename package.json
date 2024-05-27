@@ -55,5 +55,6 @@
     "@hypercerts/frontend": {
       "ethers": "5.7.2"
     }
-  }
+  },
+  "packageManager": "pnpm@9.1.1"
 }
