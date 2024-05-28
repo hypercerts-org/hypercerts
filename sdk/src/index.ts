@@ -16,7 +16,7 @@ import {
 
 import { HypercertClient } from "./client";
 import { HypercertsStorage } from "./storage";
-import { APIS, GRAPHS, DEPLOYMENTS } from "./constants";
+import * as CONSTANTS from "./constants";
 
 /**
  * Protocol
@@ -36,9 +36,8 @@ export {
   CreatorFeeManagerWithRoyaltiesAbi,
   ExecutionManagerAbi,
 };
-export { DEPLOYMENTS as deployments };
-export { APIS as apis };
-export { GRAPHS as graphs };
+
+export { CONSTANTS };
 
 /**
  * Client

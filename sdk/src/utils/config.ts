@@ -11,7 +11,7 @@ import {
 } from "../types";
 import { logger } from "./logger";
 import { createPublicClient, http } from "viem";
-import { deployments } from "../../src";
+import { DEPLOYMENTS } from "../constants";
 
 /**
  * Returns a configuration object for the Hypercert client.
@@ -97,7 +97,7 @@ export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<Hy
 };
 
 const getDeployment = (chainId: SupportedChainIds) => {
-  return deployments[chainId];
+  return DEPLOYMENTS[chainId];
 };
 
 const getIndexerEnvironment = (overrides: Partial<HypercertClientConfig>) => {

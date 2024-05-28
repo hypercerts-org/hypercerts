@@ -11,13 +11,13 @@ export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 // The APIs we expose
 
 // TODO when rolled out to production, enable both testing and prod environments
-const APIS: { [key: string]: string } = {
+const ENDPOINTS: { [key: string]: string } = {
   metadata: "https://staging-api.hypercerts.org/v1/metadata",
   allowlist: "https://staging-api.hypercerts.org/v1/allowlists",
 };
 
 // TODO when rolled out to production, enable both testing and prod environments with the correct URLs
-export const GRAPHS: { [key in IndexerEnvironment]: string } = {
+const GRAPHS: { [key in IndexerEnvironment]: string } = {
   all: "https://staging-api.hypercerts.org/graphql",
   test: "https://staging-api.hypercerts.org/graphql",
   production: "https://staging-api.hypercerts.org/graphql",
@@ -72,4 +72,4 @@ const EAS_SCHEMAS = {
   },
 } as const;
 
-export { APIS, DEPLOYMENTS, EAS_SCHEMAS };
+export { ENDPOINTS, GRAPHS, DEPLOYMENTS, EAS_SCHEMAS };
