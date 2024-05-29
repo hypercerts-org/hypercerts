@@ -11,9 +11,9 @@ import {LowLevelHypercertCaller} from "./libraries/LowLevelHypercertCaller.sol";
 
 // Interfaces and errors
 import {ITransferManager} from "./interfaces/ITransferManager.sol";
-import {AmountInvalid, LengthsInvalid} from "./errors/SharedErrors.sol";
+import {IHypercert1155Token} from "./interfaces/IHypercert1155Token.sol";
+import {AmountInvalid, LengthsInvalid, OrderInvalid} from "./errors/SharedErrors.sol";
 import {UnitAmountInvalid} from "./errors/HypercertErrors.sol";
-import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Libraries
 import {OrderStructs} from "./libraries/OrderStructs.sol";
@@ -205,13 +205,24 @@ contract TransferManager is
 
         //The new amount is the difference between the total amount and the amount being split.
         //This will underflow if the amount being split is greater than the total amount.
-        newAmounts[0] = IHypercertToken(collection).unitsOf(itemIds[0]) - amounts[0];
+        newAmounts[0] = IHypercert1155Token(collection).unitsOf(itemIds[0]) - amounts[0];
         newAmounts[1] = amounts[0];
 
-        // If the new amount is 0, then the split is will revert but the whole fraction can be transferred.
+        // If the new amount is 0, the split is will revert but the whole fraction can be transferred.
         if (newAmounts[0] == 0) {
             _executeERC1155SafeTransferFrom(collection, from, to, itemIds[0], 1);
         } else {
+            // Before splitting, the user must be the owner or approved for all.
+            // This needs to be checked because the marketplace doesn't require signer validation as other token
+            // standards handle this.
+            if (
+                from != IHypercert1155Token(collection).ownerOf(itemIds[0])
+                    && !IHypercert1155Token(collection).isApprovedForAll(
+                        IHypercert1155Token(collection).ownerOf(itemIds[0]), from
+                    )
+            ) {
+                revert OrderInvalid();
+            }
             _executeHypercertSplitFraction(collection, to, itemIds[0], newAmounts);
         }
     }

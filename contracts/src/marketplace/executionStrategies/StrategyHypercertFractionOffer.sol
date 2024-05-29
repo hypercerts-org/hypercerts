@@ -23,13 +23,7 @@ import {
 // Base strategy contracts
 import {BaseStrategy, IStrategy} from "./BaseStrategy.sol";
 
-interface IHypercert1155Token {
-    function unitsOf(uint256 tokenId) external view returns (uint256);
-
-    function ownerOf(uint256 tokenId) external view returns (address);
-
-    function isApprovedForAll(address account, address operator) external view returns (bool);
-}
+import {IHypercert1155Token} from "../interfaces/IHypercert1155Token.sol";
 
 /**
  * @title StrategyHypercertFractionOffer
@@ -180,16 +174,6 @@ contract StrategyHypercertFractionOffer is BaseStrategy {
 
         if (makerAsk.amounts[0] != 1) {
             revert AmountInvalid();
-        }
-
-        //TODO Apply to other HC strats
-        if (
-            makerAsk.signer != IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0])
-                && !IHypercert1155Token(makerAsk.collection).isApprovedForAll(
-                    IHypercert1155Token(makerAsk.collection).ownerOf(itemIds[0]), makerAsk.signer
-                )
-        ) {
-            revert OrderInvalid();
         }
 
         //units, pricePerUnit, proof[]

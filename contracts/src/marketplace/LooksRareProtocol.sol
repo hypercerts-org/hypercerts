@@ -16,7 +16,7 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 
 // Interfaces
 import {ILooksRareProtocol} from "./interfaces/ILooksRareProtocol.sol";
-import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
+import {IHypercert1155Token} from "./interfaces/IHypercert1155Token.sol";
 
 // Shared errors
 import {
@@ -709,7 +709,7 @@ contract LooksRareProtocol is
         returns (uint256 unitsHeldByItems)
     {
         for (uint256 i; i < itemIds.length;) {
-            unitsHeldByItems += IHypercertToken(collection).unitsOf(itemIds[i]);
+            unitsHeldByItems += IHypercert1155Token(collection).unitsOf(itemIds[i]);
 
             unchecked {
                 ++i;

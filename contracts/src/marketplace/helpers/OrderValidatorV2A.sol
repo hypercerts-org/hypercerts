@@ -16,7 +16,6 @@ import {MerkleProofCalldataWithNodes} from "../libraries/OpenZeppelin/MerkleProo
 import {ICreatorFeeManager} from "../interfaces/ICreatorFeeManager.sol";
 import {IStrategy} from "../interfaces/IStrategy.sol";
 import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
-import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
 
 // Shared errors
 import {OrderInvalid, CollectionTypeInvalid} from "../errors/SharedErrors.sol";

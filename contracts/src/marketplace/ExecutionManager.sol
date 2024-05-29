@@ -7,7 +7,6 @@ import {OrderStructs} from "./libraries/OrderStructs.sol";
 // Interfaces
 import {IExecutionManager} from "./interfaces/IExecutionManager.sol";
 import {ICreatorFeeManager} from "./interfaces/ICreatorFeeManager.sol";
-import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
 
 // Direct dependencies
 import {InheritedStrategy} from "./InheritedStrategy.sol";
