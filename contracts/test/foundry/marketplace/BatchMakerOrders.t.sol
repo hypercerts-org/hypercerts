@@ -39,7 +39,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     }
 
     function testTakerBidMultipleOrdersSignedERC721(uint256 numberOrders, uint256 orderIndex) public {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(makerUser, numberOrders);
 
@@ -75,7 +76,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     }
 
     function testTakerAskMultipleOrdersSignedERC721(uint256 numberOrders, uint256 orderIndex) public {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(takerUser, numberOrders);
 
@@ -111,7 +113,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     function testTakerBidMultipleOrdersSignedERC721MerkleProofInvalid(uint256 numberOrders, uint256 orderIndex)
         public
     {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(makerUser, numberOrders);
 
@@ -138,7 +141,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     function testTakerAskMultipleOrdersSignedERC721MerkleProofInvalid(uint256 numberOrders, uint256 orderIndex)
         public
     {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(takerUser, numberOrders);
 
@@ -165,7 +169,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     function testTakerBidMultipleOrdersSignedERC721MerkleProofWrongPosition(uint256 numberOrders, uint256 orderIndex)
         public
     {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(makerUser, numberOrders);
 
@@ -199,7 +204,8 @@ contract BatchMakerOrdersTest is ProtocolBase {
     function testTakerAskMultipleOrdersSignedERC721MerkleProofWrongPosition(uint256 numberOrders, uint256 orderIndex)
         public
     {
-        _assertMerkleTreeAssumptions(numberOrders, orderIndex);
+        numberOrders = bound(numberOrders, 1, 2 ** MAX_CALLDATA_PROOF_LENGTH);
+        orderIndex = bound(orderIndex, 0, numberOrders - 1);
 
         mockERC721.batchMint(takerUser, numberOrders);
 
