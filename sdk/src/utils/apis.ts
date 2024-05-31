@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ENDPOINTS } from "../../src/constants";
-import { HypercertMetadata, StorageConfigOverrides } from "src/types";
+import { ENDPOINTS } from "src/constants";
+import { HypercertMetadata, StorageConfigOverrides, StorageError } from "src/types";
 
 /**
  * Type for the request body when posting to the allowlist endpoint.
@@ -33,9 +33,13 @@ const api = axios.create({ headers: { "Content-Type": "application/json" } });
  * @returns The response data from the API.
  */
 const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.metadata, metadata, config);
+  const res = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.metadata, metadata, config);
 
-  return response.data;
+  if (!res) {
+    throw new StorageError("Failed to store metadata", { errors: {}, cid: undefined });
+  }
+
+  return res.data;
 };
 
 /**
@@ -47,9 +51,13 @@ const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfig
  *
  */
 const uploadAllowlist = async (req: AllowListPostRequest, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.allowlist, req, config);
+  const res = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.allowlist, req, config);
 
-  return response.data;
+  if (!res) {
+    throw new StorageError("Failed to store allow list", { errors: {}, cid: undefined });
+  }
+
+  return res.data;
 };
 
 export { uploadMetadata, uploadAllowlist };
