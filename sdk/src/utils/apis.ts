@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ENDPOINTS } from "src/constants";
-import { HypercertMetadata, StorageConfigOverrides, StorageError } from "src/types";
+import { ENDPOINTS } from "../../src/constants";
+import { HypercertMetadata, StorageConfigOverrides, StorageError } from "../../src/types";
 
 /**
  * Type for the request body when posting to the allowlist endpoint.
