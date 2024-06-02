@@ -10,15 +10,15 @@ type AllowListPostRequest = {
   totalUnits: string;
 };
 
-/**
- * Type for the response data from the API.
- */
-type ResponseData<T> = {
-  success: boolean;
-  message: string;
-  data?: T;
-  errors?: Record<string, string | string[]>;
-};
+// /**
+//  * Type for the response data from the API.
+//  */
+// type ResponseData<T> = {
+//   success: boolean;
+//   message: string;
+//   data?: T;
+//   errors?: Record<string, string | string[]>;
+// };
 
 /**
  * Axios instance configured with the base URL for the hypercert API.
@@ -32,8 +32,9 @@ const api = axios.create({ headers: { "Content-Type": "application/json" } });
  * @param {StorageConfigOverrides} [config] - An optional configuration object.
  * @returns The response data from the API.
  */
+//TODO fix response typing based on updated API spec
 const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const res = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.metadata, metadata, config);
+  const res = await api.post(ENDPOINTS.metadata, metadata, config);
 
   if (!res) {
     throw new StorageError("Failed to store metadata", { errors: {}, cid: undefined });
@@ -50,8 +51,9 @@ const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfig
  * @returns The response data from the API.
  *
  */
+//TODO fix response typing based on updated API spec
 const uploadAllowlist = async (req: AllowListPostRequest, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const res = await api.post<ResponseData<{ cid: string }>>(ENDPOINTS.allowlist, req, config);
+  const res = await api.post(ENDPOINTS.allowlist, req, config);
 
   if (!res) {
     throw new StorageError("Failed to store allow list", { errors: {}, cid: undefined });

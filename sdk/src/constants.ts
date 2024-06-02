@@ -13,6 +13,7 @@ export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 // TODO when rolled out to production, enable both testing and prod environments
 const ENDPOINTS: { [key: string]: string } = {
   metadata: "https://staging-api.hypercerts.org/v1/metadata",
+  // metadata: "https://hypercerts-api-staging.up.railway.app/v1/metadata",
   allowlist: "https://staging-api.hypercerts.org/v1/allowlists",
 };
 
