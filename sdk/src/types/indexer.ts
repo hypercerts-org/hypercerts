@@ -10,6 +10,8 @@ import {
   FractionsByOwnerQueryVariables,
   FractionsByHypercertQuery,
   FractionsByHypercertQueryVariables,
+  FractionByIdQueryVariables,
+  FractionByIdQuery,
 } from "../indexer/gql/graphql";
 
 export interface HypercertIndexerInterface {
@@ -18,6 +20,7 @@ export interface HypercertIndexerInterface {
   hypercertById: (variables: HypercertByIdQueryVariables) => Promise<HypercertByIdQuery | undefined>;
   recentHypercerts: (variables: RecentHypercertsQueryVariables) => Promise<RecentHypercertsQuery | undefined>;
   fractionsByOwner: (variables: FractionsByOwnerQueryVariables) => Promise<FractionsByOwnerQuery | undefined>;
+  fractionById: (variables: FractionByIdQueryVariables) => Promise<FractionByIdQuery | undefined>;
   fractionsByHypercert: (
     variables: FractionsByHypercertQueryVariables,
   ) => Promise<FractionsByHypercertQuery | undefined>;

@@ -13,6 +13,8 @@ import {
   FractionsByOwnerQueryVariables,
   RecentHypercertsDocument,
   RecentHypercertsQueryVariables,
+  FractionByIdDocument,
+  FractionByIdQueryVariables,
 } from "./indexer/gql/graphql";
 import { DEPLOYMENTS, GRAPHS } from "./constants";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
@@ -138,6 +140,15 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   fractionsByHypercert = async (variables: FractionsByHypercertQueryVariables) => {
     return await this.performQuery(FractionsByHypercertDocument, variables);
+  };
+
+  /**
+   * Gets the fraction by its ID.
+   * @param $fractionId The ID of the fraction.
+   * @returns A Promise that resolves to the fraction.
+   */
+  fractionById = async (variables: FractionByIdQueryVariables) => {
+    return await this.performQuery(FractionByIdDocument, variables);
   };
 
   /**

@@ -130,6 +130,7 @@ export type BasicContractWhereInput = {
 
 export type BasicFractionWhereInput = {
   creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
+  hypercert_id?: InputMaybe<IdSearchOptions>;
   last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
@@ -216,6 +217,7 @@ export type FractionSortOptions = {
 
 export type FractionWhereInput = {
   creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
+  hypercert_id?: InputMaybe<IdSearchOptions>;
   hypercerts?: InputMaybe<BasicHypercertWhereInput>;
   last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
@@ -486,6 +488,25 @@ export type FractionsByHypercertQuery = {
           units?: any | null;
         }> | null;
       } | null;
+    }> | null;
+  };
+};
+
+export type FractionByIdQueryVariables = Exact<{
+  fractionId: Scalars["ID"]["input"];
+}>;
+
+export type FractionByIdQuery = {
+  __typename?: "Query";
+  fractions: {
+    __typename?: "GetFractionsResponse";
+    data?: Array<{
+      __typename?: "Fraction";
+      creation_block_timestamp?: any | null;
+      hypercert_id?: string | null;
+      last_block_update_timestamp?: any | null;
+      owner_address?: string | null;
+      units?: any | null;
     }> | null;
   };
 };
@@ -803,6 +824,76 @@ export const FractionsByHypercertDocument = {
     },
   ],
 } as unknown as DocumentNode<FractionsByHypercertQuery, FractionsByHypercertQueryVariables>;
+export const FractionByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "FractionById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "fractionId" } },
+          type: { kind: "NonNullType", type: { kind: "NamedType", name: { kind: "Name", value: "ID" } } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "fractions" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "where" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "hypercert_id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: { kind: "Variable", name: { kind: "Name", value: "fractionId" } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "data" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "creation_block_timestamp" } },
+                      { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
+                      { kind: "Field", name: { kind: "Name", value: "last_block_update_timestamp" } },
+                      { kind: "Field", name: { kind: "Name", value: "owner_address" } },
+                      { kind: "Field", name: { kind: "Name", value: "units" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FractionByIdQuery, FractionByIdQueryVariables>;
 export const HypercertsByOwnerDocument = {
   kind: "Document",
   definitions: [

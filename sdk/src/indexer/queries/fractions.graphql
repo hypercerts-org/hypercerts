@@ -1,10 +1,5 @@
 query FractionsByOwner($owner: String = "", $first: Int = 100, $offset: Int = 0) {
-   fractions(
-    where: {owner_address: {eq: $owner}}
-    count: COUNT
-    first: $first
-    offset: $offset
-  ) {
+  fractions(where: { owner_address: { eq: $owner } }, count: COUNT, first: $first, offset: $offset) {
     count
     data {
       creation_block_timestamp
@@ -16,13 +11,18 @@ query FractionsByOwner($owner: String = "", $first: Int = 100, $offset: Int = 0)
   }
 }
 
-query FractionsByHypercert($hypercertId: String!, $orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
-   hypercerts(
+query FractionsByHypercert(
+  $hypercertId: String!
+  $orderDirection: SortOrder = descending
+  $first: Int = 100
+  $offset: Int = 0
+) {
+  hypercerts(
     count: COUNT
-    where: {owner_address: {eq: $hypercertId}}
+    where: { owner_address: { eq: $hypercertId } }
     first: $first
     offset: $offset
-    sort: {by: {hypercert_id: $orderDirection}}
+    sort: { by: { hypercert_id: $orderDirection } }
   ) {
     count
     data {
@@ -43,3 +43,14 @@ query FractionsByHypercert($hypercertId: String!, $orderDirection: SortOrder = d
   }
 }
 
+query FractionById($fractionId: ID!) {
+  fractions(where: { hypercert_id: { eq: $fractionId } }) {
+    data {
+      creation_block_timestamp
+      hypercert_id
+      last_block_update_timestamp
+      owner_address
+      units
+    }
+  }
+}
