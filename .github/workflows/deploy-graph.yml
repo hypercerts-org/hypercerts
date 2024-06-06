@@ -23,18 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 8.9.0
-      - name: Set up Node.js 18
-        uses: actions/setup-node@v3
+          version: 9.1.1
+      - name: Set up Node.js 18.18.1
+        uses: actions/setup-node@v4
         with:
+          node-version: "18.18.1"
           cache: "pnpm"
-          node-version: "18.x"
       - name: Install
         run: pnpm install --frozen-lockfile
       - name: Build the subgraph
