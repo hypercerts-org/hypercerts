@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Interfaces
-import {IHypercertToken} from "../../protocol/interfaces/IHypercertToken.sol";
+import {IHypercert1155Token} from "../interfaces/IHypercert1155Token.sol";
 
 /**
  * @title LowLevelHypercertCaller
@@ -27,7 +27,7 @@ contract LowLevelHypercertCaller {
             revert NotAContract();
         }
 
-        (bool status,) = collection.call(abi.encodeCall(IHypercertToken.splitFraction, (to, tokenId, amounts)));
+        (bool status,) = collection.call(abi.encodeCall(IHypercert1155Token.splitFraction, (to, tokenId, amounts)));
 
         if (!status) {
             revert HypercertSplitFractionError();

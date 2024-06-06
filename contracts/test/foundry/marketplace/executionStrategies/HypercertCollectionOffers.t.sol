@@ -36,6 +36,8 @@ import {CollectionType} from "@hypercerts/marketplace/enums/CollectionType.sol";
 import {QuoteType} from "@hypercerts/marketplace/enums/QuoteType.sol";
 
 contract HypercertCollectionOffersTest is ProtocolBase {
+    error ERC1155SafeTransferFromFail();
+
     StrategyHypercertCollectionOffer public strategyHypercertCollectionOffer;
     bytes4 public selectorNoProof =
         strategyHypercertCollectionOffer.executeHypercertCollectionStrategyWithTakerAsk.selector;
@@ -689,6 +691,76 @@ contract HypercertCollectionOffersTest is ProtocolBase {
 
         assertFalse(orderIsValid);
         assertEq(errorSelector, QuoteTypeInvalid.selector);
+    }
+
+    function testCannotExecuteOnHypercertCollectionOfferNotOwnedBySigner() public {
+        (address anon, uint256 anonPK) = makeAddrAndKey("anon");
+
+        // All users and anon have given approval to the marketplace on hypercerts protocol
+        _setUpUsers();
+        _setUpUser(anon);
+        vm.prank(_owner);
+        looksRareProtocol.updateCurrencyStatus(address(weth), true);
+
+        uint256 _units = 10_000;
+        // Mint asset
+        vm.prank(takerUser);
+        mockHypercertMinter.mintClaim(takerUser, _units, "https://example.com", ALLOW_ALL);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = (1 << 128) + 1;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+
+        // Anon creates a maker bid order for a fraction owned by takerUser on behalf of makerUser
+        OrderStructs.Maker memory makerBid = _createSingleItemMakerOrder({
+            quoteType: QuoteType.Bid,
+            globalNonce: 0,
+            subsetNonce: 0,
+            strategyId: 1,
+            collectionType: CollectionType.Hypercert,
+            orderNonce: 0,
+            collection: address(mockHypercertMinter),
+            currency: address(weth),
+            signer: makerUser,
+            price: price,
+            itemId: 0 // not used
+        });
+
+        makerBid.additionalParameters = abi.encode(10_000);
+
+        // The strategy will interpret the order as invalid
+        (bool isValid,) = strategyHypercertCollectionOffer.isMakerOrderValid(makerBid, selectorNoProof);
+        assertTrue(isValid);
+
+        // Prepare the taker ask where the anon will execute the order on behalf of the takerUser
+        OrderStructs.Taker memory takerAsk = OrderStructs.Taker(anon, abi.encode(firstHypercertFractionId, 10_000));
+
+        // Maker has signed the order
+        bytes memory signature = _signMakerOrder(makerBid, makerUserPK);
+
+        uint256 takerBeforeBalance = weth.balanceOf(takerUser);
+        uint256 anonBeforeBalance = weth.balanceOf(anon);
+        uint256 makerBeforeBalance = weth.balanceOf(makerUser);
+
+        assertEq(mockHypercertMinter.ownerOf(itemIds[0]), takerUser);
+
+        // Anon will get rejected because they're not allowed to execute the order on behalf of the taker
+        vm.prank(anon);
+        vm.expectRevert(ERC1155SafeTransferFromFail.selector);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+
+        // Anon pranks user to execute the order on behalf of the maker
+        // This means a user want funds received from sale to go to a different account, which should be allowed
+        vm.prank(takerUser);
+        looksRareProtocol.executeTakerAsk(takerAsk, makerBid, signature, _EMPTY_MERKLE_TREE);
+
+        // Nothing changed
+        assertEq(mockHypercertMinter.ownerOf(itemIds[0]), makerUser);
+        assertEq(weth.balanceOf(takerUser), takerBeforeBalance);
+        assertTrue(weth.balanceOf(anon) > anonBeforeBalance);
+        assertTrue(weth.balanceOf(makerUser) < makerBeforeBalance);
     }
 
     function _assertOrderIsValid(OrderStructs.Maker memory makerBid, bytes4 strategySelector) private {

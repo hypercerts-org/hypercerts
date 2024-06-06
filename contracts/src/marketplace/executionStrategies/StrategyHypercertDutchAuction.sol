@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Interface
-import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {IHypercert1155Token} from "../interfaces/IHypercert1155Token.sol";
 
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
@@ -64,7 +64,7 @@ contract StrategyHypercertDutchAuction is BaseStrategy {
 
         uint256 unitsPerItemLength = unitsPerItem.length;
         for (uint256 i; i < unitsPerItemLength;) {
-            if (IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i]) {
+            if (IHypercert1155Token(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i]) {
                 revert OrderInvalid();
             }
             unchecked {
@@ -124,7 +124,7 @@ contract StrategyHypercertDutchAuction is BaseStrategy {
 
         for (uint256 i; i < itemIdsLength;) {
             _validateAmountNoRevert(makerAsk.amounts[i], makerAsk.collectionType);
-            if ((IHypercertToken(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i])) {
+            if ((IHypercert1155Token(makerAsk.collection).unitsOf(makerAsk.itemIds[i]) != unitsPerItem[i])) {
                 return (isValid, OrderInvalid.selector);
             }
             unchecked {

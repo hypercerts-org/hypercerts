@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 // Interface
-import {IHypercertToken} from "@hypercerts/protocol/interfaces/IHypercertToken.sol";
+import {IHypercert1155Token} from "../interfaces/IHypercert1155Token.sol";
 
 // Libraries
 import {OrderStructs} from "../libraries/OrderStructs.sol";
@@ -74,7 +74,7 @@ contract StrategyHypercertCollectionOffer is BaseStrategy {
         // A collection order can only be executable for 1 fraction
         if (
             amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
-                || IHypercertToken(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
+                || IHypercert1155Token(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
         ) {
             revert OrderInvalid();
         }
@@ -117,7 +117,7 @@ contract StrategyHypercertCollectionOffer is BaseStrategy {
         // A collection order can only be executable for 1 fraction
         if (
             amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
-                || IHypercertToken(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
+                || IHypercert1155Token(makerBid.collection).unitsOf(offeredItemId) != itemUnitsMaker
         ) {
             revert OrderInvalid();
         }
@@ -193,7 +193,7 @@ contract StrategyHypercertCollectionOffer is BaseStrategy {
         // A collection order can only be executable for 1 fraction
         if (
             amounts.length != 1 || amounts[0] != 1 || itemUnitsTaker != itemUnitsMaker
-                || IHypercertToken(collection).unitsOf(offeredItemId) != itemUnitsMaker
+                || IHypercert1155Token(collection).unitsOf(offeredItemId) != itemUnitsMaker
         ) {
             revert OrderInvalid();
         }

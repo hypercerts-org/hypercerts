@@ -39,6 +39,8 @@ contract HypercertDutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
     StrategyHypercertDutchAuction public strategyHypercertDutchAuction;
     bytes4 public selector = StrategyHypercertDutchAuction.executeStrategyWithTakerBid.selector;
 
+    error ERC1155SafeTransferFromFail();
+
     function setUp() public {
         _setUp();
     }
@@ -484,6 +486,80 @@ contract HypercertDutchAuctionOrdersTest is ProtocolBase, IStrategyManager {
         vm.prank(takerUser);
         vm.expectRevert(CollectionTypeInvalid.selector);
         looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+    }
+
+    function testCannotExecuteOnHypercertDutchAuctionOfferNotOwnedBySigner() public {
+        (address anon, uint256 anonPK) = makeAddrAndKey("anon");
+
+        // All users and anon have given approval to the marketplace on hypercerts protocol
+        _setUpUsers();
+        _setUpUser(anon);
+        vm.prank(_owner);
+        looksRareProtocol.updateCurrencyStatus(address(weth), true);
+
+        _setUpNewStrategy();
+
+        uint256 _units = 10_000;
+        // Mint asset
+        vm.prank(makerUser);
+        mockHypercertMinter.mintClaim(makerUser, _units, "https://example.com", ALLOW_ALL);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = (1 << 128) + 1;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+
+        uint256[] memory unitsPerItem = new uint256[](1);
+        unitsPerItem[0] = _units;
+
+        uint256 startPrice = 10 ether;
+        uint256 endPrice = 1 ether;
+
+        // Anon creates a maker ask order for a fraction owner by makerUser
+        OrderStructs.Maker memory makerAsk = OrderStructs.Maker({
+            quoteType: QuoteType.Ask,
+            globalNonce: 0,
+            subsetNonce: 0,
+            orderNonce: 0,
+            strategyId: 1,
+            collectionType: CollectionType.Hypercert,
+            collection: address(mockHypercertMinter),
+            currency: address(weth),
+            signer: anon,
+            startTime: block.timestamp,
+            endTime: block.timestamp + 4 weeks,
+            price: endPrice,
+            itemIds: itemIds,
+            amounts: amounts,
+            additionalParameters: abi.encode(startPrice, unitsPerItem)
+        });
+
+        // The strategy will interpret the order as invalid
+        (bool isValid,) = strategyHypercertDutchAuction.isMakerOrderValid(makerAsk, selector);
+        assertTrue(isValid);
+
+        OrderStructs.Taker memory takerBid = OrderStructs.Taker(takerUser, abi.encode(startPrice));
+
+        // Anon signs order, but the order is invalid because anon does not own the hypercert
+        bytes memory signature = _signMakerOrder(makerAsk, anonPK);
+
+        uint256 makerBeforeUnits = mockHypercertMinter.unitsOf(itemIds[0]);
+        address fractionOwner = mockHypercertMinter.ownerOf(itemIds[0]);
+
+        // Anon will get rejected
+        vm.prank(anon);
+        vm.expectRevert(ERC1155SafeTransferFromFail.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Pranking makerUser to approve the transaction will also fail
+        vm.prank(makerUser);
+        vm.expectRevert(ERC1155SafeTransferFromFail.selector);
+        looksRareProtocol.executeTakerBid(takerBid, makerAsk, signature, _EMPTY_MERKLE_TREE);
+
+        // Nothing changed
+        assertEq(mockHypercertMinter.unitsOf(itemIds[0]), makerBeforeUnits);
+        assertEq(mockHypercertMinter.ownerOf(itemIds[0]), fractionOwner);
     }
 
     function _assertOrderIsValid(OrderStructs.Maker memory makerAsk) private {

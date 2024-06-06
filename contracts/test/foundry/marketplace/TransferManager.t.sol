@@ -6,6 +6,7 @@ import {IOwnableTwoSteps} from "@looksrare/contracts-libs/contracts/interfaces/I
 
 // Libraries
 import {OrderStructs} from "@hypercerts/marketplace/libraries/OrderStructs.sol";
+import {OrderInvalid} from "@hypercerts/marketplace/errors/SharedErrors.sol";
 
 // Core contracts
 import {LooksRareProtocol} from "@hypercerts/marketplace/LooksRareProtocol.sol";
@@ -668,6 +669,58 @@ contract TransferManagerTest is ITransferManager, TestHelpers, TestParameters {
     function testRemoveOperatorNotOwner() public {
         vm.expectRevert(IOwnableTwoSteps.NotOwner.selector);
         transferManager.removeOperator(address(0));
+    }
+
+    function testCannotExecuteHypercertSplitWhenSignerNotApprovedOrOwner() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        address anon = address(666);
+        _grantApprovals(anon);
+
+        uint256 itemId = fractionId1Hypercert;
+
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = itemId;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = units1Hypercert - 3000;
+
+        vm.prank(_transferrer);
+        vm.expectRevert(OrderInvalid.selector);
+        transferManager.splitItemsHypercert(address(mockHypercertMinter), anon, _recipient, itemIds, amounts);
+
+        assertEq(mockHypercertMinter.unitsOf(_sender, itemId), units1Hypercert);
+        assertEq(mockHypercertMinter.unitsOf(_recipient, itemId + 1), 0);
+    }
+
+    function testCanExecuteHypercertSplitWhenSignerApprovedOrOwner() public {
+        _allowOperator(_transferrer);
+        _grantApprovals(_sender);
+
+        address anon = address(666);
+        _grantApprovals(anon);
+
+        vm.prank(_sender);
+        mockHypercertMinter.setApprovalForAll(anon, true);
+
+        uint256 itemId = fractionId1Hypercert;
+
+        vm.prank(_sender);
+        mockHypercertMinter.mintClaim(_sender, units1Hypercert, "https://example.com/1", FROM_CREATOR_ONLY);
+
+        uint256[] memory itemIds = new uint256[](1);
+        itemIds[0] = itemId;
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = units1Hypercert - 3000;
+
+        vm.prank(_transferrer);
+        transferManager.splitItemsHypercert(address(mockHypercertMinter), anon, _recipient, itemIds, amounts);
+
+        assertEq(mockHypercertMinter.unitsOf(_sender, itemId), 3000);
+        assertEq(mockHypercertMinter.unitsOf(_recipient, itemId + 1), units1Hypercert - 3000);
     }
 
     function _generateValidBatchTransferItems() private returns (BatchTransferItem[] memory items) {

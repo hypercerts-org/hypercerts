@@ -14,9 +14,6 @@ import {CollectionTypeInvalid} from "./errors/SharedErrors.sol";
 // Enums
 import {CollectionType} from "./enums/CollectionType.sol";
 
-// Interfaces
-import {IHypercertToken} from "../protocol/interfaces/IHypercertToken.sol";
-
 /**
  * @title TransferSelectorNFT
  * @notice This contract handles the logic for transferring non-fungible items.
