@@ -79,7 +79,8 @@
     "clean": "rm -rf ./dist",
     "prebuild": "pnpm clean",
     "prepack": "pnpm build",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
     "types:json": "pnpm json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
   }
 }

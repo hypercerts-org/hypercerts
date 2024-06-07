@@ -42,7 +42,7 @@ const USDT: TokenAddressType = {
 const getTokenAddresses = (network: string) => {
   return {
     wethAddress: WETH[network],
-    usdcAddress: USDCe[network],
+    usdceAddress: USDCe[network],
     daiAddress: DAI[network],
     usdtAddress: USDT[network],
   };
@@ -109,7 +109,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     //TODO multichain support
     const { ethers, network, run, viem } = hre;
     const create2Address = "0x0000000000ffe8b47b3e2130213b802212439497";
-    const { wethAddress, usdcAddress, daiAddress, usdtAddress } = getTokenAddresses(network.name);
+    const { wethAddress, usdceAddress, daiAddress, usdtAddress } = getTokenAddresses(network.name);
 
     const publicClient = await viem.getPublicClient();
     const [deployer] = await viem.getWalletClients();
@@ -122,8 +122,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     // 10_000 = 100%
     // Sepolia admin Safe = sep:0x4f37308832c6eFE5A74737955cBa96257d76De17
     const marketplaceParameters = {
-      owner: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
-      protocolFeeRecipient: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+      owner: "0x4f37308832c6eFE5A74737955cBa96257d76De17", // hc admin safe
+      protocolFeeRecipient: "0x4f37308832c6eFE5A74737955cBa96257d76De17", // hc fee safe
       standardProtocolFeeBP: 100,
       minTotalFeeBp: 100,
       maxProtocolFeeBp: 200,
@@ -208,7 +208,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     ];
 
     // Create2 Transfermanager
-    const transferManagerArgs = [deployer.account?.address];
+    const transferManagerArgs = [deployer.account?.address]; // initial owner is deployer
     const transferManagerCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -235,7 +235,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     // Create2 HypercertsExchange
     const hypercertsExchangeArgs = [
-      deployer.account?.address,
+      deployer.account?.address, // initial owner is deployer
       protocolFeeRecipientCreate2.address,
       transferManagerCreate2.address,
       wethAddress,
@@ -436,7 +436,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     // Update currency status for accepted tokens
     await allowCurrency("0x0000000000000000000000000000000000000000", "ETH");
     await allowCurrency(wethAddress, "WETH");
-    await allowCurrency(usdcAddress, "USDC");
+    await allowCurrency(usdceAddress, "USDCe");
     await allowCurrency(daiAddress, "DAI");
     await allowCurrency(usdtAddress, "USDT");
 
@@ -575,10 +575,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     }
 
     async function allowCurrency(tokenAddress: string, name: string) {
-      const hash = await hypercertsExchangeInstance.write.updateCurrencyStatus([
-        "0x0000000000000000000000000000000000000000",
-        true,
-      ]);
+      const hash = await hypercertsExchangeInstance.write.updateCurrencyStatus([tokenAddress, true]);
       const receipt = await publicClient.waitForTransactionReceipt({
         hash,
       });
