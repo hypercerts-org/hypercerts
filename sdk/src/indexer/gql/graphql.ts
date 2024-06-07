@@ -138,10 +138,9 @@ export type BasicFractionWhereInput = {
 };
 
 export type BasicHypercertWhereInput = {
-  creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
+  block_number?: InputMaybe<NumberSearchOptions>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
-  last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
   uri?: InputMaybe<StringSearchOptions>;
@@ -161,6 +160,11 @@ export type BasicMetadataWhereInput = {
   work_scope?: InputMaybe<StringArraySearchOptions>;
   work_timeframe_from?: InputMaybe<NumberSearchOptions>;
   work_timeframe_to?: InputMaybe<NumberSearchOptions>;
+};
+
+export type BasicOrderWhereInput = {
+  chain_id?: InputMaybe<NumberSearchOptions>;
+  id?: InputMaybe<IdSearchOptions>;
 };
 
 export type BooleanSearchOptions = {
@@ -199,6 +203,7 @@ export type Fraction = {
   hypercert_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   last_block_update_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
+  orders?: Maybe<GetOrdersResponse>;
   owner_address?: Maybe<Scalars["String"]["output"]>;
   units?: Maybe<Scalars["EthBigInt"]["output"]>;
 };
@@ -255,17 +260,24 @@ export type GetHypercertsResponse = {
   data?: Maybe<Array<Hypercert>>;
 };
 
+export type GetOrdersResponse = {
+  __typename?: "GetOrdersResponse";
+  count?: Maybe<Scalars["Int"]["output"]>;
+  data?: Maybe<Array<Order>>;
+};
+
 export type Hypercert = {
   __typename?: "Hypercert";
   attestations?: Maybe<GetAttestationsResponse>;
+  block_number?: Maybe<Scalars["BigInt"]["output"]>;
   contract?: Maybe<Contract>;
   contracts_id?: Maybe<Scalars["ID"]["output"]>;
-  creation_block_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
   fractions?: Maybe<GetFractionsResponse>;
   hypercert_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   last_block_update_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
   metadata?: Maybe<Metadata>;
+  orders?: Maybe<GetOrdersResponse>;
   owner_address?: Maybe<Scalars["String"]["output"]>;
   token_id?: Maybe<Scalars["EthBigInt"]["output"]>;
   units?: Maybe<Scalars["EthBigInt"]["output"]>;
@@ -277,8 +289,8 @@ export type HypercertFetchInput = {
 };
 
 export type HypercertSortOptions = {
+  block_number?: InputMaybe<SortOrder>;
   claim_attestation_count?: InputMaybe<SortOrder>;
-  creation_block_timestamp?: InputMaybe<SortOrder>;
   hypercert_id?: InputMaybe<SortOrder>;
   last_block_update_timestamp?: InputMaybe<SortOrder>;
   owner_address?: InputMaybe<SortOrder>;
@@ -289,12 +301,11 @@ export type HypercertSortOptions = {
 
 export type HypercertsWhereInput = {
   attestations?: InputMaybe<BasicAttestationWhereInput>;
+  block_number?: InputMaybe<NumberSearchOptions>;
   contract?: InputMaybe<BasicContractWhereInput>;
-  creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
   fractions?: InputMaybe<BasicFractionWhereInput>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
-  last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   metadata?: InputMaybe<BasicMetadataWhereInput>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
@@ -342,10 +353,9 @@ export type MetadataSortOptions = {
 };
 
 export type MetadataWhereInput = {
-  creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
+  block_number?: InputMaybe<NumberSearchOptions>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
-  last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   metadata?: InputMaybe<BasicMetadataWhereInput>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
@@ -360,6 +370,33 @@ export type NumberSearchOptions = {
   lte?: InputMaybe<Scalars["BigInt"]["input"]>;
 };
 
+export type Order = {
+  __typename?: "Order";
+  additionalParameters: Scalars["String"]["output"];
+  amounts: Array<Scalars["Float"]["output"]>;
+  chainId: Scalars["BigInt"]["output"];
+  collection: Scalars["String"]["output"];
+  collectionType: Scalars["Float"]["output"];
+  createdAt: Scalars["String"]["output"];
+  currency: Scalars["String"]["output"];
+  endTime: Scalars["Float"]["output"];
+  globalNonce: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  itemIds: Array<Scalars["String"]["output"]>;
+  orderNonce: Scalars["String"]["output"];
+  price: Scalars["String"]["output"];
+  quoteType: Scalars["Float"]["output"];
+  signature: Scalars["String"]["output"];
+  signer: Scalars["String"]["output"];
+  startTime: Scalars["Float"]["output"];
+  strategyId: Scalars["Float"]["output"];
+  subsetNonce: Scalars["Float"]["output"];
+};
+
+export type OrderFetchInput = {
+  by?: InputMaybe<ContractSortOptions>;
+};
+
 export type Query = {
   __typename?: "Query";
   attestationSchemas: GetAttestationsSchemaResponse;
@@ -368,6 +405,7 @@ export type Query = {
   fractions: GetFractionsResponse;
   hypercerts: GetHypercertsResponse;
   metadata: Array<Metadata>;
+  orders: GetOrdersResponse;
 };
 
 export type QueryAttestationSchemasArgs = {
@@ -416,6 +454,14 @@ export type QueryMetadataArgs = {
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   sort?: InputMaybe<MetadataFetchInput>;
   where?: InputMaybe<MetadataWhereInput>;
+};
+
+export type QueryOrdersArgs = {
+  count?: InputMaybe<CountKeys>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  sort?: InputMaybe<OrderFetchInput>;
+  where?: InputMaybe<BasicOrderWhereInput>;
 };
 
 /** The direction to sort the query results */
@@ -1092,7 +1138,7 @@ export const RecentHypercertsDocument = {
                         fields: [
                           {
                             kind: "ObjectField",
-                            name: { kind: "Name", value: "creation_block_timestamp" },
+                            name: { kind: "Name", value: "block_number" },
                             value: { kind: "Variable", name: { kind: "Name", value: "orderDirection" } },
                           },
                         ],

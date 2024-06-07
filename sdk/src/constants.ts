@@ -5,7 +5,7 @@
 import { Deployment, IndexerEnvironment, SupportedChainIds } from "./types";
 import { deployments } from "@hypercerts-org/contracts";
 
-const DEFAULT_GRAPH_BASE_URL = "https://staging-api.hypercerts.org/graphql";
+const DEFAULT_GRAPH_BASE_URL = "https://staging-api.hypercerts.org/v1/graphql";
 export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 
 // The APIs we expose
@@ -19,9 +19,9 @@ const ENDPOINTS: { [key: string]: string } = {
 
 // TODO when rolled out to production, enable both testing and prod environments with the correct URLs
 const GRAPHS: { [key in IndexerEnvironment]: string } = {
-  all: "https://staging-api.hypercerts.org/graphql",
-  test: "https://staging-api.hypercerts.org/graphql",
-  production: "https://staging-api.hypercerts.org/graphql",
+  all: "https://api.hypercerts.org/v1/graphql",
+  test: "https://staging-api.hypercerts.org/v1/graphql",
+  production: "https://api.hypercerts.org/v1/graphql",
 };
 
 // These are the deployments we manage

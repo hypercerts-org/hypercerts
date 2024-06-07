@@ -24,7 +24,7 @@ query RecentHypercerts($orderDirection: SortOrder = descending, $first: Int = 10
     count: COUNT
     first: $first
     offset: $offset
-    sort: {by: {creation_block_timestamp: $orderDirection}}
+    sort: {by: {block_number: $orderDirection}}
   ) {
     count
     data {

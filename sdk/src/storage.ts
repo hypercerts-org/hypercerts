@@ -57,13 +57,15 @@ export class HypercertsStorage implements HypercertStorageInterface {
       config,
     );
 
-    if (!resData.data?.cid || (resData.errors && Object.keys(resData.errors).length > 0)) {
+    if (!resData?.cid || (resData.errors && Object.keys(resData.errors).length > 0)) {
       throw new StorageError("Failed to store metadata", { errors: resData.errors, data });
     }
 
-    logger.debug(`Stored metadata at ${resData.data?.cid}`);
+    const { cid } = resData;
 
-    return resData.data?.cid;
+    logger.debug(`Stored metadata at ${cid}`);
+
+    return cid;
   }
 
   /**

@@ -2,7 +2,7 @@ generates:
   ./src/indexer/gql/:
     documents:
       - ./src/indexer/**/*.graphql
-    schema: https://staging-api.hypercerts.org/graphql
+    schema: https://staging-api.hypercerts.org/v1/graphql
     preset: client
     presetConfig:
       typesPrefix: I
