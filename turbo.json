@@ -17,6 +17,10 @@
     "start": {
       "cache": false
     },
-    "test": {}
+    "test": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    }
   }
 }
