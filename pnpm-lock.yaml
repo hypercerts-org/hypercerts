@@ -568,8 +568,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts':
-        specifier: 1.1.2
-        version: 1.1.2(bufferutil@4.0.8)(ts-node@10.9.1(@types/node@18.18.7)(typescript@5.3.2))(typescript@5.3.2)(utf-8-validate@5.0.10)
+        specifier: 2.0.0-alpha.0
+        version: 2.0.0-alpha.0(bufferutil@4.0.8)(ts-node@10.9.1(@types/node@18.18.7)(typescript@5.3.2))(typescript@5.3.2)(utf-8-validate@5.0.10)
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.5
         version: 1.0.5
@@ -3427,6 +3427,9 @@ packages:
 
   '@hypercerts-org/contracts@1.1.2':
     resolution: {integrity: sha512-+Y7TD1LX1c2FyU7OYuQ/NUFfcKaW5fIZ9R/Xr+DhNUbi7KstHhhdVEl1hmSExuvySbAD3wNKFaQWdlBRxT520Q==}
+
+  '@hypercerts-org/contracts@2.0.0-alpha.0':
+    resolution: {integrity: sha512-xkvl2goo1Uz39TdALs4ypjxarmxk4Lu0X8JZc5+TdmVw/hsaywjE5WpPgil/AFE5Ccm3qyNGVsY6fz6co5GvVg==}
 
   '@hypercerts-org/sdk@1.5.0':
     resolution: {integrity: sha512-WyMNQPtYL8/FeJ5QIrtc2ToM4WV5nL1TJE0JTi325zY0r7Xgz2R1Xb3g3x2rLuqKodr0NXYFaJkfofc6zwukoA==}
@@ -21044,7 +21047,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@hypercerts-org/contracts@1.1.2(bufferutil@4.0.8)(ts-node@10.9.1(@types/node@18.18.7)(typescript@5.3.2))(typescript@5.3.2)(utf-8-validate@5.0.10)':
+  '@hypercerts-org/contracts@2.0.0-alpha.0(bufferutil@4.0.8)(ts-node@10.9.1(@types/node@18.18.7)(typescript@5.3.2))(typescript@5.3.2)(utf-8-validate@5.0.10)':
     dependencies:
       hardhat: 2.19.1(bufferutil@4.0.8)(ts-node@10.9.1(@types/node@18.18.7)(typescript@5.3.2))(typescript@5.3.2)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
