@@ -11,12 +11,41 @@ import {
 } from "viem";
 import { writeFile } from "node:fs/promises";
 
-type WETHType = { sepolia: string; [key: string]: string };
+type TokenAddressType = { sepolia: string; [key: string]: string };
 
-const WETH: WETHType = {
+const WETH: TokenAddressType = {
   localhost: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   hardhat: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+};
+
+// LINK faucet: https://faucets.chain.link/
+const DAI: TokenAddressType = {
+  localhost: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+  hardhat: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+  sepolia: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+};
+
+// USDCe https://faucet.circle.com/
+const USDCe: TokenAddressType = {
+  localhost: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  hardhat: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+};
+
+const USDT: TokenAddressType = {
+  localhost: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  hardhat: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+};
+
+const getTokenAddresses = (network: string) => {
+  return {
+    wethAddress: WETH[network],
+    usdcAddress: USDCe[network],
+    daiAddress: DAI[network],
+    usdtAddress: USDT[network],
+  };
 };
 
 const getCreate2Address = async (
@@ -79,13 +108,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
   .setAction(async ({ output }, hre) => {
     //TODO multichain support
     const { ethers, network, run, viem } = hre;
-    const owner = "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A";
     const create2Address = "0x0000000000ffe8b47b3e2130213b802212439497";
-    const wethAddress = WETH[network.name];
-
-    if (!wethAddress) {
-      throw new Error("WETH address not found for network");
-    }
+    const { wethAddress, usdcAddress, daiAddress, usdtAddress } = getTokenAddresses(network.name);
 
     const publicClient = await viem.getPublicClient();
     const [deployer] = await viem.getWalletClients();
@@ -95,11 +119,18 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log("Deployer: ", deployer.account.address);
 
-    const _standardProtocolFeeBP = 50;
-    const _minTotalFeeBp = 50;
-    const _maxProtocolFeeBp = 200;
+    // 10_000 = 100%
+    // Sepolia admin Safe = sep:0x4f37308832c6eFE5A74737955cBa96257d76De17
+    const marketplaceParameters = {
+      owner: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+      protocolFeeRecipient: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+      standardProtocolFeeBP: 100,
+      minTotalFeeBp: 100,
+      maxProtocolFeeBp: 200,
+      royaltyFeeLimit: "1000",
+    };
 
-    const releaseCounter = "v0.7";
+    const releaseCounter = "v0.9";
 
     const salt = slice(
       encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
@@ -114,56 +145,57 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const exchangeContract = await hre.artifacts.readArtifact("LooksRareProtocol");
     const transferManagerContract = await hre.artifacts.readArtifact("TransferManager");
     const orderValidatorContract = await hre.artifacts.readArtifact("OrderValidatorV2A");
-    const strategyCollectionOfferContract = await hre.artifacts.readArtifact("StrategyCollectionOffer");
-    const strategyDutchAuctionContract = await hre.artifacts.readArtifact("StrategyDutchAuction");
-    const strategyItemIdsRangeContract = await hre.artifacts.readArtifact("StrategyItemIdsRange");
-    const strategyHypercertCollectionOfferContract = await hre.artifacts.readArtifact(
-      "StrategyHypercertCollectionOffer",
-    );
-    const strategyHypercertDutchAuctionContract = await hre.artifacts.readArtifact("StrategyHypercertDutchAuction");
     const strategyHypercertFractionOfferContract = await hre.artifacts.readArtifact("StrategyHypercertFractionOffer");
     const protocolFeeRecipientContract = await hre.artifacts.readArtifact("ProtocolFeeRecipient");
     const royaltyFeeRegistryContract = await hre.artifacts.readArtifact("RoyaltyFeeRegistry");
 
+    // const strategyCollectionOfferContract = await hre.artifacts.readArtifact("StrategyCollectionOffer");
+    // const strategyDutchAuctionContract = await hre.artifacts.readArtifact("StrategyDutchAuction");
+    // const strategyItemIdsRangeContract = await hre.artifacts.readArtifact("StrategyItemIdsRange");
+    // const strategyHypercertCollectionOfferContract = await hre.artifacts.readArtifact(
+    //   "StrategyHypercertCollectionOffer",
+    // );
+    // const strategyHypercertDutchAuctionContract = await hre.artifacts.readArtifact("StrategyHypercertDutchAuction");
+
     const strategies = [
-      {
-        contract: strategyCollectionOfferContract,
-        name: "StrategyCollectionOffer",
-        isMakerBid: true,
-        strategies: [
-          "executeCollectionStrategyWithTakerAsk",
-          "executeCollectionStrategyWithTakerAskWithProof",
-          "executeCollectionStrategyWithTakerAskWithAllowlist",
-        ],
-      },
-      {
-        contract: strategyDutchAuctionContract,
-        name: "StrategyDutchAuction",
-        isMakerBid: false,
-        strategies: ["executeStrategyWithTakerBid"],
-      },
-      {
-        contract: strategyItemIdsRangeContract,
-        name: "StrategyItemIdsRange",
-        isMakerBid: true,
-        strategies: ["executeStrategyWithTakerAsk"],
-      },
-      {
-        contract: strategyHypercertCollectionOfferContract,
-        name: "StrategyHypercertCollectionOffer",
-        isMakerBid: true,
-        strategies: [
-          "executeHypercertCollectionStrategyWithTakerAsk",
-          "executeHypercertCollectionStrategyWithTakerAskWithProof",
-          "executeHypercertCollectionStrategyWithTakerAskWithAllowlist",
-        ],
-      },
-      {
-        contract: strategyHypercertDutchAuctionContract,
-        name: "StrategyHypercertDutchAuction",
-        isMakerBid: false,
-        strategies: ["executeStrategyWithTakerBid"],
-      },
+      // {
+      //   contract: strategyCollectionOfferContract,
+      //   name: "StrategyCollectionOffer",
+      //   isMakerBid: true,
+      //   strategies: [
+      //     "executeCollectionStrategyWithTakerAsk",
+      //     "executeCollectionStrategyWithTakerAskWithProof",
+      //     "executeCollectionStrategyWithTakerAskWithAllowlist",
+      //   ],
+      // },
+      // {
+      //   contract: strategyDutchAuctionContract,
+      //   name: "StrategyDutchAuction",
+      //   isMakerBid: false,
+      //   strategies: ["executeStrategyWithTakerBid"],
+      // },
+      // {
+      //   contract: strategyItemIdsRangeContract,
+      //   name: "StrategyItemIdsRange",
+      //   isMakerBid: true,
+      //   strategies: ["executeStrategyWithTakerAsk"],
+      // },
+      // {
+      //   contract: strategyHypercertCollectionOfferContract,
+      //   name: "StrategyHypercertCollectionOffer",
+      //   isMakerBid: true,
+      //   strategies: [
+      //     "executeHypercertCollectionStrategyWithTakerAsk",
+      //     "executeHypercertCollectionStrategyWithTakerAskWithProof",
+      //     "executeHypercertCollectionStrategyWithTakerAskWithAllowlist",
+      //   ],
+      // },
+      // {
+      //   contract: strategyHypercertDutchAuctionContract,
+      //   name: "StrategyHypercertDutchAuction",
+      //   isMakerBid: false,
+      //   strategies: ["executeStrategyWithTakerBid"],
+      // },
       {
         contract: strategyHypercertFractionOfferContract,
         name: "StrategyHypercertFractionOffer",
@@ -176,7 +208,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     ];
 
     // Create2 Transfermanager
-    const transferManagerArgs = [deployer.account.address];
+    const transferManagerArgs = [deployer.account?.address];
     const transferManagerCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -189,7 +221,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     );
 
     // Create2 ProtocolFeeRecipient
-    const protocolFeeRecipientArgs = [deployer.account.address, wethAddress];
+    const protocolFeeRecipientArgs = [marketplaceParameters.protocolFeeRecipient, wethAddress];
     const protocolFeeRecipientCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -203,7 +235,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     // Create2 HypercertsExchange
     const hypercertsExchangeArgs = [
-      deployer.account.address,
+      deployer.account?.address,
       protocolFeeRecipientCreate2.address,
       transferManagerCreate2.address,
       wethAddress,
@@ -221,7 +253,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     );
 
     // Create2 RoyaltyFeeManager
-    const royaltyFeeRegistryArgs = ["1000"];
+    const royaltyFeeRegistryArgs = [marketplaceParameters.royaltyFeeLimit];
 
     const royaltyFeeRegistryCreate2 = await getCreate2Address(
       deployer,
@@ -401,32 +433,12 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const maxCreatorFeeBp = await hypercertsExchangeInstance.read.maxCreatorFeeBp();
     console.log("maxCreatorFeeBp: ", maxCreatorFeeBp);
 
-    // Update currencyStatus address(0) to true
-    const updateCurrencyStatusEth = await hypercertsExchangeInstance.write.updateCurrencyStatus([
-      "0x0000000000000000000000000000000000000000",
-      true,
-    ]);
-    const updateCurrencyStatusEthTx = await publicClient.waitForTransactionReceipt({
-      hash: updateCurrencyStatusEth,
-    });
-
-    console.log(
-      updateCurrencyStatusEthTx.status === "success"
-        ? "Updated currency status for ETH successfully"
-        : "Failed to update currency status for ETH",
-    );
-
-    //  Update currencyStatus address(weth) to true
-    const updateCurrencyStatusTxWeth = await hypercertsExchangeInstance.write.updateCurrencyStatus([wethAddress, true]);
-    const updateCurrencyStatusTxWethTx = await publicClient.waitForTransactionReceipt({
-      hash: updateCurrencyStatusTxWeth,
-    });
-
-    console.log(
-      updateCurrencyStatusTxWethTx.status === "success"
-        ? "Updated currency status for WETH successfully"
-        : "Failed to update currency status for WETH",
-    );
+    // Update currency status for accepted tokens
+    await allowCurrency("0x0000000000000000000000000000000000000000", "ETH");
+    await allowCurrency(wethAddress, "WETH");
+    await allowCurrency(usdcAddress, "USDC");
+    await allowCurrency(daiAddress, "DAI");
+    await allowCurrency(usdtAddress, "USDT");
 
     // Update creatorFeeManager address
     const updateCreatorFeeManager = await hypercertsExchangeInstance.write.updateCreatorFeeManager([
@@ -447,63 +459,14 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log("Deploying and adding strategies....");
 
-    for (const strategy of strategies) {
-      // Deploy strategy
-      const deployStrategy = await deployer.deployContract({
-        abi: strategy.contract.abi,
-        account: deployer.account,
-        args: [],
-        bytecode: strategy.contract.bytecode as `0x${string}`,
-      });
-
-      const strategyTx = await publicClient.waitForTransactionReceipt({
-        hash: deployStrategy,
-      });
-
-      console.log(
-        strategyTx.status === "success"
-          ? `Deployed ${strategy.name} successfully`
-          : `Failed to deploy ${strategy.name}`,
-      );
-
-      // Add strategies to HypercertsExchange
-
-      const strategyFactory = await ethers.getContractFactory(strategy.name);
-
-      for (const strat of strategy.strategies) {
-        const addStrat = await hypercertsExchangeInstance.write.addStrategy([
-          _standardProtocolFeeBP,
-          _minTotalFeeBp,
-          _maxProtocolFeeBp,
-          strategyFactory.interface.getFunction(strat)?.selector,
-          strategy.isMakerBid,
-          strategyTx.contractAddress,
-        ]);
-
-        console.log(`Adding strategy ${strat} to exchange...`);
-        const addStratTx = await publicClient.waitForTransactionReceipt({
-          hash: addStrat,
-        });
-
-        console.log(
-          addStratTx.status === "success"
-            ? `Added strategy ${strat} to exchange successfully`
-            : `Failed to add ${strat}`,
-        );
-      }
-
-      contracts[strategy.name] = {
-        address: strategyTx.contractAddress,
-        fullNamespace: strategy.name,
-        args: [],
-        encodedArgs: solidityPacked([], []),
-        tx: strategyTx.transactionHash,
-      };
-    }
+    await addStrategiesToExchange(strategies, marketplaceParameters);
 
     console.log("🚀 Done!");
 
+    // Validate
     if (network.name !== "hardhat" && network.name !== "localhost") {
+      // Write deployment details to file
+      console.log("Writing deployment details to file...");
       await writeFile(
         `src/deployments/deployment-marketplace-${network.name}.json`,
         JSON.stringify(contracts),
@@ -511,6 +474,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       );
 
       // Verify contracts
+      console.log("Verifying contracts...");
       for (const [name, { address, tx, args }] of Object.entries(contracts)) {
         try {
           console.log(`Verifying ${name}...`);
@@ -541,5 +505,88 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
           console.error(errorMessage);
         }
       }
+    }
+
+    async function addStrategiesToExchange(
+      strategies: {
+        contract: any;
+        name: string;
+        isMakerBid: boolean;
+        strategies: string[];
+      }[],
+      marketplaceParameters: {
+        standardProtocolFeeBP: number;
+        minTotalFeeBp: number;
+        maxProtocolFeeBp: number;
+      },
+    ) {
+      for (const strategy of strategies) {
+        // Deploy strategy
+        const deployStrategy = await deployer.deployContract({
+          abi: strategy.contract.abi,
+          account: deployer.account,
+          args: [],
+          bytecode: strategy.contract.bytecode as `0x${string}`,
+        });
+
+        const strategyTx = await publicClient.waitForTransactionReceipt({
+          hash: deployStrategy,
+        });
+
+        console.log(
+          strategyTx.status === "success"
+            ? `Deployed ${strategy.name} successfully`
+            : `Failed to deploy ${strategy.name}`,
+        );
+
+        // Add strategies to HypercertsExchange
+        const strategyFactory = await ethers.getContractFactory(strategy.name);
+
+        for (const strat of strategy.strategies) {
+          const addStrat = await hypercertsExchangeInstance.write.addStrategy([
+            marketplaceParameters.standardProtocolFeeBP,
+            marketplaceParameters.minTotalFeeBp,
+            marketplaceParameters.maxProtocolFeeBp,
+            strategyFactory.interface.getFunction(strat)?.selector,
+            strategy.isMakerBid,
+            strategyTx.contractAddress,
+          ]);
+
+          console.log(`Adding strategy ${strat} to exchange...`);
+          const addStratTx = await publicClient.waitForTransactionReceipt({
+            hash: addStrat,
+          });
+
+          console.log(
+            addStratTx.status === "success"
+              ? `Added strategy ${strat} to exchange successfully`
+              : `Failed to add ${strat}`,
+          );
+        }
+
+        contracts[strategy.name] = {
+          address: strategyTx.contractAddress,
+          fullNamespace: strategy.name,
+          args: [],
+          encodedArgs: solidityPacked([], []),
+          tx: strategyTx.transactionHash,
+        };
+      }
+    }
+
+    async function allowCurrency(tokenAddress: string, name: string) {
+      const hash = await hypercertsExchangeInstance.write.updateCurrencyStatus([
+        "0x0000000000000000000000000000000000000000",
+        true,
+      ]);
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash,
+      });
+
+      console.log(
+        receipt.status === "success"
+          ? `Updated currency status for  ${tokenAddress} (${name}) successfully`
+          : `Failed to update currency status for ${tokenAddress} (${name})`,
+      );
     }
   });
