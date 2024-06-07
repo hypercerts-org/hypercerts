@@ -5,14 +5,23 @@
 import { Deployment, IndexerEnvironment, SupportedChainIds } from "./types";
 import { deployments } from "@hypercerts-org/contracts";
 
-const DEFAULT_GRAPH_BASE_URL = "https://api.thegraph.com/subgraphs/name/hypercerts-org";
+const DEFAULT_GRAPH_BASE_URL = "https://staging-api.hypercerts.org/graphql";
 export const DEFAULT_INDEXER_ENVIRONMENT: IndexerEnvironment = "all";
 
 // The APIs we expose
 
-const APIS: { [key: string]: string } = {
-  metadata: "https://hypercerts-api.vercel.app/api/v1/web3up/metadata",
-  allowlist: "https://hypercerts-api.vercel.app/api/v1/web3up/allowlist",
+// TODO when rolled out to production, enable both testing and prod environments
+const ENDPOINTS: { [key: string]: string } = {
+  metadata: "https://staging-api.hypercerts.org/v1/metadata",
+  // metadata: "https://hypercerts-api-staging.up.railway.app/v1/metadata",
+  allowlist: "https://staging-api.hypercerts.org/v1/allowlists",
+};
+
+// TODO when rolled out to production, enable both testing and prod environments with the correct URLs
+const GRAPHS: { [key in IndexerEnvironment]: string } = {
+  all: "https://staging-api.hypercerts.org/graphql",
+  test: "https://staging-api.hypercerts.org/graphql",
+  production: "https://staging-api.hypercerts.org/graphql",
 };
 
 // These are the deployments we manage
@@ -32,13 +41,13 @@ const DEPLOYMENTS: { [key in SupportedChainIds]: Partial<Deployment> } = {
   11155111: {
     addresses: deployments[11155111],
     graphName: "hypercerts-sepolia",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-sepolia`,
+    graphUrl: DEFAULT_GRAPH_BASE_URL,
     isTestnet: true,
   } as const,
   84532: {
     addresses: deployments[84532],
     graphName: "hypercerts-base-sepolia",
-    graphUrl: `${DEFAULT_GRAPH_BASE_URL}/hypercerts-base-sepolia`,
+    graphUrl: DEFAULT_GRAPH_BASE_URL,
     isTestnet: true,
   } as const,
   8453: {
@@ -64,4 +73,4 @@ const EAS_SCHEMAS = {
   },
 } as const;
 
-export { APIS, DEPLOYMENTS, EAS_SCHEMAS };
+export { ENDPOINTS, GRAPHS, DEPLOYMENTS, EAS_SCHEMAS };

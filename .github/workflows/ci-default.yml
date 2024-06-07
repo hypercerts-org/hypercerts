@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Check out pull request's HEAD commit instead of the merge commit to
           # prevent gitlint from failing due to too long commit message titles,
@@ -52,14 +52,15 @@ jobs:
         with:
           python-version: "3.x"
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: 9.2.0
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: "18.15.0"
+          node-version: "18.18.1"
           cache: "pnpm"
+
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
       - name: Install

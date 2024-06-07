@@ -49,7 +49,7 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     logger.debug("Allowlist tree: ", "storage", [tree]);
 
-    const { data: resData, errors: uploadAllowlistErrors } = await uploadAllowlist(
+    const resData = await uploadAllowlist(
       {
         allowList: JSON.stringify(tree.dump()),
         totalUnits: totalUnits.toString(),
@@ -57,15 +57,13 @@ export class HypercertsStorage implements HypercertStorageInterface {
       config,
     );
 
-    const allowlistCID = resData?.cid;
-
-    if ((uploadAllowlistErrors && Object.keys(uploadAllowlistErrors).length > 0) || !allowlistCID) {
-      throw new StorageError(`Allowlist upload failed.`, { errors: uploadAllowlistErrors, allowlistCID });
+    if (!resData.data?.cid || (resData.errors && Object.keys(resData.errors).length > 0)) {
+      throw new StorageError("Failed to store metadata", { errors: resData.errors, data });
     }
 
-    logger.debug(`Stored metadata at ${allowlistCID}`);
+    logger.debug(`Stored metadata at ${resData.data?.cid}`);
 
-    return allowlistCID;
+    return resData.data?.cid;
   }
 
   /**
@@ -91,13 +89,13 @@ export class HypercertsStorage implements HypercertStorageInterface {
 
     logger.debug("Storing HypercertMetaData: ", "storage", [data]);
 
-    const { errors, data: resData } = await uploadMetadata(metadata, config);
+    const resData = await uploadMetadata(metadata, config);
 
-    const cid = resData?.cid;
-
-    if (!cid || (errors && Object.keys(errors).length > 0)) {
-      throw new StorageError("Failed to store metadata", { errors, cid });
+    if (!resData?.cid || (resData.errors && Object.keys(resData.errors).length > 0)) {
+      throw new StorageError("Failed to store metadata", { errors: resData.errors, data });
     }
+
+    const { cid } = resData;
 
     logger.debug(`Stored metadata at ${cid}`);
 

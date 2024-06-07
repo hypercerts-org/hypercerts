@@ -1,5 +1,6 @@
 import axios from "axios";
-import { HypercertMetadata, StorageConfigOverrides } from "src/types";
+import { ENDPOINTS } from "../../src/constants";
+import { HypercertMetadata, StorageConfigOverrides, StorageError } from "../../src/types";
 
 /**
  * Type for the request body when posting to the allowlist endpoint.
@@ -9,15 +10,15 @@ type AllowListPostRequest = {
   totalUnits: string;
 };
 
-/**
- * Type for the response data from the API.
- */
-type ResponseData<T> = {
-  success: boolean;
-  message: string;
-  data?: T;
-  errors?: Record<string, string | string[]>;
-};
+// /**
+//  * Type for the response data from the API.
+//  */
+// type ResponseData<T> = {
+//   success: boolean;
+//   message: string;
+//   data?: T;
+//   errors?: Record<string, string | string[]>;
+// };
 
 /**
  * Axios instance configured with the base URL for the hypercert API.
@@ -31,14 +32,15 @@ const api = axios.create({ headers: { "Content-Type": "application/json" } });
  * @param {StorageConfigOverrides} [config] - An optional configuration object.
  * @returns The response data from the API.
  */
+//TODO fix response typing based on updated API spec
 const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(
-    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/metadata",
-    metadata,
-    config,
-  );
+  const res = await api.post(ENDPOINTS.metadata, metadata, config);
 
-  return response.data;
+  if (!res) {
+    throw new StorageError("Failed to store metadata", { errors: {}, cid: undefined });
+  }
+
+  return res.data;
 };
 
 /**
@@ -49,14 +51,15 @@ const uploadMetadata = async (metadata: HypercertMetadata, config: StorageConfig
  * @returns The response data from the API.
  *
  */
+//TODO fix response typing based on updated API spec
 const uploadAllowlist = async (req: AllowListPostRequest, config: StorageConfigOverrides = { timeout: 0 }) => {
-  const response = await api.post<ResponseData<{ cid: string }>>(
-    "https://hypercerts-api-production.up.railway.app/api/v1/web3up/allowlist",
-    req,
-    config,
-  );
+  const res = await api.post(ENDPOINTS.allowlist, req, config);
 
-  return response.data;
+  if (!res) {
+    throw new StorageError("Failed to store allow list", { errors: {}, cid: undefined });
+  }
+
+  return res.data;
 };
 
 export { uploadMetadata, uploadAllowlist };

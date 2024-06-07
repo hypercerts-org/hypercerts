@@ -1,6 +1,6 @@
 {
   "name": "@hypercerts-org/sdk",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-alpha.11",
   "description": "SDK for hypercerts protocol",
   "repository": "git@github.com:hypercerts-org/hypercerts.git",
   "author": "Hypercerts team",
@@ -82,5 +82,6 @@
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "types:json": "pnpm json2ts -i './src/resources/schema/' -o 'src/types' --cwd './src/resources/schema'"
-  }
+  },
+  "packageManager": "pnpm@9.1.1"
 }
