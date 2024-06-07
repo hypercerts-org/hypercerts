@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "wrangler dev --port 3000",
     "deploy": "wrangler publish",
-    "lint": "tsc --noEmit && yarn lint:eslint && pnpm lint:prettier",
+    "lint": "tsc --noEmit && pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint --ignore-path ../.gitignore --max-warnings 0 --cache .",
     "lint:prettier": "prettier --ignore-path ../.gitignore --loglevel warn --check **/*.ts",
     "test": "vitest --run"

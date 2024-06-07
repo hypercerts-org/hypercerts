@@ -5,13 +5,6 @@ env:
 
 # Trigger the workflow when:
 on:
-  # A push occurs to one of the matched branches.
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - graph/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
