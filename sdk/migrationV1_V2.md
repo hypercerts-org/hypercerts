@@ -1,0 +1,29 @@
+# Updated environment initialization
+
+- Initialize the client with `{environment: "test"` or `{environment: "production"}` instead of providing a chainID.
+  This will enable queries to the correct graph.
+- For reading evm state, we follow the publicClient's connected chain.
+- WalletClient is not required. When initializing without a walletClient, or when the walletClient is set to a chain not
+  supported in the environment, the SDK will default to read only mode.
+
+# Updated Graph client and queries
+
+- `SDK` now exports `graphClient` which can be used to query the graph directly.
+- Updated queries:
+
+```
+  HypercertById,
+  HypercertsByOwner,
+  FractionsByHypercert,
+  FractionsByOwner,
+  RecentHypercerts,
+  FractionById,
+```
+
+- When using VSCode we recommend using [gql.tada](https://github.com/0no-co/gql.tada) for syntax highlighting and other
+  nifty features.
+
+# Removed methods
+
+- `getData`
+- `getMetadata` -> in favor of using the Graph

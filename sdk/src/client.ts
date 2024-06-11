@@ -1,11 +1,12 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
-import { Account, ByteArray, Hex, PublicClient, WalletClient, getContract } from "viem";
+import { Account, ByteArray, Hex, PublicClient, WalletClient, getAddress, getContract } from "viem";
 import { HypercertEvaluator } from "./evaluations";
 import { HypercertIndexer } from "./indexer";
-import { HypercertsStorage } from "./storage";
+import { HypercertStorage, getStorage } from "./storage";
 import {
   AllowlistEntry,
   ClientError,
+  Environment,
   HypercertClientConfig,
   HypercertClientInterface,
   HypercertMetadata,
@@ -14,15 +15,15 @@ import {
   SupportedOverrides,
   TransferRestrictions,
 } from "./types";
-import { getConfig } from "./utils/config";
+import { getConfig, getDeploymentsForChainId, getDeploymentsForEnvironment } from "./utils/config";
 import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
-import { DEPLOYMENTS } from "./constants";
 import { getClaimStoredDataFromTxHash } from "./utils";
 import { ParserReturnType } from "./utils/txParser";
 import { isClaimOnChain } from "./utils/chains";
+import { StoreAllowList201AnyOfTwoData, StoreMetadata201AnyOf } from "./__generated__/api";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -40,13 +41,13 @@ import { isClaimOnChain } from "./utils/chains";
  */
 export class HypercertClient implements HypercertClientInterface {
   readonly _config;
-  private _storage: HypercertsStorage;
   // TODO better handling readonly. For now not needed since we don't use this class;
   private _evaluator?: HypercertEvaluator;
   private _indexer: HypercertIndexer;
   private _publicClient: PublicClient;
   private _walletClient?: WalletClient;
-  readonly: boolean;
+  private _storage: HypercertStorage;
+  readOnly: boolean;
 
   /**
    * Creates a new instance of the `HypercertClient` class.
@@ -57,21 +58,20 @@ export class HypercertClient implements HypercertClientInterface {
    * @throws {ClientError} Will throw a `ClientError` if the public client cannot be connected.
    */
   constructor(config: Partial<HypercertClientConfig>) {
-    this._config = getConfig(config);
+    this._config = getConfig({ config });
     if (!this._config.publicClient) {
       throw new ClientError("Could not connect to public client.");
     }
 
     this._publicClient = this._config.publicClient;
     this._walletClient = this._config?.walletClient;
-
-    this._storage = new HypercertsStorage();
-
+    this._storage = getStorage({ environment: this._config.environment });
     this._indexer = new HypercertIndexer(this._config);
+    this.readOnly = this._config.readOnly;
 
-    this.readonly = this._config.readOnly || !this._walletClient;
+    // if walletclient has chainId
 
-    if (this.readonly) {
+    if (this.readOnly) {
       logger.warn("HypercertsClient is in readonly mode", "client");
     }
   }
@@ -93,7 +93,7 @@ export class HypercertClient implements HypercertClientInterface {
    * Gets the storage layer for the client.
    * @returns The storage layer.
    */
-  get storage(): HypercertsStorage {
+  get storage(): HypercertStorage {
     return this._storage;
   }
 
@@ -106,11 +106,15 @@ export class HypercertClient implements HypercertClientInterface {
   }
 
   /**
-   * Gets the contract addresses and graph urls for the provided `chainId`
-   * @returns The addresses, graph name and graph url.
+   * Gets the contract addresses and graph urls for the provided `chainId` or `environment`. When both are provided, chainId takes precedence. If none is provided, it defaults to the configured environment.
+   * @returns The addresses, graph name and graph url
    */
-  getDeployments = (chainId: SupportedChainIds) => {
-    return DEPLOYMENTS[chainId];
+  getDeployments = ({ chainId, environment }: { chainId?: SupportedChainIds; environment?: Environment }) => {
+    if (chainId) return getDeploymentsForChainId(chainId);
+
+    if (environment) return getDeploymentsForEnvironment(environment);
+
+    return getDeploymentsForEnvironment(this._config.environment);
   };
 
   /**
@@ -137,12 +141,18 @@ export class HypercertClient implements HypercertClientInterface {
     const { account } = this.getWallet();
 
     // validate and store metadata
-    const metadataCID = await this.storage.storeMetadata(metaData, { timeout: overrides?.timeout });
+    const metadataRes = await this.storage.storeMetadata(metaData, { timeout: overrides?.timeout });
+
+    if (!metadataRes || !metadataRes.data) {
+      throw new ClientError("No CID found", { metadataRes });
+    }
+
+    const data = metadataRes.data as StoreMetadata201AnyOf;
 
     const request = await this.simulateRequest(
       account,
       "mintClaim",
-      [account?.address, totalUnits, metadataCID, transferRestriction],
+      [account?.address, totalUnits, data.cid, transferRestriction],
       overrides,
     );
 
@@ -251,11 +261,19 @@ export class HypercertClient implements HypercertClientInterface {
     const tree = parseAllowListEntriesToMerkleTree(allowList);
 
     // store allowlist on IPFS
-    const allowListCID = await this.storage.storeAllowList(allowList, totalUnits, { timeout: overrides?.timeout });
+    const allowlistStoreRes = await this.storage.storeAllowlist(
+      { allowList: JSON.stringify(tree.dump()), totalUnits: totalUnits.toString() },
+      { timeout: overrides?.timeout },
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (!allowlistStoreRes.data) throw new ClientError("No CID found", { allowlistStoreRes });
+
+    const data = allowlistStoreRes.data as unknown as StoreAllowList201AnyOfTwoData;
 
     // store metadata on IPFS
     const metadataCID = await this.storage.storeMetadata(
-      { ...metaData, allowList: allowListCID },
+      { ...metaData, allowList: data.cid },
       { timeout: overrides?.timeout },
     );
     const request = await this.simulateRequest(
@@ -483,11 +501,17 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   private getContractConfig = () => {
-    if (!this.config?.addresses?.HypercertMinterUUPS)
+    if (!this._walletClient) throw new ClientError("No wallet client found", { client: this });
+
+    const chainId = this._walletClient.chain?.id as SupportedChainIds;
+
+    const deployment = this.getDeployments({ chainId });
+
+    if (!deployment[chainId].addresses.HypercertMinterUUPS)
       throw new ClientError("No contract address found", { config: this.config });
 
     return getContract({
-      address: this.config.addresses.HypercertMinterUUPS as `0x${string}`,
+      address: getAddress(deployment[chainId].addresses.HypercertMinterUUPS!),
       abi: HypercertMinterAbi,
       client: { public: this._publicClient },
     });
@@ -507,7 +531,7 @@ export class HypercertClient implements HypercertClientInterface {
     if (!this._walletClient) {
       throw new ClientError("Could not connect to wallet; sending transactions not allowed.", { client: this });
     }
-    if (this.readonly) throw new ClientError("Client is readonly", { client: this });
+    if (this.readOnly) throw new ClientError("Client is readonly", { client: this });
     if (!this._walletClient.account) throw new ClientError("No account found", { client: this });
 
     return { walletClient: this._walletClient, account: this._walletClient.account };

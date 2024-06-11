@@ -4,7 +4,7 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import { HypercertClient, HypercertMetadata, TransferRestrictions } from "../src";
-import { AllowlistEntry, ClientError, UnsupportedChainError } from "../src/types";
+import { AllowlistEntry, ClientError } from "../src/types";
 import { publicClient, walletClient } from "./helpers";
 
 describe("HypercertClient setup tests", () => {
@@ -12,45 +12,30 @@ describe("HypercertClient setup tests", () => {
     sinon.restore();
   });
 
-  it("should be able to create a new read only instance when missing storage keys", () => {
+  it("should be able to create a new read only instance when missing wallet client", () => {
     const readOnlyClient = new HypercertClient({
-      chain: { id: 11155111 },
+      environment: "test",
       publicClient,
     });
 
     expect(readOnlyClient).to.be.an.instanceOf(HypercertClient);
-    expect(readOnlyClient.readonly).to.be.true;
+    expect(readOnlyClient.readOnly).to.be.true;
   });
 
   it("should be able to create a new instance", () => {
     const client = new HypercertClient({
-      chain: { id: 11155111 },
+      environment: "test",
       publicClient,
       walletClient,
-      nftStorageToken: "test",
     });
     expect(client).to.be.an.instanceOf(HypercertClient);
 
     //TODO currently only publicClient added as a test, also add other flows
-    expect(client.readonly).to.be.false;
-  });
-
-  it("should throw an error when the chainId is not supported", () => {
-    const falseChainId = 1337;
-    try {
-      new HypercertClient({ chain: { id: falseChainId } });
-      expect.fail("Should throw UnsupportedChainError");
-    } catch (e) {
-      expect(e).to.be.instanceOf(UnsupportedChainError);
-
-      const error = e as UnsupportedChainError;
-      expect(error.message).to.eq("No default config for chainId=1337 found in SDK");
-      expect(Number(error.payload?.chainID)).to.eq(falseChainId);
-    }
+    expect(client.readOnly).to.be.false;
   });
 
   it("should throw an error when executing write method in readonly mode", async () => {
-    const client = new HypercertClient({ chain: { id: 11155111 } });
+    const client = new HypercertClient({ environment: "test", publicClient });
 
     // mintClaim
     try {

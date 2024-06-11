@@ -21,10 +21,9 @@ describe("split and merge", () => {
   let writeSpy = sinon.stub(walletClient, "writeContract");
 
   const client = new HypercertClient({
-    chain: { id: 11155111 },
+    environment: "test",
     walletClient,
     publicClient,
-    nftStorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;
@@ -48,7 +47,7 @@ describe("split and merge", () => {
       readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(300n);
       writeSpy = writeSpy.resolves(toHex(420));
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       const hash = await client.splitFractionUnits(fractionId, [100n, 200n]);
 
@@ -72,7 +71,7 @@ describe("split and merge", () => {
 
       writeSpy = writeSpy.resolves(toHex(420));
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       try {
         await client.splitFractionUnits(fractionId, [100n, 200n], { gasLimit: "FALSE_VALUE" as unknown as bigint });
@@ -100,7 +99,7 @@ describe("split and merge", () => {
         .onCall(3)
         .resolves(300n);
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       try {
         await client.splitFractionUnits(fractionId, [100n, 777n]);
@@ -122,7 +121,7 @@ describe("split and merge", () => {
       chai.Assertion.expectExpects(4);
       readSpy = readSpy.onFirstCall().resolves(faker.finance.ethereumAddress()).onSecondCall().resolves(300n); // unitsOf; // ownerOf
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       try {
         await client.splitFractionUnits(fractionId, [100n, 200n]);
@@ -162,7 +161,7 @@ describe("split and merge", () => {
 
       writeSpy = writeSpy.resolves(toHex(420));
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       const hash = await client.mergeFractionUnits([fractionId, fractionId + 1n]);
 
@@ -179,7 +178,7 @@ describe("split and merge", () => {
 
       writeSpy = writeSpy.resolves(toHex(420));
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       let hash;
 
@@ -210,7 +209,7 @@ describe("split and merge", () => {
       chai.Assertion.expectExpects(3);
       readSpy = readSpy.onFirstCall().resolves(userAddress).onSecondCall().resolves(faker.finance.ethereumAddress()); // ownerOf
 
-      expect(client.readonly).to.be.false;
+      expect(client.readOnly).to.be.false;
 
       let hash;
       try {

@@ -17,10 +17,9 @@ describe("burn fraction tokens in HypercertClient", () => {
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    chain: { id: 11155111 },
+    environment: "test",
     walletClient,
     publicClient,
-    nftStorageToken: "test",
   });
 
   const fractionId = 9868188640707215440437863615521278132232n;
@@ -47,7 +46,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).to.be.false;
+    expect(client.readOnly).to.be.false;
 
     const hash = await client.burnClaimFraction(fractionId);
 
@@ -61,7 +60,7 @@ describe("burn fraction tokens in HypercertClient", () => {
     chai.Assertion.expectAssertions(6);
     readSpy = readSpy.resolves(faker.finance.ethereumAddress());
 
-    expect(client.readonly).to.be.false;
+    expect(client.readOnly).to.be.false;
 
     let hash;
     try {
@@ -85,7 +84,7 @@ describe("burn fraction tokens in HypercertClient", () => {
 
     writeSpy = writeSpy.resolves(toHex(420));
 
-    expect(client.readonly).to.be.false;
+    expect(client.readOnly).to.be.false;
 
     let noHash;
 

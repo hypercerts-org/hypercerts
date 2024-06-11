@@ -12,7 +12,7 @@ import {
   FractionsByHypercertQueryVariables,
   FractionByIdQueryVariables,
   FractionByIdQuery,
-} from "../indexer/gql/graphql";
+} from "../__generated__/gql/graphql";
 
 export interface HypercertIndexerInterface {
   getGraphClient(): Client;

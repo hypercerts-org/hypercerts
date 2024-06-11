@@ -5,7 +5,6 @@ import { getFromIPFS } from "./fetchers";
 import { formatHypercertData } from "./formatter";
 import { logger } from "./logger";
 import { handleSdkError, handleContractError } from "./errors";
-import { uploadMetadata, uploadAllowlist } from "./apis";
 import { getClaimStoredDataFromTxHash } from "./txParser";
 import { parseClaimOrFractionId } from "./parsing";
 
@@ -18,8 +17,6 @@ export {
   formatHypercertData,
   handleSdkError,
   handleContractError,
-  uploadMetadata,
-  uploadAllowlist,
   parseAllowListEntriesToMerkleTree,
   getClaimStoredDataFromTxHash,
   parseClaimOrFractionId,

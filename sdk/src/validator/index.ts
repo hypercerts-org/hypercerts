@@ -15,6 +15,7 @@ import {
 } from "../types";
 import { isAddress } from "viem";
 
+//TODO replace with ZOD
 const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
 ajv.addSchema(metaDataSchema, "metaData");
 ajv.addSchema(claimDataSchema, "claimData");

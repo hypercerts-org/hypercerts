@@ -3,7 +3,7 @@
 **/cache
 **/dist
 **/node_modules
-**/types
+**/src/__generated__
 
 # files
 *.env

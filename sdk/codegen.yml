@@ -1,12 +1,7 @@
+schema: https://api.hypercerts.org/v1/graphql
 generates:
-  ./src/indexer/gql/:
+  ./src/__generated__/gql/:
+    preset: client
     documents:
       - ./src/indexer/**/*.graphql
-    schema: https://staging-api.hypercerts.org/v1/graphql
-    preset: client
-    presetConfig:
-      typesPrefix: I
-      dedupeOperationSuffix: true
-      skipTypename: true
-      namingConvention: change-case#pascalCase
-      useTypeImports: true
+    ignoreNoDocuments: true, // for better experience with the watcher

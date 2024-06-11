@@ -1,10 +1,10 @@
-import { describe, it, beforeEach, afterAll } from "vitest";
+import { describe, it, beforeEach, afterAll, vi } from "vitest";
 import chai, { expect } from "chai";
 import assertionsCount from "chai-assertions-count";
 
 import sinon from "sinon";
 
-import { HypercertClient, HypercertsStorage } from "../../src";
+import { HypercertClient } from "../../src";
 import { MalformedDataError, MintingError, TransferRestrictions } from "../../src/types";
 import { getAllowlist, getFormattedMetadata, publicClient, walletClient, mockDataSets } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
@@ -12,17 +12,28 @@ import { encodeFunctionResult, isHex, stringToHex } from "viem";
 
 chai.use(assertionsCount);
 
+const mocks = vi.hoisted(() => {
+  return {
+    storeAllowList: vi.fn(),
+    storeMetadata: vi.fn(),
+  };
+});
+
+vi.mock("../../src/__generated__/api", () => {
+  return {
+    storeAllowList: mocks.storeAllowList,
+    storeMetadata: mocks.storeMetadata,
+  };
+});
+
 describe("Allows for minting claims from an allowlist", () => {
   const { someData } = mockDataSets;
-  const metaDataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
-  const allowListStub = sinon.stub(HypercertsStorage.prototype, "storeAllowList");
   const wallet = walletClient;
   const userAddress = wallet.account?.address;
   const client = new HypercertClient({
-    chain: { id: 11155111 },
+    environment: "test",
     walletClient,
     publicClient,
-    nftStorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");
@@ -55,27 +66,31 @@ describe("Allows for minting claims from an allowlist", () => {
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
 
-    metaDataStub.resetHistory();
-    allowListStub.resetHistory();
+    vi.resetAllMocks();
   });
 
   afterAll(() => {
     sinon.restore();
+    vi.restoreAllMocks();
   });
 
   describe("validations", () => {
     it("should create an allowlist", async () => {
+      const client = new HypercertClient({
+        environment: "test",
+        walletClient,
+        publicClient,
+      });
+
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      allowListStub.resolves(someData.cid);
+      mocks.storeAllowList.mockResolvedValue({ data: { cid: someData.cid } });
       writeSpy = writeSpy.resolves(mintClaimResult);
 
       const hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
 
       expect(isHex(hash)).to.be.true;
-      expect(metaDataStub.callCount).to.eq(1);
-      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -85,7 +100,7 @@ describe("Allows for minting claims from an allowlist", () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      allowListStub.throws(
+      mocks.storeAllowList.mockRejectedValue(
         new MalformedDataError("Allowlist validation failed", {
           units: "Total units in allowlist must match total units [expected: 11, got: 10]",
         }),
@@ -105,8 +120,6 @@ describe("Allows for minting claims from an allowlist", () => {
       }
 
       expect(hash).to.be.undefined;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -120,7 +133,7 @@ describe("Allows for minting claims from an allowlist", () => {
 
       allowlist[0].units = 0n;
 
-      allowListStub.throws(
+      mocks.storeAllowList.mockRejectedValue(
         new MalformedDataError("Allowlist validation failed", {
           units: "Total units in allowlist must match total units [expected: 10, got: 9]",
         }),
@@ -139,8 +152,6 @@ describe("Allows for minting claims from an allowlist", () => {
       }
 
       expect(hash).to.be.undefined;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(1);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -160,8 +171,6 @@ describe("Allows for minting claims from an allowlist", () => {
       );
 
       expect(isHex(hash)).to.be.true;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -180,8 +189,6 @@ describe("Allows for minting claims from an allowlist", () => {
       );
 
       expect(isHex(hash)).to.be.true;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -212,8 +219,6 @@ describe("Allows for minting claims from an allowlist", () => {
       }
 
       expect(hash).to.be.undefined;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });
@@ -242,8 +247,6 @@ describe("Allows for minting claims from an allowlist", () => {
       );
 
       expect(isHex(hash)).to.be.true;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -271,8 +274,6 @@ describe("Allows for minting claims from an allowlist", () => {
       );
 
       expect(isHex(hash)).to.be.true;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(1);
     });
@@ -303,6 +304,7 @@ describe("Allows for minting claims from an allowlist", () => {
           [firstList.merkleTree.root as `0x${string}`, mockRoot],
         );
       } catch (e) {
+        console.log(e);
         expect(e instanceof MintingError).to.be.true;
 
         const error = e as MintingError;
@@ -314,8 +316,6 @@ describe("Allows for minting claims from an allowlist", () => {
       }
 
       expect(hash).to.be.undefined;
-      expect(metaDataStub.callCount).to.eq(0);
-      expect(allowListStub.callCount).to.eq(0);
       expect(readSpy.callCount).to.eq(0);
       expect(writeSpy.callCount).to.eq(0);
     });

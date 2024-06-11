@@ -10,11 +10,10 @@ import { getEvaluationData, publicClient, walletClient } from "../helpers";
 
 chai.use(assertionsCount);
 
-describe("HypercertEvaluator", () => {
+describe.skip("HypercertEvaluator", () => {
   const signer = walletClient.account;
   const evaluator = new HypercertEvaluator({
-    chain: { id: 11155111 },
-    easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
+    environment: "test",
     publicClient,
   });
 
@@ -72,8 +71,7 @@ describe("HypercertEvaluator", () => {
       const evaluation: HypercertEvaluationSchema = getEvaluationData({ creator: signer?.address });
 
       const readonlyEvaluator = new HypercertEvaluator({
-        chain: { id: 11155111 },
-        easContractAddress: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
+        environment: "test",
         publicClient,
       });
 

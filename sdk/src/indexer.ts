@@ -1,5 +1,5 @@
 import { logger } from "./utils";
-import { HypercertClientConfig, HypercertIndexerInterface, IndexerEnvironment } from "./types";
+import { HypercertClientConfig, HypercertIndexerInterface } from "./types";
 
 import { AnyVariables, cacheExchange, Client, fetchExchange } from "@urql/core";
 import {
@@ -15,8 +15,7 @@ import {
   RecentHypercertsQueryVariables,
   FractionByIdDocument,
   FractionByIdQueryVariables,
-} from "./indexer/gql/graphql";
-import { DEPLOYMENTS, GRAPHS } from "./constants";
+} from "./__generated__/gql/graphql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { DocumentNode } from "graphql";
 
@@ -31,50 +30,26 @@ import { DocumentNode } from "graphql";
  * const claims = await indexer.claimsByOwner('your-address');
  */
 export class HypercertIndexer implements HypercertIndexerInterface {
-  /** The Graph client used by the indexer. */
-  private environment: IndexerEnvironment;
-
   private graphClient: Client;
 
   /**
    * Creates a new instance of the `HypercertIndexer` class.
    * @param options The configuration options for the indexer.
    */
-  constructor(options: Partial<HypercertClientConfig>) {
+  constructor({ graphUrl, environment }: Pick<HypercertClientConfig, "graphUrl" | "environment">) {
     logger.info("Creating HypercertIndexer", "constructor (write)", {
-      environment: options.indexerEnvironment,
+      environment,
     });
 
-    if (!options.indexerEnvironment) {
-      throw new Error("Missing indexer environment");
+    if (!environment) {
+      throw new Error("Missing environment");
     }
-    this.environment = options.indexerEnvironment;
 
-    const environments = HypercertIndexer.getDeploymentsForEnvironment(this.environment);
-    logger.info("Creating Graph clients", "constructor (read)", { environments });
+    logger.info("Creating Graph client", "constructor (read)", { graphUrl });
 
     this.graphClient = new Client({
-      url: GRAPHS[options.indexerEnvironment],
+      url: graphUrl,
       exchanges: [cacheExchange, fetchExchange],
-    });
-  }
-
-  static getDeploymentsForEnvironment(environment: IndexerEnvironment) {
-    logger.info("Indexer", "getDeploymentsForEnvironment", { environment });
-    return Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
-      if (environment === "all") {
-        return true;
-      }
-
-      if (environment === "test") {
-        return deployment.isTestnet;
-      }
-
-      if (environment === "production") {
-        return !deployment.isTestnet;
-      }
-
-      return false;
     });
   }
 

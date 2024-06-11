@@ -2,23 +2,21 @@ import { describe, it, afterAll } from "vitest";
 
 import { expect } from "chai";
 
-import { HypercertsStorage } from "../src/storage";
 import { reloadEnv } from "./setup-env";
+import { getStorage } from "src/storage";
 
 describe("HypercertsStorage", () => {
   afterAll(() => {
     reloadEnv();
   });
 
-  it("should be able to create a new instance without valid storage keys", () => {
-    const storage = new HypercertsStorage();
+  it("should be able to create a new instance based on environment", () => {
+    const testStorage = getStorage({ environment: "test" });
 
-    expect(storage).to.be.an.instanceOf(HypercertsStorage);
-  });
+    expect(testStorage).to.contain.keys("storeMetadata", "storeAllowlist");
 
-  it("should be able to create a new instance with valid storage keys", () => {
-    const storage = new HypercertsStorage();
+    const productionStorage = getStorage({ environment: "production" });
 
-    expect(storage).to.be.an.instanceOf(HypercertsStorage);
+    expect(productionStorage).to.contain.keys("storeMetadata", "storeAllowlist");
   });
 });

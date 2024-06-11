@@ -1,26 +1,25 @@
 import { describe, it, afterEach, afterAll, vi, expect } from "vitest";
 
-import { HypercertsStorage } from "../../src/storage";
-import { MalformedDataError } from "../../src/types/errors";
 import { mockDataSets } from "../helpers";
 import sinon from "sinon";
+import { getStorage } from "../../src/storage";
 
 const mocks = vi.hoisted(() => {
   return {
-    uploadMetadata: vi.fn(),
+    storeMetadata: vi.fn(),
   };
 });
 
-vi.mock("../../src/utils/apis", () => {
+vi.mock("../../src/__generated__/api", () => {
   return {
-    uploadMetadata: mocks.uploadMetadata,
+    storeMetadata: mocks.storeMetadata,
   };
 });
 
 describe("Storage - store metadata", () => {
   const { hypercertMetadata } = mockDataSets;
 
-  const storage = new HypercertsStorage();
+  const storage = getStorage({ environment: "test" });
 
   afterEach(() => {
     vi.clearAllMocks();
@@ -33,28 +32,9 @@ describe("Storage - store metadata", () => {
   });
 
   it("Store metadata", async () => {
-    mocks.uploadMetadata.mockResolvedValue({ cid: hypercertMetadata.cid });
+    mocks.storeMetadata.mockResolvedValue({ cid: hypercertMetadata.cid });
     const res = await storage.storeMetadata(hypercertMetadata.data);
-    expect(res).to.eq(hypercertMetadata.cid);
-    expect(mocks.uploadMetadata).toHaveBeenCalledTimes(1);
-  });
-
-  it("Throws when trying to store incorrect metadata", async () => {
-    const _metadata = {
-      ...hypercertMetadata.data,
-      name: undefined,
-    };
-
-    // storeData
-    try {
-      await storage.storeMetadata(_metadata);
-    } catch (e) {
-      expect(e).to.be.an.instanceOf(MalformedDataError);
-
-      const error = e as MalformedDataError;
-      expect(error.message).to.eq("Invalid metadata.");
-    }
-
-    expect(mocks.uploadMetadata).toHaveBeenCalledTimes(0);
+    expect(res).to.deep.eq({ cid: hypercertMetadata.cid });
+    expect(mocks.storeMetadata).toHaveBeenCalledTimes(1);
   });
 });

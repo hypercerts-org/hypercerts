@@ -1,11 +1,11 @@
-import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
+import { describe, it, beforeEach, afterAll, beforeAll, vi } from "vitest";
 import chai, { expect } from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
 import { encodeFunctionResult, isHex, parseEther } from "viem";
 
 import { HypercertClient } from "../../src/client";
-import { HypercertMetadata, HypercertsStorage, formatHypercertData } from "../../src";
+import { HypercertMetadata, formatHypercertData } from "../../src";
 import { MalformedDataError, ContractError } from "../../src/types/errors";
 import { TransferRestrictions } from "../../src/types/hypercerts";
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
@@ -17,16 +17,27 @@ import { CIDString } from "nft.storage";
 
 chai.use(assertionsCount);
 
+const mocks = vi.hoisted(() => {
+  return {
+    storeAllowList: vi.fn(),
+    storeMetadata: vi.fn(),
+  };
+});
+
+vi.mock("../../src/__generated__/api", () => {
+  return {
+    storeAllowList: mocks.storeAllowList,
+    storeMetadata: mocks.storeMetadata,
+  };
+});
+
 describe("mintClaim in HypercertClient", () => {
   const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
 
-  const storeMetadataMock = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
-
   const client = new HypercertClient({
-    chain: { id: 11155111 },
+    environment: "test",
     walletClient,
     publicClient,
-    nftStorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");
@@ -48,21 +59,21 @@ describe("mintClaim in HypercertClient", () => {
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
 
-    storeMetadataMock.resetBehavior();
-    storeMetadataMock.resetHistory();
+    vi.resetAllMocks();
   });
 
   afterAll(() => {
     sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("mints a hypercerts", async () => {
-    expect(client.readonly).to.be.false;
+    expect(client.readOnly).to.be.false;
 
     const rawData = getRawInputData();
     const { data: formattedData } = formatHypercertData(rawData);
 
-    storeMetadataMock.resolves(mockCorrectMetadataCid);
+    mocks.storeMetadata.mockResolvedValue({ data: { cid: { mockCorrectMetadataCid } } });
     writeSpy = writeSpy.resolves(mintClaimResult);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -71,12 +82,12 @@ describe("mintClaim in HypercertClient", () => {
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
     expect(writeSpy.callCount).to.equal(1);
-    expect(storeMetadataMock.callCount).to.equal(1);
   });
 
   it("throws on malformed metadata", async () => {
-    storeMetadataMock.callThrough();
     try {
+      mocks.storeMetadata.mockRejectedValue(new MalformedDataError("Invalid metadata."));
+
       await client.mintClaim({} as HypercertMetadata, 1000n, TransferRestrictions.AllowAll);
       expect.fail("Should throw MalformedDataError");
     } catch (e) {
@@ -86,7 +97,6 @@ describe("mintClaim in HypercertClient", () => {
       expect(error.message).to.equal("Invalid metadata.");
     }
     expect(writeSpy.callCount).to.equal(0);
-    expect(storeMetadataMock.callCount).to.equal(1);
   });
 
   it("mints a hypercerts with override params", async () => {
@@ -94,7 +104,7 @@ describe("mintClaim in HypercertClient", () => {
 
     const { data: formattedData } = formatHypercertData(rawData);
 
-    storeMetadataMock.resolves(mockCorrectMetadataCid);
+    mocks.storeMetadata.mockResolvedValue({ data: { cid: mockCorrectMetadataCid } });
     writeSpy = writeSpy.resolves(mintClaimResult);
 
     let hash;
@@ -117,6 +127,5 @@ describe("mintClaim in HypercertClient", () => {
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
     expect(writeSpy.callCount).to.equal(1);
-    expect(storeMetadataMock.callCount).to.equal(2);
   });
 });

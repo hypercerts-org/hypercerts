@@ -9,7 +9,7 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
 root: true
-ignorePatterns: ["rollup.config.js", "vitest.config.ts", "dist/"]
+ignorePatterns: ["rollup.config.js", "vitest.config.ts", "dist/", "__generated__/"]
 rules:
   "@typescript-eslint/semi":
     - warn

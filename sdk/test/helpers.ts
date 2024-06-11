@@ -32,7 +32,7 @@ export const mockDataSets = {
 export const pool = Number(process.env.VITEST_POOL_ID ?? 1);
 export const anvil = {
   ...foundry, // We are using a mainnet fork for testing.
-  id: foundry.id,
+  id: 11155111,
   rpcUrls: {
     // These rpc urls are automatically used in the transports.
     default: {

@@ -4,11 +4,11 @@ import chai, { expect } from "chai";
 import chaiSubset from "chai-subset";
 import sinon from "sinon";
 
-import { ConfigurationError, HypercertClientConfig, InvalidOrMissingError } from "../../src/types";
+import { HypercertClientConfig } from "../../src/types";
 import { getConfig } from "../../src/utils/config";
 import { reloadEnv } from "../../test/setup-env";
 import { walletClient, publicClient } from "../helpers";
-import { DEFAULT_INDEXER_ENVIRONMENT } from "../../src/constants";
+import { DEFAULT_ENVIRONMENT } from "../../src/constants";
 
 chai.use(chaiSubset);
 
@@ -18,49 +18,16 @@ describe("Config: graphUrl", () => {
   });
 
   it("should return the default indexer environment when no overrides are specified", () => {
-    const result = getConfig({ chain: { id: 11155111 } });
-    expect(result.indexerEnvironment).to.equal(DEFAULT_INDEXER_ENVIRONMENT);
+    const result = getConfig({});
+    expect(result.environment).to.equal(DEFAULT_ENVIRONMENT);
   });
 
   it("should return the config specified by overrides", () => {
     const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      unsafeForceOverrideConfig: true,
+      environment: "production",
     };
-    const result = getConfig(overrides);
-    expect(result.chain?.id).to.equal(overrides.chain?.id);
-  });
-
-  it("should throw an error when the graph URL specified by overrides is invalid", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      unsafeForceOverrideConfig: true,
-    };
-
-    try {
-      getConfig(overrides);
-    } catch (e) {
-      expect(e instanceof ConfigurationError).to.be.true;
-      const error = e as ConfigurationError;
-      expect(error.message).to.eq("Invalid graph URL");
-    }
-  });
-
-  it("should throw an error when the graph URL specified by overrides is missing", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
-      unsafeForceOverrideConfig: true,
-    };
-
-    try {
-      getConfig(overrides);
-    } catch (e) {
-      expect(e instanceof InvalidOrMissingError).to.be.true;
-      const error = e as InvalidOrMissingError;
-      expect(error.message).to.eq(
-        "attempted to override with chainId=11155111, but requires chainName, graphUrl, and contractAddress to be set",
-      );
-    }
+    const result = getConfig({ config: overrides });
+    expect(result.readOnly).to.be.true;
   });
 });
 
@@ -72,12 +39,11 @@ describe("Config: getPublicClient", () => {
   });
 
   it("should return the operator specified by overrides", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
+    const config: Partial<HypercertClientConfig> = {
       publicClient,
     };
-    const result = getConfig(overrides);
-    expect(result.publicClient).to.equal(overrides.publicClient);
+    const result = getConfig({ config });
+    expect(result.publicClient).to.equal(config.publicClient);
   });
 });
 
@@ -89,11 +55,10 @@ describe("Config: getWalletClient", () => {
   });
 
   it("should return the operator specified by overrides", () => {
-    const overrides: Partial<HypercertClientConfig> = {
-      chain: { id: 11155111 },
+    const config: Partial<HypercertClientConfig> = {
       walletClient,
     };
-    const result = getConfig(overrides);
-    expect(result.walletClient).to.equal(overrides.walletClient);
+    const result = getConfig({ config });
+    expect(result.walletClient).to.equal(config.walletClient);
   });
 });

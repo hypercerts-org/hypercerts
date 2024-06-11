@@ -12,7 +12,7 @@ describe("HypercertIndexer", () => {
   let indexer: HypercertIndexer;
 
   beforeEach(() => {
-    indexer = new HypercertIndexer({ indexerEnvironment: "test" });
+    indexer = new HypercertIndexer({ graphUrl: "http://exampe.com", environment: "test" });
   });
 
   afterEach(() => {
@@ -26,7 +26,16 @@ describe("HypercertIndexer", () => {
   it("should call graphClient.hypercertsByOwner with the correct parameters", async () => {
     const owner = "0x1234567890123456789012345678901234567890";
     const params = defaultQueryParams;
-    const mockResponse = { data: [] };
+    const mockResponse = {
+      hypercerts: {
+        count: 1,
+        data: [
+          {
+            hypercert_id: "1",
+          },
+        ],
+      },
+    };
 
     const spy = vi.spyOn(indexer, "hypercertsByOwner").mockResolvedValue(mockResponse);
 
@@ -34,12 +43,21 @@ describe("HypercertIndexer", () => {
 
     expect(spy).toHaveBeenCalledWith({ owner, ...params });
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(result).toEqual({ data: [] });
+    expect(result).toEqual(mockResponse);
   });
 
   it("should call graphClient.hypercertById with the correct parameters", async () => {
     const id = "0x1234567890123456789012345678901234567890123456789012345678901234";
-    const mockResponse = { data: null };
+    const mockResponse = {
+      hypercerts: {
+        count: 1,
+        data: [
+          {
+            hypercert_id: "1",
+          },
+        ],
+      },
+    };
 
     const spy = vi.spyOn(indexer, "hypercertById").mockResolvedValue(mockResponse);
 
@@ -52,7 +70,16 @@ describe("HypercertIndexer", () => {
 
   it("should call graphClient.recentHypercerts with the correct parameters", async () => {
     const params = defaultQueryParams;
-    const mockResponse = { data: [] };
+    const mockResponse = {
+      hypercerts: {
+        count: 1,
+        data: [
+          {
+            hypercert_id: "1",
+          },
+        ],
+      },
+    };
 
     const spy = vi.spyOn(indexer, "recentHypercerts").mockResolvedValue(mockResponse);
 
@@ -66,7 +93,16 @@ describe("HypercertIndexer", () => {
   it("should call graphClient.FractionByOwner with the correct parameters", async () => {
     const owner = "0x1234567890123456789012345678901234567890";
     const params = defaultQueryParams;
-    const mockResponse = { data: [] };
+    const mockResponse = {
+      fractions: {
+        count: 1,
+        data: [
+          {
+            hypercert_id: "1",
+          },
+        ],
+      },
+    };
 
     const spy = vi.spyOn(indexer, "fractionsByOwner").mockResolvedValue(mockResponse);
 
@@ -80,7 +116,16 @@ describe("HypercertIndexer", () => {
   it("should call graphClient.fractionsByHypercert with the correct parameters", async () => {
     const hypercertId = "0x1234567890123456789012345678901234567890123456789012345678901234";
     const params = defaultQueryParams;
-    const mockResponse = { data: [] };
+    const mockResponse = {
+      hypercerts: {
+        count: 1,
+        data: [
+          {
+            hypercert_id: "1",
+          },
+        ],
+      },
+    };
 
     const spy = vi.spyOn(indexer, "fractionsByHypercert").mockResolvedValue(mockResponse);
 

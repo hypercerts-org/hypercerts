@@ -1,19 +1,21 @@
-import { PartialTypedDataConfig } from "@ethereum-attestation-service/eas-sdk";
-
 import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
 import { HypercertMetadata } from "./metadata";
 
-import { ByteArray, Chain, Hex, PublicClient, WalletClient } from "viem";
+import { ByteArray, Hex, PublicClient, WalletClient } from "viem";
+import { AxiosRequestConfig } from "axios";
+
+export type TestChainIds = 11155111 | 84532;
+export type ProductionChainIds = 10 | 42220 | 8453;
 
 /**
  * Enum to verify the supported chainIds
  *
  * @note 10 = Optimism, 42220 = Celo, 11155111 = Sepolia, 84532 = Base Sepolia, 8453 = Base Mainnet
  */
-export type SupportedChainIds = 10 | 42220 | 11155111 | 84532 | 8453;
+export type SupportedChainIds = TestChainIds | ProductionChainIds;
 
-export type SupportedOverrides = ContractOverrides & StorageConfigOverrides;
+export type SupportedOverrides = ContractOverrides & AxiosRequestConfig;
 
 /**
  * Configuration options for the contract interactions.
@@ -28,15 +30,6 @@ export type ContractOverrides = {
   gasLimit?: bigint;
 };
 
-/**
- * Configuration options for the Hypercert storage layer.
- * @param timeout The timeout (im ms) for the HTTP request; for example for uploading metadata or fetching allowlists.
- */
-export type StorageConfigOverrides = {
-  // Axios timout in ms
-  timeout?: number;
-};
-
 export type Contracts =
   | "HypercertMinterUUPS"
   | "TransferManager"
@@ -45,107 +38,39 @@ export type Contracts =
   | "RoyaltyFeeRegistry"
   | "OrderValidator"
   | "CreatorFeeManager"
-  | "StrategyCollectionOffer"
-  | "StrategyDutchAuction"
-  | "StrategyItemIdsRange"
-  | "StrategyHypercertCollectionOffer"
-  | "StrategyHypercertDutchAuction"
   | "StrategyHypercertFractionOffer";
 
 /**
  * Represents a deployment of a contract on a specific network.
  */
 export type Deployment = {
-  chain: Partial<Chain>;
+  chainId: SupportedChainIds;
   /** The address of the deployed contract. */
   addresses: Partial<Record<Contracts, `0x${string}`>>;
-  /** The url to the subgraph that indexes the contract events. Override for localized testing */
-  graphUrl: string;
-  graphName: string;
   isTestnet: boolean;
 };
 
 /**
  * Configuration options for the Hypercert client.
  */
-export type HypercertClientConfig = Pick<Deployment, "addresses" | "chain"> &
-  HypercertStorageConfig &
-  HypercertEvaluatorConfig & {
-    /** The PublicClient is inherently read-only */
-    publicClient: PublicClient;
-    walletClient: WalletClient;
-    /** Force the use of overridden values */
-    unsafeForceOverrideConfig?: boolean;
-    /** Boolean to assert if the client is in readOnly mode */
-    readOnly: boolean;
-    /** Reason for readOnly mode */
-    readOnlyReason?: string;
-    /** The environment to run the indexer in. This can be either production, test or all. Defaults to test */
-    indexerEnvironment: IndexerEnvironment;
-  };
+export type HypercertClientConfig = {
+  /** The environment to run the indexer in. This can be either production, test or all. Defaults to test */
+  environment: Environment;
+  deployments: { [k: string]: Deployment };
+  /** Boolean to assert if the client is in readOnly mode */
+  readOnly: boolean;
+  graphUrl: string;
+  /** The PublicClient is inherently read-only */
+  publicClient?: PublicClient;
+  walletClient?: WalletClient;
+};
 
 /**
  * The environment to run the indexer in.
  * Production will run against all mainnet chains, while test will run against testnet chains.
  * All will run against both
  */
-export type IndexerEnvironment = "production" | "test" | "all";
-
-/**
- * Configuration options for the Hypercert storage layer.
- * @note The API tokens are optional, but required for storing data on NFT.storage and Web3.storage.
- *
- * @deprecated nft.storage and web3.storage are no longer used
- */
-export type HypercertStorageConfig = {
-  /** The API token for NFT.storage. */
-  nftStorageToken?: string;
-};
-
-/**
- * Configuration options for the Hypercert evaluator.
- * @note The signer is required for submitting evaluations.
- */
-export type HypercertEvaluatorConfig = Omit<PartialTypedDataConfig, "address"> & {
-  easContractAddress: string;
-};
-
-/**
- * The interface for the Hypercert storage layer.
- */
-export interface HypercertStorageInterface {
-  /**
-   * Stores the allowlost for a hypercert.
-   * @param allowList The metadata to store.
-   * @param {StorageConfigOverrides} [config] - An optional configuration object.
-   * @returns A Promise that resolves to the CID of the stored metadata.
-   */
-  storeAllowList: (allowList: AllowlistEntry[], totalUnits: bigint, config?: StorageConfigOverrides) => Promise<string>;
-
-  /**
-   * Stores the metadata for a hypercert.
-   * @param metadata The metadata to store.
-   * @param {StorageConfigOverrides} [config] - An optional configuration object.
-   * @returns A Promise that resolves to the CID of the stored metadata.
-   */
-  storeMetadata: (metadata: HypercertMetadata, config?: StorageConfigOverrides) => Promise<string>;
-
-  /**
-   * Retrieves the metadata for a hypercerts.
-   * @param cidOrIpfsUri The CID or IPFS URI of the metadata to retrieve.
-   * @param {StorageConfigOverrides} [config] - An optional configuration object.
-   * @returns A Promise that resolves to the retrieved metadata.
-   */
-  getMetadata: (cidOrIpfsUri: string, config?: StorageConfigOverrides) => Promise<HypercertMetadata>;
-
-  /**
-   * Retrieves arbitrary data from IPFS.
-   * @param cidOrIpfsUri The CID or IPFS URI of the data to retrieve.
-   * @param {StorageConfigOverrides} [config] - An optional configuration object.
-   * @returns A Promise that resolves to the retrieved data.
-   */
-  getData: (cidOrIpfsUri: string, config?: StorageConfigOverrides) => Promise<unknown>;
-}
+export type Environment = "production" | "test" | "all";
 
 /**
  * The props for the Hypercert client.
@@ -165,9 +90,7 @@ export interface HypercertClientInterface extends HypercertClientMethods, Hyperc
  */
 export interface HypercertClientState {
   /** Whether the client is in read-only mode. */
-  readonly: boolean;
-  /** The storage layer used by the client. */
-  storage: HypercertStorageInterface;
+  readOnly: boolean;
   /** The indexer used by the client. */
   indexer: HypercertIndexer;
 }
@@ -180,7 +103,9 @@ export interface HypercertClientMethods {
    * Gets the contract addresses and graph urls for the provided `chainId`
    * @returns The addresses, graph name and graph url.
    */
-  getDeployments: (chainId: SupportedChainIds) => Partial<Deployment>;
+  getDeployments: ({ chainId, environment }: { chainId?: SupportedChainIds; environment?: Environment }) => {
+    [k: string]: Deployment;
+  };
 
   /**
    * Mints a new claim.
