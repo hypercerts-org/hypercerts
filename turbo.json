@@ -1,7 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local", "**.env"],
-  "pipeline": {
+  // "globalDependencies": ["**/.env.*local", "**.env"],
+  "tasks": {
     "build": {
       "outputs": ["build/**", "dist/**", "out/**", ".docusaurus", ".next/**"]
     },
@@ -17,6 +17,10 @@
     "start": {
       "cache": false
     },
-    "test": {}
+    "test": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    }
   }
 }

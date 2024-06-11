@@ -1,91 +1,56 @@
 {
   "TransferManager": {
-    "address": "0x95d0D2986Ea7acC6c8D56880e6155c950E9B62F9",
+    "address": "0xB4e5fFb878eA75F3Ac65fEe4C3f5552c6D30Aab9",
     "fullNamespace": "TransferManager",
-    "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a"],
-    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-    "tx": "0x978640bf72b6f75237f131bb848cb485b1f693454891bef215839c3fcda67d2a"
+    "args": ["0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35"],
+    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+    "tx": "0xa3d8c9e665950a006b6cb700cf09bd18a779a6359d4d0f7ffcd88f79355dbf64"
   },
   "ProtocolFeeRecipient": {
-    "address": "0x0e7b2baA3B5bCB9d851A41Bd8C9f277F92e3da5c",
+    "address": "0xB47BCab2f33c4d7805CB999888E77dD62e2600Da",
     "fullNamespace": "ProtocolFeeRecipient",
-    "args": ["0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a", "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"],
-    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a7b79995e5f793a07bc00c21412e50ecae098e7f9",
-    "tx": "0x0e3c124a69a49e1bfeff119a02c5336b40cef6c7b91b2cf9ae17443b1611d0f7"
+    "args": ["0x4f37308832c6eFE5A74737955cBa96257d76De17", "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"],
+    "encodedArgs": "0x4f37308832c6efe5a74737955cba96257d76de177b79995e5f793a07bc00c21412e50ecae098e7f9",
+    "tx": "0x9db81e96b874266392aac8cdd16451770dae7cd0ce00bef72cfe98a44d5ab6b8"
   },
   "HypercertExchange": {
-    "address": "0x4DDe28116255775E6097Aa4edD288355eb74fcf6",
+    "address": "0x9819bbb6980AaA586A8e80dB963a766C6D5711c4",
     "fullNamespace": "LooksRareProtocol",
     "args": [
-      "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a",
-      "0x0e7b2baA3B5bCB9d851A41Bd8C9f277F92e3da5c",
-      "0x95d0D2986Ea7acC6c8D56880e6155c950E9B62F9",
+      "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+      "0xB47BCab2f33c4d7805CB999888E77dD62e2600Da",
+      "0xB4e5fFb878eA75F3Ac65fEe4C3f5552c6D30Aab9",
       "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"
     ],
-    "encodedArgs": "0xdf2c3dace6f31e650fd03b8ff72bee82cb1c199a0e7b2baa3b5bcb9d851a41bd8c9f277f92e3da5c95d0d2986ea7acc6c8d56880e6155c950e9b62f97b79995e5f793a07bc00c21412e50ecae098e7f9",
-    "tx": "0x38b1edc3e6272530ea3e6f80b490225f3fa2eb317c6d3d5b3daac6f272aa06fc"
+    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35b47bcab2f33c4d7805cb999888e77dd62e2600dab4e5ffb878ea75f3ac65fee4c3f5552c6d30aab97b79995e5f793a07bc00c21412e50ecae098e7f9",
+    "tx": "0xb0d3b673d67b0878765957762f6b564b3686cbc18265589b19c09ab52ccf5115"
   },
   "RoyaltyFeeRegistry": {
-    "address": "0x81d3fba12f3D1f5A2cC6566b278AdAF8FEEb14e4",
+    "address": "0x08FDa86868E1F058416f63e09a174467F9cC5e08",
     "fullNamespace": "RoyaltyFeeRegistry",
     "args": ["1000"],
     "encodedArgs": "0x00000000000000000000000000000000000000000000000000000000000003e8",
-    "tx": "0x02357415077edb5adf9294d7b998eb37920847b42f1ff08d2d987aaa852b97ea"
+    "tx": "0x93b263e56a7a274e57ef3e6377630643617410bef42f0ba86606664423b64145"
   },
   "OrderValidator": {
-    "address": "0xde42d94e6c5f07731f5e53104e7bc809ff8bc483",
+    "address": "0x1d68a6cc45e57d75b06b6f52dfc2a18d4e0452c4",
     "fullNamespace": "OrderValidatorV2A",
-    "args": ["0x4DDe28116255775E6097Aa4edD288355eb74fcf6"],
-    "encodedArgs": "0x4dde28116255775e6097aa4edd288355eb74fcf6",
-    "tx": "0xbc6ad72a7f61f0b3ae6cb70cd603621b380810171bf3658e266f60f30db3f848"
+    "args": ["0x9819bbb6980AaA586A8e80dB963a766C6D5711c4"],
+    "encodedArgs": "0x9819bbb6980aaa586a8e80db963a766c6d5711c4",
+    "tx": "0x4971c131fb1d9c6118c0f46319c13da652b93e94a4eb9f8c45c85ca6ddb625ce"
   },
   "CreatorFeeManager": {
-    "address": "0x6cca0accb70bb48244feb69da05a8f5269234330",
+    "address": "0x9831c17f5abcfe4c0fdc2f94cdd3ad716f5ba9dd",
     "fullNamespace": "CreatorFeeManagerWithRoyalties",
-    "args": ["0x81d3fba12f3D1f5A2cC6566b278AdAF8FEEb14e4"],
-    "encodedArgs": "0x81d3fba12f3d1f5a2cc6566b278adaf8feeb14e4",
-    "tx": "0xc53a46e1d99e0be9e226da8c3ed232e997160cf0655f8612412044ea3f398a36"
-  },
-  "StrategyCollectionOffer": {
-    "address": "0xa9c539f94212794c3a81d18a54658775b35a8061",
-    "fullNamespace": "StrategyCollectionOffer",
-    "args": [],
-    "encodedArgs": "0x",
-    "tx": "0xaa325bfb22b43e9a4ebe80c4890a5d58b7ed068510328db8f89c69d645d7af7f"
-  },
-  "StrategyDutchAuction": {
-    "address": "0xa4d163baaa46f232538dff90dfb87042caa1a29b",
-    "fullNamespace": "StrategyDutchAuction",
-    "args": [],
-    "encodedArgs": "0x",
-    "tx": "0x95588a5bde437366e2447fb6a734a0f5dd6d362db1f2b7729b5a821051f1019f"
-  },
-  "StrategyItemIdsRange": {
-    "address": "0x04d7ac3a3671a81aed467db9257f45e9c03efa0d",
-    "fullNamespace": "StrategyItemIdsRange",
-    "args": [],
-    "encodedArgs": "0x",
-    "tx": "0xf880c4c3820b8593d7faf5513812d549f4d7819bca379a87258e1985eed4a08f"
-  },
-  "StrategyHypercertCollectionOffer": {
-    "address": "0x62b911d000a2bfe303668dbaa7fc509f1bb9509f",
-    "fullNamespace": "StrategyHypercertCollectionOffer",
-    "args": [],
-    "encodedArgs": "0x",
-    "tx": "0xf6c824975a0785f02da2ce835f016fbd9581635fb601f0c350244dae3d69e647"
-  },
-  "StrategyHypercertDutchAuction": {
-    "address": "0xe1bf35ba5ff0a0cc022f85c8b07c01dc6db01900",
-    "fullNamespace": "StrategyHypercertDutchAuction",
-    "args": [],
-    "encodedArgs": "0x",
-    "tx": "0x7edfcd705c10bb829c147296916be36a2ea44f113c9a923f7dcad9d7bd687fb1"
+    "args": ["0x08FDa86868E1F058416f63e09a174467F9cC5e08"],
+    "encodedArgs": "0x08fda86868e1f058416f63e09a174467f9cc5e08",
+    "tx": "0xbf450e5a0f8a8461db6df9da6f6026aaf0aac7df370cfcb904ef692f76768d5c"
   },
   "StrategyHypercertFractionOffer": {
-    "address": "0x39c3a18bea1d49e4d73a352db0fcf974c23beada",
+    "address": "0x08401da461ee03b82d86e52499fd2eddce603b81",
     "fullNamespace": "StrategyHypercertFractionOffer",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0xfb83fdebb640e18b1b7558859f61c6cf27505295436509b83850937958ab66fe"
+    "tx": "0x0c0228b8328ef55df5e402e8d604ce72c6190be8c36110a6d259e2937ca85092"
   }
 }

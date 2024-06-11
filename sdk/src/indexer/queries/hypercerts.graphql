@@ -1,0 +1,55 @@
+query HypercertsByOwner($owner: String = "", $orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
+   hypercerts(
+    count: COUNT
+    where: {owner_address: {eq: $owner}}
+    first: $first
+    offset: $offset
+    sort: {by: {hypercert_id: $orderDirection}}
+  ) {
+    count
+    data {
+      hypercert_id
+      owner_address
+      units
+      uri
+      contract {
+        chain_id
+      }
+    }
+  }
+}
+
+query RecentHypercerts($orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
+   hypercerts(
+    count: COUNT
+    first: $first
+    offset: $offset
+    sort: {by: {block_number: $orderDirection}}
+  ) {
+    count
+    data {
+      hypercert_id
+      owner_address
+      units
+      uri
+      contract {
+        chain_id
+      }
+    }
+  }
+}
+
+query HypercertById($id: String!) {
+  hypercerts(count: COUNT, where: {hypercert_id: {eq: $id}}) {
+    count
+    data {
+      hypercert_id
+      owner_address
+      units
+      uri
+      contract {
+        chain_id
+      }
+    }
+  }
+}

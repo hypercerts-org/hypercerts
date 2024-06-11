@@ -18,7 +18,7 @@ A CID pointer to the merke tree proof json on ipfs
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:39](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L39)
+[sdk/src/types/metadata.d.ts:39](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L39)
 
 ---
 
@@ -30,7 +30,7 @@ Describes the asset to which this token represents
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:19](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L19)
+[sdk/src/types/metadata.d.ts:19](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L19)
 
 ---
 
@@ -42,7 +42,7 @@ An url pointing to the external website of the project
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:23](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L23)
+[sdk/src/types/metadata.d.ts:23](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L23)
 
 ---
 
@@ -52,7 +52,7 @@ An url pointing to the external website of the project
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:45](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L45)
+[sdk/src/types/metadata.d.ts:45](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L45)
 
 ---
 
@@ -64,7 +64,7 @@ A URI pointing to a resource with mime type image/\* representing the asset to w
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:27](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L27)
+[sdk/src/types/metadata.d.ts:27](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L27)
 
 ---
 
@@ -76,7 +76,7 @@ Identifies the asset to which this token represents
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L15)
+[sdk/src/types/metadata.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L15)
 
 ---
 
@@ -86,7 +86,7 @@ Identifies the asset to which this token represents
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:40](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L40)
+[sdk/src/types/metadata.d.ts:40](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L40)
 
 ---
 
@@ -98,7 +98,7 @@ Describes the asset to which this token represents
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L35)
+[sdk/src/types/metadata.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L35)
 
 ---
 
@@ -110,4 +110,4 @@ The version of Hypercert schema used to describe this hypercert
 
 #### Defined in
 
-[sdk/src/types/metadata.d.ts:31](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/metadata.d.ts#L31)
+[sdk/src/types/metadata.d.ts:31](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/metadata.d.ts#L31)

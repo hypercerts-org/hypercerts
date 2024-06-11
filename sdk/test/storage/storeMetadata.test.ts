@@ -33,7 +33,7 @@ describe("Storage - store metadata", () => {
   });
 
   it("Store metadata", async () => {
-    mocks.uploadMetadata.mockResolvedValue({ data: { cid: hypercertMetadata.cid } });
+    mocks.uploadMetadata.mockResolvedValue({ cid: hypercertMetadata.cid });
     const res = await storage.storeMetadata(hypercertMetadata.data);
     expect(res).to.eq(hypercertMetadata.cid);
     expect(mocks.uploadMetadata).toHaveBeenCalledTimes(1);

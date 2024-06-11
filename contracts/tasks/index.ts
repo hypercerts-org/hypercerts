@@ -10,3 +10,4 @@ export * from "./upgrade";
 export * from "./unpause";
 export * from "./validate-upgrade";
 export * from "./deploy-marketplace";
+export * from "./propose-owner";

@@ -28,7 +28,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:20](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L20)
+[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L23)
 
 ---
 
@@ -53,7 +53,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:19](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L19)
+[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L22)
 
 ---
 
@@ -77,7 +77,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L21)
+[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L24)
 
 ---
 
@@ -101,7 +101,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:24](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L24)
+[sdk/src/types/indexer.ts:27](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L27)
 
 ---
 
@@ -126,7 +126,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:23](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L23)
+[sdk/src/types/indexer.ts:26](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L26)
 
 ---
 
@@ -151,14 +151,24 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:22](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L22)
+[sdk/src/types/indexer.ts:25](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L25)
 
----
+## Methods
 
-### graphClient
+### getGraphClient
 
-• **graphClient**: `Client`
+▸ **getGraphClient**(`chainId`): `Client`
+
+#### Parameters
+
+| Name      | Type     |
+| :-------- | :------- |
+| `chainId` | `number` |
+
+#### Returns
+
+`Client`
 
 #### Defined in
 
-[sdk/src/types/indexer.ts:18](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/indexer.ts#L18)
+[sdk/src/types/indexer.ts:21](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/indexer.ts#L21)

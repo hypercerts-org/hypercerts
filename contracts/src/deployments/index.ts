@@ -7,11 +7,6 @@ const deployments_marketplace = {
     HypercertExchange: deployments_marketplace_sepolia.HypercertExchange.address,
     OrderValidatorV2A: deployments_marketplace_sepolia.OrderValidator.address,
     RoyaltyFeeRegistry: deployments_marketplace_sepolia.RoyaltyFeeRegistry.address,
-    StrategyCollectionOffer: deployments_marketplace_sepolia.StrategyCollectionOffer.address,
-    StrategyDutchAuction: deployments_marketplace_sepolia.StrategyDutchAuction.address,
-    StrategyItemIdsRange: deployments_marketplace_sepolia.StrategyItemIdsRange.address,
-    StrategyHypercertCollectionOffer: deployments_marketplace_sepolia.StrategyHypercertCollectionOffer.address,
-    StrategyHypercertDutchAuction: deployments_marketplace_sepolia.StrategyHypercertDutchAuction.address,
     StrategyHypercertFractionOffer: deployments_marketplace_sepolia.StrategyHypercertFractionOffer.address,
   },
 };

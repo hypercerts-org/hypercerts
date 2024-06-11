@@ -71,18 +71,18 @@ HypercertClientConfig is a configuration object used when initializing a new ins
 you to customize the client by setting your own providers or deployments. At it's simplest, you only need to provide
 `chain.id` to initalize the client in `readonly` mode.
 
-| Field                       | Type    | Description                                                                                    |
-| --------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
-| `chain`                     | Object  | Partial configuration for the blockchain network.                                              |
-| `contractAddress`           | String  | The address of the deployed contract.                                                          |
-| `graphUrl`                  | String  | The URL to the subgraph that indexes the contract events. Override for localized testing.      |
-| `graphName`                 | String  | The name of the subgraph.                                                                      |
-| `easContractAddress`        | String  | The address of the EAS contract.                                                               |
-| `publicClient`              | Object  | The PublicClient is inherently read-only and is used for reading data from the blockchain.     |
-| `walletClient`              | Object  | The WalletClient is used for signing and sending transactions.                                 |
-| `unsafeForceOverrideConfig` | Boolean | Boolean to force the use of overridden values.                                                 |
-| `readOnly`                  | Boolean | Boolean to assert if the client is in read-only mode.                                          |
-| `readOnlyReason`            | String  | Reason for read-only mode. This is optional and can be used for logging or debugging purposes. |
+| Field                       | Type                              | Description                                                                                    |
+| --------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------- |
+| `chain`                     | Object                            | Partial configuration for the blockchain network.                                              |
+| `contractAddress`           | String                            | The address of the deployed contract.                                                          |
+| `graphName`                 | String                            | The name of the subgraph.                                                                      |
+| `easContractAddress`        | String                            | The address of the EAS contract.                                                               |
+| `publicClient`              | Object                            | The PublicClient is inherently read-only and is used for reading data from the blockchain.     |
+| `walletClient`              | Object                            | The WalletClient is used for signing and sending transactions.                                 |
+| `unsafeForceOverrideConfig` | Boolean                           | Boolean to force the use of overridden values.                                                 |
+| `readOnly`                  | Boolean                           | Boolean to assert if the client is in read-only mode.                                          |
+| `readOnlyReason`            | String                            | Reason for read-only mode. This is optional and can be used for logging or debugging purposes. |
+| `indexerEnvironment`        | `'test' \| 'production' \| 'all'` | Determines which graphs should be read out when querying                                       | The environment of the indexer. |
 
 ### Read-only mode
 

@@ -1,28 +1,27 @@
 import { Client } from "urql/core";
 import {
-  ClaimsByOwnerQuery,
-  ClaimByIdQuery,
-  RecentClaimsQuery,
-  ClaimTokensByOwnerQuery,
-  ClaimTokensByClaimQuery,
-  ClaimTokenByIdQuery,
+  HypercertsByOwnerQuery,
+  HypercertsByOwnerQueryVariables,
+  HypercertByIdQuery,
+  HypercertByIdQueryVariables,
+  RecentHypercertsQuery,
+  RecentHypercertsQueryVariables,
+  FractionsByOwnerQuery,
+  FractionsByOwnerQueryVariables,
+  FractionsByHypercertQuery,
+  FractionsByHypercertQueryVariables,
+  FractionByIdQueryVariables,
+  FractionByIdQuery,
 } from "../indexer/gql/graphql";
 
-export type QueryParams = {
-  orderDirections: "asc" | "desc";
-  skip: number;
-  first: number;
-  [key: string]: string | number | undefined;
-};
-
-export type QueryParamsWithChainId = QueryParams & { chainId?: number };
-
 export interface HypercertIndexerInterface {
-  getGraphClient(chainId: number): Client;
-  claimsByOwner: (owner: string, params?: QueryParams) => Promise<ClaimsByOwnerQuery | undefined>;
-  claimById: (id: string) => Promise<ClaimByIdQuery | undefined>;
-  firstClaims: (params?: QueryParams) => Promise<RecentClaimsQuery | undefined>;
-  fractionsByOwner: (owner: string, params?: QueryParams) => Promise<ClaimTokensByOwnerQuery | undefined>;
-  fractionsByClaim: (claimId: string, params?: QueryParams) => Promise<ClaimTokensByClaimQuery | undefined>;
-  fractionById: (fractionId: string) => Promise<ClaimTokenByIdQuery | undefined>;
+  getGraphClient(): Client;
+  hypercertsByOwner: (variables: HypercertsByOwnerQueryVariables) => Promise<HypercertsByOwnerQuery | undefined>;
+  hypercertById: (variables: HypercertByIdQueryVariables) => Promise<HypercertByIdQuery | undefined>;
+  recentHypercerts: (variables: RecentHypercertsQueryVariables) => Promise<RecentHypercertsQuery | undefined>;
+  fractionsByOwner: (variables: FractionsByOwnerQueryVariables) => Promise<FractionsByOwnerQuery | undefined>;
+  fractionById: (variables: FractionByIdQueryVariables) => Promise<FractionByIdQuery | undefined>;
+  fractionsByHypercert: (
+    variables: FractionsByHypercertQueryVariables,
+  ) => Promise<FractionsByHypercertQuery | undefined>;
 }

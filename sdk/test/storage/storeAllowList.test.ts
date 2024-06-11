@@ -42,7 +42,7 @@ describe("Storage - store allowlist", () => {
       },
     ];
 
-    mocks.uploadAllowlist.mockResolvedValue({ data: { cid: someData.cid } });
+    mocks.uploadAllowlist.mockResolvedValue({ cid: someData.cid });
     const res = await storage.storeAllowList(allowList, 100n);
     expect(res).to.eq(someData.cid);
     expect(mocks.uploadAllowlist).toHaveBeenCalledTimes(1);

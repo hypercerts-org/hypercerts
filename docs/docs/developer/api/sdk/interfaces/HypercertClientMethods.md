@@ -52,7 +52,7 @@ The order of the arrays must be equal.
 
 #### Defined in
 
-[sdk/src/types/client.ts:282](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L282)
+[sdk/src/types/client.ts:291](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L291)
 
 ---
 
@@ -82,7 +82,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:216](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L216)
+[sdk/src/types/client.ts:225](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L225)
 
 ---
 
@@ -110,7 +110,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:257](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L257)
+[sdk/src/types/client.ts:266](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L266)
 
 ---
 
@@ -141,7 +141,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:230](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L230)
+[sdk/src/types/client.ts:239](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L239)
 
 ---
 
@@ -169,7 +169,7 @@ The addresses, graph name and graph url.
 
 #### Defined in
 
-[sdk/src/types/client.ts:174](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L174)
+[sdk/src/types/client.ts:183](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L183)
 
 ---
 
@@ -197,7 +197,34 @@ A Promise that resolves to the applicable transfer restrictions.
 
 #### Defined in
 
-[sdk/src/types/client.ts:194](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L194)
+[sdk/src/types/client.ts:203](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L203)
+
+---
+
+### isClaimOrFractionOnConnectedChain
+
+• **isClaimOrFractionOnConnectedChain**: (`claimOrFractionId`: `string`) => `boolean`
+
+#### Type declaration
+
+▸ (`claimOrFractionId`): `boolean`
+
+Check if a claim or fraction is on the chain that the Hypercertclient
+is currently connected to
+
+##### Parameters
+
+| Name                | Type     | Description                               |
+| :------------------ | :------- | :---------------------------------------- |
+| `claimOrFractionId` | `string` | The ID of the claim or fraction to check. |
+
+##### Returns
+
+`boolean`
+
+#### Defined in
+
+[sdk/src/types/client.ts:302](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L302)
 
 ---
 
@@ -225,7 +252,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:250](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L250)
+[sdk/src/types/client.ts:259](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L259)
 
 ---
 
@@ -255,7 +282,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:183](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L183)
+[sdk/src/types/client.ts:192](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L192)
 
 ---
 
@@ -285,7 +312,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:266](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L266)
+[sdk/src/types/client.ts:275](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L275)
 
 ---
 
@@ -314,7 +341,7 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:243](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L243)
+[sdk/src/types/client.ts:252](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L252)
 
 ---
 
@@ -344,4 +371,4 @@ A Promise that resolves to the transaction hash
 
 #### Defined in
 
-[sdk/src/types/client.ts:203](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L203)
+[sdk/src/types/client.ts:212](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L212)

@@ -192,9 +192,6 @@ const config: HardhatUserConfig = {
         path: "m/44'/60'/0'/0",
       },
       chainId: chainIds.hardhat,
-      forking: {
-        url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      },
     },
     localhost: {
       accounts: {

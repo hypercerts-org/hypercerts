@@ -41,7 +41,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
-    "turbo": "^1.10.15"
+    "turbo": "^2.0.3"
   },
   "repository": {
     "type": "git",
@@ -55,5 +55,6 @@
     "@hypercerts/frontend": {
       "ethers": "5.7.2"
     }
-  }
+  },
+  "packageManager": "pnpm@9.2.0+sha256.94fab213df221c55b6956b14a2264c21c6203cca9f0b3b95ff2fe9b84b120390"
 }

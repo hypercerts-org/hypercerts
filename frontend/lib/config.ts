@@ -12,19 +12,9 @@ export const DOMAIN = requireEnv(
 
 export const isProduction = DOMAIN === "hypercerts.org";
 
-export const NFT_STORAGE_TOKEN = requireEnv(
-  process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
-  "NEXT_PUBLIC_NFT_STORAGE_TOKEN",
-);
-
 export const WALLETCONNECT_ID = requireEnv(
   process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
   "NEXT_PUBLIC_WALLETCONNECT_ID",
-);
-
-export const WEB3_STORAGE_TOKEN = requireEnv(
-  process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN,
-  "NEXT_PUBLIC_WEB3_STORAGE_TOKEN",
 );
 
 export const SUPABASE_URL = requireEnv(
