@@ -47,16 +47,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           # Fetch all history so gitlint can check the relevant commits.
           fetch-depth: "0"
+      - run: corepack enable
       - name: Set up Python 3
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.2.0
       - name: Set up Node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18.18.1"
           cache: "pnpm"
