@@ -20,7 +20,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L15)
+[sdk/src/types/evaluation.d.ts:15](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L15)
 
 ---
 
@@ -30,7 +30,7 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:16](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L16)
+[sdk/src/types/evaluation.d.ts:16](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L16)
 
 ---
 
@@ -40,4 +40,4 @@ Schema for evaluating Hypercerts across different sources and evaluation types
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:17](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L17)
+[sdk/src/types/evaluation.d.ts:17](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L17)

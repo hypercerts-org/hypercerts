@@ -18,7 +18,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L35)
+[sdk/src/types/evaluation.d.ts:35](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L35)
 
 ---
 
@@ -28,7 +28,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:36](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L36)
+[sdk/src/types/evaluation.d.ts:36](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L36)
 
 ---
 
@@ -38,4 +38,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[sdk/src/types/evaluation.d.ts:34](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/evaluation.d.ts#L34)
+[sdk/src/types/evaluation.d.ts:34](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/evaluation.d.ts#L34)

@@ -512,6 +512,14 @@ error OperatorNotApprovedByUser()
 
 It is returned if the operator to revoke has not been previously approved by the user.
 
+### OrderInvalid
+
+```solidity
+error OrderInvalid()
+```
+
+It is returned if the order is permanently invalid. There may be an issue with the order formatting.
+
 ### RenouncementNotInProgress
 
 ```solidity

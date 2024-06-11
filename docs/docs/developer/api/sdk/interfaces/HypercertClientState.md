@@ -24,7 +24,7 @@ The indexer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:163](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L163)
+[sdk/src/types/client.ts:172](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L172)
 
 ---
 
@@ -36,7 +36,7 @@ Whether the client is in read-only mode.
 
 #### Defined in
 
-[sdk/src/types/client.ts:159](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L159)
+[sdk/src/types/client.ts:168](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L168)
 
 ---
 
@@ -48,4 +48,4 @@ The storage layer used by the client.
 
 #### Defined in
 
-[sdk/src/types/client.ts:161](https://github.com/hypercerts-org/hypercerts/blob/ffe5811/sdk/src/types/client.ts#L161)
+[sdk/src/types/client.ts:170](https://github.com/hypercerts-org/hypercerts/blob/473cc51/sdk/src/types/client.ts#L170)
