@@ -514,7 +514,7 @@ contract HypercertCollectionOffersTest is ProtocolBase {
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
             owner: takerUser,
             numberOfAccountsInMerkleTree: 5,
-            // Doesn't matter what itemIdInMerkleTree is as we are are going to tamper with the proof
+            // Doesn't matter what itemIdInMerkleTree is as we are going to tamper with the proof
             accountInMerkleTree: accountInMerkleTree
         });
         makerBid.additionalParameters = abi.encode(10_000, merkleRoot);

@@ -136,7 +136,7 @@ tests do what you intend them to do.
 
 ### 2. No Release Versioning
 
-DSTest doesn't version its releases, which makes it difficult to future-proof consumer repos. It's quite easy to to
+DSTest doesn't version its releases, which makes it difficult to future-proof consumer repos. It's quite easy to
 accidentally update your git submodules and thus break your test suites. For
 [some users](https://github.com/dapphub/ds-test/issues/32), this is a real pain.
 
