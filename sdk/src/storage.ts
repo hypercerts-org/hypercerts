@@ -15,11 +15,7 @@ export const getStorage = ({
   environment: Environment;
   config?: AxiosRequestConfig;
 }): HypercertStorage => {
-  const baseURL = ENDPOINTS[environment];
-
-  const _config = { ...config, baseURL };
-
-  console.log("config", _config);
+  const _config = { ...config, baseURL: ENDPOINTS[environment] };
 
   return {
     storeMetadata: async (metadata: HypercertMetadata, config: AxiosRequestConfig = {}) =>
