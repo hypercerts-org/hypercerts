@@ -857,7 +857,7 @@ export const FractionsByHypercertDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "owner_address" },
+                      name: { kind: "Name", value: "hypercert_id" },
                       value: {
                         kind: "ObjectValue",
                         fields: [

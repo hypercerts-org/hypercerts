@@ -1,10 +1,12 @@
 # Updated environment initialization
 
-- Initialize the client with `{environment: "test"` or `{environment: "production"}` instead of providing a chainID.
+- Initialize the client with `{environment: "test"}` or `{environment: "production"}` instead of providing a chainID.
   This will enable queries to the correct graph.
-- For reading evm state, we follow the publicClient's connected chain.
-- WalletClient is not required. When initializing without a walletClient, or when the walletClient is set to a chain not
-  supported in the environment, the SDK will default to read only mode.
+- `WalletClient` is not required. When initializing without a wallet client, or when the wallet client is set to a chain
+  not supported in the environment, the SDK will default to read only mode.
+- `PublicClient` is not required. This client is mostly used for transaction simulation. When initializing without a
+  publicClient, the SDK will default to a public client provided by `viem` for the chain specified by the
+  `WalletClient`.
 
 # Updated Graph client and queries
 

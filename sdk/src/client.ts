@@ -1,8 +1,18 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
-import { Account, ByteArray, Hex, PublicClient, WalletClient, getAddress, getContract } from "viem";
+import {
+  Account,
+  ByteArray,
+  Hex,
+  PublicClient,
+  WalletClient,
+  getAddress,
+  getContract,
+  http,
+  createPublicClient,
+} from "viem";
 import { HypercertEvaluator } from "./evaluations";
 import { HypercertIndexer } from "./indexer";
-import { HypercertStorage, getStorage } from "./storage";
+import { getStorage } from "./storage";
 import {
   AllowlistEntry,
   ClientError,
@@ -24,6 +34,7 @@ import { getClaimStoredDataFromTxHash } from "./utils";
 import { ParserReturnType } from "./utils/txParser";
 import { isClaimOnChain } from "./utils/chains";
 import { StoreAllowList201AnyOfTwoData, StoreMetadata201AnyOf } from "./__generated__/api";
+import { HypercertStorage } from "./types/storage";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -44,7 +55,7 @@ export class HypercertClient implements HypercertClientInterface {
   // TODO better handling readonly. For now not needed since we don't use this class;
   private _evaluator?: HypercertEvaluator;
   private _indexer: HypercertIndexer;
-  private _publicClient: PublicClient;
+  private _publicClient?: PublicClient;
   private _walletClient?: WalletClient;
   private _storage: HypercertStorage;
   readOnly: boolean;
@@ -63,7 +74,7 @@ export class HypercertClient implements HypercertClientInterface {
       throw new ClientError("Could not connect to public client.");
     }
 
-    this._publicClient = this._config.publicClient;
+    this._publicClient = this._config?.publicClient;
     this._walletClient = this._config?.walletClient;
     this._storage = getStorage({ environment: this._config.environment });
     this._indexer = new HypercertIndexer(this._config);
@@ -138,7 +149,7 @@ export class HypercertClient implements HypercertClientInterface {
     transferRestriction: TransferRestrictions,
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     // validate and store metadata
     const metadataRes = await this.storage.storeMetadata(metaData, { timeout: overrides?.timeout });
@@ -168,9 +179,11 @@ export class HypercertClient implements HypercertClientInterface {
    * @returns a Promise that resolves to the applicable transfer restrictions.
    */
   getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
+    const { publicClient } = this.getConnected();
+
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: { public: this._publicClient },
+      client: { public: publicClient },
     });
 
     return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
@@ -192,7 +205,7 @@ export class HypercertClient implements HypercertClientInterface {
     to: string,
     overrides?: SupportedOverrides | undefined,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     const request = await this.simulateRequest(
       account,
@@ -220,7 +233,7 @@ export class HypercertClient implements HypercertClientInterface {
     to: `0x${string}`,
     overrides?: SupportedOverrides | undefined,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     const request = await this.simulateRequest(
       account,
@@ -255,7 +268,7 @@ export class HypercertClient implements HypercertClientInterface {
     transferRestriction: TransferRestrictions,
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     // create allowlist
     const tree = parseAllowListEntriesToMerkleTree(allowList);
@@ -305,11 +318,11 @@ export class HypercertClient implements HypercertClientInterface {
     fractions: bigint[],
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account, publicClient } = this.getConnected();
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: { public: this._publicClient },
+      client: { public: publicClient },
     });
 
     const fractionOwner = (await readContract.read.ownerOf([fractionId])) as `0x${string}`;
@@ -349,11 +362,11 @@ export class HypercertClient implements HypercertClientInterface {
     fractionIds: bigint[],
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account, publicClient } = this.getConnected();
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: { public: this._publicClient },
+      client: { public: publicClient },
     });
 
     const fractions = await Promise.all(
@@ -387,11 +400,11 @@ export class HypercertClient implements HypercertClientInterface {
    * @throws {ClientError} Will throw a `ClientError` if the claim is not owned by the account.
    */
   burnClaimFraction = async (claimId: bigint, overrides?: SupportedOverrides): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account, publicClient } = this.getConnected();
 
     const readContract = getContract({
       ...this.getContractConfig(),
-      client: { public: this._publicClient },
+      client: { public: publicClient },
     });
 
     const claimOwner = (await readContract.read.ownerOf([claimId])) as `0x${string}`;
@@ -426,7 +439,7 @@ export class HypercertClient implements HypercertClientInterface {
     root?: Hex | ByteArray,
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     //verify the proof using the OZ merkle tree library
     if (root && root.length > 0) {
@@ -470,7 +483,7 @@ export class HypercertClient implements HypercertClientInterface {
     roots?: (Hex | ByteArray)[],
     overrides?: SupportedOverrides,
   ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getWallet();
+    const { account } = this.getConnected();
 
     //verify the proof using the OZ merkle tree library
     if (roots && roots.length > 0) {
@@ -495,15 +508,17 @@ export class HypercertClient implements HypercertClientInterface {
   };
 
   getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
-    const { data, errors, success } = await getClaimStoredDataFromTxHash(this._publicClient, hash);
+    const { publicClient } = this.getConnected();
+
+    const { data, errors, success } = await getClaimStoredDataFromTxHash(publicClient, hash);
 
     return { data, errors, success };
   };
 
   private getContractConfig = () => {
-    if (!this._walletClient) throw new ClientError("No wallet client found", { client: this });
+    const { walletClient, publicClient } = this.getConnected();
 
-    const chainId = this._walletClient.chain?.id as SupportedChainIds;
+    const chainId = walletClient.chain?.id as SupportedChainIds;
 
     const deployment = this.getDeployments({ chainId });
 
@@ -513,7 +528,7 @@ export class HypercertClient implements HypercertClientInterface {
     return getContract({
       address: getAddress(deployment[chainId].addresses.HypercertMinterUUPS!),
       abi: HypercertMinterAbi,
-      client: { public: this._publicClient },
+      client: { public: publicClient },
     });
   };
 
@@ -527,14 +542,25 @@ export class HypercertClient implements HypercertClientInterface {
     return Object.fromEntries(Object.entries(_overrides).filter(([_, value]) => value !== undefined));
   };
 
-  private getWallet = () => {
+  private getConnected = () => {
     if (!this._walletClient) {
       throw new ClientError("Could not connect to wallet; sending transactions not allowed.", { client: this });
     }
     if (this.readOnly) throw new ClientError("Client is readonly", { client: this });
     if (!this._walletClient.account) throw new ClientError("No account found", { client: this });
+    if (!this._publicClient)
+      logger.warn("No public client found; substituting with default public client from viem", "client");
 
-    return { walletClient: this._walletClient, account: this._walletClient.account };
+    return {
+      walletClient: this._walletClient,
+      account: this._walletClient.account,
+      publicClient:
+        this._publicClient ??
+        createPublicClient({
+          chain: this._walletClient.chain,
+          transport: http(),
+        }),
+    };
   };
 
   private simulateRequest = async (
@@ -543,11 +569,12 @@ export class HypercertClient implements HypercertClientInterface {
     args: unknown[],
     overrides?: SupportedOverrides,
   ) => {
+    const { publicClient } = this.getConnected();
     try {
       // Need to get the contract config before passing it to the simulateContract method
       const config = this.getContractConfig();
 
-      const { request } = await this._publicClient.simulateContract({
+      const { request } = await publicClient.simulateContract({
         functionName,
         account,
         args,
@@ -573,7 +600,8 @@ export class HypercertClient implements HypercertClientInterface {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private submitRequest = async (request: any) => {
-    const hash = await this._walletClient?.writeContract(request);
+    const { walletClient } = this.getConnected();
+    const hash = await walletClient?.writeContract(request);
 
     if (!hash) {
       throw new ClientError("Something went wrong when executing request", { request, hash });

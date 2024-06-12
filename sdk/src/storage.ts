@@ -1,26 +1,8 @@
 import { Environment, HypercertMetadata } from "./types";
-import {
-  CreateAllowListRequest,
-  StoreAllowList201,
-  StoreMetadata201,
-  storeAllowList,
-  storeMetadata,
-} from "./__generated__/api";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { CreateAllowListRequest, storeAllowList, storeMetadata } from "./__generated__/api";
+import { AxiosRequestConfig } from "axios";
 import { ENDPOINTS } from "./constants";
-
-export interface HypercertStorage {
-  storeMetadata: (
-    metadata: HypercertMetadata,
-    config: AxiosRequestConfig,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => Promise<AxiosResponse<StoreMetadata201, any>>;
-  storeAllowlist: (
-    createAllowListRequest: CreateAllowListRequest,
-    config: AxiosRequestConfig,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => Promise<AxiosResponse<StoreAllowList201, any>>;
-}
+import { HypercertStorage } from "./types/storage";
 
 /**
  * An utility methods that provides storage functionality for hypercerts metadata and allow lists.
@@ -32,7 +14,7 @@ export const getStorage = ({
 }: {
   environment: Environment;
   config?: AxiosRequestConfig;
-}) => {
+}): HypercertStorage => {
   const baseURL = ENDPOINTS[environment];
 
   const _config = { ...config, baseURL };

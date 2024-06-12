@@ -70,7 +70,7 @@ export type HypercertClientConfig = {
  * Production will run against all mainnet chains, while test will run against testnet chains.
  * All will run against both
  */
-export type Environment = "production" | "test" | "all";
+export type Environment = "production" | "test";
 
 /**
  * The props for the Hypercert client.
