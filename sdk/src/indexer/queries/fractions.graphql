@@ -19,7 +19,7 @@ query FractionsByHypercert(
 ) {
   hypercerts(
     count: COUNT
-    where: { owner_address: { eq: $hypercertId } }
+    where: { hypercert_id: { eq: $hypercertId } }
     first: $first
     offset: $offset
     sort: { by: { hypercert_id: $orderDirection } }
