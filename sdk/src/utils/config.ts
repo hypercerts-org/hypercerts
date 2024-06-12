@@ -108,7 +108,7 @@ const getEnvironment = (config: Partial<HypercertClientConfig>) => {
 };
 
 const getGraphUrl = (config: Partial<HypercertClientConfig>) => {
-  return { graphUrl: `${ENDPOINTS[config.environment || DEFAULT_ENVIRONMENT]}/v1/graph` };
+  return { graphUrl: `${ENDPOINTS[config.environment || DEFAULT_ENVIRONMENT]}/v1/graphql` };
 };
 
 const getWalletClient = (config: Partial<HypercertClientConfig>) => {

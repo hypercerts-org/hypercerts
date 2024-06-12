@@ -53,5 +53,4 @@ export * from "./utils";
 /**
  * Graph
  */
-export * from "./__generated__/gql";
-export * as graphClient from "./__generated__/gql/graphql";
+export * as graphClient from "./__generated__/gql";
