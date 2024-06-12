@@ -264,7 +264,7 @@ contract CollectionOrdersTest is ProtocolBase {
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProof({
             owner: takerUser,
             numberOfItemsInMerkleTree: 5,
-            // Doesn't matter what itemIdInMerkleTree is as we are are going to tamper with the proof
+            // Doesn't matter what itemIdInMerkleTree is as we are going to tamper with the proof
             itemIdInMerkleTree: 4
         });
         makerBid.additionalParameters = abi.encode(merkleRoot);
@@ -355,7 +355,7 @@ contract CollectionOrdersTest is ProtocolBase {
         (bytes32 merkleRoot, bytes32[] memory proof) = _mintNFTsToOwnerAndGetMerkleRootAndProofAccountAllowlist({
             owner: takerUser,
             numberOfAccountsInMerkleTree: 5,
-            // Doesn't matter what itemIdInMerkleTree is as we are are going to tamper with the proof
+            // Doesn't matter what itemIdInMerkleTree is as we are going to tamper with the proof
             accountInMerkleTree: accountInMerkleTree
         });
         makerBid.additionalParameters = abi.encode(merkleRoot);
