@@ -70,10 +70,6 @@ export class HypercertClient implements HypercertClientInterface {
    */
   constructor(config: Partial<HypercertClientConfig>) {
     this._config = getConfig({ config });
-    if (!this._config.publicClient) {
-      throw new ClientError("Could not connect to public client.");
-    }
-
     this._publicClient = this._config?.publicClient;
     this._walletClient = this._config?.walletClient;
     this._storage = getStorage({ environment: this._config.environment });

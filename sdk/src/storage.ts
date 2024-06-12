@@ -19,10 +19,12 @@ export const getStorage = ({
 
   const _config = { ...config, baseURL };
 
+  console.log("config", _config);
+
   return {
-    storeMetadata: async (metadata: HypercertMetadata, config: AxiosRequestConfig = _config) =>
-      storeMetadata(metadata, config),
-    storeAllowlist: async (createAllowListRequest: CreateAllowListRequest, config: AxiosRequestConfig = _config) =>
-      storeAllowList(createAllowListRequest, config),
+    storeMetadata: async (metadata: HypercertMetadata, config: AxiosRequestConfig = {}) =>
+      storeMetadata(metadata, { ..._config, ...config }),
+    storeAllowlist: async (createAllowListRequest: CreateAllowListRequest, config: AxiosRequestConfig = {}) =>
+      storeAllowList(createAllowListRequest, { ..._config, ...config }),
   };
 };
