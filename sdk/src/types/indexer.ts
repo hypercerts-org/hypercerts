@@ -12,6 +12,10 @@ import {
   FractionsByHypercertQueryVariables,
   FractionByIdQueryVariables,
   FractionByIdQuery,
+  MetadataByUriQuery,
+  MetadataByUriQueryVariables,
+  MetadataForHypercertQuery,
+  MetadataForHypercertQueryVariables,
 } from "../__generated__/gql/graphql";
 
 export interface HypercertIndexerInterface {
@@ -24,4 +28,8 @@ export interface HypercertIndexerInterface {
   fractionsByHypercert: (
     variables: FractionsByHypercertQueryVariables,
   ) => Promise<FractionsByHypercertQuery | undefined>;
+  metadataByUri: (variables: MetadataByUriQueryVariables) => Promise<MetadataByUriQuery | undefined>;
+  metadataForHypercert: (
+    variables: MetadataForHypercertQueryVariables,
+  ) => Promise<MetadataForHypercertQuery | undefined>;
 }

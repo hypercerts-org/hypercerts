@@ -15,6 +15,10 @@ import {
   RecentHypercertsQueryVariables,
   FractionByIdDocument,
   FractionByIdQueryVariables,
+  MetadataByUriDocument,
+  MetadataByUriQueryVariables,
+  MetadataForHypercertDocument,
+  MetadataForHypercertQueryVariables,
 } from "./__generated__/gql/graphql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { DocumentNode } from "graphql";
@@ -124,6 +128,24 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    */
   fractionById = async (variables: FractionByIdQueryVariables) => {
     return await this.performQuery(FractionByIdDocument, variables);
+  };
+
+  /**
+   * Gets the metadata for a given URI.
+   * @param uri The URI of the metadata.
+   * @returns A Promise that resolves to the metadata.
+   */
+  metadataByUri = async (variables: MetadataByUriQueryVariables) => {
+    return await this.performQuery(MetadataByUriDocument, variables);
+  };
+
+  /**
+   * Gets the metadata for a given hypercert.
+   * @param hypercertId The ID of the hypercert.
+   * @returns A Promise that resolves to the metadata.
+   */
+  metadataForHypercert = async (variables: MetadataForHypercertQueryVariables) => {
+    return await this.performQuery(MetadataForHypercertDocument, variables);
   };
 
   /**

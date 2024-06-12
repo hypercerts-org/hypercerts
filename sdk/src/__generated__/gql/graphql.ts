@@ -20,6 +20,8 @@ export type Scalars = {
   EthBigInt: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any };
+  /** A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier. */
+  UUID: { input: any; output: any };
 };
 
 export type Attestation = {
@@ -43,12 +45,12 @@ export type AttestationFetchInput = {
 export type AttestationSchema = {
   __typename?: "AttestationSchema";
   chain_id?: Maybe<Scalars["BigInt"]["output"]>;
-  eas_schema_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   records?: Maybe<Array<Attestation>>;
   resolver?: Maybe<Scalars["String"]["output"]>;
   revocable?: Maybe<Scalars["Boolean"]["output"]>;
   schema?: Maybe<Scalars["String"]["output"]>;
+  uid?: Maybe<Scalars["ID"]["output"]>;
 };
 
 export type AttestationSchemaFetchInput = {
@@ -65,11 +67,11 @@ export type AttestationSchemaSortOptions = {
 export type AttestationSchemaWhereInput = {
   attestations?: InputMaybe<BasicAttestationSchemaWhereInput>;
   chain_id?: InputMaybe<NumberSearchOptions>;
-  eas_schema_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
   resolver?: InputMaybe<StringSearchOptions>;
   revocable?: InputMaybe<BooleanSearchOptions>;
   schema?: InputMaybe<StringSearchOptions>;
+  uid?: InputMaybe<StringSearchOptions>;
 };
 
 export type AttestationSortOptions = {
@@ -100,11 +102,11 @@ export type AttestationWhereInput = {
 
 export type BasicAttestationSchemaWhereInput = {
   chain_id?: InputMaybe<NumberSearchOptions>;
-  eas_schema_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
   resolver?: InputMaybe<StringSearchOptions>;
   revocable?: InputMaybe<BooleanSearchOptions>;
   schema?: InputMaybe<StringSearchOptions>;
+  uid?: InputMaybe<StringSearchOptions>;
 };
 
 export type BasicAttestationWhereInput = {
@@ -130,7 +132,8 @@ export type BasicContractWhereInput = {
 
 export type BasicFractionWhereInput = {
   creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
-  hypercert_id?: InputMaybe<IdSearchOptions>;
+  hypercert_id?: InputMaybe<StringSearchOptions>;
+  id?: InputMaybe<IdSearchOptions>;
   last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
@@ -139,6 +142,7 @@ export type BasicFractionWhereInput = {
 
 export type BasicHypercertWhereInput = {
   block_number?: InputMaybe<NumberSearchOptions>;
+  creator_address?: InputMaybe<StringSearchOptions>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
@@ -150,6 +154,7 @@ export type BasicMetadataWhereInput = {
   contributors?: InputMaybe<StringArraySearchOptions>;
   creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
   description?: InputMaybe<StringSearchOptions>;
+  id?: InputMaybe<IdSearchOptions>;
   impact_scope?: InputMaybe<StringArraySearchOptions>;
   impact_timeframe_from?: InputMaybe<NumberSearchOptions>;
   impact_timeframe_to?: InputMaybe<NumberSearchOptions>;
@@ -199,10 +204,12 @@ export enum CountKeys {
 
 export type Fraction = {
   __typename?: "Fraction";
+  claims_id?: Maybe<Scalars["String"]["output"]>;
   creation_block_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
   hypercert_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   last_block_update_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
+  metadata?: Maybe<Metadata>;
   orders?: Maybe<GetOrdersResponse>;
   owner_address?: Maybe<Scalars["String"]["output"]>;
   units?: Maybe<Scalars["EthBigInt"]["output"]>;
@@ -222,8 +229,9 @@ export type FractionSortOptions = {
 
 export type FractionWhereInput = {
   creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
-  hypercert_id?: InputMaybe<IdSearchOptions>;
+  hypercert_id?: InputMaybe<StringSearchOptions>;
   hypercerts?: InputMaybe<BasicHypercertWhereInput>;
+  id?: InputMaybe<IdSearchOptions>;
   last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
@@ -260,6 +268,12 @@ export type GetHypercertsResponse = {
   data?: Maybe<Array<Hypercert>>;
 };
 
+export type GetMetadataResponse = {
+  __typename?: "GetMetadataResponse";
+  count?: Maybe<Scalars["Int"]["output"]>;
+  data?: Maybe<Array<Metadata>>;
+};
+
 export type GetOrdersResponse = {
   __typename?: "GetOrdersResponse";
   count?: Maybe<Scalars["Int"]["output"]>;
@@ -272,6 +286,7 @@ export type Hypercert = {
   block_number?: Maybe<Scalars["BigInt"]["output"]>;
   contract?: Maybe<Contract>;
   contracts_id?: Maybe<Scalars["ID"]["output"]>;
+  creator_address?: Maybe<Scalars["String"]["output"]>;
   fractions?: Maybe<GetFractionsResponse>;
   hypercert_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
@@ -303,6 +318,7 @@ export type HypercertsWhereInput = {
   attestations?: InputMaybe<BasicAttestationWhereInput>;
   block_number?: InputMaybe<NumberSearchOptions>;
   contract?: InputMaybe<BasicContractWhereInput>;
+  creator_address?: InputMaybe<StringSearchOptions>;
   fractions?: InputMaybe<BasicFractionWhereInput>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
@@ -313,10 +329,7 @@ export type HypercertsWhereInput = {
 };
 
 export type IdSearchOptions = {
-  contains?: InputMaybe<Scalars["ID"]["input"]>;
-  endsWith?: InputMaybe<Scalars["ID"]["input"]>;
-  eq?: InputMaybe<Scalars["ID"]["input"]>;
-  startsWith?: InputMaybe<Scalars["ID"]["input"]>;
+  eq?: InputMaybe<Scalars["UUID"]["input"]>;
 };
 
 export type Metadata = {
@@ -353,13 +366,21 @@ export type MetadataSortOptions = {
 };
 
 export type MetadataWhereInput = {
-  block_number?: InputMaybe<NumberSearchOptions>;
-  hypercert_id?: InputMaybe<StringSearchOptions>;
+  contributors?: InputMaybe<StringArraySearchOptions>;
+  creation_block_timestamp?: InputMaybe<NumberSearchOptions>;
+  description?: InputMaybe<StringSearchOptions>;
+  hypercerts?: InputMaybe<BasicHypercertWhereInput>;
   id?: InputMaybe<IdSearchOptions>;
-  metadata?: InputMaybe<BasicMetadataWhereInput>;
-  owner_address?: InputMaybe<StringSearchOptions>;
-  token_id?: InputMaybe<NumberSearchOptions>;
+  impact_scope?: InputMaybe<StringArraySearchOptions>;
+  impact_timeframe_from?: InputMaybe<NumberSearchOptions>;
+  impact_timeframe_to?: InputMaybe<NumberSearchOptions>;
+  last_block_update_timestamp?: InputMaybe<NumberSearchOptions>;
+  name?: InputMaybe<StringSearchOptions>;
+  rights?: InputMaybe<StringArraySearchOptions>;
   uri?: InputMaybe<StringSearchOptions>;
+  work_scope?: InputMaybe<StringArraySearchOptions>;
+  work_timeframe_from?: InputMaybe<NumberSearchOptions>;
+  work_timeframe_to?: InputMaybe<NumberSearchOptions>;
 };
 
 export type NumberSearchOptions = {
@@ -404,7 +425,7 @@ export type Query = {
   contracts: GetContractsResponse;
   fractions: GetFractionsResponse;
   hypercerts: GetHypercertsResponse;
-  metadata: Array<Metadata>;
+  metadata: GetMetadataResponse;
   orders: GetOrdersResponse;
 };
 
@@ -539,7 +560,7 @@ export type FractionsByHypercertQuery = {
 };
 
 export type FractionByIdQueryVariables = Exact<{
-  fractionId: Scalars["ID"]["input"];
+  fractionId: Scalars["String"]["input"];
 }>;
 
 export type FractionByIdQuery = {
@@ -618,6 +639,69 @@ export type HypercertByIdQuery = {
       units?: any | null;
       uri?: string | null;
       contract?: { __typename?: "Contract"; chain_id?: any | null } | null;
+    }> | null;
+  };
+};
+
+export type MetadataByUriQueryVariables = Exact<{
+  uri?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type MetadataByUriQuery = {
+  __typename?: "Query";
+  metadata: {
+    __typename?: "GetMetadataResponse";
+    data?: Array<{
+      __typename?: "Metadata";
+      allow_list_uri?: string | null;
+      contributors?: Array<string> | null;
+      description?: string | null;
+      external_url?: string | null;
+      image?: string | null;
+      impact_scope?: Array<string> | null;
+      impact_timeframe_from?: any | null;
+      impact_timeframe_to?: any | null;
+      name?: string | null;
+      properties?: any | null;
+      rights?: Array<string> | null;
+      uri?: string | null;
+      work_scope?: Array<string> | null;
+      work_timeframe_from?: any | null;
+      work_timeframe_to?: any | null;
+    }> | null;
+  };
+};
+
+export type MetadataForHypercertQueryVariables = Exact<{
+  hypercertId: Scalars["String"]["input"];
+  orderDirection?: InputMaybe<SortOrder>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type MetadataForHypercertQuery = {
+  __typename?: "Query";
+  metadata: {
+    __typename?: "GetMetadataResponse";
+    data?: Array<{
+      __typename?: "Metadata";
+      allow_list_uri?: string | null;
+      contributors?: Array<string> | null;
+      description?: string | null;
+      external_url?: string | null;
+      image?: string | null;
+      impact_scope?: Array<string> | null;
+      impact_timeframe_from?: any | null;
+      impact_timeframe_to?: any | null;
+      name?: string | null;
+      properties?: any | null;
+      rights?: Array<string> | null;
+      uri?: string | null;
+      work_scope?: Array<string> | null;
+      work_timeframe_from?: any | null;
+      work_timeframe_to?: any | null;
     }> | null;
   };
 };
@@ -881,7 +965,7 @@ export const FractionByIdDocument = {
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "fractionId" } },
-          type: { kind: "NonNullType", type: { kind: "NamedType", name: { kind: "Name", value: "ID" } } },
+          type: { kind: "NonNullType", type: { kind: "NamedType", name: { kind: "Name", value: "String" } } },
         },
       ],
       selectionSet: {
@@ -1264,3 +1348,233 @@ export const HypercertByIdDocument = {
     },
   ],
 } as unknown as DocumentNode<HypercertByIdQuery, HypercertByIdQueryVariables>;
+export const MetadataByUriDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "MetadataByUri" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "uri" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+          defaultValue: { kind: "StringValue", value: "", block: false },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "first" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+          defaultValue: { kind: "IntValue", value: "100" },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "offset" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+          defaultValue: { kind: "IntValue", value: "0" },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metadata" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "where" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "uri" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: { kind: "Variable", name: { kind: "Name", value: "uri" } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: { kind: "Variable", name: { kind: "Name", value: "first" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "offset" },
+                value: { kind: "Variable", name: { kind: "Name", value: "offset" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "count" },
+                value: { kind: "EnumValue", value: "COUNT" },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "data" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "allow_list_uri" } },
+                      { kind: "Field", name: { kind: "Name", value: "contributors" } },
+                      { kind: "Field", name: { kind: "Name", value: "description" } },
+                      { kind: "Field", name: { kind: "Name", value: "external_url" } },
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_scope" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_timeframe_from" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_timeframe_to" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "properties" } },
+                      { kind: "Field", name: { kind: "Name", value: "rights" } },
+                      { kind: "Field", name: { kind: "Name", value: "uri" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_scope" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_timeframe_from" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_timeframe_to" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MetadataByUriQuery, MetadataByUriQueryVariables>;
+export const MetadataForHypercertDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "MetadataForHypercert" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "hypercertId" } },
+          type: { kind: "NonNullType", type: { kind: "NamedType", name: { kind: "Name", value: "String" } } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "orderDirection" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "SortOrder" } },
+          defaultValue: { kind: "EnumValue", value: "descending" },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "first" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+          defaultValue: { kind: "IntValue", value: "100" },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "offset" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+          defaultValue: { kind: "IntValue", value: "0" },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metadata" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "where" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "hypercerts" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "hypercert_id" },
+                            value: {
+                              kind: "ObjectValue",
+                              fields: [
+                                {
+                                  kind: "ObjectField",
+                                  name: { kind: "Name", value: "eq" },
+                                  value: { kind: "Variable", name: { kind: "Name", value: "hypercertId" } },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: { kind: "Variable", name: { kind: "Name", value: "first" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "offset" },
+                value: { kind: "Variable", name: { kind: "Name", value: "offset" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "count" },
+                value: { kind: "EnumValue", value: "COUNT" },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "data" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "allow_list_uri" } },
+                      { kind: "Field", name: { kind: "Name", value: "contributors" } },
+                      { kind: "Field", name: { kind: "Name", value: "description" } },
+                      { kind: "Field", name: { kind: "Name", value: "external_url" } },
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_scope" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_timeframe_from" } },
+                      { kind: "Field", name: { kind: "Name", value: "impact_timeframe_to" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "properties" } },
+                      { kind: "Field", name: { kind: "Name", value: "rights" } },
+                      { kind: "Field", name: { kind: "Name", value: "uri" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_scope" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_timeframe_from" } },
+                      { kind: "Field", name: { kind: "Name", value: "work_timeframe_to" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MetadataForHypercertQuery, MetadataForHypercertQueryVariables>;
