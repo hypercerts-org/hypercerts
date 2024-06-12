@@ -19,7 +19,7 @@ query FractionsByHypercert(
 ) {
   hypercerts(
     count: COUNT
-    where: { owner_address: { eq: $hypercertId } }
+    where: { hypercert_id: { eq: $hypercertId } }
     first: $first
     offset: $offset
     sort: { by: { hypercert_id: $orderDirection } }
@@ -43,7 +43,7 @@ query FractionsByHypercert(
   }
 }
 
-query FractionById($fractionId: ID!) {
+query FractionById($fractionId: String!) {
   fractions(where: { hypercert_id: { eq: $fractionId } }) {
     data {
       creation_block_timestamp
