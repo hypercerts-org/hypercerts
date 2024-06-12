@@ -43,7 +43,7 @@ query FractionsByHypercert(
   }
 }
 
-query FractionById($fractionId: ID!) {
+query FractionById($fractionId: String!) {
   fractions(where: { hypercert_id: { eq: $fractionId } }) {
     data {
       creation_block_timestamp
