@@ -1,7 +1,7 @@
 import { Client } from "urql/core";
 import {
-  HypercertsByOwnerQuery,
-  HypercertsByOwnerQueryVariables,
+  HypercertsByCreatorQuery,
+  HypercertsByCreatorQueryVariables,
   HypercertByIdQuery,
   HypercertByIdQueryVariables,
   RecentHypercertsQuery,
@@ -20,7 +20,7 @@ import {
 
 export interface HypercertIndexerInterface {
   getGraphClient(): Client;
-  hypercertsByOwner: (variables: HypercertsByOwnerQueryVariables) => Promise<HypercertsByOwnerQuery | undefined>;
+  hypercertsByOwner: (variables: HypercertsByCreatorQueryVariables) => Promise<HypercertsByCreatorQuery | undefined>;
   hypercertById: (variables: HypercertByIdQueryVariables) => Promise<HypercertByIdQuery | undefined>;
   recentHypercerts: (variables: RecentHypercertsQueryVariables) => Promise<RecentHypercertsQuery | undefined>;
   fractionsByOwner: (variables: FractionsByOwnerQueryVariables) => Promise<FractionsByOwnerQuery | undefined>;

@@ -1,7 +1,7 @@
-query HypercertsByOwner($owner: String = "", $orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
+query HypercertsByCreator($owner: String = "", $orderDirection: SortOrder = descending, $first: Int = 100, $offset: Int = 0) {
    hypercerts(
     count: COUNT
-    where: {owner_address: {eq: $owner}}
+    where: {creator_address: {eq: $owner}}
     first: $first
     offset: $offset
     sort: {by: {hypercert_id: $orderDirection}}
@@ -9,7 +9,7 @@ query HypercertsByOwner($owner: String = "", $orderDirection: SortOrder = descen
     count
     data {
       hypercert_id
-      owner_address
+      creator_address
       units
       uri
       contract {
@@ -29,7 +29,7 @@ query RecentHypercerts($orderDirection: SortOrder = descending, $first: Int = 10
     count
     data {
       hypercert_id
-      owner_address
+      creator_address
       units
       uri
       contract {
@@ -44,7 +44,7 @@ query HypercertById($id: String!) {
     count
     data {
       hypercert_id
-      owner_address
+      creator_address
       units
       uri
       contract {

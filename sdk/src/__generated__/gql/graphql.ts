@@ -124,6 +124,12 @@ export type BasicAttestationWhereInput = {
   uid?: InputMaybe<StringSearchOptions>;
 };
 
+export type BasicCollectionWhereInput = {
+  admin_id?: InputMaybe<StringSearchOptions>;
+  chain_id?: InputMaybe<NumberSearchOptions>;
+  id?: InputMaybe<IdSearchOptions>;
+};
+
 export type BasicContractWhereInput = {
   chain_id?: InputMaybe<NumberSearchOptions>;
   contract_address?: InputMaybe<StringSearchOptions>;
@@ -145,7 +151,6 @@ export type BasicHypercertWhereInput = {
   creator_address?: InputMaybe<StringSearchOptions>;
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
-  owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
   uri?: InputMaybe<StringSearchOptions>;
 };
@@ -176,11 +181,30 @@ export type BooleanSearchOptions = {
   eq?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
+export type Collection = {
+  __typename?: "Collection";
+  admin_address: Scalars["String"]["output"];
+  background_image: Scalars["String"]["output"];
+  chain_id?: Maybe<Scalars["BigInt"]["output"]>;
+  grayscale_image: Scalars["Boolean"]["output"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
+  tile_border_color: Scalars["String"]["output"];
+};
+
+export type CollectionFetchInput = {
+  by?: InputMaybe<ContractSortOptions>;
+};
+
+/** Pointer to a contract deployed on a chain */
 export type Contract = {
   __typename?: "Contract";
+  /** The ID of the chain on which the contract is deployed */
   chain_id?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The address of the contract */
   contract_address?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["ID"]["output"];
+  /** The block number at which the contract was deployed */
   start_block?: Maybe<Scalars["BigInt"]["output"]>;
 };
 
@@ -204,14 +228,18 @@ export enum CountKeys {
 
 export type Fraction = {
   __typename?: "Fraction";
-  claims_id?: Maybe<Scalars["String"]["output"]>;
   creation_block_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
-  hypercert_id?: Maybe<Scalars["ID"]["output"]>;
+  /** The ID of the fraction concatenated from the chain ID, contract address, and token ID */
+  fraction_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   last_block_update_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The metadata for the fraction */
   metadata?: Maybe<Metadata>;
+  /** Marketplace orders related to this fraction */
   orders?: Maybe<GetOrdersResponse>;
+  /** Address of the owner of the fractions */
   owner_address?: Maybe<Scalars["String"]["output"]>;
+  /** Units held by the fraction */
   units?: Maybe<Scalars["EthBigInt"]["output"]>;
 };
 
@@ -250,6 +278,12 @@ export type GetAttestationsSchemaResponse = {
   data: Array<AttestationSchema>;
 };
 
+export type GetCollectionsResponse = {
+  __typename?: "GetCollectionsResponse";
+  count?: Maybe<Scalars["Int"]["output"]>;
+  data?: Maybe<Array<Collection>>;
+};
+
 export type GetContractsResponse = {
   __typename?: "GetContractsResponse";
   count?: Maybe<Scalars["Int"]["output"]>;
@@ -278,24 +312,37 @@ export type GetOrdersResponse = {
   __typename?: "GetOrdersResponse";
   count?: Maybe<Scalars["Int"]["output"]>;
   data?: Maybe<Array<Order>>;
+  lowestAvailablePrice?: Maybe<Scalars["BigInt"]["output"]>;
+  totalUnitsForSale?: Maybe<Scalars["BigInt"]["output"]>;
 };
 
 export type Hypercert = {
   __typename?: "Hypercert";
+  /** Attestations for the hypercert or parts of its data */
   attestations?: Maybe<GetAttestationsResponse>;
+  /** The block number at which the hypercert was stored on chain */
   block_number?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The contract that the hypercert is associated with */
   contract?: Maybe<Contract>;
+  /** The UUID of the contract as stored in the database */
   contracts_id?: Maybe<Scalars["ID"]["output"]>;
+  /** The address of the creator of the hypercert */
   creator_address?: Maybe<Scalars["String"]["output"]>;
+  /** Transferable fractions representing partial ownership of the hypercert */
   fractions?: Maybe<GetFractionsResponse>;
+  /** Concatenation of [chainID]-[contractAddress]-[tokenID] to discern hypercerts across chains */
   hypercert_id?: Maybe<Scalars["ID"]["output"]>;
   id: Scalars["ID"]["output"];
   last_block_update_timestamp?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The metadata for the hypercert as referenced by the uri */
   metadata?: Maybe<Metadata>;
+  /** Marketplace orders related to this hypercert */
   orders?: Maybe<GetOrdersResponse>;
-  owner_address?: Maybe<Scalars["String"]["output"]>;
+  /** The token ID of the hypercert */
   token_id?: Maybe<Scalars["EthBigInt"]["output"]>;
+  /** The total units held by the hypercert */
   units?: Maybe<Scalars["EthBigInt"]["output"]>;
+  /** References the metadata for this claim */
   uri?: Maybe<Scalars["String"]["output"]>;
 };
 
@@ -323,7 +370,6 @@ export type HypercertsWhereInput = {
   hypercert_id?: InputMaybe<StringSearchOptions>;
   id?: InputMaybe<IdSearchOptions>;
   metadata?: InputMaybe<BasicMetadataWhereInput>;
-  owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
   uri?: InputMaybe<StringSearchOptions>;
 };
@@ -422,6 +468,7 @@ export type Query = {
   __typename?: "Query";
   attestationSchemas: GetAttestationsSchemaResponse;
   attestations: GetAttestationsResponse;
+  collections: GetCollectionsResponse;
   contracts: GetContractsResponse;
   fractions: GetFractionsResponse;
   hypercerts: GetHypercertsResponse;
@@ -443,6 +490,14 @@ export type QueryAttestationsArgs = {
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   sort?: InputMaybe<AttestationFetchInput>;
   where?: InputMaybe<AttestationWhereInput>;
+};
+
+export type QueryCollectionsArgs = {
+  count?: InputMaybe<CountKeys>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  sort?: InputMaybe<CollectionFetchInput>;
+  where?: InputMaybe<BasicCollectionWhereInput>;
 };
 
 export type QueryContractsArgs = {
@@ -518,7 +573,7 @@ export type FractionsByOwnerQuery = {
     data?: Array<{
       __typename?: "Fraction";
       creation_block_timestamp?: any | null;
-      hypercert_id?: string | null;
+      fraction_id?: string | null;
       last_block_update_timestamp?: any | null;
       owner_address?: string | null;
       units?: any | null;
@@ -549,7 +604,7 @@ export type FractionsByHypercertQuery = {
         data?: Array<{
           __typename?: "Fraction";
           creation_block_timestamp?: any | null;
-          hypercert_id?: string | null;
+          fraction_id?: string | null;
           last_block_update_timestamp?: any | null;
           owner_address?: string | null;
           units?: any | null;
@@ -570,7 +625,7 @@ export type FractionByIdQuery = {
     data?: Array<{
       __typename?: "Fraction";
       creation_block_timestamp?: any | null;
-      hypercert_id?: string | null;
+      fraction_id?: string | null;
       last_block_update_timestamp?: any | null;
       owner_address?: string | null;
       units?: any | null;
@@ -578,14 +633,14 @@ export type FractionByIdQuery = {
   };
 };
 
-export type HypercertsByOwnerQueryVariables = Exact<{
+export type HypercertsByCreatorQueryVariables = Exact<{
   owner?: InputMaybe<Scalars["String"]["input"]>;
   orderDirection?: InputMaybe<SortOrder>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
-export type HypercertsByOwnerQuery = {
+export type HypercertsByCreatorQuery = {
   __typename?: "Query";
   hypercerts: {
     __typename?: "GetHypercertsResponse";
@@ -593,7 +648,7 @@ export type HypercertsByOwnerQuery = {
     data?: Array<{
       __typename?: "Hypercert";
       hypercert_id?: string | null;
-      owner_address?: string | null;
+      creator_address?: string | null;
       units?: any | null;
       uri?: string | null;
       contract?: { __typename?: "Contract"; chain_id?: any | null } | null;
@@ -615,7 +670,7 @@ export type RecentHypercertsQuery = {
     data?: Array<{
       __typename?: "Hypercert";
       hypercert_id?: string | null;
-      owner_address?: string | null;
+      creator_address?: string | null;
       units?: any | null;
       uri?: string | null;
       contract?: { __typename?: "Contract"; chain_id?: any | null } | null;
@@ -635,7 +690,7 @@ export type HypercertByIdQuery = {
     data?: Array<{
       __typename?: "Hypercert";
       hypercert_id?: string | null;
-      owner_address?: string | null;
+      creator_address?: string | null;
       units?: any | null;
       uri?: string | null;
       contract?: { __typename?: "Contract"; chain_id?: any | null } | null;
@@ -790,7 +845,7 @@ export const FractionsByOwnerDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "creation_block_timestamp" } },
-                      { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
+                      { kind: "Field", name: { kind: "Name", value: "fraction_id" } },
                       { kind: "Field", name: { kind: "Name", value: "last_block_update_timestamp" } },
                       { kind: "Field", name: { kind: "Name", value: "owner_address" } },
                       { kind: "Field", name: { kind: "Name", value: "units" } },
@@ -933,7 +988,7 @@ export const FractionsByHypercertDocument = {
                                 kind: "SelectionSet",
                                 selections: [
                                   { kind: "Field", name: { kind: "Name", value: "creation_block_timestamp" } },
-                                  { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
+                                  { kind: "Field", name: { kind: "Name", value: "fraction_id" } },
                                   { kind: "Field", name: { kind: "Name", value: "last_block_update_timestamp" } },
                                   { kind: "Field", name: { kind: "Name", value: "owner_address" } },
                                   { kind: "Field", name: { kind: "Name", value: "units" } },
@@ -1009,7 +1064,7 @@ export const FractionByIdDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "creation_block_timestamp" } },
-                      { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
+                      { kind: "Field", name: { kind: "Name", value: "fraction_id" } },
                       { kind: "Field", name: { kind: "Name", value: "last_block_update_timestamp" } },
                       { kind: "Field", name: { kind: "Name", value: "owner_address" } },
                       { kind: "Field", name: { kind: "Name", value: "units" } },
@@ -1024,13 +1079,13 @@ export const FractionByIdDocument = {
     },
   ],
 } as unknown as DocumentNode<FractionByIdQuery, FractionByIdQueryVariables>;
-export const HypercertsByOwnerDocument = {
+export const HypercertsByCreatorDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "HypercertsByOwner" },
+      name: { kind: "Name", value: "HypercertsByCreator" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -1077,7 +1132,7 @@ export const HypercertsByOwnerDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "owner_address" },
+                      name: { kind: "Name", value: "creator_address" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -1137,7 +1192,7 @@ export const HypercertsByOwnerDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
-                      { kind: "Field", name: { kind: "Name", value: "owner_address" } },
+                      { kind: "Field", name: { kind: "Name", value: "creator_address" } },
                       { kind: "Field", name: { kind: "Name", value: "units" } },
                       { kind: "Field", name: { kind: "Name", value: "uri" } },
                       {
@@ -1158,7 +1213,7 @@ export const HypercertsByOwnerDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<HypercertsByOwnerQuery, HypercertsByOwnerQueryVariables>;
+} as unknown as DocumentNode<HypercertsByCreatorQuery, HypercertsByCreatorQueryVariables>;
 export const RecentHypercertsDocument = {
   kind: "Document",
   definitions: [
@@ -1243,7 +1298,7 @@ export const RecentHypercertsDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
-                      { kind: "Field", name: { kind: "Name", value: "owner_address" } },
+                      { kind: "Field", name: { kind: "Name", value: "creator_address" } },
                       { kind: "Field", name: { kind: "Name", value: "units" } },
                       { kind: "Field", name: { kind: "Name", value: "uri" } },
                       {
@@ -1326,7 +1381,7 @@ export const HypercertByIdDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "hypercert_id" } },
-                      { kind: "Field", name: { kind: "Name", value: "owner_address" } },
+                      { kind: "Field", name: { kind: "Name", value: "creator_address" } },
                       { kind: "Field", name: { kind: "Name", value: "units" } },
                       { kind: "Field", name: { kind: "Name", value: "uri" } },
                       {

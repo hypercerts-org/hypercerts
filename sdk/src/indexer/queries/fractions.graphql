@@ -3,7 +3,7 @@ query FractionsByOwner($owner: String = "", $first: Int = 100, $offset: Int = 0)
     count
     data {
       creation_block_timestamp
-      hypercert_id
+      fraction_id
       last_block_update_timestamp
       owner_address
       units
@@ -33,7 +33,7 @@ query FractionsByHypercert(
         count
         data {
           creation_block_timestamp
-          hypercert_id
+          fraction_id
           last_block_update_timestamp
           owner_address
           units
@@ -47,7 +47,7 @@ query FractionById($fractionId: String!) {
   fractions(where: { hypercert_id: { eq: $fractionId } }) {
     data {
       creation_block_timestamp
-      hypercert_id
+      fraction_id
       last_block_update_timestamp
       owner_address
       units

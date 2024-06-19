@@ -5,8 +5,8 @@ import { AnyVariables, cacheExchange, Client, fetchExchange } from "@urql/core";
 import {
   HypercertByIdDocument,
   HypercertByIdQueryVariables,
-  HypercertsByOwnerDocument,
-  HypercertsByOwnerQueryVariables,
+  HypercertsByCreatorDocument,
+  HypercertsByCreatorQueryVariables,
   FractionsByHypercertDocument,
   FractionsByHypercertQueryVariables,
   FractionsByOwnerDocument,
@@ -88,8 +88,8 @@ export class HypercertIndexer implements HypercertIndexerInterface {
    * @param params The query parameters.
    * @returns A Promise that resolves to the claims.
    */
-  hypercertsByOwner = async (variables: HypercertsByOwnerQueryVariables) => {
-    return await this.performQuery(HypercertsByOwnerDocument, variables);
+  hypercertsByOwner = async (variables: HypercertsByCreatorQueryVariables) => {
+    return await this.performQuery(HypercertsByCreatorDocument, variables);
   };
 
   /**
