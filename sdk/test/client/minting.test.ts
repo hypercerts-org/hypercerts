@@ -11,10 +11,6 @@ import { TransferRestrictions } from "../../src/types/hypercerts";
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { CIDString } from "nft.storage";
-
 chai.use(assertionsCount);
 
 const mocks = vi.hoisted(() => {
@@ -32,7 +28,7 @@ vi.mock("../../src/__generated__/api", () => {
 });
 
 describe("mintClaim in HypercertClient", () => {
-  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u" as CIDString;
+  const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
   const client = new HypercertClient({
     environment: "test",

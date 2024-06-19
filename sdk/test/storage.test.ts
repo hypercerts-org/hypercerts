@@ -3,7 +3,7 @@ import { describe, it, afterAll } from "vitest";
 import { expect } from "chai";
 
 import { reloadEnv } from "./setup-env";
-import { getStorage } from "src/storage";
+import { getStorage } from "../src/storage";
 
 describe("HypercertsStorage", () => {
   afterAll(() => {

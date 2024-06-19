@@ -4,7 +4,8 @@ import { isAddress } from "viem";
 import { CIDString } from "nft.storage";
 
 import { HypercertClientConfig, HypercertEvaluationSchema, MalformedDataError } from "../types";
-import { HypercertStorage, getStorage } from "../storage";
+import { getStorage } from "../storage";
+import { HypercertStorage } from "../types/storage";
 
 export interface EvaluatorInterface {
   /**

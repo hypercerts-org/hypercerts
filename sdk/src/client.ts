@@ -275,10 +275,14 @@ export class HypercertClient implements HypercertClientInterface {
       { timeout: overrides?.timeout },
     );
 
+    console.debug("allowlistStoreRes", allowlistStoreRes);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!allowlistStoreRes.data) throw new ClientError("No CID found", { allowlistStoreRes });
 
     const data = allowlistStoreRes.data as unknown as StoreAllowList201AnyOfTwoData;
+
+    console.debug("Storing metadata", { ...metaData, allowList: data.cid });
 
     // store metadata on IPFS
     const metadataCID = await this.storage.storeMetadata(

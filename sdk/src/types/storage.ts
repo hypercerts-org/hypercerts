@@ -5,12 +5,12 @@ import { HypercertMetadata } from "./metadata";
 export interface HypercertStorage {
   storeMetadata: (
     metadata: HypercertMetadata,
-    config: AxiosRequestConfig,
+    config?: AxiosRequestConfig,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) => Promise<AxiosResponse<StoreMetadata201, any>>;
   storeAllowlist: (
     createAllowListRequest: CreateAllowListRequest,
-    config: AxiosRequestConfig,
+    config?: AxiosRequestConfig,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) => Promise<AxiosResponse<StoreAllowList201, any>>;
 }

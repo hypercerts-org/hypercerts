@@ -11,7 +11,10 @@ describe("HypercertsIndexer", () => {
   });
 
   it("should only initialize with production environments", async () => {
-    const client = new HypercertIndexer({ graphUrl: "https://example.com", environment: "all" }).getGraphClient();
+    const client = new HypercertIndexer({
+      graphUrl: "https://example.com",
+      environment: "production",
+    }).getGraphClient();
 
     expect(client).toBeInstanceOf(Client);
   });

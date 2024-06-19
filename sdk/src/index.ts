@@ -49,8 +49,3 @@ export * from "./validator";
  * Utils
  */
 export * from "./utils";
-
-/**
- * Graph
- */
-export * as graphClient from "./__generated__/gql";

@@ -24,6 +24,46 @@ export type Scalars = {
   UUID: { input: any; output: any };
 };
 
+/** Records of allow list entries for claimable fractions */
+export type AllowlistRecord = {
+  __typename?: "AllowlistRecord";
+  /** Whether the fraction has been claimed */
+  claimed?: Maybe<Scalars["Boolean"]["output"]>;
+  /** The entry index of the Merkle tree for the claimable fraction */
+  entry?: Maybe<Scalars["Float"]["output"]>;
+  /** The hypercert ID the claimable fraction belongs to */
+  hypercert_id?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["ID"]["output"];
+  /** The leaf of the Merkle tree for the claimable fraction */
+  leaf?: Maybe<Scalars["String"]["output"]>;
+  /** The proof for the claimable fraction */
+  proof?: Maybe<Array<Scalars["String"]["output"]>>;
+  /** The token ID of the hypercert */
+  token_id?: Maybe<Scalars["String"]["output"]>;
+  /** The total number of units held by the hypercert */
+  total_units?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The number of units of the claimable fraction */
+  units?: Maybe<Scalars["BigInt"]["output"]>;
+  /** The address of the user who can claim the fraction */
+  user_address?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type AllowlistRecordFetchInput = {
+  by?: InputMaybe<AllowlistRecordSortOptions>;
+};
+
+export type AllowlistRecordSortOptions = {
+  claimed?: InputMaybe<SortOrder>;
+  entry?: InputMaybe<SortOrder>;
+  hypercert_id?: InputMaybe<SortOrder>;
+  leaf?: InputMaybe<SortOrder>;
+  proof?: InputMaybe<SortOrder>;
+  token_id?: InputMaybe<SortOrder>;
+  total_units?: InputMaybe<SortOrder>;
+  units?: InputMaybe<SortOrder>;
+  user_address?: InputMaybe<SortOrder>;
+};
+
 export type Attestation = {
   __typename?: "Attestation";
   attester?: Maybe<Scalars["String"]["output"]>;
@@ -98,6 +138,18 @@ export type AttestationWhereInput = {
   supported_schemas_id?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<StringSearchOptions>;
   uid?: InputMaybe<StringSearchOptions>;
+};
+
+export type BasicAllowlistRecordWhereInput = {
+  claimed?: InputMaybe<BooleanSearchOptions>;
+  entry?: InputMaybe<NumberSearchOptions>;
+  hypercert_id?: InputMaybe<StringSearchOptions>;
+  leaf?: InputMaybe<StringSearchOptions>;
+  proof?: InputMaybe<StringArraySearchOptions>;
+  token_id?: InputMaybe<NumberSearchOptions>;
+  total_units?: InputMaybe<NumberSearchOptions>;
+  units?: InputMaybe<NumberSearchOptions>;
+  user_address?: InputMaybe<StringSearchOptions>;
 };
 
 export type BasicAttestationSchemaWhereInput = {
@@ -264,6 +316,12 @@ export type FractionWhereInput = {
   owner_address?: InputMaybe<StringSearchOptions>;
   token_id?: InputMaybe<NumberSearchOptions>;
   units?: InputMaybe<NumberSearchOptions>;
+};
+
+export type GetAllowlistRecordResponse = {
+  __typename?: "GetAllowlistRecordResponse";
+  count?: Maybe<Scalars["Int"]["output"]>;
+  data?: Maybe<Array<AllowlistRecord>>;
 };
 
 export type GetAttestationsResponse = {
@@ -466,6 +524,7 @@ export type OrderFetchInput = {
 
 export type Query = {
   __typename?: "Query";
+  allowlistRecords: GetAllowlistRecordResponse;
   attestationSchemas: GetAttestationsSchemaResponse;
   attestations: GetAttestationsResponse;
   collections: GetCollectionsResponse;
@@ -474,6 +533,14 @@ export type Query = {
   hypercerts: GetHypercertsResponse;
   metadata: GetMetadataResponse;
   orders: GetOrdersResponse;
+};
+
+export type QueryAllowlistRecordsArgs = {
+  count?: InputMaybe<CountKeys>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  sort?: InputMaybe<AllowlistRecordFetchInput>;
+  where?: InputMaybe<BasicAllowlistRecordWhereInput>;
 };
 
 export type QueryAttestationSchemasArgs = {

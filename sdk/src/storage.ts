@@ -1,6 +1,6 @@
 import { Environment, HypercertMetadata } from "./types";
 import { CreateAllowListRequest, storeAllowList, storeMetadata } from "./__generated__/api";
-import { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { ENDPOINTS } from "./constants";
 import { HypercertStorage } from "./types/storage";
 
@@ -15,7 +15,12 @@ export const getStorage = ({
   environment: Environment;
   config?: AxiosRequestConfig;
 }): HypercertStorage => {
-  const _config = { ...config, baseURL: ENDPOINTS[environment] };
+  axios.defaults.headers.post["Content-Type"] = "application/json";
+  axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+  const _config = {
+    ...config,
+    baseURL: ENDPOINTS[environment],
+  };
 
   return {
     storeMetadata: async (metadata: HypercertMetadata, config: AxiosRequestConfig = {}) =>
