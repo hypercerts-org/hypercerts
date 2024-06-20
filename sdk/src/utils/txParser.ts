@@ -1,5 +1,12 @@
-import { Hash, PublicClient, decodeEventLog } from "viem";
+import { DecodeEventLogReturnType, Hash, PublicClient, decodeEventLog } from "viem";
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
+import { z } from "zod";
+
+const ClaimStoredLog = z.object({
+  claimId: z.bigint(),
+  uri: z.string(),
+  totalUnits: z.bigint(),
+});
 
 export type ClaimStoredEvent = {
   claimId: bigint;
@@ -28,59 +35,67 @@ export const getClaimStoredDataFromTxHash = async (client: PublicClient, hash: H
     hash,
   });
 
-  const events = receipt.logs.map((log) =>
-    decodeEventLog({
-      abi: HypercertMinterAbi,
-      data: log.data,
-      topics: log.topics,
-    }),
-  );
-
-  if (!events) {
-    return {
-      errors: {
-        noEvents: "No events found for this transaction",
-      },
-      success: false,
-    };
-  }
-
-  const claimEvent = events.find((e) => e.eventName === "ClaimStored");
+  const claimEvent = receipt.logs
+    .map((log): DecodeEventLogReturnType | null => {
+      const decodedLog = decodeEventLog({
+        abi: HypercertMinterAbi,
+        data: log.data,
+        topics: log?.topics,
+      });
+      // Ensure that the decoded log matches the EventLog interface
+      // TODO fix hacky typing
+      if (decodedLog) {
+        return decodedLog as unknown as DecodeEventLogReturnType;
+      }
+      return null;
+    })
+    .find((e): e is DecodeEventLogReturnType => e !== null && e.eventName === "ClaimStored");
 
   if (!claimEvent) {
     return {
       errors: {
-        noClaimStoredEvent: "No ClaimStored event found",
+        noEvents: "No ClaimStored event found for this transaction",
       },
       success: false,
     };
   }
 
-  if (isClaimStoredLog(claimEvent.args)) {
+  try {
+    const parsedData = ClaimStoredLog.parse(claimEvent.args);
+
     return {
-      data: claimEvent.args,
+      data: parsedData,
       success: true,
     };
-  } else {
-    return {
-      errors: {
-        couldNotParseLog: "Log arguments could not be mapped to ClaimStoredEvent",
-        dataToParse: JSON.stringify(claimEvent.args),
-      },
-      success: false,
-    };
+  } catch (e: unknown) {
+    console.error(e);
+    if (typeof e === "string") {
+      return {
+        errors: {
+          error: e,
+          couldNotParseLog: "Log arguments could not be mapped to ClaimStoredEvent",
+          dataToParse: JSON.stringify(claimEvent.args),
+        },
+        success: false,
+      };
+    } else if (e instanceof Error) {
+      return {
+        errors: {
+          error: e.message,
+          couldNotParseLog: "Log arguments could not be mapped to ClaimStoredEvent",
+          dataToParse: JSON.stringify(claimEvent.args),
+        },
+        success: false,
+      };
+    } else {
+      return {
+        errors: {
+          error: "Unknown error, check logs for more information",
+          couldNotParseLog: "Log arguments could not be mapped to ClaimStoredEvent",
+          dataToParse: JSON.stringify(claimEvent.args),
+        },
+        success: false,
+      };
+    }
   }
-};
-
-const isClaimStoredLog = (args: unknown): args is ClaimStoredEvent => {
-  return (
-    typeof args === "object" &&
-    args !== null &&
-    "claimId" in args &&
-    typeof args.claimId === "bigint" &&
-    "uri" in args &&
-    typeof args.uri === "string" &&
-    "totalUnits" in args &&
-    typeof args.totalUnits === "bigint"
-  );
 };

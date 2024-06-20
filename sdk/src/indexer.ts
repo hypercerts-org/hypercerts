@@ -65,7 +65,7 @@ export class HypercertIndexer implements HypercertIndexerInterface {
     return this.graphClient
       .query<Data, Variables>(query, variables)
       .toPromise()
-      .then((res) => {
+      .then((res: any) => {
         if (res.error) {
           throw res.error;
         }

@@ -11,11 +11,11 @@ export default [
   {
     input: `src/index.ts`,
     plugins: [
-      // autoExternal(),
+      autoExternal(),
       // nodePolyfills(),
       json(),
       // commonjs(),
-      // nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
+      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
       // esbuild(),
       swc(),
     ],
@@ -31,12 +31,12 @@ export default [
       },
     ],
   },
-  // {
-  //   input: `src/index.ts`,
-  //   plugins: [dts()],
-  //   output: {
-  //     file: `dist/index.d.ts`,
-  //     format: "es",
-  //   },
-  // },
+  {
+    input: `src/index.ts`,
+    plugins: [dts()],
+    output: {
+      file: `dist/index.d.ts`,
+      format: "es",
+    },
+  },
 ];

@@ -1,6 +1,7 @@
 import { Environment, HypercertClientConfig, SupportedChainIds } from "../types";
 import { logger } from "./logger";
 import { DEFAULT_ENVIRONMENT, DEPLOYMENTS, ENDPOINTS } from "../constants";
+import { createPublicClient, http } from "viem";
 
 /**
  * Returns a configuration object for the Hypercert client.
@@ -58,6 +59,12 @@ export const getConfig = ({
   if (chainId && writeAbleChainIds.includes(chainId)) {
     console.log("Setting read only to false");
     _config.readOnly = false;
+  }
+
+  if (_config.walletClient && !_config.publicClient) {
+    logger.warn("No public client found; substituting with default public client from viem", "client");
+    const chain = _config.walletClient.chain;
+    _config.publicClient = createPublicClient({ chain, transport: http() });
   }
 
   return _config;
