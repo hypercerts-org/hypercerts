@@ -1,9 +1,4 @@
 packages:
-  - "cors-proxy"
-  - "defender"
   - "docs"
-  - "frontend"
-  - "graph"
   - "sdk"
-  - "vendor/observabletreemap"
   - "contracts"

@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterAll, beforeAll } from "vitest";
+import { describe, it, beforeEach, afterAll, beforeAll, vi } from "vitest";
 import chai from "chai";
 import assertionsCount from "chai-assertions-count";
 import sinon from "sinon";
@@ -8,12 +8,26 @@ import { handleSdkError } from "../../src/utils/errors";
 
 import { getRawInputData, publicClient, walletClient, testClient } from "../helpers";
 
-import { HypercertClient, HypercertMinterAbi, HypercertsStorage, TransferRestrictions, formatHypercertData } from "src";
+import { HypercertClient, HypercertMinterAbi, TransferRestrictions, formatHypercertData } from "src";
 import { parseEther, encodeErrorResult } from "viem";
 
 chai.use(assertionsCount);
 
 const expect = chai.expect;
+
+const mocks = vi.hoisted(() => {
+  return {
+    storeAllowList: vi.fn(),
+    storeMetadata: vi.fn(),
+  };
+});
+
+vi.mock("../../src/__generated__/api", () => {
+  return {
+    storeAllowList: mocks.storeAllowList,
+    storeMetadata: mocks.storeMetadata,
+  };
+});
 
 describe("SDK Error handler", () => {
   it("handles SDK errors", () => {
@@ -28,13 +42,10 @@ describe("SDK Error handler", () => {
 describe("Contract Error handler", () => {
   const mockCorrectMetadataCid = "testCID1234fkreigdm2flneb4khd7eixodagst5nrndptgezrjux7gohxcngjn67x6u";
 
-  const storeMetadataStub = sinon.stub(HypercertsStorage.prototype, "storeMetadata");
-
   const client = new HypercertClient({
-    chain: { id: 11155111 },
+    environment: "test",
     walletClient,
     publicClient,
-    nftStorageToken: "test",
   });
 
   const readSpy = sinon.stub(publicClient, "readContract");
@@ -49,8 +60,7 @@ describe("Contract Error handler", () => {
     chai.Assertion.resetAssertsCheck();
     writeSpy.resetBehavior();
     writeSpy.resetHistory();
-
-    storeMetadataStub.resetHistory();
+    vi.resetAllMocks();
   });
 
   afterAll(() => {
@@ -58,7 +68,7 @@ describe("Contract Error handler", () => {
   });
 
   it("handles throw on mintClaim", async () => {
-    expect(client.readonly).to.be.false;
+    expect(client.readOnly).to.be.false;
 
     const rawData = getRawInputData();
     const { data: formattedData } = formatHypercertData(rawData);
@@ -70,7 +80,7 @@ describe("Contract Error handler", () => {
     });
     writeSpy.resolves(value);
 
-    storeMetadataStub.resolves(mockCorrectMetadataCid);
+    mocks.storeMetadata.mockResolvedValue({ data: { cid: mockCorrectMetadataCid } });
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

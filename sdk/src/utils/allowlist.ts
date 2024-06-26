@@ -1,7 +1,7 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { getFromIPFS } from "./fetchers";
 import { logger } from "./logger";
-import { AllowlistEntry } from "src/types";
+import { AllowlistEntry } from "../types";
 
 const parseAllowListEntriesToMerkleTree = (allowList: AllowlistEntry[]) => {
   const tuples = allowList.map((p) => [p.address, p.units.toString()]);

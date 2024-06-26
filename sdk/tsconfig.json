@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "lib": ["ES6", "DOM", "ESNext"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "outDir": "dist",
     "allowJs": true,
@@ -19,7 +18,8 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   },
   "exclude": ["node_modules"],
   "include": ["./src/*.ts", "./src/**/*", "./test/*.ts", "./test/**/*.ts"]

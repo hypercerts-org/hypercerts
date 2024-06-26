@@ -1,17 +1,7 @@
-import { sepolia, optimism, celo, Chain, baseSepolia, base } from "viem/chains";
-
-import { DEFAULT_INDEXER_ENVIRONMENT } from "../constants";
-import {
-  ConfigurationError,
-  Deployment,
-  HypercertClientConfig,
-  InvalidOrMissingError,
-  SupportedChainIds,
-  UnsupportedChainError,
-} from "../types";
+import { Environment, HypercertClientConfig, SupportedChainIds } from "../types";
 import { logger } from "./logger";
+import { DEFAULT_ENVIRONMENT, DEPLOYMENTS, ENDPOINTS } from "../constants";
 import { createPublicClient, http } from "viem";
-import { DEPLOYMENTS } from "../constants";
 
 /**
  * Returns a configuration object for the Hypercert client.
@@ -33,133 +23,109 @@ import { DEPLOYMENTS } from "../constants";
  * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
  * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
-export const getConfig = (overrides: Partial<HypercertClientConfig>): Partial<HypercertClientConfig> => {
-  // Get the chainId of the writing chain, first from overrides, then environment variables, then the constant
-  const chain = getChainConfig(overrides);
-  if (!chain) {
-    logger.warn("[getConfig]: No default config for chain found");
-  }
-
-  let baseDeployment: (Partial<Deployment> & { unsafeForceOverrideConfig?: boolean }) | undefined;
-
-  if (overrides.unsafeForceOverrideConfig) {
-    if (!overrides.chain?.id) {
-      throw new InvalidOrMissingError(
-        `attempted to override with chainId=${overrides.chain?.id}, but requires chainName, graphUrl, and contractAddress to be set`,
-        {
-          chainID: overrides.chain?.id?.toString(),
-        },
-      );
-    }
-    baseDeployment = {
-      chain: { ...chain, id: overrides.chain?.id },
-      unsafeForceOverrideConfig: overrides.unsafeForceOverrideConfig,
-    };
-  } else {
-    //TODO do many casts
-    baseDeployment = overrides.chain?.id
-      ? (getDeployment(overrides.chain?.id as SupportedChainIds) as Partial<Deployment> & {
-          unsafeForceOverrideConfig?: boolean;
-        })
-      : chain?.id
-      ? (getDeployment(chain.id as SupportedChainIds) as Partial<Deployment> & { unsafeForceOverrideConfig?: boolean })
-      : undefined;
-    if (!baseDeployment) {
-      throw new UnsupportedChainError(`Default config for chainId=${overrides.chain?.id} is missing in SDK`, {
-        chainID: overrides.chain?.id,
-      });
-    }
-
-    baseDeployment = { ...baseDeployment, chain };
-  }
-
-  const config: Partial<HypercertClientConfig> = {
-    // Start with the hardcoded values
-    ...baseDeployment,
+export const getConfig = ({
+  config = { environment: DEFAULT_ENVIRONMENT },
+}: {
+  config?: Partial<Pick<HypercertClientConfig, "publicClient" | "walletClient" | "environment">>;
+}): HypercertClientConfig => {
+  const _config = {
     // Let the user override from environment variables
-    ...getWalletClient(overrides),
-    ...getPublicClient(overrides),
-    ...getEasContractAddress(overrides),
-    ...getIndexerEnvironment(overrides),
+    ...getEnvironment(config),
+    ...getWalletClient(config),
+    ...getPublicClient(config),
+    ...getGraphUrl(config),
+    deployments: getDeploymentsForEnvironment(config.environment || DEFAULT_ENVIRONMENT),
+    readOnly: true,
   };
 
   const missingKeys = [];
 
-  for (const [key, value] of Object.entries(config)) {
+  for (const [key, value] of Object.entries(_config)) {
     if (!value) {
       missingKeys.push(key);
     }
   }
 
-  if (missingKeys.length > 0) logger.warn(`Missing properties in config: ${missingKeys.join(", ")}`);
+  if (missingKeys.length > 0) logger.debug(`Missing properties in config: ${missingKeys.join(", ")}`);
 
-  return config;
-};
+  const chainId = _config.walletClient?.chain?.id;
+  const writeAbleChainIds = Object.entries(_config.deployments).map(([_, deployment]) => deployment.chainId);
 
-const getDeployment = (chainId: SupportedChainIds) => {
-  return DEPLOYMENTS[chainId];
-};
-
-const getIndexerEnvironment = (overrides: Partial<HypercertClientConfig>) => {
-  return { indexerEnvironment: overrides.indexerEnvironment || DEFAULT_INDEXER_ENVIRONMENT };
-};
-
-const getChainConfig = (overrides: Partial<HypercertClientConfig>) => {
-  const chainId = overrides?.chain?.id ? overrides.chain?.id : undefined;
-
-  if (!chainId) {
-    throw new ConfigurationError("No chainId specified in config or environment variables");
+  if (!_config.walletClient) {
+    logger.debug("Enabling read only mode: no walletClient provided", "getConfig", { config });
+    _config.readOnly = true;
   }
 
-  const chain = getDefaultChain(chainId);
-
-  if (!chain) {
-    throw new UnsupportedChainError(`No default config for chainId=${chainId} found in SDK`, {
-      chainID: chainId?.toString(),
-    });
+  if (chainId && writeAbleChainIds.includes(chainId as SupportedChainIds)) {
+    logger.debug("Disabling read only mode: connected chainId of supported chain", "getConfig", { chainId });
+    _config.readOnly = false;
   }
 
-  return chain;
+  if (_config.walletClient && !_config.publicClient) {
+    logger.debug("No public client found; substituting with default public client from viem", "getConfig");
+    const chain = _config.walletClient.chain;
+    _config.publicClient = createPublicClient({ chain, transport: http() });
+  }
+
+  return _config;
 };
 
-const getWalletClient = (overrides: Partial<HypercertClientConfig>) => {
-  const walletClient = overrides.walletClient;
+export const getDeploymentsForEnvironment = (environment: Environment) => {
+  const deployments = Object.fromEntries(
+    Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
+      if (deployment.isTestnet && environment === "test") {
+        return deployment;
+      }
+
+      if (!deployment.isTestnet && environment === "production") {
+        return true;
+      }
+
+      return false;
+    }),
+  );
+
+  if (!deployments) throw new Error("Missing deployments");
+
+  return deployments;
+};
+
+export const getDeploymentsForChainId = (chainId: SupportedChainIds) => {
+  logger.info("Indexer", "getDeploymentsForChainId", { chainId });
+
+  const deployments = Object.fromEntries(
+    Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
+      if (deployment.chainId === chainId) {
+        return deployment;
+      }
+
+      return false;
+    }),
+  );
+
+  if (!deployments) throw new Error("Missing deployments");
+
+  return deployments;
+};
+
+const getEnvironment = (config: Partial<HypercertClientConfig>) => {
+  return { environment: config.environment || DEFAULT_ENVIRONMENT };
+};
+
+const getGraphUrl = (config: Partial<HypercertClientConfig>) => {
+  return { graphUrl: `${ENDPOINTS[config.environment || DEFAULT_ENVIRONMENT]}/v1/graphql` };
+};
+
+const getWalletClient = (config: Partial<HypercertClientConfig>) => {
+  const walletClient = config.walletClient;
 
   if (!walletClient) {
-    logger.warn("No wallet client found", "getWalletClient", walletClient);
+    logger.debug("No wallet client found", "getWalletClient", walletClient);
   }
 
   return { walletClient };
 };
 
-const getPublicClient = (overrides: Partial<HypercertClientConfig>) => {
-  const chain = getChainConfig(overrides);
-  let publicClient;
-
-  publicClient = createPublicClient({
-    chain: chain,
-    transport: http(),
-  });
-
-  if (overrides.publicClient) {
-    publicClient = overrides.publicClient;
-  }
-
-  return { publicClient };
-};
-
-const getEasContractAddress = (overrides: Partial<HypercertClientConfig>) => {
-  return { easContractAddress: overrides.easContractAddress };
-};
-
-const getDefaultChain = (chainId: number) => {
-  const _chains = [sepolia, optimism, celo, base, baseSepolia];
-
-  for (const chain of Object.values(_chains)) {
-    if ("id" in chain) {
-      if (chain.id === chainId) {
-        return chain as Chain;
-      }
-    }
-  }
+const getPublicClient = (config: Partial<HypercertClientConfig>) => {
+  return { publicClient: config.publicClient };
 };

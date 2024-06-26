@@ -1,7 +1,8 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig, defaultExclude } from "vitest/config";
 
 export default defineConfig({
   test: {
     globalSetup: "./test/setup-env.ts",
+    exclude: [...defaultExclude, "./lib/**/*"],
   },
 });

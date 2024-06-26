@@ -1,28 +1,27 @@
 import { describe, it, afterEach, afterAll, vi, expect } from "vitest";
 
-import { HypercertsStorage } from "../../src/storage";
-import { MalformedDataError } from "../../src/types/errors";
 import { mockDataSets } from "../helpers";
 import sinon from "sinon";
 import { faker } from "@faker-js/faker";
-import { AllowlistEntry } from "src";
+import { getStorage } from "../../src/storage";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 const mocks = vi.hoisted(() => {
   return {
-    uploadAllowlist: vi.fn(),
+    storeAllowList: vi.fn(),
   };
 });
 
-vi.mock("../../src/utils/apis", () => {
+vi.mock("../../src/__generated__/api", () => {
   return {
-    uploadAllowlist: mocks.uploadAllowlist,
+    storeAllowList: mocks.storeAllowList,
   };
 });
 
 describe("Storage - store allowlist", () => {
   const { someData } = mockDataSets;
 
-  const storage = new HypercertsStorage();
+  const storage = getStorage({ environment: "test" });
 
   afterEach(() => {
     vi.clearAllMocks();
@@ -42,30 +41,14 @@ describe("Storage - store allowlist", () => {
       },
     ];
 
-    mocks.uploadAllowlist.mockResolvedValue({ cid: someData.cid });
-    const res = await storage.storeAllowList(allowList, 100n);
-    expect(res).to.eq(someData.cid);
-    expect(mocks.uploadAllowlist).toHaveBeenCalledTimes(1);
-  });
+    const tree = StandardMerkleTree.of(
+      allowList.map((p) => [p.address, p.units.toString()]),
+      ["address", "uint256"],
+    );
 
-  it("Throws when trying to store incorrect allowList", async () => {
-    const allowList = [
-      {
-        address: faker.finance.ethereumAddress(),
-        units: 50n,
-      },
-    ];
-
-    // storeData
-    try {
-      await storage.storeAllowList(allowList as unknown as AllowlistEntry[], 100n);
-    } catch (e) {
-      expect(e).to.be.an.instanceOf(MalformedDataError);
-
-      const error = e as MalformedDataError;
-      expect(error.message).to.eq("Invalid allowList.");
-    }
-
-    expect(mocks.uploadAllowlist).toHaveBeenCalledTimes(0);
+    mocks.storeAllowList.mockResolvedValue({ cid: someData.cid });
+    const res = await storage.storeAllowlist({ allowList: JSON.stringify(tree.dump()), totalUnits: "100" });
+    expect(res).to.deep.eq({ cid: someData.cid });
+    expect(mocks.storeAllowList).toHaveBeenCalledTimes(1);
   });
 });
