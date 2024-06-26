@@ -46,23 +46,23 @@ export const getConfig = ({
     }
   }
 
-  if (missingKeys.length > 0) logger.warn(`Missing properties in config: ${missingKeys.join(", ")}`);
+  if (missingKeys.length > 0) logger.debug(`Missing properties in config: ${missingKeys.join(", ")}`);
 
-  const chainId = _config.walletClient?.chain?.id as SupportedChainIds;
+  const chainId = _config.walletClient?.chain?.id;
   const writeAbleChainIds = Object.entries(_config.deployments).map(([_, deployment]) => deployment.chainId);
 
-  if (!chainId) {
-    logger.warn("No chain ID found for wallet client", "getConfig", { chainId });
+  if (!_config.walletClient) {
+    logger.debug("Enabling read only mode: no walletClient provided", "getConfig", { config });
     _config.readOnly = true;
   }
 
-  if (chainId && writeAbleChainIds.includes(chainId)) {
-    console.log("Setting read only to false");
+  if (chainId && writeAbleChainIds.includes(chainId as SupportedChainIds)) {
+    logger.debug("Disabling read only mode: connected chainId of supported chain", "getConfig", { chainId });
     _config.readOnly = false;
   }
 
   if (_config.walletClient && !_config.publicClient) {
-    logger.warn("No public client found; substituting with default public client from viem", "client");
+    logger.debug("No public client found; substituting with default public client from viem", "getConfig");
     const chain = _config.walletClient.chain;
     _config.publicClient = createPublicClient({ chain, transport: http() });
   }
@@ -71,8 +71,6 @@ export const getConfig = ({
 };
 
 export const getDeploymentsForEnvironment = (environment: Environment) => {
-  logger.info("Indexer", "getDeploymentsForEnvironment", { environment });
-
   const deployments = Object.fromEntries(
     Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
       if (deployment.isTestnet && environment === "test") {
@@ -122,7 +120,7 @@ const getWalletClient = (config: Partial<HypercertClientConfig>) => {
   const walletClient = config.walletClient;
 
   if (!walletClient) {
-    logger.warn("No wallet client found", "getWalletClient", walletClient);
+    logger.debug("No wallet client found", "getWalletClient", walletClient);
   }
 
   return { walletClient };

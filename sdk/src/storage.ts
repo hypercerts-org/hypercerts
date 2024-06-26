@@ -10,15 +10,16 @@ import { HypercertStorage } from "./types/storage";
  */
 export const getStorage = ({
   environment,
-  config = { timeout: 0 },
+  config,
 }: {
   environment: Environment;
   config?: AxiosRequestConfig;
 }): HypercertStorage => {
   axios.defaults.headers.post["Content-Type"] = "application/json";
   axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
-  const _config = {
+  const _config: AxiosRequestConfig = {
     ...config,
+    timeout: 20000,
     baseURL: ENDPOINTS[environment],
   };
 

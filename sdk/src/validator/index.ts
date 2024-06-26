@@ -4,15 +4,7 @@ import Ajv from "ajv";
 import claimDataSchema from "../resources/schema/claimdata.json";
 import evaluationSchema from "../resources/schema/evaluation.json";
 import metaDataSchema from "../resources/schema/metadata.json";
-import {
-  AllowlistEntry,
-  DuplicateEvaluation,
-  EvaluationData,
-  HypercertClaimdata,
-  HypercertMetadata,
-  MintingError,
-  SimpleTextEvaluation,
-} from "../types";
+import { AllowlistEntry, HypercertClaimdata, HypercertMetadata, MintingError } from "../types";
 import { isAddress } from "viem";
 
 //TODO replace with ZOD
@@ -29,7 +21,7 @@ ajv.addSchema(evaluationSchema, "evaluation.json");
  *
  */
 type ValidationResult = {
-  data: AllowlistEntry[] | EvaluationData | HypercertClaimdata | HypercertMetadata | unknown;
+  data: AllowlistEntry[] | HypercertClaimdata | HypercertMetadata | unknown;
   valid: boolean;
   errors: Record<string, string | string[]>;
 };
@@ -132,66 +124,6 @@ const validateAllowlist = (data: AllowlistEntry[], units: bigint): ValidationRes
 };
 
 /**
- * Validates duplicate evaluation data.
- *
- * This function uses the AJV library to validate the duplicate evaluation data. It first retrieves the schema for the duplicate evaluation data,
- * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
- * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
- *
- * @param {DuplicateEvaluation} data - The duplicate evaluation data to validate. This should be an object that conforms to the DuplicateEvaluation type.
- * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
- */
-const validateDuplicateEvaluationData = (data: DuplicateEvaluation): ValidationResult => {
-  const validate = ajv.getSchema<DuplicateEvaluation>("evaluation.json#/definitions/DuplicateEvaluation");
-  if (!validate) {
-    return { data, valid: false, errors: { schema: "Schema not found" } };
-  }
-
-  if (!validate(data)) {
-    const errors: Record<string, string> = {};
-    for (const e of validate.errors || []) {
-      const key = e.params.missingProperty || "other";
-      if (key && e.message) {
-        errors[key] = e.message;
-      }
-    }
-    return { data, valid: false, errors };
-  }
-
-  return { data, valid: true, errors: {} };
-};
-
-/**
- * Validates simple text evaluation data against a predefined schema.
- *
- * This function uses the AJV library to validate the simple text evaluation data. It first retrieves the schema for the simple text evaluation data,
- * then validates the data against the schema. If the schema is not found, it returns an error. If the data does not
- * conform to the schema, it returns the validation errors. If the data is valid, it returns a success message.
- *
- * @param {SimpleTextEvaluation} data - The simple text evaluation data to validate. This should be an object that conforms to the SimpleTextEvaluation type.
- * @returns {ValidationResult} An object that includes a validity flag and any errors that occurred during validation.
- */
-const validateSimpleTextEvaluationData = (data: SimpleTextEvaluation): ValidationResult => {
-  const validate = ajv.getSchema<SimpleTextEvaluation>("evaluation.json#/definitions/SimpleTextEvaluation");
-  if (!validate) {
-    return { data, valid: false, errors: { schema: "Schema not found" } };
-  }
-
-  if (!validate(data)) {
-    const errors: Record<string, string> = {};
-    for (const e of validate.errors || []) {
-      const key = e.params.missingProperty || "other";
-      if (key && e.message) {
-        errors[key] = e.message;
-      }
-    }
-    return { data, valid: false, errors };
-  }
-
-  return { data, valid: true, errors: {} };
-};
-
-/**
  * Verifies a Merkle proof for a given root, signer address, units, and proof.
  *
  * This function first checks if the signer address is a valid Ethereum address. If it's not, it throws a `MintingError`.
@@ -236,12 +168,4 @@ function verifyMerkleProofs(roots: string[], signerAddress: string, units: bigin
   }
 }
 
-export {
-  validateMetaData,
-  validateClaimData,
-  validateAllowlist,
-  verifyMerkleProof,
-  verifyMerkleProofs,
-  validateDuplicateEvaluationData,
-  validateSimpleTextEvaluationData,
-};
+export { validateMetaData, validateClaimData, validateAllowlist, verifyMerkleProof, verifyMerkleProofs };

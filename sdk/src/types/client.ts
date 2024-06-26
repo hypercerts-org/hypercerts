@@ -1,4 +1,3 @@
-import { HypercertIndexer } from "../indexer";
 import { AllowlistEntry, TransferRestrictions } from "./hypercerts";
 import { HypercertMetadata } from "./metadata";
 
@@ -91,8 +90,6 @@ export interface HypercertClientInterface extends HypercertClientMethods, Hyperc
 export interface HypercertClientState {
   /** Whether the client is in read-only mode. */
   readOnly: boolean;
-  /** The indexer used by the client. */
-  indexer: HypercertIndexer;
 }
 
 /**

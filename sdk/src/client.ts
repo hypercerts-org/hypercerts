@@ -1,7 +1,5 @@
 import { HypercertMinterAbi } from "@hypercerts-org/contracts";
 import { Account, ByteArray, Hex, PublicClient, WalletClient, getAddress, getContract } from "viem";
-import { HypercertEvaluator } from "./evaluations";
-import { HypercertIndexer } from "./indexer";
 import { getStorage } from "./storage";
 import {
   AllowlistEntry,
@@ -18,7 +16,6 @@ import {
 import { getConfig, getDeploymentsForChainId, getDeploymentsForEnvironment } from "./utils/config";
 import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
-import { logger } from "./utils";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
 import { getClaimStoredDataFromTxHash } from "./utils";
 import { ParserReturnType } from "./utils/txParser";
@@ -42,12 +39,9 @@ import { HypercertStorage } from "./types/storage";
  */
 export class HypercertClient implements HypercertClientInterface {
   readonly _config;
-  // TODO better handling readonly. For now not needed since we don't use this class;
-  private _evaluator?: HypercertEvaluator;
-  private _indexer: HypercertIndexer;
-  private _publicClient?: PublicClient;
-  private _walletClient?: WalletClient;
-  private _storage: HypercertStorage;
+  private readonly _publicClient?: PublicClient;
+  private readonly _walletClient?: WalletClient;
+  private readonly _storage: HypercertStorage;
   readOnly: boolean;
 
   /**
@@ -63,14 +57,7 @@ export class HypercertClient implements HypercertClientInterface {
     this._walletClient = this._config?.walletClient;
     this._publicClient = this._config?.publicClient;
     this._storage = getStorage({ environment: this._config.environment });
-    this._indexer = new HypercertIndexer(this._config);
     this.readOnly = this._config.readOnly;
-
-    // if walletclient has chainId
-
-    if (this.readOnly) {
-      logger.warn("HypercertsClient is in readonly mode", "client");
-    }
   }
 
   isClaimOrFractionOnConnectedChain = (claimOrFractionId: string) => {
@@ -92,14 +79,6 @@ export class HypercertClient implements HypercertClientInterface {
    */
   get storage(): HypercertStorage {
     return this._storage;
-  }
-
-  /**
-   * Gets the indexer for the client.
-   * @returns The indexer.
-   */
-  get indexer(): HypercertIndexer {
-    return this._indexer;
   }
 
   /**
@@ -167,7 +146,7 @@ export class HypercertClient implements HypercertClientInterface {
   getTransferRestrictions = async (fractionId: bigint): Promise<TransferRestrictions> => {
     const readContract = this._getContract();
 
-    return readContract.read.readTransferRestriction([fractionId]) as Promise<TransferRestrictions>;
+    return await readContract.read.readTransferRestriction([fractionId]).then((res) => res as TransferRestrictions);
   };
 
   /**

@@ -1,7 +1,0 @@
-schema: https://api.hypercerts.org/v1/graphql
-generates:
-  ./src/__generated__/gql/:
-    preset: client
-    documents:
-      - ./src/indexer/**/*.graphql
-    ignoreNoDocuments: true, // for better experience with the watcher

@@ -1,8 +1,5 @@
 import dts from "rollup-plugin-dts";
-import esbuild from "rollup-plugin-esbuild";
-import nodePolyfills from "rollup-plugin-node-polyfills";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import autoExternal from "rollup-plugin-auto-external";
 import swc from "rollup-plugin-swc3";
@@ -12,11 +9,8 @@ export default [
     input: `src/index.ts`,
     plugins: [
       autoExternal(),
-      // nodePolyfills(),
       json(),
-      // commonjs(),
       nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
-      // esbuild(),
       swc(),
     ],
     output: [
@@ -28,6 +22,7 @@ export default [
       {
         format: "cjs",
         dir: "dist/cjs",
+        entryFileNames: "index.cjs",
       },
     ],
   },
