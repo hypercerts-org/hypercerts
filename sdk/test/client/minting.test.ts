@@ -107,7 +107,7 @@ describe("mintClaim in HypercertClient", () => {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, {
+      hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, undefined, {
         gasPrice: "FALSE_VALUE" as unknown as bigint,
       });
       expect.fail("Should throw Error");
@@ -118,7 +118,7 @@ describe("mintClaim in HypercertClient", () => {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, { gasPrice: 100n });
+    hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, undefined, { gasPrice: 100n });
 
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);

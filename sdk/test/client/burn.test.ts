@@ -69,7 +69,7 @@ describe("burn fraction tokens in HypercertClient", () => {
       expect(e).to.be.instanceOf(ClientError);
 
       const error = e as ClientError;
-      expect(error.message).to.eq("Claim is not owned by the signer");
+      expect(error.message).to.eq("Hypercert is not owned by the signer");
     }
 
     //TODO determine underlying calls and mock those out. Some are provider simulation calls

@@ -92,6 +92,54 @@ export interface HypercertClientState {
   readOnly: boolean;
 }
 
+export interface TransactionParams {
+  overrides?: SupportedOverrides;
+}
+
+export interface MintParams extends TransactionParams {
+  metaData: HypercertMetadata;
+  totalUnits: bigint;
+  transferRestriction: TransferRestrictions;
+  allowList?: AllowlistEntry[];
+}
+
+export interface TransferParams extends TransactionParams {
+  fractionId: bigint;
+  to: `0x${string}`;
+}
+
+export interface BatchTransferParams extends TransactionParams {
+  fractionIds: bigint[];
+  to: `0x${string}`;
+}
+
+export interface SplitFractionParams extends TransactionParams {
+  fractionId: bigint;
+  fractions: bigint[];
+}
+
+export interface MergeFractionsParams extends TransactionParams {
+  fractionIds: bigint[];
+}
+
+export interface BurnFractionParams extends TransactionParams {
+  fractionId: bigint;
+}
+
+export interface ClaimFractionFromAllowlistParams extends TransactionParams {
+  hypercertTokenId: bigint;
+  units: bigint;
+  proof: (Hex | ByteArray)[];
+  root?: Hex | ByteArray;
+}
+
+export interface BatchClaimFractionsFromAllowlistsParams extends TransactionParams {
+  hypercertTokenIds: bigint[];
+  units: bigint[];
+  proofs: (Hex | ByteArray)[][];
+  roots?: (Hex | ByteArray)[];
+}
+
 /**
  * The methods for the Hypercert client.
  */
@@ -110,12 +158,23 @@ export interface HypercertClientMethods {
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
    * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `mintClaim` with optional `allowList` parameter instead
    */
   mintClaim: (
     metaData: HypercertMetadata,
     totalUnits: bigint,
     transferRestriction: TransferRestrictions,
+    allowList?: AllowlistEntry[],
   ) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Mints a new hypercert.
+   * @param metaData The metadata for the hypercert.
+   * @param totalUnits The total number of units for the hypercert.
+   * @param transferRestriction The transfer restriction for the hypercert.
+   * @returns A Promise that resolves to the transaction hash
+   */
+  mintHypercert: (params: MintParams) => Promise<`0x${string}` | undefined>;
 
   /**
    * Retrieves the TransferRestrictions for a claim.
@@ -131,11 +190,7 @@ export interface HypercertClientMethods {
    * @param overrides
    * @returns A Promise that resolves to the transaction hash
    */
-  transferFraction: (
-    fractionId: bigint,
-    to: `0x${string}`,
-    overrides?: SupportedOverrides,
-  ) => Promise<`0x${string}` | undefined>;
+  transferFraction: (params: TransferParams) => Promise<`0x${string}` | undefined>;
 
   /**
    * Transfers multiple claim fractions to a new owner.
@@ -144,11 +199,7 @@ export interface HypercertClientMethods {
    * @param overrides
    * @returns A Promise that resolves to the transaction hash
    */
-  batchTransferFractions: (
-    fractionIds: bigint[],
-    to: `0x${string}`,
-    overrides?: SupportedOverrides,
-  ) => Promise<`0x${string}` | undefined>;
+  batchTransferFractions: (params: BatchTransferParams) => Promise<`0x${string}` | undefined>;
 
   /**
    * Creates a new allowlist and mints a new claim with the allowlist.
@@ -157,6 +208,7 @@ export interface HypercertClientMethods {
    * @param totalUnits The total number of units for the claim.
    * @param transferRestriction The transfer restriction for the claim.
    * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `mintHypercert` with optional `allowList` parameter instead
    */
   createAllowlist: (
     allowList: AllowlistEntry[],
@@ -170,22 +222,61 @@ export interface HypercertClientMethods {
    * @param fractionId The ID of the claim to split.
    * @param newFractions The number of units for each fraction.
    * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `splitFraction` instead
    */
   splitFractionUnits: (fractionId: bigint, fractions: bigint[]) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Splits a claim into multiple fractions.
+   * @param fractionId The ID of the claim to split.
+   * @param newFractions The number of units for each fraction.
+   * @returns A Promise that resolves to the transaction hash
+   */
+  splitFraction: (params: SplitFractionParams) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Merges multiple claim fractions into a single claim.
+   * @param fractionIds The IDs of the claim fractions to merge.
+   * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `mergeFractions` instead
+   */
+  mergeFractionUnits: (fractionIds: bigint[]) => Promise<`0x${string}` | undefined>;
 
   /**
    * Merges multiple claim fractions into a single claim.
    * @param fractionIds The IDs of the claim fractions to merge.
    * @returns A Promise that resolves to the transaction hash
    */
-  mergeFractionUnits: (fractionIds: bigint[]) => Promise<`0x${string}` | undefined>;
+  mergeFractions: (params: MergeFractionsParams) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Burns a claim fraction.
+   * @param fractionId The ID of the claim fraction to burn.
+   * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `burnFraction` instead
+   */
+  burnClaimFraction: (fractionId: bigint) => Promise<`0x${string}` | undefined>;
 
   /**
    * Burns a claim fraction.
    * @param fractionId The ID of the claim fraction to burn.
    * @returns A Promise that resolves to the transaction hash
    */
-  burnClaimFraction: (fractionId: bigint) => Promise<`0x${string}` | undefined>;
+  burnFraction: (params: BurnFractionParams) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Mints a claim fraction from an allowlist.
+   * @param claimId The ID of the claim to mint a fraction for.
+   * @param units The number of units for the fraction.
+   * @param proof The Merkle proof for the allowlist.
+   * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `claimFractionFromAllowlist` instead
+   */
+  mintClaimFractionFromAllowlist: (
+    claimId: bigint,
+    units: bigint,
+    proof: (Hex | ByteArray)[],
+  ) => Promise<`0x${string}` | undefined>;
 
   /**
    * Mints a claim fraction from an allowlist.
@@ -194,10 +285,23 @@ export interface HypercertClientMethods {
    * @param proof The Merkle proof for the allowlist.
    * @returns A Promise that resolves to the transaction hash
    */
-  mintClaimFractionFromAllowlist: (
-    claimId: bigint,
-    units: bigint,
-    proof: (Hex | ByteArray)[],
+  claimFractionFromAllowlist: (params: ClaimFractionFromAllowlistParams) => Promise<`0x${string}` | undefined>;
+
+  /**
+   * Batch mints a claim fraction from an allowlist
+   * @param claimIds Array of the IDs of the claims to mint fractions for.
+   * @param units Array of the number of units for each fraction.
+   * @param proofs Array of Merkle proofs for the allowlists.
+   * @returns A Promise that resolves to the transaction receipt
+   * @note The length of the arrays must be equal.
+   * @note The order of the arrays must be equal.
+   * @returns A Promise that resolves to the transaction hash
+   * @deprecated use `batchClaimFractionsFromAllowlists` instead
+   */
+  batchMintClaimFractionsFromAllowlists: (
+    claimIds: bigint[],
+    units: bigint[],
+    proofs: (Hex | ByteArray)[][],
   ) => Promise<`0x${string}` | undefined>;
 
   /**
@@ -210,16 +314,22 @@ export interface HypercertClientMethods {
    * @note The order of the arrays must be equal.
    * @returns A Promise that resolves to the transaction hash
    */
-  batchMintClaimFractionsFromAllowlists: (
-    claimIds: bigint[],
-    units: bigint[],
-    proofs: (Hex | ByteArray)[][],
+  batchClaimFractionsFromAllowlists: (
+    params: BatchClaimFractionsFromAllowlistsParams,
   ) => Promise<`0x${string}` | undefined>;
 
   /**
    * Check if a claim or fraction is on the chain that the Hypercertclient
    * is currently connected to
    * @param claimOrFractionId The ID of the claim or fraction to check.
+   * @deprecated use `isHypercertsOrFractionOnConnectedChain` instead
    */
   isClaimOrFractionOnConnectedChain: (claimOrFractionId: string) => boolean;
+
+  /**
+   * Check if a claim or fraction is on the chain that the Hypercertclient
+   * is currently connected to
+   * @param claimOrFractionId The ID of the claim or fraction to check.
+   */
+  isHypercertsOrFractionOnConnectedChain: (claimOrFractionId: string) => boolean;
 }
