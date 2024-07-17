@@ -33,12 +33,10 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@looksrare/contracts-libs": "^3.4.0",
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.7",
     "@nomicfoundation/hardhat-ethers": "^3.0.6",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-viem": "^2.0.2",
     "@openzeppelin/contracts": "^4.9.3",
-    "@openzeppelin/defender-sdk": "^1.13.3",
     "@openzeppelin/hardhat-upgrades": "3.1.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
@@ -48,6 +46,7 @@
     "@types/node": "^18.18.1",
     "@typescript-eslint/eslint-plugin": "^7.12.0",
     "@typescript-eslint/parser": "^7.12.0",
+    "chai": "^4.3.7",
     "commitizen": "^4.2.5",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -74,8 +73,8 @@
     "solmate": "^6.2.0",
     "ts-node": "^10.9.1",
     "typechain": "^8.3.1",
-    "typescript": "^4.9.4",
-    "viem": "^1.18.9",
+    "typescript": "^5.5.3",
+    "viem": "^2.17.4",
     "xdeployer": "^2.1.13"
   },
   "keywords": [
@@ -92,7 +91,8 @@
     "build": "pnpm clean && forge compile && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "pnpm clean && forge build",
     "clean": "rimraf abi artifacts build cache cache_hardhat dist out types",
-    "deploy:marketplace:dryrun": "pnpm hardhat deploy-marketplace",
+    "deploy:marketplace:dryrun": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
+    "deploy:marketplace": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
     "deploy:protocol:dryrun": "pnpm hardhat deploy-minter",
     "deploy:protocol": "pnpm hardhat deploy-minter",
     "docs": "hardhat dodoc",
@@ -109,6 +109,6 @@
     "hardhat": "hardhat"
   },
   "dependencies": {
-    "hardhat": "^2.18.3"
+    "hardhat": "^2.22.6"
   }
 }

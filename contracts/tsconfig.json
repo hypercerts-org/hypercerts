@@ -9,18 +9,17 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "Node16",
     "noImplicitAny": true,
     "noImplicitOverride": false,
     "removeComments": true,
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext",
+    "target": "ES2022",
     "outDir": "dist"
   },
-  "include": ["./tasks", "./test", "./src"],
+  "include": ["./tasks", "./test", "./src", "./hardhat.config.cjs"],
   "files": [
     "types/src/marketplace/CurrencyManager.ts",
     "types/src/marketplace/ExecutionManager.ts",
@@ -34,5 +33,9 @@
     "types/src/protocol/interfaces/IAllowlist.ts",
     "types/src/protocol/interfaces/IHypercertToken.ts",
     "types/src/protocol/libs/Errors.ts"
-  ]
+  ],
+  "ts-node": {
+    "experimentalResolver": true,
+    "files": true
+  }
 }

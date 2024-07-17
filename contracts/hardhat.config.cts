@@ -1,5 +1,5 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+// import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-viem";
@@ -50,9 +50,6 @@ const OPTIMISTIC_ETHERSCAN_API_KEY = requireEnv(
 const CELOSCAN_API_KEY = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
 const BASESCAN_API_KEY = requireEnv(process.env.BASESCAN_API_KEY, "BASESCAN_API_KEY");
 
-const OPENZEPPELIN_API_KEY = requireEnv(process.env.OPENZEPPELIN_API_KEY, "OPENZEPPELIN_API_KEY");
-const OPENZEPPELIN_SECRET_KEY = requireEnv(process.env.OPENZEPPELIN_SECRET_KEY, "OPENZEPPELIN_SECRET_KEY");
-
 /**
  * Maps a key to the chain ID
  * - Make sure the key matches the Infura subdomain
@@ -61,10 +58,8 @@ const chainIds = {
   hardhat: 31337,
   // Ethereum: https://docs.infura.io/infura/networks/ethereum/how-to/choose-a-network
   sepolia: 11155111,
-  mainnet: 1,
   // Optimism: https://docs.infura.io/infura/networks/optimism/how-to/choose-a-network
   "optimism-mainnet": 10,
-  "optimism-goerli": 420,
   // Celo
   "celo-mainnet": 42220,
   // Base
@@ -132,20 +127,13 @@ const config: HardhatUserConfig = {
       "OrderValidatorV2A",
       "StrategyManager",
       "TransferManager",
-      "StrategyCollectionOffer",
-      "StrategyDutchAuction",
       "StrategyHypercertCollectionOffer",
       "StrategyHypercertDutchAuction",
       "StrategyHypercertFractionOffer",
-      "StrategyItemIdsRange",
       "CreatorFeeManagerWithRoyalties",
       "RoyaltyFeeRegistry",
     ],
     except: ["@openzeppelin"],
-  },
-  defender: {
-    apiKey: OPENZEPPELIN_API_KEY!,
-    apiSecret: OPENZEPPELIN_SECRET_KEY!,
   },
   dodoc: {
     runOnCompile: true,
@@ -155,7 +143,6 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      goerli: ETHERSCAN_API_KEY!,
       sepolia: ETHERSCAN_API_KEY!,
       optimisticEthereum: OPTIMISTIC_ETHERSCAN_API_KEY!,
       celo: CELOSCAN_API_KEY!,
@@ -201,10 +188,7 @@ const config: HardhatUserConfig = {
       },
     },
     "celo-mainnet": getChainConfig("celo-mainnet"),
-    goerli: getChainConfig("goerli"),
     sepolia: getChainConfig("sepolia"),
-    mainnet: getChainConfig("mainnet"),
-    "optimism-goerli": getChainConfig("optimism-goerli"),
     "optimism-mainnet": getChainConfig("optimism-mainnet"),
     "base-sepolia": getChainConfig("base-sepolia"),
     "base-mainnet": getChainConfig("base-mainnet"),

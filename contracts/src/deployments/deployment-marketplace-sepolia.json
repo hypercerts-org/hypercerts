@@ -1,56 +1,55 @@
 {
   "TransferManager": {
-    "address": "0xB4e5fFb878eA75F3Ac65fEe4C3f5552c6D30Aab9",
+    "address": "0x658c1695DCb298E57e6144F6dA3e83DdCF5e2BaB",
     "fullNamespace": "TransferManager",
     "args": ["0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35"],
     "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
-    "tx": "0xa3d8c9e665950a006b6cb700cf09bd18a779a6359d4d0f7ffcd88f79355dbf64"
+    "tx": "0x9a4f5d8ab1907a603ebb87cf3e6065a7b205addf10f2ef42c8f8636b2b5ce705"
   },
   "ProtocolFeeRecipient": {
-    "address": "0xB47BCab2f33c4d7805CB999888E77dD62e2600Da",
+    "address": "0xaDB4b94330dD29F7A7D67156b72077b918E882b4",
     "fullNamespace": "ProtocolFeeRecipient",
     "args": ["0x4f37308832c6eFE5A74737955cBa96257d76De17", "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"],
     "encodedArgs": "0x4f37308832c6efe5a74737955cba96257d76de177b79995e5f793a07bc00c21412e50ecae098e7f9",
-    "tx": "0x9db81e96b874266392aac8cdd16451770dae7cd0ce00bef72cfe98a44d5ab6b8"
+    "tx": "0xfa67db564606ac9a24c0cdffa121ad3ab7e96eefb7383f23d58fbf4db592d428"
   },
   "HypercertExchange": {
-    "address": "0x9819bbb6980AaA586A8e80dB963a766C6D5711c4",
+    "address": "0xB1991E985197d14669852Be8e53ee95A1f4621c0",
     "fullNamespace": "LooksRareProtocol",
     "args": [
       "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
-      "0xB47BCab2f33c4d7805CB999888E77dD62e2600Da",
-      "0xB4e5fFb878eA75F3Ac65fEe4C3f5552c6D30Aab9",
+      "0xaDB4b94330dD29F7A7D67156b72077b918E882b4",
+      "0x658c1695DCb298E57e6144F6dA3e83DdCF5e2BaB",
       "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"
     ],
-    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35b47bcab2f33c4d7805cb999888e77dd62e2600dab4e5ffb878ea75f3ac65fee4c3f5552c6d30aab97b79995e5f793a07bc00c21412e50ecae098e7f9",
-    "tx": "0xb0d3b673d67b0878765957762f6b564b3686cbc18265589b19c09ab52ccf5115"
+    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35adb4b94330dd29f7a7d67156b72077b918e882b4658c1695dcb298e57e6144f6da3e83ddcf5e2bab7b79995e5f793a07bc00c21412e50ecae098e7f9",
+    "tx": "0x77a1f1284c83a957da90ba7daee7f6085bee34283e221727c9ccc10e8df2027a"
   },
   "RoyaltyFeeRegistry": {
-    "address": "0x08FDa86868E1F058416f63e09a174467F9cC5e08",
+    "address": "0xd97b92B740EAf655DFf4f93B0D6D38232cfE84C6",
     "fullNamespace": "RoyaltyFeeRegistry",
     "args": ["1000"],
     "encodedArgs": "0x00000000000000000000000000000000000000000000000000000000000003e8",
-    "tx": "0x93b263e56a7a274e57ef3e6377630643617410bef42f0ba86606664423b64145"
+    "tx": "0x21cc81aff04ab92e986dd8e9e1fc5edd9ef7631609800e144def230a1e224129"
   },
   "OrderValidator": {
-    "address": "0x1d68a6cc45e57d75b06b6f52dfc2a18d4e0452c4",
+    "address": "0xB7E30420a456667Aa828722E26fA64729d8DbBce",
     "fullNamespace": "OrderValidatorV2A",
-    "args": ["0x9819bbb6980AaA586A8e80dB963a766C6D5711c4"],
-    "encodedArgs": "0x9819bbb6980aaa586a8e80db963a766c6d5711c4",
-    "tx": "0x4971c131fb1d9c6118c0f46319c13da652b93e94a4eb9f8c45c85ca6ddb625ce"
+    "args": ["0xB1991E985197d14669852Be8e53ee95A1f4621c0"],
+    "encodedArgs": "0xb1991e985197d14669852be8e53ee95a1f4621c0"
   },
   "CreatorFeeManager": {
-    "address": "0x9831c17f5abcfe4c0fdc2f94cdd3ad716f5ba9dd",
+    "address": "0xa2ce31fa3204f5ce538723b23f0418e62d54f302",
     "fullNamespace": "CreatorFeeManagerWithRoyalties",
-    "args": ["0x08FDa86868E1F058416f63e09a174467F9cC5e08"],
-    "encodedArgs": "0x08fda86868e1f058416f63e09a174467f9cc5e08",
-    "tx": "0xbf450e5a0f8a8461db6df9da6f6026aaf0aac7df370cfcb904ef692f76768d5c"
+    "args": ["0xd97b92B740EAf655DFf4f93B0D6D38232cfE84C6"],
+    "encodedArgs": "0xd97b92b740eaf655dff4f93b0d6d38232cfe84c6",
+    "tx": "0x5e9419057ccf80c2b561cca088f2938b0a24293ef434f1965bc56b98502a3797"
   },
   "StrategyHypercertFractionOffer": {
-    "address": "0x08401da461ee03b82d86e52499fd2eddce603b81",
+    "address": "0x4a90ef7cc5491eb01319858cca4b1bbce64ff573",
     "fullNamespace": "StrategyHypercertFractionOffer",
     "args": [],
     "encodedArgs": "0x",
-    "tx": "0x0c0228b8328ef55df5e402e8d604ce72c6190be8c36110a6d259e2937ca85092"
+    "tx": "0x20561d2c5d8166cdd6cf955c6041504059df641d7b855521f838cc97d961b616"
   }
 }

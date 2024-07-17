@@ -1,4 +1,4 @@
-import DEPLOYMENTS from "./deployments";
+import DEPLOYMENTS from "./deployments/index.js";
 
 import HypercertMinterAbi from "../abi/src/protocol/HypercertMinter.sol/HypercertMinter.json";
 import HypercertExchangeAbi from "../abi/src/marketplace/LooksRareProtocol.sol/LooksRareProtocol.json";

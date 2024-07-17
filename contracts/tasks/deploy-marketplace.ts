@@ -17,35 +17,51 @@ const WETH: TokenAddressType = {
   localhost: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   hardhat: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+  optimism: "0x4200000000000000000000000000000000000006",
 };
 
-// LINK faucet: https://faucets.chain.link/
+// LINK faucet for Sepolia: https://faucets.chain.link/
 const DAI: TokenAddressType = {
   localhost: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   hardhat: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   sepolia: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+  optimism: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
 };
 
-// USDCe https://faucet.circle.com/
-const USDCe: TokenAddressType = {
+// USDC https://faucet.circle.com/
+const USDC: TokenAddressType = {
   localhost: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   hardhat: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-};
-
-const USDT: TokenAddressType = {
-  localhost: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-  hardhat: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-  sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  optimism: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
 };
 
 const getTokenAddresses = (network: string) => {
   return {
     wethAddress: WETH[network],
-    usdceAddress: USDCe[network],
+    usdceAddress: USDC[network],
     daiAddress: DAI[network],
-    usdtAddress: USDT[network],
   };
+};
+
+const ADMIN_ACCOUNT: { [key: string]: string } = {
+  localhost: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  hardhat: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  sepolia: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+};
+
+const getAdminAccount = (network: string) => {
+  return ADMIN_ACCOUNT[network];
+};
+
+const FEE_RECIPIENT: { [key: string]: string } = {
+  localhost: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  hardhat: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  sepolia: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+};
+
+const getFeeRecipient = (network: string) => {
+  return FEE_RECIPIENT[network];
 };
 
 const getCreate2Address = async (
@@ -109,7 +125,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     //TODO multichain support
     const { ethers, network, run, viem } = hre;
     const create2Address = "0x0000000000ffe8b47b3e2130213b802212439497";
-    const { wethAddress, usdceAddress, daiAddress, usdtAddress } = getTokenAddresses(network.name);
+    const { wethAddress, usdceAddress, daiAddress } = getTokenAddresses(network.name);
 
     const publicClient = await viem.getPublicClient();
     const [deployer] = await viem.getWalletClients();
@@ -122,18 +138,18 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     // 10_000 = 100%
     // Sepolia admin Safe = sep:0x4f37308832c6eFE5A74737955cBa96257d76De17
     const marketplaceParameters = {
-      owner: "0x4f37308832c6eFE5A74737955cBa96257d76De17", // hc admin safe
-      protocolFeeRecipient: "0x4f37308832c6eFE5A74737955cBa96257d76De17", // hc fee safe
+      owner: getAdminAccount(network.name), // hc admin safe
+      protocolFeeRecipient: getFeeRecipient(network.name), // hc fee safe
       standardProtocolFeeBP: 100,
       minTotalFeeBp: 100,
       maxProtocolFeeBp: 200,
       royaltyFeeLimit: "1000",
     };
 
-    const releaseCounter = "v0.9";
+    const releaseVersion = "v1.0.1";
 
     const salt = slice(
-      encodePacked(["address", "string", "address"], [deployer.account?.address, releaseCounter, create2Address]),
+      encodePacked(["address", "string", "address"], [deployer.account?.address, releaseVersion, create2Address]),
       0,
       32,
     );
@@ -149,53 +165,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const protocolFeeRecipientContract = await hre.artifacts.readArtifact("ProtocolFeeRecipient");
     const royaltyFeeRegistryContract = await hre.artifacts.readArtifact("RoyaltyFeeRegistry");
 
-    // const strategyCollectionOfferContract = await hre.artifacts.readArtifact("StrategyCollectionOffer");
-    // const strategyDutchAuctionContract = await hre.artifacts.readArtifact("StrategyDutchAuction");
-    // const strategyItemIdsRangeContract = await hre.artifacts.readArtifact("StrategyItemIdsRange");
-    // const strategyHypercertCollectionOfferContract = await hre.artifacts.readArtifact(
-    //   "StrategyHypercertCollectionOffer",
-    // );
-    // const strategyHypercertDutchAuctionContract = await hre.artifacts.readArtifact("StrategyHypercertDutchAuction");
-
     const strategies = [
-      // {
-      //   contract: strategyCollectionOfferContract,
-      //   name: "StrategyCollectionOffer",
-      //   isMakerBid: true,
-      //   strategies: [
-      //     "executeCollectionStrategyWithTakerAsk",
-      //     "executeCollectionStrategyWithTakerAskWithProof",
-      //     "executeCollectionStrategyWithTakerAskWithAllowlist",
-      //   ],
-      // },
-      // {
-      //   contract: strategyDutchAuctionContract,
-      //   name: "StrategyDutchAuction",
-      //   isMakerBid: false,
-      //   strategies: ["executeStrategyWithTakerBid"],
-      // },
-      // {
-      //   contract: strategyItemIdsRangeContract,
-      //   name: "StrategyItemIdsRange",
-      //   isMakerBid: true,
-      //   strategies: ["executeStrategyWithTakerAsk"],
-      // },
-      // {
-      //   contract: strategyHypercertCollectionOfferContract,
-      //   name: "StrategyHypercertCollectionOffer",
-      //   isMakerBid: true,
-      //   strategies: [
-      //     "executeHypercertCollectionStrategyWithTakerAsk",
-      //     "executeHypercertCollectionStrategyWithTakerAskWithProof",
-      //     "executeHypercertCollectionStrategyWithTakerAskWithAllowlist",
-      //   ],
-      // },
-      // {
-      //   contract: strategyHypercertDutchAuctionContract,
-      //   name: "StrategyHypercertDutchAuction",
-      //   isMakerBid: false,
-      //   strategies: ["executeStrategyWithTakerBid"],
-      // },
       {
         contract: strategyHypercertFractionOfferContract,
         name: "StrategyHypercertFractionOffer",
@@ -208,7 +178,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     ];
 
     // Create2 Transfermanager
-    const transferManagerArgs = [deployer.account?.address]; // initial owner is deployer
+    const transferManagerArgs = [deployer.account.address]; // initial owner is deployer
+    console.log("TransferManager args: ", transferManagerArgs);
     const transferManagerCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -222,6 +193,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     // Create2 ProtocolFeeRecipient
     const protocolFeeRecipientArgs = [marketplaceParameters.protocolFeeRecipient, wethAddress];
+    console.log("ProtocolFeeRecipient args: ", protocolFeeRecipientArgs);
     const protocolFeeRecipientCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -241,6 +213,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       wethAddress,
     ];
 
+    console.log("HypercertsExchange args: ", hypercertsExchangeArgs);
+
     const hypercertsExchangeCreate2 = await getCreate2Address(
       deployer,
       create2Address,
@@ -254,6 +228,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     // Create2 RoyaltyFeeManager
     const royaltyFeeRegistryArgs = [marketplaceParameters.royaltyFeeLimit];
+
+    console.log("RoyaltyFeeRegistry args: ", royaltyFeeRegistryArgs);
 
     const royaltyFeeRegistryCreate2 = await getCreate2Address(
       deployer,
@@ -349,24 +325,33 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const transferManagerInstance = getContract({
       address: transferManagerCreate2.address,
       abi: transferManagerContract.abi,
-      publicClient,
-      walletClient: deployer,
+      client: { public: publicClient, wallet: deployer },
     });
 
     // Deploy OrderValidator
 
     const orderValidatorArgs = [hypercertsExchangeCreate2.address];
 
-    const deployOrderValidator = await deployer.deployContract({
-      abi: orderValidatorContract.abi,
-      account: deployer.account,
-      args: orderValidatorArgs,
-      bytecode: orderValidatorContract.bytecode as `0x${string}`,
-    });
+    console.log("OrderValidator args: ", orderValidatorArgs);
 
-    const orderValidatorTx = await publicClient.waitForTransactionReceipt({
-      hash: deployOrderValidator,
-    });
+    const orderValidatorCreate2 = await getCreate2Address(
+      deployer,
+      create2Address,
+      encodeDeployData({
+        abi: orderValidatorContract.abi,
+        bytecode: orderValidatorContract.bytecode as `0x${string}`,
+        args: orderValidatorArgs,
+      }),
+      salt,
+    );
+
+    const orderValidatorTx = await runCreate2Deployment(
+      publicClient,
+      create2Instance,
+      "OrderValidatorV2A",
+      orderValidatorCreate2,
+      orderValidatorArgs,
+    );
 
     console.log(
       orderValidatorTx.status === "success"
@@ -375,7 +360,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     );
 
     contracts.OrderValidator = {
-      address: orderValidatorTx.contractAddress,
+      address: orderValidatorCreate2.address,
       fullNamespace: "OrderValidatorV2A",
       args: orderValidatorArgs,
       encodedArgs: solidityPacked(["address"], orderValidatorArgs),
@@ -385,6 +370,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     // Deploy CreatorFeeManager
 
     const creatorFeeManagerArgs = [royaltyFeeRegistryCreate2.address];
+
+    console.log("CreatorFeeManager args: ", creatorFeeManagerArgs);
     const deployCreatorFeeManager = await deployer.deployContract({
       abi: creatorFeeManagerContract.abi,
       account: deployer.account,
@@ -415,30 +402,14 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const hypercertsExchangeInstance = getContract({
       address: hypercertsExchangeCreate2.address,
       abi: exchangeContract.abi,
-      publicClient,
-      walletClient: deployer,
+      client: { public: publicClient, wallet: deployer },
     });
 
-    // read transferManager from HypercertsExchange
-    const transferManager = await hypercertsExchangeInstance.read.transferManager();
-    console.log("TransferManager address: ", transferManager);
-
-    // read deriveProtocolParams from HypercertsExchange
-    const domainSeparator = await hypercertsExchangeInstance.read.domainSeparator();
-    console.log("domainSeparator: ", domainSeparator);
-
-    const creatorFeeManager = await hypercertsExchangeInstance.read.creatorFeeManager();
-    console.log("creatorFeeManager: ", creatorFeeManager);
-
-    const maxCreatorFeeBp = await hypercertsExchangeInstance.read.maxCreatorFeeBp();
-    console.log("maxCreatorFeeBp: ", maxCreatorFeeBp);
-
     // Update currency status for accepted tokens
-    await allowCurrency("0x0000000000000000000000000000000000000000", "ETH");
+    await allowCurrency("0x0000000000000000000000000000000000000000", "native");
     await allowCurrency(wethAddress, "WETH");
-    await allowCurrency(usdceAddress, "USDCe");
+    await allowCurrency(usdceAddress, "USDC");
     await allowCurrency(daiAddress, "DAI");
-    await allowCurrency(usdtAddress, "USDT");
 
     // Update creatorFeeManager address
     const updateCreatorFeeManager = await hypercertsExchangeInstance.write.updateCreatorFeeManager([
@@ -460,6 +431,22 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     console.log("Deploying and adding strategies....");
 
     await addStrategiesToExchange(strategies, marketplaceParameters);
+
+    console.log("Creating proposal for new owner...");
+
+    const ownershipTransferTx = await hypercertsExchangeInstance.write.initiateOwnershipTransfer([
+      marketplaceParameters.owner,
+    ]);
+
+    const ownershipTransferReceipt = await publicClient.waitForTransactionReceipt({
+      hash: ownershipTransferTx,
+    });
+
+    console.log(
+      ownershipTransferReceipt.status === "success"
+        ? "Ownership transfer initiated successfully"
+        : "Failed to initiate ownership transfer",
+    );
 
     console.log("🚀 Done!");
 
@@ -574,7 +561,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       }
     }
 
-    async function allowCurrency(tokenAddress: string, name: string) {
+    async function allowCurrency(tokenAddress: string, name?: string) {
       const hash = await hypercertsExchangeInstance.write.updateCurrencyStatus([tokenAddress, true]);
       const receipt = await publicClient.waitForTransactionReceipt({
         hash,
