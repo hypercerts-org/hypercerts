@@ -30,6 +30,7 @@ import { ParserReturnType } from "./utils/txParser";
 import { isClaimOnChain } from "./utils/chains";
 import { StoreAllowList201AnyOfTwoData, StoreMetadata201AnyOf } from "./__generated__/api";
 import { HypercertStorage } from "./types/storage";
+import { fetchFromHttpsOrIpfs } from "./utils/fetchers";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -128,7 +129,38 @@ export class HypercertClient implements HypercertClientInterface {
     let root;
 
     if (allowList) {
-      const tree = parseAllowListEntriesToMerkleTree(allowList);
+      let allowListEntries: AllowlistEntry[] = [];
+      if (typeof allowList === "string") {
+        // fetch the csv contents
+        const csvContents = await fetchFromHttpsOrIpfs(allowList);
+
+        if (!csvContents) {
+          throw new ClientError("No contents found in the csv", { allowList });
+        }
+
+        if (typeof csvContents !== "string") {
+          throw new ClientError("Invalid contents found in the csv", { allowList });
+        }
+        // parse the csv contents into an array of AllowlistEntry
+        // get first row as headers
+        const headers = (csvContents as string).split("\n")[0].split(",");
+        // map headers onto other rows
+        const rows = (csvContents as string)
+          .split("\n")
+          .slice(1)
+          .map((row) => {
+            const values = row.split(",");
+            return Object.fromEntries(headers.map((header, i) => [header, values[i]]));
+          });
+        allowListEntries = rows.map((entry) => {
+          const { address, units } = entry;
+          return { address, units: BigInt(units) };
+        });
+      } else {
+        allowListEntries = allowList;
+      }
+
+      const tree = parseAllowListEntriesToMerkleTree(allowListEntries);
 
       // store allowlist on IPFS
       const allowlistStoreRes = await this.storage.storeAllowlist(

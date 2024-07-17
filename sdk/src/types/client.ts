@@ -100,7 +100,7 @@ export interface MintParams extends TransactionParams {
   metaData: HypercertMetadata;
   totalUnits: bigint;
   transferRestriction: TransferRestrictions;
-  allowList?: AllowlistEntry[];
+  allowList?: AllowlistEntry[] | string;
 }
 
 export interface TransferParams extends TransactionParams {

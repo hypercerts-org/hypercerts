@@ -55,3 +55,46 @@ const getWeb3UpGatewayUri = (cidOrIpfsUri: string) => {
 };
 
 export { getFromIPFS };
+
+export const fetchFromHTTPS = async ({ uri }: { uri: string }) => {
+  // URL validation
+  const url = new URL(uri);
+  try {
+    const res = await axios.get(url.toString());
+
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to get metadata from URI ${uri} `, error);
+    return;
+  }
+};
+
+export const fetchFromHttpsOrIpfs = async (uri?: string): Promise<unknown> => {
+  if (!uri || uri === "ipfs://null" || uri === "ipfs://") {
+    console.error("[fetchFromHttpsOrIpfs] URI is missing");
+    return;
+  }
+
+  let fetchResult;
+
+  // Try from IPFS
+  if (uri.startsWith("ipfs://")) {
+    fetchResult = await getFromIPFS(uri);
+  }
+
+  // Try from HTTPS
+  if (uri.startsWith("https://")) {
+    fetchResult = await fetchFromHTTPS({ uri });
+  }
+
+  // If nothing found yet, try from IPFS as CID
+  if (!fetchResult) {
+    fetchResult = await getFromIPFS(uri);
+  }
+
+  return fetchResult;
+};
