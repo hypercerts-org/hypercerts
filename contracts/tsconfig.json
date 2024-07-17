@@ -3,7 +3,6 @@
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -14,26 +13,11 @@
     "noImplicitOverride": false,
     "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
     "strict": true,
     "target": "ES2022",
     "outDir": "dist"
   },
-  "include": ["./tasks", "./test", "./src", "./hardhat.config.cjs"],
-  "files": [
-    "types/src/marketplace/CurrencyManager.ts",
-    "types/src/marketplace/ExecutionManager.ts",
-    "types/src/marketplace/LooksRareProtocol.ts",
-    "types/src/marketplace/NonceManager.ts",
-    "types/src/marketplace/helpers/OrderValidatorV2A.ts",
-    "types/src/marketplace/StrategyManager.ts",
-    "types/src/marketplace/TransferManager.ts",
-    "types/src/protocol/AllowlistMinter.ts",
-    "types/src/protocol/HypercertMinter.ts",
-    "types/src/protocol/interfaces/IAllowlist.ts",
-    "types/src/protocol/interfaces/IHypercertToken.ts",
-    "types/src/protocol/libs/Errors.ts"
-  ],
+  "include": ["./tasks", "./test", "./src", "./hardhat.config.cjs", "./types"],
   "ts-node": {
     "experimentalResolver": true,
     "files": true

@@ -237,7 +237,7 @@ export interface HypercertMetadata {
   description: string;
   /** An url pointing to the external website of the project */
   external_url?: string;
-  hypercert?: HypercertClaimdata361;
+  hypercert?: HypercertClaimdata;
   /** A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. */
   image: string;
   /** Identifies the asset to which this token represents */
@@ -252,7 +252,7 @@ export interface HypercertMetadata {
 /**
  * Work time period. The value is UNIX time in seconds from epoch.
  */
-export type HypercertClaimdata361WorkTimeframe = {
+export type HypercertClaimdataWorkTimeframe = {
   display_value?: string;
   name?: string;
   value?: number[];
@@ -262,7 +262,7 @@ export type HypercertClaimdata361WorkTimeframe = {
 /**
  * Scopes of work
  */
-export type HypercertClaimdata361WorkScope = {
+export type HypercertClaimdataWorkScope = {
   display_value?: string;
   excludes?: string[];
   name?: string;
@@ -273,7 +273,7 @@ export type HypercertClaimdata361WorkScope = {
 /**
  * Rights
  */
-export type HypercertClaimdata361Rights = {
+export type HypercertClaimdataRights = {
   display_value?: string;
   excludes?: string[];
   name?: string;
@@ -284,7 +284,7 @@ export type HypercertClaimdata361Rights = {
 /**
  * Impact time period. The value is UNIX time in seconds from epoch.
  */
-export type HypercertClaimdata361ImpactTimeframe = {
+export type HypercertClaimdataImpactTimeframe = {
   display_value?: string;
   name?: string;
   value?: number[];
@@ -294,7 +294,7 @@ export type HypercertClaimdata361ImpactTimeframe = {
 /**
  * Scopes of impact
  */
-export type HypercertClaimdata361ImpactScope = {
+export type HypercertClaimdataImpactScope = {
   display_value?: string;
   excludes?: string[];
   name?: string;
@@ -305,7 +305,7 @@ export type HypercertClaimdata361ImpactScope = {
 /**
  * Contributors
  */
-export type HypercertClaimdata361Contributors = {
+export type HypercertClaimdataContributors = {
   display_value?: string;
   name?: string;
   value?: string[];
@@ -315,19 +315,19 @@ export type HypercertClaimdata361Contributors = {
 /**
  * Properties of an impact claim
  */
-export interface HypercertClaimdata361 {
+export interface HypercertClaimdata {
   /** Contributors */
-  contributors: HypercertClaimdata361Contributors;
+  contributors: HypercertClaimdataContributors;
   /** Scopes of impact */
-  impact_scope: HypercertClaimdata361ImpactScope;
+  impact_scope: HypercertClaimdataImpactScope;
   /** Impact time period. The value is UNIX time in seconds from epoch. */
-  impact_timeframe: HypercertClaimdata361ImpactTimeframe;
+  impact_timeframe: HypercertClaimdataImpactTimeframe;
   /** Rights */
-  rights?: HypercertClaimdata361Rights;
+  rights?: HypercertClaimdataRights;
   /** Scopes of work */
-  work_scope: HypercertClaimdata361WorkScope;
+  work_scope: HypercertClaimdataWorkScope;
   /** Work time period. The value is UNIX time in seconds from epoch. */
-  work_timeframe: HypercertClaimdata361WorkTimeframe;
+  work_timeframe: HypercertClaimdataWorkTimeframe;
   [key: string]: unknown;
 }
 

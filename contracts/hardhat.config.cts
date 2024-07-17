@@ -4,6 +4,8 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
+import '@typechain/hardhat'
+import '@nomicfoundation/hardhat-ethers'
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";

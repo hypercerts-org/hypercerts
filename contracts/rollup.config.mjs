@@ -1,43 +1,37 @@
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
-import autoExternal from "rollup-plugin-auto-external";
 import dts from "rollup-plugin-dts";
-import esbuild from "rollup-plugin-esbuild";
-import nodePolyfills from "rollup-plugin-node-polyfills";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import json from "@rollup/plugin-json";
+import autoExternal from "rollup-plugin-auto-external";
+import swc from "rollup-plugin-swc3";
 
 export default [
   {
-    input: `build/src/index.js`,
+    input: `src/index.ts`,
     plugins: [
       autoExternal(),
-      nodePolyfills(),
       json(),
-      commonjs(),
-      nodeResolve(),
-      esbuild({ tsconfig: "tsconfig.build.json" }),
+      nodeResolve({ jsnext: true, preferBuiltins: false, browser: true }),
+      swc(),
     ],
     output: [
       {
         format: "esm",
         dir: "dist/esm",
-        sourcemap: true,
-        exports: "named",
         entryFileNames: "index.mjs",
       },
       {
         format: "cjs",
         dir: "dist/cjs",
-        sourcemap: true,
-        exports: "named",
+        entryFileNames: "index.cjs",
       },
     ],
   },
   {
-    input: `build/src/index.d.ts`,
+    input: `src/index.ts`,
     plugins: [json(), dts()],
     output: {
       file: `dist/index.d.ts`,
+      format: "es",
     },
   },
 ];

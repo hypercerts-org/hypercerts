@@ -5,13 +5,10 @@ import HypercertExchangeAbi from "../abi/src/marketplace/LooksRareProtocol.sol/L
 import OrderValidatorV2AAbi from "../abi/src/marketplace/helpers/OrderValidatorV2A.sol/OrderValidatorV2A.json";
 import StrategyManagerAbi from "../abi/src/marketplace/StrategyManager.sol/StrategyManager.json";
 import TransferManagerAbi from "../abi/src/marketplace/TransferManager.sol/TransferManager.json";
-import StrategyCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyCollectionOffer.sol/StrategyCollectionOffer.json";
-import StrategyDutchAuctionAbi from "../abi/src/marketplace/executionStrategies/StrategyDutchAuction.sol/StrategyDutchAuction.json";
 import StrategyHypercertFractionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertFractionOffer.sol/StrategyHypercertFractionOffer.json";
 import CreatorFeeManagerWithRoyaltiesAbi from "../abi/src/marketplace/CreatorFeeManagerWithRoyalties.sol/CreatorFeeManagerWithRoyalties.json";
 import StrategyHypercertCollectionOfferAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertCollectionOffer.sol/StrategyHypercertCollectionOffer.json";
 import StrategyHypercertDutchAuctionAbi from "../abi/src/marketplace/executionStrategies/StrategyHypercertDutchAuction.sol/StrategyHypercertDutchAuction.json";
-import StrategyItemIdsRangeAbi from "../abi/src/marketplace/executionStrategies/StrategyItemIdsRange.sol/StrategyItemIdsRange.json";
 import ExecutionManagerAbi from "../abi/src/marketplace/ExecutionManager.sol/ExecutionManager.json";
 
 import {
@@ -96,9 +93,6 @@ export {
   OrderValidatorV2AAbi,
   TransferManagerAbi,
   StrategyManagerAbi,
-  StrategyCollectionOfferAbi,
-  StrategyDutchAuctionAbi,
-  StrategyItemIdsRangeAbi,
   StrategyHypercertFractionOfferAbi,
   StrategyHypercertCollectionOfferAbi,
   StrategyHypercertDutchAuctionAbi,
