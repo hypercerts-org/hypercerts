@@ -5,13 +5,13 @@
 1. Install the SDK using npm or yarn:
 
 ```bash
-npm install @hypercerts-org/sdk
+pnpm install @hypercerts-org/sdk
 ```
 
 or
 
 ```bash
- yarn add @hypercerts-org/sdk
+ pnpm add @hypercerts-org/sdk
 ```
 
 2. Import the SDK into your project:
@@ -24,7 +24,9 @@ import { HypercertClient } from "@hypercerts-org/sdk";
 
 ```js
 const client = new HypercertClient({
-  chain: { id: 11155111 }, // required
+  environment: "test",
+  walletClient, // optional, client will default to read-only mode if not provided
+  publicClient, // optional, can be infered from walletClient if present
 });
 ```
 
@@ -34,17 +36,15 @@ const client = new HypercertClient({
 
 For example, you can use the `client.mintClaim` method to create a new claim:
 
-```js
-const tx = await client.mintClaim(metaData, totalUnits, transferRestriction, overrides);
+```ts
+const hash = await client.mintHypercert({
+  metaData: { ... },
+  totalUnits: 1000n,
+  transferRestriction: TransferRestrictions.AllowAll,
+});
 ```
 
 This will validate the metadata, store it on IPFS, create a new hypercert on-chain and return a transaction receipt.
-
-You can also use the client to query the subgraph and retrieve which claims an address owns:
-
-```js
-const claims = await client.indexer.fractionsByOwner(owner);
-```
 
 For more information on how to use the SDK, check out the
 [developer documentation](https://hypercerts.org/docs/developer/) and the
@@ -58,29 +58,21 @@ HypercertClientConfig is a configuration object used when initializing a new ins
 you to customize the client by setting your own providers or deployments. At it's simplest, you only need to provide
 `chain.id` to initalize the client in `readonly` mode.
 
-| Field                       | Type                              | Description                                                                                    |
-| --------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------- |
-| `chain`                     | Object                            | Partial configuration for the blockchain network.                                              |
-| `contractAddress`           | String                            | The address of the deployed contract.                                                          |
-| `graphName`                 | String                            | The name of the subgraph.                                                                      |
-| `easContractAddress`        | String                            | The address of the EAS contract.                                                               |
-| `publicClient`              | Object                            | The PublicClient is inherently read-only and is used for reading data from the blockchain.     |
-| `walletClient`              | Object                            | The WalletClient is used for signing and sending transactions.                                 |
-| `unsafeForceOverrideConfig` | Boolean                           | Boolean to force the use of overridden values.                                                 |
-| `readOnly`                  | Boolean                           | Boolean to assert if the client is in read-only mode.                                          |
-| `readOnlyReason`            | String                            | Reason for read-only mode. This is optional and can be used for logging or debugging purposes. |
-| `indexerEnvironment`        | `'test' \| 'production' \| 'all'` | Determines which graphs should be read out when querying                                       | The environment of the indexer. |
+| Field          | Type                     | Description                                                                                  |
+| -------------- | ------------------------ | -------------------------------------------------------------------------------------------- |
+| `environment`  | `'test' \| 'production'` | Defines the environment the client will connect with.                                        |
+| `deployments`  | Object                   | The deployments of the contracts on various networks.                                        |
+| `readOnly`     | Boolean                  | Boolean to assert if the client is in read-only mode.                                        |
+| `graphUrl`     | String                   | The URL of the graph endpoint.                                                               |
+| `publicClient` | Object                   | The `PublicClient` is inherently read-only and is used for reading data from the blockchain. |
+| `walletClient` | Object                   | The `WalletClient` is used for signing and sending transactions.                             |
 
 ### Read-only mode
 
 The SDK client will be in read-only mode if any of the following conditions are true:
 
-- The client was initialized without a walletprovider.
-- The contract address is not set.
-- The storage layer is in read-only mode.
-
-If any of these conditions are true, the readonly property of the HypercertClient instance will be set to true, and a
-warning message will be logged indicating that the client is in read-only mode.
+- The client was initialized without a wallet client.
+- The client was initialized with a wallet client connected to a chain that is not supported in the environment.
 
 ### Logging
 
@@ -88,41 +80,22 @@ The logger for the SDK uses the log level based on the value of the LOG_LEVEL en
 determines which log messages are printed to the console. By default, the logger is configured to log messages with a
 level of info or higher to the console.
 
-## Client modules
+## Modules
 
-The `HypercertClient` provides a high-level interface for interacting with the Hypercert ecosystem. The HypercertClient
-has three getter methods: `storage`, `indexer`, and `contract`. These methods return instances of the HypercertsStorage,
-HypercertIndexer, and HypercertMinter classes, respectively.
+### Storage
 
-```js
-const {
-  client: { storage },
-} = new HypercertClient({ chain: { id: 11155111 } });
-```
-
-The `storage` is a utility class that provides methods for storing and retrieving Hypercert metadata from IPFS. It is
-used by the HypercertClient to store metadata when creating new Hypercerts.
+The `storage` module is an utility service for easy access to the hypercerts API. It's built based on the OpenAPI spec
+exposed by the hypercerts API.
 
 ```js
-const {
-  client: { indexer },
-} = new HypercertClient({ chain: { id: 11155111 } });
+ const client = new HypercertClient({
+  environment: "test",
+  walletClient, // optional, client will default to read-only mode if not provided
+  publicClient, // optional, can be infered from walletClient if present
+});
+
+const storage = client.storage;
+
+const storageRequest = { metadata: {...}}
+const storageResponse = await client.storage.storeMetadata(storageRequest);
 ```
-
-The `indexer` is a utility class that provides methods for indexing and searching Hypercerts based on various criteria.
-It is used by the HypercertClient to retrieve event-based data via the subgraph
-
-```js
-const {
-  client: { contract },
-} = new HypercertClient({ chain: { id: 11155111 } });
-```
-
-Finally we have a `contract` that provides methods for interacting with the HypercertMinter smart contract. It is used
-by the HypercertClient to create new Hypercerts and retrieve specific on-chain information.
-
-By providing instances of these classes through the storage, indexer, and contract getters, the HypercertClient allows
-developers to easily interact with the various components of the Hypercert system. For example, a developer could use
-the storage instance to store metadata for a new Hypercert, the indexer instance to search for existing Hypercerts based
-on various criteria, and the contract instance to create new Hypercerts and retrieve existing Hypercerts from the
-contract.

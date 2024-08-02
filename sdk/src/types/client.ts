@@ -53,14 +53,29 @@ export type Deployment = {
  * Configuration options for the Hypercert client.
  */
 export type HypercertClientConfig = {
-  /** The environment to run the indexer in. This can be either production, test or all. Defaults to test */
+  /**
+   * The environment to run the indexer in. This can be either production, test or all. Defaults to test.
+   */
   environment: Environment;
+  /**
+   * The deployments of the contracts on various networks.
+   */
   deployments: { [k: string]: Deployment };
-  /** Boolean to assert if the client is in readOnly mode */
+  /**
+   * Boolean to assert if the client is in read-only mode.
+   */
   readOnly: boolean;
+  /**
+   * The URL of the graph endpoint.
+   */
   graphUrl: string;
-  /** The PublicClient is inherently read-only */
+  /**
+   * The PublicClient is inherently read-only.
+   */
   publicClient?: PublicClient;
+  /**
+   * The WalletClient is used for signing and sending transactions.
+   */
   walletClient?: WalletClient;
 };
 

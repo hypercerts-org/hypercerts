@@ -18,10 +18,10 @@ import { createPublicClient, http } from "viem";
  * - 84532: Base Sepolia
  * - 8453: Base Mainnet
  *
- * @param {Partial<HypercertClientConfig>} overrides - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
- * @returns {Partial<HypercertClientConfig>} The final configuration object for the Hypercert client.
- * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
- * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
+ * @param config - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
+ * @returns The final configuration object for the Hypercert client.
+ * @throws InvalidOrMissingError - Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
+ * @throws UnsupportedChainError - Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
 export const getConfig = (
   config: Partial<Pick<HypercertClientConfig, "publicClient" | "walletClient" | "environment">>,
@@ -59,6 +59,17 @@ export const getConfig = (
   return _config;
 };
 
+/**
+ * Retrieves the deployments for a given environment.
+ *
+ * This function filters known deployments object to find deployments that match the provided environment.
+ * It returns deployments for testnets if the environment is "test" and for mainnets if the environment is "production".
+ * If no deployments are found, it throws an error.
+ *
+ * @param environment - The environment for which to retrieve deployments.
+ * @returns An object containing the deployments for the specified environment.
+ * @throws Will throw an error if no deployments are found for the given environment.
+ */
 export const getDeploymentsForEnvironment = (environment: Environment) => {
   const deployments = Object.fromEntries(
     Object.entries(DEPLOYMENTS).filter(([_, deployment]) => {
@@ -79,6 +90,16 @@ export const getDeploymentsForEnvironment = (environment: Environment) => {
   return deployments;
 };
 
+/**
+ * Retrieves the deployments for a given chain ID.
+ *
+ * This function filters known deployments to find deployments that match the provided chain ID.
+ * If no deployments are found, it throws an error.
+ *
+ * @param chainId - The chain ID for which to retrieve deployments.
+ * @returns An object containing the deployments for the specified chain ID.
+ * @throws Will throw an error if no deployments are found for the given chain ID.
+ */
 export const getDeploymentsForChainId = (chainId: SupportedChainIds) => {
   logger.info("Indexer", "getDeploymentsForChainId", { chainId });
 
@@ -97,6 +118,16 @@ export const getDeploymentsForChainId = (chainId: SupportedChainIds) => {
   return deployments;
 };
 
+/**
+ * Retrieves the environment configuration.
+ *
+ * This function checks if the environment is provided in the configuration object and validates it against the available endpoints.
+ * If the environment is missing or invalid, it throws an error.
+ *
+ * @param config - The configuration object containing the environment.
+ * @returns An object containing the validated environment.
+ * @throws Will throw an error if the environment is missing or invalid.
+ */
 const getEnvironment = (config: Partial<HypercertClientConfig>) => {
   const environment = config.environment;
 
@@ -107,6 +138,16 @@ const getEnvironment = (config: Partial<HypercertClientConfig>) => {
   return { environment };
 };
 
+/**
+ * Retrieves the GraphQL URL for the given environment.
+ *
+ * This function checks if the environment is provided in the configuration object and validates it against the available endpoints.
+ * If the environment is missing or invalid, it throws an error.
+ *
+ * @param config - The configuration object containing the environment.
+ * @returns An object containing the GraphQL URL for the specified environment.
+ * @throws Will throw an error if the environment is missing or invalid.
+ */
 const getGraphUrl = (config: Partial<HypercertClientConfig>) => {
   const environment = config.environment;
 
@@ -117,6 +158,15 @@ const getGraphUrl = (config: Partial<HypercertClientConfig>) => {
   return { graphUrl: `${ENDPOINTS[environment]}/v1/graphql` };
 };
 
+/**
+ * Retrieves the wallet client from the configuration.
+ *
+ * This function checks if the wallet client is provided in the configuration object.
+ * If the wallet client is missing, the client will default to readonly mode.
+ *
+ * @param config - The configuration object containing the wallet client.
+ * @returns An object containing the wallet client.
+ */
 const getWalletClient = (config: Partial<HypercertClientConfig>) => {
   const walletClient = config.walletClient;
 
@@ -127,6 +177,12 @@ const getWalletClient = (config: Partial<HypercertClientConfig>) => {
   return { walletClient };
 };
 
+/**
+ * Retrieves the public client from the configuration.
+ *
+ * @param config - The configuration object containing the public client.
+ * @returns An object containing the public client.
+ */
 const getPublicClient = (config: Partial<HypercertClientConfig>) => {
   return { publicClient: config.publicClient };
 };

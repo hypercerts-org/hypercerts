@@ -73,7 +73,11 @@ describe("mintClaim in HypercertClient", () => {
     writeSpy = writeSpy.resolves(mintClaimResult);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll);
+    const hash = await client.mintHypercert({
+      metaData: formattedData!,
+      totalUnits: 1000n,
+      transferRestriction: TransferRestrictions.AllowAll,
+    });
 
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
@@ -84,7 +88,12 @@ describe("mintClaim in HypercertClient", () => {
     try {
       mocks.storeMetadata.mockRejectedValue(new MalformedDataError("Invalid metadata."));
 
-      await client.mintClaim({} as HypercertMetadata, 1000n, TransferRestrictions.AllowAll);
+      await client.mintHypercert({
+        metaData: {} as HypercertMetadata,
+        totalUnits: 1000n,
+        transferRestriction: TransferRestrictions.AllowAll,
+      });
+
       expect.fail("Should throw MalformedDataError");
     } catch (e) {
       console.log(e);
@@ -106,10 +115,13 @@ describe("mintClaim in HypercertClient", () => {
     let hash;
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, undefined, {
-        gasPrice: "FALSE_VALUE" as unknown as bigint,
+      hash = await client.mintHypercert({
+        metaData: formattedData!,
+        totalUnits: 1000n,
+        transferRestriction: TransferRestrictions.AllowAll,
+        overrides: { gasPrice: "FALSE_VALUE" as unknown as bigint },
       });
+
       expect.fail("Should throw Error");
     } catch (e) {
       expect(e).to.be.instanceOf(ContractError);
@@ -117,8 +129,12 @@ describe("mintClaim in HypercertClient", () => {
       expect(error.message).to.equal("Contract returned unparsable error. Inspect payload for returned data.");
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    hash = await client.mintClaim(formattedData!, 1000n, TransferRestrictions.AllowAll, undefined, { gasPrice: 100n });
+    hash = await client.mintHypercert({
+      metaData: formattedData!,
+      totalUnits: 1000n,
+      transferRestriction: TransferRestrictions.AllowAll,
+      overrides: { gasPrice: 100n },
+    });
 
     expect(isHex(hash)).to.be.true;
     expect(readSpy.callCount).to.equal(0);
