@@ -4,10 +4,8 @@ import { logger } from "./logger";
 import { AllowlistEntry } from "../types";
 
 const parseAllowListEntriesToMerkleTree = (allowList: AllowlistEntry[]) => {
-  const tuples = allowList.map((p) => [p.address, p.units.toString()]);
-  const tree = StandardMerkleTree.of(tuples, ["address", "uint256"]);
-
-  return tree;
+  const tuples = allowList.map((p) => [p.address, p.units]);
+  return StandardMerkleTree.of(tuples, ["address", "uint256"]);
 };
 
 const getMerkleTreeFromIPFS = async (cidOrIpfsUri: string) => {

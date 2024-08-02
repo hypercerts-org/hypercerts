@@ -1,16 +1,22 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { StoreMetadata201, CreateAllowListRequest, StoreAllowList201 } from "../__generated__/api";
-import { HypercertMetadata } from "./metadata";
+import {
+  StorageResponse,
+  StoreAllowListRequest,
+  StoreMetadataRequest,
+  StoreMetadataWithAllowlistRequest,
+} from "../__generated__/api";
 
 export interface HypercertStorage {
   storeMetadata: (
-    metadata: HypercertMetadata,
+    request: StoreMetadataRequest,
     config?: AxiosRequestConfig,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => Promise<AxiosResponse<StoreMetadata201, any>>;
+  ) => Promise<AxiosResponse<StorageResponse, unknown>>;
   storeAllowlist: (
-    createAllowListRequest: CreateAllowListRequest,
+    request: StoreAllowListRequest,
     config?: AxiosRequestConfig,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => Promise<AxiosResponse<StoreAllowList201, any>>;
+  ) => Promise<AxiosResponse<StorageResponse, unknown>>;
+  storeMetadataWithAllowlist: (
+    request: StoreMetadataWithAllowlistRequest,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<StorageResponse, unknown>>;
 }

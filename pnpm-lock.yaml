@@ -236,8 +236,8 @@ importers:
         specifier: 2.0.0-alpha.1
         version: 2.0.0-alpha.1(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)
       '@openzeppelin/merkle-tree':
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^1.0.7
+        version: 1.0.7
       '@swc/core':
         specifier: ^1.6.3
         version: 1.6.3
@@ -2227,8 +2227,8 @@ packages:
       '@nomicfoundation/hardhat-verify':
         optional: true
 
-  '@openzeppelin/merkle-tree@1.0.5':
-    resolution: {integrity: sha512-JkwG2ysdHeIphrScNxYagPy6jZeNONgDRyqU6lbFgE8HKCZFSkcP8r6AjZs+3HZk4uRNV0kNBBzuWhKQ3YV7Kw==}
+  '@openzeppelin/merkle-tree@1.0.7':
+    resolution: {integrity: sha512-i93t0YYv6ZxTCYU3CdO5Q+DXK0JH10A4dCBOMlzYbX+ujTXm+k1lXiEyVqmf94t3sqmv8sm/XT5zTa0+efnPgQ==}
 
   '@openzeppelin/upgrades-core@1.33.1':
     resolution: {integrity: sha512-YRxIRhTY1b+j7+NUUu8Uuem5ugxKexEMVd8dBRWNgWeoN1gS1OCrhgUg0ytL+54vzQ+SGWZDfNnzjVuI1Cj1Zw==}
@@ -12863,10 +12863,12 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@openzeppelin/merkle-tree@1.0.5':
+  '@openzeppelin/merkle-tree@1.0.7':
     dependencies:
       '@ethersproject/abi': 5.7.0
-      ethereum-cryptography: 1.2.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/constants': 5.7.0
+      '@ethersproject/keccak256': 5.7.0
 
   '@openzeppelin/upgrades-core@1.33.1':
     dependencies:

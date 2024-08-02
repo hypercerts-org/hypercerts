@@ -16,6 +16,7 @@ const mocks = vi.hoisted(() => {
   return {
     storeAllowList: vi.fn(),
     storeMetadata: vi.fn(),
+    storeMetadataWithAllowlist: vi.fn(),
   };
 });
 
@@ -23,6 +24,7 @@ vi.mock("../../src/__generated__/api", () => {
   return {
     storeAllowList: mocks.storeAllowList,
     storeMetadata: mocks.storeMetadata,
+    storeMetadataWithAllowlist: mocks.storeMetadataWithAllowlist,
   };
 });
 
@@ -85,10 +87,15 @@ describe("Allows for minting claims from an allowlist", () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      mocks.storeAllowList.mockResolvedValue({ data: { cid: someData.cid } });
+      mocks.storeMetadataWithAllowlist.mockResolvedValue({ data: { cid: someData.cid } });
       writeSpy = writeSpy.resolves(mintClaimResult);
 
-      const hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
+      const hash = await client.mintHypercert({
+        allowList: allowlist,
+        metaData,
+        totalUnits,
+        transferRestriction: TransferRestrictions.FromCreatorOnly,
+      });
 
       expect(isHex(hash)).to.be.true;
       expect(readSpy.callCount).to.eq(0);
@@ -100,7 +107,7 @@ describe("Allows for minting claims from an allowlist", () => {
       const { allowlist, totalUnits } = getAllowlist();
       const metaData = getFormattedMetadata();
 
-      mocks.storeAllowList.mockRejectedValue(
+      mocks.storeMetadataWithAllowlist.mockRejectedValue(
         new MalformedDataError("Allowlist validation failed", {
           units: "Total units in allowlist must match total units [expected: 11, got: 10]",
         }),
@@ -108,7 +115,12 @@ describe("Allows for minting claims from an allowlist", () => {
 
       let hash;
       try {
-        hash = await client.createAllowlist(allowlist, metaData, totalUnits + 1n, TransferRestrictions.FromCreatorOnly);
+        hash = await client.mintHypercert({
+          allowList: allowlist,
+          metaData,
+          totalUnits: totalUnits + 1n,
+          transferRestriction: TransferRestrictions.FromCreatorOnly,
+        });
       } catch (e) {
         expect(e).to.be.instanceOf(MalformedDataError);
 
@@ -133,14 +145,19 @@ describe("Allows for minting claims from an allowlist", () => {
 
       allowlist[0].units = 0n;
 
-      mocks.storeAllowList.mockRejectedValue(
+      mocks.storeMetadataWithAllowlist.mockRejectedValue(
         new MalformedDataError("Allowlist validation failed", {
           units: "Total units in allowlist must match total units [expected: 10, got: 9]",
         }),
       );
 
       try {
-        hash = await client.createAllowlist(allowlist, metaData, totalUnits, TransferRestrictions.FromCreatorOnly);
+        hash = await client.mintHypercert({
+          allowList: allowlist,
+          metaData,
+          totalUnits,
+          transferRestriction: TransferRestrictions.FromCreatorOnly,
+        });
       } catch (e) {
         expect(e).to.be.instanceOf(MalformedDataError);
 
@@ -164,11 +181,11 @@ describe("Allows for minting claims from an allowlist", () => {
 
       writeSpy = writeSpy.resolves(mintClaimFromAllowlistResult);
 
-      const hash = await client.mintClaimFractionFromAllowlist(
-        1n,
-        allowlist[0].units,
-        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
-      );
+      const hash = await client.claimFractionFromAllowlist({
+        hypercertTokenId: 1n,
+        units: allowlist[0].units,
+        proof: merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
+      });
 
       expect(isHex(hash)).to.be.true;
       expect(readSpy.callCount).to.eq(0);
@@ -181,12 +198,12 @@ describe("Allows for minting claims from an allowlist", () => {
 
       writeSpy = writeSpy.resolves(mintClaimFromAllowlistResult);
 
-      const hash = await client.mintClaimFractionFromAllowlist(
-        1n,
-        allowlist[0].units,
-        merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
-        merkleTree.root as `0x${string}`,
-      );
+      const hash = await client.claimFractionFromAllowlist({
+        hypercertTokenId: 1n,
+        units: allowlist[0].units,
+        proof: merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
+        root: merkleTree.root as `0x${string}`,
+      });
 
       expect(isHex(hash)).to.be.true;
       expect(readSpy.callCount).to.eq(0);
@@ -201,12 +218,12 @@ describe("Allows for minting claims from an allowlist", () => {
 
       let hash;
       try {
-        hash = await client.mintClaimFractionFromAllowlist(
-          1n,
-          allowlist[0].units,
-          merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
-          mockRoot,
-        );
+        hash = await client.claimFractionFromAllowlist({
+          hypercertTokenId: 1n,
+          units: allowlist[0].units,
+          proof: merkleTree.getProof([allowlist[0].address, allowlist[0].units.toString()]) as `0x${string}`[],
+          root: mockRoot,
+        });
       } catch (e) {
         expect(e instanceof MintingError).to.be.true;
 

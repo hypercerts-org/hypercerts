@@ -1,3 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/no-redeclare, @typescript-eslint/no-unused-vars
+declare global {
+  interface BigInt {
+    toJSON: () => string;
+  }
+}
+
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 import {
   HypercertMinterAbi,
   HypercertExchangeAbi,

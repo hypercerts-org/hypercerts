@@ -41,9 +41,9 @@ describe("HypercertClient setup tests", () => {
     try {
       const metaData = { name: "test" } as HypercertMetadata;
       const totalUnits = 1n;
-      const transferRestrictions = TransferRestrictions.AllowAll;
+      const transferRestriction = TransferRestrictions.AllowAll;
 
-      await client.mintClaim(metaData, totalUnits, transferRestrictions);
+      await client.mintHypercert({ metaData, totalUnits, transferRestriction });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -55,12 +55,12 @@ describe("HypercertClient setup tests", () => {
 
     // createAllowlist
     try {
-      const allowlist: AllowlistEntry[] = [{ address: "0x0000000", units: 100n }];
+      const allowList: AllowlistEntry[] = [{ address: "0x0000000", units: 100n }];
       const metaData = { name: "test" } as HypercertMetadata;
       const totalUnits = 1n;
-      const transferRestrictions = TransferRestrictions.AllowAll;
+      const transferRestriction = TransferRestrictions.AllowAll;
 
-      await client.createAllowlist(allowlist, metaData, totalUnits, transferRestrictions);
+      await client.mintHypercert({ allowList, metaData, totalUnits, transferRestriction });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -72,10 +72,10 @@ describe("HypercertClient setup tests", () => {
 
     // splitClaimUnits
     try {
-      const claimId = 1n;
+      const fractionId = 1n;
       const fractions = [100n, 200n];
 
-      await client.splitFractionUnits(claimId, fractions);
+      await client.splitFraction({ fractionId, fractions });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -87,9 +87,9 @@ describe("HypercertClient setup tests", () => {
 
     // mergeClaimUnits
     try {
-      const claimIds = [1n, 2n];
+      const fractionIds = [1n, 2n];
 
-      await client.mergeFractionUnits(claimIds);
+      await client.mergeFractions({ fractionIds });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -101,9 +101,9 @@ describe("HypercertClient setup tests", () => {
 
     // burnClaimFraction
     try {
-      const claimId = 1n;
+      const fractionId = 1n;
 
-      await client.burnClaimFraction(claimId);
+      await client.burnFraction({ fractionId });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -115,12 +115,12 @@ describe("HypercertClient setup tests", () => {
 
     // mintClaimFractionFromAllowlist
     try {
-      const claimId = 1n;
+      const hypercertTokenId = 1n;
       const units = 100n;
       const proof = ["0x1", "0x2", "0x3"] as `0x${string}`[];
       const root = "0x4" as `0x${string}`;
 
-      await client.mintClaimFractionFromAllowlist(claimId, units, proof, root);
+      await client.claimFractionFromAllowlist({ hypercertTokenId, units, proof, root });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);
@@ -132,12 +132,12 @@ describe("HypercertClient setup tests", () => {
 
     // batchMintClaimFractionsFromAllowlist
     try {
-      const claimIds = [1n, 2n];
+      const hypercertTokenIds = [1n, 2n];
       const units = [100n, 200n];
       const proofs = [["0x1", "0x2", "0x3"] as `0x${string}`[], ["0x4", "0x5", "0x6"] as `0x${string}`[]];
       const roots = ["0x7", "0x8"] as `0x${string}`[];
 
-      await client.batchMintClaimFractionsFromAllowlists(claimIds, units, proofs, roots);
+      await client.batchClaimFractionsFromAllowlists({ hypercertTokenIds, units, proofs, roots });
       expect.fail("Should throw ClientError");
     } catch (e) {
       expect(e).to.be.instanceOf(ClientError);

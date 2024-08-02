@@ -7,81 +7,26 @@
  */
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
-export type ValidateAllowList200AnyOfTwo = {
-  errors?: unknown;
-  message: string;
-  success?: unknown;
-  valid: boolean;
+export type ValidateOrder200DataItem = {
+  id: string;
+  invalidated: boolean;
+  validator_codes: OrderValidatorCode[];
 };
 
-export type ValidateAllowList200AnyOf = {
-  errors: RecordStringStringOrStringArray;
-  message: string;
-  success: boolean;
-  valid?: unknown;
-};
-
-export type ValidateAllowList200 = ValidateAllowList200AnyOf | ValidateAllowList200AnyOfTwo;
-
-export type StoreAllowList201AnyOfTwoData = {
-  cid: string;
-};
-
-export type StoreAllowList201AnyOfTwo = {
-  data: StoreAllowList201AnyOfTwoData;
-  errors?: unknown;
-  message?: unknown;
-  success: boolean;
-};
-
-export type StoreAllowList201AnyOf = {
-  data?: unknown;
-  errors: RecordStringStringOrStringArray;
+export type ValidateOrder200 = {
+  data: ValidateOrder200DataItem[];
   message: string;
   success: boolean;
-};
-
-export type StoreAllowList201 = StoreAllowList201AnyOf | StoreAllowList201AnyOfTwo;
-
-export type UpdateOrderNonce200Data = {
-  address: string;
-  chain_id: number;
-  created_at: string;
-  nonce_counter: number;
 };
 
 export type UpdateOrderNonce200 = {
-  data: UpdateOrderNonce200Data;
+  data: unknown;
   message: string;
   success: boolean;
 };
 
-export type StoreOrder201AnyOfTwoData = {
-  additionalParameters: string;
-  amounts: number[];
-  chainId: number;
-  collection: string;
-  collectionType: number;
-  createdAt: string;
-  currency: string;
-  endTime: number;
-  globalNonce: string;
-  hash: string;
-  id: string;
-  itemIds: string[];
-  orderNonce: string;
-  price: string;
-  quoteType: number;
-  signature: string;
-  signer: string;
-  startTime: number;
-  status: string;
-  strategyId: number;
-  subsetNonce: number;
-};
-
 export type StoreOrder201AnyOfTwo = {
-  data: StoreOrder201AnyOfTwoData;
+  data: unknown;
   error?: unknown;
   message: string;
   success: boolean;
@@ -96,87 +41,77 @@ export type StoreOrder201AnyOf = {
 
 export type StoreOrder201 = StoreOrder201AnyOf | StoreOrder201AnyOfTwo;
 
-export type ValidateMetadata200AnyOfSix = {
-  errors?: unknown;
-  message: string;
-  valid: boolean;
-};
-
-export type ValidateMetadata200 = ValidateMetadata200AnyOf | ValidateMetadata200AnyOfSix;
-
-export type ValidateMetadata200AnyOfErrorsAnyOfThree = {
-  message: string;
-  name?: unknown;
-  receivedAllowlistCID: string;
-};
-
-export type ValidateMetadata200AnyOfErrorsAnyOfTwo = {
-  message: string;
-  name?: unknown;
-  receivedAllowlistCID?: unknown;
-};
-
-export type ValidateMetadata200AnyOfErrorsAnyOf = {
-  message: string;
-  name: string;
-  receivedAllowlistCID?: unknown;
-};
-
-export type ValidateMetadata200AnyOfErrors =
-  | ValidateMetadata200AnyOfErrorsAnyOf
-  | ValidateMetadata200AnyOfErrorsAnyOfTwo
-  | ValidateMetadata200AnyOfErrorsAnyOfThree;
-
-export type ValidateMetadata200AnyOf = {
-  errors: ValidateMetadata200AnyOfErrors;
-  message: string;
-  valid: boolean;
-};
-
-export type StoreMetadata201 = StoreMetadata201AnyOf | StoreMetadata201AnyOfTwo;
-
-export type StoreMetadata201AnyOfTwoErrorsAnyOfThree = {
-  message: string;
-  name?: unknown;
-  receivedAllowlistCID: string;
-};
-
-export type StoreMetadata201AnyOfTwoErrorsAnyOfTwo = {
-  message: string;
-  name?: unknown;
-  receivedAllowlistCID?: unknown;
-};
-
-export type StoreMetadata201AnyOfTwoErrorsAnyOf = {
-  message: string;
-  name: string;
-  receivedAllowlistCID?: unknown;
-};
-
-export type StoreMetadata201AnyOfTwoErrors =
-  | StoreMetadata201AnyOfTwoErrorsAnyOf
-  | StoreMetadata201AnyOfTwoErrorsAnyOfTwo
-  | StoreMetadata201AnyOfTwoErrorsAnyOfThree;
-
-export type StoreMetadata201AnyOfTwo = {
-  errors: StoreMetadata201AnyOfTwoErrors;
-  message: string;
-  valid: boolean;
-};
-
-export type StoreMetadata201AnyOf = {
-  cid: string;
-};
+/**
+ * Interface for validating an allow list dump.
+ */
+export interface ValidateAllowListRequest {
+  allowList: string;
+  totalUnits?: string;
+}
 
 /**
- * Request body for creating a new allowlist.
+ * Interface for storing an allow list dump on IPFS
  */
-export interface CreateAllowListRequest {
-  /** The dump of the OpenZeppelin MerkleTree containing [address, uint256] entries. See https://github.com/OpenZeppelin/merkle-tree for more information. */
+export interface StoreAllowListRequest {
   allowList: string;
-  /** The total amount of units distributed via the allowlist. The total should amount to 1 eth in wei (1e18) units. */
-  totalUnits: string;
+  totalUnits?: string;
 }
+
+export interface ValidateOrderRequest {
+  chainId: number;
+  tokenIds: string[];
+}
+
+/**
+ * Error errors returned by the order validator contract
+ */
+export type OrderValidatorCode = (typeof OrderValidatorCode)[keyof typeof OrderValidatorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderValidatorCode = {
+  NUMBER_0: 0,
+  NUMBER_101: 101,
+  NUMBER_111: 111,
+  NUMBER_112: 112,
+  NUMBER_113: 113,
+  NUMBER_201: 201,
+  NUMBER_211: 211,
+  NUMBER_212: 212,
+  NUMBER_213: 213,
+  NUMBER_301: 301,
+  NUMBER_311: 311,
+  NUMBER_312: 312,
+  NUMBER_321: 321,
+  NUMBER_322: 322,
+  NUMBER_401: 401,
+  NUMBER_402: 402,
+  NUMBER_411: 411,
+  NUMBER_412: 412,
+  NUMBER_413: 413,
+  NUMBER_414: 414,
+  NUMBER_415: 415,
+  NUMBER_421: 421,
+  NUMBER_422: 422,
+  NUMBER_501: 501,
+  NUMBER_502: 502,
+  NUMBER_503: 503,
+  NUMBER_601: 601,
+  NUMBER_611: 611,
+  NUMBER_612: 612,
+  NUMBER_621: 621,
+  NUMBER_622: 622,
+  NUMBER_623: 623,
+  NUMBER_631: 631,
+  NUMBER_632: 632,
+  NUMBER_633: 633,
+  NUMBER_634: 634,
+  NUMBER_701: 701,
+  NUMBER_702: 702,
+  NUMBER_801: 801,
+  NUMBER_802: 802,
+  NUMBER_901: 901,
+  NUMBER_902: 902,
+} as const;
 
 export interface UpdateOrderNonceRequest {
   address: string;
@@ -203,23 +138,31 @@ export interface CreateOrderRequest {
   subsetNonce: number;
 }
 
-export type ApiResponseErrors = RecordStringStringOrStringArray | Error[];
+export type ApiResponseValidationResultErrors = RecordStringStringOrStringArray | Error[];
 
-export interface ApiResponse {
+/**
+ * Interface for a validation response.
+ */
+export interface ValidationResult {
   data?: unknown;
-  errors?: ApiResponseErrors;
-  message: string;
+  errors?: RecordStringStringOrStringArray;
+  valid: boolean;
+}
+
+/**
+ * Interface for a generic API response.
+ */
+export interface ApiResponseValidationResult {
+  data?: ValidationResult;
+  errors?: ApiResponseValidationResultErrors;
+  message?: string;
   success: boolean;
 }
 
 /**
- * Response object for a validation request.
+ * Interface for a validation response.
  */
-export interface ValidationResponse {
-  errors?: RecordStringStringOrStringArray;
-  message: string;
-  valid: boolean;
-}
+export type ValidationResponse = ApiResponseValidationResult;
 
 export type HypercertMetadataPropertiesItem = {
   trait_type?: string;
@@ -247,6 +190,29 @@ export interface HypercertMetadata {
   ref?: string;
   /** The version of Hypercert schema used to describe this hypercert */
   version?: string;
+}
+
+/**
+ * Interface for validating metadata.
+ */
+export interface ValidateMetadataRequest {
+  metadata: HypercertMetadata;
+}
+
+/**
+ * Interface for storing metadata and allow list dump on IPFS.
+ */
+export interface StoreMetadataWithAllowlistRequest {
+  allowList: string;
+  metadata: HypercertMetadata;
+  totalUnits?: string;
+}
+
+/**
+ * Interface for storing metadata on IPFS.
+ */
+export interface StoreMetadataRequest {
+  metadata: HypercertMetadata;
 }
 
 /**
@@ -331,15 +297,38 @@ export interface HypercertClaimdata {
   [key: string]: unknown;
 }
 
+export type ApiResponseErrors = RecordStringStringOrStringArray | Error[];
+
 /**
- * Response object for a store request.
+ * Interface for a generic API response.
  */
-export interface StoreResponse {
+export interface ApiResponse {
   data?: unknown;
-  errors?: StoreResponseErrors;
-  message: string;
+  errors?: ApiResponseErrors;
+  message?: string;
   success: boolean;
 }
+
+export type ApiResponseCidStringErrors = RecordStringStringOrStringArray | Error[];
+
+export type ApiResponseCidStringData = {
+  cid: string;
+};
+
+/**
+ * Interface for a generic API response.
+ */
+export interface ApiResponseCidString {
+  data?: ApiResponseCidStringData;
+  errors?: ApiResponseCidStringErrors;
+  message?: string;
+  success: boolean;
+}
+
+/**
+ * Interface for a storage response.
+ */
+export type StorageResponse = ApiResponseCidString;
 
 export interface Error {
   message: string;
@@ -354,26 +343,50 @@ export interface RecordStringStringOrStringArray {
   [key: string]: string | string[];
 }
 
-export type StoreResponseErrors = RecordStringStringOrStringArray | Error[];
-
 /**
- * Submits a new hypercert metadata object for validation and storage on IPFS. While we maintain a database of allowlists, the allowlist itself is stored on IPFS.
+ * Submits a new hypercert metadata object for validation and storage on IPFS.
+When an allowlist URI is provided the service will validate the allowlist data before storing the metadata.
+Note that this might lead to a race condition when uploading metadata and the allowlist separately in rapid succession.
+In that case we recommend using POST /metadata/with-allowlist instead.
  */
-export const storeMetadata = <TData = AxiosResponse<StoreMetadata201>>(
-  hypercertMetadata: HypercertMetadata,
+export const storeMetadata = <TData = AxiosResponse<ApiResponseCidString>>(
+  storeMetadataRequest: StoreMetadataRequest,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/v1/metadata`, hypercertMetadata, options);
+  return axios.post(`/v1/metadata`, storeMetadataRequest, options);
 };
 
 /**
- * Submits a new hypercert metadata object for validation.
+ * Submits a new hypercert metadata object paired with allowlist data for validation and storage on IPFS.
+The service will parse and validate the allow list data and the metadata.
+After successful validation, the allow list data will be uploaded to IPFS and the URI of the allowlist will be attached to the hypercert metadata.
+If an allow list URI is already present, the service will return an error.
  */
-export const validateMetadata = <TData = AxiosResponse<ValidateMetadata200>>(
-  hypercertMetadata: HypercertMetadata,
+export const storeMetadataWithAllowlist = <TData = AxiosResponse<ApiResponseCidString>>(
+  storeMetadataWithAllowlistRequest: StoreMetadataWithAllowlistRequest,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/v1/metadata/validate`, hypercertMetadata, options);
+  return axios.post(`/v1/metadata/with-allowlist`, storeMetadataWithAllowlistRequest, options);
+};
+
+/**
+ * Validates a hypercert metadata object. When an allowlist URI is provided the service will validate the allowlist data as well.
+ */
+export const validateMetadata = <TData = AxiosResponse<ApiResponseValidationResult>>(
+  validateMetadataRequest: ValidateMetadataRequest,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return axios.post(`/v1/metadata/validate`, validateMetadataRequest, options);
+};
+
+/**
+ * Validates a hypercert metadata object paired with allowlist data.
+ */
+export const validateMetadataWithAllowlist = <TData = AxiosResponse<ApiResponseValidationResult>>(
+  storeMetadataWithAllowlistRequest: StoreMetadataWithAllowlistRequest,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return axios.post(`/v1/metadata/with-allowlist/validate`, storeMetadataWithAllowlistRequest, options);
 };
 
 /**
@@ -397,16 +410,26 @@ export const updateOrderNonce = <TData = AxiosResponse<UpdateOrderNonce200>>(
 };
 
 /**
+ * Validates an order and marks it as invalid if validation fails.
+ */
+export const validateOrder = <TData = AxiosResponse<ValidateOrder200>>(
+  validateOrderRequest: ValidateOrderRequest,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return axios.post(`/v1/marketplace/orders/validate`, validateOrderRequest, options);
+};
+
+/**
  * Submits a new allowlist for validation and storage on IPFS. While we maintain a database of allowlists, the allowlist itself is stored on IPFS.
 Try to keep a backup of the allowlist for recovery purposes.
 
 Provide the dump of the OpenZeppelin MerkleTree and the total units.
  */
-export const storeAllowList = <TData = AxiosResponse<StoreAllowList201>>(
-  createAllowListRequest: CreateAllowListRequest,
+export const storeAllowList = <TData = AxiosResponse<ApiResponseCidString>>(
+  storeAllowListRequest: StoreAllowListRequest,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/v1/allowlists`, createAllowListRequest, options);
+  return axios.post(`/v1/allowlists`, storeAllowListRequest, options);
 };
 
 /**
@@ -414,16 +437,19 @@ export const storeAllowList = <TData = AxiosResponse<StoreAllowList201>>(
 
 Provide the dump of the OpenZeppelin MerkleTree and the total units.
  */
-export const validateAllowList = <TData = AxiosResponse<ValidateAllowList200>>(
-  createAllowListRequest: CreateAllowListRequest,
+export const validateAllowList = <TData = AxiosResponse<ApiResponseValidationResult>>(
+  validateAllowListRequest: ValidateAllowListRequest,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/v1/allowlists/validate`, createAllowListRequest, options);
+  return axios.post(`/v1/allowlists/validate`, validateAllowListRequest, options);
 };
 
-export type StoreMetadataResult = AxiosResponse<StoreMetadata201>;
-export type ValidateMetadataResult = AxiosResponse<ValidateMetadata200>;
+export type StoreMetadataResult = AxiosResponse<ApiResponseCidString>;
+export type StoreMetadataWithAllowlistResult = AxiosResponse<ApiResponseCidString>;
+export type ValidateMetadataResult = AxiosResponse<ApiResponseValidationResult>;
+export type ValidateMetadataWithAllowlistResult = AxiosResponse<ApiResponseValidationResult>;
 export type StoreOrderResult = AxiosResponse<StoreOrder201>;
 export type UpdateOrderNonceResult = AxiosResponse<UpdateOrderNonce200>;
-export type StoreAllowListResult = AxiosResponse<StoreAllowList201>;
-export type ValidateAllowListResult = AxiosResponse<ValidateAllowList200>;
+export type ValidateOrderResult = AxiosResponse<ValidateOrder200>;
+export type StoreAllowListResult = AxiosResponse<ApiResponseCidString>;
+export type ValidateAllowListResult = AxiosResponse<ApiResponseValidationResult>;

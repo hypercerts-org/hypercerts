@@ -1,5 +1,12 @@
-import { Environment, HypercertMetadata } from "./types";
-import { CreateAllowListRequest, storeAllowList, storeMetadata } from "./__generated__/api";
+import { Environment } from "./types";
+import {
+  storeAllowList,
+  StoreAllowListRequest,
+  storeMetadata,
+  StoreMetadataRequest,
+  storeMetadataWithAllowlist,
+  StoreMetadataWithAllowlistRequest,
+} from "./__generated__/api";
 import axios, { AxiosRequestConfig } from "axios";
 import { ENDPOINTS } from "./constants";
 import { HypercertStorage } from "./types/storage";
@@ -24,9 +31,11 @@ export const getStorage = ({
   };
 
   return {
-    storeMetadata: async (metadata: HypercertMetadata, config: AxiosRequestConfig = {}) =>
-      storeMetadata(metadata, { ..._config, ...config }),
-    storeAllowlist: async (createAllowListRequest: CreateAllowListRequest, config: AxiosRequestConfig = {}) =>
-      storeAllowList(createAllowListRequest, { ..._config, ...config }),
+    storeMetadata: async (request: StoreMetadataRequest, config: AxiosRequestConfig = {}) =>
+      storeMetadata(request, { ..._config, ...config }),
+    storeAllowlist: async (request: StoreAllowListRequest, config: AxiosRequestConfig = {}) =>
+      storeAllowList(request, { ..._config, ...config }),
+    storeMetadataWithAllowlist: async (request: StoreMetadataWithAllowlistRequest, config: AxiosRequestConfig = {}) =>
+      storeMetadataWithAllowlist(request, { ..._config, ...config }),
   };
 };

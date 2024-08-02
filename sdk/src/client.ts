@@ -26,11 +26,10 @@ import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
 import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
 import { getClaimStoredDataFromTxHash } from "./utils";
-import { ParserReturnType } from "./utils/txParser";
 import { isClaimOnChain } from "./utils/chains";
-import { StoreAllowList201AnyOfTwoData, StoreMetadata201AnyOf } from "./__generated__/api";
 import { HypercertStorage } from "./types/storage";
 import { fetchFromHttpsOrIpfs } from "./utils/fetchers";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree/dist/standard";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -62,7 +61,7 @@ export class HypercertClient implements HypercertClientInterface {
    * @throws {ClientError} Will throw a `ClientError` if the public client cannot be connected.
    */
   constructor(config: Partial<HypercertClientConfig>) {
-    this._config = getConfig({ config });
+    this._config = getConfig(config);
     this._walletClient = this._config?.walletClient;
     this._publicClient = this._config?.publicClient;
     this._storage = getStorage({ environment: this._config.environment });
@@ -106,6 +105,9 @@ export class HypercertClient implements HypercertClientInterface {
     return getDeploymentsForEnvironment(this._config.environment);
   };
 
+  /**
+   * @deprecated Use `mintHypercert` instead.
+   */
   mintClaim = async (
     metaData: HypercertMetadata,
     totalUnits: bigint,
@@ -116,43 +118,32 @@ export class HypercertClient implements HypercertClientInterface {
     return await this.mintHypercert({ metaData, totalUnits, transferRestriction, allowList, overrides });
   };
 
-  mintHypercert = async ({
-    metaData,
-    totalUnits,
-    transferRestriction,
-    allowList,
-    overrides,
-  }: MintParams): Promise<`0x${string}` | undefined> => {
+  mintHypercert = async ({ metaData, totalUnits, transferRestriction, allowList, overrides }: MintParams) => {
     const { account } = this.getConnected();
 
-    let allowListCid;
     let root;
+    let tree: StandardMerkleTree<(string | bigint)[]> | undefined;
 
     if (allowList) {
       let allowListEntries: AllowlistEntry[] = [];
       if (typeof allowList === "string") {
-        // fetch the csv contents
+        // fetch the csv contents from the provided uri
         const csvContents = await fetchFromHttpsOrIpfs(allowList);
 
-        if (!csvContents) {
-          throw new ClientError("No contents found in the csv", { allowList });
+        if (!csvContents || typeof csvContents !== "string") {
+          throw new ClientError("Invalid or no contents found in the csv", { allowList });
         }
 
-        if (typeof csvContents !== "string") {
-          throw new ClientError("Invalid contents found in the csv", { allowList });
-        }
         // parse the csv contents into an array of AllowlistEntry
-        // get first row as headers
-        const headers = (csvContents as string).split("\n")[0].split(",");
-        // map headers onto other rows
-        const rows = (csvContents as string)
-          .split("\n")
-          .slice(1)
-          .map((row) => {
-            const values = row.split(",");
-            return Object.fromEntries(headers.map((header, i) => [header, values[i]]));
-          });
-        allowListEntries = rows.map((entry) => {
+        const [headerLine, ...lines] = csvContents.split("\n");
+        const headers = headerLine.split(",");
+
+        allowListEntries = lines.map((line) => {
+          const values = line.split(",");
+          const entry = headers.reduce((acc, header, i) => {
+            acc[header] = values[i];
+            return acc;
+          }, {} as Record<string, string>);
           const { address, units } = entry;
           return { address, units: BigInt(units) };
         });
@@ -160,52 +151,40 @@ export class HypercertClient implements HypercertClientInterface {
         allowListEntries = allowList;
       }
 
-      const tree = parseAllowListEntriesToMerkleTree(allowListEntries);
-
-      // store allowlist on IPFS
-      const allowlistStoreRes = await this.storage.storeAllowlist(
-        { allowList: JSON.stringify(tree.dump()), totalUnits: totalUnits.toString() },
-        { timeout: overrides?.timeout },
-      );
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (!allowlistStoreRes.data || !allowlistStoreRes.data.data)
-        throw new ClientError("No CID found", { allowlistStoreRes });
-
-      const { cid } = allowlistStoreRes.data.data as StoreAllowList201AnyOfTwoData;
-      allowListCid = cid;
+      tree = parseAllowListEntriesToMerkleTree(allowListEntries);
       root = tree.root;
     }
 
-    const metadataToStore = allowListCid ? { ...metaData, allowList: allowListCid } : metaData;
+    if (allowList && !tree) {
+      throw new ClientError("No tree found", { allowList });
+    }
 
     // validate and store metadata
-    const metadataRes = await this.storage.storeMetadata(metadataToStore, { timeout: overrides?.timeout });
+    const config = { timeout: overrides?.timeout };
+    const metadataRes =
+      metaData && allowList && tree
+        ? await this.storage.storeMetadataWithAllowlist(
+            {
+              metadata: metaData,
+              allowList: JSON.stringify(tree.dump()),
+              totalUnits: totalUnits.toString(),
+            },
+            config,
+          )
+        : await this.storage.storeMetadata({ metadata: metaData }, config);
 
     if (!metadataRes || !metadataRes.data) {
       throw new ClientError("No CID found", { metadataRes });
     }
 
-    const data = metadataRes.data as StoreMetadata201AnyOf;
+    const cid = metadataRes.data.data?.cid;
+    const method = allowList && tree ? "createAllowlist" : "mintClaim";
+    const params =
+      allowList && tree
+        ? [account?.address, totalUnits, root, cid, transferRestriction]
+        : [account?.address, totalUnits, cid, transferRestriction];
 
-    let request;
-
-    if (allowList && allowListCid) {
-      request = await this.simulateRequest(
-        account,
-        "createAllowlist",
-        [account?.address, totalUnits, root, data.cid, transferRestriction],
-        overrides,
-      );
-    } else {
-      request = await this.simulateRequest(
-        account,
-        "mintClaim",
-        [account?.address, totalUnits, data.cid, transferRestriction],
-        overrides,
-      );
-    }
-
+    const request = await this.simulateRequest(account, method, params, overrides);
     return this.submitRequest(request);
   };
 
@@ -223,7 +202,7 @@ export class HypercertClient implements HypercertClientInterface {
     return await readContract.read.readTransferRestriction([fractionId]).then((res) => res as TransferRestrictions);
   };
 
-  transferFraction = async ({ fractionId, to, overrides }: TransferParams): Promise<`0x${string}` | undefined> => {
+  transferFraction = async ({ fractionId, to, overrides }: TransferParams) => {
     const { account } = this.getConnected();
 
     const request = await this.simulateRequest(
@@ -236,11 +215,7 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
-  batchTransferFractions = async ({
-    fractionIds,
-    to,
-    overrides,
-  }: BatchTransferParams): Promise<`0x${string}` | undefined> => {
+  batchTransferFractions = async ({ fractionIds, to, overrides }: BatchTransferParams) => {
     const { account } = this.getConnected();
 
     const request = await this.simulateRequest(
@@ -253,46 +228,17 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  /**
+   * @deprecated Use `mintHypercert` instead.
+   */
   createAllowlist = async (
     allowList: AllowlistEntry[],
     metaData: HypercertMetadata,
     totalUnits: bigint,
     transferRestriction: TransferRestrictions,
     overrides?: SupportedOverrides,
-  ): Promise<`0x${string}` | undefined> => {
-    const { account } = this.getConnected();
-
-    // create allowlist
-    const tree = parseAllowListEntriesToMerkleTree(allowList);
-
-    // store allowlist on IPFS
-    const allowlistStoreRes = await this.storage.storeAllowlist(
-      { allowList: JSON.stringify(tree.dump()), totalUnits: totalUnits.toString() },
-      { timeout: overrides?.timeout },
-    );
-
-    console.debug("allowlistStoreRes", allowlistStoreRes);
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!allowlistStoreRes.data) throw new ClientError("No CID found", { allowlistStoreRes });
-
-    const data = allowlistStoreRes.data as unknown as StoreAllowList201AnyOfTwoData;
-
-    console.debug("Storing metadata", { ...metaData, allowList: data.cid });
-
-    // store metadata on IPFS
-    const metadataCID = await this.storage.storeMetadata(
-      { ...metaData, allowList: data.cid },
-      { timeout: overrides?.timeout },
-    );
-    const request = await this.simulateRequest(
-      account,
-      "createAllowlist",
-      [account?.address, totalUnits, tree.root, metadataCID, transferRestriction],
-      overrides,
-    );
-
-    return this.submitRequest(request);
+  ) => {
+    return await this.mintHypercert({ metaData, totalUnits, transferRestriction, allowList, overrides });
   };
 
   splitFraction = async ({
@@ -325,15 +271,14 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
-  splitFractionUnits = async (
-    fractionId: bigint,
-    fractions: bigint[],
-    overrides?: SupportedOverrides,
-  ): Promise<`0x${string}` | undefined> => {
+  /**
+   * @deprecated Use `splitFraction` instead.
+   */
+  splitFractionUnits = async (fractionId: bigint, fractions: bigint[], overrides?: SupportedOverrides) => {
     return this.splitFraction({ fractionId, fractions, overrides });
   };
 
-  mergeFractions = async ({ fractionIds, overrides }: MergeFractionsParams): Promise<`0x${string}` | undefined> => {
+  mergeFractions = async ({ fractionIds, overrides }: MergeFractionsParams) => {
     const { account } = this.getConnected();
 
     const readContract = this._getContract();
@@ -356,14 +301,14 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
-  mergeFractionUnits = async (
-    fractionIds: bigint[],
-    overrides?: SupportedOverrides,
-  ): Promise<`0x${string}` | undefined> => {
+  /**
+   * @deprecated Use `mergeFractions` instead.
+   */
+  mergeFractionUnits = async (fractionIds: bigint[], overrides?: SupportedOverrides) => {
     return this.mergeFractions({ fractionIds, overrides });
   };
 
-  burnFraction = async ({ fractionId, overrides }: BurnFractionParams): Promise<`0x${string}` | undefined> => {
+  burnFraction = async ({ fractionId, overrides }: BurnFractionParams) => {
     const { account } = this.getConnected();
 
     const readContract = this._getContract();
@@ -379,7 +324,10 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
-  burnClaimFraction = async (claimId: bigint, overrides?: SupportedOverrides): Promise<`0x${string}` | undefined> => {
+  /**
+   * @deprecated Use `burnFraction` instead.
+   */
+  burnClaimFraction = async (claimId: bigint, overrides?: SupportedOverrides) => {
     return this.burnFraction({ fractionId: claimId, overrides });
   };
 
@@ -389,7 +337,7 @@ export class HypercertClient implements HypercertClientInterface {
     proof,
     root,
     overrides,
-  }: ClaimFractionFromAllowlistParams): Promise<`0x${string}` | undefined> => {
+  }: ClaimFractionFromAllowlistParams) => {
     const { account } = this.getConnected();
 
     //verify the proof using the OZ merkle tree library
@@ -413,13 +361,16 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  /**
+   * @deprecated Use `claimFractionFromAllowlist` instead.
+   */
   mintClaimFractionFromAllowlist = async (
     claimId: bigint,
     units: bigint,
     proof: (Hex | ByteArray)[],
     root?: Hex | ByteArray,
     overrides?: SupportedOverrides,
-  ): Promise<`0x${string}` | undefined> => {
+  ) => {
     return this.claimFractionFromAllowlist({ hypercertTokenId: claimId, units, proof, root, overrides });
   };
 
@@ -429,7 +380,7 @@ export class HypercertClient implements HypercertClientInterface {
     proofs,
     roots,
     overrides,
-  }: BatchClaimFractionsFromAllowlistsParams): Promise<`0x${string}` | undefined> => {
+  }: BatchClaimFractionsFromAllowlistsParams) => {
     const { account } = this.getConnected();
 
     //verify the proof using the OZ merkle tree library
@@ -454,17 +405,20 @@ export class HypercertClient implements HypercertClientInterface {
     return this.submitRequest(request);
   };
 
+  /**
+   * @deprecated Use `batchClaimFractionsFromAllowlists` instead.
+   */
   batchMintClaimFractionsFromAllowlists = async (
     claimIds: bigint[],
     units: bigint[],
     proofs: (Hex | ByteArray)[][],
     roots?: (Hex | ByteArray)[],
     overrides?: SupportedOverrides,
-  ): Promise<`0x${string}` | undefined> => {
+  ) => {
     return this.batchClaimFractionsFromAllowlists({ hypercertTokenIds: claimIds, units, proofs, roots, overrides });
   };
 
-  getClaimStoredDataFromTxHash = async (hash: `0x${string}`): Promise<ParserReturnType> => {
+  getClaimStoredDataFromTxHash = async (hash: `0x${string}`) => {
     const { publicClient } = this.getConnected();
 
     const { data, errors, success } = await getClaimStoredDataFromTxHash(publicClient, hash);

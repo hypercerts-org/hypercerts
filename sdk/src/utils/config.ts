@@ -23,13 +23,12 @@ import { createPublicClient, http } from "viem";
  * @throws {InvalidOrMissingError} Will throw an `InvalidOrMissingError` if the `unsafeForceOverrideConfig` flag is set but the required overrides are not provided.
  * @throws {UnsupportedChainError} Will throw an `UnsupportedChainError` if the default configuration for the provided chain ID is missing.
  */
-export const getConfig = ({
-  config = { environment: DEFAULT_ENVIRONMENT },
-}: {
-  config?: Partial<Pick<HypercertClientConfig, "publicClient" | "walletClient" | "environment">>;
-}): HypercertClientConfig => {
+export const getConfig = (
+  config: Partial<Pick<HypercertClientConfig, "publicClient" | "walletClient" | "environment">>,
+) => {
+  if (!config) throw new Error("Missing config");
+
   const _config = {
-    // Let the user override from environment variables
     ...getEnvironment(config),
     ...getWalletClient(config),
     ...getPublicClient(config),
@@ -37,16 +36,6 @@ export const getConfig = ({
     deployments: getDeploymentsForEnvironment(config.environment || DEFAULT_ENVIRONMENT),
     readOnly: true,
   };
-
-  const missingKeys = [];
-
-  for (const [key, value] of Object.entries(_config)) {
-    if (!value) {
-      missingKeys.push(key);
-    }
-  }
-
-  if (missingKeys.length > 0) logger.debug(`Missing properties in config: ${missingKeys.join(", ")}`);
 
   const chainId = _config.walletClient?.chain?.id;
   const writeAbleChainIds = Object.entries(_config.deployments).map(([_, deployment]) => deployment.chainId);
@@ -109,11 +98,23 @@ export const getDeploymentsForChainId = (chainId: SupportedChainIds) => {
 };
 
 const getEnvironment = (config: Partial<HypercertClientConfig>) => {
-  return { environment: config.environment || DEFAULT_ENVIRONMENT };
+  const environment = config.environment;
+
+  if (!environment) throw new Error("Missing environment");
+  if (!ENDPOINTS[environment])
+    throw new Error(`Invalid environment ${environment}. [${Object.keys(ENDPOINTS).join(", ")}]`);
+
+  return { environment };
 };
 
 const getGraphUrl = (config: Partial<HypercertClientConfig>) => {
-  return { graphUrl: `${ENDPOINTS[config.environment || DEFAULT_ENVIRONMENT]}/v1/graphql` };
+  const environment = config.environment;
+
+  if (!environment) throw new Error("Missing environment");
+  if (!ENDPOINTS[environment])
+    throw new Error(`Invalid environment ${environment}. [${Object.keys(ENDPOINTS).join(", ")}]`);
+
+  return { graphUrl: `${ENDPOINTS[environment]}/v1/graphql` };
 };
 
 const getWalletClient = (config: Partial<HypercertClientConfig>) => {
