@@ -1,3 +1,8 @@
+# 2.0.0
+
+- Marketplace contracts
+- Arbitrum testnet
+
 # 1.1.2
 
 - Add Base and Base Sepolia to types

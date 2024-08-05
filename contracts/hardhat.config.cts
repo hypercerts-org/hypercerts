@@ -4,8 +4,8 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
-import '@typechain/hardhat'
-import '@nomicfoundation/hardhat-ethers'
+import "@typechain/hardhat";
+import "@nomicfoundation/hardhat-ethers";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -51,6 +51,7 @@ const OPTIMISTIC_ETHERSCAN_API_KEY = requireEnv(
 );
 const CELOSCAN_API_KEY = requireEnv(process.env.CELOSCAN_API_KEY, "CELOSCAN_API_KEY");
 const BASESCAN_API_KEY = requireEnv(process.env.BASESCAN_API_KEY, "BASESCAN_API_KEY");
+const ARBISCAN_API_KEY = requireEnv(process.env.ARBISCAN_API_KEY, "ARBISCAN_API_KEY");
 
 /**
  * Maps a key to the chain ID
@@ -67,6 +68,9 @@ const chainIds = {
   // Base
   "base-sepolia": 84532,
   "base-mainnet": 8453,
+  // Arbitrum
+  "arb-sepolia": 421614,
+  "arb-mainnet": 42161,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -99,6 +103,20 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
+  if (chain === "arb-sepolia") {
+    config = {
+      ...config,
+      url: `https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    };
+  }
+
+  if (chain === "arb-mainnet") {
+    config = {
+      ...config,
+      url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
 
@@ -150,6 +168,8 @@ const config: HardhatUserConfig = {
       celo: CELOSCAN_API_KEY!,
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
+      "arb-sepolia": ARBISCAN_API_KEY!,
+      "arb-mainnet": ARBISCAN_API_KEY!,
     },
     customChains: [
       {
@@ -166,6 +186,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
           browserURL: "https://sepolia.basescan.org",
+        },
+      },
+      {
+        network: "arb-sepolia",
+        chainId: 421614,
+        urls: {
+          apiURL: "https://api-sepolia.arbiscan.io/api",
+          browserURL: "https://sepolia.arbiscan.io/",
         },
       },
     ],
@@ -194,6 +222,8 @@ const config: HardhatUserConfig = {
     "optimism-mainnet": getChainConfig("optimism-mainnet"),
     "base-sepolia": getChainConfig("base-sepolia"),
     "base-mainnet": getChainConfig("base-mainnet"),
+    "arb-sepolia": getChainConfig("arb-sepolia"),
+    "arb-mainnet": getChainConfig("arb-mainnet"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
