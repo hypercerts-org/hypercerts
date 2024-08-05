@@ -24,12 +24,11 @@ import {
 import { getConfig, getDeploymentsForChainId, getDeploymentsForEnvironment } from "./utils/config";
 import { verifyMerkleProof, verifyMerkleProofs } from "./validator";
 import { handleSimulatedContractError } from "./utils/errors";
-import { parseAllowListEntriesToMerkleTree } from "./utils/allowlist";
+import { parseAllowListEntriesToMerkleTree, parseDataToOzMerkleTree } from "./utils/allowlist";
 import { getClaimStoredDataFromTxHash } from "./utils";
 import { isClaimOnChain } from "./utils/chains";
 import { HypercertStorage } from "./types/storage";
 import { fetchFromHttpsOrIpfs } from "./utils/fetchers";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree/dist/standard";
 
 /**
  * The `HypercertClient` is a core class in the hypercerts SDK, providing a high-level interface to interact with the hypercerts system.
@@ -163,36 +162,51 @@ export class HypercertClient implements HypercertClientInterface {
     const { account } = this.getConnected();
 
     let root;
-    let tree: StandardMerkleTree<(string | bigint)[]> | undefined;
+    let tree;
 
     if (allowList) {
       let allowListEntries: AllowlistEntry[] = [];
-      if (typeof allowList === "string") {
-        // fetch the csv contents from the provided uri
-        const csvContents = await fetchFromHttpsOrIpfs(allowList);
 
-        if (!csvContents || typeof csvContents !== "string") {
-          throw new ClientError("Invalid or no contents found in the csv", { allowList });
+      // allowList is an uri or stringified allowlist dump
+      if (typeof allowList === "string") {
+        const res = await fetchFromHttpsOrIpfs(allowList);
+
+        if (!res) {
+          throw new ClientError("Invalid or no contents found for the provided allow list uri", { allowList });
         }
 
-        // parse the csv contents into an array of AllowlistEntry
-        const [headerLine, ...lines] = csvContents.split("\n");
-        const headers = headerLine.split(",");
+        // Try to parse the data as an OZ Merkle tree dump
+        try {
+          tree = parseDataToOzMerkleTree(res, allowList);
+        } catch (error) {
+          console.warn(`[mintHypercert] Allow list at ${allowList} is not a valid OZ Merkle tree [as string]`);
+        }
 
-        allowListEntries = lines.map((line) => {
-          const values = line.split(",");
-          const entry = headers.reduce((acc, header, i) => {
-            acc[header] = values[i];
-            return acc;
-          }, {} as Record<string, string>);
-          const { address, units } = entry;
-          return { address, units: BigInt(units) };
-        });
+        // Try to parse the data as an csv if it is not a valid OZ Merkle tree
+        if (!tree && typeof res === "string") {
+          const [headerLine, ...lines] = res.split("\n");
+          const headers = headerLine.split(",");
+
+          allowListEntries = lines.map((line) => {
+            const values = line.split(",");
+            const entry = headers.reduce((acc, header, i) => {
+              acc[header] = values[i];
+              return acc;
+            }, {} as Record<string, string>);
+            const { address, units } = entry;
+            return { address, units: BigInt(units) };
+          });
+
+          tree = parseAllowListEntriesToMerkleTree(allowListEntries);
+        }
       } else {
-        allowListEntries = allowList;
+        tree = parseAllowListEntriesToMerkleTree(allowList);
       }
 
-      tree = parseAllowListEntriesToMerkleTree(allowListEntries);
+      if (!tree) {
+        throw new ClientError("Invalid or no contents found for the provided allow list", { allowList });
+      }
+
       root = tree.root;
     }
 

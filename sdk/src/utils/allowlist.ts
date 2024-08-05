@@ -3,6 +3,22 @@ import { getFromIPFS } from "./fetchers";
 import { logger } from "./logger";
 import { AllowlistEntry } from "../types";
 
+const parseDataToOzMerkleTree = (data: unknown, uri?: string) => {
+  try {
+    return StandardMerkleTree.load<[string, bigint]>(JSON.parse(data as string));
+  } catch (error) {
+    console.warn(`[parseToOzMerkleTree] Allow list at ${uri} is not a valid OZ Merkle tree [as string]`);
+  }
+
+  try {
+    return StandardMerkleTree.load<[string, bigint]>(data as never);
+  } catch (error) {
+    console.warn(`[parseToOzMerkleTree] Allow list at ${uri} is not a valid OZ Merkle tree [as never]`);
+  }
+
+  throw new Error(`[parseToOzMerkleTree] Allow list at ${uri} is not a valid OZ Merkle tree`);
+};
+
 const parseAllowListEntriesToMerkleTree = (allowList: AllowlistEntry[]) => {
   const tuples = allowList.map((p) => [p.address, p.units]);
   return StandardMerkleTree.of(tuples, ["address", "uint256"]);
@@ -49,4 +65,4 @@ const getProofsFromAllowlist = async (cidOrIpfsUri: string, account: `0x${string
   }
 };
 
-export { getProofsFromAllowlist, parseAllowListEntriesToMerkleTree };
+export { getProofsFromAllowlist, parseAllowListEntriesToMerkleTree, parseDataToOzMerkleTree };
