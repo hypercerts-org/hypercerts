@@ -17,6 +17,7 @@ import { createPublicClient, http } from "viem";
  * - 11155111: Sepolia
  * - 84532: Base Sepolia
  * - 8453: Base Mainnet
+ * - 421613: Arbitrum Sepolia
  *
  * @param config - An object containing any configuration values to override. This should be a partial HypercertClientConfig object.
  * @returns The final configuration object for the Hypercert client.

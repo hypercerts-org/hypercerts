@@ -233,8 +233,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
       '@hypercerts-org/contracts':
-        specifier: 2.0.0-alpha.1
-        version: 2.0.0-alpha.1(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)
+        specifier: 2.0.0-alpha.2
+        version: 2.0.0-alpha.2(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)
       '@openzeppelin/merkle-tree':
         specifier: ^1.0.7
         version: 1.0.7
@@ -1868,8 +1868,8 @@ packages:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
     deprecated: Use @eslint/object-schema instead
 
-  '@hypercerts-org/contracts@2.0.0-alpha.1':
-    resolution: {integrity: sha512-t+2eYorMC7GjFJCmwqIQzqbxBMATG+/zXJL6BFwJQPRCQEAcQhh4tuwcBhIvPz1kQj2capetZyAPO6gKmgtzig==}
+  '@hypercerts-org/contracts@2.0.0-alpha.2':
+    resolution: {integrity: sha512-exDhDJBPoe8uVD5DUqRXFzm4+c8062vYdvpreHpnAn2IPoyn8j5bmX8Qt7DXutS+nyDuibh4HK8UB/A3u7wBoA==}
 
   '@ibm-cloud/openapi-ruleset-utilities@1.3.2':
     resolution: {integrity: sha512-pDZ+YTawZBAMgxfGG0JeCizh7Brmz8h4WRQaJvfJaRfgfdFmp5xZ64oqvnpJQ16XjCdNMBkTB6NJCZjQzq1gpQ==}
@@ -12405,7 +12405,7 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.1': {}
 
-  '@hypercerts-org/contracts@2.0.0-alpha.1(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)':
+  '@hypercerts-org/contracts@2.0.0-alpha.2(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)':
     dependencies:
       hardhat: 2.22.6(bufferutil@4.0.8)(ts-node@10.9.1(@swc/core@1.6.3)(@types/node@20.14.5)(typescript@5.4.5))(typescript@5.4.5)(utf-8-validate@5.0.10)
     transitivePeerDependencies:

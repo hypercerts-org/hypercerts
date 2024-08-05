@@ -4,13 +4,12 @@ import { HypercertMetadata } from "./metadata";
 import { ByteArray, Hex, PublicClient, WalletClient } from "viem";
 import { AxiosRequestConfig } from "axios";
 
-export type TestChainIds = 11155111 | 84532;
+export type TestChainIds = 11155111 | 84532 | 421614;
 export type ProductionChainIds = 10 | 42220 | 8453;
 
 /**
  * Enum to verify the supported chainIds
  *
- * @note 10 = Optimism, 42220 = Celo, 11155111 = Sepolia, 84532 = Base Sepolia, 8453 = Base Mainnet
  */
 export type SupportedChainIds = TestChainIds | ProductionChainIds;
 
