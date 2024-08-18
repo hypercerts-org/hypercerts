@@ -75,10 +75,10 @@ const chainIds = {
 
 function getChainConfig(chain: keyof typeof chainIds) {
   const jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + INFURA_API_KEY;
-  let config = {
+  let config: { [key: string]: string | number | { [key: string]: string | number } } = {
     accounts: {
       count: 10,
-      mnemonic: MNEMONIC,
+      mnemonic: MNEMONIC!,
       path: "m/44'/60'/0'/0",
     },
     chainId: chainIds[chain],
@@ -95,7 +95,8 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "base-sepolia") {
     config = {
       ...config,
-      url: `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      url: `https://sepolia.base.org`,
+      gasPrice: 1000000000,
     };
   }
 
@@ -103,6 +104,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      gasPrice: 1000000000,
     };
   }
 
@@ -209,6 +211,9 @@ const config: HardhatUserConfig = {
         path: "m/44'/60'/0'/0",
       },
       chainId: chainIds.hardhat,
+      forking: {
+        url: `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      },
     },
     localhost: {
       accounts: {

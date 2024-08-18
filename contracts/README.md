@@ -88,7 +88,7 @@ yarn hardhat deploy --network goerli
 To transfer ownership of the proxy contract for upgrades, run the following:
 
 ```sh
-yarn hardhat transfer-owner-minter --network goerli --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
+yarn hardhat transfer-owner-minter --network base-sepolia --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
 ```
 
 This is typically done to transfer control to a multi-sig (i.e. Gnosis Safe).

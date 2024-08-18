@@ -11,6 +11,10 @@ import {
 } from "viem";
 import { writeFile } from "node:fs/promises";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 type TokenAddressType = { sepolia: string; [key: string]: string };
 
 const WETH: TokenAddressType = {
@@ -18,6 +22,7 @@ const WETH: TokenAddressType = {
   hardhat: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
   optimism: "0x4200000000000000000000000000000000000006",
+  "base-sepolia": "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
 };
 
 // LINK faucet for Sepolia: https://faucets.chain.link/
@@ -26,6 +31,7 @@ const DAI: TokenAddressType = {
   hardhat: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   sepolia: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   optimism: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
+  "base-sepolia": "0xE4aB69C077896252FAFBD49EFD26B5D171A32410",
 };
 
 // USDC https://faucet.circle.com/
@@ -34,6 +40,7 @@ const USDC: TokenAddressType = {
   hardhat: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   optimism: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+  "base-sepolia": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
 };
 
 const getTokenAddresses = (network: string) => {
@@ -48,20 +55,34 @@ const ADMIN_ACCOUNT: { [key: string]: string } = {
   localhost: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
   hardhat: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
   sepolia: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  "base-sepolia": "0xA2Cb9D926b090577AD45fC0F40C753BF369B82Ff",
 };
 
-const getAdminAccount = (network: string) => {
-  return ADMIN_ACCOUNT[network];
+const getAdminAccount = (network: string): string => {
+  const account = ADMIN_ACCOUNT[network];
+
+  if (!account || account === null || account.trim() === "") {
+    throw new Error(`Admin account for network "${network}" is not defined, null, or empty.`);
+  }
+
+  return account;
 };
 
 const FEE_RECIPIENT: { [key: string]: string } = {
   localhost: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
   hardhat: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
   sepolia: "0x4f37308832c6eFE5A74737955cBa96257d76De17",
+  "base-sepolia": "0xe518aED97D9d45174a06bB8EF663B4fB51330725",
 };
 
-const getFeeRecipient = (network: string) => {
-  return FEE_RECIPIENT[network];
+const getFeeRecipient = (network: string): string => {
+  const recipient = FEE_RECIPIENT[network];
+
+  if (!recipient || recipient === null || recipient.trim() === "") {
+    throw new Error(`Fee recipient for network "${network}" is not defined, null, or empty.`);
+  }
+
+  return recipient;
 };
 
 const getCreate2Address = async (
@@ -95,6 +116,14 @@ const runCreate2Deployment = async (
   args: string[],
 ) => {
   console.log(`deploying ${contractName} with args: ${args}`);
+  const { request } = await publicClient.simulateContract({
+    address: create2Instance.address,
+    abi: create2Instance.abi,
+    functionName: "safeCreate2",
+    args: [create2.salt, create2.deployData],
+    account: "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+  });
+
   const hash = await create2Instance.write.safeCreate2([create2.salt, create2.deployData]);
   const deployTx = await publicClient.waitForTransactionReceipt({
     hash,
@@ -270,6 +299,10 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       value: 1n,
     });
 
+    console.log("deposited 1 wei in exchange");
+
+    await sleep(2000);
+
     // Deploy ProtocolFeeRecipient
     const protocolFeeRecipientTx = await runCreate2Deployment(
       publicClient,
@@ -286,6 +319,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       encodedArgs: solidityPacked(["address", "address"], protocolFeeRecipientArgs),
       tx: protocolFeeRecipientTx,
     };
+
+    await sleep(2000);
 
     // Deploy HypercertsExchange
     const hypercertsExchangeTx = await runCreate2Deployment(
@@ -304,6 +339,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       tx: hypercertsExchangeTx,
     };
 
+    await sleep(2000);
+
     // Deploy RoyaltyFeeRegistry
     const royaltyFeeRegistryTx = await runCreate2Deployment(
       publicClient,
@@ -320,6 +357,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       encodedArgs: solidityPacked(["uint256"], royaltyFeeRegistryArgs),
       tx: royaltyFeeRegistryTx,
     };
+
+    await sleep(2000);
 
     // Allow Exchange as operator on transferManager
     const transferManagerInstance = getContract({
@@ -345,6 +384,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       salt,
     );
 
+    await sleep(2000);
+
     const orderValidatorTx = await runCreate2Deployment(
       publicClient,
       create2Instance,
@@ -368,6 +409,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     };
 
     // Deploy CreatorFeeManager
+
+    await sleep(2000);
 
     const creatorFeeManagerArgs = [royaltyFeeRegistryCreate2.address];
 
@@ -405,16 +448,23 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       client: { public: publicClient, wallet: deployer },
     });
 
+    await sleep(2000);
+
     // Update currency status for accepted tokens
     await allowCurrency("0x0000000000000000000000000000000000000000", "native");
     await allowCurrency(wethAddress, "WETH");
     await allowCurrency(usdceAddress, "USDC");
     await allowCurrency(daiAddress, "DAI");
 
-    // Update creatorFeeManager address
+    // Update creatorFeeManager address'
+
+    await sleep(2000);
+
     const updateCreatorFeeManager = await hypercertsExchangeInstance.write.updateCreatorFeeManager([
       creatorFeeManagerTx.contractAddress,
     ]);
+
+    await sleep(2000);
 
     const updateCreatorFeeManagerTx = await publicClient.waitForTransactionReceipt({
       hash: updateCreatorFeeManager,
@@ -427,6 +477,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     );
 
     // DEPLOYING STRATEGIES
+
+    await sleep(2000);
 
     console.log("Deploying and adding strategies....");
 
@@ -549,6 +601,8 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
               ? `Added strategy ${strat} to exchange successfully`
               : `Failed to add ${strat}`,
           );
+
+          await sleep(2000);
         }
 
         contracts[strategy.name] = {
@@ -572,5 +626,7 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
           ? `Updated currency status for  ${tokenAddress} (${name}) successfully`
           : `Failed to update currency status for ${tokenAddress} (${name})`,
       );
+
+      await sleep(2000);
     }
   });
