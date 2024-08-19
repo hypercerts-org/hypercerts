@@ -46,11 +46,11 @@ export type DeploymentMarketplace = {
   HypercertExchange: `0x${string}`;
   OrderValidatorV2A: `0x${string}`;
   RoyaltyFeeRegistry: `0x${string}`;
-  StrategyCollectionOffer: `0x${string}`;
-  StrategyDutchAuction: `0x${string}`;
-  StrategyItemIdsRange: `0x${string}`;
-  StrategyHypercertCollectionOffer: `0x${string}`;
-  StrategyHypercertDutchAuction: `0x${string}`;
+  // StrategyCollectionOffer: `0x${string}`;
+  // StrategyDutchAuction: `0x${string}`;
+  // StrategyItemIdsRange: `0x${string}`;
+  // StrategyHypercertCollectionOffer: `0x${string}`;
+  // StrategyHypercertDutchAuction: `0x${string}`;
   StrategyHypercertFractionOffer: `0x${string}`;
 };
 
@@ -71,6 +71,7 @@ const deployments = {
   },
   84532: {
     ...DEPLOYMENTS.protocol["84532"],
+    ...DEPLOYMENTS.marketplace["84532"],
   },
   8453: {
     ...DEPLOYMENTS.protocol["8453"],

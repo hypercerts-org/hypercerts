@@ -59,16 +59,11 @@ const ARBISCAN_API_KEY = requireEnv(process.env.ARBISCAN_API_KEY, "ARBISCAN_API_
  */
 const chainIds = {
   hardhat: 31337,
-  // Ethereum: https://docs.infura.io/infura/networks/ethereum/how-to/choose-a-network
   sepolia: 11155111,
-  // Optimism: https://docs.infura.io/infura/networks/optimism/how-to/choose-a-network
   "optimism-mainnet": 10,
-  // Celo
   "celo-mainnet": 42220,
-  // Base
   "base-sepolia": 84532,
   "base-mainnet": 8453,
-  // Arbitrum
   "arb-sepolia": 421614,
   "arb-mainnet": 42161,
 };
@@ -88,7 +83,8 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "optimism-mainnet") {
     config = {
       ...config,
-      url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      url: "https://virtual.optimism.rpc.tenderly.co/41aca07e-03d1-4a5c-807a-e43c1777100a"
+      // url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
 
