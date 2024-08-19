@@ -61,6 +61,7 @@ export type DeployedChains = keyof typeof DEPLOYMENTS.protocol;
 const deployments = {
   10: {
     ...DEPLOYMENTS.protocol["10"],
+    ...DEPLOYMENTS.marketplace["10"],
   },
   42220: {
     ...DEPLOYMENTS.protocol[42220],

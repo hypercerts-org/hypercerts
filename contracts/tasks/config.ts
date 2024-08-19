@@ -5,7 +5,7 @@ const WETH: TokenAddressType = {
   hardhat: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", //dummy
   sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
   "optimism-mainnet": "0x4200000000000000000000000000000000000006",
-  "base-sepolia": "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+  "base-sepolia": "0x4200000000000000000000000000000000000006",
 };
 
 // LINK faucet for Sepolia: https://faucets.chain.link/

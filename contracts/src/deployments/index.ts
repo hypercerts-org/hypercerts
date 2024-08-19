@@ -1,8 +1,16 @@
-import deployments_marketplace_base_sepolia from "./deployment-marketplace-base-sepolia.json"
+import deployments_marketplace_base_sepolia from "./deployment-marketplace-base-sepolia.json";
+import deployments_marketplace_optimism_mainnet from "./deployment-marketplace-optimism-mainnet.json";
 import deployments_marketplace_sepolia from "./deployment-marketplace-sepolia.json";
 import deployments_protocol from "./deployments-protocol.json";
 
 const deployments_marketplace = {
+  "10": {
+    TransferManager: deployments_marketplace_optimism_mainnet.TransferManager.address,
+    HypercertExchange: deployments_marketplace_optimism_mainnet.HypercertExchange.address,
+    OrderValidatorV2A: deployments_marketplace_optimism_mainnet.OrderValidator.address,
+    RoyaltyFeeRegistry: deployments_marketplace_optimism_mainnet.RoyaltyFeeRegistry.address,
+    StrategyHypercertFractionOffer: deployments_marketplace_optimism_mainnet.StrategyHypercertFractionOffer.address,
+  },
   "84532": {
     TransferManager: deployments_marketplace_base_sepolia.TransferManager.address,
     HypercertExchange: deployments_marketplace_base_sepolia.HypercertExchange.address,

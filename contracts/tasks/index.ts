@@ -11,3 +11,4 @@ export * from "./unpause.js";
 export * from "./validate-upgrade.js";
 export * from "./deploy-marketplace.js";
 export * from "./propose-owner.js";
+export * from "./deploy-fee-recipient.js";
