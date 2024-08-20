@@ -83,6 +83,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "optimism-mainnet") {
     config = {
       ...config,
+      // url: "https://virtual.optimism.rpc.tenderly.co/41aca07e-03d1-4a5c-807a-e43c1777100a"
       url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
