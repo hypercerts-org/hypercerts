@@ -106,9 +106,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "arb-sepolia") {
     config = {
       ...config,
-      url: "https://virtual.arbitrum-sepolia.rpc.tenderly.co/812559a3-7c71-4c3b-b4c2-2a817bf3234f",
-      // url: `https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      gasPrice: 10000000
+      url: `https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
 
@@ -116,7 +114,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      gasPrice: 10000000
+      gasPrice: 10000000,
     };
   }
 

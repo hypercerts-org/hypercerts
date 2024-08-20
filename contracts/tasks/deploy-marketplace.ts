@@ -52,7 +52,7 @@ const runCreate2Deployment = async (
     abi: create2Instance.abi,
     functionName: "safeCreate2",
     args: [create2.salt, create2.deployData],
-    account: "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+    account: "0x5d36971451ae593685cab8815d644f9b4b66ec99", // update method to take account as arg
   });
 
   const hash = await create2Instance.write.safeCreate2([create2.salt, create2.deployData]);

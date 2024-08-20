@@ -79,6 +79,7 @@ const deployments = {
   },
   421614: {
     ...DEPLOYMENTS.protocol["421614"],
+    ...DEPLOYMENTS.marketplace["421614"],
   },
 } as Record<DeployedChains, Deployment>;
 

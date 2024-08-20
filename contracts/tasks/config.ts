@@ -47,7 +47,7 @@ const ADMIN_ACCOUNT: { [key: string]: string } = {
   celo: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
   base: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
   arbitrum: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
-  "arb-sepolia": "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A",
+  "arb-sepolia": "0x5d36971451AE593685Cab8815d644f9B4B66Ec99",
 };
 
 export const getAdminAccount = (network: string): string => {
@@ -69,7 +69,7 @@ const FEE_RECIPIENT: { [key: string]: string } = {
   celo: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
   base: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
   arbitrum: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
-  "arb-sepolia": "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A",
+  "arb-sepolia": "0x5d36971451AE593685Cab8815d644f9B4B66Ec99",
 };
 
 export const getFeeRecipient = (network: string): string => {

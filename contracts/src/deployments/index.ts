@@ -2,6 +2,7 @@ import deployments_marketplace_base_sepolia from "./deployment-marketplace-base-
 import deployments_marketplace_optimism_mainnet from "./deployment-marketplace-optimism-mainnet.json";
 import deployments_marketplace_sepolia from "./deployment-marketplace-sepolia.json";
 import deployments_protocol from "./deployments-protocol.json";
+import deployments_marketplace_arb_sepolia from "./deployment-marketplace-arb-sepolia.json";
 
 const deployments_marketplace = {
   "10": {
@@ -24,6 +25,13 @@ const deployments_marketplace = {
     OrderValidatorV2A: deployments_marketplace_sepolia.OrderValidator.address,
     RoyaltyFeeRegistry: deployments_marketplace_sepolia.RoyaltyFeeRegistry.address,
     StrategyHypercertFractionOffer: deployments_marketplace_sepolia.StrategyHypercertFractionOffer.address,
+  },
+  "421614": {
+    TransferManager: deployments_marketplace_arb_sepolia.TransferManager.address,
+    HypercertExchange: deployments_marketplace_arb_sepolia.HypercertExchange.address,
+    OrderValidatorV2A: deployments_marketplace_arb_sepolia.OrderValidator.address,
+    RoyaltyFeeRegistry: deployments_marketplace_arb_sepolia.RoyaltyFeeRegistry.address,
+    StrategyHypercertFractionOffer: deployments_marketplace_arb_sepolia.StrategyHypercertFractionOffer.address,
   },
 };
 
