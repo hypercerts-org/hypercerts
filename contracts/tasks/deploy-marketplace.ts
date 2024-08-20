@@ -97,6 +97,11 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     // 10_000 = 100%
     // Sepolia admin Safe = sep:0x4f37308832c6eFE5A74737955cBa96257d76De17
+
+    /**
+     * DEPLOYMENT CONFIGURATION
+     */
+
     const marketplaceParameters = {
       owner: getAdminAccount(network.name), // hc admin safe
       protocolFeeRecipient: getFeeRecipient(network.name), // hc fee safe

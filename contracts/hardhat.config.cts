@@ -83,7 +83,6 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "optimism-mainnet") {
     config = {
       ...config,
-      // url: "https://virtual.optimism.rpc.tenderly.co/41aca07e-03d1-4a5c-807a-e43c1777100a"
       url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     };
   }
@@ -107,7 +106,9 @@ function getChainConfig(chain: keyof typeof chainIds) {
   if (chain === "arb-sepolia") {
     config = {
       ...config,
-      url: `https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      url: "https://virtual.arbitrum-sepolia.rpc.tenderly.co/812559a3-7c71-4c3b-b4c2-2a817bf3234f",
+      // url: `https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      gasPrice: 10000000
     };
   }
 
@@ -115,6 +116,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      gasPrice: 10000000
     };
   }
 

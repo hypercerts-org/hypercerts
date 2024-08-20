@@ -6,6 +6,7 @@ const WETH: TokenAddressType = {
   sepolia: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
   "optimism-mainnet": "0x4200000000000000000000000000000000000006",
   "base-sepolia": "0x4200000000000000000000000000000000000006",
+  "arb-sepolia": "0x3031a6D5D9648BA5f50f656Cd4a1672E1167a34A",
 };
 
 // LINK faucet for Sepolia: https://faucets.chain.link/
@@ -15,6 +16,7 @@ const DAI: TokenAddressType = {
   sepolia: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   "optimism-mainnet": "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
   "base-sepolia": "0xE4aB69C077896252FAFBD49EFD26B5D171A32410",
+  "arb-sepolia": "0xb1D4538B4571d411F07960EF2838Ce337FE1E80E",
 };
 
 // USDC https://faucet.circle.com/
@@ -25,6 +27,7 @@ const USDC: TokenAddressType = {
   sepolia: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   "optimism-mainnet": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
   "base-sepolia": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "arb-sepolia": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
 };
 
 export const getTokenAddresses = (network: string) => {
@@ -44,6 +47,7 @@ const ADMIN_ACCOUNT: { [key: string]: string } = {
   celo: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
   base: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
   arbitrum: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
+  "arb-sepolia": "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A",
 };
 
 export const getAdminAccount = (network: string): string => {
@@ -65,6 +69,7 @@ const FEE_RECIPIENT: { [key: string]: string } = {
   celo: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
   base: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
   arbitrum: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
+  "arb-sepolia": "0xdf2C3dacE6F31e650FD03B8Ff72beE82Cb1C199A",
 };
 
 export const getFeeRecipient = (network: string): string => {
