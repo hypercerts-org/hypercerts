@@ -65,7 +65,7 @@ const chainIds = {
   "base-sepolia": 84532,
   "base-mainnet": 8453,
   "arb-sepolia": 421614,
-  "arb-mainnet": 42161,
+  arbitrumOne: 42161,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -110,11 +110,11 @@ function getChainConfig(chain: keyof typeof chainIds) {
     };
   }
 
-  if (chain === "arb-mainnet") {
+  if (chain === "arbitrumOne") {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      gasPrice: 10000000,
+      // url: "https://virtual.arbitrum.rpc.tenderly.co/982c9fbc-4ae9-4eb6-9346-daca23fd603f",
     };
   }
 
@@ -167,7 +167,7 @@ const config: HardhatUserConfig = {
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
       "arb-sepolia": ARBISCAN_API_KEY!,
-      "arb-mainnet": ARBISCAN_API_KEY!,
+      arbitrumOne: ARBISCAN_API_KEY!,
     },
     customChains: [
       {
@@ -221,7 +221,7 @@ const config: HardhatUserConfig = {
     "base-sepolia": getChainConfig("base-sepolia"),
     "base-mainnet": getChainConfig("base-mainnet"),
     "arb-sepolia": getChainConfig("arb-sepolia"),
-    "arb-mainnet": getChainConfig("arb-mainnet"),
+    "arbitrumOne": getChainConfig("arbitrumOne"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
