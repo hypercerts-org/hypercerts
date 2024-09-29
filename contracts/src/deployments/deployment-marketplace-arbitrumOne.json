@@ -1,0 +1,55 @@
+{
+  "TransferManager": {
+    "address": "0x658c1695DCb298E57e6144F6dA3e83DdCF5e2BaB",
+    "fullNamespace": "TransferManager",
+    "args": ["0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35"],
+    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+    "tx": "0x70b306371278c66189814b465e151006ad6a6e0c9d6b910c0234ac2ec8da1706"
+  },
+  "ProtocolFeeRecipient": {
+    "address": "0xE332d4b0a30a522099292594999967267480a081",
+    "fullNamespace": "ProtocolFeeRecipient",
+    "args": ["0xE7C4531ad8828794904D332a12702beC8ff1A498", "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"],
+    "encodedArgs": "0xe7c4531ad8828794904d332a12702bec8ff1a49882af49447d8a07e3bd95bd0d56f35241523fbab1",
+    "tx": "0x6d9ff2423d04879b3445bb95c2abdfe760090391440e1e2ea92e26c267d5c696"
+  },
+  "HypercertExchange": {
+    "address": "0xcE8fa09562f07c23B9C21b5d0A29a293F8a8BC83",
+    "fullNamespace": "LooksRareProtocol",
+    "args": [
+      "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35",
+      "0xE332d4b0a30a522099292594999967267480a081",
+      "0x658c1695DCb298E57e6144F6dA3e83DdCF5e2BaB",
+      "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+    ],
+    "encodedArgs": "0xdc6d6f9ab5fcc398b92b017e8482749ae5afbf35e332d4b0a30a522099292594999967267480a081658c1695dcb298e57e6144f6da3e83ddcf5e2bab82af49447d8a07e3bd95bd0d56f35241523fbab1",
+    "tx": "0x1eff2ebd3d6ad2a97f92c4caa648fb34fb25ca60730625d3491cd2b1171fcc23"
+  },
+  "RoyaltyFeeRegistry": {
+    "address": "0xd97b92B740EAf655DFf4f93B0D6D38232cfE84C6",
+    "fullNamespace": "RoyaltyFeeRegistry",
+    "args": ["1000"],
+    "encodedArgs": "0x00000000000000000000000000000000000000000000000000000000000003e8",
+    "tx": "0x8352d52116ff97551dca27801b0fe1995e9b66ad45062021c13da4d7855f9658"
+  },
+  "OrderValidator": {
+    "address": "0x74b05A917BBa5050ea216877c81801d6049b3f16",
+    "fullNamespace": "OrderValidatorV2A",
+    "args": ["0xcE8fa09562f07c23B9C21b5d0A29a293F8a8BC83"],
+    "encodedArgs": "0xce8fa09562f07c23b9c21b5d0a29a293f8a8bc83"
+  },
+  "CreatorFeeManager": {
+    "address": "0x2d25df25ab95b74a18eb2d719a98b47f5e5f5534",
+    "fullNamespace": "CreatorFeeManagerWithRoyalties",
+    "args": ["0xd97b92B740EAf655DFf4f93B0D6D38232cfE84C6"],
+    "encodedArgs": "0xd97b92b740eaf655dff4f93b0d6d38232cfe84c6",
+    "tx": "0x2339dcf7dda93e4fbfc763a70dfe932b793552ee805c584d10acdf6127ba18f2"
+  },
+  "StrategyHypercertFractionOffer": {
+    "address": "0xecab24cade0261fc6513ca13bb3d10f760af3da8",
+    "fullNamespace": "StrategyHypercertFractionOffer",
+    "args": [],
+    "encodedArgs": "0x",
+    "tx": "0x79012a15888ec5c77e7c68cbc85614645f13603e18a1f951746fa5857c0f0a23"
+  }
+}

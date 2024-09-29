@@ -114,7 +114,7 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      // url: "https://virtual.arbitrum.rpc.tenderly.co/982c9fbc-4ae9-4eb6-9346-daca23fd603f",
+      // url: "https://virtual.arbitrum.rpc.tenderly.co/143c1212-e69c-4f74-bd24-8676c965c44c",
     };
   }
 
@@ -154,7 +154,7 @@ const config: HardhatUserConfig = {
     except: ["@openzeppelin"],
   },
   dodoc: {
-    runOnCompile: true,
+    runOnCompile: false,
     include: ["src/marketplace", "src/protocol"],
     freshOutput: true,
     outputDir: "../docs/docs/developer/api/contracts",
@@ -167,7 +167,7 @@ const config: HardhatUserConfig = {
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
       "arb-sepolia": ARBISCAN_API_KEY!,
-      arbitrumOne: ARBISCAN_API_KEY!,
+      arbitrumOne: "DPB1JAY49URG4RJP76WQ11CMGPBF2FX3C5",
     },
     customChains: [
       {
@@ -221,7 +221,7 @@ const config: HardhatUserConfig = {
     "base-sepolia": getChainConfig("base-sepolia"),
     "base-mainnet": getChainConfig("base-mainnet"),
     "arb-sepolia": getChainConfig("arb-sepolia"),
-    "arbitrumOne": getChainConfig("arbitrumOne"),
+    arbitrumOne: getChainConfig("arbitrumOne"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry

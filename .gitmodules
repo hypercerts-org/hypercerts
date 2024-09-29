@@ -1,3 +1,0 @@
-[submodule "sdk/lib/hypercerts-api"]
-	path = sdk/lib/hypercerts-api
-	url = https://github.com/hypercerts-org/hypercerts-api
