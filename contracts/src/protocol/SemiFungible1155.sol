@@ -288,7 +288,6 @@ contract SemiFungible1155 is
      * @param _account The address of the account that will receive the new tokens.
      * @param _tokenID The ID of the token to split.
      * @param _values An array of numbers of units associated with the new tokens.
-     * @dev This function splits a token into multiple tokens with different unit values.
      * @dev The `_values` array specifies the number of units associated with each new token.
      * @dev The function checks that the length of the `_values` array is between 2 and `FRACTION_LIMIT`, and that the
      * sum of the values in the `_values` array is equal to the number of units associated with the original token.
