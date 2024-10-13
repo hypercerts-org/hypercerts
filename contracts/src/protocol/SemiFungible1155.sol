@@ -88,7 +88,7 @@ contract SemiFungible1155 is
      * @dev Upper 128 bits identify base type ID, lower bits should be 0.
      */
     function isBaseType(uint256 tokenID) internal pure returns (bool) {
-        return (tokenID & TYPE_MASK == tokenID) && (tokenID & NF_INDEX_MASK == 0);
+        return (tokenID & NF_INDEX_MASK == 0);
     }
 
     /**
