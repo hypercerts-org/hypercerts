@@ -536,7 +536,7 @@ contract SemiFungible1155 is
             uint256 _from = fromIDs[i];
             uint256 _to = toIDs[i];
 
-            if (isBaseType(_from)) revert Errors.NotAllowed();
+            if (isBaseType(_from) || isBaseType(_to)) revert Errors.NotAllowed();
             if (getBaseType(_from) != getBaseType(_to)) revert Errors.TypeMismatch();
             unchecked {
                 ++i;
