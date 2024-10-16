@@ -143,3 +143,18 @@ token implementation or standard.
 ### HypercertMinter
 
 Example implementation for a hypercert token that is an `ERC1155 NFT` under the hood with an `Allowlist` extension.
+
+## Deploying to FVM
+
+### Verification
+
+To verify the contracts on Starboard, run the following command:
+
+Minter: `npx hardhat flatten src/protocol/HypercertMinter.sol > FlattenedHypercertMinter.sol` Proxy:
+`npx hardhat flatten lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol > FlattenedProxy.sol`
+
+To validate, upload the flattened file to Filfox using the contact verification flow.
+
+In the `Metadata settings` section, add the following:
+
+`{ "bytecodeHash": "none" }`

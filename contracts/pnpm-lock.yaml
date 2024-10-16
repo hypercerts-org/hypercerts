@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@starboardventures/hardhat-verify':
+        specifier: ^1.0.1
+        version: 1.0.1(hardhat@2.22.10(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@18.19.50)(typescript@5.6.2))(typescript@5.6.2))
       '@tenderly/hardhat-tenderly':
         specifier: ^2.3.0
         version: 2.3.0(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.2)(hardhat@2.22.10(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@18.19.50)(typescript@5.6.2))(typescript@5.6.2)))(@swc/core@1.7.26)(@types/node@18.19.50)(ethers@6.13.2)(hardhat@2.22.10(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@18.19.50)(typescript@5.6.2))(typescript@5.6.2))
@@ -1178,6 +1181,11 @@ packages:
 
   '@solidity-parser/parser@0.18.0':
     resolution: {integrity: sha512-yfORGUIPgLck41qyN7nbwJRAx17/jAIXCTanHOJZhB6PJ1iAk/84b/xlsVKFSyNyLXIj0dhppoE0+CRws7wlzA==}
+
+  '@starboardventures/hardhat-verify@1.0.1':
+    resolution: {integrity: sha512-/FO3wMmUSrL8PsYwuxA233+3iwLzmjI2z39MiZCgki0uJXtDELhO9YXDI9qoUR2jHxvHiBa1gKd/ZIpC9tpuKw==}
+    peerDependencies:
+      hardhat: ^2.0.0
 
   '@swc/core-darwin-arm64@1.7.26':
     resolution: {integrity: sha512-FF3CRYTg6a7ZVW4yT9mesxoVVZTrcSWtmZhxKCYJX9brH4CS/7PRPjAKNk6kzWgWuRoglP7hkjQcd6EpMcZEAw==}
@@ -3233,6 +3241,10 @@ packages:
 
   node-emoji@1.11.0:
     resolution: {integrity: sha512-wo2DpQkQp7Sjm2A0cq+sN7EHKO6Sl0ctXeBdFZrL9T9+UywORbufTcTZxom8YqpLQt/FqNMUkOpkZrJVYSKD3A==}
+
+  node-fetch@2.0.0:
+    resolution: {integrity: sha512-bici2HCWFnAghTYMcy12WPxrEwJ5qK7GQJOTwTfyEZjyL99ECWxbYQfabZ2U1zrHMKkOBE97Z9iHIuKQfCMdzQ==}
+    engines: {node: 4.x || >=6.0.0}
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -5692,6 +5704,12 @@ snapshots:
 
   '@solidity-parser/parser@0.18.0': {}
 
+  '@starboardventures/hardhat-verify@1.0.1(hardhat@2.22.10(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@18.19.50)(typescript@5.6.2))(typescript@5.6.2))':
+    dependencies:
+      fs-extra: 11.2.0
+      hardhat: 2.22.10(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@18.19.50)(typescript@5.6.2))(typescript@5.6.2)
+      node-fetch: 2.0.0
+
   '@swc/core-darwin-arm64@1.7.26':
     optional: true
 
@@ -8037,6 +8055,8 @@ snapshots:
   node-emoji@1.11.0:
     dependencies:
       lodash: 4.17.21
+
+  node-fetch@2.0.0: {}
 
   node-fetch@2.7.0:
     dependencies:

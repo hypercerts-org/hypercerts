@@ -6,6 +6,7 @@ import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-ethers";
+import "@starboardventures/hardhat-verify";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -66,6 +67,7 @@ const chainIds = {
   "base-mainnet": 8453,
   "arb-sepolia": 421614,
   arbitrumOne: 42161,
+  "filecoinCalibration": 314159,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -126,6 +128,14 @@ function getChainConfig(chain: keyof typeof chainIds) {
         mnemonic: MNEMONIC_CELO,
         path: "m/44'/52752'/0'/0",
       },
+    };
+  }
+
+  if (chain === "filecoinCalibration") {
+    config = {
+      ...config,
+      url: `https://filecoin-calibration.chainup.net/rpc/v1`,
+      // url: "https://virtual.arbitrum.rpc.tenderly.co/143c1212-e69c-4f74-bd24-8676c965c44c",
     };
   }
 
@@ -222,6 +232,7 @@ const config: HardhatUserConfig = {
     "base-mainnet": getChainConfig("base-mainnet"),
     "arb-sepolia": getChainConfig("arb-sepolia"),
     arbitrumOne: getChainConfig("arbitrumOne"),
+    filecoinCalibration: getChainConfig("filecoinCalibration"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
@@ -254,6 +265,10 @@ const config: HardhatUserConfig = {
         runs: 5_000,
       },
     },
+  },
+  starboardConfig: {
+    baseURL: "https://fvm-calibration-api.starboard.ventures",
+    network: "Calibration", // if there's no baseURL, url will depend on the network.  Mainnet || Calibration
   },
   typechain: {
     outDir: "./types",

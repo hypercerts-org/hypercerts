@@ -21,10 +21,14 @@
   },
   "421614": {
     "HypercertMinterUUPS": "0x0A00a2f09cd37B24E7429c5238323bfebCfF3Ed9",
-    "HypercertMinterImplementation": "0x689587461AA3103D3D7975c5e4B352Ab711C14C2" 
+    "HypercertMinterImplementation": "0x689587461AA3103D3D7975c5e4B352Ab711C14C2"
   },
   "42161": {
     "HypercertMinterUUPS": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
-    "HypercertMinterImplementation": "0xc6fbcfe16d5ebfed21ace224c49c94de49046a04" 
+    "HypercertMinterImplementation": "0xc6fbcfe16d5ebfed21ace224c49c94de49046a04"
+  },
+  "314159": {
+    "HypercertMinterUUPS": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
+    "HypercertMinterImplementation": "0xc6FbcFE16D5eBFEd21aCe224C49C94dE49046A04"
   }
 }

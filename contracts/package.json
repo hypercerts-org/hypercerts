@@ -110,6 +110,7 @@
     "hardhat": "hardhat"
   },
   "dependencies": {
+    "@starboardventures/hardhat-verify": "^1.0.1",
     "@tenderly/hardhat-tenderly": "^2.3.0",
     "hardhat": "^2.22.8"
   }
