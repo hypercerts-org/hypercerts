@@ -85,6 +85,9 @@ const deployments = {
     ...DEPLOYMENTS.protocol["421614"],
     ...DEPLOYMENTS.marketplace["421614"],
   },
+  314159: {
+    ...DEPLOYMENTS.protocol["314159"],
+  },
 } as Record<DeployedChains, Deployment>;
 
 const asDeployedChain = (chainId: string | number) => {
