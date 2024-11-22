@@ -13,3 +13,4 @@ export * from "./deploy-marketplace.js";
 export * from "./propose-owner.js";
 export * from "./deploy-fee-recipient.js";
 export * from "./deploy-propose-upgrade.js";
+export * from "./deploy-marketplace-celo.js";

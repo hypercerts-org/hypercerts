@@ -116,7 +116,6 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      // url: "https://virtual.arbitrum.rpc.tenderly.co/143c1212-e69c-4f74-bd24-8676c965c44c",
     };
   }
 
@@ -135,7 +134,6 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://filecoin-calibration.chainup.net/rpc/v1`,
-      // url: "https://virtual.arbitrum.rpc.tenderly.co/143c1212-e69c-4f74-bd24-8676c965c44c",
     };
   }
 
@@ -160,6 +158,7 @@ const config: HardhatUserConfig = {
       "StrategyHypercertFractionOffer",
       "CreatorFeeManagerWithRoyalties",
       "RoyaltyFeeRegistry",
+      "ImmutableCreate2Factory",
     ],
     except: ["@openzeppelin"],
   },
@@ -173,7 +172,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       sepolia: ETHERSCAN_API_KEY!,
       optimisticEthereum: OPTIMISTIC_ETHERSCAN_API_KEY!,
-      celo: CELOSCAN_API_KEY!,
+      "celo-mainnet": CELOSCAN_API_KEY!,
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
       "arb-sepolia": ARBISCAN_API_KEY!,
@@ -181,7 +180,7 @@ const config: HardhatUserConfig = {
     },
     customChains: [
       {
-        network: "celo",
+        network: "celo-mainnet",
         chainId: 42220,
         urls: {
           apiURL: "https://api.celoscan.io/api",
@@ -217,6 +216,9 @@ const config: HardhatUserConfig = {
         path: "m/44'/60'/0'/0",
       },
       chainId: chainIds.hardhat,
+      forking: {
+        url: `https://celo-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+      },
     },
     localhost: {
       accounts: {
@@ -272,6 +274,9 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     outDir: "./types",
+  },
+  sourcify: {
+    enabled: true,
   },
 };
 

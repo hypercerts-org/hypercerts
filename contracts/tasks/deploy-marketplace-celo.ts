@@ -8,6 +8,7 @@ import {
   WalletClient,
   encodePacked,
   PublicClient,
+  zeroAddress,
 } from "viem";
 import { writeFile } from "node:fs/promises";
 import { getAdminAccount, getFeeRecipient, getSupportedTokens } from "./config";
@@ -52,7 +53,7 @@ const runCreate2Deployment = async (
     abi: create2Instance.abi,
     functionName: "safeCreate2",
     args: [create2.salt, create2.deployData],
-    account: "0xDc6d6f9aB5fcc398B92B017e8482749aE5afbF35", // update method to take account as arg
+    account: "0xB92Fd98b5085D686944ff997772D3d8E37E28573", // update method to take account as arg
   });
 
   const hash = await create2Instance.write.safeCreate2([create2.salt, create2.deployData]);
@@ -79,20 +80,14 @@ type ContractDeployments = {
   [name: string]: ContractDeployment;
 };
 
-task("deploy-marketplace", "Deploy marketplace contracts and verify")
+task("deploy-marketplace-celo", "Deploy marketplace contracts and verify")
   .addOptionalParam("output", "write the details of the deployment to this file if this is set")
   .setAction(async ({ output }, hre) => {
     //TODO multichain support
     const { ethers, network, run, viem } = hre;
     const create2Address = "0x0000000000ffe8b47b3e2130213b802212439497";
-    // const { wethAddress, usdceAddress, daiAddress } = getTokenAddresses(network.name);
 
     const supportedTokens = getSupportedTokens(network.name);
-    const wethAddress = supportedTokens.find((token) => token.symbol === "WETH")?.address;
-
-    if (!wethAddress) {
-      throw new Error(`WETH address not found for ${network.name}`);
-    }
 
     const publicClient = await viem.getPublicClient();
     const [deployer] = await viem.getWalletClients();
@@ -134,7 +129,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     const transferManagerContract = await hre.artifacts.readArtifact("TransferManager");
     const orderValidatorContract = await hre.artifacts.readArtifact("OrderValidatorV2A");
     const strategyHypercertFractionOfferContract = await hre.artifacts.readArtifact("StrategyHypercertFractionOffer");
-    const protocolFeeRecipientContract = await hre.artifacts.readArtifact("ProtocolFeeRecipient");
     const royaltyFeeRegistryContract = await hre.artifacts.readArtifact("RoyaltyFeeRegistry");
 
     const strategies = [
@@ -163,26 +157,12 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
       salt,
     );
 
-    // Create2 ProtocolFeeRecipient
-    const protocolFeeRecipientArgs = [marketplaceParameters.protocolFeeRecipient, wethAddress];
-    console.log("ProtocolFeeRecipient args: ", protocolFeeRecipientArgs);
-    const protocolFeeRecipientCreate2 = await getCreate2Address(
-      deployer,
-      create2Address,
-      encodeDeployData({
-        abi: protocolFeeRecipientContract.abi,
-        bytecode: protocolFeeRecipientContract.bytecode as `0x${string}`,
-        args: protocolFeeRecipientArgs,
-      }),
-      salt,
-    );
-
     // Create2 HypercertsExchange
     const hypercertsExchangeArgs = [
       deployer.account?.address, // initial owner is deployer
-      protocolFeeRecipientCreate2.address,
+      marketplaceParameters.protocolFeeRecipient,
       transferManagerCreate2.address,
-      wethAddress,
+      zeroAddress, // NO native token support on Celo
     ];
 
     console.log("HypercertsExchange args: ", hypercertsExchangeArgs);
@@ -216,7 +196,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
 
     console.log("Calculated exchange address using CREATE2: ", hypercertsExchangeCreate2.address);
     console.log("Calculated transferManager address using CREATE2: ", transferManagerCreate2.address);
-    console.log("Calculated protocolFeeRecipient address using CREATE2: ", protocolFeeRecipientCreate2.address);
     console.log("Calculated royaltyFeeRegistry address using CREATE2: ", royaltyFeeRegistryCreate2.address);
 
     // Deploy transferManager
@@ -243,25 +222,6 @@ task("deploy-marketplace", "Deploy marketplace contracts and verify")
     });
 
     console.log("deposited 1 wei in exchange");
-
-    await sleep(2000);
-
-    // Deploy ProtocolFeeRecipient
-    const protocolFeeRecipientTx = await runCreate2Deployment(
-      publicClient,
-      create2Instance,
-      "ProtocolFeeRecipient",
-      protocolFeeRecipientCreate2,
-      protocolFeeRecipientArgs,
-    );
-
-    contracts.ProtocolFeeRecipient = {
-      address: protocolFeeRecipientCreate2.address,
-      fullNamespace: "ProtocolFeeRecipient",
-      args: protocolFeeRecipientArgs,
-      encodedArgs: solidityPacked(["address", "address"], protocolFeeRecipientArgs),
-      tx: protocolFeeRecipientTx,
-    };
 
     await sleep(2000);
 

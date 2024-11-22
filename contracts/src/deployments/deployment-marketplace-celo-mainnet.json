@@ -1,0 +1,48 @@
+{
+  "TransferManager": {
+    "address": "0xd64827b10f019EB2A45E407C785231FE969D7805",
+    "fullNamespace": "TransferManager",
+    "args": ["0xb92fd98b5085d686944ff997772d3d8e37e28573"],
+    "encodedArgs": "0xb92fd98b5085d686944ff997772d3d8e37e28573",
+    "tx": "0x41a3925dc2f4163d28d1d4ea3fed496dbba73e0ccbff26ed268e5d2a96728814"
+  },
+  "HypercertExchange": {
+    "address": "0xfB29FDb0677b1acB4b148F953DE5ee6ec5cBf717",
+    "fullNamespace": "LooksRareProtocol",
+    "args": [
+      "0xb92fd98b5085d686944ff997772d3d8e37e28573",
+      "0xE7C4531ad8828794904D332a12702beC8ff1A498",
+      "0xd64827b10f019EB2A45E407C785231FE969D7805",
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "encodedArgs": "0xb92fd98b5085d686944ff997772d3d8e37e28573e7c4531ad8828794904d332a12702bec8ff1a498d64827b10f019eb2a45e407c785231fe969d78050000000000000000000000000000000000000000",
+    "tx": "0x4b3d34dc62d4634df09bf6cd69938c781371f6b06ab9baf025872b03e2733d74"
+  },
+  "RoyaltyFeeRegistry": {
+    "address": "0xee550d3E9F741f187D5957C75937dbeE94278Db2",
+    "fullNamespace": "RoyaltyFeeRegistry",
+    "args": ["1000"],
+    "encodedArgs": "0x00000000000000000000000000000000000000000000000000000000000003e8",
+    "tx": "0xb08d9232ba8cd2845854058569817d8289f73a08550bebcb16fd18e17cecffd8"
+  },
+  "OrderValidator": {
+    "address": "0x1c4654558674e5b0Aa9C33F3A74F2EfA83d0C35e",
+    "fullNamespace": "OrderValidatorV2A",
+    "args": ["0xfB29FDb0677b1acB4b148F953DE5ee6ec5cBf717"],
+    "encodedArgs": "0xfb29fdb0677b1acb4b148f953de5ee6ec5cbf717"
+  },
+  "CreatorFeeManager": {
+    "address": "0x5bd2524c95ad3033e86d84a29d1cc52207f08df7",
+    "fullNamespace": "CreatorFeeManagerWithRoyalties",
+    "args": ["0xee550d3E9F741f187D5957C75937dbeE94278Db2"],
+    "encodedArgs": "0xee550d3e9f741f187d5957c75937dbee94278db2",
+    "tx": "0x16c6de547199655e056785aca8419191c3fa48b226b4de4c06b636a168831a32"
+  },
+  "StrategyHypercertFractionOffer": {
+    "address": "0xc80b087d36acab5a4ececba203b589bb3c5606ee",
+    "fullNamespace": "StrategyHypercertFractionOffer",
+    "args": [],
+    "encodedArgs": "0x",
+    "tx": "0xfc515150190f135ba7b24554c94eda602fdeb092e55a0807af30b45418c5938c"
+  }
+}

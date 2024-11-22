@@ -33,9 +33,9 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@looksrare/contracts-libs": "^3.4.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-viem": "^2.0.2",
+    "@nomicfoundation/hardhat-viem": "^2.0.6",
     "@openzeppelin/contracts": "^4.9.3",
     "@openzeppelin/hardhat-upgrades": "3.2.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
@@ -92,6 +92,8 @@
     "build": "pnpm clean && forge compile && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "pnpm clean && forge build",
     "clean": "rimraf abi artifacts build cache cache_hardhat dist out types",
+    "deploy:create2-factory": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-create2-factory",
+    "deploy:marketplace:celo": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace-celo",
     "deploy:marketplace:dryrun": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
     "deploy:marketplace": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
     "deploy:protocol:dryrun": "pnpm hardhat deploy-minter",
@@ -112,6 +114,6 @@
   "dependencies": {
     "@starboardventures/hardhat-verify": "^1.0.1",
     "@tenderly/hardhat-tenderly": "^2.3.0",
-    "hardhat": "^2.22.8"
+    "hardhat": "^2.22.16"
   }
 }
