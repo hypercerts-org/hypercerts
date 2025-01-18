@@ -4,7 +4,7 @@ import deployments_marketplace_sepolia from "./deployment-marketplace-sepolia.js
 import deployments_protocol from "./deployments-protocol.json";
 import deployments_marketplace_arb_sepolia from "./deployment-marketplace-arb-sepolia.json";
 import deployments_marketplace_arb_one from "./deployment-marketplace-arbitrumOne.json";
-
+import deployments_marketplace_celo_mainnet from "./deployment-marketplace-celo-mainnet.json";
 const deployments_marketplace = {
   "10": {
     TransferManager: deployments_marketplace_optimism_mainnet.TransferManager.address,
@@ -40,6 +40,13 @@ const deployments_marketplace = {
     OrderValidatorV2A: deployments_marketplace_arb_one.OrderValidator.address,
     RoyaltyFeeRegistry: deployments_marketplace_arb_one.RoyaltyFeeRegistry.address,
     StrategyHypercertFractionOffer: deployments_marketplace_arb_one.StrategyHypercertFractionOffer.address,
+  },
+  "42220": {
+    TransferManager: deployments_marketplace_celo_mainnet.TransferManager.address,
+    HypercertExchange: deployments_marketplace_celo_mainnet.HypercertExchange.address,
+    OrderValidatorV2A: deployments_marketplace_celo_mainnet.OrderValidator.address,
+    RoyaltyFeeRegistry: deployments_marketplace_celo_mainnet.RoyaltyFeeRegistry.address,
+    StrategyHypercertFractionOffer: deployments_marketplace_celo_mainnet.StrategyHypercertFractionOffer.address,
   },
 };
 

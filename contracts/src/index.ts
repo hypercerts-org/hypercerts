@@ -65,6 +65,7 @@ const deployments = {
   },
   42220: {
     ...DEPLOYMENTS.protocol[42220],
+    ...DEPLOYMENTS.marketplace["42220"],
   },
   11155111: {
     ...DEPLOYMENTS.protocol["11155111"],
