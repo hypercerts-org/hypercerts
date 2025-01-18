@@ -216,9 +216,6 @@ const config: HardhatUserConfig = {
         path: "m/44'/60'/0'/0",
       },
       chainId: chainIds.hardhat,
-      forking: {
-        url: `https://celo-mainnet.infura.io/v3/${INFURA_API_KEY}`,
-      },
     },
     localhost: {
       accounts: {

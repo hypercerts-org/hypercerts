@@ -13,7 +13,6 @@
       "persistent": true
     },
     "lint": {},
-    "sentry:sourcemaps": {},
     "start": {
       "cache": false
     },

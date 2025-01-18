@@ -37,7 +37,7 @@
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-viem": "^2.0.6",
     "@openzeppelin/contracts": "^4.9.3",
-    "@openzeppelin/hardhat-upgrades": "3.2.1",
+    "@openzeppelin/hardhat-upgrades": "3.9.0",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
@@ -47,7 +47,7 @@
     "@types/node": "^18.18.1",
     "@typescript-eslint/eslint-plugin": "^7.12.0",
     "@typescript-eslint/parser": "^7.12.0",
-    "chai": "^4.3.7",
+    "chai": "^4.5.0",
     "commitizen": "^4.2.5",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -114,6 +114,6 @@
   "dependencies": {
     "@starboardventures/hardhat-verify": "^1.0.1",
     "@tenderly/hardhat-tenderly": "^2.3.0",
-    "hardhat": "^2.22.16"
+    "hardhat": "^2.22.18"
   }
 }

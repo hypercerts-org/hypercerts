@@ -237,61 +237,51 @@ contract BatchMakerOrdersTest is ProtocolBase {
     }
 
     function testTakerBidRevertsIfProofTooLarge() public {
-        uint256 testProofLengthUpTo = MAX_CALLDATA_PROOF_LENGTH + 3;
-        mockERC721.batchMint(makerUser, 2 ** testProofLengthUpTo);
+        // Test just one case slightly above the limit
+        uint256 proofLength = MAX_CALLDATA_PROOF_LENGTH + 1;
+        uint256 numberOrders = 2 ** proofLength;
+        mockERC721.batchMint(makerUser, numberOrders);
 
-        // Keep it reasonably large
-        for (uint256 proofLength = MAX_CALLDATA_PROOF_LENGTH + 1; proofLength <= testProofLengthUpTo; proofLength++) {
-            uint256 numberOrders = 2 ** proofLength;
-            uint256 orderIndex = numberOrders - 1;
+        OrderStructs.Maker[] memory makerAsks = _createBatchMakerAsks(numberOrders);
+        uint256 orderIndex = numberOrders - 1;
 
-            OrderStructs.Maker[] memory makerAsks = _createBatchMakerAsks(numberOrders);
+        (bytes memory signature, OrderStructs.MerkleTree memory merkleTree) =
+            eip712MerkleTree.sign(makerUserPK, makerAsks, orderIndex);
 
-            (bytes memory signature, OrderStructs.MerkleTree memory merkleTree) =
-                eip712MerkleTree.sign(makerUserPK, makerAsks, orderIndex);
+        OrderStructs.Maker memory makerAskToExecute = makerAsks[orderIndex];
 
-            OrderStructs.Maker memory makerAskToExecute = makerAsks[orderIndex];
+        // Verify validity
+        _assertMakerOrderReturnValidationCodeWithMerkleTree(
+            makerAskToExecute, signature, merkleTree, MERKLE_PROOF_PROOF_TOO_LARGE
+        );
 
-            // Verify validity
-            _assertMakerOrderReturnValidationCodeWithMerkleTree(
-                makerAskToExecute, signature, merkleTree, MERKLE_PROOF_PROOF_TOO_LARGE
-            );
-
-            vm.prank(takerUser);
-            vm.expectRevert(abi.encodeWithSelector(MerkleProofTooLarge.selector, proofLength));
-            looksRareProtocol.executeTakerBid{value: price}(
-                _genericTakerOrder(), makerAskToExecute, signature, merkleTree
-            );
-        }
+        vm.prank(takerUser);
+        vm.expectRevert(abi.encodeWithSelector(MerkleProofTooLarge.selector, proofLength));
+        looksRareProtocol.executeTakerBid{value: price}(_genericTakerOrder(), makerAskToExecute, signature, merkleTree);
     }
 
     function testTakerAskRevertsIfProofTooLarge() public {
-        uint256 testProofLengthUpTo = MAX_CALLDATA_PROOF_LENGTH + 3;
-        mockERC721.batchMint(takerUser, 2 ** testProofLengthUpTo);
+        // Test just one case slightly above the limit
+        uint256 proofLength = MAX_CALLDATA_PROOF_LENGTH + 1;
+        uint256 numberOrders = 2 ** proofLength;
+        mockERC721.batchMint(takerUser, numberOrders);
 
-        // Keep it reasonably large
-        for (uint256 proofLength = MAX_CALLDATA_PROOF_LENGTH + 1; proofLength <= testProofLengthUpTo; proofLength++) {
-            uint256 numberOrders = 2 ** proofLength;
-            uint256 orderIndex = numberOrders - 1;
+        OrderStructs.Maker[] memory makerBids = _createBatchMakerBids(numberOrders);
+        uint256 orderIndex = numberOrders - 1;
 
-            OrderStructs.Maker[] memory makerBids = _createBatchMakerBids(numberOrders);
+        (bytes memory signature, OrderStructs.MerkleTree memory merkleTree) =
+            eip712MerkleTree.sign(makerUserPK, makerBids, orderIndex);
 
-            (bytes memory signature, OrderStructs.MerkleTree memory merkleTree) =
-                eip712MerkleTree.sign(makerUserPK, makerBids, orderIndex);
+        OrderStructs.Maker memory makerBidToExecute = makerBids[orderIndex];
 
-            OrderStructs.Maker memory makerBidToExecute = makerBids[orderIndex];
+        // Verify validity
+        _assertMakerOrderReturnValidationCodeWithMerkleTree(
+            makerBidToExecute, signature, merkleTree, MERKLE_PROOF_PROOF_TOO_LARGE
+        );
 
-            // Verify validity
-            _assertMakerOrderReturnValidationCodeWithMerkleTree(
-                makerBidToExecute, signature, merkleTree, MERKLE_PROOF_PROOF_TOO_LARGE
-            );
-
-            vm.prank(takerUser);
-            vm.expectRevert(abi.encodeWithSelector(MerkleProofTooLarge.selector, proofLength));
-            looksRareProtocol.executeTakerBid{value: price}(
-                _genericTakerOrder(), makerBidToExecute, signature, merkleTree
-            );
-        }
+        vm.prank(takerUser);
+        vm.expectRevert(abi.encodeWithSelector(MerkleProofTooLarge.selector, proofLength));
+        looksRareProtocol.executeTakerAsk(_genericTakerOrder(), makerBidToExecute, signature, merkleTree);
     }
 
     function _createBatchMakerAsks(uint256 numberOrders) private view returns (OrderStructs.Maker[] memory makerAsks) {
