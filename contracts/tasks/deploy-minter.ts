@@ -32,22 +32,43 @@ task("deploy-minter", "Deploy contracts and verify")
     }
 
     if (network.name !== "hardhat" && network.name !== "localhost") {
-      try {
-        const code = await hypercertMinter.instance?.provider.getCode(address);
-        if (code === "0x") {
-          console.log(`${hypercertMinter.name} contract deployment has not completed. waiting to verify...`);
-          await hypercertMinter.instance?.deployed();
-        }
-        await run("verify:verify", {
-          address,
-        });
-      } catch (error) {
-        const errorMessage = (error as Error).message;
+      if (network.name !== "filecoinCalibration") {
+        try {
+          const code = await hypercertMinter.instance?.provider.getCode(address);
+          if (code === "0x") {
+            console.log(`${hypercertMinter.name} contract deployment has not completed. waiting to verify...`);
+            await hypercertMinter.instance?.deployed();
+          }
+          await run("verify:verify", {
+            address,
+          });
+        } catch (error) {
+          const errorMessage = (error as Error).message;
 
-        if (errorMessage.includes("Reason: Already Verified")) {
-          console.log("Reason: Already Verified");
+          if (errorMessage.includes("Reason: Already Verified")) {
+            console.log("Reason: Already Verified");
+          }
+          console.error(errorMessage);
         }
-        console.error(errorMessage);
+      } else if (network.name === "filecoinCalibration") {
+        try {
+          const code = await hypercertMinter.instance?.provider.getCode(address);
+          if (code === "0x") {
+            console.log(`${hypercertMinter.name} contract deployment has not completed. waiting to verify...`);
+            await hypercertMinter.instance?.deployed();
+          }
+
+          console.log("Please use the Filfox frontend to verify");
+        } catch (error) {
+          const errorMessage = (error as Error).message;
+
+          if (errorMessage.includes("Reason: Already Verified")) {
+            console.log("Reason: Already Verified");
+          }
+          console.error(errorMessage);
+        }
+      } else {
+        console.log("No verification for this network");
       }
     }
   });

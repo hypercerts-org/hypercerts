@@ -6,6 +6,7 @@ import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-ethers";
+import "@starboardventures/hardhat-verify";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -66,6 +67,7 @@ const chainIds = {
   "base-mainnet": 8453,
   "arb-sepolia": 421614,
   arbitrumOne: 42161,
+  "filecoinCalibration": 314159,
 };
 
 function getChainConfig(chain: keyof typeof chainIds) {
@@ -114,7 +116,6 @@ function getChainConfig(chain: keyof typeof chainIds) {
     config = {
       ...config,
       url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      // url: "https://virtual.arbitrum.rpc.tenderly.co/143c1212-e69c-4f74-bd24-8676c965c44c",
     };
   }
 
@@ -126,6 +127,13 @@ function getChainConfig(chain: keyof typeof chainIds) {
         mnemonic: MNEMONIC_CELO,
         path: "m/44'/52752'/0'/0",
       },
+    };
+  }
+
+  if (chain === "filecoinCalibration") {
+    config = {
+      ...config,
+      url: `https://filecoin-calibration.chainup.net/rpc/v1`,
     };
   }
 
@@ -150,6 +158,7 @@ const config: HardhatUserConfig = {
       "StrategyHypercertFractionOffer",
       "CreatorFeeManagerWithRoyalties",
       "RoyaltyFeeRegistry",
+      "ImmutableCreate2Factory",
     ],
     except: ["@openzeppelin"],
   },
@@ -163,7 +172,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       sepolia: ETHERSCAN_API_KEY!,
       optimisticEthereum: OPTIMISTIC_ETHERSCAN_API_KEY!,
-      celo: CELOSCAN_API_KEY!,
+      "celo-mainnet": CELOSCAN_API_KEY!,
       base: BASESCAN_API_KEY!,
       "base-sepolia": BASESCAN_API_KEY!,
       "arb-sepolia": ARBISCAN_API_KEY!,
@@ -171,7 +180,7 @@ const config: HardhatUserConfig = {
     },
     customChains: [
       {
-        network: "celo",
+        network: "celo-mainnet",
         chainId: 42220,
         urls: {
           apiURL: "https://api.celoscan.io/api",
@@ -222,6 +231,7 @@ const config: HardhatUserConfig = {
     "base-mainnet": getChainConfig("base-mainnet"),
     "arb-sepolia": getChainConfig("arb-sepolia"),
     arbitrumOne: getChainConfig("arbitrumOne"),
+    filecoinCalibration: getChainConfig("filecoinCalibration"),
   },
   paths: {
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
@@ -255,8 +265,15 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  starboardConfig: {
+    baseURL: "https://fvm-calibration-api.starboard.ventures",
+    network: "Calibration", // if there's no baseURL, url will depend on the network.  Mainnet || Calibration
+  },
   typechain: {
     outDir: "./types",
+  },
+  sourcify: {
+    enabled: true,
   },
 };
 

@@ -1,7 +1,7 @@
 {
   "name": "@hypercerts-org/contracts",
   "description": "EVM compatible protocol for managing impact claims",
-  "version": "2.0.0-alpha.9",
+  "version": "2.0.0-alpha.11",
   "author": {
     "name": "Hypercerts Foundation",
     "url": "https://github.com/hypercerts-org/hypercerts"
@@ -33,11 +33,11 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@looksrare/contracts-libs": "^3.4.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-viem": "^2.0.2",
+    "@nomicfoundation/hardhat-viem": "^2.0.6",
     "@openzeppelin/contracts": "^4.9.3",
-    "@openzeppelin/hardhat-upgrades": "3.2.1",
+    "@openzeppelin/hardhat-upgrades": "3.9.0",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
@@ -47,7 +47,7 @@
     "@types/node": "^18.18.1",
     "@typescript-eslint/eslint-plugin": "^7.12.0",
     "@typescript-eslint/parser": "^7.12.0",
-    "chai": "^4.3.7",
+    "chai": "^4.5.0",
     "commitizen": "^4.2.5",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -92,6 +92,8 @@
     "build": "pnpm clean && forge compile && hardhat compile && pnpm tsc -p tsconfig.build.json && rollup -c",
     "build:forge": "pnpm clean && forge build",
     "clean": "rimraf abi artifacts build cache cache_hardhat dist out types",
+    "deploy:create2-factory": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-create2-factory",
+    "deploy:marketplace:celo": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace-celo",
     "deploy:marketplace:dryrun": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
     "deploy:marketplace": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only --no-warnings=ExperimentalWarning' hardhat deploy-marketplace",
     "deploy:protocol:dryrun": "pnpm hardhat deploy-minter",
@@ -110,7 +112,8 @@
     "hardhat": "hardhat"
   },
   "dependencies": {
+    "@starboardventures/hardhat-verify": "^1.0.1",
     "@tenderly/hardhat-tenderly": "^2.3.0",
-    "hardhat": "^2.22.8"
+    "hardhat": "^2.22.18"
   }
 }
