@@ -6,13 +6,13 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "turbo run build --concurrency=100%",
+    "build": "turbo run build --filter=@hypercerts-org/contracts --concurrency=100%",
     "copy": "pnpm copy:docs && pnpm copy:html",
     "copy:docs": "mkdir -p ./build/docs/ && cp -r ./docs/build/* ./build/docs/",
     "format:staged": "lint-staged",
-    "lint": "turbo run lint --concurrency=100%",
+    "lint": "turbo run lint --filter=@hypercerts-org/contracts --concurrency=100%",
     "serve:build": "pnpm serve build",
-    "test": "turbo run test --concurrency=1",
+    "test": "turbo run test --filter=@hypercerts-org/contracts --concurrency=1",
     "prepare": "husky install"
   },
   "devDependencies": {
