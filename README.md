@@ -1,3 +1,5 @@
+# ⚠️ **[DEPRECATED]** This repository has been deprecated in favor of separate repositories as listed on our [organisation page](https://github.com/hypercerts-org).
+
 # hypercerts [![License: Apache 2.0][license-badge]][license] [![Github Actions][gha-badge]][gha]
 
 [license]: https://opensource.org/license/apache-2-0/
